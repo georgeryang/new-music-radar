@@ -53,13 +53,15 @@ if ! "$NODE" scripts/fetch-releases.mjs; then
   FETCH_FAILED=1
 fi
 
-if git diff --quiet docs/data && [ -z "$(git ls-files --others --exclude-standard docs/data)" ]; then
+# config/ rides along: preference edits (prefs.command) apply from disk at
+# fetch time and get backed up with the nightly data commit — no manual git.
+if git diff --quiet docs/data config && [ -z "$(git ls-files --others --exclude-standard docs/data config)" ]; then
   log "No changes — nothing to publish"
   exit "$FETCH_FAILED"
 fi
 
 log "Publishing..."
-git add docs/data
+git add docs/data config
 git commit -m "Update data $(date '+%Y-%m-%d %H:%M')" || { log "ERROR: commit failed"; exit 1; }
 git push || { log "ERROR: push failed"; exit 1; }
 log "Published"
