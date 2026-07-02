@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Badge } from '@/components/ui/badge'
 import type { Release } from '@/lib/types'
 
 // Muted type icons under the artwork: music note = song, disc = album.
@@ -48,14 +47,14 @@ export function ReleaseCard({ release }: { release: Release }) {
       <div className="mt-1 flex flex-wrap items-center gap-1 text-muted-foreground">
         <TypeIcon type={release.type} />
         {release.genre && (
-          <Badge variant="outline" className="border-border px-1.5 text-[9px]">
+          <span className="rounded-full border border-border px-1.5 py-px text-[9px] font-medium">
             {release.genre}
-          </Badge>
+          </span>
         )}
         {release.charting && (
-          <Badge className="bg-amber-400 px-1.5 text-[9px] font-bold text-amber-950">
+          <span className="rounded-full bg-amber-400 px-1.5 py-px text-[9px] font-bold text-amber-950">
             {release.charting.storefront} #{release.charting.rank}
-          </Badge>
+          </span>
         )}
       </div>
     </div>

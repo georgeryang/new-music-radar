@@ -107,7 +107,12 @@ const server = http.createServer(async (req, res) => {
         body += chunk
         if (body.length > 1_000_000) return json(res, 413, { error: 'body too large' })
       }
-      const incoming = JSON.parse(body)
+      let incoming
+      try {
+        incoming = JSON.parse(body)
+      } catch {
+        return json(res, 400, { error: 'invalid JSON' })
+      }
       if (
         !isArtistList(incoming?.artists?.preferred) || !isArtistList(incoming?.artists?.blocked) ||
         !isStringList(incoming?.genres?.preferred) || !isStringList(incoming?.genres?.blocked)
