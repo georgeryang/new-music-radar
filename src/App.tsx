@@ -86,7 +86,7 @@ export default function App() {
           <section>
             <h2 className="mb-2.5 text-sm font-semibold text-muted-foreground">Songs</h2>
             {songs.length ? (
-              <div className="grid grid-cols-1 gap-x-8 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {songs.map((r) => (
                   <SongRow key={`${r.artist}-${r.title}`} release={r} />
                 ))}
