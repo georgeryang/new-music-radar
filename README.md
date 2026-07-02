@@ -2,12 +2,14 @@
 
 Glanceable tracker for new music releases (songs + albums) across K-pop, pop,
 and international genres, on one genre-tagged page. Successor to r-music-radar
-with **no Reddit dependency** — built on Deezer editorials and artist lookups,
-iTunes Search (Apple Music links + genre tags), Apple most-played charts
-(charting badges), and kpop label-channel feeds (same-day releases + MV links).
+with **no Reddit dependency**, built **entirely on Apple Music**: iTunes artist
+lookups for the preferred-artist follow list (links, genre tags, artwork,
+release dates) plus Apple KR/US most-played charts (badges and the only
+non-follow-list discovery). All card links open Apple Music.
 
 Curation lives in `config/preferences.json` (preferred/blocked artists and
-genres, plus which Deezer editorials feed the page), edited via `prefs.command`.
+genres), edited via `prefs.command` — its artist picker searches the Apple
+Music catalog and pins exact artist IDs.
 
 - Frontend: Vite + React + TS + Tailwind + shadcn, published from `docs/` on GitHub Pages.
 - Data: `scripts/fetch-releases.mjs` (zero deps) writes `docs/data/releases.json`,

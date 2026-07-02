@@ -41,7 +41,7 @@ export function AlbumCard({ release }: { release: Release }) {
           {release.preferred && <span className="text-amber-500">★ </span>}
           {release.artist}
         </p>
-        {release.link && <ServiceIcon link={release.link} />}
+        {release.link && <ServiceIcon />}
       </div>
     </div>
   )

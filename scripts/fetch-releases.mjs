@@ -1,63 +1,42 @@
 #!/usr/bin/env node
-// Fetch new releases across genres and write docs/data/releases.json.
-// Zero deps — just node's fetch. Run daily by scripts/update.sh via launchd.
+// Fetch new releases and write docs/data/releases.json. Zero deps.
+// Run daily by scripts/update.sh via launchd.
 //
-// One unified feed, genre-tagged. Source priority (same-day first):
-//   PRIMARY 1: preferred-artist discography checks (config/preferences.json)
-//   PRIMARY 2: kpop label-channel MV uploads → SONG entries (in kpop the MV is
-//              the release announcement; cards are songs, never videos)
-//   BACKUP:    Deezer editorials (config: Pop/Asian/African/R&B/Dance/Latin…),
-//              which lag releases by 1-2 days. Their failure never blocks
-//              publishing the primary layers.
-// Enrichment: iTunes Search (Apple Music link + genre tag), Apple KR+US
-// most-played charts (badge). Canonical-key dedup collapses cross-source
-// duplicates; the key includes type, so a song titled like its album keeps both.
+// Apple-only follow-list architecture (decided 2026-07-02, replacing the
+// Deezer/YouTube multi-source design):
+//   1. Preferred artists (config/preferences.json) — iTunes artist lookup,
+//      newest releases first. The guaranteed layer; everything is native
+//      Apple Music: link, genre, artwork, release date.
+//   2. Apple KR+US most-played charts — "KR #2" badges, plus chart entries
+//      released within the window become entries themselves (the only
+//      non-follow-list discovery).
+// All links go to Apple Music; releases with no Apple match don't exist here
+// by construction.
 //
 // Filter precedence per release:
 //   artist blocked → drop | artist preferred → keep | genre blocked → drop |
-//   genre preferred → keep | neutral → keep if charting or genre is known.
+//   genre preferred → keep | else keep if charting or genre is known.
 //
-// Exit codes: 0 = clean run, 2 = some source failed (partial data published).
+// Exit codes: 0 = clean run, 2 = a source failed (partial data published).
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 
-// Display target is ~36h, but Deezer's editorial lags 1-2 days — the file
-// holds a wider window and the frontend trims.
+// Display target is ~36h; the file holds a wider window and the frontend trims.
 const WINDOW_DAYS = 3
 const UA = 'new-music-radar/1.0'
 const OUT = new URL('../docs/data/releases.json', import.meta.url)
 
 const PREFS = JSON.parse(readFileSync(new URL('../config/preferences.json', import.meta.url), 'utf8'))
 
-// Feed IDs verified 2026-07-02. 1theK is Kakao's aggregator and covers most
-// mid-size labels. Add channels freely — an unreachable feed logs and is skipped.
-const KPOP_CHANNELS = {
-  SMTOWN: 'UCEf_Bc-KVd7onSeifS3py9g',
-  'HYBE LABELS': 'UC3IZKseVpdzPSBaWxBxundA',
-  'JYP Entertainment': 'UCaO6TYtlC8U5ttz62hTrZgg',
-  '1theK': 'UCweOkPb1wVVH0Q0Tlj4a5Pw',
-  BLACKPINK: 'UCOmHUn--16B90oW2L6FRR3A',
-}
-
 const log = (...a) => console.log(`[${new Date().toISOString().slice(0, 19).replace('T', ' ')}]`, ...a)
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
-// Sequential requests with jitter — burst patterns are what got v1 throttled.
-// Pacing is per-host: Deezer's documented quota is 50 req/5s so short gaps are
-// safe; iTunes Search is the touchy one (~20/min unofficial); feeds in between.
-const pauseDeezer = () => sleep(200 + Math.random() * 300)
+// iTunes Search/Lookup is unofficially rate-limited (~20/min) — pace politely.
 const pauseItunes = () => sleep(2500 + Math.random() * 1500)
-const pauseFeed = () => sleep(500 + Math.random() * 700)
 
 async function getJSON(url) {
   const res = await fetch(url, { headers: { 'User-Agent': UA } })
   if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`)
   return res.json()
-}
-
-async function getText(url) {
-  const res = await fetch(url, { headers: { 'User-Agent': UA } })
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`)
-  return res.text()
 }
 
 // ---------- normalization / canonical key ----------
@@ -81,20 +60,23 @@ const normArtist = (raw) =>
 
 const keyOf = (r) => `${normArtist(r.artist)}|${normTitle(r.title)}|${r.type}`
 
-const TYPE_MAP = { album: 'album', ep: 'ep', single: 'song' }
-
 function inWindow(releaseDate) {
   const days = (Date.now() - Date.parse(releaseDate)) / 86400e3
-  // lower bound: artist discographies include pre-orders (future dates) —
-  // released-only scope. -1 day of slack tolerates storefront timezone skew.
+  // lower bound: catalogs list pre-orders (future dates) — released-only scope.
   return days <= WINDOW_DAYS + 0.5 && days >= -1
 }
+
+// iTunes encodes type in the collection name; strip it for display.
+const typeOfName = (name) => (/- single\s*$/i.test(name) ? 'song' : /- ep\s*$/i.test(name) ? 'ep' : 'album')
+const displayTitle = (name) => name.replace(/\s*-\s*(Single|EP)\s*$/i, '').trim()
+// artworkUrl100 URLs embed their size — request a card-sized variant instead.
+const artUrl = (u) => (u ? u.replace('100x100', '300x300') : '')
 
 // ---------- genre canonicalization ----------
 
 // iTunes primaryGenreName → the canonical tag shown on cards and matched by
-// config genres.preferred / genres.blocked. First hit wins; unmapped names
-// pass through as-is so new iTunes genres are still visible/blockable.
+// config genres.preferred / genres.blocked. Unmapped names pass through as-is
+// so new iTunes genres are still visible/blockable.
 const GENRE_MAP = [
   [/k-?pop|korean/i, 'K-pop'],
   [/mandopop|cantopop|c-?pop|chinese/i, 'C-pop'],
@@ -123,7 +105,9 @@ function canonGenre(itunesGenre) {
 const lower = (list) => (list ?? []).map((s) => s.toLowerCase())
 const GENRES_PREFERRED = lower(PREFS.genres?.preferred)
 const GENRES_BLOCKED = lower(PREFS.genres?.blocked)
-// Artist entries: "Name" or {name, id} (see preferredArtistReleases)
+
+// Artist entries: "Name" (hand-typed) or {name, id} (prefs editor's Apple
+// picker — the Apple artist ID pins the exact artist among same-named ones).
 const asEntry = (e) => (typeof e === 'string' ? { name: e } : e)
 const PREFERRED_ENTRIES = (PREFS.artists?.preferred ?? []).map(asEntry)
 const ARTISTS_BLOCKED = (PREFS.artists?.blocked ?? []).map((e) => normArtist(asEntry(e).name))
@@ -136,37 +120,12 @@ const isGenrePreferred = (g) => !!g && GENRES_PREFERRED.includes(g.toLowerCase()
 const isGenreBlocked = (g) => !!g && GENRES_BLOCKED.includes(g.toLowerCase())
 const isArtistBlocked = (a) => ARTISTS_BLOCKED.some((b) => b && normArtist(a).includes(b))
 
-// ---------- Deezer ----------
+// ---------- preferred artists via iTunes ----------
 
-async function fetchEditorial(genreId) {
-  const out = []
-  let url = `https://api.deezer.com/editorial/${genreId}/releases?limit=50`
-  while (url) {
-    const page = await getJSON(url)
-    out.push(...(page.data ?? []))
-    url = page.next ?? null
-    await pauseDeezer()
-  }
-  return out
-}
-
-async function albumDetail(id) {
-  const d = await getJSON(`https://api.deezer.com/album/${id}`)
-  return {
-    title: d.title,
-    artist: d.artist?.name ?? '?',
-    type: TYPE_MAP[d.record_type] ?? 'album',
-    release_date: d.release_date,
-    artwork: d.cover_medium ?? '',
-  }
-}
-
-// Direct discography check for a preferred artist — the never-miss path.
-// Entries are "Name" strings (hand-edited) or {name, id} objects (added via
-// the prefs editor's Deezer picker — the id removes same-name ambiguity).
-// Hand-typed names are resolved once and cached (config/artist-cache.json),
-// so the nightly cost is one request per artist and the resolved identity is
-// stable across runs. Delete a cache line to force re-resolution.
+// Hand-typed names resolve once via artist search (Apple's relevance order,
+// US storefront first for English genre labels) and cache the Apple artist ID
+// (config/artist-cache.json). Delete a cache line to force re-resolution;
+// picking in the prefs editor stores the ID directly.
 const CACHE_PATH = new URL('../config/artist-cache.json', import.meta.url)
 let artistCache = {}
 try {
@@ -174,170 +133,65 @@ try {
 } catch {}
 let cacheDirty = false
 
-async function preferredArtistReleases(entry) {
-  let { name, id } = entry
+async function resolveArtist(entry) {
+  if (entry.id) return { id: entry.id, name: entry.name }
   const key = normArtist(entry.name)
-  if (!id && artistCache[key]) ({ id, name } = artistCache[key])
-  if (!id) {
-    const search = await getJSON(`https://api.deezer.com/search/artist?q=${encodeURIComponent(entry.name)}&limit=5`)
-    // Generic names ("Nina", "Effie") exact-match multiple Deezer artists —
-    // take the most-followed one, and skip no-audience matches entirely.
-    const artist = (search.data ?? [])
-      .filter((a) => normArtist(a.name) === key)
-      .sort((a, b) => (b.nb_fan ?? 0) - (a.nb_fan ?? 0))[0]
-    if (!artist || (artist.nb_fan ?? 0) < 100) return []
-    ;({ id, name } = artist)
-    artistCache[key] = { id, name }
-    cacheDirty = true
-    await pauseDeezer()
-  }
-  const albums = await getJSON(`https://api.deezer.com/artist/${id}/albums?limit=30`)
-  return (albums.data ?? [])
-    .filter((a) => a.release_date && inWindow(a.release_date))
-    .map((a) => ({
-      title: a.title,
-      artist: name,
-      type: TYPE_MAP[a.record_type] ?? 'album',
-      release_date: a.release_date,
-      artwork: a.cover_medium ?? '',
-    }))
-}
-
-// ---------- iTunes Search (Apple link + genre) ----------
-
-const contains = (a, b) => a.length > 0 && b.length > 0 && (a.includes(b) || b.includes(a))
-
-async function itunesLookupOnce(release, country) {
-  const term = encodeURIComponent(`${release.artist} ${normTitle(release.title)}`)
-  const entity = release.type === 'song' ? 'album,song' : 'album'
-  const data = await getJSON(
-    `https://itunes.apple.com/search?term=${term}&entity=${entity}&country=${country}&limit=8`
-  )
-  const wantArtist = normArtist(release.artist)
-  const wantTitle = normTitle(release.title)
-  for (const r of data.results ?? []) {
-    const name = normTitle(r.collectionName ?? r.trackName ?? '')
-    if (contains(normArtist(r.artistName ?? ''), wantArtist) && contains(name, wantTitle)) {
-      return { apple_url: r.collectionViewUrl ?? r.trackViewUrl ?? null, genre: r.primaryGenreName ?? null }
-    }
-  }
-  // Hangul fallback (KR storefront indexes Korean artists under Hangul names,
-  // so the romanized artist match fails): accept an exact title match when
-  // iTunes confirms the genre is Korean.
-  if (country === 'kr' && wantTitle.length >= 3) {
-    for (const r of data.results ?? []) {
-      const name = normTitle(r.collectionName ?? r.trackName ?? '')
-      if (name === wantTitle && /k-?pop|korean/i.test(r.primaryGenreName ?? '')) {
-        return { apple_url: r.collectionViewUrl ?? r.trackViewUrl ?? null, genre: r.primaryGenreName }
-      }
+  if (artistCache[key]) return artistCache[key]
+  for (const country of ['us', 'kr']) {
+    const data = await getJSON(
+      `https://itunes.apple.com/search?term=${encodeURIComponent(entry.name)}&entity=musicArtist&country=${country}&limit=5`
+    )
+    const hit = (data.results ?? []).find((a) => normArtist(a.artistName) === key) ?? data.results?.[0]
+    await pauseItunes()
+    if (hit) {
+      const resolved = { id: hit.artistId, name: hit.artistName }
+      artistCache[key] = resolved
+      cacheDirty = true
+      return resolved
     }
   }
   return null
 }
 
-// Try the release's home storefront first, then the other one.
-async function itunesLookup(release) {
-  const home = release._kr ? 'kr' : 'us'
-  const hit = await itunesLookupOnce(release, home)
-  if (hit) return hit
-  await pauseItunes()
-  return (await itunesLookupOnce(release, home === 'kr' ? 'us' : 'kr')) ?? { apple_url: null, genre: null }
+async function artistReleases(entry) {
+  const artist = await resolveArtist(entry)
+  if (!artist) {
+    log(`could not resolve "${entry.name}" on Apple Music — skipped`)
+    return []
+  }
+  // US first (English genre labels, links geo-redirect); KR fallback catches
+  // Korea-only catalog entries.
+  for (const country of ['us', 'kr']) {
+    const data = await getJSON(
+      `https://itunes.apple.com/lookup?id=${artist.id}&entity=album&country=${country}&limit=50&sort=recent`
+    )
+    const albums = (data.results ?? []).filter((r) => r.wrapperType === 'collection')
+    if (!albums.length && country === 'us') {
+      await pauseItunes()
+      continue
+    }
+    return albums
+      .filter((a) => a.releaseDate && inWindow(a.releaseDate))
+      .map((a) => ({
+        title: displayTitle(a.collectionName),
+        artist: a.artistName ?? artist.name,
+        type: typeOfName(a.collectionName),
+        release_date: a.releaseDate.slice(0, 10),
+        artwork: artUrl(a.artworkUrl100),
+        genre: canonGenre(a.primaryGenreName),
+        link: a.collectionViewUrl ? { service: 'apple', url: a.collectionViewUrl } : undefined,
+      }))
+  }
+  return []
 }
 
-// ---------- Apple most-played charts (badge) ----------
+// ---------- Apple most-played charts (badge + chart discovery) ----------
 
-async function fetchAppleChart(storefront) {
+async function fetchChart(storefront) {
   const data = await getJSON(
     `https://rss.marketingtools.apple.com/api/v2/${storefront}/music/most-played/50/albums.json`
   )
-  return (data.feed?.results ?? []).map((e, i) => ({
-    rank: i + 1,
-    artist: normArtist(e.artistName),
-    title: normTitle(e.name),
-  }))
-}
-
-function chartHit(release, chart) {
-  const a = normArtist(release.artist)
-  const t = normTitle(release.title)
-  return chart.find(
-    (c) => c.artist === a && (c.title === t || c.title.startsWith(t) || t.startsWith(c.title))
-  )
-}
-
-// ---------- YouTube label channels (MV-derived songs + link fallback) ----------
-
-async function fetchChannelVideos(channelId) {
-  const xml = await getText(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`)
-  return [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map((m) => {
-    const title = ((m[1].match(/<title>([\s\S]*?)<\/title>/) ?? [])[1] ?? '')
-      .replace(/&amp;/g, '&').replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"')
-    const id = (m[1].match(/<yt:videoId>(.*?)<\/yt:videoId>/) ?? [])[1] ?? ''
-    const published = (m[1].match(/<published>(.*?)<\/published>/) ?? [])[1] ?? ''
-    const thumb = (m[1].match(/<media:thumbnail url="([^"]+)"/) ?? [])[1] ?? ''
-    return { title, url: `https://www.youtube.com/watch?v=${id}`, published, thumb }
-  })
-}
-
-const MV_RE = /\b(MV|M\/V|Official (Music )?Video)\b/i
-const NOT_A_RELEASE_RE = /teaser|trailer|performance|practice|behind|live clip|lyric|visualizer|sped up|special (video|clip)|dance|recap|cam\b/i
-
-// "RYEOWOOK 려욱 'Runaway' MV" / "Stray Kids "Chk Chk Boom" M/V" / "[MV] MAMAMOO(마마무) _ HIP"
-function parseMvTitle(raw) {
-  const t = raw.normalize('NFKC').replace(/^\[MV\]\s*/i, '')
-  const quoted = t.match(/['‘"“]([^'’"”]{1,60})['’"”]/)
-  if (quoted) {
-    const artist = t
-      .slice(0, quoted.index)
-      .replace(/[([][^)\]]*[)\]]/g, '') // parenthesized Hangul names
-      .replace(/[ᄀ-ᇿ㄰-㆏가-힯]+/g, '') // bare Hangul
-      .replace(/\s+/g, ' ')
-      .trim()
-    if (artist) return { artist, title: quoted[1].trim() }
-  }
-  const underscore = t.match(/^(.*?)\s+_\s+(.{1,60}?)(\s*\(.*\))?$/) // 1theK style
-  if (underscore) {
-    const artist = underscore[1].replace(/[([][^)\]]*[)\]]/g, '').trim()
-    if (artist) return { artist, title: underscore[2].trim() }
-  }
-  return null
-}
-
-function mvDerivedSongs(videos) {
-  const out = []
-  for (const v of videos) {
-    if (!MV_RE.test(v.title) || NOT_A_RELEASE_RE.test(v.title)) continue
-    if (!v.published || !inWindow(v.published)) continue
-    const parsed = parseMvTitle(v.title)
-    if (!parsed) {
-      log(`mv parse failed, skipping: "${v.title}"`)
-      continue
-    }
-    out.push({
-      title: parsed.title,
-      artist: parsed.artist,
-      type: 'song',
-      release_date: v.published.slice(0, 10),
-      artwork: v.thumb,
-      link: { service: 'youtube', url: v.url }, // upgraded to Apple Music if iTunes matches
-      _src: 'mv',
-      _kr: true,
-    })
-  }
-  return out
-}
-
-function matchVideo(release, videos) {
-  const t = normTitle(release.title)
-  if (t.length < 3) return null
-  const candidates = videos.filter((v) => normTitle(v.title).includes(t))
-  if (release.type === 'song') {
-    const mv = candidates.find((v) => MV_RE.test(v.title))
-    if (mv) return mv.url
-  }
-  const a = normArtist(release.artist)
-  const byArtist = candidates.find((v) => normTitle(v.title).includes(a))
-  return (byArtist ?? (t.length > 6 ? candidates[0] : null))?.url ?? null
+  return (data.feed?.results ?? []).map((e, i) => ({ rank: i + 1, entry: e }))
 }
 
 // ---------- pipeline ----------
@@ -345,126 +199,94 @@ function matchVideo(release, videos) {
 let anyFailed = false
 const releases = []
 
-// PRIMARY 1: preferred-artist discographies — runs first so a later source
-// failure can never cost us these.
+// 1. Preferred artists — the guaranteed layer
 let preferredCount = 0
+let lookupFailures = 0
 for (const entry of PREFERRED_ENTRIES) {
   try {
-    const found = await preferredArtistReleases(entry)
+    const found = await artistReleases(entry)
     preferredCount += found.length
     releases.push(...found)
   } catch (e) {
-    log(`preferred lookup failed for "${entry.name}": ${e.message}`)
+    lookupFailures++
+    log(`lookup failed for "${entry.name}": ${e.message}`)
   }
-  await pauseDeezer()
+  await pauseItunes()
 }
 if (cacheDirty) writeFileSync(CACHE_PATH, JSON.stringify(artistCache, null, 2) + '\n')
-log(`${preferredCount} releases via preferred artists`)
+log(`${preferredCount} releases via ${PREFERRED_ENTRIES.length} preferred artists (${lookupFailures} lookup failures)`)
+if (PREFERRED_ENTRIES.length > 0 && lookupFailures === PREFERRED_ENTRIES.length) anyFailed = true
 
-// PRIMARY 2: kpop label-channel MV uploads (same-day)
-let videos = []
-for (const [name, id] of Object.entries(KPOP_CHANNELS)) {
+// 2. Charts — badges for the above, plus in-window chart entries as discovery
+const charts = []
+for (const storefront of ['kr', 'us']) {
   try {
-    videos.push(...(await fetchChannelVideos(id)))
+    charts.push({ storefront: storefront.toUpperCase(), list: await fetchChart(storefront) })
   } catch (e) {
     anyFailed = true
-    log(`channel feed ${name} failed (MV-derived entries reduced): ${e.message}`)
-  }
-  await pauseFeed()
-}
-const derived = mvDerivedSongs(videos)
-log(`${derived.length} MV-derived songs`)
-releases.push(...derived)
-
-// BACKUP: Deezer editorials fill in the rest. Each is independently fallible.
-for (const [name, genreId] of Object.entries(PREFS.editorials ?? {})) {
-  try {
-    const listing = await fetchEditorial(genreId)
-    const fresh = listing.filter((r) => r.release_date && inWindow(r.release_date))
-    log(`editorial ${name}: ${listing.length} releases, ${fresh.length} in window`)
-    for (const item of fresh) {
-      try {
-        const r = await albumDetail(item.id)
-        if (!r.release_date || !inWindow(r.release_date)) continue
-        if (NOISE_RE.test(r.title)) {
-          log(`dropped noise "${r.artist} — ${r.title}"`)
-        } else {
-          r._src = `editorial:${name}`
-          if (name === 'Asian') r._kr = true
-          releases.push(r)
-        }
-      } catch (e) {
-        log(`album detail failed for ${item.id}: ${e.message}`)
-      }
-      await pauseDeezer()
-    }
-  } catch (e) {
-    anyFailed = true
-    log(`editorial ${name} failed (continuing with other sources): ${e.message}`)
+    log(`${storefront} chart fetch failed: ${e.message}`)
   }
 }
 
-// mark preferred artists everywhere (before dedup so merges keep the flag)
+for (const c of charts) {
+  for (const { rank, entry: e } of c.list) {
+    if (!e.releaseDate || !inWindow(e.releaseDate)) continue
+    const genreName = (e.genres ?? []).map((g) => g.name).find((n) => n && n !== 'Music') ?? null
+    releases.push({
+      title: displayTitle(e.name),
+      artist: e.artistName,
+      type: typeOfName(e.name),
+      release_date: e.releaseDate,
+      artwork: artUrl(e.artworkUrl100),
+      genre: canonGenre(genreName),
+      link: e.url ? { service: 'apple', url: e.url } : undefined,
+      charting: { storefront: c.storefront, rank },
+    })
+  }
+}
+
+// mark preferred artists (before dedup so merges keep the flag)
 for (const r of releases) {
   if (PREFERRED_ARTIST_RES.some((re) => re.test(normArtist(r.artist)))) r.preferred = true
 }
 
-// canonical-key dedup — BEFORE the per-release iTunes loop (each collision
-// collapsed here saves 1-2 network calls). Type is part of the key, so a
-// song titled like its album keeps both entries.
+// noise + canonical-key dedup (type is in the key: same-titled song + album
+// both survive; chart/artist duplicates collapse, merging the badge)
 const byKey = new Map()
 for (const r of releases) {
+  if (NOISE_RE.test(r.title)) {
+    log(`dropped noise "${r.artist} — ${r.title}"`)
+    continue
+  }
   const k = keyOf(r)
   const prev = byKey.get(k)
   if (prev) {
-    log(`deduped "${r.title}" (${r._src ?? 'preferred'}) into existing entry`)
     if (r.release_date < prev.release_date) prev.release_date = r.release_date
     if (!prev.artwork && r.artwork) prev.artwork = r.artwork
     if (!prev.link && r.link) prev.link = r.link
-    prev._kr = prev._kr || r._kr
+    if (!prev.charting && r.charting) prev.charting = r.charting
+    prev.preferred = prev.preferred || r.preferred
   } else {
     byKey.set(k, r)
   }
 }
 let out = [...byKey.values()]
-log(`${out.length} releases after dedup`)
 
-// enrichment: Apple Music link + genre tag
+// badge artist-sourced entries that also chart under a slightly different name
 for (const r of out) {
-  try {
-    const { apple_url, genre } = await itunesLookup(r)
-    if (apple_url) r.link = { service: 'apple', url: apple_url }
-    r.genre = canonGenre(genre)
-  } catch (e) {
-    log(`itunes lookup failed for "${r.title}": ${e.message}`)
-    r.genre = null
-  }
-  // fallback tags when iTunes has no match
-  if (!r.genre) {
-    if (r._src === 'mv') r.genre = 'K-pop'
-    else if (r._src === 'editorial:Asian') r.genre = 'Asian'
-    else r.genre = null
-  }
-  await pauseItunes()
-}
-
-// charting badge (one KR + one US fetch total)
-try {
-  const charts = [
-    { storefront: 'KR', list: await fetchAppleChart('kr') },
-    { storefront: 'US', list: await fetchAppleChart('us') },
-  ]
-  for (const r of out) {
-    let best = null
-    for (const c of charts) {
-      const hit = chartHit(r, c.list)
-      if (hit && (!best || hit.rank < best.rank)) best = { storefront: c.storefront, rank: hit.rank }
+  if (r.charting) continue
+  const a = normArtist(r.artist)
+  const t = normTitle(r.title)
+  for (const c of charts) {
+    const hit = c.list.find(({ entry: e }) => {
+      const ca = normArtist(e.artistName)
+      const ct = normTitle(e.name)
+      return ca === a && (ct === t || ct.startsWith(t) || t.startsWith(ct))
+    })
+    if (hit && (!r.charting || hit.rank < r.charting.rank)) {
+      r.charting = { storefront: c.storefront, rank: hit.rank }
     }
-    if (best) r.charting = best
   }
-} catch (e) {
-  anyFailed = true
-  log(`chart fetch failed (badges skipped): ${e.message}`)
 }
 
 // filter precedence: artist block > artist prefer > genre block > genre prefer
@@ -476,26 +298,13 @@ out = out.filter((r) => {
   if (isGenreBlocked(r.genre)) return logDrop(r, `genre blocked [${r.genre}]`)
   if (isGenrePreferred(r.genre)) return true
   if (r.charting || r.genre) return true
-  return logDrop(r, 'no genre match, not charting')
+  return logDrop(r, 'no genre, not charting')
 })
 function logDrop(r, why) {
   log(`dropped: ${r.artist} — ${r.title} (${why})`)
   return false
 }
 if (before !== out.length) log(`${before - out.length} releases filtered out`)
-
-// YouTube link fallback for anything still unlinked
-for (const r of out) {
-  if (!r.link && videos.length) {
-    const url = matchVideo(r, videos)
-    if (url) r.link = { service: 'youtube', url }
-  }
-}
-
-for (const r of out) {
-  delete r._src
-  delete r._kr
-}
 
 // sort: preferred artist → preferred genre → date desc → artist name
 out.sort(
