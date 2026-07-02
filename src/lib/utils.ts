@@ -1,10 +1,3 @@
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
-
 export function formatRelativeTime(timestamp: number | null): string {
   if (!timestamp) return ''
   const seconds = Math.floor((Date.now() - timestamp) / 1000)

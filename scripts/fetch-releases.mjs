@@ -2,8 +2,7 @@
 // Fetch new releases and write docs/data/releases.json. Zero deps.
 // Run daily by scripts/update.sh via launchd.
 //
-// Apple-only follow-list architecture (decided 2026-07-02, replacing the
-// Deezer/YouTube multi-source design):
+// Apple-only follow-list architecture:
 //   1. Preferred artists (config/preferences.json) — iTunes artist lookup,
 //      newest releases first. The guaranteed layer; everything is native
 //      Apple Music: link, genre, artwork, release date.
@@ -78,8 +77,9 @@ function classify(name, trackCount) {
 }
 const displayTitle = (name) =>
   name.replace(/\s*-\s*(Single|EP)\s*$/i, '').replace(/\s*\(alternate cover[^)]*\)\s*$/i, '').trim()
-// artworkUrl100 URLs embed their size — request a card-sized variant instead.
-const artUrl = (u) => (u ? u.replace('100x100', '300x300') : '')
+// artworkUrl100 URLs embed their size — 400x400 covers the 4-up grid on
+// retina screens (~170px CSS cards).
+const artUrl = (u) => (u ? u.replace('100x100', '400x400') : '')
 
 // ---------- genre canonicalization ----------
 
@@ -121,8 +121,14 @@ const asEntry = (e) => (typeof e === 'string' ? { name: e } : e)
 const PREFERRED_ENTRIES = (PREFS.artists?.preferred ?? []).map(asEntry)
 const ARTISTS_BLOCKED = (PREFS.artists?.blocked ?? []).map((e) => normArtist(asEntry(e).name))
 const PREFERRED_ARTIST_RES = PREFERRED_ENTRIES.map(
-  // whole-word match so "IVE" can't match inside "RIIZE"
-  (e) => new RegExp(`\\b${normArtist(e.name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`)
+  // Whole-word match so "IVE" can't match inside "RIIZE". Unicode lookarounds
+  // instead of \b — \b is ASCII-only and never matches at CJK name boundaries
+  // (鄧紫棋 would silently lose its preferred status).
+  (e) =>
+    new RegExp(
+      `(?<![\\p{L}\\p{N}])${normArtist(e.name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}])`,
+      'u'
+    )
 )
 
 const isGenrePreferred = (g) => !!g && GENRES_PREFERRED.includes(g.toLowerCase())
@@ -168,20 +174,19 @@ async function artistReleases(entry) {
     log(`could not resolve "${entry.name}" on Apple Music — skipped`)
     return []
   }
-  // US first (English genre labels, links geo-redirect); KR fallback catches
-  // Korea-only catalog entries.
+  // US first (English genre labels, links geo-redirect). If the US storefront
+  // has nothing in the window, check KR before concluding "no new releases" —
+  // Korean releases can land in the KR storefront before propagating to US,
+  // and same-day coverage is the whole point of the 18:15 KST fetch anchor.
   for (const country of ['us', 'kr']) {
     const data = await getJSON(
       `https://itunes.apple.com/lookup?id=${artist.id}&entity=album&country=${country}&limit=50&sort=recent`
     )
-    const albums = (data.results ?? []).filter((r) => r.wrapperType === 'collection')
-    if (!albums.length && country === 'us') {
-      await pauseItunes()
-      continue
-    }
-    return albums
+    const fresh = (data.results ?? [])
+      .filter((r) => r.wrapperType === 'collection')
       .filter((a) => a.releaseDate && inWindow(a.releaseDate))
-      .map((a) => ({
+    if (fresh.length || country === 'kr') {
+      return fresh.map((a) => ({
         title: displayTitle(a.collectionName),
         artist: a.artistName ?? artist.name,
         type: classify(a.collectionName, a.trackCount),
@@ -190,6 +195,8 @@ async function artistReleases(entry) {
         genre: canonGenre(a.primaryGenreName),
         link: a.collectionViewUrl ? { service: 'apple', url: a.collectionViewUrl } : undefined,
       }))
+    }
+    await pauseItunes()
   }
   return []
 }
@@ -244,10 +251,20 @@ for (const c of charts) {
   for (const { rank, entry: e } of c.list) {
     if (!e.releaseDate || !inWindow(e.releaseDate)) continue
     const genreName = (e.genres ?? []).map((g) => g.name).find((n) => n && n !== 'Music') ?? null
+    // The chart feed lacks trackCount; look it up so classify() agrees with
+    // the artist path — a type mismatch would split the dedup key and show
+    // the same release twice. In-window chart entries are few, so this is
+    // at most a handful of extra calls.
+    let trackCount
+    try {
+      const d = await getJSON(`https://itunes.apple.com/lookup?id=${e.id}&country=${c.storefront.toLowerCase()}`)
+      trackCount = d.results?.[0]?.trackCount
+    } catch {}
+    await pauseItunes()
     releases.push({
       title: displayTitle(e.name),
       artist: e.artistName,
-      type: classify(e.name), // chart feed has no trackCount; name wording decides
+      type: classify(e.name, trackCount),
       release_date: e.releaseDate,
       artwork: artUrl(e.artworkUrl100),
       genre: canonGenre(genreName),

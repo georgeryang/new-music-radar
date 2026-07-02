@@ -11,7 +11,10 @@ Tap anything to open it in Apple Music.
 
 Just open the site. What you'll see:
 
-- **Albums & EPs** as a grid of cover art, **Songs** as a compact list below.
+- One grid of cover art — every new release together, four per row on a
+  computer, two on a phone.
+- Under each cover: a small **♪** means it's a song (single), a **disc** icon
+  means an album or EP.
 - **★** next to an artist means they're on your preferred list.
 - A small tag like **K-pop** or **Latin** shows each release's genre.
 - A gold badge like **KR #2** means it's currently one of the most-played
@@ -94,6 +97,6 @@ performs the daily update.
   detached (pidfile + shared log) so quitting the editor can't kill it.
 - **Artist ID cache:** `config/artist-cache.json` — hand-typed names resolve
   once; delete a line to force re-resolution.
-- **Reliability patterns** (inherited from r-music-radar): non-zero exit when a
+- **Reliability patterns**: non-zero exit when a
   source fails entirely, empty-success carryover instead of stamping an empty
   file fresh, sequential requests with jitter, partial results still publish.
