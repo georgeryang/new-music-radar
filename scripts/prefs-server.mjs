@@ -203,6 +203,11 @@ function renderAll() {
   const root = $('sections')
   root.replaceChildren()
   for (const s of SECTIONS) {
+    // Lists stay alphabetical (also in the saved file). Safe: the fetcher only
+    // does membership checks — list order never affects the releases page.
+    getList(s.key).sort((a, b) =>
+      nameOf(a).toLowerCase().localeCompare(nameOf(b).toLowerCase())
+    )
     const h = document.createElement('h2')
     h.textContent = s.label + ' '
     const small = document.createElement('small')
