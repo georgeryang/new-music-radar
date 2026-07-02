@@ -1,412 +1,109 @@
 {
-  "fetched_at": 1783017258071,
+  "fetched_at": 1783025383813,
   "releases": [
     {
-      "title": "Melody Rindu",
-      "artist": "Demi",
+      "title": "In Lof",
+      "artist": "Lucianeka, Nicole Favre & Once",
       "type": "song",
-      "release_date": "2026-07-01",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/44f033ad497010455f0db1c8effa3e69/250x250-000000-80-0-0.jpg",
-      "preferred": true,
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bb/6a/b4/bb6ab473-235c-b7cb-f39d-850a421567b0/0.jpg/300x300bb.jpg",
+      "genre": "Pop",
       "link": {
         "service": "apple",
-        "url": "https://music.apple.com/us/album/melody-rindu/6781135293?i=6781135294&uo=4"
+        "url": "https://music.apple.com/us/album/in-lof-single/6780650490?uo=4"
       },
-      "genre": "Pop"
+      "preferred": true
     },
     {
-      "title": "LUCID DREAM (Taku Takahashi Remix)",
+      "title": "RULE (feat. Heize)",
+      "artist": "CHUU",
+      "type": "song",
+      "release_date": "2026-07-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e9/ff/7d/e9ff7d45-7145-37b4-778f-d087d7799923/191953557922.jpg/300x300bb.jpg",
+      "genre": "R&B",
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/us/album/rule-feat-heize-single/6785786085?uo=4"
+      },
+      "preferred": true
+    },
+    {
+      "title": "LUCID DREAM (☆Taku Takahashi Remix)",
       "artist": "IVE",
       "type": "song",
       "release_date": "2026-07-01",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/2cc6d84abf9d4329672cb1029f97aaa2/250x250-000000-80-0-0.jpg",
-      "preferred": true,
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e5/64/21/e5642110-391a-4c70-5c46-11616ed5ed30/4547366834901.jpg/300x300bb.jpg",
+      "genre": "K-pop",
       "link": {
         "service": "apple",
         "url": "https://music.apple.com/us/album/lucid-dream-taku-takahashi-remix-single/6781661557?uo=4"
       },
-      "genre": "K-pop"
+      "preferred": true
     },
     {
-      "title": "MESSY",
-      "artist": "Yuqi",
+      "title": "ICONIC BY MISTAKE (Alternate Cover KATSEYE Version)",
+      "artist": "LE SSERAFIM, ILLIT & KATSEYE",
       "type": "song",
       "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/4ed23bcd3c866ca40dd5f3805baa771b/250x250-000000-80-0-0.jpg",
-      "preferred": true,
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ab/3b/05/ab3b0527-3ef7-305f-4a86-fefd4f470e93/823375267218_Cover.jpg/300x300bb.jpg",
+      "genre": "Pop",
       "link": {
         "service": "apple",
-        "url": "https://music.apple.com/us/album/messy-single/6786377581?uo=4"
+        "url": "https://music.apple.com/us/album/iconic-by-mistake-alternate-cover-katseye-version-single/6784795326?uo=4"
       },
-      "genre": "Pop"
+      "preferred": true
     },
     {
-      "title": "Number 1 girl",
-      "artist": "Yuqi",
+      "title": "ICONIC BY MISTAKE (Alternate Cover ILLIT Version)",
+      "artist": "LE SSERAFIM, ILLIT & KATSEYE",
       "type": "song",
       "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/95cbf8c9c32a2bb4f6c6fb1f4dede14a/250x250-000000-80-0-0.jpg",
-      "preferred": true,
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bb/69/77/bb69779d-65fd-675a-2d88-c7a94af10c3a/823375267201_Cover.jpg/300x300bb.jpg",
+      "genre": "Pop",
       "link": {
         "service": "apple",
-        "url": "https://music.apple.com/us/album/number-1-girl-single/6786421207?uo=4"
+        "url": "https://music.apple.com/us/album/iconic-by-mistake-alternate-cover-illit-version-single/6784794784?uo=4"
       },
-      "genre": "Pop"
+      "preferred": true
     },
     {
-      "title": "Two for you (edited vers.)",
-      "artist": "Yuqi",
-      "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/1f5c9b083825c9cac75cb9756dc6562b/250x250-000000-80-0-0.jpg",
-      "preferred": true,
-      "genre": null
-    },
-    {
-      "title": "MAYU (feat. Yumenokessho AVER)",
-      "artist": "KATIE",
-      "type": "song",
-      "release_date": "2026-07-01",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/665789bbb31b0bc77b57e5ee66e7a948/250x250-000000-80-0-0.jpg",
-      "preferred": true,
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/mayu-feat-yumenokessho-aver/6785911091?i=6785911092&uo=4"
-      },
-      "genre": "Rock"
-    },
-    {
-      "title": "CARRYING YOU",
-      "artist": "Steff",
-      "type": "album",
-      "release_date": "2026-07-01",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/67b4e1d70e72e6a60f25ec9a140dc1b6/250x250-000000-80-0-0.jpg",
-      "preferred": true,
-      "genre": null
-    },
-    {
-      "title": "Say it so",
-      "artist": "Yuqi",
-      "type": "song",
-      "release_date": "2026-07-01",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/1f9ac11f0bbefb2c64394edb64f60f2e/250x250-000000-80-0-0.jpg",
-      "preferred": true,
-      "genre": null
-    },
-    {
-      "title": "Long Day, Huh?",
-      "artist": "Yura",
-      "type": "song",
-      "release_date": "2026-07-01",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/a9a9e7640d0d6cd37ba17210ac174855/250x250-000000-80-0-0.jpg",
-      "preferred": true,
-      "genre": null
-    },
-    {
-      "title": "Stillheten",
-      "artist": "Effie",
+      "title": "ICONIC BY MISTAKE (Alternate Cover Group Version)",
+      "artist": "LE SSERAFIM, ILLIT & KATSEYE",
       "type": "song",
       "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/bd623bd193004aef7c43dec1fb93ccc2/250x250-000000-80-0-0.jpg",
-      "preferred": true,
-      "genre": null
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/20/45/bb/2045bbea-b0ec-f073-3336-5fb458cd3aa3/823375267164_Cover.jpg/300x300bb.jpg",
+      "genre": "Pop",
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/us/album/iconic-by-mistake-alternate-cover-group-version-single/6784794388?uo=4"
+      },
+      "preferred": true
+    },
+    {
+      "title": "ICONIC BY MISTAKE (Alternate Cover LE SSERAFIM Version)",
+      "artist": "LE SSERAFIM, ILLIT & KATSEYE",
+      "type": "song",
+      "release_date": "2026-06-30",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9b/18/2d/9b182d7a-a536-bd3d-22ea-458dc99bae9e/823375267188_Cover.jpg/300x300bb.jpg",
+      "genre": "Pop",
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/us/album/iconic-by-mistake-alternate-cover-le-sserafim-version/6784793834?uo=4"
+      },
+      "preferred": true
     },
     {
       "title": "Pix na Madruga",
-      "artist": "VALKA",
+      "artist": "VALKA & DJ DAXSHADOW",
       "type": "ep",
       "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/bd4b43a97a0173c2d92200f97f8c6fc9/250x250-000000-80-0-0.jpg",
-      "preferred": true,
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/45/a1/fb/45a1fba4-a94d-2c9a-a3d8-a652c8a3f5e6/824296960509_cover.jpg/300x300bb.jpg",
+      "genre": "Funk",
       "link": {
         "service": "apple",
         "url": "https://music.apple.com/us/album/pix-na-madruga-ep/6781009590?uo=4"
       },
-      "genre": "Funk"
-    },
-    {
-      "title": "Crushed",
-      "artist": "10CM",
-      "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://i4.ytimg.com/vi/O2uTlnybbH0/hqdefault.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/kr/album/crushed-single/6785437336?uo=4"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "Rise Again",
-      "artist": "Park Da Hye",
-      "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://i2.ytimg.com/vi/eiBIP2pRx_M/hqdefault.jpg",
-      "link": {
-        "service": "youtube",
-        "url": "https://www.youtube.com/watch?v=eiBIP2pRx_M"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "Not a flower [Jilgyeong-i]",
-      "artist": "Song Ga In",
-      "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://i2.ytimg.com/vi/UtnRGODFyVo/hqdefault.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/kr/album/not-a-flower-jilgyeong-i-single/6784487046?uo=4"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "My Cinderella",
-      "artist": "Film Sound",
-      "type": "song",
-      "release_date": "2026-07-01",
-      "artwork": "https://i3.ytimg.com/vi/JN4iM8FaSGc/hqdefault.jpg",
-      "link": {
-        "service": "youtube",
-        "url": "https://www.youtube.com/watch?v=JN4iM8FaSGc"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "Coming Home",
-      "artist": "Bjrnck",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/85827e0cdc50a8d20f10a8f6c5178544/250x250-000000-80-0-0.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/coming-home-single/6781071940?uo=4"
-      },
-      "genre": "R&B"
-    },
-    {
-      "title": "Perfect Target",
-      "artist": "CHOI YOOJUNG",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/35983207bace1cc2fd0899c887b25e30/250x250-000000-80-0-0.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/kr/album/perfect-target-single/6780833202?uo=4"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "junebug!",
-      "artist": "GAYLE",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/142065be374148957df9291af41b2e19/250x250-000000-80-0-0.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/junebug-single/6783079573?uo=4"
-      },
-      "genre": "Pop"
-    },
-    {
-      "title": "Bala Bala (feat. la team Wata)",
-      "artist": "Héritier Wata",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/aa8d1cb474e41f6dea1010554d9d298f/250x250-000000-80-0-0.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/bala-bala-feat-la-team-wata-single/6783323655?uo=4"
-      },
-      "genre": "Afrobeats"
-    },
-    {
-      "title": "PUZZL(OV)E",
-      "artist": "JUNG DAE HYUN",
-      "type": "ep",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/9ad9ab4e577fcd9a13b28e767bdd8cb0/250x250-000000-80-0-0.jpg",
-      "genre": "Asian"
-    },
-    {
-      "title": "Bright day",
-      "artist": "Lily",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://i1.ytimg.com/vi/h_aUCBwC53s/hqdefault.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/kr/album/bright-day-single/6784512035?uo=4"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "Make you happy (2026 ver.)",
-      "artist": "NiziU",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://i3.ytimg.com/vi/BKXJNIhxFG0/hqdefault.jpg",
-      "link": {
-        "service": "youtube",
-        "url": "https://www.youtube.com/watch?v=BKXJNIhxFG0"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "Remind you",
-      "artist": "pxarx kid",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://i3.ytimg.com/vi/fb8Mq7PrlwA/hqdefault.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/remind-you-feat-donutman/6784513747?i=6784513748&uo=4"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "Ugly Face",
-      "artist": "Roof Top",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://i2.ytimg.com/vi/uGMVXtanpx8/hqdefault.jpg",
-      "link": {
-        "service": "youtube",
-        "url": "https://www.youtube.com/watch?v=uGMVXtanpx8"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "warlock!",
-      "artist": "SaveTheWorld!",
-      "type": "album",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/e63604759aceb89af13bbd476193b7d3/250x250-000000-80-0-0.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/warlock/6782318616?uo=4"
-      },
-      "genre": "Pop"
-    },
-    {
-      "title": "Rain",
-      "artist": "SUNG DAM",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://i2.ytimg.com/vi/1IbtsMN8WxI/hqdefault.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/kr/album/rain-single/6784513732?uo=4"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "Relax Moment",
-      "artist": "SURAN",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://i3.ytimg.com/vi/nNT2MJvXZ8g/hqdefault.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/kr/album/suran-x-kabrew-relax-moment-single/6784508409?uo=4"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "Teh Hijau",
-      "artist": "Tulus",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/f99cf5482ab60273bb1c8fc22fa7eb23/250x250-000000-80-0-0.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/teh-hijau-single/6784585100?uo=4"
-      },
-      "genre": "Pop"
-    },
-    {
-      "title": "Bellboy",
-      "artist": "vangdale",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://i4.ytimg.com/vi/wMv7F-yeL9g/hqdefault.jpg",
-      "link": {
-        "service": "youtube",
-        "url": "https://www.youtube.com/watch?v=wMv7F-yeL9g"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "singasong",
-      "artist": "V8",
-      "type": "song",
-      "release_date": "2026-06-29",
-      "artwork": "https://i2.ytimg.com/vi/m15Ds7rmk1k/hqdefault.jpg",
-      "link": {
-        "service": "youtube",
-        "url": "https://www.youtube.com/watch?v=m15Ds7rmk1k"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "A.E.M - 3ICHI W ZIDI - حب وعقلية - عيشي و زيدي",
-      "artist": "El Bobina",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/b6ba601e8d0c91c5ed84f9a20f056827/250x250-000000-80-0-0.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/a-e-m-3ichi-w-zidi-%D8%AD%D8%A8-%D9%88%D8%B9%D9%82%D9%84%D9%8A%D8%A9-%D8%B9%D9%8A%D8%B4%D9%8A-%D9%88-%D8%B2%D9%8A%D8%AF%D9%8A-single/6786003617?uo=4"
-      },
-      "genre": "Maghreb Rai"
-    },
-    {
-      "title": "YOU DON'T HAVE TO",
-      "artist": "Jay Park",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/62348ac26b82955649d78e4a9abd1a9e/250x250-000000-80-0-0.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/you-dont-have-to-single/6784619556?uo=4"
-      },
-      "genre": "Dance"
-    },
-    {
-      "title": "Rise and Shine",
-      "artist": "Kimo Sounds",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/a812899684a479afd2a9084da0357a86/250x250-000000-80-0-0.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/rise-and-shine-single/6785643551?uo=4"
-      },
-      "genre": "Dance"
-    },
-    {
-      "title": "MANITA",
-      "artist": "Labbaci",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/267e178d184fb8a9d19bdf53986caddc/250x250-000000-80-0-0.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/manita/6785636990?i=6785636991&uo=4"
-      },
-      "genre": "Dance"
-    },
-    {
-      "title": "Bandages of Grace",
-      "artist": "Martin Page",
-      "type": "album",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/b2c9bbd35cf3209058fe3f93fd9fb034/250x250-000000-80-0-0.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/bandages-of-grace/6774808600?uo=4"
-      },
-      "genre": "Alternative"
+      "preferred": true
     }
   ]
 }

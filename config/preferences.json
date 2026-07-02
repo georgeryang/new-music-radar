@@ -1,29 +1,379 @@
 {
   "_comment": "All lists are case-insensitive. artists.* entries are names (matched as whole words) or {name, id} objects where id is an APPLE MUSIC artist id (added via prefs.command picker). genres.* match the canonical tags from GENRE_MAP in scripts/fetch-releases.mjs.",
   "artists": {
-    "preferred": [],
+    "preferred": [
+      {
+        "name": "aespa",
+        "id": 1540251304
+      },
+      {
+        "name": "Aitana",
+        "id": 1302824608
+      },
+      {
+        "name": "Alaina Castillo",
+        "id": 1481640775
+      },
+      {
+        "name": "ANGEL22",
+        "id": 1588269985
+      },
+      {
+        "name": "ARTMS",
+        "id": 1718505900
+      },
+      {
+        "name": "AtHeart",
+        "id": 1811647421
+      },
+      {
+        "name": "BABYMONSTER",
+        "id": 1715981813
+      },
+      {
+        "name": "beabadoobee",
+        "id": 1307650474
+      },
+      {
+        "name": "Becky G",
+        "id": 550411604
+      },
+      {
+        "name": "BLACKPINK",
+        "id": 1141774019
+      },
+      {
+        "name": "Camila Cabello",
+        "id": 935727853
+      },
+      {
+        "name": "CAMO",
+        "id": 1502392096
+      },
+      {
+        "name": "Canu",
+        "id": 1527615203
+      },
+      {
+        "name": "Chanmina",
+        "id": 1104839687
+      },
+      {
+        "name": "CHUU",
+        "id": 324458584
+      },
+      {
+        "name": "Dua Lipa",
+        "id": 1031397873
+      },
+      {
+        "name": "Effie",
+        "id": 1523561215
+      },
+      {
+        "name": "Elle Darlington",
+        "id": 1712350095
+      },
+      {
+        "name": "Emilia",
+        "id": 1455524202
+      },
+      {
+        "name": "GALE",
+        "id": 1220640647
+      },
+      {
+        "name": "Hearts2Hearts",
+        "id": 1793698498
+      },
+      {
+        "name": "i-dle",
+        "id": 1378887586
+      },
+      {
+        "name": "IFE",
+        "id": 1526614631
+      },
+      {
+        "name": "ilham",
+        "id": 1326644605
+      },
+      {
+        "name": "ILLIT",
+        "id": 1734551937
+      },
+      {
+        "name": "Ingratax",
+        "id": 1575025168
+      },
+      {
+        "name": "IRENE",
+        "id": 1474168661
+      },
+      {
+        "name": "ITZY",
+        "id": 1451964345
+      },
+      {
+        "name": "IU",
+        "id": 409076743
+      },
+      {
+        "name": "IVE",
+        "id": 1594159996
+      },
+      {
+        "name": "izna",
+        "id": 1779409310
+      },
+      {
+        "name": "Jasmine Clarke",
+        "id": 587915474
+      },
+      {
+        "name": "JENNIE",
+        "id": 913944
+      },
+      {
+        "name": "JEON SOMI",
+        "id": 1218803768
+      },
+      {
+        "name": "KAROL G",
+        "id": 290814601
+      },
+      {
+        "name": "KATIE",
+        "id": 1328157871
+      },
+      {
+        "name": "KATSEYE",
+        "id": 1754284416
+      },
+      {
+        "name": "Kayan",
+        "id": 1539504076
+      },
+      {
+        "name": "Kenia Os",
+        "id": 1426003035
+      },
+      {
+        "name": "KIMSEJEONG",
+        "id": 1178907631
+      },
+      {
+        "name": "Lala Mancipe",
+        "id": 1725928324
+      },
+      {
+        "name": "Laura Buitrago",
+        "id": 1434358567
+      },
+      {
+        "name": "LE SSERAFIM",
+        "id": 1616740364
+      },
+      {
+        "name": "LISA",
+        "id": 1583908668
+      },
+      {
+        "name": "Litty",
+        "id": 1766037553
+      },
+      {
+        "name": "Lolo Zouaï",
+        "id": 1067025591
+      },
+      {
+        "name": "Luana",
+        "id": 1586853935
+      },
+      {
+        "name": "Maia Reficco",
+        "id": 1285236349
+      },
+      {
+        "name": "MEOVV",
+        "id": 1765256889
+      },
+      {
+        "name": "Mia Salinas",
+        "id": 1447747812
+      },
+      {
+        "name": "MIRANI",
+        "id": 1509202338
+      },
+      {
+        "name": "Moon Byul",
+        "id": 1048880642
+      },
+      {
+        "name": "NewJeans",
+        "id": 1635469693
+      },
+      {
+        "name": "Nicole Favre",
+        "id": 1254013636
+      },
+      {
+        "name": "NIKI",
+        "id": 1324809450
+      },
+      {
+        "name": "Nina",
+        "id": 1617150346
+      },
+      {
+        "name": "NMIXX",
+        "id": 1600411676
+      },
+      {
+        "name": "Paloma Mami",
+        "id": 1401778806
+      },
+      {
+        "name": "Red Velvet",
+        "id": 906961899
+      },
+      {
+        "name": "RESCENE",
+        "id": 1732658659
+      },
+      {
+        "name": "ROSÉ",
+        "id": 1406242696
+      },
+      {
+        "name": "Salomé Brun",
+        "id": 1758669377
+      },
+      {
+        "name": "Solar",
+        "id": 791173158
+      },
+      {
+        "name": "Sorn",
+        "id": 1465682227
+      },
+      {
+        "name": "STAYC",
+        "id": 1538881438
+      },
+      {
+        "name": "Steff",
+        "id": 1628805835
+      },
+      {
+        "name": "TAEYEON",
+        "id": 435966642
+      },
+      {
+        "name": "Tinashe",
+        "id": 464835513
+      },
+      {
+        "name": "TINI",
+        "id": 1093346777
+      },
+      {
+        "name": "TWICE",
+        "id": 1203816887
+      },
+      {
+        "name": "UMI",
+        "id": 1252286426
+      },
+      {
+        "name": "Vale Garzón",
+        "id": 1685473918
+      },
+      {
+        "name": "VALKA",
+        "id": 995314327
+      },
+      {
+        "name": "WENDY",
+        "id": 840523045
+      },
+      {
+        "name": "Whee In",
+        "id": 879965664
+      },
+      {
+        "name": "XG",
+        "id": 1609409493
+      },
+      {
+        "name": "xooos",
+        "id": 1621929667
+      },
+      {
+        "name": "YENA",
+        "id": 1605086668
+      },
+      {
+        "name": "YongYong",
+        "id": 589238191
+      },
+      {
+        "name": "YooA",
+        "id": 774114896
+      },
+      {
+        "name": "Young Miko",
+        "id": 1576521417
+      },
+      {
+        "name": "YUQI",
+        "id": 1566541268
+      },
+      {
+        "name": "Yuzion",
+        "id": 1475055662
+      },
+      {
+        "name": "刘柏辛Lexie",
+        "id": 1331378256
+      },
+      {
+        "name": "鄧紫棋",
+        "id": 425208570
+      }
+    ],
     "blocked": [
-      "Chris Brown",
-      "Drake",
-      "The Weeknd"
+      {
+        "name": "Chris Brown",
+        "id": 95705522
+      },
+      {
+        "name": "Drake",
+        "id": 271256
+      },
+      {
+        "name": "The Weeknd",
+        "id": 479756766
+      }
     ]
   },
   "genres": {
     "preferred": [
-      "K-pop",
+      "Afrobeats",
       "C-pop",
       "J-pop",
-      "OPM",
-      "V-pop",
-      "Thai pop",
+      "K-pop",
       "Latin",
+      "OPM",
+      "Pop",
       "R&B",
-      "Afrobeats",
-      "Pop"
+      "Thai pop",
+      "V-pop"
     ],
     "blocked": [
-      "Rock",
-      "Country"
+      "Country",
+      "Rock"
     ]
   }
 }
