@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AlbumCard } from '@/components/AlbumCard'
 import { SongRow } from '@/components/SongRow'
-import { formatRelativeTime } from '@/lib/utils'
+import { formatRelativeTime, isFresh } from '@/lib/utils'
 import { SCENES, type Scene, type SceneData } from '@/lib/types'
 
 // Module-level cache: each scene's JSON is fetched once per page load,
@@ -41,8 +41,9 @@ export default function App() {
     }
   }, [scene])
 
-  // Fetcher pre-sorts by release date desc then artist; sections just filter.
-  const releases = data?.releases ?? []
+  // Fetcher pre-sorts (preferred first, then date desc); the data file holds a
+  // wider window than we show — display is trimmed to the last 36 hours here.
+  const releases = (data?.releases ?? []).filter((r) => isFresh(r.release_date, 36))
   const albums = releases.filter((r) => r.type !== 'song')
   const songs = releases.filter((r) => r.type === 'song')
 
@@ -85,7 +86,7 @@ export default function App() {
           <section>
             <h2 className="mb-2.5 text-sm font-semibold text-muted-foreground">Songs</h2>
             {songs.length ? (
-              <div className="flex flex-col gap-2">
+              <div className="grid grid-cols-1 gap-x-8 sm:grid-cols-2">
                 {songs.map((r) => (
                   <SongRow key={`${r.artist}-${r.title}`} release={r} />
                 ))}

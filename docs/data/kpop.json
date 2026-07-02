@@ -1,6 +1,42 @@
 {
-  "fetched_at": 1782998502055,
+  "fetched_at": 1782999580823,
   "releases": [
+    {
+      "title": "BAD (James Carter Ver.)",
+      "artist": "ATEEZ",
+      "type": "song",
+      "release_date": "2026-07-02",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/60d2043f0454564b97c05b56aab9d603/250x250-000000-80-0-0.jpg",
+      "preferred": true,
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/kr/album/bad-james-carter-ver-single/6781509330?uo=4"
+      }
+    },
+    {
+      "title": "LUCID DREAM (Taku Takahashi Remix)",
+      "artist": "IVE",
+      "type": "song",
+      "release_date": "2026-07-01",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/2cc6d84abf9d4329672cb1029f97aaa2/250x250-000000-80-0-0.jpg",
+      "preferred": true,
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/kr/album/lucid-dream-taku-takahashi-remix-single/6781661557?uo=4"
+      }
+    },
+    {
+      "title": "BAD (Steve Aoki Ver.)",
+      "artist": "ATEEZ",
+      "type": "song",
+      "release_date": "2026-06-30",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/f36b95a407fb1f7605ecf432a58565ca/250x250-000000-80-0-0.jpg",
+      "preferred": true,
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/kr/album/bad-steve-aoki-ver-single/6781509616?uo=4"
+      }
+    },
     {
       "title": "Crushed",
       "artist": "10CM",
@@ -30,8 +66,8 @@
       "release_date": "2026-07-02",
       "artwork": "https://i2.ytimg.com/vi/UtnRGODFyVo/hqdefault.jpg",
       "link": {
-        "service": "youtube",
-        "url": "https://www.youtube.com/watch?v=UtnRGODFyVo"
+        "service": "apple",
+        "url": "https://music.apple.com/kr/album/not-a-flower-jilgyeong-i-single/6784487046?uo=4"
       }
     },
     {
@@ -50,7 +86,11 @@
       "artist": "CHOI YOOJUNG",
       "type": "song",
       "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/35983207bace1cc2fd0899c887b25e30/250x250-000000-80-0-0.jpg"
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/35983207bace1cc2fd0899c887b25e30/250x250-000000-80-0-0.jpg",
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/kr/album/perfect-target-single/6780833202?uo=4"
+      }
     },
     {
       "title": "YOU DON'T HAVE TO",
@@ -73,8 +113,8 @@
       "release_date": "2026-06-30",
       "artwork": "https://i1.ytimg.com/vi/h_aUCBwC53s/hqdefault.jpg",
       "link": {
-        "service": "youtube",
-        "url": "https://www.youtube.com/watch?v=h_aUCBwC53s"
+        "service": "apple",
+        "url": "https://music.apple.com/kr/album/bright-day-single/6784512035?uo=4"
       }
     },
     {
@@ -117,8 +157,8 @@
       "release_date": "2026-06-30",
       "artwork": "https://i2.ytimg.com/vi/1IbtsMN8WxI/hqdefault.jpg",
       "link": {
-        "service": "youtube",
-        "url": "https://www.youtube.com/watch?v=1IbtsMN8WxI"
+        "service": "apple",
+        "url": "https://music.apple.com/kr/album/rain-single/6784513732?uo=4"
       }
     },
     {
