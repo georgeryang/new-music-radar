@@ -1,12 +1,17 @@
 # New Music Radar
 
-Glanceable tracker for new K-pop and pop releases (songs + albums). Successor to
-r-music-radar with **no Reddit dependency** — built on Deezer editorial releases,
-iTunes Search (Apple Music links + K-pop genre filter), Apple most-played charts
-(charting badges), and YouTube label-channel feeds (link fallback).
+Glanceable tracker for new music releases (songs + albums) across K-pop, pop,
+and international genres, on one genre-tagged page. Successor to r-music-radar
+with **no Reddit dependency** — built on Deezer editorials and artist lookups,
+iTunes Search (Apple Music links + genre tags), Apple most-played charts
+(charting badges), and kpop label-channel feeds (same-day releases + MV links).
+
+Curation lives in `config/preferences.json`: preferred/blocked artists and
+genres, plus which Deezer editorials feed the page. `scripts/suggest-artists.mjs`
+ranks your local Music.app library to help seed the preferred list.
 
 - Frontend: Vite + React + TS + Tailwind + shadcn, published from `docs/` on GitHub Pages.
-- Data: `scripts/fetch-releases.mjs` (zero deps) writes `docs/data/{kpop,pop}.json`,
+- Data: `scripts/fetch-releases.mjs` (zero deps) writes `docs/data/releases.json`,
   run once daily at 18:15 KST by launchd via `scripts/update.sh --if-stale`.
 - Manual refresh: double-click `refresh.command`.
 - Install the schedule: `cp launchd/com.georgeryang.new-music-radar.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist`

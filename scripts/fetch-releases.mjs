@@ -1,31 +1,33 @@
 #!/usr/bin/env node
-// Fetch new kpop + pop releases and write docs/data/{kpop,pop}.json.
+// Fetch new releases across genres and write docs/data/releases.json.
 // Zero deps — just node's fetch. Run daily by scripts/update.sh via launchd.
 //
-// Entry sources (per the 2026-07-02 spike: Deezer editorial alone misses
-// major kpop comebacks, MusicBrainz is worse — Hangul names + release-day lag):
-//   kpop: Deezer Asian editorial (16)  — spine, lags 0-2 days
-//         + Deezer Asian albums chart  — streaming-heavy comebacks, recency-filtered
-//         + label-channel MV uploads   — the same-day catcher: in kpop the MV *is*
-//           the song-release announcement. Parsed into SONG entries (no video
-//           cards); the MV is just the entry's fallback link.
-//   pop:  Deezer Pop editorial (132), then curated: keep only releases with an
-//         iTunes US match or a chart position (drops the international firehose).
-// Enrichment: iTunes Search (Apple Music link + K-Pop genre check), Apple
+// One unified feed, genre-tagged. Source priority (same-day first):
+//   PRIMARY 1: preferred-artist discography checks (config/preferences.json)
+//   PRIMARY 2: kpop label-channel MV uploads → SONG entries (in kpop the MV is
+//              the release announcement; cards are songs, never videos)
+//   BACKUP:    Deezer editorials (config: Pop/Asian/African/R&B/Dance/Latin…),
+//              which lag releases by 1-2 days. Their failure never blocks
+//              publishing the primary layers.
+// Enrichment: iTunes Search (Apple Music link + genre tag), Apple KR+US
 // most-played charts (badge). Canonical-key dedup collapses cross-source
 // duplicates; the key includes type, so a song titled like its album keeps both.
 //
-// Exit codes: 0 = all scenes ok, 2 = at least one scene failed entirely
-// (update.sh publishes partial data either way — v1 pattern).
+// Filter precedence per release:
+//   artist blocked → drop | artist preferred → keep | genre blocked → drop |
+//   genre preferred → keep | neutral → keep if charting or genre is known.
+//
+// Exit codes: 0 = clean run, 2 = some source failed (partial data published).
 
-import { readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 
-// Display target is "today or yesterday", but Deezer's editorial lags releases
-// by 1-2 days (verified 2026-07-02: newest entry was 2 days old) — a 2-day
-// window made the editorial contribute nothing. 3 days keeps it in play.
+// Display target is ~36h, but Deezer's editorial lags 1-2 days — the file
+// holds a wider window and the frontend trims.
 const WINDOW_DAYS = 3
 const UA = 'new-music-radar/1.0'
-const OUT = (scene) => new URL(`../docs/data/${scene}.json`, import.meta.url)
+const OUT = new URL('../docs/data/releases.json', import.meta.url)
+
+const PREFS = JSON.parse(readFileSync(new URL('../config/preferences.json', import.meta.url), 'utf8'))
 
 // Feed IDs verified 2026-07-02. 1theK is Kakao's aggregator and covers most
 // mid-size labels. Add channels freely — an unreachable feed logs and is skipped.
@@ -37,15 +39,9 @@ const KPOP_CHANNELS = {
   BLACKPINK: 'UCOmHUn--16B90oW2L6FRR3A',
 }
 
-// Preferred artists (config/artists.json): fetched directly from Deezer so
-// their releases are never missed, and pinned first in each section.
-const PREFERRED = JSON.parse(
-  readFileSync(new URL('../config/artists.json', import.meta.url), 'utf8')
-)
-
 const log = (...a) => console.log(`[${new Date().toISOString().slice(0, 19).replace('T', ' ')}]`, ...a)
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
-// Sequential requests with jitter — burst patterns are what got RSS throttled in v1.
+// Sequential requests with jitter — burst patterns are what got v1 throttled.
 const pause = () => sleep(800 + Math.random() * 1900)
 
 async function getJSON(url) {
@@ -67,7 +63,7 @@ const EDITION_RE =
 const NOISE_RE = /\b(instrumental|sped[ -]?up|slowed( \+ reverb)?|inst\.)\b/i
 
 function normTitle(raw) {
-  let t = raw.toLowerCase()
+  let t = raw.normalize('NFKC').toLowerCase()
   let prev
   do {
     prev = t
@@ -77,7 +73,7 @@ function normTitle(raw) {
 }
 
 const normArtist = (raw) =>
-  raw.toLowerCase().replace(/[^\p{L}\p{N} ]/gu, '').replace(/\s+/g, ' ').trim()
+  raw.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N} ]/gu, '').replace(/\s+/g, ' ').trim()
 
 const keyOf = (r) => `${normArtist(r.artist)}|${normTitle(r.title)}|${r.type}`
 
@@ -90,9 +86,51 @@ function inWindow(releaseDate) {
   return days <= WINDOW_DAYS + 0.5 && days >= -1
 }
 
-// ---------- Deezer (spine + kpop chart supplement) ----------
+// ---------- genre canonicalization ----------
 
-async function fetchSpine(genreId) {
+// iTunes primaryGenreName → the canonical tag shown on cards and matched by
+// config genres.preferred / genres.blocked. First hit wins; unmapped names
+// pass through as-is so new iTunes genres are still visible/blockable.
+const GENRE_MAP = [
+  [/k-?pop|korean/i, 'K-pop'],
+  [/mandopop|cantopop|c-?pop|chinese/i, 'C-pop'],
+  [/j-?pop|japan|anime/i, 'J-pop'],
+  [/opm|pinoy|philippin/i, 'OPM'],
+  [/vietnam/i, 'V-pop'],
+  [/thai/i, 'Thai pop'],
+  [/afro/i, 'Afrobeats'],
+  [/r&b|soul/i, 'R&B'],
+  [/latin|reggaeton|urbano|banda|regional mexicano|salsa|cumbia/i, 'Latin'],
+  [/dance|electronic|house|techno/i, 'Dance'],
+  [/hip-?hop|rap/i, 'Hip-Hop'],
+  [/rock|metal|alternative|punk/i, 'Rock'],
+  [/country/i, 'Country'],
+  [/soundtrack|tv|film/i, 'OST'],
+  [/^pop$|worldwide|singer/i, 'Pop'],
+]
+
+function canonGenre(itunesGenre) {
+  if (!itunesGenre) return null
+  const hit = GENRE_MAP.find(([re]) => re.test(itunesGenre))
+  return hit ? hit[1] : itunesGenre
+}
+
+const lower = (list) => (list ?? []).map((s) => s.toLowerCase())
+const GENRES_PREFERRED = lower(PREFS.genres?.preferred)
+const GENRES_BLOCKED = lower(PREFS.genres?.blocked)
+const ARTISTS_BLOCKED = lower(PREFS.artists?.blocked).map(normArtist)
+const PREFERRED_ARTIST_RES = (PREFS.artists?.preferred ?? []).map(
+  // whole-word match so "IVE" can't match inside "RIIZE"
+  (n) => new RegExp(`\\b${normArtist(n).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`)
+)
+
+const isGenrePreferred = (g) => !!g && GENRES_PREFERRED.includes(g.toLowerCase())
+const isGenreBlocked = (g) => !!g && GENRES_BLOCKED.includes(g.toLowerCase())
+const isArtistBlocked = (a) => ARTISTS_BLOCKED.some((b) => b && normArtist(a).includes(b))
+
+// ---------- Deezer ----------
+
+async function fetchEditorial(genreId) {
   const out = []
   let url = `https://api.deezer.com/editorial/${genreId}/releases?limit=50`
   while (url) {
@@ -102,32 +140,6 @@ async function fetchSpine(genreId) {
     await pause()
   }
   return out
-}
-
-async function fetchChartAlbums(genreId) {
-  const data = await getJSON(`https://api.deezer.com/chart/${genreId}/albums?limit=25`)
-  return data.data ?? []
-}
-
-// Direct discography check for a preferred artist — the never-miss path.
-// artist/{id}/albums already carries record_type/release_date/cover, so no
-// per-album detail call is needed.
-async function preferredArtistReleases(name) {
-  const search = await getJSON(`https://api.deezer.com/search/artist?q=${encodeURIComponent(name)}&limit=3`)
-  const want = normArtist(name)
-  const artist = (search.data ?? []).find((a) => normArtist(a.name) === want)
-  if (!artist) return []
-  await pause()
-  const albums = await getJSON(`https://api.deezer.com/artist/${artist.id}/albums?limit=30`)
-  return (albums.data ?? [])
-    .filter((a) => a.release_date && inWindow(a.release_date))
-    .map((a) => ({
-      title: a.title,
-      artist: artist.name,
-      type: TYPE_MAP[a.record_type] ?? 'album',
-      release_date: a.release_date,
-      artwork: a.cover_medium ?? '',
-    }))
 }
 
 async function albumDetail(id) {
@@ -141,13 +153,34 @@ async function albumDetail(id) {
   }
 }
 
+// Direct discography check for a preferred artist — the never-miss path.
+async function preferredArtistReleases(name) {
+  const search = await getJSON(`https://api.deezer.com/search/artist?q=${encodeURIComponent(name)}&limit=5`)
+  const want = normArtist(name)
+  // Generic names ("Nina", "Effie") exact-match multiple Deezer artists —
+  // take the most-followed one, and skip no-audience matches entirely.
+  const artist = (search.data ?? [])
+    .filter((a) => normArtist(a.name) === want)
+    .sort((a, b) => (b.nb_fan ?? 0) - (a.nb_fan ?? 0))[0]
+  if (!artist || (artist.nb_fan ?? 0) < 100) return []
+  await pause()
+  const albums = await getJSON(`https://api.deezer.com/artist/${artist.id}/albums?limit=30`)
+  return (albums.data ?? [])
+    .filter((a) => a.release_date && inWindow(a.release_date))
+    .map((a) => ({
+      title: a.title,
+      artist: artist.name,
+      type: TYPE_MAP[a.record_type] ?? 'album',
+      release_date: a.release_date,
+      artwork: a.cover_medium ?? '',
+    }))
+}
+
 // ---------- iTunes Search (Apple link + genre) ----------
 
-// Loose-but-anchored matching (the spike's exact-equality left 54% unlinked):
-// artist must contain or be contained by the wanted artist, ditto title.
 const contains = (a, b) => a.length > 0 && b.length > 0 && (a.includes(b) || b.includes(a))
 
-async function itunesLookup(release, country) {
+async function itunesLookupOnce(release, country) {
   const term = encodeURIComponent(`${release.artist} ${normTitle(release.title)}`)
   const entity = release.type === 'song' ? 'album,song' : 'album'
   const data = await getJSON(
@@ -161,10 +194,9 @@ async function itunesLookup(release, country) {
       return { apple_url: r.collectionViewUrl ?? r.trackViewUrl ?? null, genre: r.primaryGenreName ?? null }
     }
   }
-  // Kpop fallback: iTunes KR indexes many Korean artists under Hangul names
-  // (최유정, not CHOI YOOJUNG), so the romanized artist match fails. Accept an
-  // exact TITLE match instead, but only when iTunes confirms the genre is
-  // Korean — the genre gate keeps same-titled Western songs out.
+  // Hangul fallback (KR storefront indexes Korean artists under Hangul names,
+  // so the romanized artist match fails): accept an exact title match when
+  // iTunes confirms the genre is Korean.
   if (country === 'kr' && wantTitle.length >= 3) {
     for (const r of data.results ?? []) {
       const name = normTitle(r.collectionName ?? r.trackName ?? '')
@@ -173,10 +205,19 @@ async function itunesLookup(release, country) {
       }
     }
   }
-  return { apple_url: null, genre: null }
+  return null
 }
 
-// ---------- Apple most-played chart (badge) ----------
+// Try the release's home storefront first, then the other one.
+async function itunesLookup(release) {
+  const home = release._kr ? 'kr' : 'us'
+  const hit = await itunesLookupOnce(release, home)
+  if (hit) return hit
+  await pause()
+  return (await itunesLookupOnce(release, home === 'kr' ? 'us' : 'kr')) ?? { apple_url: null, genre: null }
+}
+
+// ---------- Apple most-played charts (badge) ----------
 
 async function fetchAppleChart(storefront) {
   const data = await getJSON(
@@ -187,6 +228,14 @@ async function fetchAppleChart(storefront) {
     artist: normArtist(e.artistName),
     title: normTitle(e.name),
   }))
+}
+
+function chartHit(release, chart) {
+  const a = normArtist(release.artist)
+  const t = normTitle(release.title)
+  return chart.find(
+    (c) => c.artist === a && (c.title === t || c.title.startsWith(t) || t.startsWith(c.title))
+  )
 }
 
 // ---------- YouTube label channels (MV-derived songs + link fallback) ----------
@@ -208,7 +257,6 @@ const NOT_A_RELEASE_RE = /teaser|trailer|performance|practice|behind|live clip|l
 
 // "RYEOWOOK 려욱 'Runaway' MV" / "Stray Kids "Chk Chk Boom" M/V" / "[MV] MAMAMOO(마마무) _ HIP"
 function parseMvTitle(raw) {
-  // NFKC: labels stylize titles with math-bold Unicode (𝗩𝟴 → V8)
   const t = raw.normalize('NFKC').replace(/^\[MV\]\s*/i, '')
   const quoted = t.match(/['‘"“]([^'’"”]{1,60})['’"”]/)
   if (quoted) {
@@ -246,6 +294,7 @@ function mvDerivedSongs(videos) {
       artwork: v.thumb,
       link: { service: 'youtube', url: v.url }, // upgraded to Apple Music if iTunes matches
       _src: 'mv',
+      _kr: true,
     })
   }
   return out
@@ -264,215 +313,187 @@ function matchVideo(release, videos) {
   return (byArtist ?? (t.length > 6 ? candidates[0] : null))?.url ?? null
 }
 
-// ---------- per-scene pipeline ----------
+// ---------- pipeline ----------
 
-async function buildScene(scene, videos) {
-  const releases = []
+let anyFailed = false
+const releases = []
 
-  // PRIMARY 1: preferred-artist discographies — the same-day, never-miss path.
-  // Runs first so a later source failure can never cost us these.
-  let preferredCount = 0
-  for (const name of PREFERRED[scene.id] ?? []) {
-    try {
-      const found = await preferredArtistReleases(name)
-      preferredCount += found.length
-      releases.push(...found)
-    } catch (e) {
-      log(`${scene.id}: preferred lookup failed for "${name}": ${e.message}`)
-    }
-    await pause()
-  }
-  if (preferredCount) log(`${scene.id}: ${preferredCount} releases via preferred artists`)
-
-  // PRIMARY 2 (kpop): songs derived from fresh label-channel MV uploads — also same-day
-  if (scene.id === 'kpop') {
-    const derived = mvDerivedSongs(videos)
-    log(`kpop: ${derived.length} MV-derived songs`)
-    releases.push(...derived)
-  }
-
-  // BACKUP: Deezer editorial (+ kpop chart) fills in the rest of the scene.
-  // Lags 1-2 days; wrapped so its failure publishes primary results anyway.
-  let backupFailed = false
+// PRIMARY 1: preferred-artist discographies — runs first so a later source
+// failure can never cost us these.
+let preferredCount = 0
+for (const name of PREFS.artists?.preferred ?? []) {
   try {
-    const spine = await fetchSpine(scene.deezerGenre)
-    let fresh = spine.filter((r) => r.release_date && inWindow(r.release_date))
-    log(`${scene.id}: ${spine.length} editorial releases, ${fresh.length} in window`)
-
-    if (scene.id === 'kpop') {
-      try {
-        const chartAlbums = await fetchChartAlbums(scene.deezerGenre)
-        const known = new Set(fresh.map((r) => r.id))
-        fresh = fresh.concat(chartAlbums.filter((a) => !known.has(a.id)))
-        await pause()
-      } catch (e) {
-        log(`kpop: chart supplement failed: ${e.message}`)
-      }
-    }
-
-    for (const item of fresh) {
-      try {
-        const r = await albumDetail(item.id)
-        if (!r.release_date || !inWindow(r.release_date)) continue // stale chart albums
-        if (NOISE_RE.test(r.title)) {
-          log(`${scene.id}: dropped noise "${r.artist} — ${r.title}"`)
-        } else {
-          releases.push(r)
-        }
-      } catch (e) {
-        log(`${scene.id}: album detail failed for ${item.id}: ${e.message}`)
-      }
-      await pause()
-    }
+    const found = await preferredArtistReleases(name)
+    preferredCount += found.length
+    releases.push(...found)
   } catch (e) {
-    backupFailed = true
-    log(`${scene.id}: editorial backup failed (publishing primary sources only): ${e.message}`)
+    log(`preferred lookup failed for "${name}": ${e.message}`)
   }
-
-  // preferred flag (whole-word match so "IVE" can't match inside "RIIZE");
-  // set before dedup/filters so pinning and filter bypass see it everywhere
-  const preferredRes = (PREFERRED[scene.id] ?? []).map(
-    (n) => new RegExp(`\\b${normArtist(n).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`)
-  )
-  for (const r of releases) {
-    if (preferredRes.some((re) => re.test(normArtist(r.artist)))) r.preferred = true
-  }
-
-  // canonical-key dedup (type is in the key: same-titled song + album both survive)
-  const byKey = new Map()
-  for (const r of releases) {
-    const k = keyOf(r)
-    const prev = byKey.get(k)
-    if (prev) {
-      log(`${scene.id}: deduped "${r.title}" (${r._src ?? 'deezer'}) into existing entry`)
-      if (r.release_date < prev.release_date) prev.release_date = r.release_date
-      if (!prev.artwork && r.artwork) prev.artwork = r.artwork
-      if (!prev.link && r.link) prev.link = r.link
-    } else {
-      byKey.set(k, r)
-    }
-  }
-  let out = [...byKey.values()]
-
-  // iTunes: Apple Music link (top of the priority chain) + genre
-  for (const r of out) {
-    try {
-      const { apple_url, genre } = await itunesLookup(r, scene.storefront)
-      if (apple_url) r.link = { service: 'apple', url: apple_url }
-      r._genre = genre
-    } catch (e) {
-      log(`${scene.id}: itunes lookup failed for "${r.title}": ${e.message}`)
-    }
-    await pause()
-  }
-
-  // kpop = Asian editorial minus releases iTunes says are NOT Korean.
-  // MV-derived entries are definitionally kpop (they came from kpop label channels).
-  if (scene.id === 'kpop') {
-    const before = out.length
-    out = out.filter((r) => r._src === 'mv' || !r._genre || /k-?pop|korean/i.test(r._genre))
-    if (before !== out.length) log(`kpop: filtered out ${before - out.length} non-K-Pop releases`)
-  }
-
-  // chart badge
-  try {
-    const chart = await fetchAppleChart(scene.storefront)
-    for (const r of out) {
-      const a = normArtist(r.artist)
-      const t = normTitle(r.title)
-      const hit = chart.find(
-        (c) => c.artist === a && (c.title === t || c.title.startsWith(t) || t.startsWith(c.title))
-      )
-      if (hit) r.charting = { storefront: scene.chart, rank: hit.rank }
-    }
-  } catch (e) {
-    log(`${scene.id}: chart fetch failed (badges skipped): ${e.message}`)
-  }
-
-  // pop curation: the Pop editorial is a global firehose (Maghreb Rai, Afro-Pop,
-  // regional releases r/popheads would never surface). Keep a release when it
-  // charts, or when its iTunes US genre is in the mainstream-pop family. No
-  // iTunes match at all → drop (verified: US catalog carries the regional
-  // releases too, so "has a match" alone isn't selective).
-  if (scene.id === 'pop') {
-    const GENRE_OK = /^(pop|dance|electronic|r&b\/soul|hip-hop\/rap|alternative|rock|country|singer\/songwriter|soundtrack|indie)/i
-    const keep = (r) => r.preferred || r.charting || (r._genre && GENRE_OK.test(r._genre))
-    const dropped = out.filter((r) => !keep(r))
-    out = out.filter(keep)
-    if (dropped.length)
-      log(`pop: dropped ${dropped.length} non-mainstream releases: ${dropped.map((r) => `${r.artist} — ${r.title} [${r._genre ?? 'no match'}]`).join('; ')}`)
-  }
-
-  // YouTube link fallback for anything still unlinked (kpop channels only for now)
-  if (scene.id === 'kpop' && videos.length) {
-    for (const r of out) {
-      if (!r.link) {
-        const url = matchVideo(r, videos)
-        if (url) r.link = { service: 'youtube', url }
-      }
-    }
-  }
-
-  for (const r of out) {
-    delete r._genre
-    delete r._src
-  }
-  // preferred artists first, then release date desc, then artist name
-  out.sort(
-    (a, b) =>
-      (b.preferred ? 1 : 0) - (a.preferred ? 1 : 0) ||
-      b.release_date.localeCompare(a.release_date) ||
-      a.artist.localeCompare(b.artist)
-  )
-  return { releases: out, backupFailed }
+  await pause()
 }
+log(`${preferredCount} releases via preferred artists`)
 
-// ---------- main ----------
-
-const SCENES = [
-  { id: 'kpop', deezerGenre: 16, storefront: 'kr', chart: 'KR' },
-  { id: 'pop', deezerGenre: 132, storefront: 'us', chart: 'US' },
-]
-
+// PRIMARY 2: kpop label-channel MV uploads (same-day)
 let videos = []
 for (const [name, id] of Object.entries(KPOP_CHANNELS)) {
   try {
     videos.push(...(await fetchChannelVideos(id)))
   } catch (e) {
+    anyFailed = true
     log(`channel feed ${name} failed (MV-derived entries reduced): ${e.message}`)
   }
   await pause()
 }
+const derived = mvDerivedSongs(videos)
+log(`${derived.length} MV-derived songs`)
+releases.push(...derived)
 
-let anyFailed = false
-for (const scene of SCENES) {
+// BACKUP: Deezer editorials fill in the rest. Each is independently fallible.
+for (const [name, genreId] of Object.entries(PREFS.editorials ?? {})) {
   try {
-    const { releases, backupFailed } = await buildScene(scene, videos)
-    if (backupFailed) anyFailed = true // primary data still publishes below
-
-    // Empty-success guard (v1 lesson: an empty success can be a failure in
-    // disguise). If we got nothing but the previous file still has in-window
-    // releases, keep those instead of stamping an empty file fresh.
-    if (releases.length === 0) {
-      let prev = []
+    const listing = await fetchEditorial(genreId)
+    const fresh = listing.filter((r) => r.release_date && inWindow(r.release_date))
+    log(`editorial ${name}: ${listing.length} releases, ${fresh.length} in window`)
+    for (const item of fresh) {
       try {
-        prev = JSON.parse(readFileSync(OUT(scene.id), 'utf8')).releases ?? []
-      } catch {}
-      const carried = prev.filter((r) => inWindow(r.release_date))
-      if (carried.length) {
-        log(`${scene.id}: 0 fetched but ${carried.length} previous in-window releases — carrying over`)
-        writeFileSync(OUT(scene.id), JSON.stringify({ fetched_at: Date.now(), releases: carried }, null, 2))
-        continue
+        const r = await albumDetail(item.id)
+        if (!r.release_date || !inWindow(r.release_date)) continue
+        if (NOISE_RE.test(r.title)) {
+          log(`dropped noise "${r.artist} — ${r.title}"`)
+        } else {
+          r._src = `editorial:${name}`
+          if (name === 'Asian') r._kr = true
+          releases.push(r)
+        }
+      } catch (e) {
+        log(`album detail failed for ${item.id}: ${e.message}`)
       }
+      await pause()
     }
-
-    writeFileSync(OUT(scene.id), JSON.stringify({ fetched_at: Date.now(), releases }, null, 2))
-    log(`${scene.id}: wrote ${releases.length} releases`)
   } catch (e) {
-    // Scene failed entirely: leave the previous file untouched (stale beats empty)
     anyFailed = true
-    log(`${scene.id}: FAILED, keeping existing file: ${e.message}`)
+    log(`editorial ${name} failed (continuing with other sources): ${e.message}`)
   }
 }
 
+// mark preferred artists everywhere (before dedup so merges keep the flag)
+for (const r of releases) {
+  if (PREFERRED_ARTIST_RES.some((re) => re.test(normArtist(r.artist)))) r.preferred = true
+}
+
+// canonical-key dedup — BEFORE the per-release iTunes loop (each collision
+// collapsed here saves 1-2 network calls). Type is part of the key, so a
+// song titled like its album keeps both entries.
+const byKey = new Map()
+for (const r of releases) {
+  const k = keyOf(r)
+  const prev = byKey.get(k)
+  if (prev) {
+    log(`deduped "${r.title}" (${r._src ?? 'preferred'}) into existing entry`)
+    if (r.release_date < prev.release_date) prev.release_date = r.release_date
+    if (!prev.artwork && r.artwork) prev.artwork = r.artwork
+    if (!prev.link && r.link) prev.link = r.link
+    prev._kr = prev._kr || r._kr
+  } else {
+    byKey.set(k, r)
+  }
+}
+let out = [...byKey.values()]
+log(`${out.length} releases after dedup`)
+
+// enrichment: Apple Music link + genre tag
+for (const r of out) {
+  try {
+    const { apple_url, genre } = await itunesLookup(r)
+    if (apple_url) r.link = { service: 'apple', url: apple_url }
+    r.genre = canonGenre(genre)
+  } catch (e) {
+    log(`itunes lookup failed for "${r.title}": ${e.message}`)
+    r.genre = null
+  }
+  // fallback tags when iTunes has no match
+  if (!r.genre) {
+    if (r._src === 'mv') r.genre = 'K-pop'
+    else if (r._src === 'editorial:Asian') r.genre = 'Asian'
+    else r.genre = null
+  }
+  await pause()
+}
+
+// charting badge (one KR + one US fetch total)
+try {
+  const charts = [
+    { storefront: 'KR', list: await fetchAppleChart('kr') },
+    { storefront: 'US', list: await fetchAppleChart('us') },
+  ]
+  for (const r of out) {
+    let best = null
+    for (const c of charts) {
+      const hit = chartHit(r, c.list)
+      if (hit && (!best || hit.rank < best.rank)) best = { storefront: c.storefront, rank: hit.rank }
+    }
+    if (best) r.charting = best
+  }
+} catch (e) {
+  anyFailed = true
+  log(`chart fetch failed (badges skipped): ${e.message}`)
+}
+
+// filter precedence: artist block > artist prefer > genre block > genre prefer
+// > neutral (needs charting or a known genre)
+const before = out.length
+out = out.filter((r) => {
+  if (isArtistBlocked(r.artist)) return logDrop(r, 'artist blocked')
+  if (r.preferred) return true
+  if (isGenreBlocked(r.genre)) return logDrop(r, `genre blocked [${r.genre}]`)
+  if (isGenrePreferred(r.genre)) return true
+  if (r.charting || r.genre) return true
+  return logDrop(r, 'no genre match, not charting')
+})
+function logDrop(r, why) {
+  log(`dropped: ${r.artist} — ${r.title} (${why})`)
+  return false
+}
+if (before !== out.length) log(`${before - out.length} releases filtered out`)
+
+// YouTube link fallback for anything still unlinked
+for (const r of out) {
+  if (!r.link && videos.length) {
+    const url = matchVideo(r, videos)
+    if (url) r.link = { service: 'youtube', url }
+  }
+}
+
+for (const r of out) {
+  delete r._src
+  delete r._kr
+}
+
+// sort: preferred artist → preferred genre → date desc → artist name
+out.sort(
+  (a, b) =>
+    (b.preferred ? 1 : 0) - (a.preferred ? 1 : 0) ||
+    (isGenrePreferred(b.genre) ? 1 : 0) - (isGenrePreferred(a.genre) ? 1 : 0) ||
+    b.release_date.localeCompare(a.release_date) ||
+    a.artist.localeCompare(b.artist)
+)
+
+// Empty-success guard (v1 lesson: an empty success can be a failure in
+// disguise). If we got nothing but the previous file still has in-window
+// releases, keep those instead of stamping an empty file fresh.
+if (out.length === 0) {
+  let prev = []
+  try {
+    prev = JSON.parse(readFileSync(OUT, 'utf8')).releases ?? []
+  } catch {}
+  const carried = prev.filter((r) => inWindow(r.release_date))
+  if (carried.length) {
+    log(`0 fetched but ${carried.length} previous in-window releases — carrying over`)
+    out = carried
+  }
+}
+
+mkdirSync(new URL('../docs/data/', import.meta.url), { recursive: true })
+writeFileSync(OUT, JSON.stringify({ fetched_at: Date.now(), releases: out }, null, 2))
+log(`wrote ${out.length} releases`)
 process.exit(anyFailed ? 2 : 0)

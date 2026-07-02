@@ -23,9 +23,12 @@ export function AlbumCard({ release }: { release: Release }) {
         ) : (
           <div className="flex size-full items-center justify-center text-4xl">💿</div>
         )}
-        <Badge className="absolute top-1.5 left-1.5 bg-black/55 text-[10px] text-white uppercase">
-          {release.type}
-        </Badge>
+        <div className="absolute top-1.5 left-1.5 flex gap-1">
+          <Badge className="bg-black/55 text-[10px] text-white uppercase">{release.type}</Badge>
+          {release.genre && (
+            <Badge className="bg-black/55 text-[10px] text-white">{release.genre}</Badge>
+          )}
+        </div>
         {release.charting && (
           <Badge className="absolute top-1.5 right-1.5 bg-amber-400 text-[10px] font-bold text-amber-950">
             {release.charting.storefront} #{release.charting.rank}

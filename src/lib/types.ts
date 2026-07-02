@@ -1,6 +1,7 @@
 // Data contract between scripts/fetch-releases.mjs (producer) and the app (consumer).
 // The fetcher resolves the link priority chain (Apple Music → YouTube → none),
-// so the app just renders `link` as-is.
+// assigns the canonical genre tag, and pre-sorts (preferred artist → preferred
+// genre → date desc), so the app just renders.
 
 export type ReleaseType = 'album' | 'ep' | 'song'
 
@@ -15,19 +16,13 @@ export interface Release {
   type: ReleaseType
   release_date: string // YYYY-MM-DD (sources report dates, not times)
   artwork: string // '' when the source has none
+  genre?: string | null // canonical tag (K-pop, Latin, …); null when unknown
   link?: ReleaseLink
   charting?: { storefront: 'KR' | 'US'; rank: number }
-  preferred?: boolean // artist is in config/artists.json — pinned first
+  preferred?: boolean // artist is in config/preferences.json — pinned first
 }
 
-export interface SceneData {
+export interface FeedData {
   fetched_at: number // ms epoch
   releases: Release[]
 }
-
-export type Scene = 'kpop' | 'pop'
-
-export const SCENES: { id: Scene; label: string }[] = [
-  { id: 'kpop', label: 'K-pop' },
-  { id: 'pop', label: 'Pop' },
-]
