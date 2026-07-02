@@ -30,6 +30,11 @@ export function SongRow({ release }: { release: Release }) {
           {release.artist}
         </p>
       </div>
+      {release.genre && (
+        <Badge className="hidden border-border text-[10px] text-muted-foreground sm:inline-flex" variant="outline">
+          {release.genre}
+        </Badge>
+      )}
       {release.charting && (
         <Badge className="bg-amber-400 text-[10px] font-bold text-amber-950">
           {release.charting.storefront} #{release.charting.rank}

@@ -1,36 +1,22 @@
 import { useEffect, useState } from 'react'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AlbumCard } from '@/components/AlbumCard'
 import { SongRow } from '@/components/SongRow'
 import { formatRelativeTime, isFresh } from '@/lib/utils'
-import { SCENES, type Scene, type SceneData } from '@/lib/types'
-
-// Module-level cache: each scene's JSON is fetched once per page load,
-// then tab switches are instant.
-const cache: Partial<Record<Scene, SceneData>> = {}
+import type { FeedData } from '@/lib/types'
 
 export default function App() {
-  const [scene, setScene] = useState<Scene>('kpop')
-  const [data, setData] = useState<SceneData | null>(null)
+  const [data, setData] = useState<FeedData | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const cached = cache[scene]
-    if (cached) {
-      setData(cached)
-      return
-    }
     let cancelled = false
-    setData(null)
-    setError(null)
     // ?v= busts the GitHub Pages CDN cache so a fresh deploy shows up immediately
-    fetch(`${import.meta.env.BASE_URL}data/${scene}.json?v=${Date.now()}`)
+    fetch(`${import.meta.env.BASE_URL}data/releases.json?v=${Date.now()}`)
       .then((r) => {
         if (!r.ok) throw new Error('Data not available.')
         return r.json()
       })
-      .then((d: SceneData) => {
-        cache[scene] = d
+      .then((d: FeedData) => {
         if (!cancelled) setData(d)
       })
       .catch((err: Error) => {
@@ -39,32 +25,21 @@ export default function App() {
     return () => {
       cancelled = true
     }
-  }, [scene])
+  }, [])
 
-  // Fetcher pre-sorts (preferred first, then date desc); the data file holds a
-  // wider window than we show — display is trimmed to the last 36 hours here.
+  // Fetcher pre-sorts (preferred artist → preferred genre → date desc); the
+  // data file holds a wider window than we show — display trims to 36 hours.
   const releases = (data?.releases ?? []).filter((r) => isFresh(r.release_date, 36))
   const albums = releases.filter((r) => r.type !== 'song')
   const songs = releases.filter((r) => r.type === 'song')
 
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6 pb-12">
-      <header className="mb-5 flex flex-col gap-3">
-        <div className="flex items-baseline justify-between">
-          <h1 className="text-xl font-bold">New Music Radar</h1>
-          <span className="text-xs text-muted-foreground">
-            {formatRelativeTime(data?.fetched_at ?? null)}
-          </span>
-        </div>
-        <Tabs value={scene} onValueChange={(v) => setScene(v as Scene)}>
-          <TabsList className="w-full">
-            {SCENES.map((s) => (
-              <TabsTrigger key={s.id} value={s.id}>
-                {s.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
+      <header className="mb-5 flex items-baseline justify-between">
+        <h1 className="text-xl font-bold">New Music Radar</h1>
+        <span className="text-xs text-muted-foreground">
+          {formatRelativeTime(data?.fetched_at ?? null)}
+        </span>
       </header>
 
       {error && <p className="py-4 text-sm text-destructive">{error}</p>}
@@ -113,9 +88,9 @@ function LoadingGrid() {
           <div key={i} className="aspect-square animate-pulse rounded-xl bg-muted" />
         ))}
       </div>
-      <div className="mt-6 flex flex-col gap-2">
+      <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2">
         {Array.from({ length: 4 }, (_, i) => (
-          <div key={i} className="h-16 animate-pulse rounded-xl bg-muted" />
+          <div key={i} className="h-12 animate-pulse rounded-xl bg-muted" />
         ))}
       </div>
     </div>

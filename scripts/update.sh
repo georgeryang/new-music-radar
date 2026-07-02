@@ -30,15 +30,8 @@ if [ "${1:-}" = "--if-stale" ]; then
     const kstNow = Date.now() + KST;
     let slot = Math.floor(kstNow / DAY) * DAY + SLOT;
     if (slot > kstNow) slot -= DAY;
-    // Oldest of the two files: a run where one scene failed leaves that
-    // file stale, so later ticks retry the same day instead of waiting for
-    // tomorrow'\''s slot.
     let fetchedAt = 0;
-    for (const scene of ["kpop", "pop"]) {
-      let t = 0;
-      try { t = JSON.parse(require("fs").readFileSync("docs/data/" + scene + ".json", "utf8")).fetched_at } catch {}
-      if (fetchedAt === 0 || t < fetchedAt) fetchedAt = t;
-    }
+    try { fetchedAt = JSON.parse(require("fs").readFileSync("docs/data/releases.json", "utf8")).fetched_at } catch {}
     process.stdout.write(fetchedAt < slot - KST ? "1" : "0");
   ' 2>/dev/null || echo 1)"
   if [ "$STALE" != "1" ]; then
