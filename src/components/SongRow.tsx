@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { ServiceIcon } from '@/components/ServiceIcon'
 import type { Release } from '@/lib/types'
 
 // Compact song card: artwork sits flush against the card's left edge
@@ -40,7 +39,6 @@ export function SongRow({ release }: { release: Release }) {
           {release.charting.storefront} #{release.charting.rank}
         </Badge>
       )}
-      {release.link && <ServiceIcon />}
     </Card>
   )
 
