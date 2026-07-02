@@ -1,12 +1,12 @@
 {
-  "fetched_at": 1783028290561,
+  "fetched_at": 1783029398970,
   "releases": [
     {
       "title": "In Lof",
       "artist": "Lucianeka, Nicole Favre & Once",
       "type": "song",
       "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bb/6a/b4/bb6ab473-235c-b7cb-f39d-850a421567b0/0.jpg/300x300bb.jpg",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bb/6a/b4/bb6ab473-235c-b7cb-f39d-850a421567b0/0.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": {
         "service": "apple",
@@ -19,7 +19,7 @@
       "artist": "CHUU",
       "type": "song",
       "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e9/ff/7d/e9ff7d45-7145-37b4-778f-d087d7799923/191953557922.jpg/300x300bb.jpg",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e9/ff/7d/e9ff7d45-7145-37b4-778f-d087d7799923/191953557922.jpg/400x400bb.jpg",
       "genre": "R&B",
       "link": {
         "service": "apple",
@@ -32,7 +32,7 @@
       "artist": "IVE",
       "type": "song",
       "release_date": "2026-07-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e5/64/21/e5642110-391a-4c70-5c46-11616ed5ed30/4547366834901.jpg/300x300bb.jpg",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e5/64/21/e5642110-391a-4c70-5c46-11616ed5ed30/4547366834901.jpg/400x400bb.jpg",
       "genre": "K-pop",
       "link": {
         "service": "apple",
@@ -45,7 +45,7 @@
       "artist": "LE SSERAFIM, ILLIT & KATSEYE",
       "type": "song",
       "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ab/3b/05/ab3b0527-3ef7-305f-4a86-fefd4f470e93/823375267218_Cover.jpg/300x300bb.jpg",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ab/3b/05/ab3b0527-3ef7-305f-4a86-fefd4f470e93/823375267218_Cover.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": {
         "service": "apple",
@@ -58,7 +58,7 @@
       "artist": "VALKA & DJ DAXSHADOW",
       "type": "album",
       "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/45/a1/fb/45a1fba4-a94d-2c9a-a3d8-a652c8a3f5e6/824296960509_cover.jpg/300x300bb.jpg",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/45/a1/fb/45a1fba4-a94d-2c9a-a3d8-a652c8a3f5e6/824296960509_cover.jpg/400x400bb.jpg",
       "genre": "Funk",
       "link": {
         "service": "apple",
