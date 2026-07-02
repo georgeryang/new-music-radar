@@ -3,7 +3,9 @@
 // and pre-sorts (preferred artist → preferred genre → date desc), so the app
 // just renders.
 
-export type ReleaseType = 'album' | 'ep' | 'song'
+// song = a single (Apple's designation, or a 1-track release);
+// album = everything larger — EPs, mini albums, full albums, variants.
+export type ReleaseType = 'album' | 'song'
 
 export interface ReleaseLink {
   service: 'apple' // Apple-only architecture; field kept for shape stability

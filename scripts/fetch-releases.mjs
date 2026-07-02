@@ -66,8 +66,16 @@ function inWindow(releaseDate) {
   return days <= WINDOW_DAYS + 0.5 && days >= -1
 }
 
-// iTunes encodes type in the collection name; strip it for display.
-const typeOfName = (name) => (/- single\s*$/i.test(name) ? 'song' : /- ep\s*$/i.test(name) ? 'ep' : 'album')
+// Two types only: song (a single) vs album (EPs, mini albums, and larger).
+// Hybrid rule: Apple's "- Single" designation wins (kpop singles often carry
+// an instrumental B-side, so track count alone would misread them); EP/mini
+// album wording → album; otherwise 1 track → song, more → album.
+function classify(name, trackCount) {
+  if (/-\s*single\s*$/i.test(name)) return 'song'
+  if (/-\s*ep\s*$|mini album|\bEP\b/i.test(name)) return 'album'
+  if (trackCount === 1) return 'song'
+  return 'album'
+}
 const displayTitle = (name) =>
   name.replace(/\s*-\s*(Single|EP)\s*$/i, '').replace(/\s*\(alternate cover[^)]*\)\s*$/i, '').trim()
 // artworkUrl100 URLs embed their size — request a card-sized variant instead.
@@ -176,7 +184,7 @@ async function artistReleases(entry) {
       .map((a) => ({
         title: displayTitle(a.collectionName),
         artist: a.artistName ?? artist.name,
-        type: typeOfName(a.collectionName),
+        type: classify(a.collectionName, a.trackCount),
         release_date: a.releaseDate.slice(0, 10),
         artwork: artUrl(a.artworkUrl100),
         genre: canonGenre(a.primaryGenreName),
@@ -239,7 +247,7 @@ for (const c of charts) {
     releases.push({
       title: displayTitle(e.name),
       artist: e.artistName,
-      type: typeOfName(e.name),
+      type: classify(e.name), // chart feed has no trackCount; name wording decides
       release_date: e.releaseDate,
       artwork: artUrl(e.artworkUrl100),
       genre: canonGenre(genreName),
