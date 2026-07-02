@@ -1,0 +1,20 @@
+{
+  "fetched_at": 1782000000000,
+  "releases": [
+    {
+      "title": "The Wow! Signal",
+      "artist": "Muse",
+      "type": "album",
+      "release_date": "2026-07-01",
+      "artwork": "",
+      "link": { "service": "apple", "url": "https://music.apple.com/us/album/0" }
+    },
+    {
+      "title": "Watch it Burn",
+      "artist": "Katy Perry",
+      "type": "song",
+      "release_date": "2026-07-02",
+      "artwork": ""
+    }
+  ]
+}

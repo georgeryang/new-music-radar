@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.georgeryang.new-music-radar</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/gyang/Dev/new-music-radar/scripts/update.sh</string>
+    <string>--if-stale</string>
+  </array>
+  <!-- 10-minute tick. launchd fires a missed tick once when the Mac wakes
+       from sleep, so this doubles as the wake-up trigger. The --if-stale
+       guard in update.sh turns ticks into exactly one fetch per day, in the
+       18:15-18:30 KST window when awake or at first wake after it. A fixed
+       StartCalendarInterval can't do this: it uses the Mac's local timezone,
+       which drifts against KST with DST and travel. -->
+  <key>StartInterval</key>
+  <integer>600</integer>
+  <key>StandardOutPath</key>
+  <string>/Users/gyang/Library/Logs/new-music-radar.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/gyang/Library/Logs/new-music-radar.log</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+  <!-- Runs at every login/boot; the --if-stale guard makes it a no-op unless
+       the data is stale (e.g. the Mac was powered off past a tick). -->
+  <key>RunAtLoad</key>
+  <true/>
+</dict>
+</plist>
