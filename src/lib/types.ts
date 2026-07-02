@@ -17,6 +17,7 @@ export interface Release {
   artwork: string // '' when the source has none
   link?: ReleaseLink
   charting?: { storefront: 'KR' | 'US'; rank: number }
+  preferred?: boolean // artist is in config/artists.json — pinned first
 }
 
 export interface SceneData {

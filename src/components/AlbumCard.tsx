@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { ServiceIcon } from '@/components/ServiceIcon'
-import { formatReleaseDay } from '@/lib/utils'
 import type { Release } from '@/lib/types'
 
 // Artwork-forward card for the Albums & EPs grid. Type and charting chips
-// overlay the art; the footer carries the date stamp and the service icon.
+// overlay the art; below it, title, then artist with the service icon.
 export function AlbumCard({ release }: { release: Release }) {
   const [imgFailed, setImgFailed] = useState(false)
   const showImg = release.artwork.startsWith('http') && !imgFailed
@@ -34,11 +33,11 @@ export function AlbumCard({ release }: { release: Release }) {
         )}
       </div>
       <p className="line-clamp-2 text-[13px] leading-snug font-semibold">{release.title}</p>
-      <p className="truncate text-xs text-muted-foreground">{release.artist}</p>
-      <div className="mt-1 flex items-center justify-between">
-        <span className="text-[11px] text-muted-foreground">
-          {formatReleaseDay(release.release_date)}
-        </span>
+      <div className="mt-0.5 flex items-center justify-between gap-2">
+        <p className="truncate text-xs text-muted-foreground">
+          {release.preferred && <span className="text-amber-500">★ </span>}
+          {release.artist}
+        </p>
         {release.link && <ServiceIcon link={release.link} />}
       </div>
     </div>

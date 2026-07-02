@@ -37,6 +37,12 @@ const KPOP_CHANNELS = {
   BLACKPINK: 'UCOmHUn--16B90oW2L6FRR3A',
 }
 
+// Preferred artists (config/artists.json): fetched directly from Deezer so
+// their releases are never missed, and pinned first in each section.
+const PREFERRED = JSON.parse(
+  readFileSync(new URL('../config/artists.json', import.meta.url), 'utf8')
+)
+
 const log = (...a) => console.log(`[${new Date().toISOString().slice(0, 19).replace('T', ' ')}]`, ...a)
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 // Sequential requests with jitter — burst patterns are what got RSS throttled in v1.
@@ -79,7 +85,9 @@ const TYPE_MAP = { album: 'album', ep: 'ep', single: 'song' }
 
 function inWindow(releaseDate) {
   const days = (Date.now() - Date.parse(releaseDate)) / 86400e3
-  return days <= WINDOW_DAYS + 0.5
+  // lower bound: artist discographies include pre-orders (future dates) —
+  // released-only scope. -1 day of slack tolerates storefront timezone skew.
+  return days <= WINDOW_DAYS + 0.5 && days >= -1
 }
 
 // ---------- Deezer (spine + kpop chart supplement) ----------
@@ -99,6 +107,27 @@ async function fetchSpine(genreId) {
 async function fetchChartAlbums(genreId) {
   const data = await getJSON(`https://api.deezer.com/chart/${genreId}/albums?limit=25`)
   return data.data ?? []
+}
+
+// Direct discography check for a preferred artist — the never-miss path.
+// artist/{id}/albums already carries record_type/release_date/cover, so no
+// per-album detail call is needed.
+async function preferredArtistReleases(name) {
+  const search = await getJSON(`https://api.deezer.com/search/artist?q=${encodeURIComponent(name)}&limit=3`)
+  const want = normArtist(name)
+  const artist = (search.data ?? []).find((a) => normArtist(a.name) === want)
+  if (!artist) return []
+  await pause()
+  const albums = await getJSON(`https://api.deezer.com/artist/${artist.id}/albums?limit=30`)
+  return (albums.data ?? [])
+    .filter((a) => a.release_date && inWindow(a.release_date))
+    .map((a) => ({
+      title: a.title,
+      artist: artist.name,
+      type: TYPE_MAP[a.record_type] ?? 'album',
+      release_date: a.release_date,
+      artwork: a.cover_medium ?? '',
+    }))
 }
 
 async function albumDetail(id) {
@@ -130,6 +159,18 @@ async function itunesLookup(release, country) {
     const name = normTitle(r.collectionName ?? r.trackName ?? '')
     if (contains(normArtist(r.artistName ?? ''), wantArtist) && contains(name, wantTitle)) {
       return { apple_url: r.collectionViewUrl ?? r.trackViewUrl ?? null, genre: r.primaryGenreName ?? null }
+    }
+  }
+  // Kpop fallback: iTunes KR indexes many Korean artists under Hangul names
+  // (최유정, not CHOI YOOJUNG), so the romanized artist match fails. Accept an
+  // exact TITLE match instead, but only when iTunes confirms the genre is
+  // Korean — the genre gate keeps same-titled Western songs out.
+  if (country === 'kr' && wantTitle.length >= 3) {
+    for (const r of data.results ?? []) {
+      const name = normTitle(r.collectionName ?? r.trackName ?? '')
+      if (name === wantTitle && /k-?pop|korean/i.test(r.primaryGenreName ?? '')) {
+        return { apple_url: r.collectionViewUrl ?? r.trackViewUrl ?? null, genre: r.primaryGenreName }
+      }
     }
   }
   return { apple_url: null, genre: null }
@@ -266,6 +307,29 @@ async function buildScene(scene, videos) {
     releases.push(...derived)
   }
 
+  // …plus direct discography checks for the preferred artists (never-miss path)
+  let preferredCount = 0
+  for (const name of PREFERRED[scene.id] ?? []) {
+    try {
+      const found = await preferredArtistReleases(name)
+      preferredCount += found.length
+      releases.push(...found)
+    } catch (e) {
+      log(`${scene.id}: preferred lookup failed for "${name}": ${e.message}`)
+    }
+    await pause()
+  }
+  if (preferredCount) log(`${scene.id}: ${preferredCount} releases via preferred artists`)
+
+  // preferred flag (whole-word match so "IVE" can't match inside "RIIZE");
+  // set before dedup/filters so pinning and filter bypass see it everywhere
+  const preferredRes = (PREFERRED[scene.id] ?? []).map(
+    (n) => new RegExp(`\\b${normArtist(n).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`)
+  )
+  for (const r of releases) {
+    if (preferredRes.some((re) => re.test(normArtist(r.artist)))) r.preferred = true
+  }
+
   // canonical-key dedup (type is in the key: same-titled song + album both survive)
   const byKey = new Map()
   for (const r of releases) {
@@ -324,7 +388,7 @@ async function buildScene(scene, videos) {
   // releases too, so "has a match" alone isn't selective).
   if (scene.id === 'pop') {
     const GENRE_OK = /^(pop|dance|electronic|r&b\/soul|hip-hop\/rap|alternative|rock|country|singer\/songwriter|soundtrack|indie)/i
-    const keep = (r) => r.charting || (r._genre && GENRE_OK.test(r._genre))
+    const keep = (r) => r.preferred || r.charting || (r._genre && GENRE_OK.test(r._genre))
     const dropped = out.filter((r) => !keep(r))
     out = out.filter(keep)
     if (dropped.length)
@@ -345,8 +409,12 @@ async function buildScene(scene, videos) {
     delete r._genre
     delete r._src
   }
+  // preferred artists first, then release date desc, then artist name
   out.sort(
-    (a, b) => b.release_date.localeCompare(a.release_date) || a.artist.localeCompare(b.artist)
+    (a, b) =>
+      (b.preferred ? 1 : 0) - (a.preferred ? 1 : 0) ||
+      b.release_date.localeCompare(a.release_date) ||
+      a.artist.localeCompare(b.artist)
   )
   return out
 }

@@ -16,15 +16,11 @@ export function formatRelativeTime(timestamp: number | null): string {
   return `Updated ${Math.floor(hours / 24)}d ago`
 }
 
-// Sources report release *dates* (no time), so relative stamps compare
-// calendar days in the viewer's timezone.
-export function formatReleaseDay(releaseDate: string): string {
-  const [y, m, d] = releaseDate.split('-').map(Number)
-  const release = new Date(y, m - 1, d)
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  const diffDays = Math.round((today.getTime() - release.getTime()) / 86400e3)
-  if (diffDays <= 0) return 'Today'
-  if (diffDays === 1) return 'Yesterday'
-  return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(release)
+// Display window: only releases from the last N hours. Sources report plain
+// dates (no time), so compare against the calendar date N hours ago in the
+// viewer's timezone — a release dated on/after that day counts as fresh.
+export function isFresh(releaseDate: string, hours: number): boolean {
+  const cutoff = new Date(Date.now() - hours * 3600e3)
+  const cutStr = `${cutoff.getFullYear()}-${String(cutoff.getMonth() + 1).padStart(2, '0')}-${String(cutoff.getDate()).padStart(2, '0')}`
+  return releaseDate >= cutStr
 }
