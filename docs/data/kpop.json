@@ -1,0 +1,38 @@
+{
+  "fetched_at": 1782000000000,
+  "releases": [
+    {
+      "title": "Lemon Tang - The 2nd Mini Album",
+      "artist": "Hearts2Hearts",
+      "type": "ep",
+      "release_date": "2026-07-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/00/a4/c1/00a4c1fb-c2c9-83c9-af2e-44cb5da80bc4/888735956140.png/250x250bb.jpg",
+      "link": { "service": "apple", "url": "https://music.apple.com/kr/album/lemon-tang-the-2nd-mini-album-ep/6779521284" },
+      "charting": { "storefront": "KR", "rank": 2 }
+    },
+    {
+      "title": "V8",
+      "artist": "THE 8 & VERNON",
+      "type": "album",
+      "release_date": "2026-07-02",
+      "artwork": "",
+      "link": { "service": "apple", "url": "https://music.apple.com/kr/album/v8/0" }
+    },
+    {
+      "title": "Runaway",
+      "artist": "RYEOWOOK",
+      "type": "song",
+      "release_date": "2026-07-02",
+      "artwork": "",
+      "link": { "service": "youtube", "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
+    },
+    {
+      "title": "BOY MEETS GIRL",
+      "artist": "NCT WISH",
+      "type": "song",
+      "release_date": "2026-07-01",
+      "artwork": "",
+      "charting": { "storefront": "KR", "rank": 7 }
+    }
+  ]
+}
