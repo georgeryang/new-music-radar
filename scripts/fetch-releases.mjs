@@ -202,14 +202,17 @@ const releases = []
 // 1. Preferred artists — the guaranteed layer
 let preferredCount = 0
 let lookupFailures = 0
+let i = 0
 for (const entry of PREFERRED_ENTRIES) {
+  i++
   try {
     const found = await artistReleases(entry)
     preferredCount += found.length
     releases.push(...found)
+    log(`(${i}/${PREFERRED_ENTRIES.length}) ${entry.name}${found.length ? ` — ${found.length} new` : ''}`)
   } catch (e) {
     lookupFailures++
-    log(`lookup failed for "${entry.name}": ${e.message}`)
+    log(`(${i}/${PREFERRED_ENTRIES.length}) ${entry.name} — lookup failed: ${e.message}`)
   }
   await pauseItunes()
 }
