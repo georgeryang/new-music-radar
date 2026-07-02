@@ -6,9 +6,8 @@ with **no Reddit dependency** — built on Deezer editorials and artist lookups,
 iTunes Search (Apple Music links + genre tags), Apple most-played charts
 (charting badges), and kpop label-channel feeds (same-day releases + MV links).
 
-Curation lives in `config/preferences.json`: preferred/blocked artists and
-genres, plus which Deezer editorials feed the page. `scripts/suggest-artists.mjs`
-ranks your local Music.app library to help seed the preferred list.
+Curation lives in `config/preferences.json` (preferred/blocked artists and
+genres, plus which Deezer editorials feed the page), edited via `prefs.command`.
 
 - Frontend: Vite + React + TS + Tailwind + shadcn, published from `docs/` on GitHub Pages.
 - Data: `scripts/fetch-releases.mjs` (zero deps) writes `docs/data/releases.json`,
@@ -29,7 +28,7 @@ push access to this repo).
 2. `git clone git@github.com:georgeryang/new-music-radar.git ~/Dev/new-music-radar`
    — the launchd plist and update.sh hardcode this path; adjust both if you
    clone elsewhere.
-3. Test one fetch: `bash scripts/update.sh` (takes ~15 min; ends with "Published").
+3. Test one fetch: `bash scripts/update.sh` (takes ~5 min; ends with "Published").
 4. Install the daily 18:15 KST schedule:
    ```
    cp launchd/com.georgeryang.new-music-radar.plist ~/Library/LaunchAgents/
