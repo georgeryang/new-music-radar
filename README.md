@@ -14,6 +14,7 @@ ranks your local Music.app library to help seed the preferred list.
 - Data: `scripts/fetch-releases.mjs` (zero deps) writes `docs/data/releases.json`,
   run once daily at 18:15 KST by launchd via `scripts/update.sh --if-stale`.
 - Manual refresh: double-click `refresh.command`.
+- Edit preferences (preferred/blocked artists + genres): double-click `prefs.command` → local editor at http://localhost:4747 with a Deezer artist picker.
 - Install the schedule: `cp launchd/com.georgeryang.new-music-radar.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist`
 - Logs: `~/Library/Logs/new-music-radar.log`
 

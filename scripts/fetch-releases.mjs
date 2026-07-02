@@ -119,10 +119,13 @@ function canonGenre(itunesGenre) {
 const lower = (list) => (list ?? []).map((s) => s.toLowerCase())
 const GENRES_PREFERRED = lower(PREFS.genres?.preferred)
 const GENRES_BLOCKED = lower(PREFS.genres?.blocked)
-const ARTISTS_BLOCKED = lower(PREFS.artists?.blocked).map(normArtist)
-const PREFERRED_ARTIST_RES = (PREFS.artists?.preferred ?? []).map(
+// Artist entries: "Name" or {name, id} (see preferredArtistReleases)
+const asEntry = (e) => (typeof e === 'string' ? { name: e } : e)
+const PREFERRED_ENTRIES = (PREFS.artists?.preferred ?? []).map(asEntry)
+const ARTISTS_BLOCKED = (PREFS.artists?.blocked ?? []).map((e) => normArtist(asEntry(e).name))
+const PREFERRED_ARTIST_RES = PREFERRED_ENTRIES.map(
   // whole-word match so "IVE" can't match inside "RIIZE"
-  (n) => new RegExp(`\\b${normArtist(n).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`)
+  (e) => new RegExp(`\\b${normArtist(e.name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`)
 )
 
 const isGenrePreferred = (g) => !!g && GENRES_PREFERRED.includes(g.toLowerCase())
@@ -155,15 +158,23 @@ async function albumDetail(id) {
 }
 
 // Direct discography check for a preferred artist — the never-miss path.
-async function preferredArtistReleases(name) {
-  const search = await getJSON(`https://api.deezer.com/search/artist?q=${encodeURIComponent(name)}&limit=5`)
-  const want = normArtist(name)
-  // Generic names ("Nina", "Effie") exact-match multiple Deezer artists —
-  // take the most-followed one, and skip no-audience matches entirely.
-  const artist = (search.data ?? [])
-    .filter((a) => normArtist(a.name) === want)
-    .sort((a, b) => (b.nb_fan ?? 0) - (a.nb_fan ?? 0))[0]
-  if (!artist || (artist.nb_fan ?? 0) < 100) return []
+// Entries are "Name" strings (hand-edited) or {name, id} objects (added via
+// the prefs editor's Deezer picker — the id removes same-name ambiguity).
+async function preferredArtistReleases(entry) {
+  let artist
+  if (entry.id) {
+    artist = await getJSON(`https://api.deezer.com/artist/${entry.id}`)
+  } else {
+    const search = await getJSON(`https://api.deezer.com/search/artist?q=${encodeURIComponent(entry.name)}&limit=5`)
+    const want = normArtist(entry.name)
+    // Generic names ("Nina", "Effie") exact-match multiple Deezer artists —
+    // take the most-followed one, and skip no-audience matches entirely.
+    artist = (search.data ?? [])
+      .filter((a) => normArtist(a.name) === want)
+      .sort((a, b) => (b.nb_fan ?? 0) - (a.nb_fan ?? 0))[0]
+    if (artist && (artist.nb_fan ?? 0) < 100) artist = null
+  }
+  if (!artist?.id) return []
   await pause()
   const albums = await getJSON(`https://api.deezer.com/artist/${artist.id}/albums?limit=30`)
   return (albums.data ?? [])
@@ -322,13 +333,13 @@ const releases = []
 // PRIMARY 1: preferred-artist discographies — runs first so a later source
 // failure can never cost us these.
 let preferredCount = 0
-for (const name of PREFS.artists?.preferred ?? []) {
+for (const entry of PREFERRED_ENTRIES) {
   try {
-    const found = await preferredArtistReleases(name)
+    const found = await preferredArtistReleases(entry)
     preferredCount += found.length
     releases.push(...found)
   } catch (e) {
-    log(`preferred lookup failed for "${name}": ${e.message}`)
+    log(`preferred lookup failed for "${entry.name}": ${e.message}`)
   }
   await pause()
 }

@@ -4,9 +4,20 @@ import { SongRow } from '@/components/SongRow'
 import { formatRelativeTime, isFresh } from '@/lib/utils'
 import type { FeedData } from '@/lib/types'
 
+const PREFS_URL = 'http://127.0.0.1:4747'
+
 export default function App() {
   const [data, setData] = useState<FeedData | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [prefsUp, setPrefsUp] = useState(false)
+
+  // Show the ⚙ link only when the local preferences editor (prefs.command)
+  // is running on this machine — elsewhere the ping just fails silently.
+  useEffect(() => {
+    fetch(`${PREFS_URL}/api/ping`, { signal: AbortSignal.timeout(800) })
+      .then((r) => setPrefsUp(r.ok))
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -37,8 +48,13 @@ export default function App() {
     <div className="mx-auto max-w-2xl px-4 pt-6 pb-12">
       <header className="mb-5 flex items-baseline justify-between">
         <h1 className="text-xl font-bold">New Music Radar</h1>
-        <span className="text-xs text-muted-foreground">
+        <span className="flex items-center gap-2 text-xs text-muted-foreground">
           {formatRelativeTime(data?.fetched_at ?? null)}
+          {prefsUp && (
+            <a href={PREFS_URL} target="_blank" rel="noopener noreferrer" title="Edit preferences" className="hover:text-foreground">
+              ⚙
+            </a>
+          )}
         </span>
       </header>
 
