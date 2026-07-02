@@ -267,47 +267,10 @@ function matchVideo(release, videos) {
 // ---------- per-scene pipeline ----------
 
 async function buildScene(scene, videos) {
-  // 1. entries from the spine…
-  const spine = await fetchSpine(scene.deezerGenre)
-  let fresh = spine.filter((r) => r.release_date && inWindow(r.release_date))
-  log(`${scene.id}: ${spine.length} editorial releases, ${fresh.length} in window`)
-
-  // …plus, for kpop, chart albums (recency unknown until the detail call)
-  if (scene.id === 'kpop') {
-    try {
-      const chartAlbums = await fetchChartAlbums(scene.deezerGenre)
-      const known = new Set(fresh.map((r) => r.id))
-      fresh = fresh.concat(chartAlbums.filter((a) => !known.has(a.id)))
-      await pause()
-    } catch (e) {
-      log(`kpop: chart supplement failed: ${e.message}`)
-    }
-  }
-
   const releases = []
-  for (const item of fresh) {
-    try {
-      const r = await albumDetail(item.id)
-      if (!r.release_date || !inWindow(r.release_date)) continue // stale chart albums
-      if (NOISE_RE.test(r.title)) {
-        log(`${scene.id}: dropped noise "${r.artist} — ${r.title}"`)
-      } else {
-        releases.push(r)
-      }
-    } catch (e) {
-      log(`${scene.id}: album detail failed for ${item.id}: ${e.message}`)
-    }
-    await pause()
-  }
 
-  // …plus, for kpop, songs derived from fresh label-channel MV uploads
-  if (scene.id === 'kpop') {
-    const derived = mvDerivedSongs(videos)
-    log(`kpop: ${derived.length} MV-derived songs`)
-    releases.push(...derived)
-  }
-
-  // …plus direct discography checks for the preferred artists (never-miss path)
+  // PRIMARY 1: preferred-artist discographies — the same-day, never-miss path.
+  // Runs first so a later source failure can never cost us these.
   let preferredCount = 0
   for (const name of PREFERRED[scene.id] ?? []) {
     try {
@@ -320,6 +283,51 @@ async function buildScene(scene, videos) {
     await pause()
   }
   if (preferredCount) log(`${scene.id}: ${preferredCount} releases via preferred artists`)
+
+  // PRIMARY 2 (kpop): songs derived from fresh label-channel MV uploads — also same-day
+  if (scene.id === 'kpop') {
+    const derived = mvDerivedSongs(videos)
+    log(`kpop: ${derived.length} MV-derived songs`)
+    releases.push(...derived)
+  }
+
+  // BACKUP: Deezer editorial (+ kpop chart) fills in the rest of the scene.
+  // Lags 1-2 days; wrapped so its failure publishes primary results anyway.
+  let backupFailed = false
+  try {
+    const spine = await fetchSpine(scene.deezerGenre)
+    let fresh = spine.filter((r) => r.release_date && inWindow(r.release_date))
+    log(`${scene.id}: ${spine.length} editorial releases, ${fresh.length} in window`)
+
+    if (scene.id === 'kpop') {
+      try {
+        const chartAlbums = await fetchChartAlbums(scene.deezerGenre)
+        const known = new Set(fresh.map((r) => r.id))
+        fresh = fresh.concat(chartAlbums.filter((a) => !known.has(a.id)))
+        await pause()
+      } catch (e) {
+        log(`kpop: chart supplement failed: ${e.message}`)
+      }
+    }
+
+    for (const item of fresh) {
+      try {
+        const r = await albumDetail(item.id)
+        if (!r.release_date || !inWindow(r.release_date)) continue // stale chart albums
+        if (NOISE_RE.test(r.title)) {
+          log(`${scene.id}: dropped noise "${r.artist} — ${r.title}"`)
+        } else {
+          releases.push(r)
+        }
+      } catch (e) {
+        log(`${scene.id}: album detail failed for ${item.id}: ${e.message}`)
+      }
+      await pause()
+    }
+  } catch (e) {
+    backupFailed = true
+    log(`${scene.id}: editorial backup failed (publishing primary sources only): ${e.message}`)
+  }
 
   // preferred flag (whole-word match so "IVE" can't match inside "RIIZE");
   // set before dedup/filters so pinning and filter bypass see it everywhere
@@ -416,7 +424,7 @@ async function buildScene(scene, videos) {
       b.release_date.localeCompare(a.release_date) ||
       a.artist.localeCompare(b.artist)
   )
-  return out
+  return { releases: out, backupFailed }
 }
 
 // ---------- main ----------
@@ -439,7 +447,8 @@ for (const [name, id] of Object.entries(KPOP_CHANNELS)) {
 let anyFailed = false
 for (const scene of SCENES) {
   try {
-    const releases = await buildScene(scene, videos)
+    const { releases, backupFailed } = await buildScene(scene, videos)
+    if (backupFailed) anyFailed = true // primary data still publishes below
 
     // Empty-success guard (v1 lesson: an empty success can be a failure in
     // disguise). If we got nothing but the previous file still has in-window
