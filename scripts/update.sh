@@ -1,6 +1,6 @@
 #!/bin/bash
 # Daily fetch + publish, run by launchd (see launchd/com.georgeryang.new-music-radar.plist).
-# Needs no node_modules — just node, curl, and git.
+# Needs no node_modules — just node and git.
 set -uo pipefail
 
 REPO_DIR="/Users/gyang/Dev/new-music-radar"

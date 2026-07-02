@@ -4,8 +4,8 @@
 // blocked artists/genres are dropped). Zero deps; launched by prefs.command.
 //
 // Binds 127.0.0.1 only. Writes exactly one hardcoded path (the config file),
-// preserving keys the UI doesn't manage (_comment, editorials). The Deezer
-// artist search is proxied so the browser never talks to a third party.
+// preserving keys the UI doesn't manage (_comment). The Apple Music artist
+// search is proxied so the browser never talks to a third party.
 
 import http from 'node:http'
 import { closeSync, openSync, readFileSync, writeFileSync } from 'node:fs'
@@ -27,7 +27,7 @@ const CANON_TAGS = [
 const readPrefs = () => JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
 const isName = (s) => typeof s === 'string' && s.trim().length > 0 && s.length < 200
-// Artist entries: "Name" (hand-typed) or {name, id} (Deezer picker — the id
+// Artist entries: "Name" (hand-typed) or {name, id} (Apple picker — the id
 // pins the exact artist among same-named ones). Genres are plain strings.
 const isArtistList = (v) =>
   Array.isArray(v) && v.every((e) => isName(e) || (e && isName(e.name) && Number.isInteger(e.id)))
@@ -103,7 +103,10 @@ const server = http.createServer(async (req, res) => {
       })
     } else if (req.method === 'POST' && url.pathname === '/api/prefs') {
       let body = ''
-      for await (const chunk of req) body += chunk
+      for await (const chunk of req) {
+        body += chunk
+        if (body.length > 1_000_000) return json(res, 413, { error: 'body too large' })
+      }
       const incoming = JSON.parse(body)
       if (
         !isArtistList(incoming?.artists?.preferred) || !isArtistList(incoming?.artists?.blocked) ||
@@ -117,7 +120,7 @@ const server = http.createServer(async (req, res) => {
       writeFileSync(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
       json(res, 200, { ok: true })
     } else if (req.method === 'GET' && url.pathname === '/api/artist-search') {
-      const q = url.searchParams.get('q') ?? ''
+      const q = (url.searchParams.get('q') ?? '').slice(0, 100)
       if (q.trim().length < 2) return json(res, 200, { results: [] })
       // Apple Music catalog — the same catalog the fetcher queries, so the
       // picked artist ID is exactly what the nightly lookup uses.
@@ -197,7 +200,7 @@ const PAGE = /* html */ `<!doctype html>
 </head>
 <body>
 <header><h1>Preferences</h1><a href="" id="site-link" target="_blank" rel="noopener noreferrer">Open radar →</a></header>
-<p class="hint">Edits config/preferences.json. Save keeps changes for tonight's fetch; Refresh now saves and fetches immediately (~5–10 min).</p>
+<p class="hint">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away (takes a few minutes).</p>
 <div id="sections"></div>
 <datalist id="genre-dl"></datalist>
 <pre id="log" hidden></pre>
@@ -280,7 +283,7 @@ function makeAdder(s) {
       clearTimeout(timer)
       const q = input.value
       if (q.trim().length < 2) { results.hidden = true; return }
-      timer = setTimeout(async () => {
+      timer = setTimeout(async () => { // 500ms: iTunes Search is ~20 req/min
         const r = await fetch('/api/artist-search?q=' + encodeURIComponent(q)).then((r) => r.json())
         results.replaceChildren()
         for (const a of r.results) {
@@ -306,7 +309,7 @@ function makeAdder(s) {
           results.appendChild(b)
         }
         results.hidden = r.results.length === 0
-      }, 300)
+      }, 500)
     }
     input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
   } else {
