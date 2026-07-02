@@ -49,10 +49,14 @@ if (!tracks) {
 
 const top = (m, n) => [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, n)
 
+// usage: node scripts/suggest-artists.mjs [topArtists] [topGenres]
+const N_ARTISTS = parseInt(process.argv[2], 10) || 50
+const N_GENRES = parseInt(process.argv[3], 10) || 20
+
 console.log(`${tracks} library tracks scanned.\n`)
-console.log('Top 50 artists by play count:')
-for (const [name, plays] of top(artists, 50)) console.log(`  ${String(plays).padStart(6)}  ${name}`)
+console.log(`Top ${N_ARTISTS} artists by play count:`)
+for (const [name, plays] of top(artists, N_ARTISTS)) console.log(`  ${String(plays).padStart(6)}  ${name}`)
 console.log('\nGenre distribution (by plays):')
-for (const [name, plays] of top(genres, 20)) console.log(`  ${String(plays).padStart(6)}  ${name}`)
+for (const [name, plays] of top(genres, N_GENRES)) console.log(`  ${String(plays).padStart(6)}  ${name}`)
 console.log('\nPaste-ready for config/preferences.json → artists.preferred:')
-console.log(JSON.stringify(top(artists, 50).map(([name]) => name)))
+console.log(JSON.stringify(top(artists, N_ARTISTS).map(([name]) => name)))
