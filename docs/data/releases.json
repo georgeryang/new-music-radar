@@ -1,18 +1,18 @@
 {
-  "fetched_at": 1783003719428,
+  "fetched_at": 1783017258071,
   "releases": [
     {
-      "title": "BAD (James Carter Ver.)",
-      "artist": "ATEEZ",
+      "title": "Melody Rindu",
+      "artist": "Demi",
       "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/60d2043f0454564b97c05b56aab9d603/250x250-000000-80-0-0.jpg",
+      "release_date": "2026-07-01",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/44f033ad497010455f0db1c8effa3e69/250x250-000000-80-0-0.jpg",
       "preferred": true,
       "link": {
         "service": "apple",
-        "url": "https://music.apple.com/us/album/bad-james-carter-ver-single/6781509330?uo=4"
+        "url": "https://music.apple.com/us/album/melody-rindu/6781135293?i=6781135294&uo=4"
       },
-      "genre": "K-pop"
+      "genre": "Pop"
     },
     {
       "title": "LUCID DREAM (Taku Takahashi Remix)",
@@ -26,37 +26,6 @@
         "url": "https://music.apple.com/us/album/lucid-dream-taku-takahashi-remix-single/6781661557?uo=4"
       },
       "genre": "K-pop"
-    },
-    {
-      "title": "BAD (Steve Aoki Ver.)",
-      "artist": "ATEEZ",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/f36b95a407fb1f7605ecf432a58565ca/250x250-000000-80-0-0.jpg",
-      "preferred": true,
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/bad-steve-aoki-ver-single/6781509616?uo=4"
-      },
-      "genre": "K-pop"
-    },
-    {
-      "title": "Two for you (edited vers.)",
-      "artist": "Yuqi",
-      "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/1f5c9b083825c9cac75cb9756dc6562b/250x250-000000-80-0-0.jpg",
-      "preferred": true,
-      "genre": null
-    },
-    {
-      "title": "Say it so",
-      "artist": "Yuqi",
-      "type": "song",
-      "release_date": "2026-07-01",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/1f9ac11f0bbefb2c64394edb64f60f2e/250x250-000000-80-0-0.jpg",
-      "preferred": true,
-      "genre": null
     },
     {
       "title": "MESSY",
@@ -83,6 +52,77 @@
         "url": "https://music.apple.com/us/album/number-1-girl-single/6786421207?uo=4"
       },
       "genre": "Pop"
+    },
+    {
+      "title": "Two for you (edited vers.)",
+      "artist": "Yuqi",
+      "type": "song",
+      "release_date": "2026-07-02",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/1f5c9b083825c9cac75cb9756dc6562b/250x250-000000-80-0-0.jpg",
+      "preferred": true,
+      "genre": null
+    },
+    {
+      "title": "MAYU (feat. Yumenokessho AVER)",
+      "artist": "KATIE",
+      "type": "song",
+      "release_date": "2026-07-01",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/665789bbb31b0bc77b57e5ee66e7a948/250x250-000000-80-0-0.jpg",
+      "preferred": true,
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/us/album/mayu-feat-yumenokessho-aver/6785911091?i=6785911092&uo=4"
+      },
+      "genre": "Rock"
+    },
+    {
+      "title": "CARRYING YOU",
+      "artist": "Steff",
+      "type": "album",
+      "release_date": "2026-07-01",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/67b4e1d70e72e6a60f25ec9a140dc1b6/250x250-000000-80-0-0.jpg",
+      "preferred": true,
+      "genre": null
+    },
+    {
+      "title": "Say it so",
+      "artist": "Yuqi",
+      "type": "song",
+      "release_date": "2026-07-01",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/1f9ac11f0bbefb2c64394edb64f60f2e/250x250-000000-80-0-0.jpg",
+      "preferred": true,
+      "genre": null
+    },
+    {
+      "title": "Long Day, Huh?",
+      "artist": "Yura",
+      "type": "song",
+      "release_date": "2026-07-01",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/a9a9e7640d0d6cd37ba17210ac174855/250x250-000000-80-0-0.jpg",
+      "preferred": true,
+      "genre": null
+    },
+    {
+      "title": "Stillheten",
+      "artist": "Effie",
+      "type": "song",
+      "release_date": "2026-06-30",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/bd623bd193004aef7c43dec1fb93ccc2/250x250-000000-80-0-0.jpg",
+      "preferred": true,
+      "genre": null
+    },
+    {
+      "title": "Pix na Madruga",
+      "artist": "VALKA",
+      "type": "ep",
+      "release_date": "2026-06-30",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/bd4b43a97a0173c2d92200f97f8c6fc9/250x250-000000-80-0-0.jpg",
+      "preferred": true,
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/us/album/pix-na-madruga-ep/6781009590?uo=4"
+      },
+      "genre": "Funk"
     },
     {
       "title": "Crushed",
@@ -157,6 +197,18 @@
       "genre": "K-pop"
     },
     {
+      "title": "junebug!",
+      "artist": "GAYLE",
+      "type": "song",
+      "release_date": "2026-06-30",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/142065be374148957df9291af41b2e19/250x250-000000-80-0-0.jpg",
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/us/album/junebug-single/6783079573?uo=4"
+      },
+      "genre": "Pop"
+    },
+    {
       "title": "Bala Bala (feat. la team Wata)",
       "artist": "Héritier Wata",
       "type": "song",
@@ -225,6 +277,18 @@
       "genre": "K-pop"
     },
     {
+      "title": "warlock!",
+      "artist": "SaveTheWorld!",
+      "type": "album",
+      "release_date": "2026-06-30",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/e63604759aceb89af13bbd476193b7d3/250x250-000000-80-0-0.jpg",
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/us/album/warlock/6782318616?uo=4"
+      },
+      "genre": "Pop"
+    },
+    {
       "title": "Rain",
       "artist": "SUNG DAM",
       "type": "song",
@@ -247,6 +311,18 @@
         "url": "https://music.apple.com/kr/album/suran-x-kabrew-relax-moment-single/6784508409?uo=4"
       },
       "genre": "K-pop"
+    },
+    {
+      "title": "Teh Hijau",
+      "artist": "Tulus",
+      "type": "song",
+      "release_date": "2026-06-30",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/f99cf5482ab60273bb1c8fc22fa7eb23/250x250-000000-80-0-0.jpg",
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/us/album/teh-hijau-single/6784585100?uo=4"
+      },
+      "genre": "Pop"
     },
     {
       "title": "Bellboy",
@@ -285,18 +361,6 @@
       "genre": "Maghreb Rai"
     },
     {
-      "title": "junebug!",
-      "artist": "GAYLE",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/142065be374148957df9291af41b2e19/250x250-000000-80-0-0.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/junebug-single/6783079573?uo=4"
-      },
-      "genre": "Pop"
-    },
-    {
       "title": "YOU DON'T HAVE TO",
       "artist": "Jay Park",
       "type": "song",
@@ -333,28 +397,16 @@
       "genre": "Dance"
     },
     {
-      "title": "warlock!",
-      "artist": "SaveTheWorld!",
+      "title": "Bandages of Grace",
+      "artist": "Martin Page",
       "type": "album",
       "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/e63604759aceb89af13bbd476193b7d3/250x250-000000-80-0-0.jpg",
+      "artwork": "https://cdn-images.dzcdn.net/images/cover/b2c9bbd35cf3209058fe3f93fd9fb034/250x250-000000-80-0-0.jpg",
       "link": {
         "service": "apple",
-        "url": "https://music.apple.com/us/album/warlock/6782318616?uo=4"
+        "url": "https://music.apple.com/us/album/bandages-of-grace/6774808600?uo=4"
       },
-      "genre": "Pop"
-    },
-    {
-      "title": "Teh Hijau",
-      "artist": "Tulus",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://cdn-images.dzcdn.net/images/cover/f99cf5482ab60273bb1c8fc22fa7eb23/250x250-000000-80-0-0.jpg",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/teh-hijau-single/6784585100?uo=4"
-      },
-      "genre": "Pop"
+      "genre": "Alternative"
     }
   ]
 }
