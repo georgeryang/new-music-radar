@@ -6,7 +6,7 @@
 export type ReleaseType = 'album' | 'ep' | 'song'
 
 export interface ReleaseLink {
-  service: 'apple' | 'youtube'
+  service: 'apple' // Apple-only architecture; field kept for shape stability
   url: string
 }
 

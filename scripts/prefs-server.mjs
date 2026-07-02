@@ -101,17 +101,19 @@ const server = http.createServer(async (req, res) => {
     } else if (req.method === 'GET' && url.pathname === '/api/artist-search') {
       const q = url.searchParams.get('q') ?? ''
       if (q.trim().length < 2) return json(res, 200, { results: [] })
+      // Apple Music catalog — the same catalog the fetcher queries, so the
+      // picked artist ID is exactly what the nightly lookup uses.
       const upstream = await fetch(
-        `https://api.deezer.com/search/artist?q=${encodeURIComponent(q)}&limit=5`,
+        `https://itunes.apple.com/search?term=${encodeURIComponent(q)}&entity=musicArtist&country=US&limit=6`,
         { headers: { 'User-Agent': 'new-music-radar/1.0' } }
       )
       const data = await upstream.json()
       json(res, 200, {
-        results: (data.data ?? []).map((a) => ({
-          id: a.id,
-          name: a.name,
-          picture: a.picture_small ?? '',
-          fans: a.nb_fan ?? 0,
+        results: (data.results ?? []).map((a) => ({
+          id: a.artistId,
+          name: a.artistName,
+          genre: a.primaryGenreName ?? '',
+          url: a.artistLinkUrl ?? '',
         })),
       })
     } else if (req.method === 'POST' && url.pathname === '/api/refresh') {
@@ -159,6 +161,8 @@ const PAGE = /* html */ `<!doctype html>
   .results button:hover { background: var(--chip); }
   .results img { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; background: var(--chip); }
   .results .fans { margin-left: auto; color: var(--muted); font-size: 11.5px; white-space: nowrap; }
+  .results a { color: var(--muted); text-decoration: none; padding: 0 6px; font-size: 14px; }
+  .results a:hover { color: inherit; }
   footer { position: fixed; bottom: 0; left: 0; right: 0; background: Canvas; border-top: 1px solid var(--border); padding: 10px 16px; display: flex; gap: 8px; align-items: center; justify-content: center; }
   footer .status { font-size: 12px; color: var(--muted); margin-right: auto; max-width: 40%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   #banner { position: fixed; bottom: 56px; left: 0; right: 0; text-align: center; font-size: 13px; padding: 9px 16px; }
@@ -219,7 +223,7 @@ function renderAll() {
       const chip = document.createElement('span')
       chip.className = 'chip'
       chip.appendChild(document.createTextNode(nameOf(entry)))
-      if (typeof entry !== 'string') chip.title = 'Deezer artist #' + entry.id
+      if (typeof entry !== 'string') chip.title = 'Apple Music artist #' + entry.id
       const x = document.createElement('button')
       x.textContent = '×'
       x.title = 'Remove'
@@ -244,7 +248,7 @@ function makeAdder(s) {
   const wrap = document.createElement('div')
   wrap.className = 'adder'
   const input = document.createElement('input')
-  input.placeholder = s.artist ? 'Add artist (search Deezer or press Enter for exact text)…' : 'Add genre…'
+  input.placeholder = s.artist ? 'Add artist (search Apple Music, or press Enter for exact text)…' : 'Add genre…'
   if (!s.artist) input.setAttribute('list', 'genre-dl')
   const results = document.createElement('div')
   results.className = 'results'
@@ -261,14 +265,23 @@ function makeAdder(s) {
         results.replaceChildren()
         for (const a of r.results) {
           const b = document.createElement('button')
-          const img = document.createElement('img')
-          img.src = a.picture; img.alt = ''
           const nm = document.createElement('span')
           nm.textContent = a.name
-          const fans = document.createElement('span')
-          fans.className = 'fans'
-          fans.textContent = a.fans.toLocaleString() + ' fans'
-          b.append(img, nm, fans)
+          const genre = document.createElement('span')
+          genre.className = 'fans'
+          genre.textContent = a.genre
+          b.append(nm, genre)
+          if (a.url) {
+            // verify the identity on its Apple Music page before adding
+            const verify = document.createElement('a')
+            verify.textContent = '↗'
+            verify.href = a.url
+            verify.target = '_blank'
+            verify.rel = 'noopener noreferrer'
+            verify.title = 'Open on Apple Music to verify'
+            verify.onclick = (ev) => ev.stopPropagation()
+            b.appendChild(verify)
+          }
           b.onclick = () => { addTo(s.key, { name: a.name, id: a.id }); input.value = ''; results.hidden = true }
           results.appendChild(b)
         }

@@ -40,7 +40,7 @@ export function SongRow({ release }: { release: Release }) {
           {release.charting.storefront} #{release.charting.rank}
         </Badge>
       )}
-      {release.link && <ServiceIcon link={release.link} />}
+      {release.link && <ServiceIcon />}
     </Card>
   )
 
