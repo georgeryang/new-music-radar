@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
-import { ServiceIcon } from '@/components/ServiceIcon'
 import type { Release } from '@/lib/types'
 
 // Artwork-forward card for the Albums & EPs grid. Type and charting chips
@@ -36,13 +35,10 @@ export function AlbumCard({ release }: { release: Release }) {
         )}
       </div>
       <p className="line-clamp-2 text-[13px] leading-snug font-semibold">{release.title}</p>
-      <div className="mt-0.5 flex items-center justify-between gap-2">
-        <p className="truncate text-xs text-muted-foreground">
-          {release.preferred && <span className="text-amber-500">★ </span>}
-          {release.artist}
-        </p>
-        {release.link && <ServiceIcon />}
-      </div>
+      <p className="mt-0.5 truncate text-xs text-muted-foreground">
+        {release.preferred && <span className="text-amber-500">★ </span>}
+        {release.artist}
+      </p>
     </div>
   )
 
