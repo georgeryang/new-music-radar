@@ -2,39 +2,39 @@
 // Fetch new kpop + pop releases and write docs/data/{kpop,pop}.json.
 // Zero deps — just node's fetch. Run daily by scripts/update.sh via launchd.
 //
-// Pipeline per scene (single-spine design — only Deezer creates entries,
-// everything else enriches, so source failures can't create duplicates):
-//   1. Deezer editorial releases        — spine (16 Asian Music / 132 Pop)
-//   2. window filter (last WINDOW_DAYS) — BEFORE the per-release API calls
-//   3. Deezer album detail              — record_type (album/ep/single)
-//   4. noise blocklist + canonical-key dedup (key includes type, so a song
-//      titled like its album keeps both entries)
-//   5. iTunes Search                    — Apple Music link + K-Pop genre filter
-//   6. Apple most-played chart          — charting badge
-//   7. YouTube label-channel feeds      — link fallback (songs: MV first)
-//   8. link priority chain: Apple Music → YouTube → none
+// Entry sources (per the 2026-07-02 spike: Deezer editorial alone misses
+// major kpop comebacks, MusicBrainz is worse — Hangul names + release-day lag):
+//   kpop: Deezer Asian editorial (16)  — spine, lags 0-2 days
+//         + Deezer Asian albums chart  — streaming-heavy comebacks, recency-filtered
+//         + label-channel MV uploads   — the same-day catcher: in kpop the MV *is*
+//           the song-release announcement. Parsed into SONG entries (no video
+//           cards); the MV is just the entry's fallback link.
+//   pop:  Deezer Pop editorial (132), then curated: keep only releases with an
+//         iTunes US match or a chart position (drops the international firehose).
+// Enrichment: iTunes Search (Apple Music link + K-Pop genre check), Apple
+// most-played charts (badge). Canonical-key dedup collapses cross-source
+// duplicates; the key includes type, so a song titled like its album keeps both.
 //
 // Exit codes: 0 = all scenes ok, 2 = at least one scene failed entirely
 // (update.sh publishes partial data either way — v1 pattern).
 
 import { readFileSync, writeFileSync } from 'node:fs'
 
-const WINDOW_DAYS = 2 // "today or yesterday", with a little slack for timezones
+// Display target is "today or yesterday", but Deezer's editorial lags releases
+// by 1-2 days (verified 2026-07-02: newest entry was 2 days old) — a 2-day
+// window made the editorial contribute nothing. 3 days keeps it in play.
+const WINDOW_DAYS = 3
 const UA = 'new-music-radar/1.0'
 const OUT = (scene) => new URL(`../docs/data/${scene}.json`, import.meta.url)
 
-const SCENES = [
-  { id: 'kpop', deezerGenre: 16, storefront: 'kr', chart: 'KR' },
-  { id: 'pop', deezerGenre: 132, storefront: 'us', chart: 'US' },
-]
-
-// Kpop label channels for the YouTube link fallback. Feed IDs verified 2026-07-02.
-// Add channels freely — an unreachable feed just logs and is skipped.
+// Feed IDs verified 2026-07-02. 1theK is Kakao's aggregator and covers most
+// mid-size labels. Add channels freely — an unreachable feed logs and is skipped.
 const KPOP_CHANNELS = {
   SMTOWN: 'UCEf_Bc-KVd7onSeifS3py9g',
   'HYBE LABELS': 'UC3IZKseVpdzPSBaWxBxundA',
   'JYP Entertainment': 'UCaO6TYtlC8U5ttz62hTrZgg',
   '1theK': 'UCweOkPb1wVVH0Q0Tlj4a5Pw',
+  BLACKPINK: 'UCOmHUn--16B90oW2L6FRR3A',
 }
 
 const log = (...a) => console.log(`[${new Date().toISOString().slice(0, 19).replace('T', ' ')}]`, ...a)
@@ -79,10 +79,10 @@ const TYPE_MAP = { album: 'album', ep: 'ep', single: 'song' }
 
 function inWindow(releaseDate) {
   const days = (Date.now() - Date.parse(releaseDate)) / 86400e3
-  return days <= WINDOW_DAYS + 0.5 // half-day slack: sources date in local storefront time
+  return days <= WINDOW_DAYS + 0.5
 }
 
-// ---------- source steps ----------
+// ---------- Deezer (spine + kpop chart supplement) ----------
 
 async function fetchSpine(genreId) {
   const out = []
@@ -96,8 +96,13 @@ async function fetchSpine(genreId) {
   return out
 }
 
-async function albumDetail(release) {
-  const d = await getJSON(`https://api.deezer.com/album/${release.id}`)
+async function fetchChartAlbums(genreId) {
+  const data = await getJSON(`https://api.deezer.com/chart/${genreId}/albums?limit=25`)
+  return data.data ?? []
+}
+
+async function albumDetail(id) {
+  const d = await getJSON(`https://api.deezer.com/album/${id}`)
   return {
     title: d.title,
     artist: d.artist?.name ?? '?',
@@ -107,27 +112,32 @@ async function albumDetail(release) {
   }
 }
 
+// ---------- iTunes Search (Apple link + genre) ----------
+
+// Loose-but-anchored matching (the spike's exact-equality left 54% unlinked):
+// artist must contain or be contained by the wanted artist, ditto title.
+const contains = (a, b) => a.length > 0 && b.length > 0 && (a.includes(b) || b.includes(a))
+
 async function itunesLookup(release, country) {
   const term = encodeURIComponent(`${release.artist} ${normTitle(release.title)}`)
   const entity = release.type === 'song' ? 'album,song' : 'album'
   const data = await getJSON(
-    `https://itunes.apple.com/search?term=${term}&entity=${entity}&country=${country}&limit=5`
+    `https://itunes.apple.com/search?term=${term}&entity=${entity}&country=${country}&limit=8`
   )
   const wantArtist = normArtist(release.artist)
   const wantTitle = normTitle(release.title)
   for (const r of data.results ?? []) {
-    const name = r.collectionName ?? r.trackName ?? ''
-    if (
-      normArtist(r.artistName ?? '') === wantArtist &&
-      (normTitle(name) === wantTitle || normTitle(name).startsWith(wantTitle))
-    ) {
+    const name = normTitle(r.collectionName ?? r.trackName ?? '')
+    if (contains(normArtist(r.artistName ?? ''), wantArtist) && contains(name, wantTitle)) {
       return { apple_url: r.collectionViewUrl ?? r.trackViewUrl ?? null, genre: r.primaryGenreName ?? null }
     }
   }
   return { apple_url: null, genre: null }
 }
 
-async function fetchChart(storefront) {
+// ---------- Apple most-played chart (badge) ----------
+
+async function fetchAppleChart(storefront) {
   const data = await getJSON(
     `https://rss.marketingtools.apple.com/api/v2/${storefront}/music/most-played/50/albums.json`
   )
@@ -138,21 +148,74 @@ async function fetchChart(storefront) {
   }))
 }
 
+// ---------- YouTube label channels (MV-derived songs + link fallback) ----------
+
 async function fetchChannelVideos(channelId) {
   const xml = await getText(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`)
   return [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map((m) => {
-    const title = (m[1].match(/<title>([\s\S]*?)<\/title>/) ?? [])[1] ?? ''
+    const title = ((m[1].match(/<title>([\s\S]*?)<\/title>/) ?? [])[1] ?? '')
+      .replace(/&amp;/g, '&').replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"')
     const id = (m[1].match(/<yt:videoId>(.*?)<\/yt:videoId>/) ?? [])[1] ?? ''
-    return { title, url: `https://www.youtube.com/watch?v=${id}` }
+    const published = (m[1].match(/<published>(.*?)<\/published>/) ?? [])[1] ?? ''
+    const thumb = (m[1].match(/<media:thumbnail url="([^"]+)"/) ?? [])[1] ?? ''
+    return { title, url: `https://www.youtube.com/watch?v=${id}`, published, thumb }
   })
+}
+
+const MV_RE = /\b(MV|M\/V|Official (Music )?Video)\b/i
+const NOT_A_RELEASE_RE = /teaser|trailer|performance|practice|behind|live clip|lyric|visualizer|sped up|special (video|clip)|dance|recap|cam\b/i
+
+// "RYEOWOOK 려욱 'Runaway' MV" / "Stray Kids "Chk Chk Boom" M/V" / "[MV] MAMAMOO(마마무) _ HIP"
+function parseMvTitle(raw) {
+  // NFKC: labels stylize titles with math-bold Unicode (𝗩𝟴 → V8)
+  const t = raw.normalize('NFKC').replace(/^\[MV\]\s*/i, '')
+  const quoted = t.match(/['‘"“]([^'’"”]{1,60})['’"”]/)
+  if (quoted) {
+    const artist = t
+      .slice(0, quoted.index)
+      .replace(/[([][^)\]]*[)\]]/g, '') // parenthesized Hangul names
+      .replace(/[ᄀ-ᇿ㄰-㆏가-힯]+/g, '') // bare Hangul
+      .replace(/\s+/g, ' ')
+      .trim()
+    if (artist) return { artist, title: quoted[1].trim() }
+  }
+  const underscore = t.match(/^(.*?)\s+_\s+(.{1,60}?)(\s*\(.*\))?$/) // 1theK style
+  if (underscore) {
+    const artist = underscore[1].replace(/[([][^)\]]*[)\]]/g, '').trim()
+    if (artist) return { artist, title: underscore[2].trim() }
+  }
+  return null
+}
+
+function mvDerivedSongs(videos) {
+  const out = []
+  for (const v of videos) {
+    if (!MV_RE.test(v.title) || NOT_A_RELEASE_RE.test(v.title)) continue
+    if (!v.published || !inWindow(v.published)) continue
+    const parsed = parseMvTitle(v.title)
+    if (!parsed) {
+      log(`mv parse failed, skipping: "${v.title}"`)
+      continue
+    }
+    out.push({
+      title: parsed.title,
+      artist: parsed.artist,
+      type: 'song',
+      release_date: v.published.slice(0, 10),
+      artwork: v.thumb,
+      link: { service: 'youtube', url: v.url }, // upgraded to Apple Music if iTunes matches
+      _src: 'mv',
+    })
+  }
+  return out
 }
 
 function matchVideo(release, videos) {
   const t = normTitle(release.title)
-  if (t.length < 3) return null // too short to match safely
+  if (t.length < 3) return null
   const candidates = videos.filter((v) => normTitle(v.title).includes(t))
   if (release.type === 'song') {
-    const mv = candidates.find((v) => /\bmv\b|music video/i.test(v.title))
+    const mv = candidates.find((v) => MV_RE.test(v.title))
     if (mv) return mv.url
   }
   const a = normArtist(release.artist)
@@ -163,14 +226,28 @@ function matchVideo(release, videos) {
 // ---------- per-scene pipeline ----------
 
 async function buildScene(scene, videos) {
+  // 1. entries from the spine…
   const spine = await fetchSpine(scene.deezerGenre)
-  const fresh = spine.filter((r) => r.release_date && inWindow(r.release_date))
+  let fresh = spine.filter((r) => r.release_date && inWindow(r.release_date))
   log(`${scene.id}: ${spine.length} editorial releases, ${fresh.length} in window`)
+
+  // …plus, for kpop, chart albums (recency unknown until the detail call)
+  if (scene.id === 'kpop') {
+    try {
+      const chartAlbums = await fetchChartAlbums(scene.deezerGenre)
+      const known = new Set(fresh.map((r) => r.id))
+      fresh = fresh.concat(chartAlbums.filter((a) => !known.has(a.id)))
+      await pause()
+    } catch (e) {
+      log(`kpop: chart supplement failed: ${e.message}`)
+    }
+  }
 
   const releases = []
   for (const item of fresh) {
     try {
-      const r = await albumDetail(item)
+      const r = await albumDetail(item.id)
+      if (!r.release_date || !inWindow(r.release_date)) continue // stale chart albums
       if (NOISE_RE.test(r.title)) {
         log(`${scene.id}: dropped noise "${r.artist} — ${r.title}"`)
       } else {
@@ -182,20 +259,30 @@ async function buildScene(scene, videos) {
     await pause()
   }
 
+  // …plus, for kpop, songs derived from fresh label-channel MV uploads
+  if (scene.id === 'kpop') {
+    const derived = mvDerivedSongs(videos)
+    log(`kpop: ${derived.length} MV-derived songs`)
+    releases.push(...derived)
+  }
+
   // canonical-key dedup (type is in the key: same-titled song + album both survive)
   const byKey = new Map()
   for (const r of releases) {
     const k = keyOf(r)
     const prev = byKey.get(k)
     if (prev) {
-      log(`${scene.id}: deduped "${r.title}" into "${prev.title}"`)
+      log(`${scene.id}: deduped "${r.title}" (${r._src ?? 'deezer'}) into existing entry`)
       if (r.release_date < prev.release_date) prev.release_date = r.release_date
+      if (!prev.artwork && r.artwork) prev.artwork = r.artwork
+      if (!prev.link && r.link) prev.link = r.link
     } else {
       byKey.set(k, r)
     }
   }
   let out = [...byKey.values()]
 
+  // iTunes: Apple Music link (top of the priority chain) + genre
   for (const r of out) {
     try {
       const { apple_url, genre } = await itunesLookup(r, scene.storefront)
@@ -207,16 +294,17 @@ async function buildScene(scene, videos) {
     await pause()
   }
 
-  // kpop = Asian Music editorial minus releases iTunes says are NOT Korean
+  // kpop = Asian editorial minus releases iTunes says are NOT Korean.
+  // MV-derived entries are definitionally kpop (they came from kpop label channels).
   if (scene.id === 'kpop') {
     const before = out.length
-    out = out.filter((r) => !r._genre || /k-?pop|korean/i.test(r._genre))
+    out = out.filter((r) => r._src === 'mv' || !r._genre || /k-?pop|korean/i.test(r._genre))
     if (before !== out.length) log(`kpop: filtered out ${before - out.length} non-K-Pop releases`)
   }
-  for (const r of out) delete r._genre
 
+  // chart badge
   try {
-    const chart = await fetchChart(scene.storefront)
+    const chart = await fetchAppleChart(scene.storefront)
     for (const r of out) {
       const a = normArtist(r.artist)
       const t = normTitle(r.title)
@@ -229,7 +317,21 @@ async function buildScene(scene, videos) {
     log(`${scene.id}: chart fetch failed (badges skipped): ${e.message}`)
   }
 
-  // YouTube fallback for whatever Apple didn't cover (kpop channels only for now)
+  // pop curation: the Pop editorial is a global firehose (Maghreb Rai, Afro-Pop,
+  // regional releases r/popheads would never surface). Keep a release when it
+  // charts, or when its iTunes US genre is in the mainstream-pop family. No
+  // iTunes match at all → drop (verified: US catalog carries the regional
+  // releases too, so "has a match" alone isn't selective).
+  if (scene.id === 'pop') {
+    const GENRE_OK = /^(pop|dance|electronic|r&b\/soul|hip-hop\/rap|alternative|rock|country|singer\/songwriter|soundtrack|indie)/i
+    const keep = (r) => r.charting || (r._genre && GENRE_OK.test(r._genre))
+    const dropped = out.filter((r) => !keep(r))
+    out = out.filter(keep)
+    if (dropped.length)
+      log(`pop: dropped ${dropped.length} non-mainstream releases: ${dropped.map((r) => `${r.artist} — ${r.title} [${r._genre ?? 'no match'}]`).join('; ')}`)
+  }
+
+  // YouTube link fallback for anything still unlinked (kpop channels only for now)
   if (scene.id === 'kpop' && videos.length) {
     for (const r of out) {
       if (!r.link) {
@@ -239,6 +341,10 @@ async function buildScene(scene, videos) {
     }
   }
 
+  for (const r of out) {
+    delete r._genre
+    delete r._src
+  }
   out.sort(
     (a, b) => b.release_date.localeCompare(a.release_date) || a.artist.localeCompare(b.artist)
   )
@@ -247,13 +353,17 @@ async function buildScene(scene, videos) {
 
 // ---------- main ----------
 
+const SCENES = [
+  { id: 'kpop', deezerGenre: 16, storefront: 'kr', chart: 'KR' },
+  { id: 'pop', deezerGenre: 132, storefront: 'us', chart: 'US' },
+]
+
 let videos = []
 for (const [name, id] of Object.entries(KPOP_CHANNELS)) {
   try {
-    const v = await fetchChannelVideos(id)
-    videos.push(...v)
+    videos.push(...(await fetchChannelVideos(id)))
   } catch (e) {
-    log(`channel feed ${name} failed (fallback links reduced): ${e.message}`)
+    log(`channel feed ${name} failed (MV-derived entries reduced): ${e.message}`)
   }
   await pause()
 }
