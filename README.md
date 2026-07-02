@@ -15,8 +15,7 @@ ranks your local Music.app library to help seed the preferred list.
   run once daily at 18:15 KST by launchd via `scripts/update.sh --if-stale`.
   The nightly commit also sweeps up `config/` changes, so preference edits are
   backed up automatically.
-- Manual refresh: double-click `refresh.command`.
-- Edit preferences (preferred/blocked artists + genres): double-click `prefs.command` → local editor at http://localhost:4747 with a Deezer artist picker.
+- Edit preferences or refresh manually: double-click `prefs.command` → local editor at http://localhost:4747 (Deezer artist picker, Refresh-now button).
 - Logs: `~/Library/Logs/new-music-radar.log`
 
 ## Set up on a new device (macOS)
