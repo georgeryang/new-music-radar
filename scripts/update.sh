@@ -38,7 +38,7 @@ if [ "${1:-}" = "--if-stale" ]; then
     exit 0  # silent: ticks run every 10 min, logging each skip would flood the log
   fi
   # Jitter 0-7 min so the fetch never lands at a machine-regular moment.
-  # Manual runs (refresh.command) skip this branch entirely.
+  # Manual runs (prefs.command's Refresh-now) skip this branch entirely.
   JITTER=$((RANDOM % 420))
   log "Last fetch predates the 18:15 KST slot — refreshing in ${JITTER}s"
   sleep "$JITTER"
