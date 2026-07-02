@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1783026715194,
+  "fetched_at": 1783027083278,
   "releases": [
     {
       "title": "In Lof",
@@ -50,45 +50,6 @@
       "link": {
         "service": "apple",
         "url": "https://music.apple.com/us/album/iconic-by-mistake-alternate-cover-katseye-version-single/6784795326?uo=4"
-      },
-      "preferred": true
-    },
-    {
-      "title": "ICONIC BY MISTAKE (Alternate Cover ILLIT Version)",
-      "artist": "LE SSERAFIM, ILLIT & KATSEYE",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bb/69/77/bb69779d-65fd-675a-2d88-c7a94af10c3a/823375267201_Cover.jpg/300x300bb.jpg",
-      "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/iconic-by-mistake-alternate-cover-illit-version-single/6784794784?uo=4"
-      },
-      "preferred": true
-    },
-    {
-      "title": "ICONIC BY MISTAKE (Alternate Cover Group Version)",
-      "artist": "LE SSERAFIM, ILLIT & KATSEYE",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/20/45/bb/2045bbea-b0ec-f073-3336-5fb458cd3aa3/823375267164_Cover.jpg/300x300bb.jpg",
-      "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/iconic-by-mistake-alternate-cover-group-version-single/6784794388?uo=4"
-      },
-      "preferred": true
-    },
-    {
-      "title": "ICONIC BY MISTAKE (Alternate Cover LE SSERAFIM Version)",
-      "artist": "LE SSERAFIM, ILLIT & KATSEYE",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9b/18/2d/9b182d7a-a536-bd3d-22ea-458dc99bae9e/823375267188_Cover.jpg/300x300bb.jpg",
-      "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/iconic-by-mistake-alternate-cover-le-sserafim-version/6784793834?uo=4"
       },
       "preferred": true
     },
