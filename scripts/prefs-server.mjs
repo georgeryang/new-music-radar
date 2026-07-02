@@ -161,6 +161,12 @@ const PAGE = /* html */ `<!doctype html>
   .results .fans { margin-left: auto; color: var(--muted); font-size: 11.5px; white-space: nowrap; }
   footer { position: fixed; bottom: 0; left: 0; right: 0; background: Canvas; border-top: 1px solid var(--border); padding: 10px 16px; display: flex; gap: 8px; align-items: center; justify-content: center; }
   footer .status { font-size: 12px; color: var(--muted); margin-right: auto; max-width: 40%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #banner { position: fixed; bottom: 56px; left: 0; right: 0; text-align: center; font-size: 13px; padding: 9px 16px; }
+  #banner.running { background: #fef3c7; color: #78350f; }
+  #banner.ok { background: #dcfce7; color: #14532d; }
+  #banner.bad { background: #fee2e2; color: #7f1d1d; }
+  @keyframes pulse { 50% { opacity: .55; } }
+  #banner.running .dot { display: inline-block; animation: pulse 1.2s infinite; }
   button.btn { font: inherit; font-size: 13px; padding: 7px 16px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: inherit; cursor: pointer; }
   button.btn.primary { background: var(--accent); color: Canvas; border-color: var(--accent); }
   button.btn:disabled { opacity: .45; cursor: default; }
@@ -168,14 +174,15 @@ const PAGE = /* html */ `<!doctype html>
 </head>
 <body>
 <header><h1>Preferences</h1><a href="" id="site-link" target="_blank" rel="noopener noreferrer">Open radar →</a></header>
-<p class="hint">Edits config/preferences.json. Changes apply at tonight's fetch, or use Refresh now (~15 min).</p>
+<p class="hint">Edits config/preferences.json. Save keeps changes for tonight's fetch; Refresh now saves and fetches immediately (~5–10 min).</p>
 <div id="sections"></div>
 <datalist id="genre-dl"></datalist>
+<div id="banner" hidden></div>
 <footer>
   <span class="status" id="status"></span>
-  <button class="btn" id="refresh">Refresh now</button>
   <button class="btn" id="quit">Quit</button>
-  <button class="btn primary" id="save" disabled>Save</button>
+  <button class="btn" id="save" disabled>Save</button>
+  <button class="btn primary" id="refresh">Save &amp; Refresh</button>
 </footer>
 <script>
 let prefs, dirty = false
@@ -271,28 +278,59 @@ function makeAdder(s) {
   return wrap
 }
 
+let wasRunning = false
+function setBanner(cls, text) {
+  const b = $('banner')
+  b.hidden = !cls
+  b.className = cls ?? ''
+  b.replaceChildren()
+  if (cls === 'running') {
+    const dot = document.createElement('span')
+    dot.className = 'dot'
+    dot.textContent = '●\\u2009'
+    b.appendChild(dot)
+  }
+  b.appendChild(document.createTextNode(text ?? ''))
+}
+
 async function poll() {
   const st = await fetch('/api/status').then((r) => r.json()).catch(() => null)
   if (st) {
     $('refresh').disabled = st.running
-    $('status').textContent = st.running ? (st.log.at(-1) ?? 'Refreshing…') : (st.log.at(-1) ?? '')
+    $('refresh').textContent = st.running ? 'Refreshing…' : 'Save & Refresh'
+    $('quit').disabled = st.running // refresh runs inside this server — quitting would kill it
+    $('status').textContent = st.log.at(-1) ?? ''
     $('status').title = st.log.join('\\n')
+    if (st.running) {
+      setBanner('running', 'Refreshing — takes a few minutes. Keep this window and its Terminal open; Quit is disabled until it finishes.')
+    } else if (wasRunning) {
+      const ok = st.log.some((l) => l.includes('exit 0'))
+      setBanner(ok ? 'ok' : 'bad', ok
+        ? 'Refresh complete — the site shows the new data within a minute.'
+        : 'Refresh finished with errors — hover the status text for the log.')
+    }
+    wasRunning = st.running
   }
   setTimeout(poll, st?.running ? 2000 : 10000)
 }
 
-$('save').onclick = async () => {
+async function save() {
   const r = await fetch('/api/prefs', { method: 'POST', body: JSON.stringify(prefs) })
   if (r.ok) { dirty = false; $('save').disabled = true; $('status').textContent = 'Saved.' }
   else $('status').textContent = 'Save failed: ' + (await r.json()).error
+  return r.ok
 }
+$('save').onclick = save
+// Primary action: saves any pending edits, then fetches with them.
 $('refresh').onclick = async () => {
-  if (dirty && !confirm('You have unsaved changes — refresh with the OLD saved preferences?')) return
+  if (dirty && !(await save())) return
+  setBanner('running', 'Starting refresh…')
   await fetch('/api/refresh', { method: 'POST' })
+  wasRunning = true
   poll()
 }
 $('quit').onclick = async () => { await fetch('/api/quit', { method: 'POST' }); document.body.innerHTML = '<p style="padding:40px;text-align:center">Server stopped — you can close this tab.</p>' }
-window.onbeforeunload = () => (dirty ? true : undefined)
+window.onbeforeunload = () => (dirty || wasRunning ? true : undefined)
 
 fetch('/api/prefs').then((r) => r.json()).then((p) => {
   prefs = { artists: p.artists, genres: p.genres }

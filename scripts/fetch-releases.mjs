@@ -42,7 +42,11 @@ const KPOP_CHANNELS = {
 const log = (...a) => console.log(`[${new Date().toISOString().slice(0, 19).replace('T', ' ')}]`, ...a)
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 // Sequential requests with jitter — burst patterns are what got v1 throttled.
-const pause = () => sleep(800 + Math.random() * 1900)
+// Pacing is per-host: Deezer's documented quota is 50 req/5s so short gaps are
+// safe; iTunes Search is the touchy one (~20/min unofficial); feeds in between.
+const pauseDeezer = () => sleep(200 + Math.random() * 300)
+const pauseItunes = () => sleep(2500 + Math.random() * 1500)
+const pauseFeed = () => sleep(500 + Math.random() * 700)
 
 async function getJSON(url) {
   const res = await fetch(url, { headers: { 'User-Agent': UA } })
@@ -141,7 +145,7 @@ async function fetchEditorial(genreId) {
     const page = await getJSON(url)
     out.push(...(page.data ?? []))
     url = page.next ?? null
-    await pause()
+    await pauseDeezer()
   }
   return out
 }
@@ -160,28 +164,39 @@ async function albumDetail(id) {
 // Direct discography check for a preferred artist — the never-miss path.
 // Entries are "Name" strings (hand-edited) or {name, id} objects (added via
 // the prefs editor's Deezer picker — the id removes same-name ambiguity).
+// Hand-typed names are resolved once and cached (config/artist-cache.json),
+// so the nightly cost is one request per artist and the resolved identity is
+// stable across runs. Delete a cache line to force re-resolution.
+const CACHE_PATH = new URL('../config/artist-cache.json', import.meta.url)
+let artistCache = {}
+try {
+  artistCache = JSON.parse(readFileSync(CACHE_PATH, 'utf8'))
+} catch {}
+let cacheDirty = false
+
 async function preferredArtistReleases(entry) {
-  let artist
-  if (entry.id) {
-    artist = await getJSON(`https://api.deezer.com/artist/${entry.id}`)
-  } else {
+  let { name, id } = entry
+  const key = normArtist(entry.name)
+  if (!id && artistCache[key]) ({ id, name } = artistCache[key])
+  if (!id) {
     const search = await getJSON(`https://api.deezer.com/search/artist?q=${encodeURIComponent(entry.name)}&limit=5`)
-    const want = normArtist(entry.name)
     // Generic names ("Nina", "Effie") exact-match multiple Deezer artists —
     // take the most-followed one, and skip no-audience matches entirely.
-    artist = (search.data ?? [])
-      .filter((a) => normArtist(a.name) === want)
+    const artist = (search.data ?? [])
+      .filter((a) => normArtist(a.name) === key)
       .sort((a, b) => (b.nb_fan ?? 0) - (a.nb_fan ?? 0))[0]
-    if (artist && (artist.nb_fan ?? 0) < 100) artist = null
+    if (!artist || (artist.nb_fan ?? 0) < 100) return []
+    ;({ id, name } = artist)
+    artistCache[key] = { id, name }
+    cacheDirty = true
+    await pauseDeezer()
   }
-  if (!artist?.id) return []
-  await pause()
-  const albums = await getJSON(`https://api.deezer.com/artist/${artist.id}/albums?limit=30`)
+  const albums = await getJSON(`https://api.deezer.com/artist/${id}/albums?limit=30`)
   return (albums.data ?? [])
     .filter((a) => a.release_date && inWindow(a.release_date))
     .map((a) => ({
       title: a.title,
-      artist: artist.name,
+      artist: name,
       type: TYPE_MAP[a.record_type] ?? 'album',
       release_date: a.release_date,
       artwork: a.cover_medium ?? '',
@@ -225,7 +240,7 @@ async function itunesLookup(release) {
   const home = release._kr ? 'kr' : 'us'
   const hit = await itunesLookupOnce(release, home)
   if (hit) return hit
-  await pause()
+  await pauseItunes()
   return (await itunesLookupOnce(release, home === 'kr' ? 'us' : 'kr')) ?? { apple_url: null, genre: null }
 }
 
@@ -341,8 +356,9 @@ for (const entry of PREFERRED_ENTRIES) {
   } catch (e) {
     log(`preferred lookup failed for "${entry.name}": ${e.message}`)
   }
-  await pause()
+  await pauseDeezer()
 }
+if (cacheDirty) writeFileSync(CACHE_PATH, JSON.stringify(artistCache, null, 2) + '\n')
 log(`${preferredCount} releases via preferred artists`)
 
 // PRIMARY 2: kpop label-channel MV uploads (same-day)
@@ -354,7 +370,7 @@ for (const [name, id] of Object.entries(KPOP_CHANNELS)) {
     anyFailed = true
     log(`channel feed ${name} failed (MV-derived entries reduced): ${e.message}`)
   }
-  await pause()
+  await pauseFeed()
 }
 const derived = mvDerivedSongs(videos)
 log(`${derived.length} MV-derived songs`)
@@ -380,7 +396,7 @@ for (const [name, genreId] of Object.entries(PREFS.editorials ?? {})) {
       } catch (e) {
         log(`album detail failed for ${item.id}: ${e.message}`)
       }
-      await pause()
+      await pauseDeezer()
     }
   } catch (e) {
     anyFailed = true
@@ -429,7 +445,7 @@ for (const r of out) {
     else if (r._src === 'editorial:Asian') r.genre = 'Asian'
     else r.genre = null
   }
-  await pause()
+  await pauseItunes()
 }
 
 // charting badge (one KR + one US fetch total)
