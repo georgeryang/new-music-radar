@@ -68,7 +68,8 @@ function inWindow(releaseDate) {
 
 // iTunes encodes type in the collection name; strip it for display.
 const typeOfName = (name) => (/- single\s*$/i.test(name) ? 'song' : /- ep\s*$/i.test(name) ? 'ep' : 'album')
-const displayTitle = (name) => name.replace(/\s*-\s*(Single|EP)\s*$/i, '').trim()
+const displayTitle = (name) =>
+  name.replace(/\s*-\s*(Single|EP)\s*$/i, '').replace(/\s*\(alternate cover[^)]*\)\s*$/i, '').trim()
 // artworkUrl100 URLs embed their size — request a card-sized variant instead.
 const artUrl = (u) => (u ? u.replace('100x100', '300x300') : '')
 
