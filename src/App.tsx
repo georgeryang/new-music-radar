@@ -40,13 +40,14 @@ export default function App() {
   // Fetcher pre-sorts (preferred artist → preferred genre → date desc); the
   // data file holds a wider window (3 days) than the 36h display trim. A
   // heavy day always shows every fresh release — the floor never trims. A
-  // quiet day backfills top-ranked older releases from the wider window up to
-  // daily_min (config display.daily_min); fewer in the file than the floor
-  // just shows them all, and an empty file shows the empty state.
+  // quiet day backfills older discovery releases from the wider window up to
+  // daily_min (config display.daily_min) — never preferred artists, whose
+  // releases only ever show while fresh (a resurfaced follow-list card reads
+  // as stale). An unmet floor is fine: no releases means an empty page.
   const all = data?.releases ?? []
   const freshSet = new Set(all.filter((r) => isFresh(r.release_date, 36)))
   const need = Math.max(0, (data?.daily_min ?? 0) - freshSet.size)
-  const extras = new Set(all.filter((r) => !freshSet.has(r)).slice(0, need))
+  const extras = new Set(all.filter((r) => !freshSet.has(r) && !r.preferred).slice(0, need))
   const releases = all.filter((r) => freshSet.has(r) || extras.has(r))
 
   return (
