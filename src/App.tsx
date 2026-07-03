@@ -38,8 +38,16 @@ export default function App() {
   }, [])
 
   // Fetcher pre-sorts (preferred artist → preferred genre → date desc); the
-  // data file holds a wider window than we show — display trims to 36 hours.
-  const releases = (data?.releases ?? []).filter((r) => isFresh(r.release_date, 36))
+  // data file holds a wider window (3 days) than the 36h display trim. A
+  // heavy day always shows every fresh release — the floor never trims. A
+  // quiet day backfills top-ranked older releases from the wider window up to
+  // daily_min (config display.daily_min); fewer in the file than the floor
+  // just shows them all, and an empty file shows the empty state.
+  const all = data?.releases ?? []
+  const freshSet = new Set(all.filter((r) => isFresh(r.release_date, 36)))
+  const need = Math.max(0, (data?.daily_min ?? 0) - freshSet.size)
+  const extras = new Set(all.filter((r) => !freshSet.has(r)).slice(0, need))
+  const releases = all.filter((r) => freshSet.has(r) || extras.has(r))
 
   return (
     <div className="mx-auto max-w-3xl px-4 pt-6 pb-12">

@@ -14,7 +14,7 @@
 //
 // Filter precedence per release:
 //   artist blocked → drop | artist preferred → keep | genre blocked → drop |
-//   genre preferred → keep | else keep if charting or genre is known.
+//   genre preferred → keep | else drop (chart discovery sticks to preferred genres).
 //
 // Exit codes: 0 = clean run, 2 = a source failed (partial data published).
 
@@ -80,29 +80,35 @@ const displayTitle = (name) =>
 // artworkUrl100 URLs embed their size — 400x400 covers the 4-up grid on
 // retina screens (~170px CSS cards).
 const artUrl = (u) => (u ? u.replace('100x100', '400x400') : '')
+// Always link the US storefront — KR-sourced entries otherwise carry
+// music.apple.com/kr/ URLs. A same-day KR-only release can 404 on US for a
+// few hours until the catalog propagates; acceptable per config intent.
+const usLink = (u) => (u ? u.replace(/(music|itunes)\.apple\.com\/[a-z]{2}\//, '$1.apple.com/us/') : '')
 
 // ---------- genre canonicalization ----------
 
 // iTunes primaryGenreName → the canonical tag shown on cards and matched by
 // config genres.preferred / genres.blocked. Unmapped names pass through as-is
 // so new iTunes genres are still visible/blockable.
+// Korean aliases cover the KR chart feed / storefront, which localizes genre
+// labels (힙합/랩) — the fallback path when a release has no US catalog entry.
 const GENRE_MAP = [
-  [/k-?pop|korean/i, 'K-pop'],
+  [/k-?pop|korean|케이팝/i, 'K-pop'],
   [/mandopop|cantopop|c-?pop|chinese/i, 'C-pop'],
   [/j-?pop|japan|anime/i, 'J-pop'],
   [/opm|pinoy|philippin/i, 'OPM'],
   [/vietnam/i, 'V-pop'],
   [/thai/i, 'Thai pop'],
   [/afro/i, 'Afrobeats'],
-  [/r&b|soul/i, 'R&B'],
+  [/r&b|soul|알앤비|소울/i, 'R&B'],
   [/latin|reggaeton|urbano|banda|regional mexicano|salsa|cumbia/i, 'Latin'],
-  [/dance|electronic|house|techno/i, 'Dance'],
-  [/hip-?hop|rap/i, 'Hip-Hop'],
+  [/dance|electronic|house|techno|댄스|일렉트로닉/i, 'Dance'],
+  [/hip-?hop|rap|힙합|랩/i, 'Hip-Hop'],
   [/alternative|indie/i, 'Alternative'],
-  [/rock|metal|punk/i, 'Rock'],
+  [/rock|metal|punk|록|메탈/i, 'Rock'],
   [/country/i, 'Country'],
-  [/soundtrack|tv|film/i, 'OST'],
-  [/^pop$|worldwide|singer/i, 'Pop'],
+  [/soundtrack|tv|film|사운드트랙/i, 'OST'],
+  [/^pop$|worldwide|singer|^팝$/i, 'Pop'],
 ]
 
 function canonGenre(itunesGenre) {
@@ -193,7 +199,7 @@ async function artistReleases(entry) {
         release_date: a.releaseDate.slice(0, 10),
         artwork: artUrl(a.artworkUrl100),
         genre: canonGenre(a.primaryGenreName),
-        link: a.collectionViewUrl ? { service: 'apple', url: a.collectionViewUrl } : undefined,
+        link: a.collectionViewUrl ? { service: 'apple', url: usLink(a.collectionViewUrl) } : undefined,
       }))
     }
     await pauseItunes()
@@ -250,17 +256,29 @@ for (const storefront of ['kr', 'us']) {
 for (const c of charts) {
   for (const { rank, entry: e } of c.list) {
     if (!e.releaseDate || !inWindow(e.releaseDate)) continue
-    const genreName = (e.genres ?? []).map((g) => g.name).find((n) => n && n !== 'Music') ?? null
+    // KR feed genre labels are Korean-localized ("힙합/랩") — only a fallback
+    // for when the US lookup below finds no catalog entry.
+    let genreName = (e.genres ?? []).map((g) => g.name).find((n) => n && n !== 'Music') ?? null
     // The chart feed lacks trackCount; look it up so classify() agrees with
     // the artist path — a type mismatch would split the dedup key and show
-    // the same release twice. In-window chart entries are few, so this is
-    // at most a handful of extra calls.
+    // the same release twice. US storefront first: it carries the English
+    // genre labels that GENRE_MAP and the config genre lists match against.
+    // In-window chart entries are few, so this is a handful of extra calls.
     let trackCount
-    try {
-      const d = await getJSON(`https://itunes.apple.com/lookup?id=${e.id}&country=${c.storefront.toLowerCase()}`)
-      trackCount = d.results?.[0]?.trackCount
-    } catch {}
-    await pauseItunes()
+    let viewUrl = e.url
+    for (const country of c.storefront === 'US' ? ['us'] : ['us', c.storefront.toLowerCase()]) {
+      let hit
+      try {
+        hit = (await getJSON(`https://itunes.apple.com/lookup?id=${e.id}&country=${country}`)).results?.[0]
+      } catch {}
+      await pauseItunes()
+      if (hit) {
+        trackCount = hit.trackCount
+        if (hit.primaryGenreName) genreName = hit.primaryGenreName
+        if (hit.collectionViewUrl) viewUrl = hit.collectionViewUrl
+        break
+      }
+    }
     releases.push({
       title: displayTitle(e.name),
       artist: e.artistName,
@@ -268,7 +286,7 @@ for (const c of charts) {
       release_date: e.releaseDate,
       artwork: artUrl(e.artworkUrl100),
       genre: canonGenre(genreName),
-      link: e.url ? { service: 'apple', url: e.url } : undefined,
+      link: viewUrl ? { service: 'apple', url: usLink(viewUrl) } : undefined,
       charting: { storefront: c.storefront, rank },
     })
   }
@@ -319,15 +337,15 @@ for (const r of out) {
 }
 
 // filter precedence: artist block > artist prefer > genre block > genre prefer
-// > neutral (needs charting or a known genre)
+// > drop. Chart discovery only surfaces preferred genres; a preferred artist
+// bypasses genre rules entirely.
 const before = out.length
 out = out.filter((r) => {
   if (isArtistBlocked(r.artist)) return logDrop(r, 'artist blocked')
   if (r.preferred) return true
   if (isGenreBlocked(r.genre)) return logDrop(r, `genre blocked [${r.genre}]`)
   if (isGenrePreferred(r.genre)) return true
-  if (r.charting || r.genre) return true
-  return logDrop(r, 'no genre, not charting')
+  return logDrop(r, `genre not preferred [${r.genre ?? 'none'}]`)
 })
 function logDrop(r, why) {
   log(`dropped: ${r.artist} — ${r.title} (${why})`)
@@ -360,6 +378,9 @@ if (out.length === 0) {
 }
 
 mkdirSync(new URL('../docs/data/', import.meta.url), { recursive: true })
-writeFileSync(OUT, JSON.stringify({ fetched_at: Date.now(), releases: out }, null, 2))
+// daily_min rides along so the frontend can apply the display floor without
+// reading config (config/ isn't served by Pages; docs/data is).
+const dailyMin = Number(PREFS.display?.daily_min) || null
+writeFileSync(OUT, JSON.stringify({ fetched_at: Date.now(), daily_min: dailyMin, releases: out }, null, 2))
 log(`wrote ${out.length} releases`)
 process.exit(anyFailed ? 2 : 0)
