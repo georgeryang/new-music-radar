@@ -1,5 +1,6 @@
 {
-  "fetched_at": 1783084699216,
+  "fetched_at": 1783096532908,
+  "daily_min": 8,
   "releases": [
     {
       "title": "In Lof",
@@ -67,6 +68,22 @@
       "preferred": true
     },
     {
+      "title": "SWAG LIVE FROM COACHELLA (Weekend II)",
+      "artist": "Justin Bieber",
+      "type": "album",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2a/0d/78/2a0d7836-a689-3467-56fd-30a09c1460ec/ticket.hptwlacf.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/us/album/swag-live-from-coachella-weekend-ii/6786441259?uo=4"
+      },
+      "charting": {
+        "storefront": "KR",
+        "rank": 47
+      }
+    },
+    {
       "title": "CONFESSIONS II",
       "artist": "Madonna",
       "type": "album",
@@ -75,43 +92,27 @@
       "genre": "Pop",
       "link": {
         "service": "apple",
-        "url": "https://music.apple.com/us/album/confessions-ii/1892545087"
-      },
-      "charting": {
-        "storefront": "US",
-        "rank": 18
-      }
-    },
-    {
-      "title": "xperiment",
-      "artist": "Ken Carson",
-      "type": "album",
-      "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f7/46/25/f746256d-c827-eb0d-32fe-de246f5553ec/26UMGIM78337.rgb.jpg/400x400bb.jpg",
-      "genre": "힙합/랩",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/kr/album/xperiment/6781478597"
+        "url": "https://music.apple.com/us/album/confessions-ii/1892545087?uo=4"
       },
       "charting": {
         "storefront": "KR",
-        "rank": 6
+        "rank": 44
       }
     },
     {
-      "title": "S.K.A.T.E.",
-      "artist": "Rylo Rodriguez",
+      "title": "Visitor (Deluxe)",
+      "artist": "SIENNA SPIRO",
       "type": "album",
       "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/64/e0/fd/64e0fdb9-9cf4-4e76-7493-cf9403d2dab3/26UMGIM85125.rgb.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f4/e5/61/f4e561f5-3e73-68c7-7ca4-295ac5a063ed/26UMGIM51351.rgb.jpg/400x400bb.jpg",
+      "genre": "Pop",
       "link": {
         "service": "apple",
-        "url": "https://music.apple.com/us/album/s-k-a-t-e/6786552367"
+        "url": "https://music.apple.com/us/album/visitor-deluxe/6769552402?uo=4"
       },
       "charting": {
         "storefront": "US",
-        "rank": 7
+        "rank": 37
       }
     }
   ]
