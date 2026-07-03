@@ -3,9 +3,12 @@
 // the nightly fetch (preferred artists get discography checks + pinning,
 // blocked artists/genres are dropped). Zero deps; launched by prefs.command.
 //
-// Binds 127.0.0.1 only. Writes exactly one hardcoded path (the config file),
-// preserving keys the UI doesn't manage (_comment). The Apple Music artist
-// search is proxied so the browser never talks to a third party.
+// Binds 127.0.0.1 only, and rejects requests whose Host/Origin isn't this
+// server (defeats cross-site POSTs and DNS rebinding from pages you visit
+// while it runs; /api/ping is the one deliberate cross-origin endpoint).
+// Writes exactly one hardcoded path (the config file), preserving keys the
+// UI doesn't manage (_comment). The Apple Music artist search is proxied so
+// the browser never talks to a third party.
 
 import http from 'node:http'
 import { closeSync, openSync, readFileSync, writeFileSync } from 'node:fs'
@@ -26,18 +29,40 @@ const CANON_TAGS = [
 
 const readPrefs = () => JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
+// Newest US release date per artist id, written by the nightly fetch —
+// drives the dormancy hints on preferred-artist chips.
+const ACTIVITY_PATH = new URL('../config/artist-activity.json', import.meta.url)
+const readActivity = () => {
+  try {
+    return JSON.parse(readFileSync(ACTIVITY_PATH, 'utf8'))
+  } catch {
+    return {}
+  }
+}
+
 const isName = (s) => typeof s === 'string' && s.trim().length > 0 && s.length < 200
 // Artist entries: "Name" (hand-typed) or {name, id} (Apple picker — the id
 // pins the exact artist among same-named ones). Genres are plain strings.
 const isArtistList = (v) =>
   Array.isArray(v) && v.every((e) => isName(e) || (e && isName(e.name) && Number.isInteger(e.id)))
 const isStringList = (v) => Array.isArray(v) && v.every(isName)
+// Playlists are {name, url} where url is an Apple Music playlist page —
+// the nightly fetch scrapes exactly these pages, so the shape is enforced.
+const isPlaylistList = (v) =>
+  Array.isArray(v) &&
+  v.every(
+    (e) =>
+      e && isName(e.name) && typeof e.url === 'string' &&
+      /^https:\/\/music\.apple\.com\/[a-z]{2}\/playlist\/[^/]+\/pl\./.test(e.url)
+  )
 
 // "Save & Refresh" — spawns update.sh DETACHED, appending to the same log
 // launchd uses, with a pidfile for liveness. Detached means quitting this
 // server (or closing its Terminal window) cannot kill a running refresh.
 const REFRESH_LOG = `${process.env.HOME}/Library/Logs/new-music-radar.log`
-const PIDFILE = '/tmp/new-music-radar-refresh.pid'
+// Not /tmp: world-writable there, so another local user could plant a pidfile
+// and block refreshes.
+const PIDFILE = `${process.env.HOME}/Library/Logs/new-music-radar-refresh.pid`
 
 function refreshPid() {
   try {
@@ -77,17 +102,28 @@ function json(res, code, body) {
   res.end(JSON.stringify(body))
 }
 
+const HOSTS = new Set([`127.0.0.1:${PORT}`, `localhost:${PORT}`])
+const ORIGINS = new Set([`http://127.0.0.1:${PORT}`, `http://localhost:${PORT}`])
+
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://127.0.0.1:${PORT}`)
   try {
+    if (req.method === 'GET' && url.pathname === '/api/ping') {
+      // The deployed site pings this to decide whether to show its ⚙ link —
+      // the only cross-origin endpoint, and it exposes nothing.
+      res.writeHead(204, { 'Access-Control-Allow-Origin': '*' })
+      return res.end()
+    }
+    // Everything else is same-origin only: Host must be this server (a DNS-
+    // rebound hostname fails this), and any Origin must be ours — a foreign
+    // page can fire no-preflight POSTs at localhost, and without this check
+    // it could rewrite the preference lists or trigger refresh/git-push.
+    if (!HOSTS.has(req.headers.host) || (req.headers.origin && !ORIGINS.has(req.headers.origin))) {
+      return json(res, 403, { error: 'forbidden' })
+    }
     if (req.method === 'GET' && url.pathname === '/') {
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
       res.end(PAGE)
-    } else if (req.method === 'GET' && url.pathname === '/api/ping') {
-      // The deployed site pings this to decide whether to show its ⚙ link —
-      // the only endpoint with CORS, and it exposes nothing.
-      res.writeHead(204, { 'Access-Control-Allow-Origin': '*' })
-      res.end()
     } else if (req.method === 'GET' && url.pathname === '/api/prefs') {
       const p = readPrefs()
       let seen = []
@@ -98,6 +134,8 @@ const server = http.createServer(async (req, res) => {
       json(res, 200, {
         artists: p.artists,
         genres: p.genres,
+        playlists: p.discovery?.playlists ?? [],
+        activity: readActivity(),
         genreOptions: [...new Set([...CANON_TAGS, ...seen])],
         siteUrl: SITE_URL,
       })
@@ -115,13 +153,15 @@ const server = http.createServer(async (req, res) => {
       }
       if (
         !isArtistList(incoming?.artists?.preferred) || !isArtistList(incoming?.artists?.blocked) ||
-        !isStringList(incoming?.genres?.preferred) || !isStringList(incoming?.genres?.blocked)
+        !isStringList(incoming?.genres?.preferred) || !isStringList(incoming?.genres?.blocked) ||
+        !isPlaylistList(incoming?.discovery?.playlists)
       ) return json(res, 400, { error: 'invalid list shape' })
-      const p = readPrefs() // preserve _comment, editorials, anything else
+      const p = readPrefs() // preserve _comment, anything else
       p.artists.preferred = incoming.artists.preferred
       p.artists.blocked = incoming.artists.blocked
       p.genres.preferred = incoming.genres.preferred
       p.genres.blocked = incoming.genres.blocked
+      p.discovery = { ...p.discovery, playlists: incoming.discovery.playlists }
       writeFileSync(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
       json(res, 200, { ok: true })
     } else if (req.method === 'GET' && url.pathname === '/api/artist-search') {
@@ -217,15 +257,16 @@ const PAGE = /* html */ `<!doctype html>
   <button class="btn primary" id="refresh">Save &amp; Refresh</button>
 </footer>
 <script>
-let prefs, dirty = false
+let prefs, activity = {}, dirty = false
 const $ = (id) => document.getElementById(id)
 // artist entries are "Name" or {name, id}; genres are plain strings
 const nameOf = (e) => (typeof e === 'string' ? e : e.name)
 const SECTIONS = [
   { key: 'artists.preferred', label: 'Preferred artists', sub: 'pinned first ★, fetched directly, bypass filters', artist: true },
   { key: 'artists.blocked', label: 'Blocked artists', sub: 'never shown', artist: true },
-  { key: 'genres.preferred', label: 'Preferred genres', sub: 'sort above neutral, bypass the noise gate', artist: false },
+  { key: 'genres.preferred', label: 'Preferred genres', sub: 'discovery only surfaces these', artist: false },
   { key: 'genres.blocked', label: 'Blocked genres', sub: 'never shown', artist: false },
+  { key: 'discovery.playlists', label: 'Discovery playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', playlist: true },
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
 
@@ -251,7 +292,20 @@ function renderAll() {
       const chip = document.createElement('span')
       chip.className = 'chip'
       chip.appendChild(document.createTextNode(nameOf(entry)))
-      if (typeof entry !== 'string') chip.title = 'Apple Music artist #' + entry.id
+      if (typeof entry !== 'string') chip.title = entry.url ?? 'Apple Music artist #' + entry.id
+      // Dormancy hint: an artist with no release in 18+ months is a prune
+      // candidate — fetch time no longer depends on list size, so this is
+      // curation, not performance.
+      const last = s.key === 'artists.preferred' && entry.id ? activity[entry.id] : null
+      if (last && Date.now() - Date.parse(last) > 18 * 2629746000) {
+        const months = Math.round((Date.now() - Date.parse(last)) / 2629746000)
+        const ago = document.createElement('span')
+        ago.style.color = 'var(--muted)'
+        ago.style.fontSize = '11px'
+        ago.textContent = '· ' + (months >= 24 ? Math.floor(months / 12) + 'y' : months + 'mo')
+        ago.title = 'Last release ' + last
+        chip.appendChild(ago)
+      }
       const x = document.createElement('button')
       x.textContent = '×'
       x.title = 'Remove'
@@ -268,7 +322,7 @@ function addTo(key, item) {
   const name = nameOf(item).trim()
   if (!name) return
   if (list.some((e) => nameOf(e).toLowerCase() === name.toLowerCase())) return
-  list.push(typeof item === 'string' ? name : { name, id: item.id })
+  list.push(typeof item === 'string' ? name : { ...item, name })
   markDirty(); renderAll()
 }
 
@@ -276,12 +330,31 @@ function makeAdder(s) {
   const wrap = document.createElement('div')
   wrap.className = 'adder'
   const input = document.createElement('input')
-  input.placeholder = s.artist ? 'Add artist (search Apple Music, or press Enter for exact text)…' : 'Add genre…'
-  if (!s.artist) input.setAttribute('list', 'genre-dl')
+  input.placeholder = s.artist
+    ? 'Add artist (search Apple Music, or press Enter for exact text)…'
+    : s.playlist ? 'Paste an Apple Music playlist URL and press Enter…' : 'Add genre…'
+  if (!s.artist && !s.playlist) input.setAttribute('list', 'genre-dl')
   const results = document.createElement('div')
   results.className = 'results'
   results.hidden = true
-  input.onkeydown = (e) => { if (e.key === 'Enter') { addTo(s.key, input.value); input.value = ''; results.hidden = true } }
+  input.onkeydown = (e) => {
+    if (e.key !== 'Enter') return
+    if (s.playlist) {
+      // https://music.apple.com/us/playlist/<slug>/pl.<id> — name from slug
+      const u = input.value.trim()
+      const parts = u.split('/')
+      if (!(u.startsWith('https://music.apple.com/') && parts[4] === 'playlist' && (parts[6] ?? '').startsWith('pl.'))) {
+        $('status').textContent = 'Not an Apple Music playlist URL.'
+        return
+      }
+      const name = parts[5].replace(/-/g, ' ').replace(/\\b\\w/g, (c) => c.toUpperCase())
+      addTo(s.key, { name, url: u })
+    } else {
+      addTo(s.key, input.value)
+    }
+    input.value = ''
+    results.hidden = true
+  }
   if (s.artist) {
     let timer
     input.oninput = () => {
@@ -380,7 +453,8 @@ $('quit').onclick = async () => { await fetch('/api/quit', { method: 'POST' }); 
 window.onbeforeunload = () => (dirty ? true : undefined)
 
 fetch('/api/prefs').then((r) => r.json()).then((p) => {
-  prefs = { artists: p.artists, genres: p.genres }
+  prefs = { artists: p.artists, genres: p.genres, discovery: { playlists: p.playlists ?? [] } }
+  activity = p.activity ?? {}
   $('site-link').href = p.siteUrl
   for (const g of p.genreOptions) {
     const o = document.createElement('option')
