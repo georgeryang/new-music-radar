@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1783099076761,
+  "fetched_at": 1783099883262,
   "releases": [
     {
       "title": "In Lof",
@@ -8,10 +8,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bb/6a/b4/bb6ab473-235c-b7cb-f39d-850a421567b0/0.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/in-lof-single/6780650490?uo=4"
-      },
+      "link": "https://music.apple.com/us/album/in-lof-single/6780650490?uo=4",
       "preferred": true
     },
     {
@@ -21,10 +18,7 @@
       "release_date": "2026-07-02",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e9/ff/7d/e9ff7d45-7145-37b4-778f-d087d7799923/191953557922.jpg/400x400bb.jpg",
       "genre": "R&B",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/rule-feat-heize-single/6785786085?uo=4"
-      },
+      "link": "https://music.apple.com/us/album/rule-feat-heize-single/6785786085?uo=4",
       "preferred": true
     },
     {
@@ -34,10 +28,7 @@
       "release_date": "2026-07-01",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e5/64/21/e5642110-391a-4c70-5c46-11616ed5ed30/4547366834901.jpg/400x400bb.jpg",
       "genre": "K-pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/lucid-dream-taku-takahashi-remix-single/6781661557?uo=4"
-      },
+      "link": "https://music.apple.com/us/album/lucid-dream-taku-takahashi-remix-single/6781661557?uo=4",
       "preferred": true
     },
     {
@@ -47,10 +38,7 @@
       "release_date": "2026-07-01",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/04/f7/2e/04f72e23-639b-c077-7cf4-7cca3e2a0efc/26SYMIM32152.rgb.jpg/400x400bb.jpg",
       "genre": "Afrobeats",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/jolie-colombiana-single/6782090987?uo=4"
-      },
+      "link": "https://music.apple.com/us/album/jolie-colombiana-single/6782090987?uo=4",
       "preferred": true
     },
     {
@@ -60,10 +48,7 @@
       "release_date": "2026-06-30",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ab/3b/05/ab3b0527-3ef7-305f-4a86-fefd4f470e93/823375267218_Cover.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/iconic-by-mistake-alternate-cover-katseye-version-single/6784795326?uo=4"
-      },
+      "link": "https://music.apple.com/us/album/iconic-by-mistake-alternate-cover-katseye-version-single/6784795326?uo=4",
       "preferred": true
     },
     {
@@ -73,10 +58,7 @@
       "release_date": "2026-06-30",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/45/a1/fb/45a1fba4-a94d-2c9a-a3d8-a652c8a3f5e6/824296960509_cover.jpg/400x400bb.jpg",
       "genre": "Funk",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/pix-na-madruga-ep/6781009590?uo=4"
-      },
+      "link": "https://music.apple.com/us/album/pix-na-madruga-ep/6781009590?uo=4",
       "preferred": true
     },
     {
@@ -86,10 +68,7 @@
       "release_date": "2026-07-04",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a6/15/df/a615dfbc-83e5-21d1-b2e1-6d1cb574bf8c/823375262114_Cover.jpg/400x400bb.jpg",
       "genre": "Latin",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/tu-culpa-single/6783977903?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/tu-culpa-single/6783977903?uo=4"
     },
     {
       "title": "born to lose",
@@ -98,10 +77,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/43/d3/6f/43d36f0a-9d78-714f-3d6f-89c27e6baa78/26UMGIM73770.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/born-to-lose-single/6781757431?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/born-to-lose-single/6781757431?uo=4"
     },
     {
       "title": "YA ESTUVO BUENO",
@@ -110,10 +86,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/27/64/cb/2764cb7f-ebef-cfe4-f10c-c587bf6f638f/823375262107_Cover.jpg/400x400bb.jpg",
       "genre": "Latin",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/ya-estuvo-bueno-single/6783977266?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/ya-estuvo-bueno-single/6783977266?uo=4"
     },
     {
       "title": "Bonjour, Pardon, Merci",
@@ -122,10 +95,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7d/09/c3/7d09c382-ebd4-72ad-bbb8-e006261c219f/196874514795.jpg/400x400bb.png",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/bonjour-pardon-merci/6783417316?i=6783417325&uo=2"
-      }
+      "link": "https://music.apple.com/us/album/bonjour-pardon-merci/6783417316?i=6783417325&uo=2"
     },
     {
       "title": "Dream Crusher",
@@ -134,10 +104,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/68/6a/60/686a6080-c0f7-deff-a684-388a004aee9c/075679571243.jpg/400x400bb.png",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/dream-crusher-ep/6784372769?uo=2"
-      }
+      "link": "https://music.apple.com/us/album/dream-crusher-ep/6784372769?uo=2"
     },
     {
       "title": "Vibra Musical",
@@ -146,10 +113,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1b/71/b3/1b71b384-27c3-9382-59af-4af85d909ce4/artwork.jpg/400x400bb.png",
       "genre": "Latin",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/vibra-musical/6785567254?uo=2"
-      }
+      "link": "https://music.apple.com/us/album/vibra-musical/6785567254?uo=2"
     },
     {
       "title": "This Is How You See Me Now",
@@ -158,10 +122,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/3b/65/32/3b6532fc-2f9f-44fd-6a0c-119927f15ffa/26UMGIM41069.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/this-is-how-you-see-me-now-ep/6779460000?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/this-is-how-you-see-me-now-ep/6779460000?uo=4"
     },
     {
       "title": "autonomy+",
@@ -170,10 +131,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/09/99/da/0999da54-fae9-55c2-b427-2189afac2541/5064020263505_cover.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/autonomy/6781011762?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/autonomy/6781011762?uo=4"
     },
     {
       "title": "SWAG LIVE FROM COACHELLA (Weekend II)",
@@ -182,10 +140,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2a/0d/78/2a0d7836-a689-3467-56fd-30a09c1460ec/ticket.hptwlacf.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/swag-live-from-coachella-weekend-ii/6786441259?uo=4"
-      },
+      "link": "https://music.apple.com/us/album/swag-live-from-coachella-weekend-ii/6786441259?uo=4",
       "charting": {
         "storefront": "KR",
         "rank": 47
@@ -198,10 +153,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/55/44/df/5544df9e-28b7-275e-bc29-139676d0b570/S_A8721162911585.jpg/400x400bb.png",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/justice-league-original-soundtrack-vol-2/6778548966?uo=2"
-      }
+      "link": "https://music.apple.com/us/album/justice-league-original-soundtrack-vol-2/6778548966?uo=2"
     },
     {
       "title": "Flawed Crown",
@@ -210,10 +162,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/79/35/7a/79357ae6-f0ec-2635-fbfc-2fae1da6b01d/4896010539779.jpg/400x400bb.png",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/%E6%96%97%E6%88%98%E8%83%9C%E4%BD%9B/6786304269?uo=2"
-      }
+      "link": "https://music.apple.com/us/album/%E6%96%97%E6%88%98%E8%83%9C%E4%BD%9B/6786304269?uo=2"
     },
     {
       "title": "CONFESSIONS II",
@@ -222,10 +171,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/eb/8f/5d/eb8f5dcf-aec1-1f58-fbea-dc0bb086f1c8/093624819837.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/confessions-ii/1892545087?uo=4"
-      },
+      "link": "https://music.apple.com/us/album/confessions-ii/1892545087?uo=4",
       "charting": {
         "storefront": "KR",
         "rank": 44
@@ -238,10 +184,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/eb/8f/5d/eb8f5dcf-aec1-1f58-fbea-dc0bb086f1c8/093624819837.jpg/400x400bb.png",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/bizarre/1892545087?i=1892545243&uo=2"
-      }
+      "link": "https://music.apple.com/us/album/bizarre/1892545087?i=1892545243&uo=2"
     },
     {
       "title": "BACK TO IBIZA",
@@ -250,10 +193,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b5/b6/fc/b5b6fcbd-e502-760c-172e-747a08f35ca1/054391213228.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/back-to-ibiza-single/6783997656?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/back-to-ibiza-single/6783997656?uo=4"
     },
     {
       "title": "Nuestra Herencia Campesina",
@@ -262,10 +202,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0f/b1/dc/0fb1dc0f-873a-71ec-809a-86bd9d4bd9f2/859741487331_cover.jpg/400x400bb.png",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/nuestra-herencia-campesina/6785766052?uo=2"
-      }
+      "link": "https://music.apple.com/us/album/nuestra-herencia-campesina/6785766052?uo=2"
     },
     {
       "title": "Visitor (Deluxe)",
@@ -274,10 +211,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f4/e5/61/f4e561f5-3e73-68c7-7ca4-295ac5a063ed/26UMGIM51351.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/visitor-deluxe/6769552402?uo=4"
-      },
+      "link": "https://music.apple.com/us/album/visitor-deluxe/6769552402?uo=4",
       "charting": {
         "storefront": "US",
         "rank": 37
@@ -290,10 +224,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/52/72/82/527282e4-6d3c-a845-9e76-fb5144ca6671/457555.jpg/400x400bb.png",
       "genre": "R&B",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/timeless/6785924625?uo=2"
-      }
+      "link": "https://music.apple.com/us/album/timeless/6785924625?uo=2"
     },
     {
       "title": "Pretty Eyes (feat. FLO)",
@@ -302,10 +233,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0a/90/5d/0a905d79-d89c-48f7-8abe-e82a9ec4d349/26UMGIM79503.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/pretty-eyes-feat-flo-single/6781923505?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/pretty-eyes-feat-flo-single/6781923505?uo=4"
     },
     {
       "title": "ARE YOU EVER COMING BACK?",
@@ -314,10 +242,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/dd/4a/3d/dd4a3dcf-2c2b-1182-4215-7522d26f27b2/612891076882.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/are-you-ever-coming-back-single/6778927825?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/are-you-ever-coming-back-single/6778927825?uo=4"
     },
     {
       "title": "Hate My Guts",
@@ -326,10 +251,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6f/8d/6e/6f8d6ec0-5f8a-a8a7-1723-963243e4b576/26UMGIM72968.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/hate-my-guts-single/6783996052?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/hate-my-guts-single/6783996052?uo=4"
     },
     {
       "title": "Undiscovered Country",
@@ -338,10 +260,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0b/e4/a4/0be4a4e7-da74-7718-dfe7-f29664d6a246/26UMGIM77718.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/undiscovered-country-single/6780695495?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/undiscovered-country-single/6780695495?uo=4"
     },
     {
       "title": "BAD (James Carter Ver.)",
@@ -350,10 +269,7 @@
       "release_date": "2026-07-02",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/76/25/36/762536f1-bd33-be85-250e-a86b0611651a/196874526088.jpg/400x400bb.png",
       "genre": "K-pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/bad-james-carter-ver/6781509330?i=6781509423&uo=2"
-      }
+      "link": "https://music.apple.com/us/album/bad-james-carter-ver/6781509330?i=6781509423&uo=2"
     },
     {
       "title": "Nadie Sabe Lo Que Tiene",
@@ -362,10 +278,7 @@
       "release_date": "2026-07-02",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/43/63/de/4363de98-be1f-5b8f-b954-65f250a1f34b/3546051.jpg/400x400bb.png",
       "genre": "Latin",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/nadie-sabe-lo-que-tiene/6781401413?i=6781401570&uo=2"
-      }
+      "link": "https://music.apple.com/us/album/nadie-sabe-lo-que-tiene/6781401413?i=6781401570&uo=2"
     },
     {
       "title": "No Me Lo Mandes Decir",
@@ -374,10 +287,7 @@
       "release_date": "2026-07-02",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/56/2a/f0/562af094-f504-f8cc-660e-ed09737e99e6/196874554074.jpg/400x400bb.jpg",
       "genre": "Latin",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/no-me-lo-mandes-decir-single/6784299083?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/no-me-lo-mandes-decir-single/6784299083?uo=4"
     },
     {
       "title": "LA GUARACHA (Oh Oh Oh)",
@@ -386,10 +296,7 @@
       "release_date": "2026-07-02",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ac/38/71/ac38713d-2643-675b-39c5-dd2d84bff9a4/196874533697.jpg/400x400bb.jpg",
       "genre": "Latin",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/la-guaracha-oh-oh-oh-single/6783873026?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/la-guaracha-oh-oh-oh-single/6783873026?uo=4"
     },
     {
       "title": "Aprevenido",
@@ -398,10 +305,7 @@
       "release_date": "2026-07-02",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b6/7f/f0/b67ff021-5466-37ee-1f50-23300356613f/196874318911.jpg/400x400bb.jpg",
       "genre": "Latin",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/aprevenido-single/6783965532?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/aprevenido-single/6783965532?uo=4"
     },
     {
       "title": "【2026 Chill R&B Playlist】最怕 Rapper 唱情歌|12首聽一整晚也不會膩的浪漫 R&B| 放鬆心情的情歌專輯 | 工作背景音樂",
@@ -410,10 +314,7 @@
       "release_date": "2026-07-02",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8a/0e/0d/8a0e0dc1-98fa-4544-c4e0-9a080751f608/artwork.jpg/400x400bb.png",
       "genre": "R&B",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/2026-chill-r-b-playlist-%E6%9C%80%E6%80%95-rapper-%E5%94%B1%E6%83%85%E6%AD%8C-12%E9%A6%96%E8%81%BD%E4%B8%80%E6%95%B4%E6%99%9A%E4%B9%9F%E4%B8%8D%E6%9C%83%E8%86%A9%E7%9A%84%E6%B5%AA%E6%BC%AB/6786618851?uo=2"
-      }
+      "link": "https://music.apple.com/us/album/2026-chill-r-b-playlist-%E6%9C%80%E6%80%95-rapper-%E5%94%B1%E6%83%85%E6%AD%8C-12%E9%A6%96%E8%81%BD%E4%B8%80%E6%95%B4%E6%99%9A%E4%B9%9F%E4%B8%8D%E6%9C%83%E8%86%A9%E7%9A%84%E6%B5%AA%E6%BC%AB/6786618851?uo=2"
     },
     {
       "title": "Sick Ass Foo's (feat. Lil Mr. E & Toxica)",
@@ -422,10 +323,7 @@
       "release_date": "2026-07-02",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6e/3b/85/6e3b8506-04bf-8291-00c3-55795efb6496/196874517598.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/sick-ass-foos-feat-lil-mr-e-toxica-single/6786343908?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/sick-ass-foos-feat-lil-mr-e-toxica-single/6786343908?uo=4"
     },
     {
       "title": "Eres Mi Nada",
@@ -434,10 +332,7 @@
       "release_date": "2026-07-02",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2b/b9/3c/2bb93cb5-ffd2-cfe6-9704-f959c8851309/196874505557.jpg/400x400bb.png",
       "genre": "Latin",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/eres-mi-nada/6780570291?i=6780570305&uo=2"
-      }
+      "link": "https://music.apple.com/us/album/eres-mi-nada/6780570291?i=6780570305&uo=2"
     },
     {
       "title": "Tu Pasado y Tú",
@@ -446,10 +341,7 @@
       "release_date": "2026-07-02",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2b/b9/3c/2bb93cb5-ffd2-cfe6-9704-f959c8851309/196874505557.jpg/400x400bb.png",
       "genre": "Latin",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/tu-pasado-y-t%C3%BA/6780570291?i=6780570494&uo=2"
-      }
+      "link": "https://music.apple.com/us/album/tu-pasado-y-t%C3%BA/6780570291?i=6780570494&uo=2"
     },
     {
       "title": "Eres Mi Nada / Tu Pasado y Tú",
@@ -458,10 +350,7 @@
       "release_date": "2026-07-02",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2b/b9/3c/2bb93cb5-ffd2-cfe6-9704-f959c8851309/196874505557.jpg/400x400bb.jpg",
       "genre": "Latin",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/eres-mi-nada-tu-pasado-y-t%C3%BA-single/6780570291?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/eres-mi-nada-tu-pasado-y-t%C3%BA-single/6780570291?uo=4"
     },
     {
       "title": "RULE (feat. Heize)",
@@ -470,10 +359,7 @@
       "release_date": "2026-07-02",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e9/ff/7d/e9ff7d45-7145-37b4-778f-d087d7799923/191953557922.jpg/400x400bb.jpg",
       "genre": "R&B",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/rule-feat-heize-single/6785786085?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/rule-feat-heize-single/6785786085?uo=4"
     },
     {
       "title": "Mamma Mia(Who We Are) [AHOF Ver.]",
@@ -482,10 +368,7 @@
       "release_date": "2026-07-01",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a2/3a/db/a23adbd1-d14b-f843-7ffe-480066ae55cf/cover_KM0024882_1.jpg/400x400bb.png",
       "genre": "K-pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/mamma-mia-who-we-are-ahof-ver/6785405239?i=6785405244&uo=2"
-      }
+      "link": "https://music.apple.com/us/album/mamma-mia-who-we-are-ahof-ver/6785405239?i=6785405244&uo=2"
     },
     {
       "title": "of everyone in the world… (feat. Love Interest)",
@@ -494,10 +377,7 @@
       "release_date": "2026-07-01",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d2/6c/a1/d26ca194-d260-0eae-f5b2-e6f7f18fa5ca/00823375096221_Cover.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/of-everyone-in-the-world-feat-love-interest-single/1891033466?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/of-everyone-in-the-world-feat-love-interest-single/1891033466?uo=4"
     },
     {
       "title": "BESITO",
@@ -506,10 +386,7 @@
       "release_date": "2026-07-01",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cd/b1/99/cdb1990f-5bc2-dec4-45e4-a5df4c6c6525/823375258513_Cover.jpg/400x400bb.jpg",
       "genre": "Latin",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/besito-single/6783499285?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/besito-single/6783499285?uo=4"
     },
     {
       "title": "Closure",
@@ -518,10 +395,7 @@
       "release_date": "2026-07-01",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e4/5f/2f/e45f2fee-4355-4a51-92ba-2e5d666a8720/1200214416522.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/closure-single/6783213933?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/closure-single/6783213933?uo=4"
     },
     {
       "title": "Playlist #Your Youth",
@@ -530,10 +404,7 @@
       "release_date": "2026-07-01",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/74/7e/44/747e445f-95d5-369e-5761-fab506ba8bca/1200214398989.jpg/400x400bb.png",
       "genre": "K-pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/playlist-your-youth-ep/6782732304?uo=2"
-      }
+      "link": "https://music.apple.com/us/album/playlist-your-youth-ep/6782732304?uo=2"
     },
     {
       "title": "LUCID DREAM (☆Taku Takahashi Remix)",
@@ -542,10 +413,7 @@
       "release_date": "2026-07-01",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e5/64/21/e5642110-391a-4c70-5c46-11616ed5ed30/4547366834901.jpg/400x400bb.jpg",
       "genre": "K-pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/lucid-dream-taku-takahashi-remix-single/6781661557?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/lucid-dream-taku-takahashi-remix-single/6781661557?uo=4"
     },
     {
       "title": "BAD (Steve Aoki Ver.)",
@@ -554,10 +422,7 @@
       "release_date": "2026-06-30",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d0/f4/e1/d0f4e1cd-c68d-b405-40c7-81d8d33ae510/196874526033.jpg/400x400bb.png",
       "genre": "K-pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/bad-steve-aoki-ver/6781509616?i=6781509617&uo=2"
-      }
+      "link": "https://music.apple.com/us/album/bad-steve-aoki-ver/6781509616?i=6781509617&uo=2"
     },
     {
       "title": "junebug!",
@@ -566,10 +431,7 @@
       "release_date": "2026-06-30",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b3/df/65/b3df653f-d65f-b6c5-bd92-c34d10a9c26a/075679575180.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/junebug-single/6783079573?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/junebug-single/6783079573?uo=4"
     },
     {
       "title": "PUZZL(OV)E",
@@ -578,10 +440,7 @@
       "release_date": "2026-06-30",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/27/76/0c/27760c57-8dea-3122-b6dd-dcc342afed21/1200214428501.jpg/400x400bb.png",
       "genre": "K-pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/puzzl-ov-e-ep/6784053900?uo=2"
-      }
+      "link": "https://music.apple.com/us/album/puzzl-ov-e-ep/6784053900?uo=2"
     },
     {
       "title": "AMERICAN BABY",
@@ -590,10 +449,7 @@
       "release_date": "2026-06-30",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/75/8a/38/758a38a7-f21f-1c42-463a-113ad2354f2a/193436475945_NightlyAmericanBabyCoverArtcopy.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": {
-        "service": "apple",
-        "url": "https://music.apple.com/us/album/american-baby-single/6780497495?uo=4"
-      }
+      "link": "https://music.apple.com/us/album/american-baby-single/6780497495?uo=4"
     }
   ]
 }

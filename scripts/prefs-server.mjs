@@ -14,18 +14,13 @@ import http from 'node:http'
 import { closeSync, openSync, readFileSync, writeFileSync } from 'node:fs'
 import { spawn } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+import { CANON_TAGS } from './genre-map.mjs'
 
 const PORT = 4747
 const PREFS_PATH = new URL('../config/preferences.json', import.meta.url)
 const DATA_PATH = new URL('../docs/data/releases.json', import.meta.url)
 const REPO_DIR = fileURLToPath(new URL('..', import.meta.url))
 const SITE_URL = 'https://georgeryang.github.io/new-music-radar/'
-
-// Mirrors GENRE_MAP in fetch-releases.mjs — the tags the fetcher can assign.
-const CANON_TAGS = [
-  'K-pop', 'C-pop', 'J-pop', 'OPM', 'V-pop', 'Thai pop', 'Afrobeats', 'R&B',
-  'Latin', 'Dance', 'Hip-Hop', 'Alternative', 'Rock', 'Country', 'OST', 'Pop',
-]
 
 const readPrefs = () => JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 

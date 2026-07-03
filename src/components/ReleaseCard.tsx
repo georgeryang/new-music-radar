@@ -32,6 +32,7 @@ export function ReleaseCard({ release }: { release: Release }) {
             src={release.artwork}
             alt=""
             loading="lazy"
+            decoding="async"
             onError={() => setImgFailed(true)}
             className="size-full object-cover transition-transform group-hover:scale-[1.03]"
           />
@@ -61,7 +62,7 @@ export function ReleaseCard({ release }: { release: Release }) {
   )
 
   return release.link ? (
-    <a href={release.link.url} target="_blank" rel="noopener noreferrer" className="block">
+    <a href={release.link} target="_blank" rel="noopener noreferrer" className="block">
       {card}
     </a>
   ) : (

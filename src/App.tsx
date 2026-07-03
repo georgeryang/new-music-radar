@@ -20,8 +20,11 @@ export default function App() {
 
   useEffect(() => {
     let cancelled = false
-    // ?v= busts the GitHub Pages CDN cache so a fresh deploy shows up immediately
-    fetch(`${import.meta.env.BASE_URL}data/releases.json?v=${Date.now()}`)
+    // no-cache = conditional revalidation: a fresh deploy shows up immediately
+    // (Pages serves ETags), but an unchanged file costs a 304 with no body
+    // instead of the full re-download a ?v= cache-buster would force. The
+    // stable URL also lets index.html preload this request.
+    fetch(`${import.meta.env.BASE_URL}data/releases.json`, { cache: 'no-cache' })
       .then((r) => {
         if (!r.ok) throw new Error('Data not available.')
         return r.json()

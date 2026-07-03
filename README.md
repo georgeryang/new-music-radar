@@ -22,7 +22,9 @@ Just open the site. What you'll see:
 - **Tap or click any card** to open that release in Apple Music.
 
 The site shows releases from roughly the last day and a half, newest and
-most-preferred first. It refreshes itself every evening (see setup below).
+most-preferred first. Cards come from your preferred artists plus a daily scan
+of Apple's charts and new-music playlists, filtered to your preferred genres.
+It refreshes itself every evening (see setup below).
 
 ## Adding and removing artists or genres
 
@@ -34,12 +36,20 @@ most-preferred first. It refreshes itself every evening (see setup below).
    the right one, then click the one you want.
 3. To remove anything, click the **×** on its chip.
 4. Blocked artists and blocked genres never appear on the site.
-   Preferred genres float toward the top.
-5. Finish with one of two buttons:
+   Preferred genres are the only ones discovery will surface.
+5. The **Discovery playlists** section lists the Apple Music playlists the
+   nightly update scans for brand-new releases (New Music Daily out of the
+   box). To add one, open the playlist on music.apple.com, copy the address,
+   paste it into the box, and press Enter.
+6. Finish with one of two buttons:
    - **Save** — keeps your changes; the site picks them up at tonight's update.
    - **Save & Refresh** — applies them right now. A progress panel shows what's
-     happening; it takes a few minutes, and it's safe to close the page — the
-     update keeps running and the site refreshes on its own.
+     happening; it takes about two minutes, and it's safe to close the page —
+     the update keeps running and the site refreshes on its own.
+
+A gray note like `· 2y` next to a preferred artist means their newest release
+is that old, in case you want to trim the list. Nothing is removed
+automatically.
 
 When you're done, press the **Quit** button (or close the Terminal window).
 
@@ -78,25 +88,35 @@ performs the daily update.
 2. `git clone git@github.com:georgeryang/new-music-radar.git ~/Dev/new-music-radar`
    (this exact location — the schedule file expects it).
 3. Test once: `bash ~/Dev/new-music-radar/scripts/update.sh`
-   (a few minutes; ends with "Published").
+   (about two minutes; ends with "Published").
 4. Do the one-time setup above.
 
 ## For developers
 
-- **Data flow:** `config/preferences.json` (preferred/blocked artists + genres)
-  → `scripts/fetch-releases.mjs` (zero-dep node: iTunes artist lookups for the
-  follow list + Apple KR/US most-played charts for badges and light discovery;
-  everything native Apple Music — links, genres, artwork) → `docs/data/releases.json`
-  → committed + pushed by `scripts/update.sh` → GitHub Pages serves `docs/`.
-- **Frontend:** Vite + React + TS + Tailwind + shadcn in `src/`; build output
-  goes into `docs/` next to the data (never wiped — see vite.config.ts).
+- **Data flow:** `config/preferences.json` (preferred/blocked artists + genres,
+  discovery playlists) -> `scripts/fetch-releases.mjs` (zero-dep node, four
+  sources: batched iTunes lookups for the follow list, Apple KR/US most-played
+  charts for badges and discovery, US iTunes genre purchase charts for day-of
+  drops in core genres, and Apple Music editorial playlists scraped from the
+  web player page; everything native Apple Music: links, genres, artwork) ->
+  `docs/data/releases.json` -> committed + pushed by `scripts/update.sh` ->
+  GitHub Pages serves `docs/`.
+- **Frontend:** Vite + React + TS + Tailwind in `src/`; build output goes into
+  `docs/` next to the data (never wiped, see vite.config.ts).
 - **Scheduling:** launchd ticks every 10 min; `update.sh --if-stale` turns that
   into exactly one fetch/day anchored to 18:15 KST, timezone-proof.
 - **Preferences editor:** `scripts/prefs-server.mjs`, zero-dep local server on
-  127.0.0.1:4747; Apple catalog picker stores `{name, id}`; refresh runs
-  detached (pidfile + shared log) so quitting the editor can't kill it.
-- **Artist ID cache:** `config/artist-cache.json` — hand-typed names resolve
-  once; delete a line to force re-resolution.
-- **Reliability patterns**: non-zero exit when a
-  source fails entirely, empty-success carryover instead of stamping an empty
-  file fresh, sequential requests with jitter, partial results still publish.
+  127.0.0.1:4747, same-origin only (Host/Origin checks on everything but the
+  site's ping). Apple catalog picker stores `{name, id}`; playlist chips take
+  a pasted Apple Music playlist URL; refresh runs detached (pidfile + shared
+  log) so quitting the editor can't stop it.
+- **Canonical genre tags:** `scripts/genre-map.mjs`, shared by the fetcher
+  (tags releases) and the editor (offers the tags in pickers).
+- **Config side files:** `config/artist-cache.json` caches hand-typed name ->
+  Apple ID resolution (delete a line to force re-resolution);
+  `config/artist-activity.json` records each artist's newest release date
+  every night and drives the dormancy hints on preferred-artist chips.
+- **Reliability patterns:** non-zero exit when a source fails entirely,
+  empty-success carryover instead of stamping an empty file fresh, paced
+  requests with jitter to the iTunes lookup API (other Apple hosts fetch
+  concurrently), partial results still publish.
