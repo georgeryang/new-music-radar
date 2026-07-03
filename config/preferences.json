@@ -1,5 +1,5 @@
 {
-  "_comment": "All lists are case-insensitive. artists.* entries are names (matched as whole words) or {name, id} objects where id is an APPLE MUSIC artist id (added via prefs.command picker). genres.* match the canonical tags from GENRE_MAP in scripts/fetch-releases.mjs.",
+  "_comment": "All lists are case-insensitive. artists.* entries are names (matched as whole words) or {name, id} objects where id is an APPLE MUSIC artist id (added via prefs.command picker). genres.* match the canonical tags from GENRE_MAP in scripts/fetch-releases.mjs. display.daily_min is a floor, never a cap: heavy days show every fresh release; quiet days backfill top-ranked releases from the last 3 days up to this count; fewer than the floor in the file just shows them all.",
   "artists": {
     "preferred": [
       {
@@ -375,5 +375,8 @@
       "Country",
       "Rock"
     ]
+  },
+  "display": {
+    "daily_min": 8
   }
 }
