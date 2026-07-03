@@ -65,4 +65,43 @@ git add docs/data config
 git commit -m "Update data $(date '+%Y-%m-%d %H:%M')" || { log "ERROR: commit failed"; exit 1; }
 git push || { log "ERROR: push failed"; exit 1; }
 log "Published"
+
+# GitHub's Pages deploy flakes transiently ("Deployment failed, try again
+# later"). During development a follow-up push always papered over it; the
+# nightly data push is the only push of the day, so a single flake leaves the
+# site stale for 24h. Verify the deploy for this commit and rerun it once.
+verify_deploy() {
+  command -v gh >/dev/null 2>&1 || { log "gh not found — skipping deploy check"; return 0; }
+  SHA="$(git rev-parse HEAD)"
+  RUN_ID=""
+  for _ in $(seq 1 20); do  # up to 5 min for the run to appear and finish
+    RUN_ID="$(gh run list --workflow pages-build-deployment --commit "$SHA" \
+      --json databaseId,status --jq '.[0] | select(.status == "completed") | .databaseId' 2>/dev/null)"
+    [ -n "$RUN_ID" ] && break
+    sleep 15
+  done
+  if [ -z "$RUN_ID" ]; then
+    log "WARNING: Pages deploy not finished after 5 min — leaving it alone"
+    return 0
+  fi
+  CONCLUSION="$(gh run view "$RUN_ID" --json conclusion --jq .conclusion 2>/dev/null)"
+  case "$CONCLUSION" in
+    success)   log "Pages deploy verified"; return 0 ;;
+    cancelled) log "Pages deploy cancelled (superseded by a newer push) — skipping retry"; return 0 ;;
+  esac
+  log "Pages deploy $CONCLUSION — retrying once (run $RUN_ID)"
+  gh run rerun "$RUN_ID" --failed >/dev/null 2>&1 || { log "WARNING: could not trigger rerun"; return 0; }
+  for _ in $(seq 1 20); do
+    sleep 15
+    CONCLUSION="$(gh run view "$RUN_ID" --json conclusion --jq .conclusion 2>/dev/null)"
+    case "$CONCLUSION" in
+      success) log "Pages deploy verified after retry"; return 0 ;;
+      ""|null) ;;  # still running
+      *) break ;;
+    esac
+  done
+  log "WARNING: Pages deploy still $CONCLUSION after retry — site stays stale until tomorrow's run"
+}
+verify_deploy
+
 exit "$FETCH_FAILED"
