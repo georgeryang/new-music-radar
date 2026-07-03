@@ -26,6 +26,5 @@ export interface Release {
 
 export interface FeedData {
   fetched_at: number // ms epoch
-  daily_min?: number | null // display floor (config display.daily_min); quiet days backfill older releases up to this — never trims heavy days
   releases: Release[]
 }
