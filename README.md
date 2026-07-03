@@ -17,14 +17,15 @@ Just open the site. What you'll see:
   means an album or EP.
 - **★** next to an artist means they're on your preferred list.
 - A small tag like **K-pop** or **Latin** shows each release's genre.
-- A gold badge like **KR #2** means it's currently one of the most-played
-  albums on Apple Music in Korea (KR) or the US.
+- A gold badge like **US #2** means it's currently one of the most-played
+  albums on Apple Music in the US.
 - **Tap or click any card** to open that release in Apple Music.
 
-The site shows releases from roughly the last day and a half, newest and
-most-preferred first. Cards come from your preferred artists plus a daily scan
-of Apple's charts and new-music playlists, filtered to your preferred genres.
-It refreshes itself every evening (see setup below).
+The site shows releases from roughly the last day and a half: your preferred
+artists first, then everything else alphabetically by artist. Cards come from
+your preferred artists plus a daily scan of Apple's US charts and new-music
+playlists, filtered to your preferred genres. It refreshes itself every
+evening (see setup below).
 
 ## Adding and removing artists or genres
 
@@ -33,7 +34,9 @@ It refreshes itself every evening (see setup below).
 2. To add an artist: type their name in the "Add artist" box. A list of matching
    artists from Apple Music appears, each with its genre — if two artists share
    a name, click the **↗** to peek at their Apple Music page and make sure it's
-   the right one, then click the one you want.
+   the right one, then click the one you want. Artists must be picked from
+   this list, in both the preferred and blocked sections — the pick pins the
+   exact artist by its Apple ID, and typed names alone can't be used.
 3. To remove anything, click the **×** on its chip.
 4. Blocked artists and blocked genres never appear on the site.
    Preferred genres are the only ones discovery will surface.
@@ -75,9 +78,9 @@ To turn it off: `launchctl unload ~/Library/LaunchAgents/com.georgeryang.new-mus
 - **Want to see what happened?** The update log is at
   `~/Library/Logs/new-music-radar.log` — the last lines say what was fetched
   or what failed, in plain words.
-- **An artist's releases look wrong?** Their name may match a different artist.
-  Remove them in the editor and re-add them via the search list (which pins the
-  exact artist).
+- **An artist's releases look wrong?** You may have picked a different artist
+  with the same name. Remove them in the editor and re-add them via the search
+  list (the **↗** link shows exactly whose page you're pinning).
 
 ## Moving to a new Mac
 
@@ -95,27 +98,31 @@ performs the daily update.
 
 - **Data flow:** `config/preferences.json` (preferred/blocked artists + genres,
   discovery playlists) -> `scripts/fetch-releases.mjs` (zero-dep node, four
-  sources: batched iTunes lookups for the follow list, Apple KR/US most-played
-  charts for badges and discovery, US iTunes genre purchase charts for day-of
+  sources: batched iTunes lookups for the follow list, the Apple US most-played
+  chart for badges and discovery, US iTunes genre purchase charts for day-of
   drops in core genres, and Apple Music editorial playlists scraped from the
   web player page; everything native Apple Music: links, genres, artwork) ->
   `docs/data/releases.json` -> committed + pushed by `scripts/update.sh` ->
-  GitHub Pages serves `docs/`.
+  GitHub Pages serves `docs/`. Every source queries the US storefront only —
+  other storefronts localize artist names, which duplicates cards.
 - **Frontend:** Vite + React + TS + Tailwind in `src/`; build output goes into
   `docs/` next to the data (never wiped, see vite.config.ts).
 - **Scheduling:** launchd ticks every 10 min; `update.sh --if-stale` turns that
   into exactly one fetch/day anchored to 18:15 KST, timezone-proof.
 - **Preferences editor:** `scripts/prefs-server.mjs`, zero-dep local server on
   127.0.0.1:4747, same-origin only (Host/Origin checks on everything but the
-  site's ping). Apple catalog picker stores `{name, id}`; playlist chips take
-  a pasted Apple Music playlist URL; refresh runs detached (pidfile + shared
-  log) so quitting the editor can't stop it.
+  site's ping). Artist entries in both lists are always `{name, id}` — the
+  Apple catalog picker is the only way to add one; the fetcher sweeps
+  preferred artists and drops blocked ones by ID exclusively (note: a blocked
+  artist's collabs are credited to a joint entity with its own ID, so those
+  aren't blocked). Playlist chips take a pasted Apple Music playlist URL;
+  refresh runs detached (pidfile + shared log) so quitting the editor can't
+  stop it.
 - **Canonical genre tags:** `scripts/genre-map.mjs`, shared by the fetcher
   (tags releases) and the editor (offers the tags in pickers).
-- **Config side files:** `config/artist-cache.json` caches hand-typed name ->
-  Apple ID resolution (delete a line to force re-resolution);
-  `config/artist-activity.json` records each artist's newest release date
-  every night and drives the dormancy hints on preferred-artist chips.
+- **Config side file:** `config/artist-activity.json` records each artist's
+  newest release date every night and drives the dormancy hints on
+  preferred-artist chips.
 - **Reliability patterns:** non-zero exit when a source fails entirely,
   empty-success carryover instead of stamping an empty file fresh, paced
   requests with jitter to the iTunes lookup API (other Apple hosts fetch

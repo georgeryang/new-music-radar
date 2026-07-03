@@ -15,7 +15,7 @@ export interface Release {
   artwork: string // '' when the source has none
   genre?: string | null // canonical tag (K-pop, Latin, …); null when unknown
   link?: string // Apple Music URL, always the US storefront
-  charting?: { storefront: 'KR' | 'US'; rank: number }
+  charting?: { storefront: 'US'; rank: number } // US most-played chart (the only chart source)
   preferred?: boolean // artist is in config/preferences.json — pinned first
 }
 

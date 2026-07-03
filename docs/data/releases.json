@@ -1,16 +1,6 @@
 {
-  "fetched_at": 1783099883262,
+  "fetched_at": 1783101202400,
   "releases": [
-    {
-      "title": "In Lof",
-      "artist": "Lucianeka, Nicole Favre & Once",
-      "type": "song",
-      "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bb/6a/b4/bb6ab473-235c-b7cb-f39d-850a421567b0/0.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/in-lof-single/6780650490?uo=4",
-      "preferred": true
-    },
     {
       "title": "RULE (feat. Heize)",
       "artist": "CHUU",
@@ -32,16 +22,6 @@
       "preferred": true
     },
     {
-      "title": "Jolie Colombiana",
-      "artist": "Warren Saada & VALKA",
-      "type": "song",
-      "release_date": "2026-07-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/04/f7/2e/04f72e23-639b-c077-7cf4-7cca3e2a0efc/26SYMIM32152.rgb.jpg/400x400bb.jpg",
-      "genre": "Afrobeats",
-      "link": "https://music.apple.com/us/album/jolie-colombiana-single/6782090987?uo=4",
-      "preferred": true
-    },
-    {
       "title": "ICONIC BY MISTAKE",
       "artist": "LE SSERAFIM, ILLIT & KATSEYE",
       "type": "song",
@@ -49,6 +29,16 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ab/3b/05/ab3b0527-3ef7-305f-4a86-fefd4f470e93/823375267218_Cover.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/iconic-by-mistake-alternate-cover-katseye-version-single/6784795326?uo=4",
+      "preferred": true
+    },
+    {
+      "title": "In Lof",
+      "artist": "Lucianeka, Nicole Favre & Once",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bb/6a/b4/bb6ab473-235c-b7cb-f39d-850a421567b0/0.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/in-lof-single/6780650490?uo=4",
       "preferred": true
     },
     {
@@ -62,13 +52,41 @@
       "preferred": true
     },
     {
-      "title": "Tu Culpa",
-      "artist": "Clave Especial & Los Parras",
+      "title": "Jolie Colombiana",
+      "artist": "Warren Saada & VALKA",
       "type": "song",
-      "release_date": "2026-07-04",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a6/15/df/a615dfbc-83e5-21d1-b2e1-6d1cb574bf8c/823375262114_Cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/tu-culpa-single/6783977903?uo=4"
+      "release_date": "2026-07-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/04/f7/2e/04f72e23-639b-c077-7cf4-7cca3e2a0efc/26SYMIM32152.rgb.jpg/400x400bb.jpg",
+      "genre": "Afrobeats",
+      "link": "https://music.apple.com/us/album/jolie-colombiana-single/6782090987?uo=4",
+      "preferred": true
+    },
+    {
+      "title": "Mamma Mia(Who We Are) [AHOF Ver.]",
+      "artist": "AHOF",
+      "type": "song",
+      "release_date": "2026-07-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a2/3a/db/a23adbd1-d14b-f843-7ffe-480066ae55cf/cover_KM0024882_1.jpg/400x400bb.png",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/mamma-mia-who-we-are-ahof-ver/6785405239?i=6785405244&uo=2"
+    },
+    {
+      "title": "BAD (James Carter Ver.)",
+      "artist": "ATEEZ",
+      "type": "song",
+      "release_date": "2026-07-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/76/25/36/762536f1-bd33-be85-250e-a86b0611651a/196874526088.jpg/400x400bb.png",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/bad-james-carter-ver/6781509330?i=6781509423&uo=2"
+    },
+    {
+      "title": "BAD (Steve Aoki Ver.)",
+      "artist": "ATEEZ",
+      "type": "song",
+      "release_date": "2026-06-30",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d0/f4/e1/d0f4e1cd-c68d-b405-40c7-81d8d33ae510/196874526033.jpg/400x400bb.png",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/bad-steve-aoki-ver/6781509616?i=6781509617&uo=2"
     },
     {
       "title": "born to lose",
@@ -98,6 +116,15 @@
       "link": "https://music.apple.com/us/album/bonjour-pardon-merci/6783417316?i=6783417325&uo=2"
     },
     {
+      "title": "Tu Culpa",
+      "artist": "Clave Especial & Los Parras",
+      "type": "song",
+      "release_date": "2026-07-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a6/15/df/a615dfbc-83e5-21d1-b2e1-6d1cb574bf8c/823375262114_Cover.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/tu-culpa-single/6783977903?uo=4"
+    },
+    {
       "title": "Dream Crusher",
       "artist": "Daniel Seavey",
       "type": "album",
@@ -125,6 +152,15 @@
       "link": "https://music.apple.com/us/album/this-is-how-you-see-me-now-ep/6779460000?uo=4"
     },
     {
+      "title": "Nadie Sabe Lo Que Tiene",
+      "artist": "Efecto Elegante",
+      "type": "song",
+      "release_date": "2026-07-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/43/63/de/4363de98-be1f-5b8f-b954-65f250a1f34b/3546051.jpg/400x400bb.png",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/nadie-sabe-lo-que-tiene/6781401413?i=6781401570&uo=2"
+    },
+    {
       "title": "autonomy+",
       "artist": "ELIO",
       "type": "album",
@@ -134,17 +170,49 @@
       "link": "https://music.apple.com/us/album/autonomy/6781011762?uo=4"
     },
     {
-      "title": "SWAG LIVE FROM COACHELLA (Weekend II)",
-      "artist": "Justin Bieber",
-      "type": "album",
-      "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2a/0d/78/2a0d7836-a689-3467-56fd-30a09c1460ec/ticket.hptwlacf.jpg/400x400bb.jpg",
+      "title": "of everyone in the world… (feat. Love Interest)",
+      "artist": "Forrest Nolan",
+      "type": "song",
+      "release_date": "2026-07-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d2/6c/a1/d26ca194-d260-0eae-f5b2-e6f7f18fa5ca/00823375096221_Cover.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": "https://music.apple.com/us/album/swag-live-from-coachella-weekend-ii/6786441259?uo=4",
-      "charting": {
-        "storefront": "KR",
-        "rank": 47
-      }
+      "link": "https://music.apple.com/us/album/of-everyone-in-the-world-feat-love-interest-single/1891033466?uo=4"
+    },
+    {
+      "title": "junebug!",
+      "artist": "GAYLE",
+      "type": "song",
+      "release_date": "2026-06-30",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b3/df/65/b3df653f-d65f-b6c5-bd92-c34d10a9c26a/075679575180.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/junebug-single/6783079573?uo=4"
+    },
+    {
+      "title": "No Me Lo Mandes Decir",
+      "artist": "Joss Favela",
+      "type": "song",
+      "release_date": "2026-07-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/56/2a/f0/562af094-f504-f8cc-660e-ed09737e99e6/196874554074.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/no-me-lo-mandes-decir-single/6784299083?uo=4"
+    },
+    {
+      "title": "BESITO",
+      "artist": "Judeline",
+      "type": "song",
+      "release_date": "2026-07-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cd/b1/99/cdb1990f-5bc2-dec4-45e4-a5df4c6c6525/823375258513_Cover.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/besito-single/6783499285?uo=4"
+    },
+    {
+      "title": "PUZZL(OV)E",
+      "artist": "JUNG DAE HYUN",
+      "type": "album",
+      "release_date": "2026-06-30",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/27/76/0c/27760c57-8dea-3122-b6dd-dcc342afed21/1200214428501.jpg/400x400bb.png",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/puzzl-ov-e-ep/6784053900?uo=2"
     },
     {
       "title": "Justice League: Original Soundtrack-Vol. 2",
@@ -173,8 +241,8 @@
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/confessions-ii/1892545087?uo=4",
       "charting": {
-        "storefront": "KR",
-        "rank": 44
+        "storefront": "US",
+        "rank": 14
       }
     },
     {
@@ -187,6 +255,15 @@
       "link": "https://music.apple.com/us/album/bizarre/1892545087?i=1892545243&uo=2"
     },
     {
+      "title": "LA GUARACHA (Oh Oh Oh)",
+      "artist": "Manuel Turizo & Martinwhite",
+      "type": "song",
+      "release_date": "2026-07-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ac/38/71/ac38713d-2643-675b-39c5-dd2d84bff9a4/196874533697.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/la-guaracha-oh-oh-oh-single/6783873026?uo=4"
+    },
+    {
       "title": "BACK TO IBIZA",
       "artist": "Mike Posner, Kelland & BROSA",
       "type": "song",
@@ -194,6 +271,33 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b5/b6/fc/b5b6fcbd-e502-760c-172e-747a08f35ca1/054391213228.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/back-to-ibiza-single/6783997656?uo=4"
+    },
+    {
+      "title": "Aprevenido",
+      "artist": "Natanael Cano",
+      "type": "song",
+      "release_date": "2026-07-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b6/7f/f0/b67ff021-5466-37ee-1f50-23300356613f/196874318911.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/aprevenido-single/6783965532?uo=4"
+    },
+    {
+      "title": "AMERICAN BABY",
+      "artist": "Nightly",
+      "type": "song",
+      "release_date": "2026-06-30",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/75/8a/38/758a38a7-f21f-1c42-463a-113ad2354f2a/193436475945_NightlyAmericanBabyCoverArtcopy.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/american-baby-single/6780497495?uo=4"
+    },
+    {
+      "title": "Closure",
+      "artist": "Oliver Cronin",
+      "type": "song",
+      "release_date": "2026-07-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e4/5f/2f/e45f2fee-4355-4a51-92ba-2e5d666a8720/1200214416522.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/closure-single/6783213933?uo=4"
     },
     {
       "title": "Nuestra Herencia Campesina",
@@ -236,6 +340,24 @@
       "link": "https://music.apple.com/us/album/pretty-eyes-feat-flo-single/6781923505?uo=4"
     },
     {
+      "title": "【2026 Chill R&B Playlist】最怕 Rapper 唱情歌|12首聽一整晚也不會膩的浪漫 R&B| 放鬆心情的情歌專輯 | 工作背景音樂",
+      "artist": "Twinsight Music",
+      "type": "album",
+      "release_date": "2026-07-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8a/0e/0d/8a0e0dc1-98fa-4544-c4e0-9a080751f608/artwork.jpg/400x400bb.png",
+      "genre": "R&B",
+      "link": "https://music.apple.com/us/album/2026-chill-r-b-playlist-%E6%9C%80%E6%80%95-rapper-%E5%94%B1%E6%83%85%E6%AD%8C-12%E9%A6%96%E8%81%BD%E4%B8%80%E6%95%B4%E6%99%9A%E4%B9%9F%E4%B8%8D%E6%9C%83%E8%86%A9%E7%9A%84%E6%B5%AA%E6%BC%AB/6786618851?uo=2"
+    },
+    {
+      "title": "Playlist #Your Youth",
+      "artist": "UAU",
+      "type": "album",
+      "release_date": "2026-07-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/74/7e/44/747e445f-95d5-369e-5761-fab506ba8bca/1200214398989.jpg/400x400bb.png",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/playlist-your-youth-ep/6782732304?uo=2"
+    },
+    {
       "title": "ARE YOU EVER COMING BACK?",
       "artist": "vaultboy",
       "type": "song",
@@ -252,69 +374,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6f/8d/6e/6f8d6ec0-5f8a-a8a7-1723-963243e4b576/26UMGIM72968.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/hate-my-guts-single/6783996052?uo=4"
-    },
-    {
-      "title": "Undiscovered Country",
-      "artist": "Zach Gill",
-      "type": "song",
-      "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0b/e4/a4/0be4a4e7-da74-7718-dfe7-f29664d6a246/26UMGIM77718.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/undiscovered-country-single/6780695495?uo=4"
-    },
-    {
-      "title": "BAD (James Carter Ver.)",
-      "artist": "ATEEZ",
-      "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/76/25/36/762536f1-bd33-be85-250e-a86b0611651a/196874526088.jpg/400x400bb.png",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/bad-james-carter-ver/6781509330?i=6781509423&uo=2"
-    },
-    {
-      "title": "Nadie Sabe Lo Que Tiene",
-      "artist": "Efecto Elegante",
-      "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/43/63/de/4363de98-be1f-5b8f-b954-65f250a1f34b/3546051.jpg/400x400bb.png",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/nadie-sabe-lo-que-tiene/6781401413?i=6781401570&uo=2"
-    },
-    {
-      "title": "No Me Lo Mandes Decir",
-      "artist": "Joss Favela",
-      "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/56/2a/f0/562af094-f504-f8cc-660e-ed09737e99e6/196874554074.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/no-me-lo-mandes-decir-single/6784299083?uo=4"
-    },
-    {
-      "title": "LA GUARACHA (Oh Oh Oh)",
-      "artist": "Manuel Turizo & Martinwhite",
-      "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ac/38/71/ac38713d-2643-675b-39c5-dd2d84bff9a4/196874533697.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/la-guaracha-oh-oh-oh-single/6783873026?uo=4"
-    },
-    {
-      "title": "Aprevenido",
-      "artist": "Natanael Cano",
-      "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b6/7f/f0/b67ff021-5466-37ee-1f50-23300356613f/196874318911.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/aprevenido-single/6783965532?uo=4"
-    },
-    {
-      "title": "【2026 Chill R&B Playlist】最怕 Rapper 唱情歌|12首聽一整晚也不會膩的浪漫 R&B| 放鬆心情的情歌專輯 | 工作背景音樂",
-      "artist": "Twinsight Music",
-      "type": "album",
-      "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8a/0e/0d/8a0e0dc1-98fa-4544-c4e0-9a080751f608/artwork.jpg/400x400bb.png",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/2026-chill-r-b-playlist-%E6%9C%80%E6%80%95-rapper-%E5%94%B1%E6%83%85%E6%AD%8C-12%E9%A6%96%E8%81%BD%E4%B8%80%E6%95%B4%E6%99%9A%E4%B9%9F%E4%B8%8D%E6%9C%83%E8%86%A9%E7%9A%84%E6%B5%AA%E6%BC%AB/6786618851?uo=2"
     },
     {
       "title": "Sick Ass Foo's (feat. Lil Mr. E & Toxica)",
@@ -335,15 +394,6 @@
       "link": "https://music.apple.com/us/album/eres-mi-nada/6780570291?i=6780570305&uo=2"
     },
     {
-      "title": "Tu Pasado y Tú",
-      "artist": "Yuridia",
-      "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2b/b9/3c/2bb93cb5-ffd2-cfe6-9704-f959c8851309/196874505557.jpg/400x400bb.png",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/tu-pasado-y-t%C3%BA/6780570291?i=6780570494&uo=2"
-    },
-    {
       "title": "Eres Mi Nada / Tu Pasado y Tú",
       "artist": "Yuridia",
       "type": "song",
@@ -353,103 +403,22 @@
       "link": "https://music.apple.com/us/album/eres-mi-nada-tu-pasado-y-t%C3%BA-single/6780570291?uo=4"
     },
     {
-      "title": "RULE (feat. Heize)",
-      "artist": "츄",
+      "title": "Tu Pasado y Tú",
+      "artist": "Yuridia",
       "type": "song",
       "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e9/ff/7d/e9ff7d45-7145-37b4-778f-d087d7799923/191953557922.jpg/400x400bb.jpg",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/rule-feat-heize-single/6785786085?uo=4"
-    },
-    {
-      "title": "Mamma Mia(Who We Are) [AHOF Ver.]",
-      "artist": "AHOF",
-      "type": "song",
-      "release_date": "2026-07-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a2/3a/db/a23adbd1-d14b-f843-7ffe-480066ae55cf/cover_KM0024882_1.jpg/400x400bb.png",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/mamma-mia-who-we-are-ahof-ver/6785405239?i=6785405244&uo=2"
-    },
-    {
-      "title": "of everyone in the world… (feat. Love Interest)",
-      "artist": "Forrest Nolan",
-      "type": "song",
-      "release_date": "2026-07-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d2/6c/a1/d26ca194-d260-0eae-f5b2-e6f7f18fa5ca/00823375096221_Cover.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/of-everyone-in-the-world-feat-love-interest-single/1891033466?uo=4"
-    },
-    {
-      "title": "BESITO",
-      "artist": "Judeline",
-      "type": "song",
-      "release_date": "2026-07-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cd/b1/99/cdb1990f-5bc2-dec4-45e4-a5df4c6c6525/823375258513_Cover.jpg/400x400bb.jpg",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2b/b9/3c/2bb93cb5-ffd2-cfe6-9704-f959c8851309/196874505557.jpg/400x400bb.png",
       "genre": "Latin",
-      "link": "https://music.apple.com/us/album/besito-single/6783499285?uo=4"
+      "link": "https://music.apple.com/us/album/tu-pasado-y-t%C3%BA/6780570291?i=6780570494&uo=2"
     },
     {
-      "title": "Closure",
-      "artist": "Oliver Cronin",
+      "title": "Undiscovered Country",
+      "artist": "Zach Gill",
       "type": "song",
-      "release_date": "2026-07-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e4/5f/2f/e45f2fee-4355-4a51-92ba-2e5d666a8720/1200214416522.jpg/400x400bb.jpg",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0b/e4/a4/0be4a4e7-da74-7718-dfe7-f29664d6a246/26UMGIM77718.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": "https://music.apple.com/us/album/closure-single/6783213933?uo=4"
-    },
-    {
-      "title": "Playlist #Your Youth",
-      "artist": "UAU",
-      "type": "album",
-      "release_date": "2026-07-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/74/7e/44/747e445f-95d5-369e-5761-fab506ba8bca/1200214398989.jpg/400x400bb.png",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/playlist-your-youth-ep/6782732304?uo=2"
-    },
-    {
-      "title": "LUCID DREAM (☆Taku Takahashi Remix)",
-      "artist": "아이브",
-      "type": "song",
-      "release_date": "2026-07-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e5/64/21/e5642110-391a-4c70-5c46-11616ed5ed30/4547366834901.jpg/400x400bb.jpg",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/lucid-dream-taku-takahashi-remix-single/6781661557?uo=4"
-    },
-    {
-      "title": "BAD (Steve Aoki Ver.)",
-      "artist": "ATEEZ",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d0/f4/e1/d0f4e1cd-c68d-b405-40c7-81d8d33ae510/196874526033.jpg/400x400bb.png",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/bad-steve-aoki-ver/6781509616?i=6781509617&uo=2"
-    },
-    {
-      "title": "junebug!",
-      "artist": "GAYLE",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b3/df/65/b3df653f-d65f-b6c5-bd92-c34d10a9c26a/075679575180.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/junebug-single/6783079573?uo=4"
-    },
-    {
-      "title": "PUZZL(OV)E",
-      "artist": "JUNG DAE HYUN",
-      "type": "album",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/27/76/0c/27760c57-8dea-3122-b6dd-dcc342afed21/1200214428501.jpg/400x400bb.png",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/puzzl-ov-e-ep/6784053900?uo=2"
-    },
-    {
-      "title": "AMERICAN BABY",
-      "artist": "Nightly",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/75/8a/38/758a38a7-f21f-1c42-463a-113ad2354f2a/193436475945_NightlyAmericanBabyCoverArtcopy.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/american-baby-single/6780497495?uo=4"
+      "link": "https://music.apple.com/us/album/undiscovered-country-single/6780695495?uo=4"
     }
   ]
 }
