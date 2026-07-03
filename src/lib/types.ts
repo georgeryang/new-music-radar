@@ -7,11 +7,6 @@
 // album = everything larger — EPs, mini albums, full albums, variants.
 export type ReleaseType = 'album' | 'song'
 
-export interface ReleaseLink {
-  service: 'apple' // Apple-only architecture; field kept for shape stability
-  url: string
-}
-
 export interface Release {
   title: string
   artist: string
@@ -19,7 +14,7 @@ export interface Release {
   release_date: string // YYYY-MM-DD (sources report dates, not times)
   artwork: string // '' when the source has none
   genre?: string | null // canonical tag (K-pop, Latin, …); null when unknown
-  link?: ReleaseLink
+  link?: string // Apple Music URL, always the US storefront
   charting?: { storefront: 'KR' | 'US'; rank: number }
   preferred?: boolean // artist is in config/preferences.json — pinned first
 }

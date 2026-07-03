@@ -23,6 +23,7 @@
 // Exit codes: 0 = clean run, 2 = a source failed (partial data published).
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { GENRE_MAP, canonGenre } from './genre-map.mjs'
 
 // Display target is ~36h; the file holds a wider window and the frontend trims.
 const WINDOW_DAYS = 3
@@ -33,13 +34,25 @@ const PREFS = JSON.parse(readFileSync(new URL('../config/preferences.json', impo
 
 const log = (...a) => console.log(`[${new Date().toISOString().slice(0, 19).replace('T', ' ')}]`, ...a)
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
-// iTunes Search/Lookup is unofficially rate-limited (~20/min) — pace politely.
-const pauseItunes = () => sleep(2500 + Math.random() * 1500)
 
 async function getJSON(url) {
   const res = await fetch(url, { headers: { 'User-Agent': UA } })
   if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`)
   return res.json()
+}
+
+// iTunes Search/Lookup is unofficially rate-limited (~20/min). Every call to
+// that host goes through here: it waits out the gap since the previous call
+// (with jitter) instead of sleeping a fixed pause afterwards, so time spent
+// processing between calls counts toward the gap and the last call of a loop
+// doesn't leave a dangling sleep. Other Apple hosts (marketingtools, legacy
+// RSS, the web player) are not similarly limited and use getJSON directly.
+let lastItunesCall = 0
+async function itunesJSON(url) {
+  const wait = lastItunesCall + 2500 + Math.random() * 1500 - Date.now()
+  if (wait > 0) await sleep(wait)
+  lastItunesCall = Date.now()
+  return getJSON(url)
 }
 
 // ---------- normalization / canonical key ----------
@@ -91,40 +104,20 @@ const usLink = (u) => (u ? u.replace(/(music|itunes)\.apple\.com\/[a-z]{2}\//, '
 // Only Apple catalog URLs make it onto cards — one source is scraped, so
 // link fields are untrusted until they match this shape.
 const appleLink = (u) =>
-  u && /^https:\/\/(music|itunes)\.apple\.com\//.test(u) ? { service: 'apple', url: usLink(u) } : undefined
+  u && /^https:\/\/(music|itunes)\.apple\.com\//.test(u) ? usLink(u) : undefined
 
-// ---------- genre canonicalization ----------
-
-// iTunes primaryGenreName → the canonical tag shown on cards and matched by
-// config genres.preferred / genres.blocked. Unmapped names pass through as-is
-// so new iTunes genres are still visible/blockable.
-// Korean aliases cover the KR chart feed / storefront, which localizes genre
-// labels (힙합/랩) — the fallback path when a release has no US catalog entry.
-const GENRE_MAP = [
-  [/k-?pop|korean|케이팝/i, 'K-pop'],
-  [/mandopop|cantopop|c-?pop|chinese/i, 'C-pop'],
-  [/j-?pop|japan|anime/i, 'J-pop'],
-  [/opm|pinoy|philippin/i, 'OPM'],
-  [/vietnam/i, 'V-pop'],
-  [/thai/i, 'Thai pop'],
-  [/afro/i, 'Afrobeats'],
-  [/r&b|soul|알앤비|소울/i, 'R&B'],
-  // "mexican" covers both Regional Mexicano and Apple's newer Música Mexicana
-  [/latin|reggaeton|urbano|banda|mexican|salsa|cumbia/i, 'Latin'],
-  [/dance|electronic|house|techno|댄스|일렉트로닉/i, 'Dance'],
-  [/hip-?hop|rap|힙합|랩/i, 'Hip-Hop'],
-  [/alternative|indie/i, 'Alternative'],
-  [/rock|metal|punk|록|메탈/i, 'Rock'],
-  [/country/i, 'Country'],
-  [/soundtrack|tv|film|사운드트랙/i, 'OST'],
-  [/^pop$|worldwide|singer|^팝$/i, 'Pop'],
-]
-
-function canonGenre(itunesGenre) {
-  if (!itunesGenre) return null
-  const hit = GENRE_MAP.find(([re]) => re.test(itunesGenre))
-  return hit ? hit[1] : itunesGenre
-}
+// One iTunes lookup result (wrapperType "collection") → release card shape.
+// Every lookup-backed source (artist sweep, playlists, chart enrichment)
+// funnels through this so the shapes can't drift apart.
+const fromCollection = (a) => ({
+  title: displayTitle(a.collectionName),
+  artist: a.artistName,
+  type: classify(a.collectionName, a.trackCount),
+  release_date: a.releaseDate.slice(0, 10),
+  artwork: artUrl(a.artworkUrl100),
+  genre: canonGenre(a.primaryGenreName),
+  link: appleLink(a.collectionViewUrl),
+})
 
 const lower = (list) => (list ?? []).map((s) => s.toLowerCase())
 const GENRES_PREFERRED = lower(PREFS.genres?.preferred)
@@ -168,11 +161,10 @@ async function resolveArtist(entry) {
   const key = normArtist(entry.name)
   if (artistCache[key]) return artistCache[key]
   for (const country of ['us', 'kr']) {
-    const data = await getJSON(
+    const data = await itunesJSON(
       `https://itunes.apple.com/search?term=${encodeURIComponent(entry.name)}&entity=musicArtist&country=${country}&limit=5`
     )
     const hit = (data.results ?? []).find((a) => normArtist(a.artistName) === key) ?? data.results?.[0]
-    await pauseItunes()
     if (hit) {
       const resolved = { id: hit.artistId, name: hit.artistName }
       artistCache[key] = resolved
@@ -202,7 +194,7 @@ try {
 } catch {}
 
 async function batchReleases(ids, country) {
-  const data = await getJSON(
+  const data = await itunesJSON(
     `https://itunes.apple.com/lookup?id=${ids.join(',')}&entity=album&country=${country}&limit=50&sort=recent`
   )
   const collections = (data.results ?? []).filter((r) => r.wrapperType === 'collection')
@@ -212,17 +204,7 @@ async function batchReleases(ids, country) {
       if (d && (!artistActivity[a.artistId] || d > artistActivity[a.artistId])) artistActivity[a.artistId] = d
     }
   }
-  return collections
-    .filter((a) => a.releaseDate && inWindow(a.releaseDate))
-    .map((a) => ({
-      title: displayTitle(a.collectionName),
-      artist: a.artistName,
-      type: classify(a.collectionName, a.trackCount),
-      release_date: a.releaseDate.slice(0, 10),
-      artwork: artUrl(a.artworkUrl100),
-      genre: canonGenre(a.primaryGenreName),
-      link: appleLink(a.collectionViewUrl),
-    }))
+  return collections.filter((a) => a.releaseDate && inWindow(a.releaseDate)).map(fromCollection)
 }
 
 // ---------- Apple most-played charts (badge + chart discovery) ----------
@@ -274,10 +256,12 @@ async function genreFeedReleases(feedType, genreId) {
 
 // New Music Daily & friends are the only day-of, all-genre new-release surface
 // Apple exposes without an Apple Music API token. The web player page embeds
-// the track list as JSON; we take each track's parent-album id and resolve the
-// albums through a batched lookup. Scraping is the fragile source — failures
-// must be loud (exit 2), never silent.
-async function playlistReleases(pl) {
+// the track list as JSON; this parses it down to the parent-album ids. The
+// paced batched lookups that resolve those ids to releases happen later in
+// the pipeline — the page fetch itself is unthrottled and runs concurrently
+// with the artist sweep. Scraping is the fragile source — failures must be
+// loud (exit 2), never silent.
+async function playlistAlbumIds(pl) {
   const res = await fetch(pl.url, {
     // full browser UA: the web player only embeds the JSON for browsers
     headers: {
@@ -307,32 +291,41 @@ async function playlistReleases(pl) {
     }
     Object.values(o).forEach(walk)
   })(JSON.parse(m[1]))
-  log(`${pl.name}: ${tracks} tracks → ${albumIds.size} unique albums`)
-  const found = []
-  const ids = [...albumIds]
-  for (let i = 0; i < ids.length; i += 100) {
-    const d = await getJSON(`https://itunes.apple.com/lookup?id=${ids.slice(i, i + 100).join(',')}&country=us`)
-    await pauseItunes()
-    for (const a of d.results ?? []) {
-      if (a.wrapperType !== 'collection' || !a.releaseDate || !inWindow(a.releaseDate)) continue
-      found.push({
-        title: displayTitle(a.collectionName),
-        artist: a.artistName,
-        type: classify(a.collectionName, a.trackCount),
-        release_date: a.releaseDate.slice(0, 10),
-        artwork: artUrl(a.artworkUrl100),
-        genre: canonGenre(a.primaryGenreName),
-        link: appleLink(a.collectionViewUrl),
-      })
-    }
-  }
-  return found
+  return { pl, tracks, albumIds: [...albumIds] }
 }
 
 // ---------- pipeline ----------
 
 let anyFailed = false
 const releases = []
+
+// Unthrottled fetches (marketingtools charts, legacy RSS genre feeds, web
+// player playlist pages) start now and resolve while the paced artist sweep
+// runs — their wall time disappears behind it. The genre feeds share the
+// itunes.apple.com hostname with the throttled Search/Lookup API, so they get
+// a small stagger as insurance. Results are consumed in pipeline order below.
+const chartsP = Promise.allSettled(['kr', 'us'].map((sf) => fetchChart(sf)))
+const genreFeedsP = Promise.allSettled(
+  GENRE_FEEDS.flatMap(({ genreId, tag }, gi) =>
+    ['topalbums', 'topsongs'].map((feedType, fi) =>
+      sleep((gi * 2 + fi) * 250)
+        .then(() => genreFeedReleases(feedType, genreId))
+        .then(
+          (found) => ({ tag, feedType, found }),
+          (e) => {
+            throw new Error(`${tag} ${feedType}: ${e.message}`)
+          }
+        )
+    )
+  )
+)
+const playlistPagesP = Promise.allSettled(
+  (PREFS.discovery?.playlists ?? []).map((pl) =>
+    playlistAlbumIds(pl).catch((e) => {
+      throw new Error(`${pl.name}: ${e.message}`)
+    })
+  )
+)
 
 // 1. Preferred artists — the guaranteed layer, swept in batched lookups
 const resolvedArtists = []
@@ -371,7 +364,6 @@ for (const country of ['us', 'kr']) {
       if (country === 'us') usBatchFailures++
       log(`${country.toUpperCase()} batch ${n}/${batches.length} failed: ${e.message}`)
     }
-    await pauseItunes()
   }
 }
 writeFileSync(ACTIVITY_PATH, JSON.stringify(artistActivity, null, 2) + '\n')
@@ -380,92 +372,107 @@ if (batches.length > 0 && usBatchFailures === batches.length) anyFailed = true
 
 // 2. Charts — badges for the above, plus in-window chart entries as discovery
 const charts = []
-for (const storefront of ['kr', 'us']) {
-  try {
-    charts.push({ storefront: storefront.toUpperCase(), list: await fetchChart(storefront) })
-  } catch (e) {
+for (const [i, settled] of (await chartsP).entries()) {
+  const storefront = ['KR', 'US'][i]
+  if (settled.status === 'fulfilled') charts.push({ storefront, list: settled.value })
+  else {
     anyFailed = true
-    log(`${storefront} chart fetch failed: ${e.message}`)
+    log(`${storefront} chart fetch failed: ${settled.reason.message}`)
   }
 }
 
+// Collect in-window candidates first (prefiltering entries whose feed genre
+// already maps to a non-preferred tag — they'd be dropped at the filter, so
+// don't spend a lookup; unmapped labels, often localized KR strings, still
+// get looked up for a real genre). Then enrich all candidates with two
+// batched lookups instead of one paced call each: classify() needs
+// trackCount, and the KR feed's genre labels and links need the US catalog's
+// English/US versions. Ids missing from the US catalog fall back to KR.
+const candidates = []
 for (const c of charts) {
   for (const { rank, entry: e } of c.list) {
     if (!e.releaseDate || !inWindow(e.releaseDate)) continue
-    // KR feed genre labels are Korean-localized ("힙합/랩") — only a fallback
-    // for when the US lookup below finds no catalog entry.
-    let genreName = (e.genres ?? []).map((g) => g.name).find((n) => n && n !== 'Music') ?? null
-    // Prefilter: when the feed label already maps to a canonical tag that
-    // isn't preferred — and the artist isn't a preferred one — the entry is
-    // doomed at the filter anyway; skip its paced lookup. Unmapped labels
-    // (often localized KR strings) still get the US lookup for a real genre.
-    const mapped = genreName && GENRE_MAP.some(([re]) => re.test(genreName))
+    const feedGenre = (e.genres ?? []).map((g) => g.name).find((n) => n && n !== 'Music') ?? null
+    const mapped = feedGenre && GENRE_MAP.some(([re]) => re.test(feedGenre))
     if (
       mapped &&
-      !isGenrePreferred(canonGenre(genreName)) &&
+      !isGenrePreferred(canonGenre(feedGenre)) &&
       !PREFERRED_ARTIST_RES.some((re) => re.test(normArtist(e.artistName)))
     ) {
-      log(`skipped chart lookup: ${e.artistName} — ${e.name} [${canonGenre(genreName)}]`)
+      log(`skipped chart lookup: ${e.artistName} — ${e.name} [${canonGenre(feedGenre)}]`)
       continue
     }
-    // The chart feed lacks trackCount; look it up so classify() agrees with
-    // the artist path — a type mismatch would split the dedup key and show
-    // the same release twice. US storefront first: it carries the English
-    // genre labels that GENRE_MAP and the config genre lists match against.
-    // In-window chart entries are few, so this is a handful of extra calls.
-    let trackCount
-    let viewUrl = e.url
-    for (const country of c.storefront === 'US' ? ['us'] : ['us', c.storefront.toLowerCase()]) {
-      let hit
-      try {
-        hit = (await getJSON(`https://itunes.apple.com/lookup?id=${e.id}&country=${country}`)).results?.[0]
-      } catch {}
-      await pauseItunes()
-      if (hit) {
-        trackCount = hit.trackCount
-        if (hit.primaryGenreName) genreName = hit.primaryGenreName
-        if (hit.collectionViewUrl) viewUrl = hit.collectionViewUrl
-        break
-      }
-    }
-    releases.push({
-      title: displayTitle(e.name),
-      artist: e.artistName,
-      type: classify(e.name, trackCount),
-      release_date: e.releaseDate,
-      artwork: artUrl(e.artworkUrl100),
-      genre: canonGenre(genreName),
-      link: appleLink(viewUrl),
-      charting: { storefront: c.storefront, rank },
-    })
+    candidates.push({ storefront: c.storefront, rank, e, feedGenre })
   }
+}
+
+const chartInfo = new Map() // collection id → lookup hit (US preferred, KR fallback)
+const wanted = [...new Set(candidates.map((x) => String(x.e.id)))]
+if (wanted.length) {
+  try {
+    const d = await itunesJSON(`https://itunes.apple.com/lookup?id=${wanted.join(',')}&country=us`)
+    for (const r of d.results ?? []) chartInfo.set(String(r.collectionId), r)
+    const missing = wanted.filter((id) => !chartInfo.has(id))
+    if (missing.length) {
+      const dkr = await itunesJSON(`https://itunes.apple.com/lookup?id=${missing.join(',')}&country=kr`)
+      for (const r of dkr.results ?? []) chartInfo.set(String(r.collectionId), r)
+    }
+  } catch (e) {
+    log(`chart enrichment lookup failed — falling back to feed data: ${e.message}`)
+  }
+}
+
+for (const { storefront, rank, e, feedGenre } of candidates) {
+  const hit = chartInfo.get(String(e.id))
+  releases.push({
+    title: displayTitle(e.name),
+    artist: e.artistName,
+    type: classify(e.name, hit?.trackCount),
+    release_date: e.releaseDate,
+    artwork: artUrl(e.artworkUrl100),
+    genre: canonGenre(hit?.primaryGenreName ?? feedGenre),
+    link: appleLink(hit?.collectionViewUrl ?? e.url),
+    charting: { storefront, rank },
+  })
 }
 
 // 3. Genre purchase charts — day-of new releases in core preferred genres
-for (const { genreId, tag } of GENRE_FEEDS) {
-  for (const feedType of ['topalbums', 'topsongs']) {
-    try {
-      const found = await genreFeedReleases(feedType, genreId)
-      if (found.length) log(`${tag} ${feedType}: ${found.length} in-window`)
-      releases.push(...found)
-    } catch (e) {
-      anyFailed = true
-      log(`${tag} ${feedType} feed failed: ${e.message}`)
-    }
-    // courtesy pause — the legacy RSS host isn't Search/Lookup-throttled
-    await sleep(500)
+for (const settled of await genreFeedsP) {
+  if (settled.status === 'rejected') {
+    anyFailed = true
+    log(`genre feed failed: ${settled.reason.message}`)
+    continue
   }
+  const { tag, feedType, found } = settled.value
+  if (found.length) log(`${tag} ${feedType}: ${found.length} in-window`)
+  releases.push(...found)
 }
 
 // 4. Editorial playlists — curated day-of releases across all genres
-for (const pl of PREFS.discovery?.playlists ?? []) {
+for (const settled of await playlistPagesP) {
+  if (settled.status === 'rejected') {
+    anyFailed = true
+    log(`playlist scrape failed: ${settled.reason.message}`)
+    continue
+  }
+  const { pl, tracks, albumIds } = settled.value
+  log(`${pl.name}: ${tracks} tracks → ${albumIds.length} unique albums`)
   try {
-    const found = await playlistReleases(pl)
-    log(`${pl.name}: ${found.length} in-window releases`)
-    releases.push(...found)
+    let found = 0
+    for (let i = 0; i < albumIds.length; i += 100) {
+      const d = await itunesJSON(
+        `https://itunes.apple.com/lookup?id=${albumIds.slice(i, i + 100).join(',')}&country=us`
+      )
+      const fresh = (d.results ?? [])
+        .filter((a) => a.wrapperType === 'collection' && a.releaseDate && inWindow(a.releaseDate))
+        .map(fromCollection)
+      found += fresh.length
+      releases.push(...fresh)
+    }
+    log(`${pl.name}: ${found} in-window releases`)
   } catch (e) {
     anyFailed = true
-    log(`${pl.name} scrape failed: ${e.message}`)
+    log(`${pl.name} lookup failed: ${e.message}`)
   }
 }
 
@@ -547,7 +554,10 @@ if (out.length === 0) {
   try {
     prev = JSON.parse(readFileSync(OUT, 'utf8')).releases ?? []
   } catch {}
-  const carried = prev.filter((r) => inWindow(r.release_date))
+  const carried = prev
+    .filter((r) => inWindow(r.release_date))
+    // pre-simplification files stored link as {service, url}
+    .map((r) => ({ ...r, link: r.link && typeof r.link === 'object' ? r.link.url : r.link }))
   if (carried.length) {
     log(`0 fetched but ${carried.length} previous in-window releases — carrying over`)
     out = carried
