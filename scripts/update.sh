@@ -47,9 +47,9 @@ fi
 log "Fetching new releases..."
 FETCH_FAILED=0
 if ! "$NODE" scripts/fetch-releases.mjs; then
-  # Don't bail: one scene failing shouldn't hold the other's data hostage.
+  # Don't bail: one source failing shouldn't hold the others' data hostage.
   # Publish whatever was written, then exit non-zero so the failure is logged.
-  log "ERROR: fetch failed for at least one scene (publishing partial data)"
+  log "ERROR: fetch failed for at least one source (publishing partial data)"
   FETCH_FAILED=1
 fi
 

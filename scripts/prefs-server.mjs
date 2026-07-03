@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Local preferences editor for config/preferences.json — the file that drives
 // the nightly fetch (preferred artists get discography checks + pinning,
-// blocked artists/genres are dropped). Zero deps; launched by prefs.command.
+// blocked artists are dropped by ID). Zero deps; launched by prefs.command.
 //
 // Binds 127.0.0.1 only, and rejects requests whose Host/Origin isn't this
 // server (defeats cross-site POSTs and DNS rebinding from pages you visit
@@ -132,7 +132,7 @@ const server = http.createServer(async (req, res) => {
         genres: p.genres,
         playlists: p.discovery?.playlists ?? [],
         activity: readActivity(),
-        genreOptions: [...new Set([...CANON_TAGS, ...seen])],
+        genreOptions: [...new Set([...CANON_TAGS, ...seen])].sort((a, b) => a.localeCompare(b)),
         siteUrl: SITE_URL,
       })
     } else if (req.method === 'POST' && url.pathname === '/api/prefs') {
@@ -149,14 +149,13 @@ const server = http.createServer(async (req, res) => {
       }
       if (
         !isPinnedArtistList(incoming?.artists?.preferred) || !isPinnedArtistList(incoming?.artists?.blocked) ||
-        !isStringList(incoming?.genres?.preferred) || !isStringList(incoming?.genres?.blocked) ||
+        !isStringList(incoming?.genres?.preferred) ||
         !isPlaylistList(incoming?.discovery?.playlists)
       ) return json(res, 400, { error: 'invalid list shape' })
       const p = readPrefs() // preserve _comment, anything else
       p.artists.preferred = incoming.artists.preferred
       p.artists.blocked = incoming.artists.blocked
-      p.genres.preferred = incoming.genres.preferred
-      p.genres.blocked = incoming.genres.blocked
+      p.genres = { ...p.genres, preferred: incoming.genres.preferred }
       p.discovery = { ...p.discovery, playlists: incoming.discovery.playlists }
       writeFileSync(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
       json(res, 200, { ok: true })
@@ -221,8 +220,7 @@ const PAGE = /* html */ `<!doctype html>
   .results { position: absolute; top: 34px; left: 0; right: 0; z-index: 10; background: Canvas; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,.12); }
   .results button { display: flex; width: 100%; align-items: center; gap: 10px; padding: 7px 10px; border: 0; background: none; cursor: pointer; font: inherit; font-size: 13px; text-align: left; color: inherit; }
   .results button:hover { background: var(--chip); }
-  .results img { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; background: var(--chip); }
-  .results .fans { margin-left: auto; color: var(--muted); font-size: 11.5px; white-space: nowrap; }
+  .results .genre { margin-left: auto; color: var(--muted); font-size: 11.5px; white-space: nowrap; }
   .results a { color: var(--muted); text-decoration: none; padding: 0 6px; font-size: 14px; }
   .results a:hover { color: inherit; }
   footer { position: fixed; bottom: 0; left: 0; right: 0; background: Canvas; border-top: 1px solid var(--border); padding: 10px 16px; display: flex; gap: 8px; align-items: center; justify-content: center; }
@@ -241,7 +239,7 @@ const PAGE = /* html */ `<!doctype html>
 </head>
 <body>
 <header><h1>Preferences</h1><a href="" id="site-link" target="_blank" rel="noopener noreferrer">Open radar →</a></header>
-<p class="hint">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away (takes a few minutes).</p>
+<p class="hint">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away (about two minutes).</p>
 <div id="sections"></div>
 <datalist id="genre-dl"></datalist>
 <pre id="log" hidden></pre>
@@ -255,13 +253,13 @@ const PAGE = /* html */ `<!doctype html>
 <script>
 let prefs, activity = {}, dirty = false
 const $ = (id) => document.getElementById(id)
-// artist entries are "Name" or {name, id}; genres are plain strings
+// artist entries are {name, id} (picker-pinned; the server rejects anything
+// else); genres are plain strings; playlists are {name, url}
 const nameOf = (e) => (typeof e === 'string' ? e : e.name)
 const SECTIONS = [
   { key: 'artists.preferred', label: 'Preferred artists', sub: 'pinned first ★, fetched by Apple ID, bypass filters', artist: true, requireId: true },
   { key: 'artists.blocked', label: 'Blocked artists', sub: 'never shown (matched by Apple ID)', artist: true, requireId: true },
-  { key: 'genres.preferred', label: 'Preferred genres', sub: 'discovery only surfaces these', artist: false },
-  { key: 'genres.blocked', label: 'Blocked genres', sub: 'never shown', artist: false },
+  { key: 'genres.preferred', label: 'Preferred genres', sub: 'discovery only surfaces these (preferred artists always show)', artist: false },
   { key: 'discovery.playlists', label: 'Discovery playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', playlist: true },
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
@@ -280,7 +278,7 @@ function renderAll() {
     const h = document.createElement('h2')
     h.textContent = s.label + ' '
     const small = document.createElement('small')
-    small.textContent = '— ' + s.sub
+    small.textContent = '· ' + s.sub
     h.appendChild(small)
     const chips = document.createElement('div')
     chips.className = 'chips'
@@ -372,7 +370,7 @@ function makeAdder(s) {
           const nm = document.createElement('span')
           nm.textContent = a.name
           const genre = document.createElement('span')
-          genre.className = 'fans'
+          genre.className = 'genre'
           genre.textContent = a.genre
           b.append(nm, genre)
           if (a.url) {
@@ -425,12 +423,12 @@ async function poll() {
     if (st.running) {
       $('log').textContent = st.log.join('\\n')
       $('log').scrollTop = $('log').scrollHeight
-      setBanner('running', 'Refreshing — takes a few minutes. Live progress above; safe to close this page, the refresh continues in the background.')
+      setBanner('running', 'Refreshing, about two minutes. Live progress above; safe to close this page, the refresh continues in the background.')
     } else if (wasRunning) {
       const ok = st.log.some((l) => /Published|No changes/.test(l))
       setBanner(ok ? 'ok' : 'bad', ok
-        ? 'Refresh complete — the site shows the new data within a minute.'
-        : 'Refresh finished with errors — check ~/Library/Logs/new-music-radar.log.')
+        ? 'Refresh complete. The site shows the new data within a minute.'
+        : 'Refresh finished with errors. Check ~/Library/Logs/new-music-radar.log.')
     }
     wasRunning = st.running
   }
