@@ -1,5 +1,5 @@
 {
-  "_comment": "Genre lists are case-insensitive and match the canonical tags from GENRE_MAP in scripts/genre-map.mjs. artists.* entries (both lists) must be {name, id} objects where id is an APPLE MUSIC artist id, added via the prefs.command picker — preferred artists are fetched by id, blocked artists are dropped by id. discovery.playlists are Apple Music playlist pages scraped nightly for day-of releases — paste any playlist URL from music.apple.com (also editable in prefs.command).",
+  "_comment": "genres.preferred is case-insensitive and matches the canonical tags from GENRE_MAP in scripts/genre-map.mjs — discovery only surfaces these genres (preferred artists always show regardless). artists.* entries (both lists) must be {name, id} objects where id is an APPLE MUSIC artist id, added via the prefs.command picker — preferred artists are fetched by id, blocked artists are dropped by id. discovery.playlists are Apple Music playlist pages scraped nightly for day-of releases — paste any playlist URL from music.apple.com (also editable in prefs.command).",
   "artists": {
     "preferred": [
       {
@@ -370,10 +370,6 @@
       "R&B",
       "Thai pop",
       "V-pop"
-    ],
-    "blocked": [
-      "Country",
-      "Rock"
     ]
   },
   "discovery": {

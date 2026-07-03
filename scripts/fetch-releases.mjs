@@ -13,15 +13,16 @@
 //   2. Apple US most-played chart — "US #2" badges, plus chart entries
 //      released within the window become entries themselves.
 //   3. US iTunes genre purchase charts (GENRE_FEEDS) — purchases spike on
-//      release day, so new drops in core preferred genres appear within hours
-//      (most-played lags by days).
+//      release day, so new drops in preferred genres appear within hours
+//      (most-played lags by days). Song-chart tracks resolve to their parent
+//      collection: every card is exactly one Apple collection.
 //   4. Editorial playlists (config discovery.playlists, e.g. New Music Daily)
 //      — scraped from the web player page; curated day-of, all-genre.
 // Releases with no Apple match don't exist here by construction.
 //
 // Filter precedence per release:
-//   artist blocked → drop | artist preferred → keep | genre blocked → drop |
-//   genre preferred → keep | else drop (chart discovery sticks to preferred genres).
+//   artist blocked → drop | artist preferred → keep |
+//   genre preferred → keep | else drop (discovery sticks to preferred genres).
 //
 // Exit codes: 0 = clean run, 2 = a source failed (partial data published).
 
@@ -123,40 +124,40 @@ const fromCollection = (a) => ({
   link: appleLink(a.collectionViewUrl),
 })
 
-const lower = (list) => (list ?? []).map((s) => s.toLowerCase())
-const GENRES_PREFERRED = lower(PREFS.genres?.preferred)
-const GENRES_BLOCKED = lower(PREFS.genres?.blocked)
+const GENRES_PREFERRED = (PREFS.genres?.preferred ?? []).map((s) => s.toLowerCase())
 
 // Both artist lists are {name, id} — the prefs editor's Apple picker pins the
 // exact artist by ID, and both fetching (preferred) and blocking (blocked)
 // key on the ID.
-const asEntry = (e) => (typeof e === 'string' ? { name: e } : e)
-const PREFERRED_ENTRIES = (PREFS.artists?.preferred ?? []).map(asEntry)
+const PREFERRED_ENTRIES = PREFS.artists?.preferred ?? []
 // Blocking matches by Apple ID — precise, no name collisions ("Drake" can't
 // catch "Drake Milligan"). Caveat: a blocked artist's collabs are credited to
 // a joint entity with its own ID, so those aren't blocked.
 const BLOCKED_IDS = new Set()
-for (const e of (PREFS.artists?.blocked ?? []).map(asEntry)) {
-  if (e.id) BLOCKED_IDS.add(e.id)
-  else log(`blocked artist "${e.name}" has no Apple ID — re-add via the prefs picker; not blocking`)
+for (const e of PREFS.artists?.blocked ?? []) {
+  if (e?.id) BLOCKED_IDS.add(e.id)
+  else log(`blocked artist "${e?.name ?? e}" has no Apple ID — re-add via the prefs picker; not blocking`)
 }
 // Preferred *marking* (the ★ + filter bypass for releases arriving via other
 // sources) stays name-based on purpose: collab releases are credited to joint
 // artist entities whose IDs aren't in the config, but the member's name is in
 // the credit string.
-const PREFERRED_ARTIST_RES = PREFERRED_ENTRIES.map(
+// Marking tolerates legacy bare-string entries (pre-migration backups): they
+// can't be swept (no ID) but their name still earns the star and filter
+// bypass for releases arriving via other sources.
+const entryName = (e) => (typeof e === 'string' ? e : e?.name)
+const PREFERRED_ARTIST_RES = PREFERRED_ENTRIES.map(entryName).filter(Boolean).map(
   // Whole-word match so "IVE" can't match inside "RIIZE". Unicode lookarounds
   // instead of \b — \b is ASCII-only and never matches at CJK name boundaries
   // (鄧紫棋 would silently lose its preferred status).
-  (e) =>
+  (name) =>
     new RegExp(
-      `(?<![\\p{L}\\p{N}])${normArtist(e.name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}])`,
+      `(?<![\\p{L}\\p{N}])${normArtist(name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}])`,
       'u'
     )
 )
 
 const isGenrePreferred = (g) => !!g && GENRES_PREFERRED.includes(g.toLowerCase())
-const isGenreBlocked = (g) => !!g && GENRES_BLOCKED.includes(g.toLowerCase())
 const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 
 // ---------- preferred artists via iTunes ----------
@@ -190,6 +191,17 @@ async function batchReleases(ids) {
   return collections.filter((a) => a.releaseDate && inWindow(a.releaseDate)).map(fromCollection)
 }
 
+// Batched collection-id lookup (chunks of 100), shared by chart enrichment,
+// song-chart resolution, and playlist albums.
+async function lookupCollections(ids) {
+  const hits = []
+  for (let i = 0; i < ids.length; i += 100) {
+    const d = await itunesJSON(`https://itunes.apple.com/lookup?id=${ids.slice(i, i + 100).join(',')}&country=us`)
+    hits.push(...(d.results ?? []).filter((r) => r.wrapperType === 'collection'))
+  }
+  return hits
+}
+
 // ---------- Apple most-played charts (badge + chart discovery) ----------
 
 async function fetchChart() {
@@ -212,29 +224,47 @@ const GENRE_FEEDS = [
   { genreId: 12, tag: 'Latin' },
   { genreId: 14, tag: 'Pop' },
   { genreId: 15, tag: 'R&B' },
+  { genreId: 27, tag: 'J-pop' },
+  { genreId: 1232, tag: 'C-pop' }, // Apple's "Chinese" world subgenre
+  { genreId: 1203, tag: 'Afrobeats' }, // Apple's "African" world subgenre
 ]
 
-async function genreFeedReleases(feedType, genreId) {
+// Returns a feed's in-window raw entries. topalbums entries are collections
+// and map straight to cards; topsongs entries are TRACKS — emitting those
+// directly puts one card per track of the same single on the page (both
+// sides of a 2-track single chart separately, while the single itself
+// arrives from other sources under a third title). Song entries therefore
+// only contribute their parent collection id, resolved in a batched lookup
+// later, so every card in the system is exactly one Apple collection.
+async function genreFeed(feedType, genreId) {
   const data = await getJSON(
     `https://itunes.apple.com/us/rss/${feedType}/genre=${genreId}/limit=100/json`
   )
-  return (data.feed?.entry ?? [])
-    .filter((e) => e['im:releaseDate']?.label && inWindow(e['im:releaseDate'].label))
-    .map((e) => ({
-      title: displayTitle(e['im:name'].label),
-      artist: e['im:artist'].label,
-      // the feed has no artistId field, but the artist URL ends in one
-      artist_id: Number(e['im:artist']?.attributes?.href?.match(/\/(\d+)(?:\?|$)/)?.[1]) || undefined,
-      type: feedType === 'topsongs' ? 'song' : classify(e['im:name'].label, Number(e['im:itemCount']?.label)),
-      release_date: e['im:releaseDate'].label.slice(0, 10),
-      artwork: artUrl(e['im:image']?.at(-1)?.label),
-      genre: canonGenre(e.category?.attributes?.label),
-      link: appleLink(e.id?.label),
-      // no charting badge — rank badges stay exclusive to most-played charts.
-      // TODO(designer): should genre-chart finds get their own subtle source
-      // indicator, or stay badge-less?
-    }))
+  return (data.feed?.entry ?? []).filter(
+    (e) => e['im:releaseDate']?.label && inWindow(e['im:releaseDate'].label)
+  )
 }
+
+// No charting badge on genre-chart finds — rank badges stay exclusive to the
+// most-played chart. TODO(designer): should genre-chart finds get their own
+// subtle source indicator, or stay badge-less?
+//
+// genre comes from the FEED's tag, not the entry's category label: umbrella
+// feeds (Chinese, African) label entries with subgenres ("Taiwanese Folk",
+// "Alte") that canonicalize outside the preferred list and would be dropped
+// at the filter — the whole point of watching the feed. Charting in a
+// genre's feed is what makes a release that genre here.
+const albumEntryToRelease = (e, tag) => ({
+  title: displayTitle(e['im:name'].label),
+  artist: e['im:artist'].label,
+  // the feed has no artistId field, but the artist URL ends in one
+  artist_id: Number(e['im:artist']?.attributes?.href?.match(/\/(\d+)(?:\?|$)/)?.[1]) || undefined,
+  type: classify(e['im:name'].label, Number(e['im:itemCount']?.label)),
+  release_date: e['im:releaseDate'].label.slice(0, 10),
+  artwork: artUrl(e['im:image']?.at(-1)?.label),
+  genre: tag,
+  link: appleLink(e.id?.label),
+})
 
 // ---------- editorial playlists (scraped web player pages) ----------
 
@@ -293,9 +323,9 @@ const genreFeedsP = Promise.allSettled(
   GENRE_FEEDS.flatMap(({ genreId, tag }, gi) =>
     ['topalbums', 'topsongs'].map((feedType, fi) =>
       sleep((gi * 2 + fi) * 250)
-        .then(() => genreFeedReleases(feedType, genreId))
+        .then(() => genreFeed(feedType, genreId))
         .then(
-          (found) => ({ tag, feedType, found }),
+          (entries) => ({ tag, feedType, entries }),
           (e) => {
             throw new Error(`${tag} ${feedType}: ${e.message}`)
           }
@@ -316,8 +346,8 @@ const playlistPagesP = Promise.allSettled(
 // one) — name-only entries are ambiguous (three distinct "Sabrina"s exist)
 // and are skipped loudly rather than guessed at.
 const sweepArtists = PREFERRED_ENTRIES.filter((e) => {
-  if (e.id) return true
-  log(`"${e.name}" has no Apple artist ID — re-add it via the prefs editor picker; skipped`)
+  if (e?.id) return true
+  log(`"${entryName(e) ?? e}" has no Apple artist ID — re-add it via the prefs editor picker; skipped`)
   return false
 })
 
@@ -379,8 +409,7 @@ const chartInfo = new Map() // collection id → lookup hit
 const wanted = [...new Set(candidates.map((x) => String(x.e.id)))]
 if (wanted.length) {
   try {
-    const d = await itunesJSON(`https://itunes.apple.com/lookup?id=${wanted.join(',')}&country=us`)
-    for (const r of d.results ?? []) chartInfo.set(String(r.collectionId), r)
+    for (const r of await lookupCollections(wanted)) chartInfo.set(String(r.collectionId), r)
   } catch (e) {
     log(`chart enrichment lookup failed — falling back to feed data: ${e.message}`)
   }
@@ -391,7 +420,8 @@ for (const { rank, e, feedGenre } of candidates) {
   releases.push({
     title: displayTitle(e.name),
     artist: e.artistName,
-    artist_id: hit?.artistId ?? e.artistId,
+    // the feed serializes artistId as a string; BLOCKED_IDS holds numbers
+    artist_id: Number(hit?.artistId ?? e.artistId) || undefined,
     type: classify(e.name, hit?.trackCount),
     release_date: e.releaseDate,
     artwork: artUrl(e.artworkUrl100),
@@ -401,16 +431,43 @@ for (const { rank, e, feedGenre } of candidates) {
   })
 }
 
-// 3. Genre purchase charts — day-of new releases in core preferred genres
+// 3. Genre purchase charts — day-of new releases in preferred genres.
+// Album entries become cards directly; song entries pool their parent
+// collection ids for one batched lookup, so a single charting under several
+// track titles still lands as one card.
+const songParentTags = new Map() // parent collection id → feed tag
 for (const settled of await genreFeedsP) {
   if (settled.status === 'rejected') {
     anyFailed = true
     log(`genre feed failed: ${settled.reason.message}`)
     continue
   }
-  const { tag, feedType, found } = settled.value
-  if (found.length) log(`${tag} ${feedType}: ${found.length} in-window`)
-  releases.push(...found)
+  const { tag, feedType, entries } = settled.value
+  if (!entries.length) continue
+  if (feedType === 'topalbums') {
+    log(`${tag} topalbums: ${entries.length} in-window`)
+    releases.push(...entries.map((e) => albumEntryToRelease(e, tag)))
+  } else {
+    // track URLs look like /album/<slug>/<collectionId>?i=<trackId>
+    const ids = entries
+      .map((e) => e.id?.label?.match(/\/album\/[^/]+\/(\d+)/)?.[1])
+      .filter(Boolean)
+    ids.forEach((id) => songParentTags.set(id, songParentTags.get(id) ?? tag))
+    log(`${tag} topsongs: ${entries.length} in-window tracks → ${ids.length} parent albums`)
+  }
+}
+if (songParentTags.size) {
+  try {
+    const fresh = (await lookupCollections([...songParentTags.keys()]))
+      .filter((a) => a.releaseDate && inWindow(a.releaseDate))
+      // feed tag beats the collection's own label, same as the album path
+      .map((a) => ({ ...fromCollection(a), genre: songParentTags.get(String(a.collectionId)) }))
+    log(`genre song charts: ${fresh.length} releases via ${songParentTags.size} parent albums`)
+    releases.push(...fresh)
+  } catch (e) {
+    anyFailed = true
+    log(`genre song chart lookup failed: ${e.message}`)
+  }
 }
 
 // 4. Editorial playlists — curated day-of releases across all genres
@@ -423,18 +480,11 @@ for (const settled of await playlistPagesP) {
   const { pl, tracks, albumIds } = settled.value
   log(`${pl.name}: ${tracks} tracks → ${albumIds.length} unique albums`)
   try {
-    let found = 0
-    for (let i = 0; i < albumIds.length; i += 100) {
-      const d = await itunesJSON(
-        `https://itunes.apple.com/lookup?id=${albumIds.slice(i, i + 100).join(',')}&country=us`
-      )
-      const fresh = (d.results ?? [])
-        .filter((a) => a.wrapperType === 'collection' && a.releaseDate && inWindow(a.releaseDate))
-        .map(fromCollection)
-      found += fresh.length
-      releases.push(...fresh)
-    }
-    log(`${pl.name}: ${found} in-window releases`)
+    const fresh = (await lookupCollections(albumIds))
+      .filter((a) => a.releaseDate && inWindow(a.releaseDate))
+      .map(fromCollection)
+    log(`${pl.name}: ${fresh.length} in-window releases`)
+    releases.push(...fresh)
   } catch (e) {
     anyFailed = true
     log(`${pl.name} lookup failed: ${e.message}`)
@@ -462,6 +512,9 @@ for (const r of releases) {
     if (!prev.link && r.link) prev.link = r.link
     if (!prev.charting && r.charting) prev.charting = r.charting
     if (!prev.artist_id && r.artist_id) prev.artist_id = r.artist_id
+    // a null-genre copy landing first must not cost the release its genre —
+    // the filter would wrongly drop it as "genre not preferred"
+    if (!prev.genre && r.genre) prev.genre = r.genre
     prev.preferred = prev.preferred || r.preferred
   } else {
     byKey.set(k, r)
@@ -482,14 +535,13 @@ for (const r of out) {
   if (hit) r.charting = { storefront: 'US', rank: hit.rank }
 }
 
-// filter precedence: artist block > artist prefer > genre block > genre prefer
-// > drop. Chart discovery only surfaces preferred genres; a preferred artist
-// bypasses genre rules entirely.
+// filter precedence: artist block > artist prefer > genre prefer > drop.
+// Discovery only surfaces preferred genres; a preferred artist bypasses
+// genre rules entirely.
 const before = out.length
 out = out.filter((r) => {
   if (isArtistBlocked(r)) return logDrop(r, 'artist blocked')
   if (r.preferred) return true
-  if (isGenreBlocked(r.genre)) return logDrop(r, `genre blocked [${r.genre}]`)
   if (isGenrePreferred(r.genre)) return true
   return logDrop(r, `genre not preferred [${r.genre ?? 'none'}]`)
 })
@@ -522,7 +574,7 @@ if (out.length === 0) {
   } catch {}
   const carried = prev
     .filter((r) => inWindow(r.release_date))
-    // pre-simplification files stored link as {service, url}
+    // tolerate a restored pre-simplification file, where link was {service, url}
     .map((r) => ({ ...r, link: r.link && typeof r.link === 'object' ? r.link.url : r.link }))
   if (carried.length) {
     log(`0 fetched but ${carried.length} previous in-window releases — carrying over`)
