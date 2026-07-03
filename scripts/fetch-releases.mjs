@@ -7,10 +7,14 @@
 //      newest releases first. The guaranteed layer; everything is native
 //      Apple Music: link, genre, artwork, release date.
 //   2. Apple KR+US most-played charts — "KR #2" badges, plus chart entries
-//      released within the window become entries themselves (the only
-//      non-follow-list discovery).
-// All links go to Apple Music; releases with no Apple match don't exist here
-// by construction.
+//      released within the window become entries themselves.
+//   3. US iTunes genre purchase charts (GENRE_FEEDS) — purchases spike on
+//      release day, so new drops in core preferred genres appear within hours
+//      (most-played lags by days).
+//   4. Editorial playlists (config discovery.playlists, e.g. New Music Daily)
+//      — scraped from the web player page; curated day-of, all-genre.
+// All links go to Apple Music (US storefront); releases with no Apple match
+// don't exist here by construction.
 //
 // Filter precedence per release:
 //   artist blocked → drop | artist preferred → keep | genre blocked → drop |
@@ -77,9 +81,9 @@ function classify(name, trackCount) {
 }
 const displayTitle = (name) =>
   name.replace(/\s*-\s*(Single|EP)\s*$/i, '').replace(/\s*\(alternate cover[^)]*\)\s*$/i, '').trim()
-// artworkUrl100 URLs embed their size — 400x400 covers the 4-up grid on
-// retina screens (~170px CSS cards).
-const artUrl = (u) => (u ? u.replace('100x100', '400x400') : '')
+// Artwork URLs embed their size (100x100bb from lookups, 170x170bb from the
+// legacy feeds) — 400x400 covers the 4-up grid on retina screens.
+const artUrl = (u) => (u ? u.replace(/\d+x\d+bb/, '400x400bb') : '')
 // Always link the US storefront — KR-sourced entries otherwise carry
 // music.apple.com/kr/ URLs. A same-day KR-only release can 404 on US for a
 // few hours until the catalog propagates; acceptable per config intent.
@@ -101,7 +105,8 @@ const GENRE_MAP = [
   [/thai/i, 'Thai pop'],
   [/afro/i, 'Afrobeats'],
   [/r&b|soul|알앤비|소울/i, 'R&B'],
-  [/latin|reggaeton|urbano|banda|regional mexicano|salsa|cumbia/i, 'Latin'],
+  // "mexican" covers both Regional Mexicano and Apple's newer Música Mexicana
+  [/latin|reggaeton|urbano|banda|mexican|salsa|cumbia/i, 'Latin'],
   [/dance|electronic|house|techno|댄스|일렉트로닉/i, 'Dance'],
   [/hip-?hop|rap|힙합|랩/i, 'Hip-Hop'],
   [/alternative|indie/i, 'Alternative'],
@@ -216,6 +221,101 @@ async function fetchChart(storefront) {
   return (data.feed?.results ?? []).map((e, i) => ({ rank: i + 1, entry: e }))
 }
 
+// ---------- genre charts (iTunes purchase charts — day-of discovery) ----------
+
+// Core preferred genres get a dedicated new-release watch. These legacy feeds
+// are iTunes Store *purchase* charts: fandom buying spikes on release day, so
+// a new drop appears within hours — unlike most-played, which lags by days.
+// The list controls where we look, not what we keep: the full preferred-genres
+// list still filters every source. Extend with one line per genre (probe the
+// feed title to find an id; J-pop would want the JP storefront instead — the
+// KR storefront's feeds exist but are empty, its download store is dormant).
+const GENRE_FEEDS = [
+  { genreId: 51, tag: 'K-pop' },
+  { genreId: 12, tag: 'Latin' },
+  { genreId: 14, tag: 'Pop' },
+  { genreId: 15, tag: 'R&B' },
+]
+
+async function genreFeedReleases(feedType, genreId) {
+  const data = await getJSON(
+    `https://itunes.apple.com/us/rss/${feedType}/genre=${genreId}/limit=100/json`
+  )
+  return (data.feed?.entry ?? [])
+    .filter((e) => e['im:releaseDate']?.label && inWindow(e['im:releaseDate'].label))
+    .map((e) => ({
+      title: displayTitle(e['im:name'].label),
+      artist: e['im:artist'].label,
+      type: feedType === 'topsongs' ? 'song' : classify(e['im:name'].label, Number(e['im:itemCount']?.label)),
+      release_date: e['im:releaseDate'].label.slice(0, 10),
+      artwork: artUrl(e['im:image']?.at(-1)?.label),
+      genre: canonGenre(e.category?.attributes?.label),
+      link: e.id?.label ? { service: 'apple', url: usLink(e.id.label) } : undefined,
+      // no charting badge — rank badges stay exclusive to most-played charts.
+      // TODO(designer): should genre-chart finds get their own subtle source
+      // indicator, or stay badge-less?
+    }))
+}
+
+// ---------- editorial playlists (scraped web player pages) ----------
+
+// New Music Daily & friends are the only day-of, all-genre new-release surface
+// Apple exposes without an Apple Music API token. The web player page embeds
+// the track list as JSON; we take each track's parent-album id and resolve the
+// albums through a batched lookup. Scraping is the fragile source — failures
+// must be loud (exit 2), never silent.
+async function playlistReleases(pl) {
+  const res = await fetch(pl.url, {
+    // full browser UA: the web player only embeds the JSON for browsers
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15',
+    },
+  })
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${pl.url}`)
+  const html = await res.text()
+  const m = html.match(/<script type="application\/json" id="serialized-server-data">(.*?)<\/script>/s)
+  if (!m) throw new Error('no serialized-server-data block (page layout changed?)')
+  const albumIds = new Set()
+  let tracks = 0
+  ;(function walk(o) {
+    if (Array.isArray(o)) return o.forEach(walk)
+    if (!o || typeof o !== 'object') return
+    if (o.artistName) {
+      tracks++
+      // the track's parent album rides in a tertiary link of kind "album";
+      // fall back to the item's own descriptor (also an album id in practice)
+      const fromLinks = (o.tertiaryLinks ?? [])
+        .map((l) => l.segue?.destination?.contentDescriptor)
+        .find((d) => d?.kind === 'album')?.identifiers?.storeAdamID
+      const id = fromLinks ?? o.contentDescriptor?.identifiers?.storeAdamID
+      if (id) albumIds.add(String(id))
+      return
+    }
+    Object.values(o).forEach(walk)
+  })(JSON.parse(m[1]))
+  log(`${pl.name}: ${tracks} tracks → ${albumIds.size} unique albums`)
+  const found = []
+  const ids = [...albumIds]
+  for (let i = 0; i < ids.length; i += 100) {
+    const d = await getJSON(`https://itunes.apple.com/lookup?id=${ids.slice(i, i + 100).join(',')}&country=us`)
+    await pauseItunes()
+    for (const a of d.results ?? []) {
+      if (a.wrapperType !== 'collection' || !a.releaseDate || !inWindow(a.releaseDate)) continue
+      found.push({
+        title: displayTitle(a.collectionName),
+        artist: a.artistName,
+        type: classify(a.collectionName, a.trackCount),
+        release_date: a.releaseDate.slice(0, 10),
+        artwork: artUrl(a.artworkUrl100),
+        genre: canonGenre(a.primaryGenreName),
+        link: a.collectionViewUrl ? { service: 'apple', url: usLink(a.collectionViewUrl) } : undefined,
+      })
+    }
+  }
+  return found
+}
+
 // ---------- pipeline ----------
 
 let anyFailed = false
@@ -289,6 +389,34 @@ for (const c of charts) {
       link: viewUrl ? { service: 'apple', url: usLink(viewUrl) } : undefined,
       charting: { storefront: c.storefront, rank },
     })
+  }
+}
+
+// 3. Genre purchase charts — day-of new releases in core preferred genres
+for (const { genreId, tag } of GENRE_FEEDS) {
+  for (const feedType of ['topalbums', 'topsongs']) {
+    try {
+      const found = await genreFeedReleases(feedType, genreId)
+      if (found.length) log(`${tag} ${feedType}: ${found.length} in-window`)
+      releases.push(...found)
+    } catch (e) {
+      anyFailed = true
+      log(`${tag} ${feedType} feed failed: ${e.message}`)
+    }
+    // courtesy pause — the legacy RSS host isn't Search/Lookup-throttled
+    await sleep(500)
+  }
+}
+
+// 4. Editorial playlists — curated day-of releases across all genres
+for (const pl of PREFS.discovery?.playlists ?? []) {
+  try {
+    const found = await playlistReleases(pl)
+    log(`${pl.name}: ${found.length} in-window releases`)
+    releases.push(...found)
+  } catch (e) {
+    anyFailed = true
+    log(`${pl.name} scrape failed: ${e.message}`)
   }
 }
 
