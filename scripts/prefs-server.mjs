@@ -36,10 +36,11 @@ const readActivity = () => {
 }
 
 const isName = (s) => typeof s === 'string' && s.trim().length > 0 && s.length < 200
-// Artist entries: "Name" (hand-typed) or {name, id} (Apple picker — the id
-// pins the exact artist among same-named ones). Genres are plain strings.
-const isArtistList = (v) =>
-  Array.isArray(v) && v.every((e) => isName(e) || (e && isName(e.name) && Number.isInteger(e.id)))
+// Artist entries must be {name, id} in both lists — the Apple picker pins the
+// exact artist by ID; the fetcher sweeps preferred and blocks blocked by ID
+// only. Genres are plain strings.
+const isPinnedArtistList = (v) =>
+  Array.isArray(v) && v.every((e) => e && isName(e.name) && Number.isInteger(e.id))
 const isStringList = (v) => Array.isArray(v) && v.every(isName)
 // Playlists are {name, url} where url is an Apple Music playlist page —
 // the nightly fetch scrapes exactly these pages, so the shape is enforced.
@@ -147,7 +148,7 @@ const server = http.createServer(async (req, res) => {
         return json(res, 400, { error: 'invalid JSON' })
       }
       if (
-        !isArtistList(incoming?.artists?.preferred) || !isArtistList(incoming?.artists?.blocked) ||
+        !isPinnedArtistList(incoming?.artists?.preferred) || !isPinnedArtistList(incoming?.artists?.blocked) ||
         !isStringList(incoming?.genres?.preferred) || !isStringList(incoming?.genres?.blocked) ||
         !isPlaylistList(incoming?.discovery?.playlists)
       ) return json(res, 400, { error: 'invalid list shape' })
@@ -257,8 +258,8 @@ const $ = (id) => document.getElementById(id)
 // artist entries are "Name" or {name, id}; genres are plain strings
 const nameOf = (e) => (typeof e === 'string' ? e : e.name)
 const SECTIONS = [
-  { key: 'artists.preferred', label: 'Preferred artists', sub: 'pinned first ★, fetched directly, bypass filters', artist: true },
-  { key: 'artists.blocked', label: 'Blocked artists', sub: 'never shown', artist: true },
+  { key: 'artists.preferred', label: 'Preferred artists', sub: 'pinned first ★, fetched by Apple ID, bypass filters', artist: true, requireId: true },
+  { key: 'artists.blocked', label: 'Blocked artists', sub: 'never shown (matched by Apple ID)', artist: true, requireId: true },
   { key: 'genres.preferred', label: 'Preferred genres', sub: 'discovery only surfaces these', artist: false },
   { key: 'genres.blocked', label: 'Blocked genres', sub: 'never shown', artist: false },
   { key: 'discovery.playlists', label: 'Discovery playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', playlist: true },
@@ -325,15 +326,22 @@ function makeAdder(s) {
   const wrap = document.createElement('div')
   wrap.className = 'adder'
   const input = document.createElement('input')
-  input.placeholder = s.artist
-    ? 'Add artist (search Apple Music, or press Enter for exact text)…'
-    : s.playlist ? 'Paste an Apple Music playlist URL and press Enter…' : 'Add genre…'
+  input.placeholder = s.requireId
+    ? 'Add artist (search Apple Music and pick from the list)…'
+    : s.artist
+      ? 'Add artist (search Apple Music, or press Enter for exact text)…'
+      : s.playlist ? 'Paste an Apple Music playlist URL and press Enter…' : 'Add genre…'
   if (!s.artist && !s.playlist) input.setAttribute('list', 'genre-dl')
   const results = document.createElement('div')
   results.className = 'results'
   results.hidden = true
   input.onkeydown = (e) => {
     if (e.key !== 'Enter') return
+    if (s.requireId) {
+      // free-text entries have no Apple ID — the fetcher can't sweep them
+      $('status').textContent = 'Pick an artist from the search list (entries are pinned by Apple ID).'
+      return
+    }
     if (s.playlist) {
       // https://music.apple.com/us/playlist/<slug>/pl.<id> — name from slug
       const u = input.value.trim()

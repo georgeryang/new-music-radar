@@ -40,9 +40,9 @@ export default function App() {
     }
   }, [])
 
-  // Fetcher pre-sorts (preferred artist → preferred genre → date desc); the
-  // data file holds a wider window than we show — display trims to 36 hours,
-  // strictly: an empty window means an empty page, never older filler.
+  // Fetcher pre-sorts (preferred artists first, then alphabetical by artist);
+  // the data file holds a wider window than we show — display trims to 36
+  // hours, strictly: an empty window means an empty page, never older filler.
   const releases = (data?.releases ?? []).filter((r) => isFresh(r.release_date, 36))
 
   return (
