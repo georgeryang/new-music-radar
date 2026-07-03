@@ -1,6 +1,5 @@
 {
-  "fetched_at": 1783098378498,
-  "daily_min": 8,
+  "fetched_at": 1783099076761,
   "releases": [
     {
       "title": "In Lof",
@@ -38,6 +37,19 @@
       "link": {
         "service": "apple",
         "url": "https://music.apple.com/us/album/lucid-dream-taku-takahashi-remix-single/6781661557?uo=4"
+      },
+      "preferred": true
+    },
+    {
+      "title": "Jolie Colombiana",
+      "artist": "Warren Saada & VALKA",
+      "type": "song",
+      "release_date": "2026-07-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/04/f7/2e/04f72e23-639b-c077-7cf4-7cca3e2a0efc/26SYMIM32152.rgb.jpg/400x400bb.jpg",
+      "genre": "Afrobeats",
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/us/album/jolie-colombiana-single/6782090987?uo=4"
       },
       "preferred": true
     },
@@ -452,6 +464,18 @@
       }
     },
     {
+      "title": "RULE (feat. Heize)",
+      "artist": "츄",
+      "type": "song",
+      "release_date": "2026-07-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e9/ff/7d/e9ff7d45-7145-37b4-778f-d087d7799923/191953557922.jpg/400x400bb.jpg",
+      "genre": "R&B",
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/us/album/rule-feat-heize-single/6785786085?uo=4"
+      }
+    },
+    {
       "title": "Mamma Mia(Who We Are) [AHOF Ver.]",
       "artist": "AHOF",
       "type": "song",
@@ -509,6 +533,18 @@
       "link": {
         "service": "apple",
         "url": "https://music.apple.com/us/album/playlist-your-youth-ep/6782732304?uo=2"
+      }
+    },
+    {
+      "title": "LUCID DREAM (☆Taku Takahashi Remix)",
+      "artist": "아이브",
+      "type": "song",
+      "release_date": "2026-07-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e5/64/21/e5642110-391a-4c70-5c46-11616ed5ed30/4547366834901.jpg/400x400bb.jpg",
+      "genre": "K-pop",
+      "link": {
+        "service": "apple",
+        "url": "https://music.apple.com/us/album/lucid-dream-taku-takahashi-remix-single/6781661557?uo=4"
       }
     },
     {
