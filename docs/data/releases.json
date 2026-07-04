@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1783102930425,
+  "fetched_at": 1783174754368,
   "releases": [
     {
       "title": "RULE (feat. Heize)",
@@ -22,16 +22,6 @@
       "preferred": true
     },
     {
-      "title": "ICONIC BY MISTAKE",
-      "artist": "LE SSERAFIM, ILLIT & KATSEYE",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ab/3b/05/ab3b0527-3ef7-305f-4a86-fefd4f470e93/823375267218_Cover.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/iconic-by-mistake-alternate-cover-katseye-version-single/6784795326?uo=4",
-      "preferred": true
-    },
-    {
       "title": "In Lof",
       "artist": "Lucianeka, Nicole Favre & Once",
       "type": "song",
@@ -39,16 +29,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bb/6a/b4/bb6ab473-235c-b7cb-f39d-850a421567b0/0.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/in-lof-single/6780650490?uo=4",
-      "preferred": true
-    },
-    {
-      "title": "Pix na Madruga",
-      "artist": "VALKA & DJ DAXSHADOW",
-      "type": "album",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/45/a1/fb/45a1fba4-a94d-2c9a-a3d8-a652c8a3f5e6/824296960509_cover.jpg/400x400bb.jpg",
-      "genre": "Funk",
-      "link": "https://music.apple.com/us/album/pix-na-madruga-ep/6781009590?uo=4",
       "preferred": true
     },
     {
@@ -71,15 +51,6 @@
       "link": "https://music.apple.com/us/album/love-me-forever-single/6781882526?uo=4"
     },
     {
-      "title": "Day 1",
-      "artist": "AHOF",
-      "type": "song",
-      "release_date": "2026-07-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a2/3a/db/a23adbd1-d14b-f843-7ffe-480066ae55cf/cover_KM0024882_1.jpg/400x400bb.jpg",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/day-1-single/6785405239?uo=4"
-    },
-    {
       "title": "Blue Shining Star",
       "artist": "Aina The End",
       "type": "song",
@@ -98,13 +69,13 @@
       "link": "https://music.apple.com/us/album/bad-james-carter-ver-single/6781509330?uo=4"
     },
     {
-      "title": "BAD (Steve Aoki Ver.)",
-      "artist": "ATEEZ",
+      "title": "Saikyo Mirai Shodo",
+      "artist": "AZKi & Konomi Suzuki",
       "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d0/f4/e1/d0f4e1cd-c68d-b405-40c7-81d8d33ae510/196874526033.jpg/400x400bb.jpg",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/bad-steve-aoki-ver-single/6781509616?uo=4"
+      "release_date": "2026-07-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ca/54/7c/ca547c7a-c70c-59c0-870b-1ea7ff0c0002/4580883404196_art.png/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/saikyo-mirai-shodo-single/6784124184?uo=4"
     },
     {
       "title": "Missing",
@@ -123,6 +94,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/43/d3/6f/43d36f0a-9d78-714f-3d6f-89c27e6baa78/26UMGIM73770.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/born-to-lose-single/6781757431?uo=4"
+    },
+    {
+      "title": "MORNING DEW (DONK)",
+      "artist": "Beyoncé",
+      "type": "song",
+      "release_date": "2026-07-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/3f/65/3d/3f653d87-197c-084c-dca2-0c6e0ca742c9/196874580721.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/morning-dew-donk-single/6787303151?uo=4"
     },
     {
       "title": "YA ESTUVO BUENO",
@@ -161,13 +141,13 @@
       "link": "https://music.apple.com/us/album/dream-crusher-ep/6784372769?uo=2"
     },
     {
-      "title": "Vibra Musical",
-      "artist": "DJ RPMUSIC",
+      "title": "Money & Love",
+      "artist": "DevoX",
       "type": "album",
-      "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1b/71/b3/1b71b384-27c3-9382-59af-4af85d909ce4/artwork.jpg/400x400bb.png",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/vibra-musical/6785567254?uo=2"
+      "release_date": "2026-07-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/05/3b/03/053b03f5-7f76-deee-4ba8-072780d134d5/artwork.jpg/400x400bb.png",
+      "genre": "Afrobeats",
+      "link": "https://music.apple.com/us/album/money-love-ep/6785954164?uo=2"
     },
     {
       "title": "This Is How You See Me Now",
@@ -197,6 +177,15 @@
       "link": "https://music.apple.com/us/album/contratiempo/6781401413?uo=4"
     },
     {
+      "title": "エブリー・サマー",
+      "artist": "eill",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/80/dc/b0/80dcb07b-af84-0139-41e5-5d61469d3628/27409.jpg/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/%E3%82%A8%E3%83%96%E3%83%AA%E3%83%BC-%E3%82%B5%E3%83%9E%E3%83%BC-single/6779517955?uo=4"
+    },
+    {
       "title": "autonomy+",
       "artist": "ELIO",
       "type": "album",
@@ -206,13 +195,13 @@
       "link": "https://music.apple.com/us/album/autonomy/6781011762?uo=4"
     },
     {
-      "title": "Life Is Yours",
-      "artist": "Felix Lewis",
+      "title": "treat u right",
+      "artist": "FOLA & Ayra Starr",
       "type": "song",
       "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/20/8e/2a/208e2a0c-b1ba-c0cb-3810-d99bfb514fdb/artwork.jpg/400x400bb.jpg",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cc/a5/cf/cca5cf10-c6cb-e9f8-b1cc-4723b199a177/199316650884_cover.jpg/400x400bb.jpg",
       "genre": "Afrobeats",
-      "link": "https://music.apple.com/us/album/life-is-yours-single/6786018060?uo=4"
+      "link": "https://music.apple.com/us/album/treat-u-right-single/6778493192?uo=4"
     },
     {
       "title": "of everyone in the world… (feat. Love Interest)",
@@ -224,13 +213,13 @@
       "link": "https://music.apple.com/us/album/of-everyone-in-the-world-feat-love-interest-single/1891033466?uo=4"
     },
     {
-      "title": "junebug!",
-      "artist": "GAYLE",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b3/df/65/b3df653f-d65f-b6c5-bd92-c34d10a9c26a/075679575180.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/junebug-single/6783079573?uo=4"
+      "title": "Bon Appétit",
+      "artist": "Joel Kapat",
+      "type": "album",
+      "release_date": "2026-07-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7b/ae/85/7bae857e-b8ae-dc29-e9e8-d57f59dfcc0a/859739013818_cover.jpg/400x400bb.png",
+      "genre": "Afrobeats",
+      "link": "https://music.apple.com/us/album/bon-app%C3%A9tit/6773276710?uo=2"
     },
     {
       "title": "No Me Lo Mandes Decir",
@@ -251,22 +240,17 @@
       "link": "https://music.apple.com/us/album/besito-single/6783499285?uo=4"
     },
     {
-      "title": "PUZZL(OV)E",
-      "artist": "JUNG DAE HYUN",
-      "type": "album",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/27/76/0c/27760c57-8dea-3122-b6dd-dcc342afed21/1200214428501.jpg/400x400bb.png",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/puzzl-ov-e-ep/6784053900?uo=2"
-    },
-    {
-      "title": "Justice League: Original Soundtrack-Vol. 2",
-      "artist": "Kristopher Carter, Michael McCuistion & Lolita Ritmanis",
+      "title": "SWAG LIVE FROM COACHELLA (Weekend II)",
+      "artist": "Justin Bieber",
       "type": "album",
       "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/55/44/df/5544df9e-28b7-275e-bc29-139676d0b570/S_A8721162911585.jpg/400x400bb.png",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2a/0d/78/2a0d7836-a689-3467-56fd-30a09c1460ec/ticket.hptwlacf.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": "https://music.apple.com/us/album/justice-league-original-soundtrack-vol-2/6778548966?uo=2"
+      "link": "https://music.apple.com/us/album/swag-live-from-coachella-weekend-ii/6786441259?uo=4",
+      "charting": {
+        "storefront": "US",
+        "rank": 43
+      }
     },
     {
       "title": "Flawed Crown",
@@ -278,13 +262,13 @@
       "link": "https://music.apple.com/us/album/%E6%96%97%E6%88%98%E8%83%9C%E4%BD%9B/6786304269?uo=2"
     },
     {
-      "title": "live in the present",
-      "artist": "Layla",
+      "title": "Queridos Amigos",
+      "artist": "Los Alegres Del Barranco, Edgardo Nuñez & Los Farmerz",
       "type": "album",
-      "release_date": "2026-07-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/33/3f/b0/333fb03a-3407-fb01-d93d-6ca3323f8521/4522197167688.png/400x400bb.png",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/%E3%81%84%E3%81%BE%E3%82%92%E7%94%9F%E3%81%8D%E3%82%8B/6776523727?uo=2"
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cf/cb/6b/cfcb6bde-9baa-6c1a-29d7-9271635bc669/1200214480530.jpg/400x400bb.png",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/queridos-amigos/6786877960?uo=2"
     },
     {
       "title": "CONFESSIONS II",
@@ -296,7 +280,7 @@
       "link": "https://music.apple.com/us/album/confessions-ii/1892545087?uo=4",
       "charting": {
         "storefront": "US",
-        "rank": 8
+        "rank": 7
       }
     },
     {
@@ -336,24 +320,6 @@
       "link": "https://music.apple.com/us/album/aprevenido-single/6783965532?uo=4"
     },
     {
-      "title": "AMERICAN BABY",
-      "artist": "Nightly",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/75/8a/38/758a38a7-f21f-1c42-463a-113ad2354f2a/193436475945_NightlyAmericanBabyCoverArtcopy.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/american-baby-single/6780497495?uo=4"
-    },
-    {
-      "title": "Devil (feat. Kasane Teto & Pips)",
-      "artist": "NIJUUGO*A",
-      "type": "song",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d8/5f/b2/d85fb2d1-8abd-0d3a-4c94-6d2ed42b3967/bigup14460872.jpg/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/devil-feat-kasane-teto-pips-single/6780508540?uo=4"
-    },
-    {
       "title": "BASIN TECHNO",
       "artist": "okazakitaiiku",
       "type": "album",
@@ -390,6 +356,15 @@
       "link": "https://music.apple.com/us/album/under-single/6785893115?uo=4"
     },
     {
+      "title": "Okie Dokie Dance",
+      "artist": "Oozora Subaru",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/29/95/11/299511a8-e0ee-5215-5521-337a051d628c/4580883404400_art.jpg/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/okie-dokie-dance-single/6786095181?uo=4"
+    },
+    {
       "title": "Nuestra Herencia Campesina",
       "artist": "Ricky Torres",
       "type": "album",
@@ -408,7 +383,7 @@
       "link": "https://music.apple.com/us/album/visitor-deluxe/6769552402?uo=4",
       "charting": {
         "storefront": "US",
-        "rank": 26
+        "rank": 18
       }
     },
     {
@@ -430,15 +405,6 @@
       "link": "https://music.apple.com/us/album/pretty-eyes-feat-flo-single/6781923505?uo=4"
     },
     {
-      "title": "【2026 Chill R&B Playlist】最怕 Rapper 唱情歌|12首聽一整晚也不會膩的浪漫 R&B| 放鬆心情的情歌專輯 | 工作背景音樂",
-      "artist": "Twinsight Music",
-      "type": "album",
-      "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8a/0e/0d/8a0e0dc1-98fa-4544-c4e0-9a080751f608/artwork.jpg/400x400bb.png",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/2026-chill-r-b-playlist-%E6%9C%80%E6%80%95-rapper-%E5%94%B1%E6%83%85%E6%AD%8C-12%E9%A6%96%E8%81%BD%E4%B8%80%E6%95%B4%E6%99%9A%E4%B9%9F%E4%B8%8D%E6%9C%83%E8%86%A9%E7%9A%84%E6%B5%AA%E6%BC%AB/6786618851?uo=2"
-    },
-    {
       "title": "Playlist #Your Youth",
       "artist": "UAU",
       "type": "album",
@@ -446,15 +412,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/74/7e/44/747e445f-95d5-369e-5761-fab506ba8bca/1200214398989.jpg/400x400bb.png",
       "genre": "K-pop",
       "link": "https://music.apple.com/us/album/playlist-your-youth-ep/6782732304?uo=2"
-    },
-    {
-      "title": "Upheaval",
-      "artist": "Upiko",
-      "type": "album",
-      "release_date": "2026-06-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7a/a9/97/7aa997cc-5e10-aef6-923f-45945e4dfcca/4550757923269_cover.png/400x400bb.png",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/upheaval/6783084790?uo=2"
     },
     {
       "title": "ARE YOU EVER COMING BACK?",
