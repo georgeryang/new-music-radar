@@ -33,28 +33,34 @@ evening (see setup below).
 
 1. Open the project folder and **double-click `prefs.command`**.
    A Terminal window opens (leave it alone) and the editor appears in your browser.
-2. To add an artist: type their name in the "Add artist" box. A list of
-   matching artists from Apple Music appears, each with its genre. If two
-   artists share a name, click the **↗** to peek at their Apple Music page and
-   make sure it's the right one, then click the one you want. Artists must be
-   picked from this list, in both the followed and blocked sections. The pick
-   pins the exact artist by its Apple ID; typed names alone can't be used.
+2. To add an artist: type their name (or paste an Apple artist ID or their
+   Apple Music page address) in the "Add artist" box. A list of matching
+   artists from Apple Music appears, each with its genre. If two artists share
+   a name, click the **↗** to peek at their Apple Music page and make sure
+   it's the right one, then click the one you want. Artists must be picked
+   from this list, in both the followed and blocked sections. The pick pins
+   the exact artist by its Apple ID; typed names alone can't be used.
 3. To remove anything, click the **×** on its chip.
 4. Blocked artists never appear on the site. Followed genres are the only
    genres discovery will surface (your followed artists always show, whatever
    their genre).
 5. The **Discovery playlists** section lists the Apple Music playlists the
-   nightly update scans for brand-new releases (New Music Daily out of the
-   box). To add one, open the playlist on music.apple.com, copy the address,
-   paste it into the box, and press Enter.
+   nightly update scans for brand-new releases (New Music Daily and a few
+   others ship by default). To add one, open the playlist on music.apple.com,
+   copy the address, paste it into the box, and pick the row that appears
+   (Enter works too).
 6. Finish with one of two buttons:
    - **Save** keeps your changes; the site picks them up at tonight's update.
    - **Save & Refresh** applies them right now. A progress panel shows what's
      happening; it takes about two minutes, and it's safe to close the page
-     since the update keeps running and the site refreshes on its own.
+     since the update keeps running and the site refreshes on its own. When
+     it finishes, the banner is green if everything worked, amber if a source
+     failed but the rest was published, red if nothing was published.
 
-A gray note like `· 2y` next to a followed artist means their newest release
-is that old, in case you want to trim the list. Nothing is removed
+A small age tag next to a followed artist (`· 18mo`, `· 2y`) means their
+newest release is that old, in case you want to trim the list — amber past
+18 months, red past 3 years. The "sort: A-Z" control on the heading flips the
+list to oldest release first so those cluster at the top. Nothing is removed
 automatically.
 
 When you're done, press the **Quit** button (or close the Terminal window).
@@ -101,12 +107,14 @@ performs the daily update.
 
 - **Data flow:** `config/preferences.json` (followed/blocked artists,
   followed genres, discovery playlists) -> `scripts/fetch-releases.mjs`
-  (zero-dep node, four sources: batched iTunes lookups for the follow list,
-  the Apple US most-played chart for discovery, US iTunes genre
-  purchase charts for day-of drops in seven of your followed genres (song-chart
-  tracks resolve to their parent single/album, so every card is one Apple
-  collection), and Apple Music editorial playlists scraped from the web player
-  page; everything native Apple Music: links, genres, artwork) ->
+  (zero-dep node, four sources: batched iTunes lookups for the follow list —
+  which also collect announced pre-orders into `upcoming[]` for the site's
+  Upcoming tab — the Apple US most-played chart for discovery, US iTunes
+  genre purchase charts for day-of drops in a core set of your followed
+  genres (song-chart tracks resolve to their parent single/album, so every
+  card is one Apple collection), and Apple Music editorial playlists scraped
+  from the web player page; everything native Apple Music: links, genres,
+  artwork) ->
   `docs/data/releases.json` ->
   committed + pushed by `scripts/update.sh` -> GitHub Pages serves `docs/`.
   Every source queries the US storefront only; other storefronts localize
@@ -132,8 +140,10 @@ performs the daily update.
 - **Config side file:** `config/artist-activity.json` records each artist's
   newest release date every night and drives the dormancy hints on
   followed-artist chips.
-- **Reliability patterns:** non-zero exit when any source fails (the artist
-  sweep only counts as failed when every batch fails), empty-success carryover
-  instead of stamping an empty file fresh, paced requests with jitter to the
-  iTunes lookup API (other Apple hosts fetch concurrently), partial results
-  still publish.
+- **Reliability patterns:** non-zero exit when any source fails (including a
+  single failed artist-sweep batch), empty-success carryover instead of
+  stamping an empty file fresh, paced requests with jitter to the iTunes
+  lookup API (other Apple hosts fetch concurrently), partial results still
+  publish, and the nightly push verifies its own Pages deploy and requests
+  one rebuild if it flaked (correlated to the fresh build, so a stale failed
+  status can't fool it).

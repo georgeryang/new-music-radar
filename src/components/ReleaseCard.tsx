@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { formatUpcoming } from '@/lib/utils'
+import { formatUpcoming, isUnreleased } from '@/lib/utils'
 import type { Release } from '@/lib/types'
 
 // Muted type icons under the artwork: music note = song, disc = album.
@@ -21,10 +21,12 @@ function TypeIcon({ type }: { type: Release['type'] }) {
 }
 
 // Unified release card (the only card type): clean artwork, then title,
-// artist, and a small meta row — type icon, genre chip. On the Upcoming tab
-// (upcoming prop) the meta row also carries a release-date badge, amber when
-// the drop is within a week. The whole card links to Apple Music.
-export function ReleaseCard({ release, upcoming = false }: { release: Release; upcoming?: boolean }) {
+// artist, and a small meta row — type icon, genre chip. Any card whose date
+// is still in the future carries a release-date badge (amber within a week),
+// whichever tab it renders on — the fetch window deliberately admits
+// tomorrow-dated releases into the main list (KST day-of drops).
+// The whole card links to Apple Music.
+export function ReleaseCard({ release }: { release: Release }) {
   const [imgFailed, setImgFailed] = useState(false)
   const showImg = release.artwork.startsWith('http') && !imgFailed
 
@@ -56,7 +58,7 @@ export function ReleaseCard({ release, upcoming = false }: { release: Release; u
             {release.genre}
           </span>
         )}
-        {upcoming && <UpcomingBadge date={release.release_date} />}
+        {isUnreleased(release.release_date) && <UpcomingBadge date={release.release_date} />}
       </div>
     </div>
   )
@@ -72,8 +74,14 @@ export function ReleaseCard({ release, upcoming = false }: { release: Release; u
 
 function UpcomingBadge({ date }: { date: string }) {
   const { label, soon } = formatUpcoming(date)
+  const full = new Date(date + 'T00:00:00').toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  })
   return (
     <span
+      title={`Pre-order, releases ${full}`}
       className={`rounded-full px-1.5 py-px text-[9px] ${
         soon ? 'bg-amber-400 font-bold text-amber-950' : 'border border-border font-medium'
       }`}

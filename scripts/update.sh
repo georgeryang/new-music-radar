@@ -94,17 +94,18 @@ verify_deploy() {
   # the cancel API (observed 2026-07-04). The Pages build API is the supported
   # retrigger; it's what a follow-up push does under the hood.
   # builds/latest can still be the OLD failed build right after the POST —
-  # remember its created_at and skip polls that return it, or the first poll
-  # reads the stale "errored" and gives up on a build that's still running.
-  PREV_BUILD="$(gh api 'repos/{owner}/{repo}/pages/builds/latest' --jq .created_at 2>/dev/null)"
+  # remember its url (the unique per-build handle; the API exposes no id
+  # field) and skip polls that return it, or the first poll reads the stale
+  # "errored" and gives up on a build that's still running.
+  PREV_BUILD="$(gh api 'repos/{owner}/{repo}/pages/builds/latest' --jq .url 2>/dev/null)"
   log "Pages deploy $CONCLUSION — requesting a fresh build (run $RUN_ID)"
   gh api -X POST 'repos/{owner}/{repo}/pages/builds' >/dev/null 2>&1 \
     || { log "WARNING: could not request a rebuild"; return 0; }
   STATUS=""
   for _ in $(seq 1 20); do
     sleep 15
-    read -r STATUS CREATED <<<"$(gh api 'repos/{owner}/{repo}/pages/builds/latest' --jq '[.status,.created_at] | @tsv' 2>/dev/null)"
-    if [ -z "$CREATED" ] || [ "$CREATED" = "$PREV_BUILD" ]; then continue; fi
+    read -r STATUS BUILD_URL <<<"$(gh api 'repos/{owner}/{repo}/pages/builds/latest' --jq '[.status,.url] | @tsv' 2>/dev/null)"
+    if [ -z "$BUILD_URL" ] || [ "$BUILD_URL" = "$PREV_BUILD" ]; then continue; fi
     case "$STATUS" in
       built) log "Pages deploy verified after rebuild"; return 0 ;;
       errored) break ;;

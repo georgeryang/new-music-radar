@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type KeyboardEvent } from 'react'
 import { ReleaseCard } from '@/components/ReleaseCard'
 import { formatRelativeTime, isFresh, isUnreleased } from '@/lib/utils'
 import type { FeedData } from '@/lib/types'
@@ -57,15 +57,33 @@ export default function App() {
   // Pre-orders whose day has arrived drop off Upcoming immediately; they join
   // the New grid via the next fetch (same hours-scale latency as the site).
   const upcoming = (data?.upcoming ?? []).filter((r) => isUnreleased(r.release_date))
-  // no tab bar when nothing is announced — the page reads as before
-  const activeTab = upcoming.length ? tab : 'new'
-  const shown = activeTab === 'upcoming' ? upcoming : releases
+  // An empty tab hides entirely: only-New renders barless (as before the
+  // feature), only-Upcoming shows a single labelled pill for context, and
+  // both-empty falls through to the info message.
+  const tabs = [
+    { key: 'new' as const, label: `New · ${releases.length}`, items: releases },
+    { key: 'upcoming' as const, label: `Upcoming · ${upcoming.length}`, items: upcoming },
+  ].filter((t) => t.items.length > 0)
+  const active = tabs.find((t) => t.key === tab) ?? tabs[0]
+  const shown = active?.items ?? []
+  const showBar = upcoming.length > 0
+
+  const onTabKey = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return
+    const idx = tabs.findIndex((t) => t.key === active?.key)
+    const next = tabs[(idx + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]
+    setTab(next.key)
+    document.getElementById(`tab-${next.key}`)?.focus()
+  }
 
   return (
     <div className="mx-auto max-w-3xl px-4 pt-6 pb-12">
       <header className="mb-5 flex items-baseline justify-between">
         <h1 className="text-xl font-bold">New Music Radar</h1>
-        <span className="flex items-center gap-2 text-xs text-muted-foreground">
+        <span
+          className="flex items-center gap-2 text-xs text-muted-foreground"
+          title={data ? new Date(data.fetched_at).toLocaleString() : undefined}
+        >
           {formatRelativeTime(data?.fetched_at ?? null)}
           {prefsUp && (
             <a href={PREFS_URL} target="_blank" rel="noopener noreferrer" title="Edit preferences" aria-label="Edit preferences" className="hover:text-foreground">
@@ -75,35 +93,59 @@ export default function App() {
         </span>
       </header>
 
-      {error && <p className="py-4 text-sm text-destructive">{error}</p>}
+      {error && (
+        <p className="py-4 text-sm text-destructive">
+          {error}{' '}
+          <button onClick={() => location.reload()} className="underline hover:no-underline">
+            Reload
+          </button>
+        </p>
+      )}
       {!data && !error && <LoadingGrid />}
-      {data && upcoming.length > 0 && (
-        <div role="tablist" className="mb-4 flex w-fit gap-0.5 rounded-lg border border-border p-0.5 text-xs">
-          {(['new', 'upcoming'] as const).map((t) => (
+      {data && showBar && (
+        <div
+          role="tablist"
+          aria-label="Release lists"
+          onKeyDown={onTabKey}
+          className="mb-4 flex w-fit gap-0.5 rounded-lg border border-border p-0.5 text-xs"
+        >
+          {tabs.map((t) => (
             <button
-              key={t}
+              key={t.key}
+              id={`tab-${t.key}`}
               role="tab"
-              aria-selected={activeTab === t}
-              onClick={() => setTab(t)}
+              aria-selected={active?.key === t.key}
+              aria-controls="release-panel"
+              tabIndex={active?.key === t.key ? 0 : -1}
+              onClick={() => setTab(t.key)}
               className={`rounded-md px-3 py-1 font-medium ${
-                activeTab === t ? 'bg-muted' : 'text-muted-foreground hover:text-foreground'
+                active?.key === t.key ? 'bg-muted' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              {t === 'new' ? `New · ${releases.length}` : `Upcoming · ${upcoming.length}`}
+              {t.label}
             </button>
           ))}
         </div>
       )}
       {data &&
         (shown.length ? (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div
+            id="release-panel"
+            role={showBar ? 'tabpanel' : undefined}
+            aria-labelledby={showBar && active ? `tab-${active.key}` : undefined}
+            className="grid grid-cols-2 gap-3 sm:grid-cols-4"
+          >
             {/* | key separator — a hyphen is ambiguous when artist or title contains one */}
             {shown.map((r) => (
-              <ReleaseCard key={`${r.artist}|${r.title}|${r.type}`} release={r} upcoming={activeTab === 'upcoming'} />
+              <ReleaseCard key={`${r.artist}|${r.title}|${r.type}`} release={r} />
             ))}
           </div>
         ) : (
-          <p className="py-3 text-sm text-muted-foreground">No new releases right now.</p>
+          <p className="py-3 text-sm text-muted-foreground">
+            {active?.key === 'upcoming'
+              ? 'Nothing announced yet.'
+              : 'No new releases right now. The page updates itself every evening.'}
+          </p>
         ))}
     </div>
   )

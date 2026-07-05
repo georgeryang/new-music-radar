@@ -171,9 +171,8 @@ const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 
 // Batched sweep: lookup accepts comma-joined ids and returns each artist's
 // newest `limit` albums, grouped per artist, with no global cap — one paced
-// call per BATCH_SIZE artists instead of one per artist. US storefront only —
-// foreign storefronts localize artist names (KR lists CHUU as 츄), which
-// split the dedup key and duplicated cards.
+// call per BATCH_SIZE artists instead of one per artist. US storefront only
+// (see the header for why).
 const BATCH_SIZE = 10
 
 // Newest US release date per swept artist id — feeds the dormancy hints in
@@ -401,7 +400,9 @@ artistActivity = Object.fromEntries(
 )
 writeFileSync(ACTIVITY_PATH, JSON.stringify(artistActivity, null, 2) + '\n')
 log(`${followedCount} releases (pre-dedup) via ${sweepArtists.length} followed artists in ${batches.length} batches`)
-if (batches.length > 0 && batchFailures === batches.length) anyFailed = true
+// any failed batch flags the run — one batch is ~10 followed artists silently
+// skipped, which is exactly what exit 2 (partial publish, amber banner) is for
+if (batchFailures > 0) anyFailed = true
 
 // 2. Chart — in-window entries from the US most-played chart as discovery
 let chart = []
@@ -451,7 +452,7 @@ for (const { e, feedGenre } of candidates) {
     // the feed serializes artistId as a string; BLOCKED_IDS holds numbers
     artist_id: Number(hit?.artistId ?? e.artistId) || undefined,
     type: classify(e.name, hit?.trackCount),
-    release_date: e.releaseDate,
+    release_date: e.releaseDate.slice(0, 10),
     artwork: artUrl(e.artworkUrl100),
     genre: canonGenre(hit?.primaryGenreName ?? feedGenre),
     link: appleLink(hit?.collectionViewUrl ?? e.url),
@@ -576,14 +577,33 @@ for (const r of upcomingRaw) {
   if (!sweepIds.has(r.artist_id) && !FOLLOWED_ARTIST_RES.some((re) => re.test(normArtist(r.artist)))) continue
   r.followed = true
   const prev = upcomingByKey.get(keyOf(r))
-  if (!prev) upcomingByKey.set(keyOf(r), r)
-  else if (r.release_date < prev.release_date) prev.release_date = r.release_date
+  if (!prev) {
+    upcomingByKey.set(keyOf(r), r)
+  } else {
+    // same back-fill as the main dedup — the first-seen copy may be the
+    // sparse one (a joint-credit listing without artwork/link)
+    if (r.release_date < prev.release_date) prev.release_date = r.release_date
+    if (!prev.artwork && r.artwork) prev.artwork = r.artwork
+    if (!prev.link && r.link) prev.link = r.link
+    if (!prev.genre && r.genre) prev.genre = r.genre
+  }
 }
-const upcoming = [...upcomingByKey.values()].sort(
+let upcoming = [...upcomingByKey.values()].sort(
   (a, b) =>
     a.release_date.localeCompare(b.release_date) ||
     a.artist.localeCompare(b.artist, undefined, { sensitivity: 'base' })
 )
+// A dead sweep must not blank the Upcoming tab while releases carry over —
+// keep the previous file's still-future entries. A successful sweep that
+// finds none writes the honest empty list.
+if (upcoming.length === 0 && batches.length > 0 && batchFailures === batches.length) {
+  try {
+    const prevUp = JSON.parse(readFileSync(OUT, 'utf8')).upcoming ?? []
+    const today = new Date().toISOString().slice(0, 10)
+    upcoming = prevUp.filter((r) => r.release_date > today)
+    if (upcoming.length) log(`sweep failed — carrying over ${upcoming.length} previous upcoming entries`)
+  } catch {}
+}
 log(`${upcoming.length} upcoming pre-orders`)
 
 // artist_id was match-time plumbing for ID-based blocking — not display data
