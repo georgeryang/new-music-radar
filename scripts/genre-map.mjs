@@ -4,7 +4,7 @@
 // at import time, so importing it just to read the map isn't an option.
 //
 // iTunes primaryGenreName (US storefront, always English) → the canonical tag
-// shown on cards and matched by config genres.preferred. Unmapped names pass
+// shown on cards and matched by config genres.followed. Unmapped names pass
 // through as-is so new iTunes genres are still visible and selectable.
 // Order matters: first match wins ("Dancehall" must hit Reggae before the
 // Dance rule sees its "dance" substring). No mapping for the bare "World"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# New Music Radar — double-click to edit preferred/blocked artists and genres.
+# New Music Radar — double-click to edit followed/blocked artists and genres.
 # Starts a local editor at http://localhost:4747 (this window keeps it running;
 # use the Quit button on the page or close this window to stop).
 
