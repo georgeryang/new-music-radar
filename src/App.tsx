@@ -9,6 +9,7 @@ export default function App() {
   const [data, setData] = useState<FeedData | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [prefsUp, setPrefsUp] = useState(false)
+  const [tab, setTab] = useState<'new' | 'upcoming'>('new')
 
   // Show the ⚙ link only when the local preferences editor (prefs.command)
   // is running on this machine — elsewhere the ping just fails silently.
@@ -53,6 +54,12 @@ export default function App() {
   // followed artists stay 72h, discovery finds 24h. Strict either way: an
   // empty window means an empty page, never older filler.
   const releases = (data?.releases ?? []).filter((r) => isFresh(r.release_date, r.followed ? 72 : 24))
+  // Pre-orders whose day has arrived drop off Upcoming immediately; they join
+  // the New grid via the next fetch (same hours-scale latency as the site).
+  const upcoming = (data?.upcoming ?? []).filter((r) => !isFresh(r.release_date, 24))
+  // no tab bar when nothing is announced — the page reads as before
+  const activeTab = upcoming.length ? tab : 'new'
+  const shown = activeTab === 'upcoming' ? upcoming : releases
 
   return (
     <div className="mx-auto max-w-3xl px-4 pt-6 pb-12">
@@ -70,12 +77,29 @@ export default function App() {
 
       {error && <p className="py-4 text-sm text-destructive">{error}</p>}
       {!data && !error && <LoadingGrid />}
+      {data && upcoming.length > 0 && (
+        <div role="tablist" className="mb-4 flex w-fit gap-0.5 rounded-lg border border-border p-0.5 text-xs">
+          {(['new', 'upcoming'] as const).map((t) => (
+            <button
+              key={t}
+              role="tab"
+              aria-selected={activeTab === t}
+              onClick={() => setTab(t)}
+              className={`rounded-md px-3 py-1 font-medium ${
+                activeTab === t ? 'bg-muted' : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {t === 'new' ? `New · ${releases.length}` : `Upcoming · ${upcoming.length}`}
+            </button>
+          ))}
+        </div>
+      )}
       {data &&
-        (releases.length ? (
+        (shown.length ? (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {/* | key separator — a hyphen is ambiguous when artist or title contains one */}
-            {releases.map((r) => (
-              <ReleaseCard key={`${r.artist}|${r.title}|${r.type}`} release={r} />
+            {shown.map((r) => (
+              <ReleaseCard key={`${r.artist}|${r.title}|${r.type}`} release={r} upcoming={activeTab === 'upcoming'} />
             ))}
           </div>
         ) : (

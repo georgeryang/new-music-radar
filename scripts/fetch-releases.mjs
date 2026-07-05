@@ -9,7 +9,8 @@
 // within hours; the 3-day window means it still makes the next fetch).
 //   1. Followed artists (config/preferences.json) — batched iTunes lookups,
 //      newest releases first. The guaranteed layer; everything is native
-//      Apple Music: link, genre, artwork, release date.
+//      Apple Music: link, genre, artwork, release date. The same sweep also
+//      yields announced pre-orders (future release dates) → the Upcoming tab.
 //   2. Apple US most-played chart — entries released within the window
 //      become cards.
 //   3. US iTunes genre purchase charts (GENRE_FEEDS) — purchases spike on
@@ -86,6 +87,10 @@ function inWindow(releaseDate) {
   // lower bound: catalogs list pre-orders (future dates) — released-only scope.
   return days <= WINDOW_DAYS + 0.5 && days >= -1
 }
+
+// Announced pre-orders: strictly beyond inWindow's -1 day tolerance, so the
+// two sets stay disjoint (a release dated tomorrow already shows as new).
+const isUpcoming = (releaseDate) => (Date.now() - Date.parse(releaseDate)) / 86400e3 < -1
 
 // Two types only: song (a single) vs album (EPs, mini albums, and larger).
 // Hybrid rule: Apple's "- Single" designation wins (kpop singles often carry
@@ -185,6 +190,10 @@ try {
   artistActivity = JSON.parse(readFileSync(ACTIVITY_PATH, 'utf8'))
 } catch {}
 
+// Pre-orders found by the sweep, collected across batches — becomes the
+// Upcoming tab after its own mini-pipeline at the end.
+const upcomingRaw = []
+
 async function batchReleases(ids) {
   const data = await itunesJSON(
     `https://itunes.apple.com/lookup?id=${ids.join(',')}&entity=album&country=us&limit=50&sort=recent`
@@ -197,6 +206,9 @@ async function batchReleases(ids) {
     if (!swept.has(a.artistId) || !d || d > today) continue
     if (!artistActivity[a.artistId] || d > artistActivity[a.artistId]) artistActivity[a.artistId] = d
   }
+  upcomingRaw.push(
+    ...collections.filter((a) => a.releaseDate && isUpcoming(a.releaseDate)).map(fromCollection)
+  )
   return collections.filter((a) => a.releaseDate && inWindow(a.releaseDate)).map(fromCollection)
 }
 
@@ -552,8 +564,31 @@ function logDrop(r, why) {
 }
 if (before !== out.length) log(`${before - out.length} releases filtered out`)
 
+// Upcoming (pre-orders) — followed artists only: keep entries whose artist id
+// was in the sweep or whose credit string names a followed artist (joint
+// "A & B" credits). Batch responses also carry collab partners' own
+// pre-orders (the activity byproduct all over again) — those drop here.
+// Same noise, dedup, and block rules as the main list; soonest first. No
+// carryover: an empty Upcoming list is a normal state, not a failure.
+const upcomingByKey = new Map()
+for (const r of upcomingRaw) {
+  if (NOISE_RE.test(r.title) || isArtistBlocked(r)) continue
+  if (!sweepIds.has(r.artist_id) && !FOLLOWED_ARTIST_RES.some((re) => re.test(normArtist(r.artist)))) continue
+  r.followed = true
+  const prev = upcomingByKey.get(keyOf(r))
+  if (!prev) upcomingByKey.set(keyOf(r), r)
+  else if (r.release_date < prev.release_date) prev.release_date = r.release_date
+}
+const upcoming = [...upcomingByKey.values()].sort(
+  (a, b) =>
+    a.release_date.localeCompare(b.release_date) ||
+    a.artist.localeCompare(b.artist, undefined, { sensitivity: 'base' })
+)
+log(`${upcoming.length} upcoming pre-orders`)
+
 // artist_id was match-time plumbing for ID-based blocking — not display data
 for (const r of out) delete r.artist_id
+for (const r of upcoming) delete r.artist_id
 
 // sort: followed artists first, then alphabetical by artist; newest first
 // within one artist's releases
@@ -584,6 +619,6 @@ if (out.length === 0) {
 }
 
 mkdirSync(new URL('../docs/data/', import.meta.url), { recursive: true })
-writeFileSync(OUT, JSON.stringify({ fetched_at: Date.now(), releases: out }, null, 2))
-log(`wrote ${out.length} releases`)
+writeFileSync(OUT, JSON.stringify({ fetched_at: Date.now(), releases: out, upcoming }, null, 2))
+log(`wrote ${out.length} releases + ${upcoming.length} upcoming`)
 process.exit(anyFailed ? 2 : 0)

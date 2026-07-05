@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1783292313611,
+  "fetched_at": 1783293229567,
   "releases": [
     {
       "title": "<1",
@@ -390,6 +390,58 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0b/e4/a4/0be4a4e7-da74-7718-dfe7-f29664d6a246/26UMGIM77718.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/undiscovered-country-single/6780695495?uo=4"
+    }
+  ],
+  "upcoming": [
+    {
+      "title": "Otra Que Arde",
+      "artist": "Olivia Wald",
+      "type": "album",
+      "release_date": "2026-07-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7e/aa/b8/7eaab803-3fed-e0ca-057d-cef099febcde/26UMGIM74875.rgb.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/otra-que-arde/6782227091?uo=4",
+      "followed": true
+    },
+    {
+      "title": "petal",
+      "artist": "Ariana Grande",
+      "type": "album",
+      "release_date": "2026-07-31",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7e/e6/82/7ee682bd-1b17-6adc-be63-b5af1bdff369/26UMGIM51126.rgb.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/petal/1895420989?uo=4",
+      "followed": true
+    },
+    {
+      "title": "BARAJA BENDITA",
+      "artist": "Becky G",
+      "type": "album",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3c/b4/bc/3cb4bce2-2703-7319-8345-123dc3f542f6/196874013816.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/baraja-bendita/6781039813?uo=4",
+      "followed": true
+    },
+    {
+      "title": "WILD",
+      "artist": "KATSEYE",
+      "type": "album",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e2/28/92/e22892a7-fe88-72cf-ecba-691030dfcf7e/26UMGIM41151.rgb.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/wild-ep/1891779764?uo=4",
+      "followed": true
+    },
+    {
+      "title": "Pylon",
+      "artist": "beabadoobee",
+      "type": "album",
+      "release_date": "2026-09-18",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/68/24/84/6824844d-3f59-2816-e083-f5d49c994ff1/198704876615_Cover.jpg/400x400bb.jpg",
+      "genre": "Rock",
+      "link": "https://music.apple.com/us/album/pylon/6781644608?uo=4",
+      "followed": true
     }
   ]
 }
