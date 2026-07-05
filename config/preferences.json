@@ -375,8 +375,20 @@
   "discovery": {
     "playlists": [
       {
+        "name": "Breaking Mandopop",
+        "url": "https://music.apple.com/us/playlist/breaking-mandopop/pl.80e13199d5db46c7b519b25cf6e5816a"
+      },
+      {
+        "name": "New In K Pop",
+        "url": "https://music.apple.com/us/playlist/new-in-k-pop/pl.a784f95d4f504d579647523ff95433be"
+      },
+      {
         "name": "New Music Daily",
         "url": "https://music.apple.com/us/playlist/new-music-daily/pl.2b0e6e332fdf4b7a91164da3162127b5"
+      },
+      {
+        "name": "Nuevo Nuevo",
+        "url": "https://music.apple.com/us/playlist/nuevo-nuevo/pl.a4d0e897a1f64d1c9a7f2b75eac67c2d"
       }
     ]
   }
