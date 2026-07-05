@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ReleaseCard } from '@/components/ReleaseCard'
-import { formatRelativeTime, isFresh } from '@/lib/utils'
+import { formatRelativeTime, isFresh, isUnreleased } from '@/lib/utils'
 import type { FeedData } from '@/lib/types'
 
 const PREFS_URL = 'http://127.0.0.1:4747'
@@ -56,7 +56,7 @@ export default function App() {
   const releases = (data?.releases ?? []).filter((r) => isFresh(r.release_date, r.followed ? 72 : 24))
   // Pre-orders whose day has arrived drop off Upcoming immediately; they join
   // the New grid via the next fetch (same hours-scale latency as the site).
-  const upcoming = (data?.upcoming ?? []).filter((r) => !isFresh(r.release_date, 24))
+  const upcoming = (data?.upcoming ?? []).filter((r) => isUnreleased(r.release_date))
   // no tab bar when nothing is announced — the page reads as before
   const activeTab = upcoming.length ? tab : 'new'
   const shown = activeTab === 'upcoming' ? upcoming : releases
