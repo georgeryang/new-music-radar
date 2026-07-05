@@ -3,6 +3,10 @@
   "artists": {
     "followed": [
       {
+        "name": "Abi Difabio",
+        "id": 1536565414
+      },
+      {
         "name": "aespa",
         "id": 1540251304
       },
@@ -15,8 +19,32 @@
         "id": 1481640775
       },
       {
+        "name": "Ale Zabala",
+        "id": 1504059362
+      },
+      {
+        "name": "Alessia Cara",
+        "id": 991444375
+      },
+      {
+        "name": "AleXa",
+        "id": 1485318002
+      },
+      {
+        "name": "Alexia Naomi",
+        "id": 1590619470
+      },
+      {
+        "name": "AloSofia",
+        "id": 1498914587
+      },
+      {
         "name": "ANGEL22",
         "id": 1588269985
+      },
+      {
+        "name": "Ariana Grande",
+        "id": 412778295
       },
       {
         "name": "ARTMS",
@@ -59,12 +87,56 @@
         "id": 1104839687
       },
       {
+        "name": "CHUNG HA",
+        "id": 1148527055
+      },
+      {
         "name": "CHUU",
         "id": 324458584
       },
       {
+        "name": "Clauw",
+        "id": 1699044232
+      },
+      {
+        "name": "Corina Smith",
+        "id": 491887531
+      },
+      {
+        "name": "daine",
+        "id": 1512838237
+      },
+      {
+        "name": "DEMI",
+        "id": 1457652366
+      },
+      {
+        "name": "DENȲ",
+        "id": 1503419603
+      },
+      {
+        "name": "Diana Salas",
+        "id": 1171256498
+      },
+      {
+        "name": "DOMELIPA",
+        "id": 1747585448
+      },
+      {
+        "name": "DOMMIU李由音",
+        "id": 1820894339
+      },
+      {
         "name": "Dua Lipa",
         "id": 1031397873
+      },
+      {
+        "name": "E1and",
+        "id": 1560781338
+      },
+      {
+        "name": "e5",
+        "id": 1561898727
       },
       {
         "name": "Effie",
@@ -83,8 +155,28 @@
         "id": 1220640647
       },
       {
+        "name": "Gizel",
+        "id": 1668704518
+      },
+      {
+        "name": "HAVEN",
+        "id": 1482967142
+      },
+      {
         "name": "Hearts2Hearts",
         "id": 1793698498
+      },
+      {
+        "name": "HITGS",
+        "id": 1810382713
+      },
+      {
+        "name": "HUH YUNJIN",
+        "id": 1660901646
+      },
+      {
+        "name": "HUR+",
+        "id": 1790172559
       },
       {
         "name": "i-dle",
@@ -93,6 +185,10 @@
       {
         "name": "IFE",
         "id": 1526614631
+      },
+      {
+        "name": "ifeye",
+        "id": 1804019101
       },
       {
         "name": "ilham",
@@ -111,12 +207,20 @@
         "id": 1474168661
       },
       {
+        "name": "IS:SUE",
+        "id": 1745350121
+      },
+      {
         "name": "ITZY",
         "id": 1451964345
       },
       {
         "name": "IU",
         "id": 409076743
+      },
+      {
+        "name": "Ivana",
+        "id": 1595612235
       },
       {
         "name": "IVE",
@@ -137,6 +241,10 @@
       {
         "name": "JEON SOMI",
         "id": 1218803768
+      },
+      {
+        "name": "JVNA",
+        "id": 1166726627
       },
       {
         "name": "KAROL G",
@@ -163,16 +271,44 @@
         "id": 1178907631
       },
       {
+        "name": "Kylie Cantrall",
+        "id": 1459186568
+      },
+      {
+        "name": "Kyra Zilver",
+        "id": 1631780873
+      },
+      {
         "name": "Lala Mancipe",
         "id": 1725928324
+      },
+      {
+        "name": "Las Villa",
+        "id": 1481132571
+      },
+      {
+        "name": "LATENCY",
+        "id": 1865318166
       },
       {
         "name": "Laura Buitrago",
         "id": 1434358567
       },
       {
+        "name": "Lauri Garcia",
+        "id": 1588668137
+      },
+      {
         "name": "LE SSERAFIM",
         "id": 1616740364
+      },
+      {
+        "name": "Leigh-Anne",
+        "id": 1691386195
+      },
+      {
+        "name": "LIN, CHIEH-HSIN",
+        "id": 1662485094
       },
       {
         "name": "LISA",
@@ -191,8 +327,28 @@
         "id": 1586853935
       },
       {
+        "name": "Luissette",
+        "id": 1455584101
+      },
+      {
+        "name": "Mahiru Coda",
+        "id": 1364820182
+      },
+      {
         "name": "Maia Reficco",
         "id": 1285236349
+      },
+      {
+        "name": "Marf Yau",
+        "id": 1676392826
+      },
+      {
+        "name": "Mari",
+        "id": 1652981180
+      },
+      {
+        "name": "Mary Ann Alexander",
+        "id": 1538462645
       },
       {
         "name": "MEOVV",
@@ -203,12 +359,44 @@
         "id": 1447747812
       },
       {
+        "name": "MINNIE",
+        "id": 1398281724
+      },
+      {
         "name": "MIRANI",
         "id": 1509202338
       },
       {
+        "name": "MISAMO",
+        "id": 1670795714
+      },
+      {
+        "name": "MIYEON",
+        "id": 1398280057
+      },
+      {
+        "name": "monica sin tilde",
+        "id": 1644033024
+      },
+      {
         "name": "Moon Byul",
         "id": 1048880642
+      },
+      {
+        "name": "Moon Sujin",
+        "id": 1440461416
+      },
+      {
+        "name": "Nati Boulier",
+        "id": 1136309320
+      },
+      {
+        "name": "NAYEON",
+        "id": 1625812861
+      },
+      {
+        "name": "NAYOON",
+        "id": 1701524614
       },
       {
         "name": "NewJeans",
@@ -231,28 +419,92 @@
         "id": 1600411676
       },
       {
+        "name": "no na",
+        "id": 1809786661
+      },
+      {
+        "name": "Noducksoon",
+        "id": 1645852755
+      },
+      {
+        "name": "Olivia Wald",
+        "id": 1472948885
+      },
+      {
         "name": "Paloma Mami",
         "id": 1401778806
+      },
+      {
+        "name": "PinkPantheress",
+        "id": 1552521489
+      },
+      {
+        "name": "Princesa Alba",
+        "id": 1265324498
+      },
+      {
+        "name": "puppiebelly",
+        "id": 1851111899
+      },
+      {
+        "name": "RaiNao",
+        "id": 1496304538
       },
       {
         "name": "Red Velvet",
         "id": 906961899
       },
       {
+        "name": "Regallily",
+        "id": 1361500740
+      },
+      {
         "name": "RESCENE",
         "id": 1732658659
+      },
+      {
+        "name": "RISSA",
+        "id": 280877709
       },
       {
         "name": "ROSÉ",
         "id": 1406242696
       },
       {
+        "name": "Rubí",
+        "id": 1451357879
+      },
+      {
+        "name": "S3AN",
+        "id": 1544161258
+      },
+      {
         "name": "Salomé Brun",
         "id": 1758669377
       },
       {
+        "name": "SATICA",
+        "id": 1079583956
+      },
+      {
+        "name": "SAY MY NAME",
+        "id": 1773342948
+      },
+      {
+        "name": "Selene",
+        "id": 1513486800
+      },
+      {
+        "name": "seoseo",
+        "id": 1523589214
+      },
+      {
         "name": "Solar",
         "id": 791173158
+      },
+      {
+        "name": "SOOVI",
+        "id": 1480417228
       },
       {
         "name": "Sorn",
@@ -267,8 +519,24 @@
         "id": 1628805835
       },
       {
+        "name": "STILA言芯",
+        "id": 1828715130
+      },
+      {
+        "name": "Suen",
+        "id": 1561902960
+      },
+      {
         "name": "TAEYEON",
         "id": 435966642
+      },
+      {
+        "name": "Talitha.",
+        "id": 1420488633
+      },
+      {
+        "name": "thủy",
+        "id": 935348123
       },
       {
         "name": "Tinashe",
@@ -279,8 +547,16 @@
         "id": 1093346777
       },
       {
+        "name": "tripleS",
+        "id": 1651595986
+      },
+      {
         "name": "TWICE",
         "id": 1203816887
+      },
+      {
+        "name": "TZUYU",
+        "id": 1500796338
       },
       {
         "name": "UMI",
@@ -291,8 +567,16 @@
         "id": 1685473918
       },
       {
+        "name": "Valen LU",
+        "id": 1629110868
+      },
+      {
         "name": "VALKA",
         "id": 995314327
+      },
+      {
+        "name": "VIVIZ",
+        "id": 1594151808
       },
       {
         "name": "WENDY",
@@ -315,6 +599,14 @@
         "id": 1605086668
       },
       {
+        "name": "YEOJIN",
+        "id": 1818729122
+      },
+      {
+        "name": "Ylona Garcia",
+        "id": 1091522715
+      },
+      {
         "name": "YongYong",
         "id": 589238191
       },
@@ -331,16 +623,36 @@
         "id": 1566541268
       },
       {
+        "name": "YURA",
+        "id": 1485314065
+      },
+      {
         "name": "Yuzion",
         "id": 1475055662
+      },
+      {
+        "name": "Zerimar",
+        "id": 1486438030
+      },
+      {
+        "name": "민지운",
+        "id": 1398854281
       },
       {
         "name": "刘柏辛Lexie",
         "id": 1331378256
       },
       {
+        "name": "胡恂舞",
+        "id": 1617320698
+      },
+      {
         "name": "鄧紫棋",
         "id": 425208570
+      },
+      {
+        "name": "黄之仪",
+        "id": 1519109335
       }
     ],
     "blocked": [

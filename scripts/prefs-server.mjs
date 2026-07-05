@@ -270,6 +270,10 @@ const PAGE = /* html */ `<!doctype html>
   .chip { display: inline-flex; align-items: center; gap: 6px; background: var(--chip); border: 1px solid var(--border); border-radius: 99px; padding: 3px 10px; font-size: 13px; }
   .chip button { border: 0; background: none; cursor: pointer; color: var(--muted); font-size: 13px; padding: 0; line-height: 1; }
   .chip button:hover { color: #dc2626; }
+  .age { font-size: 11px; }
+  .age.warn { color: #b45309; }
+  .age.old { color: #dc2626; }
+  @media (prefers-color-scheme: dark) { .age.warn { color: #fbbf24; } .age.old { color: #f87171; } }
   .adder { position: relative; display: flex; gap: 6px; }
   input { flex: 1; font: inherit; font-size: 13px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: inherit; }
   .results { position: absolute; top: 34px; left: 0; right: 0; z-index: 10; background: Canvas; border: 1px solid var(--border); border-radius: 10px; overflow: hidden auto; max-height: 240px; box-shadow: 0 8px 24px rgba(0,0,0,.12); }
@@ -357,7 +361,7 @@ function renderAll() {
     const h = document.createElement('h2')
     h.textContent = s.label + ' '
     const small = document.createElement('small')
-    small.textContent = '· ' + s.sub
+    small.textContent = '· ' + getList(s.key).length + ' · ' + s.sub
     h.appendChild(small)
     const chips = document.createElement('div')
     chips.className = 'chips'
@@ -373,9 +377,10 @@ function renderAll() {
       if (last && Date.now() - Date.parse(last) > 18 * 2629746000) {
         const months = Math.round((Date.now() - Date.parse(last)) / 2629746000)
         const ago = document.createElement('span')
-        ago.style.color = 'var(--muted)'
-        ago.style.fontSize = '11px'
-        ago.textContent = '· ' + (months >= 24 ? Math.floor(months / 12) + 'y' : months + 'mo')
+        // severity by age: amber 18mo+, red 3y+
+        ago.className = 'age ' + (months >= 36 ? 'old' : 'warn')
+        // round, not floor — floor showed a 3.9y gap as "3y"
+        ago.textContent = '· ' + (months >= 24 ? Math.round(months / 12) + 'y' : months + 'mo')
         ago.title = 'Last release ' + last
         chip.appendChild(ago)
       }
