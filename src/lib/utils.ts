@@ -17,3 +17,18 @@ export function isFresh(releaseDate: string, hours: number): boolean {
   const cutStr = `${cutoff.getFullYear()}-${String(cutoff.getMonth() + 1).padStart(2, '0')}-${String(cutoff.getDate()).padStart(2, '0')}`
   return releaseDate >= cutStr
 }
+
+// Upcoming-card date label: relative inside a week ("Tomorrow", "In 5 days"),
+// calendar date beyond ("Sep 18"). Same calendar-day math as isFresh — the
+// data carries dates, not times.
+export function formatUpcoming(releaseDate: string): { label: string; soon: boolean } {
+  const now = new Date()
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+  const days = Math.round((Date.parse(releaseDate) - Date.parse(todayStr)) / 86400e3)
+  if (days <= 1) return { label: 'Tomorrow', soon: true }
+  if (days <= 7) return { label: `In ${days} days`, soon: true }
+  // T00:00:00 pins the date to local time — a bare date string parses as UTC
+  // and can render one day off in the viewer's timezone
+  const d = new Date(releaseDate + 'T00:00:00')
+  return { label: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), soon: false }
+}

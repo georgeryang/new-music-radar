@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { formatUpcoming } from '@/lib/utils'
 import type { Release } from '@/lib/types'
 
 // Muted type icons under the artwork: music note = song, disc = album.
@@ -20,9 +21,10 @@ function TypeIcon({ type }: { type: Release['type'] }) {
 }
 
 // Unified release card (the only card type): clean artwork, then title,
-// artist, and a small meta row — type icon, genre chip.
-// The whole card links to Apple Music.
-export function ReleaseCard({ release }: { release: Release }) {
+// artist, and a small meta row — type icon, genre chip. On the Upcoming tab
+// (upcoming prop) a release-date line sits under the artist, amber when the
+// drop is within a week. The whole card links to Apple Music.
+export function ReleaseCard({ release, upcoming = false }: { release: Release; upcoming?: boolean }) {
   const [imgFailed, setImgFailed] = useState(false)
   const showImg = release.artwork.startsWith('http') && !imgFailed
 
@@ -47,6 +49,7 @@ export function ReleaseCard({ release }: { release: Release }) {
         {release.followed && <span className="text-amber-500">★ </span>}
         {release.artist}
       </p>
+      {upcoming && <UpcomingDate date={release.release_date} />}
       <div className="mt-1 flex flex-wrap items-center gap-1 text-muted-foreground">
         <TypeIcon type={release.type} />
         {release.genre && (
@@ -64,5 +67,14 @@ export function ReleaseCard({ release }: { release: Release }) {
     </a>
   ) : (
     card
+  )
+}
+
+function UpcomingDate({ date }: { date: string }) {
+  const { label, soon } = formatUpcoming(date)
+  return (
+    <p className={`text-[11px] font-medium ${soon ? 'text-amber-500' : 'text-muted-foreground'}`}>
+      {label}
+    </p>
   )
 }

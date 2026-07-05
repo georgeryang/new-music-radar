@@ -21,4 +21,5 @@ export interface Release {
 export interface FeedData {
   fetched_at: number // ms epoch
   releases: Release[]
+  upcoming?: Release[] // announced pre-orders from followed artists, soonest first
 }
