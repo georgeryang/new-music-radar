@@ -149,6 +149,8 @@ const server = http.createServer(async (req, res) => {
         playlists: p.discovery?.playlists ?? [],
         activity: readActivity(),
         genreOptions: [...new Set([...CANON_TAGS, ...seen])].sort((a, b) => a.localeCompare(b)),
+        // tags on the page right now — the editor annotates these in the picker
+        genresSeen: seen,
         siteUrl: SITE_URL,
       })
     } else if (req.method === 'POST' && url.pathname === '/api/prefs') {
@@ -270,7 +272,7 @@ const PAGE = /* html */ `<!doctype html>
   .chip button:hover { color: #dc2626; }
   .adder { position: relative; display: flex; gap: 6px; }
   input { flex: 1; font: inherit; font-size: 13px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: inherit; }
-  .results { position: absolute; top: 34px; left: 0; right: 0; z-index: 10; background: Canvas; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+  .results { position: absolute; top: 34px; left: 0; right: 0; z-index: 10; background: Canvas; border: 1px solid var(--border); border-radius: 10px; overflow: hidden auto; max-height: 240px; box-shadow: 0 8px 24px rgba(0,0,0,.12); }
   .results button { display: flex; width: 100%; align-items: center; gap: 10px; padding: 7px 10px; border: 0; background: none; cursor: pointer; font: inherit; font-size: 13px; text-align: left; color: inherit; }
   .results button:hover { background: var(--chip); }
   .results .genre { margin-left: auto; color: var(--muted); font-size: 11.5px; white-space: nowrap; }
@@ -295,7 +297,6 @@ const PAGE = /* html */ `<!doctype html>
 <header><h1>Preferences</h1><a href="" id="site-link" target="_blank" rel="noopener noreferrer">Open radar →</a></header>
 <p class="hint">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away (about two minutes).</p>
 <div id="sections"></div>
-<datalist id="genre-dl"></datalist>
 <pre id="log" hidden></pre>
 <div id="banner" hidden></div>
 <footer>
@@ -305,7 +306,7 @@ const PAGE = /* html */ `<!doctype html>
   <button class="btn primary" id="refresh">Save &amp; Refresh</button>
 </footer>
 <script>
-let prefs, activity = {}, dirty = false
+let prefs, activity = {}, genreOptions = [], genresSeen = [], dirty = false
 const $ = (id) => document.getElementById(id)
 // artist entries are {name, id} (picker-pinned; the server rejects anything
 // else); genres are plain strings; playlists are {name, url}
@@ -317,6 +318,30 @@ const SECTIONS = [
   { key: 'discovery.playlists', label: 'Discovery playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', playlist: true },
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
+
+// https://music.apple.com/us/playlist/<slug>/pl.<id> — display name from slug
+function parsePlaylist(u) {
+  const parts = u.split('/')
+  if (!(u.startsWith('https://music.apple.com/') && parts[4] === 'playlist' && (parts[6] ?? '').startsWith('pl.'))) return null
+  return { name: parts[5].replace(/-/g, ' ').replace(/\\b\\w/g, (c) => c.toUpperCase()), url: u }
+}
+
+// one dropdown row, same shape for artists, playlists, and genres
+function resultRow(results, label, note, onPick) {
+  const b = document.createElement('button')
+  const nm = document.createElement('span')
+  nm.textContent = label
+  b.appendChild(nm)
+  if (note) {
+    const n = document.createElement('span')
+    n.className = 'genre'
+    n.textContent = note
+    b.appendChild(n)
+  }
+  b.onclick = onPick
+  results.appendChild(b)
+  return b
+}
 
 function markDirty() { dirty = true; $('save').disabled = false }
 
@@ -378,12 +403,11 @@ function makeAdder(s) {
   const wrap = document.createElement('div')
   wrap.className = 'adder'
   const input = document.createElement('input')
-  input.placeholder = s.requireId
-    ? 'Add artist (name, Apple ID, or artist page URL — pick from the list)…'
-    : s.artist
-      ? 'Add artist (search Apple Music, or press Enter for exact text)…'
-      : s.playlist ? 'Paste an Apple Music playlist URL and press Enter…' : 'Add genre…'
-  if (!s.artist && !s.playlist) input.setAttribute('list', 'genre-dl')
+  input.placeholder = s.artist
+    ? 'Add artist (name, Apple ID, or artist page URL, then pick from the list)…'
+    : s.playlist
+      ? 'Add playlist (paste an Apple Music playlist URL, then pick from the list)…'
+      : 'Add genre (pick from the list, or press Enter for exact text)…'
   const results = document.createElement('div')
   results.className = 'results'
   results.hidden = true
@@ -395,20 +419,17 @@ function makeAdder(s) {
       return
     }
     if (s.playlist) {
-      // https://music.apple.com/us/playlist/<slug>/pl.<id> — name from slug
-      const u = input.value.trim()
-      const parts = u.split('/')
-      if (!(u.startsWith('https://music.apple.com/') && parts[4] === 'playlist' && (parts[6] ?? '').startsWith('pl.'))) {
+      const pl = parsePlaylist(input.value.trim())
+      if (!pl) {
         $('status').textContent = 'Not an Apple Music playlist URL.'
         return
       }
-      if (getList(s.key).some((pl) => pl.url === u)) {
+      if (getList(s.key).some((e) => e.url === pl.url)) {
         $('status').textContent = 'That playlist is already in the list.'
         input.value = ''
         return
       }
-      const name = parts[5].replace(/-/g, ' ').replace(/\\b\\w/g, (c) => c.toUpperCase())
-      addTo(s.key, { name, url: u })
+      addTo(s.key, pl)
     } else {
       addTo(s.key, input.value)
     }
@@ -450,11 +471,48 @@ function makeAdder(s) {
       }, 500)
     }
     input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
-  } else if (!s.playlist) {
-    // genres only — a playlist input must never fall through to this raw-text
-    // add: renderAll() tears the input down mid-edit, the browser fires its
-    // pending change, and the pasted URL lands as a second, URL-named chip
-    input.onchange = () => { if (input.value.trim()) { addTo(s.key, input.value); input.value = '' } }
+  } else if (s.playlist) {
+    // same pick-from-the-list flow as artists: a valid URL shows one result
+    // row with the derived name, so the chip's text is visible before adding.
+    // Enter still adds directly. No raw-text onchange fallback here — the
+    // re-render mid-edit fires it with the URL still in the box and a second,
+    // URL-named chip appears.
+    input.oninput = () => {
+      results.replaceChildren()
+      const pl = parsePlaylist(input.value.trim())
+      if (!pl) { results.hidden = true; return }
+      const taken = getList(s.key).some((e) => e.url === pl.url)
+      resultRow(results, pl.name, taken ? 'already in the list' : 'playlist', () => {
+        if (!taken) addTo(s.key, pl)
+        input.value = ''
+        results.hidden = true
+      })
+      results.hidden = false
+    }
+    input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
+  } else {
+    // genres: the options used to hide inside a <datalist> — surface them in
+    // the same dropdown instead. Focus shows every known tag (canonical +
+    // seen in the current data); typing filters; Enter takes exact free text
+    // (a tag outside the canonical list is still followable — unmapped
+    // genre names pass through the fetcher untouched).
+    const show = () => {
+      results.replaceChildren()
+      const typed = input.value.trim().toLowerCase()
+      const have = new Set(getList(s.key).map((g) => nameOf(g).toLowerCase()))
+      const opts = genreOptions.filter((g) => !have.has(g.toLowerCase()) && g.toLowerCase().includes(typed))
+      for (const g of opts) {
+        resultRow(results, g, genresSeen.includes(g) ? 'on the site now' : '', () => {
+          addTo(s.key, g)
+          input.value = ''
+          results.hidden = true
+        })
+      }
+      results.hidden = opts.length === 0
+    }
+    input.oninput = show
+    input.onfocus = show
+    input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
   }
   wrap.append(input, results)
   return wrap
@@ -527,12 +585,9 @@ window.onbeforeunload = () => (dirty ? true : undefined)
 fetch('/api/prefs').then((r) => r.json()).then((p) => {
   prefs = { artists: p.artists, genres: p.genres, discovery: { playlists: p.playlists ?? [] } }
   activity = p.activity ?? {}
+  genreOptions = p.genreOptions ?? []
+  genresSeen = p.genresSeen ?? []
   $('site-link').href = p.siteUrl
-  for (const g of p.genreOptions) {
-    const o = document.createElement('option')
-    o.value = g
-    document.getElementById('genre-dl').appendChild(o)
-  }
   renderAll()
   poll()
 })
