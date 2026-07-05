@@ -22,8 +22,8 @@ function TypeIcon({ type }: { type: Release['type'] }) {
 
 // Unified release card (the only card type): clean artwork, then title,
 // artist, and a small meta row — type icon, genre chip. On the Upcoming tab
-// (upcoming prop) a release-date line sits under the artist, amber when the
-// drop is within a week. The whole card links to Apple Music.
+// (upcoming prop) the meta row also carries a release-date badge, amber when
+// the drop is within a week. The whole card links to Apple Music.
 export function ReleaseCard({ release, upcoming = false }: { release: Release; upcoming?: boolean }) {
   const [imgFailed, setImgFailed] = useState(false)
   const showImg = release.artwork.startsWith('http') && !imgFailed
@@ -49,7 +49,6 @@ export function ReleaseCard({ release, upcoming = false }: { release: Release; u
         {release.followed && <span className="text-amber-500">★ </span>}
         {release.artist}
       </p>
-      {upcoming && <UpcomingDate date={release.release_date} />}
       <div className="mt-1 flex flex-wrap items-center gap-1 text-muted-foreground">
         <TypeIcon type={release.type} />
         {release.genre && (
@@ -57,6 +56,7 @@ export function ReleaseCard({ release, upcoming = false }: { release: Release; u
             {release.genre}
           </span>
         )}
+        {upcoming && <UpcomingBadge date={release.release_date} />}
       </div>
     </div>
   )
@@ -70,11 +70,15 @@ export function ReleaseCard({ release, upcoming = false }: { release: Release; u
   )
 }
 
-function UpcomingDate({ date }: { date: string }) {
+function UpcomingBadge({ date }: { date: string }) {
   const { label, soon } = formatUpcoming(date)
   return (
-    <p className={`text-[11px] font-medium ${soon ? 'text-amber-500' : 'text-muted-foreground'}`}>
+    <span
+      className={`rounded-full px-1.5 py-px text-[9px] ${
+        soon ? 'bg-amber-400 font-bold text-amber-950' : 'border border-border font-medium'
+      }`}
+    >
       {label}
-    </p>
+    </span>
   )
 }
