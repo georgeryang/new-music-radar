@@ -9,21 +9,29 @@ export function formatRelativeTime(timestamp: number | null): string {
   return `Updated ${Math.floor(hours / 24)}d ago`
 }
 
-// Display window: only releases from the last N hours. Sources report plain
-// dates (no time), so compare against the calendar date N hours ago in the
-// viewer's timezone — a release dated on/after that day counts as fresh.
+// Sources report plain dates (no time) — all window math happens on local
+// calendar dates.
+const localDateStr = (d: Date) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+
+// Display window: only releases from the last N hours — a release dated
+// on/after the calendar date N hours ago counts as fresh. Note this is a
+// lower bound only: future dates pass it (use isUnreleased for those).
 export function isFresh(releaseDate: string, hours: number): boolean {
-  const cutoff = new Date(Date.now() - hours * 3600e3)
-  const cutStr = `${cutoff.getFullYear()}-${String(cutoff.getMonth() + 1).padStart(2, '0')}-${String(cutoff.getDate()).padStart(2, '0')}`
-  return releaseDate >= cutStr
+  return releaseDate >= localDateStr(new Date(Date.now() - hours * 3600e3))
+}
+
+// Still unreleased: dated strictly after today. Drives the Upcoming tab —
+// on release day the card leaves Upcoming and enters the grid via the next
+// fetch.
+export function isUnreleased(releaseDate: string): boolean {
+  return releaseDate > localDateStr(new Date())
 }
 
 // Upcoming-card date label: relative inside a week ("Tomorrow", "In 5 days"),
-// calendar date beyond ("Sep 18"). Same calendar-day math as isFresh — the
-// data carries dates, not times.
+// calendar date beyond ("Sep 18").
 export function formatUpcoming(releaseDate: string): { label: string; soon: boolean } {
-  const now = new Date()
-  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+  const todayStr = localDateStr(new Date())
   const days = Math.round((Date.parse(releaseDate) - Date.parse(todayStr)) / 86400e3)
   if (days <= 1) return { label: 'Tomorrow', soon: true }
   if (days <= 7) return { label: `In ${days} days`, soon: true }
