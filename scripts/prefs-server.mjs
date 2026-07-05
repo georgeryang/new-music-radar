@@ -176,17 +176,25 @@ const server = http.createServer(async (req, res) => {
       writeFileSync(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
       json(res, 200, { ok: true })
     } else if (req.method === 'GET' && url.pathname === '/api/artist-search') {
-      const q = (url.searchParams.get('q') ?? '').slice(0, 100)
-      if (q.trim().length < 2) return json(res, 200, { results: [] })
+      const q = (url.searchParams.get('q') ?? '').slice(0, 100).trim()
+      if (q.length < 2) return json(res, 200, { results: [] })
       // Apple Music catalog — the same catalog the fetcher queries, so the
-      // picked artist ID is exactly what the nightly lookup uses.
+      // picked artist ID is exactly what the nightly lookup uses. An
+      // all-digits query or a pasted artist page URL is resolved by ID via
+      // lookup (search?term= reads either as a name and finds nothing).
+      const urlId = q.match(/^https:\/\/music\.apple\.com\/[a-z]{2}\/artist\/[^/]+\/(\d+)/)?.[1]
+      const id = urlId ?? (/^\d+$/.test(q) ? q : null)
       const upstream = await fetch(
-        `https://itunes.apple.com/search?term=${encodeURIComponent(q)}&entity=musicArtist&country=US&limit=6`,
+        id
+          ? `https://itunes.apple.com/lookup?id=${id}&country=US`
+          : `https://itunes.apple.com/search?term=${encodeURIComponent(q)}&entity=musicArtist&country=US&limit=6`,
         { headers: { 'User-Agent': 'new-music-radar/1.0' } }
       )
       const data = await upstream.json()
       json(res, 200, {
-        results: (data.results ?? []).map((a) => ({
+        // wrapperType filter: a lookup id that belongs to a song/album would
+        // otherwise come back as a picker entry credited to its artist
+        results: (data.results ?? []).filter((a) => a.wrapperType === 'artist').map((a) => ({
           id: a.artistId,
           name: a.artistName,
           genre: a.primaryGenreName ?? '',
@@ -371,7 +379,7 @@ function makeAdder(s) {
   wrap.className = 'adder'
   const input = document.createElement('input')
   input.placeholder = s.requireId
-    ? 'Add artist (search Apple Music and pick from the list)…'
+    ? 'Add artist (name, Apple ID, or artist page URL — pick from the list)…'
     : s.artist
       ? 'Add artist (search Apple Music, or press Enter for exact text)…'
       : s.playlist ? 'Paste an Apple Music playlist URL and press Enter…' : 'Add genre…'
@@ -392,6 +400,11 @@ function makeAdder(s) {
       const parts = u.split('/')
       if (!(u.startsWith('https://music.apple.com/') && parts[4] === 'playlist' && (parts[6] ?? '').startsWith('pl.'))) {
         $('status').textContent = 'Not an Apple Music playlist URL.'
+        return
+      }
+      if (getList(s.key).some((pl) => pl.url === u)) {
+        $('status').textContent = 'That playlist is already in the list.'
+        input.value = ''
         return
       }
       const name = parts[5].replace(/-/g, ' ').replace(/\\b\\w/g, (c) => c.toUpperCase())
@@ -437,7 +450,10 @@ function makeAdder(s) {
       }, 500)
     }
     input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
-  } else {
+  } else if (!s.playlist) {
+    // genres only — a playlist input must never fall through to this raw-text
+    // add: renderAll() tears the input down mid-edit, the browser fires its
+    // pending change, and the pasted URL lands as a second, URL-named chip
     input.onchange = () => { if (input.value.trim()) { addTo(s.key, input.value); input.value = '' } }
   }
   wrap.append(input, results)
