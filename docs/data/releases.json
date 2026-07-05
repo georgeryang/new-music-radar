@@ -1,16 +1,6 @@
 {
-  "fetched_at": 1783273313886,
+  "fetched_at": 1783287408570,
   "releases": [
-    {
-      "title": "RULE (feat. Heize)",
-      "artist": "CHUU",
-      "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e9/ff/7d/e9ff7d45-7145-37b4-778f-d087d7799923/191953557922.jpg/400x400bb.jpg",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/rule-feat-heize-single/6785786085?uo=4",
-      "preferred": true
-    },
     {
       "title": "We made",
       "artist": "i-dle",
@@ -19,7 +9,7 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6f/10/5d/6f105d4d-171d-436d-64de-ec210bcea0aa/4099964247879.jpg/400x400bb.jpg",
       "genre": "K-pop",
       "link": "https://music.apple.com/us/album/we-made-ep/6779753532?uo=4",
-      "preferred": true
+      "followed": true
     },
     {
       "title": "In Lof",
@@ -29,7 +19,7 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bb/6a/b4/bb6ab473-235c-b7cb-f39d-850a421567b0/0.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/in-lof-single/6780650490?uo=4",
-      "preferred": true
+      "followed": true
     },
     {
       "title": "Love me forever!",
@@ -41,22 +31,22 @@
       "link": "https://music.apple.com/us/album/love-me-forever-single/6781882526?uo=4"
     },
     {
-      "title": "Roots Breaking Concrete",
-      "artist": "ALICE MCENDREE",
+      "title": "Help the People",
+      "artist": "Azaryah",
       "type": "album",
-      "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/dd/38/52/dd385239-5068-ba3b-fb2a-e7594c119875/artwork.jpg/400x400bb.png",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/roots-breaking-concrete/6787174973?uo=2"
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b9/97/95/b99795ab-4fc1-d7bb-a8ea-8bc191b0a57e/859739613247_cover.jpg/400x400bb.png",
+      "genre": "Afrobeats",
+      "link": "https://music.apple.com/us/album/help-the-people-ep/6776180468?uo=2"
     },
     {
-      "title": "BAD (James Carter Ver.)",
-      "artist": "ATEEZ",
+      "title": "born to lose",
+      "artist": "Bea Miller",
       "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/76/25/36/762536f1-bd33-be85-250e-a86b0611651a/196874526088.jpg/400x400bb.jpg",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/bad-james-carter-ver-single/6781509330?uo=4"
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/43/d3/6f/43d36f0a-9d78-714f-3d6f-89c27e6baa78/26UMGIM73770.rgb.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/born-to-lose-single/6781757431?uo=4"
     },
     {
       "title": "MORNING DEW (DONK)",
@@ -68,6 +58,15 @@
       "link": "https://music.apple.com/us/album/morning-dew-donk-single/6787303151?uo=4"
     },
     {
+      "title": "YA ESTUVO BUENO",
+      "artist": "Calle 24",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/27/64/cb/2764cb7f-ebef-cfe4-f10c-c587bf6f638f/823375262107_Cover.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/ya-estuvo-bueno-single/6783977266?uo=4"
+    },
+    {
       "title": "Bonjour, Pardon, Merci",
       "artist": "Céline Dion",
       "type": "song",
@@ -77,6 +76,24 @@
       "link": "https://music.apple.com/us/album/bonjour-pardon-merci-single/6783417316?uo=4"
     },
     {
+      "title": "Tu Culpa",
+      "artist": "Clave Especial & Los Parras",
+      "type": "song",
+      "release_date": "2026-07-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a6/15/df/a615dfbc-83e5-21d1-b2e1-6d1cb574bf8c/823375262114_Cover.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/tu-culpa-single/6783977903?uo=4"
+    },
+    {
+      "title": "Dream Crusher",
+      "artist": "Daniel Seavey",
+      "type": "album",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/68/6a/60/686a6080-c0f7-deff-a684-388a004aee9c/075679571243.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/dream-crusher-ep/6784372769?uo=4"
+    },
+    {
       "title": "TACTIC",
       "artist": "Daoko",
       "type": "song",
@@ -84,6 +101,60 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2b/5d/e7/2b5de7e8-74ae-2616-4c75-7af57836911b/4540774749089.jpg/400x400bb.jpg",
       "genre": "J-pop",
       "link": "https://music.apple.com/us/album/tactic-single/6775800407?uo=4"
+    },
+    {
+      "title": "Money & Love",
+      "artist": "DevoX",
+      "type": "album",
+      "release_date": "2026-07-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/05/3b/03/053b03f5-7f76-deee-4ba8-072780d134d5/artwork.jpg/400x400bb.png",
+      "genre": "Afrobeats",
+      "link": "https://music.apple.com/us/album/money-love-ep/6785954164?uo=2"
+    },
+    {
+      "title": "This Is How You See Me Now",
+      "artist": "Dolder",
+      "type": "album",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/3b/65/32/3b6532fc-2f9f-44fd-6a0c-119927f15ffa/26UMGIM41069.rgb.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/this-is-how-you-see-me-now-ep/6779460000?uo=4"
+    },
+    {
+      "title": "PREMIÈRE DOSE",
+      "artist": "Doz",
+      "type": "album",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a6/88/5e/a6885e0f-8319-5dbe-b412-4f39133886c0/artwork.jpg/400x400bb.png",
+      "genre": "Afrobeats",
+      "link": "https://music.apple.com/us/album/premi%C3%A8re-dose/6785087470?uo=2"
+    },
+    {
+      "title": "autonomy+",
+      "artist": "ELIO",
+      "type": "album",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/09/99/da/0999da54-fae9-55c2-b427-2189afac2541/5064020263505_cover.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/autonomy/6781011762?uo=4"
+    },
+    {
+      "title": "Groooovy",
+      "artist": "I Don't Like Mondays.",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/08/3a/00/083a00fa-b5ca-f8c9-c679-9b54fffd58c9/ANTCD-A0000020194.jpg/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/groooovy-single/6775370938?uo=4"
+    },
+    {
+      "title": "Bon Appétit",
+      "artist": "Joel Kapat",
+      "type": "album",
+      "release_date": "2026-07-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7b/ae/85/7bae857e-b8ae-dc29-e9e8-d57f59dfcc0a/859739013818_cover.jpg/400x400bb.png",
+      "genre": "Afrobeats",
+      "link": "https://music.apple.com/us/album/bon-app%C3%A9tit/6773276710?uo=2"
     },
     {
       "title": "Stillness on the Midnight Grid",
@@ -101,11 +172,16 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2a/0d/78/2a0d7836-a689-3467-56fd-30a09c1460ec/ticket.hptwlacf.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": "https://music.apple.com/us/album/swag-live-from-coachella-weekend-ii/6786441259?uo=4",
-      "charting": {
-        "storefront": "US",
-        "rank": 48
-      }
+      "link": "https://music.apple.com/us/album/swag-live-from-coachella-weekend-ii/6786441259?uo=4"
+    },
+    {
+      "title": "孔雀",
+      "artist": "Kei Sugawara",
+      "type": "song",
+      "release_date": "2026-07-05",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3d/5f/d6/3d5fd676-a26c-15e9-4663-faa0a8dae022/4547366833706.jpg/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/%E5%AD%94%E9%9B%80-single/6782046137?uo=4"
     },
     {
       "title": "BREAK IT",
@@ -117,13 +193,13 @@
       "link": "https://music.apple.com/us/album/break-it-single/6781518153?uo=4"
     },
     {
-      "title": "Midnight Petals",
-      "artist": "KRISTINA SWAN",
+      "title": "Flawed Crown",
+      "artist": "LAY",
       "type": "album",
-      "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b4/b7/5a/b4b75af7-c445-9621-71ea-2a2964f7e5f0/artwork.jpg/400x400bb.png",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/midnight-petals/6787272737?uo=2"
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/79/35/7a/79357ae6-f0ec-2635-fbfc-2fae1da6b01d/4896010539779.jpg/400x400bb.png",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/%E6%96%97%E6%88%98%E8%83%9C%E4%BD%9B/6786304269?uo=2"
     },
     {
       "title": "Queridos Amigos",
@@ -141,11 +217,7 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/eb/8f/5d/eb8f5dcf-aec1-1f58-fbea-dc0bb086f1c8/093624819837.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": "https://music.apple.com/us/album/confessions-ii/1892545087?uo=4",
-      "charting": {
-        "storefront": "US",
-        "rank": 8
-      }
+      "link": "https://music.apple.com/us/album/confessions-ii/1892545087?uo=4"
     },
     {
       "title": "back shot",
@@ -166,6 +238,33 @@
       "link": "https://music.apple.com/us/album/%E7%A5%88%E3%82%8A-%E7%B5%82%E3%82%8F%E3%82%8C%E3%81%B0-single/6782046323?uo=4"
     },
     {
+      "title": "BACK TO IBIZA",
+      "artist": "Mike Posner, Kelland & BROSA",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b5/b6/fc/b5b6fcbd-e502-760c-172e-747a08f35ca1/054391213228.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/back-to-ibiza-single/6783997656?uo=4"
+    },
+    {
+      "title": "Millionaire Muses Afro Beats Abundance",
+      "artist": "Millionaire Muses",
+      "type": "album",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6f/92/bf/6f92bfcb-ae3d-d54b-a874-96b9e0d77320/artwork.jpg/400x400bb.png",
+      "genre": "Afrobeats",
+      "link": "https://music.apple.com/us/album/millionaire-muses-afro-beats-abundance/6787225904?uo=2"
+    },
+    {
+      "title": "Moblack Presents Zurna Obsession: Türkiye Edition",
+      "artist": "MoBlack",
+      "type": "album",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7c/f9/a2/7cf9a2b1-60f7-6308-a476-33875604c9b6/4251353220751.png/400x400bb.png",
+      "genre": "Afrobeats",
+      "link": "https://music.apple.com/us/album/moblack-presents-zurna-obsession-t%C3%BCrkiye-edition-ep/6782959675?uo=2"
+    },
+    {
       "title": "BASIN TECHNO",
       "artist": "okazakitaiiku",
       "type": "album",
@@ -173,6 +272,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/19/fa/fe/19fafe1e-1fdc-bbb6-c4f7-5d462e82431e/4547366829693.jpg/400x400bb.png",
       "genre": "J-pop",
       "link": "https://music.apple.com/us/album/%E7%9B%86%E5%9C%B0%E3%83%86%E3%82%AF%E3%83%8E/6776625254?uo=2"
+    },
+    {
+      "title": "Where I've Been",
+      "artist": "POODEE",
+      "type": "song",
+      "release_date": "2026-07-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/72/95/b5/7295b598-00a4-bfc6-74c9-c9c9c239c606/859741611101_cover.jpg/400x400bb.jpg",
+      "genre": "Afrobeats",
+      "link": "https://music.apple.com/us/album/where-ive-been-single/6786319525?uo=4"
     },
     {
       "title": "「いつかちゃんと。」",
@@ -190,20 +298,43 @@
       "release_date": "2026-07-03",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f4/e5/61/f4e561f5-3e73-68c7-7ca4-295ac5a063ed/26UMGIM51351.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": "https://music.apple.com/us/album/visitor-deluxe/6769552402?uo=4",
-      "charting": {
-        "storefront": "US",
-        "rank": 24
-      }
+      "link": "https://music.apple.com/us/album/visitor-deluxe/6769552402?uo=4"
     },
     {
-      "title": "Eres Mi Nada / Tu Pasado y Tú",
-      "artist": "Yuridia",
+      "title": "Pretty Eyes (feat. FLO)",
+      "artist": "sunkis",
       "type": "song",
-      "release_date": "2026-07-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2b/b9/3c/2bb93cb5-ffd2-cfe6-9704-f959c8851309/196874505557.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/eres-mi-nada-tu-pasado-y-t%C3%BA-single/6780570291?uo=4"
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0a/90/5d/0a905d79-d89c-48f7-8abe-e82a9ec4d349/26UMGIM79503.rgb.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/pretty-eyes-feat-flo-single/6781923505?uo=4"
+    },
+    {
+      "title": "ARE YOU EVER COMING BACK?",
+      "artist": "vaultboy",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/dd/4a/3d/dd4a3dcf-2c2b-1182-4215-7522d26f27b2/612891076882.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/are-you-ever-coming-back-single/6778927825?uo=4"
+    },
+    {
+      "title": "Hate My Guts",
+      "artist": "Will Swinton",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6f/8d/6e/6f8d6ec0-5f8a-a8a7-1723-963243e4b576/26UMGIM72968.rgb.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/hate-my-guts-single/6783996052?uo=4"
+    },
+    {
+      "title": "Undiscovered Country",
+      "artist": "Zach Gill",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0b/e4/a4/0be4a4e7-da74-7718-dfe7-f29664d6a246/26UMGIM77718.rgb.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/undiscovered-country-single/6780695495?uo=4"
     }
   ]
 }

@@ -15,16 +15,15 @@ Just open the site. What you'll see:
   computer and two on a phone.
 - Under each cover: a small **♪** means it's a song (single), a **disc** icon
   means an album or EP.
-- **★** next to an artist means they're on your preferred list.
+- **★** next to an artist means you follow them.
 - A small tag like **K-pop** or **Latin** shows each release's genre.
-- A gold badge like **US #2** means it's currently one of the most-played
-  albums on Apple Music in the US.
 - **Tap or click any card** to open that release in Apple Music.
 
-The site shows releases from roughly the last day and a half: your preferred
-artists first, then everything else alphabetically by artist. Cards come from
-your preferred artists plus a daily scan of Apple's US charts and new-music
-playlists, filtered to your preferred genres. It refreshes itself every
+The site shows your followed artists first, then everything else
+alphabetically by artist. A followed artist's release stays on the page for
+3 days; chart and playlist finds stay for 1 day. Cards come from
+your followed artists plus a daily scan of Apple's US charts and new-music
+playlists, filtered to your followed genres. It refreshes itself every
 evening (see setup below).
 
 ## Adding and removing artists, genres, and playlists
@@ -35,11 +34,11 @@ evening (see setup below).
    matching artists from Apple Music appears, each with its genre. If two
    artists share a name, click the **↗** to peek at their Apple Music page and
    make sure it's the right one, then click the one you want. Artists must be
-   picked from this list, in both the preferred and blocked sections. The pick
+   picked from this list, in both the followed and blocked sections. The pick
    pins the exact artist by its Apple ID; typed names alone can't be used.
 3. To remove anything, click the **×** on its chip.
-4. Blocked artists never appear on the site. Preferred genres are the only
-   genres discovery will surface (your preferred artists always show, whatever
+4. Blocked artists never appear on the site. Followed genres are the only
+   genres discovery will surface (your followed artists always show, whatever
    their genre).
 5. The **Discovery playlists** section lists the Apple Music playlists the
    nightly update scans for brand-new releases (New Music Daily out of the
@@ -51,7 +50,7 @@ evening (see setup below).
      happening; it takes about two minutes, and it's safe to close the page
      since the update keeps running and the site refreshes on its own.
 
-A gray note like `· 2y` next to a preferred artist means their newest release
+A gray note like `· 2y` next to a followed artist means their newest release
 is that old, in case you want to trim the list. Nothing is removed
 automatically.
 
@@ -97,11 +96,11 @@ performs the daily update.
 
 ## For developers
 
-- **Data flow:** `config/preferences.json` (preferred/blocked artists,
-  preferred genres, discovery playlists) -> `scripts/fetch-releases.mjs`
+- **Data flow:** `config/preferences.json` (followed/blocked artists,
+  followed genres, discovery playlists) -> `scripts/fetch-releases.mjs`
   (zero-dep node, four sources: batched iTunes lookups for the follow list,
-  the Apple US most-played chart for badges and discovery, US iTunes genre
-  purchase charts for day-of drops in seven preferred genres (song-chart
+  the Apple US most-played chart for discovery, US iTunes genre
+  purchase charts for day-of drops in seven of your followed genres (song-chart
   tracks resolve to their parent single/album, so every card is one Apple
   collection), and Apple Music editorial playlists scraped from the web player
   page; everything native Apple Music: links, genres, artwork) ->
@@ -117,16 +116,19 @@ performs the daily update.
   127.0.0.1:4747, same-origin only (Host/Origin checks on everything but the
   site's ping). Artist entries in both lists are always `{name, id}`: the
   Apple catalog picker is the only way to add one, the fetcher sweeps
-  preferred artists by ID, and blocked artists are dropped by ID (note: a
+  followed artists by ID, and blocked artists are dropped by ID (note: a
   blocked artist's collabs are credited to a joint entity with its own ID, so
   those aren't blocked). Playlist chips take a pasted Apple Music playlist
   URL; refresh runs detached (pidfile + shared log) so quitting the editor
-  can't stop it.
+  can't stop it. The server also serves the built site from `docs/` at
+  `/new-music-radar/`, which is where "Open radar" points: the local copy
+  shows freshly fetched data right away, without waiting for the Pages
+  deploy.
 - **Canonical genre tags:** `scripts/genre-map.mjs`, shared by the fetcher
   (tags releases) and the editor (offers the tags in the genre picker).
 - **Config side file:** `config/artist-activity.json` records each artist's
   newest release date every night and drives the dormancy hints on
-  preferred-artist chips.
+  followed-artist chips.
 - **Reliability patterns:** non-zero exit when any source fails (the artist
   sweep only counts as failed when every batch fails), empty-success carryover
   instead of stamping an empty file fresh, paced requests with jitter to the

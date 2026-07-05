@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Local preferences editor for config/preferences.json — the file that drives
-// the nightly fetch (preferred artists get discography checks + pinning,
+// the nightly fetch (followed artists get discography checks + pinning,
 // blocked artists are dropped by ID). Zero deps; launched by prefs.command.
 //
 // Binds 127.0.0.1 only, and rejects requests whose Host/Origin isn't this
@@ -8,24 +8,35 @@
 // while it runs; /api/ping is the one deliberate cross-origin endpoint).
 // Writes exactly one hardcoded path (the config file), preserving keys the
 // UI doesn't manage (_comment). The Apple Music artist search is proxied so
-// the browser never talks to a third party.
+// the browser never talks to a third party. Also serves the built site from
+// docs/ at /new-music-radar/ — the "Open radar" link opens the local copy.
 
 import http from 'node:http'
-import { closeSync, openSync, readFileSync, writeFileSync } from 'node:fs'
+import { closeSync, openSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
 import { spawn } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+import { join, normalize } from 'node:path'
 import { CANON_TAGS } from './genre-map.mjs'
 
 const PORT = 4747
 const PREFS_PATH = new URL('../config/preferences.json', import.meta.url)
 const DATA_PATH = new URL('../docs/data/releases.json', import.meta.url)
 const REPO_DIR = fileURLToPath(new URL('..', import.meta.url))
-const SITE_URL = 'https://georgeryang.github.io/new-music-radar/'
+// "Open radar" serves the built site from docs/ on this same server — the
+// local copy shows fresh data the moment a refresh writes it, instead of
+// waiting out the Pages deploy.
+const DOCS_DIR = fileURLToPath(new URL('../docs/', import.meta.url))
+// Symlink-resolved prefix (with the trailing / so a sibling like docs-evil/
+// can't pass a startsWith check) — the static handler re-checks realpaths
+// against this.
+const DOCS_REAL = realpathSync(DOCS_DIR) + '/'
+const SITE_PATH = '/new-music-radar/'
+const SITE_URL = `http://localhost:${PORT}${SITE_PATH}`
 
 const readPrefs = () => JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
 // Newest US release date per artist id, written by the nightly fetch —
-// drives the dormancy hints on preferred-artist chips.
+// drives the dormancy hints on followed-artist chips.
 const ACTIVITY_PATH = new URL('../config/artist-activity.json', import.meta.url)
 const readActivity = () => {
   try {
@@ -37,7 +48,7 @@ const readActivity = () => {
 
 const isName = (s) => typeof s === 'string' && s.trim().length > 0 && s.length < 200
 // Artist entries must be {name, id} in both lists — the Apple picker pins the
-// exact artist by ID; the fetcher sweeps preferred and blocks blocked by ID
+// exact artist by ID; the fetcher sweeps followed and blocks blocked by ID
 // only. Genres are plain strings.
 const isPinnedArtistList = (v) =>
   Array.isArray(v) && v.every((e) => e && isName(e.name) && Number.isInteger(e.id))
@@ -128,8 +139,13 @@ const server = http.createServer(async (req, res) => {
         seen = [...new Set(releases.map((r) => r.genre).filter(Boolean))]
       } catch {}
       json(res, 200, {
-        artists: p.artists,
-        genres: p.genres,
+        // ?? preferred: read fallback so pre-rename config backups still load;
+        // the next save migrates the file to the followed keys.
+        artists: {
+          followed: p.artists?.followed ?? p.artists?.preferred ?? [],
+          blocked: p.artists?.blocked ?? [],
+        },
+        genres: { followed: p.genres?.followed ?? p.genres?.preferred ?? [] },
         playlists: p.discovery?.playlists ?? [],
         activity: readActivity(),
         genreOptions: [...new Set([...CANON_TAGS, ...seen])].sort((a, b) => a.localeCompare(b)),
@@ -148,14 +164,14 @@ const server = http.createServer(async (req, res) => {
         return json(res, 400, { error: 'invalid JSON' })
       }
       if (
-        !isPinnedArtistList(incoming?.artists?.preferred) || !isPinnedArtistList(incoming?.artists?.blocked) ||
-        !isStringList(incoming?.genres?.preferred) ||
+        !isPinnedArtistList(incoming?.artists?.followed) || !isPinnedArtistList(incoming?.artists?.blocked) ||
+        !isStringList(incoming?.genres?.followed) ||
         !isPlaylistList(incoming?.discovery?.playlists)
       ) return json(res, 400, { error: 'invalid list shape' })
       const p = readPrefs() // preserve _comment, anything else
-      p.artists.preferred = incoming.artists.preferred
-      p.artists.blocked = incoming.artists.blocked
-      p.genres = { ...p.genres, preferred: incoming.genres.preferred }
+      p.artists = { followed: incoming.artists.followed, blocked: incoming.artists.blocked }
+      p.genres = { ...p.genres, followed: incoming.genres.followed }
+      delete p.genres.preferred // migrate pre-rename backups on first save
       p.discovery = { ...p.discovery, playlists: incoming.discovery.playlists }
       writeFileSync(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
       json(res, 200, { ok: true })
@@ -184,6 +200,35 @@ const server = http.createServer(async (req, res) => {
     } else if (req.method === 'POST' && url.pathname === '/api/quit') {
       json(res, 200, { ok: true })
       setTimeout(() => process.exit(0), 100)
+    } else if (req.method === 'GET' && url.pathname === SITE_PATH.slice(0, -1)) {
+      res.writeHead(302, { Location: SITE_PATH })
+      res.end()
+    } else if (req.method === 'GET' && url.pathname.startsWith(SITE_PATH)) {
+      const rel = url.pathname.slice(SITE_PATH.length) || 'index.html'
+      const file = join(DOCS_DIR, normalize(rel))
+      if (!file.startsWith(DOCS_DIR)) return json(res, 403, { error: 'forbidden' })
+      const TYPES = {
+        html: 'text/html; charset=utf-8',
+        js: 'text/javascript',
+        css: 'text/css',
+        json: 'application/json',
+      }
+      try {
+        // realpath re-check: the lexical check above can't see a symlink
+        // inside docs/ pointing elsewhere
+        if (!realpathSync(file).startsWith(DOCS_REAL)) {
+          return json(res, 403, { error: 'forbidden' })
+        }
+        const body = readFileSync(file)
+        res.writeHead(200, {
+          'Content-Type': TYPES[file.split('.').pop()] ?? 'application/octet-stream',
+          // Always revalidate: docs/data changes underneath after every fetch.
+          'Cache-Control': 'no-cache',
+        })
+        res.end(body)
+      } catch {
+        json(res, 404, { error: 'not found' })
+      }
     } else {
       json(res, 404, { error: 'not found' })
     }
@@ -229,6 +274,7 @@ const PAGE = /* html */ `<!doctype html>
   #log { position: fixed; bottom: 92px; left: 50%; transform: translateX(-50%); width: min(640px, calc(100% - 32px)); max-height: 180px; overflow-y: auto; background: var(--chip); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; font: 11px/1.5 ui-monospace, monospace; white-space: pre-wrap; word-break: break-word; }
   #banner.running { background: #fef3c7; color: #78350f; }
   #banner.ok { background: #dcfce7; color: #14532d; }
+  #banner.warn { background: #ffedd5; color: #7c2d12; }
   #banner.bad { background: #fee2e2; color: #7f1d1d; }
   @keyframes pulse { 50% { opacity: .55; } }
   #banner.running .dot { display: inline-block; animation: pulse 1.2s infinite; }
@@ -257,9 +303,9 @@ const $ = (id) => document.getElementById(id)
 // else); genres are plain strings; playlists are {name, url}
 const nameOf = (e) => (typeof e === 'string' ? e : e.name)
 const SECTIONS = [
-  { key: 'artists.preferred', label: 'Preferred artists', sub: 'pinned first ★, fetched by Apple ID, bypass filters', artist: true, requireId: true },
+  { key: 'artists.followed', label: 'Followed artists', sub: 'pinned first ★, fetched by Apple ID, bypass filters', artist: true, requireId: true },
   { key: 'artists.blocked', label: 'Blocked artists', sub: 'never shown (matched by Apple ID)', artist: true, requireId: true },
-  { key: 'genres.preferred', label: 'Preferred genres', sub: 'discovery only surfaces these (preferred artists always show)', artist: false },
+  { key: 'genres.followed', label: 'Followed genres', sub: 'discovery only surfaces these (followed artists always show)', artist: false },
   { key: 'discovery.playlists', label: 'Discovery playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', playlist: true },
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
@@ -290,7 +336,7 @@ function renderAll() {
       // Dormancy hint: an artist with no release in 18+ months is a prune
       // candidate — fetch time no longer depends on list size, so this is
       // curation, not performance.
-      const last = s.key === 'artists.preferred' && entry.id ? activity[entry.id] : null
+      const last = s.key === 'artists.followed' && entry.id ? activity[entry.id] : null
       if (last && Date.now() - Date.parse(last) > 18 * 2629746000) {
         const months = Math.round((Date.now() - Date.parse(last)) / 2629746000)
         const ago = document.createElement('span')
@@ -399,6 +445,7 @@ function makeAdder(s) {
 }
 
 let wasRunning = false
+let pollTimer
 function setBanner(cls, text) {
   const b = $('banner')
   b.hidden = !cls
@@ -425,14 +472,21 @@ async function poll() {
       $('log').scrollTop = $('log').scrollHeight
       setBanner('running', 'Refreshing, about two minutes. Live progress above; safe to close this page, the refresh continues in the background.')
     } else if (wasRunning) {
-      const ok = st.log.some((l) => /Published|No changes/.test(l))
-      setBanner(ok ? 'ok' : 'bad', ok
-        ? 'Refresh complete. The site shows the new data within a minute.'
-        : 'Refresh finished with errors. Check ~/Library/Logs/new-music-radar.log.')
+      // update.sh publishes partial data when a source fails (and logs the
+      // ERROR line) — that outcome is amber, not green.
+      const published = st.log.some((l) => /Published|No changes/.test(l))
+      const failed = st.log.some((l) => /ERROR:/.test(l))
+      if (published && !failed) {
+        setBanner('ok', 'Refresh complete. The site shows the new data within a minute.')
+      } else if (published) {
+        setBanner('warn', 'Refresh finished, but a source failed. Everything else was published; check ~/Library/Logs/new-music-radar.log.')
+      } else {
+        setBanner('bad', 'Refresh finished with errors. Check ~/Library/Logs/new-music-radar.log.')
+      }
     }
     wasRunning = st.running
   }
-  setTimeout(poll, st?.running ? 2000 : 10000)
+  pollTimer = setTimeout(poll, st?.running ? 2000 : 10000)
 }
 
 async function save() {
@@ -448,6 +502,7 @@ $('refresh').onclick = async () => {
   setBanner('running', 'Starting refresh…')
   await fetch('/api/refresh', { method: 'POST' })
   wasRunning = true
+  clearTimeout(pollTimer) // restart the single poll chain, don't fork a second one
   poll()
 }
 $('quit').onclick = async () => { await fetch('/api/quit', { method: 'POST' }); document.body.innerHTML = '<p style="padding:40px;text-align:center">Server stopped — you can close this tab.</p>' }

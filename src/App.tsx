@@ -13,9 +13,15 @@ export default function App() {
   // Show the ⚙ link only when the local preferences editor (prefs.command)
   // is running on this machine — elsewhere the ping just fails silently.
   useEffect(() => {
+    let cancelled = false
     fetch(`${PREFS_URL}/api/ping`, { signal: AbortSignal.timeout(800) })
-      .then((r) => setPrefsUp(r.ok))
+      .then((r) => {
+        if (!cancelled) setPrefsUp(r.ok)
+      })
       .catch(() => {})
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   useEffect(() => {
@@ -30,6 +36,8 @@ export default function App() {
         return r.json()
       })
       .then((d: FeedData) => {
+        // a malformed file should land in the error UI, not crash the render
+        if (!Array.isArray(d?.releases)) throw new Error('Data not available.')
         if (!cancelled) setData(d)
       })
       .catch((err: Error) => {
@@ -40,10 +48,11 @@ export default function App() {
     }
   }, [])
 
-  // Fetcher pre-sorts (preferred artists first, then alphabetical by artist);
-  // the data file holds a wider window than we show — display trims to 36
-  // hours, strictly: an empty window means an empty page, never older filler.
-  const releases = (data?.releases ?? []).filter((r) => isFresh(r.release_date, 36))
+  // Fetcher pre-sorts (followed artists first, then alphabetical by artist);
+  // the data file holds a wider window than we show — display trims per tier:
+  // followed artists stay 72h, discovery finds 24h. Strict either way: an
+  // empty window means an empty page, never older filler.
+  const releases = (data?.releases ?? []).filter((r) => isFresh(r.release_date, r.followed ? 72 : 24))
 
   return (
     <div className="mx-auto max-w-3xl px-4 pt-6 pb-12">
@@ -52,7 +61,7 @@ export default function App() {
         <span className="flex items-center gap-2 text-xs text-muted-foreground">
           {formatRelativeTime(data?.fetched_at ?? null)}
           {prefsUp && (
-            <a href={PREFS_URL} target="_blank" rel="noopener noreferrer" title="Edit preferences" className="hover:text-foreground">
+            <a href={PREFS_URL} target="_blank" rel="noopener noreferrer" title="Edit preferences" aria-label="Edit preferences" className="hover:text-foreground">
               ⚙
             </a>
           )}
@@ -64,8 +73,9 @@ export default function App() {
       {data &&
         (releases.length ? (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {/* | key separator — a hyphen is ambiguous when artist or title contains one */}
             {releases.map((r) => (
-              <ReleaseCard key={`${r.artist}-${r.title}-${r.type}`} release={r} />
+              <ReleaseCard key={`${r.artist}|${r.title}|${r.type}`} release={r} />
             ))}
           </div>
         ) : (

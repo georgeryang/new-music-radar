@@ -3,14 +3,16 @@ import type { Release } from '@/lib/types'
 
 // Muted type icons under the artwork: music note = song, disc = album.
 function TypeIcon({ type }: { type: Release['type'] }) {
+  // role="img" — bare <svg> aria-labels are inconsistently exposed to screen
+  // readers, and this icon is the only song/album indicator on the card.
   return type === 'song' ? (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-3.5 shrink-0" aria-label="Song">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-3.5 shrink-0" role="img" aria-label="Song">
       <path d="M9 18V5l12-2v13" />
       <circle cx="6" cy="18" r="3" />
       <circle cx="18" cy="16" r="3" />
     </svg>
   ) : (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-3.5 shrink-0" aria-label="Album">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-3.5 shrink-0" role="img" aria-label="Album">
       <circle cx="12" cy="12" r="10" />
       <circle cx="12" cy="12" r="2.5" />
     </svg>
@@ -18,7 +20,7 @@ function TypeIcon({ type }: { type: Release['type'] }) {
 }
 
 // Unified release card (the only card type): clean artwork, then title,
-// artist, and a small meta row — type icon, genre chip, chart badge.
+// artist, and a small meta row — type icon, genre chip.
 // The whole card links to Apple Music.
 export function ReleaseCard({ release }: { release: Release }) {
   const [imgFailed, setImgFailed] = useState(false)
@@ -42,7 +44,7 @@ export function ReleaseCard({ release }: { release: Release }) {
       </div>
       <p className="line-clamp-2 text-xs leading-snug font-semibold">{release.title}</p>
       <p className="truncate text-[11px] text-muted-foreground">
-        {release.preferred && <span className="text-amber-500">★ </span>}
+        {release.followed && <span className="text-amber-500">★ </span>}
         {release.artist}
       </p>
       <div className="mt-1 flex flex-wrap items-center gap-1 text-muted-foreground">
@@ -50,11 +52,6 @@ export function ReleaseCard({ release }: { release: Release }) {
         {release.genre && (
           <span className="rounded-full border border-border px-1.5 py-px text-[9px] font-medium">
             {release.genre}
-          </span>
-        )}
-        {release.charting && (
-          <span className="rounded-full bg-amber-400 px-1.5 py-px text-[9px] font-bold text-amber-950">
-            {release.charting.storefront} #{release.charting.rank}
           </span>
         )}
       </div>

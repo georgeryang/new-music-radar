@@ -69,7 +69,7 @@ log "Published"
 # GitHub's Pages deploy flakes transiently ("Deployment failed, try again
 # later"). During development a follow-up push always papered over it; the
 # nightly data push is the only push of the day, so a single flake leaves the
-# site stale for 24h. Verify the deploy for this commit and rerun it once.
+# site stale for 24h. Verify the deploy for this commit and rebuild it once.
 verify_deploy() {
   command -v gh >/dev/null 2>&1 || { log "gh not found — skipping deploy check"; return 0; }
   SHA="$(git rev-parse HEAD)"
@@ -89,18 +89,28 @@ verify_deploy() {
     success)   log "Pages deploy verified"; return 0 ;;
     cancelled) log "Pages deploy cancelled (superseded by a newer push) — skipping retry"; return 0 ;;
   esac
-  log "Pages deploy $CONCLUSION — retrying once (run $RUN_ID)"
-  gh run rerun "$RUN_ID" --failed >/dev/null 2>&1 || { log "WARNING: could not trigger rerun"; return 0; }
+  # Not `gh run rerun --failed`: rerunning the GitHub-managed Pages workflow
+  # wedges — the run sits "queued" indefinitely while reporting completed to
+  # the cancel API (observed 2026-07-04). The Pages build API is the supported
+  # retrigger; it's what a follow-up push does under the hood.
+  # builds/latest can still be the OLD failed build right after the POST —
+  # remember its created_at and skip polls that return it, or the first poll
+  # reads the stale "errored" and gives up on a build that's still running.
+  PREV_BUILD="$(gh api 'repos/{owner}/{repo}/pages/builds/latest' --jq .created_at 2>/dev/null)"
+  log "Pages deploy $CONCLUSION — requesting a fresh build (run $RUN_ID)"
+  gh api -X POST 'repos/{owner}/{repo}/pages/builds' >/dev/null 2>&1 \
+    || { log "WARNING: could not request a rebuild"; return 0; }
+  STATUS=""
   for _ in $(seq 1 20); do
     sleep 15
-    CONCLUSION="$(gh run view "$RUN_ID" --json conclusion --jq .conclusion 2>/dev/null)"
-    case "$CONCLUSION" in
-      success) log "Pages deploy verified after retry"; return 0 ;;
-      ""|null) ;;  # still running
-      *) break ;;
+    read -r STATUS CREATED <<<"$(gh api 'repos/{owner}/{repo}/pages/builds/latest' --jq '[.status,.created_at] | @tsv' 2>/dev/null)"
+    if [ -z "$CREATED" ] || [ "$CREATED" = "$PREV_BUILD" ]; then continue; fi
+    case "$STATUS" in
+      built) log "Pages deploy verified after rebuild"; return 0 ;;
+      errored) break ;;
     esac
   done
-  log "WARNING: Pages deploy still $CONCLUSION after retry — site stays stale until tomorrow's run"
+  log "WARNING: Pages rebuild ended '$STATUS' — site stays stale until tomorrow's run"
 }
 verify_deploy
 
