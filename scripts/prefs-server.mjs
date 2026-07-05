@@ -271,6 +271,8 @@ const PAGE = /* html */ `<!doctype html>
   .chip button { border: 0; background: none; cursor: pointer; color: var(--muted); font-size: 13px; padding: 0; line-height: 1; }
   .chip button:hover { color: #dc2626; }
   .age { font-size: 11px; }
+  h2 button.sort { border: 0; background: none; cursor: pointer; font-size: 11px; color: var(--muted); margin-left: 8px; text-decoration: underline; padding: 0; }
+  h2 button.sort:hover { color: inherit; }
   .age.warn { color: #b45309; }
   .age.old { color: #dc2626; }
   @media (prefers-color-scheme: dark) { .age.warn { color: #fbbf24; } .age.old { color: #f87171; } }
@@ -311,6 +313,9 @@ const PAGE = /* html */ `<!doctype html>
 </footer>
 <script>
 let prefs, activity = {}, genreOptions = [], genresSeen = [], dirty = false
+// display-only sort for the followed section: false = A-Z, true = oldest
+// release first (dormant prune candidates cluster at the top)
+let dormancySort = false
 const $ = (id) => document.getElementById(id)
 // artist entries are {name, id} (picker-pinned; the server rejects anything
 // else); genres are plain strings; playlists are {name, url}
@@ -363,9 +368,27 @@ function renderAll() {
     const small = document.createElement('small')
     small.textContent = '· ' + getList(s.key).length + ' · ' + s.sub
     h.appendChild(small)
+    if (s.key === 'artists.followed') {
+      const sort = document.createElement('button')
+      sort.className = 'sort'
+      sort.textContent = dormancySort ? 'sort: oldest release' : 'sort: A-Z'
+      sort.title = 'Toggle display order (the saved file stays alphabetical)'
+      sort.onclick = () => { dormancySort = !dormancySort; renderAll() }
+      h.appendChild(sort)
+    }
+    // dormancy sort works on a copy — the in-place alphabetical sort above is
+    // what Save writes, so the file order never changes with the toggle
+    let entries = getList(s.key)
+    if (s.key === 'artists.followed' && dormancySort) {
+      entries = [...entries].sort((a, b) => {
+        const da = (a.id && activity[a.id]) || '9999' // no data -> sort last
+        const db = (b.id && activity[b.id]) || '9999'
+        return da.localeCompare(db) || nameOf(a).toLowerCase().localeCompare(nameOf(b).toLowerCase())
+      })
+    }
     const chips = document.createElement('div')
     chips.className = 'chips'
-    for (const entry of getList(s.key)) {
+    for (const entry of entries) {
       const chip = document.createElement('span')
       chip.className = 'chip'
       chip.appendChild(document.createTextNode(nameOf(entry)))
@@ -496,11 +519,10 @@ function makeAdder(s) {
     }
     input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
   } else {
-    // genres: the options used to hide inside a <datalist> — surface them in
-    // the same dropdown instead. Focus shows every known tag (canonical +
-    // seen in the current data); typing filters; Enter takes exact free text
-    // (a tag outside the canonical list is still followable — unmapped
-    // genre names pass through the fetcher untouched).
+    // genres: focus lists every known tag (canonical + seen in the current
+    // data), typing filters, Enter takes exact free text (a tag outside the
+    // canonical list is still followable — unmapped genre names pass through
+    // the fetcher untouched).
     const show = () => {
       results.replaceChildren()
       const typed = input.value.trim().toLowerCase()
