@@ -1,6 +1,16 @@
 {
-  "fetched_at": 1783287408570,
+  "fetched_at": 1783292313611,
   "releases": [
+    {
+      "title": "<1",
+      "artist": "DOMMIU李由音",
+      "type": "song",
+      "release_date": "2026-07-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6c/20/c4/6c20c476-a6aa-f7f3-39a6-8e88703658ce/4896016564690.jpg/400x400bb.jpg",
+      "genre": "Hip-Hop",
+      "link": "https://music.apple.com/us/album/1-single/6787212386?uo=4",
+      "followed": true
+    },
     {
       "title": "We made",
       "artist": "i-dle",
@@ -29,6 +39,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/15/73/d3/1573d3a8-be25-3f4e-4707-4b9851792de7/26UMGIM70377.rgb.jpg/400x400bb.jpg",
       "genre": "J-pop",
       "link": "https://music.apple.com/us/album/love-me-forever-single/6781882526?uo=4"
+    },
+    {
+      "title": "Si Te Tuviera",
+      "artist": "Alex Rose & Lyanno",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2b/d8/69/2bd8691b-7efd-7e12-d4d6-db24ca15ada2/0.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/si-te-tuviera-single/6779763336?uo=4"
     },
     {
       "title": "Help the People",
@@ -85,6 +104,15 @@
       "link": "https://music.apple.com/us/album/tu-culpa-single/6783977903?uo=4"
     },
     {
+      "title": "Honguito (Remix) [feat. Jlexis & Rubí]",
+      "artist": "Dalex, Farruko, KHEA & Jombriel",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/de/bf/ae/debfae4a-d9eb-682e-bf0a-abf13a71136a/823375203636_Cover.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/honguito-remix-feat-jlexis-rub%C3%AD-single/6773792374?uo=4"
+    },
+    {
       "title": "Dream Crusher",
       "artist": "Daniel Seavey",
       "type": "album",
@@ -130,6 +158,15 @@
       "link": "https://music.apple.com/us/album/premi%C3%A8re-dose/6785087470?uo=2"
     },
     {
+      "title": "holanda (Remix)",
+      "artist": "EL DE LA TINTA & Gabito Ballesteros",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/cb/0e/4c/cb0e4cbf-bb5e-b1d9-0c84-ddb0d9414d8a/26UMGIM63593.rgb.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/holanda-remix-single/6784438869?uo=4"
+    },
+    {
       "title": "autonomy+",
       "artist": "ELIO",
       "type": "album",
@@ -146,6 +183,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/08/3a/00/083a00fa-b5ca-f8c9-c679-9b54fffd58c9/ANTCD-A0000020194.jpg/400x400bb.jpg",
       "genre": "J-pop",
       "link": "https://music.apple.com/us/album/groooovy-single/6775370938?uo=4"
+    },
+    {
+      "title": "SI MAÑANA NO EXISTE",
+      "artist": "Izma",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/65/f9/a5/65f9a5b7-ad52-91e9-ff19-576b845297c3/1148660.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/si-ma%C3%B1ana-no-existe-single/6782241048?uo=4"
     },
     {
       "title": "Bon Appétit",
@@ -227,6 +273,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/aa/7f/05/aa7f059c-fa88-227b-737a-9cab341005e4/4547366833881.jpg/400x400bb.jpg",
       "genre": "J-pop",
       "link": "https://music.apple.com/us/album/back-shot-single/6783201847?uo=4"
+    },
+    {
+      "title": "Le Gusta",
+      "artist": "Matt Paris & Mariah Angeliq",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/83/f5/42/83f542fc-e01a-730e-cd09-379212962e77/820233346382.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/le-gusta-single/6766419375?uo=4"
     },
     {
       "title": "祈り、終われば",

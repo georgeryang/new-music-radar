@@ -171,9 +171,14 @@ const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 // split the dedup key and duplicated cards.
 const BATCH_SIZE = 10
 
-// Newest US release date per artist id — feeds the dormancy hints in the
-// prefs editor (collabs credited to joint artist entities don't attribute,
-// which is fine for spotting artists with no releases in years).
+// Newest US release date per swept artist id — feeds the dormancy hints in
+// the prefs editor. Only ids in the current sweep are recorded: batch
+// responses also carry collab partners' ids (a feat. single rides in both
+// discographies), and recording those planted frozen stale dates that
+// surfaced as wrong "· 3y" tags when such an artist was followed later.
+// Pre-order (future) dates are skipped, and the file is pruned to the
+// followed list on write. Collabs credited to joint artist entities don't
+// attribute — fine for spotting artists with no releases in years.
 const ACTIVITY_PATH = new URL('../config/artist-activity.json', import.meta.url)
 let artistActivity = {}
 try {
@@ -185,9 +190,12 @@ async function batchReleases(ids) {
     `https://itunes.apple.com/lookup?id=${ids.join(',')}&entity=album&country=us&limit=50&sort=recent`
   )
   const collections = (data.results ?? []).filter((r) => r.wrapperType === 'collection')
+  const swept = new Set(ids)
+  const today = new Date().toISOString().slice(0, 10)
   for (const a of collections) {
     const d = a.releaseDate?.slice(0, 10)
-    if (d && (!artistActivity[a.artistId] || d > artistActivity[a.artistId])) artistActivity[a.artistId] = d
+    if (!swept.has(a.artistId) || !d || d > today) continue
+    if (!artistActivity[a.artistId] || d > artistActivity[a.artistId]) artistActivity[a.artistId] = d
   }
   return collections.filter((a) => a.releaseDate && inWindow(a.releaseDate)).map(fromCollection)
 }
@@ -370,6 +378,15 @@ for (const batch of batches) {
     log(`batch ${n}/${batches.length} failed: ${e.message}`)
   }
 }
+// prune to the current followed list — entries for unfollowed artists are
+// frozen (never swept again) and would resurface stale if re-followed.
+// Future (pre-order) values are dropped too: the only-newer update rule
+// means a real release date could never displace one.
+const sweepIds = new Set(sweepArtists.map((a) => a.id))
+const todayStr = new Date().toISOString().slice(0, 10)
+artistActivity = Object.fromEntries(
+  Object.entries(artistActivity).filter(([id, d]) => sweepIds.has(Number(id)) && d <= todayStr)
+)
 writeFileSync(ACTIVITY_PATH, JSON.stringify(artistActivity, null, 2) + '\n')
 log(`${followedCount} releases (pre-dedup) via ${sweepArtists.length} followed artists in ${batches.length} batches`)
 if (batches.length > 0 && batchFailures === batches.length) anyFailed = true
