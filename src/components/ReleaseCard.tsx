@@ -21,10 +21,10 @@ function TypeIcon({ type }: { type: Release['type'] }) {
 }
 
 // Unified release card (the only card type): clean artwork, then title,
-// artist, and a small meta row — type icon, genre chip. Any card whose date
-// is still in the future carries a release-date badge (amber within a week),
-// whichever tab it renders on — the fetch window deliberately admits
-// tomorrow-dated releases into the main list (KST day-of drops).
+// artist, and a small meta row — type icon, genre chip. A card whose date is
+// still in the future carries a release-date badge (amber within a week) —
+// with App's clock-driven split those are exactly the Upcoming-tab cards, so
+// the badge doubles as that tab's date label and New stays chip-free.
 // The whole card links to Apple Music.
 export function ReleaseCard({ release }: { release: Release }) {
   const [imgFailed, setImgFailed] = useState(false)
