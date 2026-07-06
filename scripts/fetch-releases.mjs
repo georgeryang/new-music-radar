@@ -89,7 +89,9 @@ function inWindow(releaseDate) {
 }
 
 // Announced pre-orders: strictly beyond inWindow's -1 day tolerance, so the
-// two sets stay disjoint (a release dated tomorrow already shows as new).
+// two sets stay disjoint. Tomorrow-dated releases ride in releases[] instead;
+// the app re-splits both lists by the viewer's clock, so they still render
+// under Upcoming until their day arrives.
 const isUpcoming = (releaseDate) => (Date.now() - Date.parse(releaseDate)) / 86400e3 < -1
 
 // Two types only: song (a single) vs album (EPs, mini albums, and larger).
