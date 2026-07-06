@@ -119,7 +119,7 @@ export default function App() {
         >
           {formatRelativeTime(data?.fetched_at ?? null)}
           {prefsUp && (
-            <a href={PREFS_URL} target="_blank" rel="noopener noreferrer" title="Edit preferences" aria-label="Edit preferences" className="hover:text-foreground">
+            <a href={PREFS_URL} target="_blank" rel="noopener noreferrer" title="Edit preferences" aria-label="Edit preferences" className="-m-2 p-2 hover:text-foreground">
               ⚙
             </a>
           )}
@@ -140,7 +140,7 @@ export default function App() {
           role="tablist"
           aria-label="Release lists"
           onKeyDown={onTabKey}
-          className="mb-4 flex w-fit gap-0.5 rounded-lg border border-border p-0.5 text-xs"
+          className="mb-4 flex w-fit gap-0.5 rounded-lg border border-border p-0.5 text-[13px] sm:text-xs"
         >
           {tabs.map((t) => (
             <button
@@ -151,8 +151,8 @@ export default function App() {
               aria-controls="release-panel"
               tabIndex={active?.key === t.key ? 0 : -1}
               onClick={() => setTab(t.key)}
-              className={`rounded-md px-3 py-1 font-medium ${
-                active?.key === t.key ? 'bg-muted' : 'text-muted-foreground hover:text-foreground'
+              className={`rounded-md px-3 py-1.5 font-medium sm:py-1 ${
+                active?.key === t.key ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {t.label}
