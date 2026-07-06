@@ -1,7 +1,7 @@
 import { useEffect, useState, type KeyboardEvent } from 'react'
 import { ReleaseCard } from '@/components/ReleaseCard'
 import { formatRelativeTime, isFresh, isUnreleased } from '@/lib/utils'
-import type { FeedData } from '@/lib/types'
+import type { FeedData, Release } from '@/lib/types'
 
 const PREFS_URL = 'http://127.0.0.1:4747'
 
@@ -49,14 +49,40 @@ export default function App() {
     }
   }, [])
 
-  // Fetcher pre-sorts (followed artists first, then alphabetical by artist);
-  // the data file holds a wider window than we show — display trims per tier:
-  // followed artists stay 72h, discovery finds 24h. Strict either way: an
-  // empty window means an empty page, never older filler.
-  const releases = (data?.releases ?? []).filter((r) => isFresh(r.release_date, r.followed ? 72 : 24))
-  // Pre-orders whose day has arrived drop off Upcoming immediately; they join
-  // the New grid via the next fetch (same hours-scale latency as the site).
-  const upcoming = (data?.upcoming ?? []).filter((r) => isUnreleased(r.release_date))
+  // The fetcher's New/Upcoming routing is an 18:15 KST snapshot; the split is
+  // recomputed here against the viewer's clock so it stays honest between
+  // fetches. Anything still future-dated renders on Upcoming — including
+  // tomorrow-dated entries the fetch window deliberately admits into
+  // releases[] — and a pre-order whose date has arrived joins the New grid at
+  // local midnight instead of waiting for the evening fetch. Both lists then
+  // trim per tier (followed artists 72h, discovery finds 24h) — strict: an
+  // empty window means an empty page, never older filler. The two files' lists
+  // are disjoint by construction, but carryover after a failed sweep can
+  // overlap them briefly — collapse by card key before splitting.
+  const byKey = new Map<string, Release>()
+  for (const r of [...(data?.releases ?? []), ...(data?.upcoming ?? [])]) {
+    const k = `${r.artist}|${r.title}|${r.type}`
+    if (!byKey.has(k)) byKey.set(k, r)
+  }
+  const entries = [...byKey.values()]
+  const releases = entries
+    .filter((r) => !isUnreleased(r.release_date) && isFresh(r.release_date, r.followed ? 72 : 24))
+    // re-sort: a flipped pre-order must slot into the fetcher's order
+    // (followed first, artist A-Z, newest within artist), not trail the grid
+    .sort(
+      (a, b) =>
+        (b.followed ? 1 : 0) - (a.followed ? 1 : 0) ||
+        a.artist.localeCompare(b.artist, undefined, { sensitivity: 'base' }) ||
+        b.release_date.localeCompare(a.release_date) ||
+        a.title.localeCompare(b.title)
+    )
+  const upcoming = entries
+    .filter((r) => isUnreleased(r.release_date))
+    .sort(
+      (a, b) =>
+        a.release_date.localeCompare(b.release_date) ||
+        a.artist.localeCompare(b.artist, undefined, { sensitivity: 'base' })
+    )
   // An empty tab hides entirely: only-New renders barless (as before the
   // feature), only-Upcoming shows a single labelled pill for context, and
   // both-empty falls through to the info message.
