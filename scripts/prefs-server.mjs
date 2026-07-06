@@ -281,9 +281,9 @@ const PAGE = /* html */ `<!doctype html>
 <p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away (about two minutes).</p>
 <div id="sections"></div>
 <pre id="log" hidden class="fixed bottom-[92px] left-1/2 max-h-[180px] w-[min(640px,calc(100%-32px))] -translate-x-1/2 overflow-y-auto rounded-lg border border-border bg-muted px-3 py-2.5 font-mono text-[11px] leading-[1.5] whitespace-pre-wrap wrap-break-word"></pre>
-<div id="banner" hidden></div>
+<div id="banner" hidden role="status"></div>
 <footer class="fixed inset-x-0 bottom-0 flex items-center justify-center gap-2 border-t border-border bg-background px-4 py-2.5">
-  <span id="status" class="mr-auto max-w-[40%] truncate text-xs text-muted-foreground"></span>
+  <span id="status" role="status" class="mr-auto max-w-[40%] truncate text-xs text-muted-foreground"></span>
   <button id="quit" class="cursor-pointer rounded-lg border border-border bg-transparent px-4 py-[7px] text-[13px] disabled:cursor-default disabled:opacity-45">Quit</button>
   <button id="save" disabled class="cursor-pointer rounded-lg border border-border bg-transparent px-4 py-[7px] text-[13px] disabled:cursor-default disabled:opacity-45">Save</button>
   <button id="refresh" class="cursor-pointer rounded-lg border border-primary bg-primary px-4 py-[7px] text-[13px] text-primary-foreground disabled:cursor-default disabled:opacity-45">Save &amp; Refresh</button>
@@ -318,7 +318,7 @@ function resultRow(results, label, note, onPick) {
   const nm = document.createElement('span')
   nm.textContent = label
   b.appendChild(nm)
-  b.className = 'flex w-full cursor-pointer items-center gap-2.5 px-2.5 py-[7px] text-left text-[13px] hover:bg-muted'
+  b.className = 'flex w-full cursor-pointer items-center gap-2.5 px-2.5 py-[7px] text-left text-[13px] hover:bg-muted focus-visible:bg-muted'
   if (note) {
     const n = document.createElement('span')
     n.className = 'ml-auto whitespace-nowrap text-[11.5px] text-muted-foreground'
@@ -381,10 +381,10 @@ function renderAll() {
         const months = Math.round((Date.now() - Date.parse(last)) / 2629746000)
         const ago = document.createElement('span')
         // severity by age: amber 18mo+, red 3y+. Full literals — Tailwind
-        // scans this file as text, so concatenated fragments would be
-        // invisible to it. Red is accent-foreground, not primary: #e06287
-        // at 11px on the dark chip is 4.3:1, under AA.
-        ago.className = months >= 36 ? 'text-[11px] text-accent-foreground' : 'text-[11px] text-amber-700 dark:text-amber-400'
+        // scans this file as text and can't see concatenated fragments.
+        // Both shades are picked for AA at 11px on the chip's bg-muted:
+        // amber-700 and the red primary each fall just short there.
+        ago.className = months >= 36 ? 'text-[11px] text-accent-foreground' : 'text-[11px] text-amber-800 dark:text-amber-400'
         // round, not floor — floor showed a 3.9y gap as "3y"
         ago.textContent = '· ' + (months >= 24 ? Math.round(months / 12) + 'y' : months + 'mo')
         ago.title = 'Last release ' + last
@@ -394,6 +394,7 @@ function renderAll() {
       x.className = 'cursor-pointer p-0 text-[13px] leading-none text-muted-foreground hover:text-destructive'
       x.textContent = '×'
       x.title = 'Remove'
+      x.setAttribute('aria-label', 'Remove ' + nameOf(entry))
       x.onclick = () => { const l = getList(s.key); l.splice(l.indexOf(entry), 1); markDirty(); renderAll() }
       chip.appendChild(x)
       chips.appendChild(chip)
@@ -416,6 +417,8 @@ function makeAdder(s) {
   wrap.className = 'relative flex gap-1.5'
   const input = document.createElement('input')
   input.className = 'flex-1 rounded-lg border border-border bg-transparent px-2.5 py-1.5 text-[13px]'
+  // placeholders disappear on typing — give the field a persistent name
+  input.setAttribute('aria-label', 'Add to ' + s.label)
   input.placeholder = s.artist
     ? 'Add artist (name, Apple ID, or artist page URL, then pick from the list)…'
     : s.playlist
@@ -460,7 +463,7 @@ function makeAdder(s) {
         results.replaceChildren()
         for (const a of r.results) {
           const b = document.createElement('button')
-          b.className = 'flex w-full cursor-pointer items-center gap-2.5 px-2.5 py-[7px] text-left text-[13px] hover:bg-muted'
+          b.className = 'flex w-full cursor-pointer items-center gap-2.5 px-2.5 py-[7px] text-left text-[13px] hover:bg-muted focus-visible:bg-muted'
           const nm = document.createElement('span')
           nm.textContent = a.name
           const genre = document.createElement('span')
@@ -542,7 +545,9 @@ const BANNER = {
   running: 'bg-amber-100 text-amber-900',
   ok: 'bg-green-100 text-green-900',
   warn: 'bg-orange-100 text-orange-900',
-  bad: 'bg-accent text-accent-foreground',
+  // primary, not accent: the dark accent is 28%-alpha and this strip floats
+  // over the chip list — an error banner must be opaque
+  bad: 'bg-primary text-primary-foreground',
 }
 function setBanner(cls, text) {
   const b = $('banner')
@@ -551,7 +556,7 @@ function setBanner(cls, text) {
   b.replaceChildren()
   if (cls === 'running') {
     const dot = document.createElement('span')
-    dot.className = 'inline-block animate-pulse'
+    dot.className = 'inline-block motion-safe:animate-pulse'
     dot.textContent = '●\\u2009'
     b.appendChild(dot)
   }
