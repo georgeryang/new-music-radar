@@ -30,8 +30,9 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { GENRE_MAP, canonGenre } from './genre-map.mjs'
 
-// The file holds WINDOW_DAYS of releases; the frontend trims narrower
-// per-tier display windows (src/App.tsx owns those numbers).
+// The file holds WINDOW_DAYS of releases and that IS the display window —
+// the frontend shows everything here that isn't future-dated (src/App.tsx),
+// so a card lives until a fetch rewrites the file without it.
 const WINDOW_DAYS = 3
 const UA = 'new-music-radar/1.0'
 const OUT = new URL('../docs/data/releases.json', import.meta.url)

@@ -1,6 +1,6 @@
 import { useEffect, useState, type KeyboardEvent } from 'react'
 import { ReleaseCard } from '@/components/ReleaseCard'
-import { formatRelativeTime, isFresh, isUnreleased } from '@/lib/utils'
+import { formatRelativeTime, isUnreleased } from '@/lib/utils'
 import type { FeedData, Release } from '@/lib/types'
 
 const PREFS_URL = 'http://127.0.0.1:4747'
@@ -54,11 +54,12 @@ export default function App() {
   // fetches. Anything still future-dated renders on Upcoming — including
   // tomorrow-dated entries the fetch window deliberately admits into
   // releases[] — and a pre-order whose date has arrived joins the New grid at
-  // local midnight instead of waiting for the evening fetch. Both lists then
-  // trim per tier (followed artists 72h, discovery finds 24h) — strict: an
-  // empty window means an empty page, never older filler. The two files' lists
-  // are disjoint by construction, but carryover after a failed sweep can
-  // overlap them briefly — collapse by card key before splitting.
+  // local midnight instead of waiting for the evening fetch. The data file
+  // owns the display window (the fetcher's WINDOW_DAYS): no client-side
+  // expiry, so a card stays until a fetch rewrites the file without it. The
+  // two files' lists are disjoint by construction, but carryover after a
+  // failed sweep can overlap them briefly — collapse by card key before
+  // splitting.
   const byKey = new Map<string, Release>()
   for (const r of [...(data?.releases ?? []), ...(data?.upcoming ?? [])]) {
     const k = `${r.artist}|${r.title}|${r.type}`
@@ -66,7 +67,7 @@ export default function App() {
   }
   const entries = [...byKey.values()]
   const releases = entries
-    .filter((r) => !isUnreleased(r.release_date) && isFresh(r.release_date, r.followed ? 72 : 24))
+    .filter((r) => !isUnreleased(r.release_date))
     // re-sort: a flipped pre-order must slot into the fetcher's order
     // (followed first, artist A-Z, newest within artist), not trail the grid
     .sort(
