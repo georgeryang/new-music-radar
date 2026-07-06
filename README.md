@@ -120,7 +120,10 @@ performs the daily update.
   Every source queries the US storefront only; other storefronts localize
   artist names, which duplicates cards.
 - **Frontend:** Vite + React + TS + Tailwind in `src/`; build output goes into
-  `docs/` next to the data (never wiped, see vite.config.ts).
+  `docs/` next to the data (never wiped, see vite.config.ts). The UI uses
+  self-hosted Plus Jakarta Sans from `public/fonts/` (copied to `docs/fonts/`
+  on build; the build script wipes and recopies `docs/fonts` the same way it
+  does `docs/assets`, so renamed files can't go stale).
 - **Scheduling:** launchd ticks every 10 min; `update.sh --if-stale` turns
   that into exactly one fetch/day anchored to 18:15 KST, timezone-proof.
 - **Preferences editor:** `scripts/prefs-server.mjs`, zero-dep local server on
@@ -134,7 +137,14 @@ performs the daily update.
   can't stop it. The server also serves the built site from `docs/` at
   `/new-music-radar/`, which is where "Open radar" points: the local copy
   shows freshly fetched data right away, without waiting for the Pages
-  deploy.
+  deploy. The editor has no CSS of its own — it links the app's built
+  stylesheet from `docs/assets/` (an `@source` directive in `src/index.css`
+  scans the editor's markup, so both UIs share one set of Tailwind tokens
+  and the same font; still zero-dep — it's a `<link>`, not a package). The
+  hashed filename is resolved on every request, so a rebuild never strands
+  a stale link; after editing the editor's markup, run `npm run build` and
+  restart the server to see it. If `docs/assets/` were ever empty the page
+  falls back to unstyled-but-working HTML.
 - **Canonical genre tags:** `scripts/genre-map.mjs`, shared by the fetcher
   (tags releases) and the editor (offers the tags in the genre picker).
 - **Config side file:** `config/artist-activity.json` records each artist's
