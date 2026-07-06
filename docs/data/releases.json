@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1783293229567,
+  "fetched_at": 1783332955428,
   "releases": [
     {
       "title": "<1",
@@ -30,6 +30,15 @@
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/in-lof-single/6780650490?uo=4",
       "followed": true
+    },
+    {
+      "title": "猫じゃらし",
+      "artist": "7co",
+      "type": "song",
+      "release_date": "2026-07-05",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/bc/bd/a9/bcbda96b-c0ca-192d-ef18-a2a59a14d4f9/4547366833874.jpg/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/%E7%8C%AB%E3%81%98%E3%82%83%E3%82%89%E3%81%97-single/6781555396?uo=4"
     },
     {
       "title": "Love me forever!",
@@ -149,15 +158,6 @@
       "link": "https://music.apple.com/us/album/this-is-how-you-see-me-now-ep/6779460000?uo=4"
     },
     {
-      "title": "PREMIÈRE DOSE",
-      "artist": "Doz",
-      "type": "album",
-      "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a6/88/5e/a6885e0f-8319-5dbe-b412-4f39133886c0/artwork.jpg/400x400bb.png",
-      "genre": "African",
-      "link": "https://music.apple.com/us/album/premi%C3%A8re-dose/6785087470?uo=2"
-    },
-    {
       "title": "holanda (Remix)",
       "artist": "EL DE LA TINTA & Gabito Ballesteros",
       "type": "song",
@@ -203,15 +203,6 @@
       "link": "https://music.apple.com/us/album/bon-app%C3%A9tit/6773276710?uo=2"
     },
     {
-      "title": "Stillness on the Midnight Grid",
-      "artist": "JOSE S YNOA JR",
-      "type": "album",
-      "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2c/89/49/2c89495a-9a49-4b8a-ae45-eba4ae32f894/artwork.jpg/400x400bb.png",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/stillness-on-the-midnight-grid/6787353773?uo=2"
-    },
-    {
       "title": "SWAG LIVE FROM COACHELLA (Weekend II)",
       "artist": "Justin Bieber",
       "type": "album",
@@ -219,42 +210,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2a/0d/78/2a0d7836-a689-3467-56fd-30a09c1460ec/ticket.hptwlacf.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/swag-live-from-coachella-weekend-ii/6786441259?uo=4"
-    },
-    {
-      "title": "孔雀",
-      "artist": "Kei Sugawara",
-      "type": "song",
-      "release_date": "2026-07-05",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3d/5f/d6/3d5fd676-a26c-15e9-4663-faa0a8dae022/4547366833706.jpg/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/%E5%AD%94%E9%9B%80-single/6782046137?uo=4"
-    },
-    {
-      "title": "BREAK IT",
-      "artist": "KISS OF LIFE",
-      "type": "song",
-      "release_date": "2026-07-04",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/17/80/77/178077ee-21ab-26a1-7757-bc69276204e8/COKM-46661.jpg/400x400bb.jpg",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/break-it-single/6781518153?uo=4"
-    },
-    {
-      "title": "Flawed Crown",
-      "artist": "LAY",
-      "type": "album",
-      "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/79/35/7a/79357ae6-f0ec-2635-fbfc-2fae1da6b01d/4896010539779.jpg/400x400bb.png",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/%E6%96%97%E6%88%98%E8%83%9C%E4%BD%9B/6786304269?uo=2"
-    },
-    {
-      "title": "Queridos Amigos",
-      "artist": "Los Alegres Del Barranco, Edgardo Nuñez & Los Farmerz",
-      "type": "album",
-      "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cf/cb/6b/cfcb6bde-9baa-6c1a-29d7-9271635bc669/1200214480530.jpg/400x400bb.png",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/queridos-amigos/6786877960?uo=2"
     },
     {
       "title": "CONFESSIONS II",
@@ -284,15 +239,6 @@
       "link": "https://music.apple.com/us/album/le-gusta-single/6766419375?uo=4"
     },
     {
-      "title": "祈り、終われば",
-      "artist": "Mika Nakashima",
-      "type": "song",
-      "release_date": "2026-07-04",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/4f/e7/74/4fe77412-ba21-4836-5374-0c7eaf48b91a/4547366833607.jpg/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/%E7%A5%88%E3%82%8A-%E7%B5%82%E3%82%8F%E3%82%8C%E3%81%B0-single/6782046323?uo=4"
-    },
-    {
       "title": "BACK TO IBIZA",
       "artist": "Mike Posner, Kelland & BROSA",
       "type": "song",
@@ -311,13 +257,13 @@
       "link": "https://music.apple.com/us/album/millionaire-muses-afro-beats-abundance/6787225904?uo=2"
     },
     {
-      "title": "Moblack Presents Zurna Obsession: Türkiye Edition",
-      "artist": "MoBlack",
+      "title": "Antes Que Se Acabe El Mundo",
+      "artist": "Mimi La Exotica",
       "type": "album",
       "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7c/f9/a2/7cf9a2b1-60f7-6308-a476-33875604c9b6/4251353220751.png/400x400bb.png",
-      "genre": "African",
-      "link": "https://music.apple.com/us/album/moblack-presents-zurna-obsession-t%C3%BCrkiye-edition-ep/6782959675?uo=2"
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ed/a8/08/eda80854-8732-6ca6-9669-473463a252b1/456854.jpg/400x400bb.png",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/antes-que-se-acabe-el-mundo/6785006127?uo=2"
     },
     {
       "title": "BASIN TECHNO",
@@ -329,6 +275,15 @@
       "link": "https://music.apple.com/us/album/%E7%9B%86%E5%9C%B0%E3%83%86%E3%82%AF%E3%83%8E/6776625254?uo=2"
     },
     {
+      "title": "CARIBBEAN",
+      "artist": "Peppe Citarella & Andres Matheus",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/91/0f/0a/910f0ac7-52e3-9630-2778-1387a4ed22a7/cover.jpg/400x400bb.jpg",
+      "genre": "African",
+      "link": "https://music.apple.com/us/album/caribbean-single/6779799422?uo=4"
+    },
+    {
       "title": "Where I've Been",
       "artist": "POODEE",
       "type": "song",
@@ -336,15 +291,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/72/95/b5/7295b598-00a4-bfc6-74c9-c9c9c239c606/859741611101_cover.jpg/400x400bb.jpg",
       "genre": "African",
       "link": "https://music.apple.com/us/album/where-ive-been-single/6786319525?uo=4"
-    },
-    {
-      "title": "「いつかちゃんと。」",
-      "artist": "Riria.",
-      "type": "song",
-      "release_date": "2026-07-03",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/62/24/d4/6224d482-2a66-2bed-dd8c-f04ea1818a81/4517331101345.jpg/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/%E3%81%84%E3%81%A4%E3%81%8B%E3%81%A1%E3%82%83%E3%82%93%E3%81%A8-single/6781956857?uo=4"
     },
     {
       "title": "Visitor (Deluxe)",
@@ -381,6 +327,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6f/8d/6e/6f8d6ec0-5f8a-a8a7-1723-963243e4b576/26UMGIM72968.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/hate-my-guts-single/6783996052?uo=4"
+    },
+    {
+      "title": "Vai",
+      "artist": "Yas Cepeda & Javi Torres",
+      "type": "song",
+      "release_date": "2026-07-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/09/08/3d/09083d92-360e-a297-4404-fab594eb8b10/824296938102_cover.jpg/400x400bb.jpg",
+      "genre": "African",
+      "link": "https://music.apple.com/us/album/vai-single/6779616791?uo=4"
     },
     {
       "title": "Undiscovered Country",
