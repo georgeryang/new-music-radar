@@ -12,7 +12,7 @@
 // docs/ at /new-music-radar/ — the "Open radar" link opens the local copy.
 
 import http from 'node:http'
-import { closeSync, openSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
+import { closeSync, openSync, readFileSync, readdirSync, realpathSync, writeFileSync } from 'node:fs'
 import { spawn } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { join, normalize } from 'node:path'
@@ -32,6 +32,21 @@ const DOCS_DIR = fileURLToPath(new URL('../docs/', import.meta.url))
 const DOCS_REAL = realpathSync(DOCS_DIR) + '/'
 const SITE_PATH = '/new-music-radar/'
 const SITE_URL = `http://localhost:${PORT}${SITE_PATH}`
+
+// The editor shares the app's built stylesheet (Tailwind tokens + font) —
+// one look, one source of truth; @source in src/index.css folds this file's
+// classes into that build. The hash changes per build, so resolve it per
+// request (the server is long-running; a mid-session rebuild must not leave
+// a stale <link>). The build script keeps at most one .css in docs/assets.
+const ASSETS_DIR = fileURLToPath(new URL('../docs/assets/', import.meta.url))
+function cssHref() {
+  try {
+    const f = readdirSync(ASSETS_DIR).find((n) => n.endsWith('.css'))
+    return f ? `${SITE_PATH}assets/${f}` : null
+  } catch {
+    return null
+  }
+}
 
 const readPrefs = () => JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
@@ -130,7 +145,10 @@ const server = http.createServer(async (req, res) => {
     }
     if (req.method === 'GET' && url.pathname === '/') {
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
-      res.end(PAGE)
+      // No built CSS (docs/assets is committed, so only a broken clone):
+      // unstyled but fully functional — every control is semantic HTML.
+      const href = cssHref()
+      res.end(PAGE.replace('<!--CSS-->', href ? `<link rel="stylesheet" href="${href}">` : ''))
     } else if (req.method === 'GET' && url.pathname === '/api/prefs') {
       const p = readPrefs()
       let seen = []
@@ -222,6 +240,7 @@ const server = http.createServer(async (req, res) => {
         js: 'text/javascript',
         css: 'text/css',
         json: 'application/json',
+        woff2: 'font/woff2',
       }
       try {
         // realpath re-check: the lexical check above can't see a symlink
@@ -255,61 +274,19 @@ const PAGE = /* html */ `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>New Music Radar — Preferences</title>
-<style>
-  :root { color-scheme: light dark; --border: #d4d4d8; --muted: #71717a; --chip: #f4f4f5; --accent: #18181b; }
-  @media (prefers-color-scheme: dark) { :root { --border: #3f3f46; --muted: #a1a1aa; --chip: #27272a; --accent: #fafafa; } }
-  * { box-sizing: border-box; margin: 0; }
-  body { font-family: -apple-system, system-ui, sans-serif; max-width: 680px; margin: 0 auto; padding: 24px 16px 96px; }
-  header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 4px; }
-  h1 { font-size: 18px; }
-  header a { font-size: 13px; color: var(--muted); }
-  .hint { font-size: 12.5px; color: var(--muted); margin-bottom: 18px; }
-  h2 { font-size: 13px; margin: 18px 0 8px; }
-  h2 small { color: var(--muted); font-weight: 400; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-  .chip { display: inline-flex; align-items: center; gap: 6px; background: var(--chip); border: 1px solid var(--border); border-radius: 99px; padding: 3px 10px; font-size: 13px; }
-  .chip button { border: 0; background: none; cursor: pointer; color: var(--muted); font-size: 13px; padding: 0; line-height: 1; }
-  .chip button:hover { color: #dc2626; }
-  .age { font-size: 11px; }
-  h2 button.sort { border: 0; background: none; cursor: pointer; font-size: 11px; color: var(--muted); margin-left: 8px; text-decoration: underline; padding: 0; }
-  h2 button.sort:hover { color: inherit; }
-  .age.warn { color: #b45309; }
-  .age.old { color: #dc2626; }
-  @media (prefers-color-scheme: dark) { .age.warn { color: #fbbf24; } .age.old { color: #f87171; } }
-  .adder { position: relative; display: flex; gap: 6px; }
-  input { flex: 1; font: inherit; font-size: 13px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: inherit; }
-  .results { position: absolute; top: 34px; left: 0; right: 0; z-index: 10; background: Canvas; border: 1px solid var(--border); border-radius: 10px; overflow: hidden auto; max-height: 240px; box-shadow: 0 8px 24px rgba(0,0,0,.12); }
-  .results button { display: flex; width: 100%; align-items: center; gap: 10px; padding: 7px 10px; border: 0; background: none; cursor: pointer; font: inherit; font-size: 13px; text-align: left; color: inherit; }
-  .results button:hover { background: var(--chip); }
-  .results .genre { margin-left: auto; color: var(--muted); font-size: 11.5px; white-space: nowrap; }
-  .results a { color: var(--muted); text-decoration: none; padding: 0 6px; font-size: 14px; }
-  .results a:hover { color: inherit; }
-  footer { position: fixed; bottom: 0; left: 0; right: 0; background: Canvas; border-top: 1px solid var(--border); padding: 10px 16px; display: flex; gap: 8px; align-items: center; justify-content: center; }
-  footer .status { font-size: 12px; color: var(--muted); margin-right: auto; max-width: 40%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  #banner { position: fixed; bottom: 56px; left: 0; right: 0; text-align: center; font-size: 13px; padding: 9px 16px; }
-  #log { position: fixed; bottom: 92px; left: 50%; transform: translateX(-50%); width: min(640px, calc(100% - 32px)); max-height: 180px; overflow-y: auto; background: var(--chip); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; font: 11px/1.5 ui-monospace, monospace; white-space: pre-wrap; word-break: break-word; }
-  #banner.running { background: #fef3c7; color: #78350f; }
-  #banner.ok { background: #dcfce7; color: #14532d; }
-  #banner.warn { background: #ffedd5; color: #7c2d12; }
-  #banner.bad { background: #fee2e2; color: #7f1d1d; }
-  @keyframes pulse { 50% { opacity: .55; } }
-  #banner.running .dot { display: inline-block; animation: pulse 1.2s infinite; }
-  button.btn { font: inherit; font-size: 13px; padding: 7px 16px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: inherit; cursor: pointer; }
-  button.btn.primary { background: var(--accent); color: Canvas; border-color: var(--accent); }
-  button.btn:disabled { opacity: .45; cursor: default; }
-</style>
+<!--CSS-->
 </head>
-<body>
-<header><h1>Preferences</h1><a href="" id="site-link" target="_blank" rel="noopener noreferrer">Open radar →</a></header>
-<p class="hint">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away (about two minutes).</p>
+<body class="mx-auto max-w-[680px] px-4 pt-6 pb-24">
+<header class="mb-1 flex items-baseline justify-between"><h1 class="text-lg font-bold">Preferences</h1><a href="" id="site-link" target="_blank" rel="noopener noreferrer" class="text-[13px] text-muted-foreground hover:text-foreground">Open radar →</a></header>
+<p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away (about two minutes).</p>
 <div id="sections"></div>
-<pre id="log" hidden></pre>
+<pre id="log" hidden class="fixed bottom-[92px] left-1/2 max-h-[180px] w-[min(640px,calc(100%-32px))] -translate-x-1/2 overflow-y-auto rounded-lg border border-border bg-muted px-3 py-2.5 font-mono text-[11px] leading-[1.5] whitespace-pre-wrap wrap-break-word"></pre>
 <div id="banner" hidden></div>
-<footer>
-  <span class="status" id="status"></span>
-  <button class="btn" id="quit">Quit</button>
-  <button class="btn" id="save" disabled>Save</button>
-  <button class="btn primary" id="refresh">Save &amp; Refresh</button>
+<footer class="fixed inset-x-0 bottom-0 flex items-center justify-center gap-2 border-t border-border bg-background px-4 py-2.5">
+  <span id="status" class="mr-auto max-w-[40%] truncate text-xs text-muted-foreground"></span>
+  <button id="quit" class="cursor-pointer rounded-lg border border-border bg-transparent px-4 py-[7px] text-[13px] disabled:cursor-default disabled:opacity-45">Quit</button>
+  <button id="save" disabled class="cursor-pointer rounded-lg border border-border bg-transparent px-4 py-[7px] text-[13px] disabled:cursor-default disabled:opacity-45">Save</button>
+  <button id="refresh" class="cursor-pointer rounded-lg border border-primary bg-primary px-4 py-[7px] text-[13px] text-primary-foreground disabled:cursor-default disabled:opacity-45">Save &amp; Refresh</button>
 </footer>
 <script>
 let prefs, activity = {}, genreOptions = [], genresSeen = [], dirty = false
@@ -341,9 +318,10 @@ function resultRow(results, label, note, onPick) {
   const nm = document.createElement('span')
   nm.textContent = label
   b.appendChild(nm)
+  b.className = 'flex w-full cursor-pointer items-center gap-2.5 px-2.5 py-[7px] text-left text-[13px] hover:bg-muted'
   if (note) {
     const n = document.createElement('span')
-    n.className = 'genre'
+    n.className = 'ml-auto whitespace-nowrap text-[11.5px] text-muted-foreground'
     n.textContent = note
     b.appendChild(n)
   }
@@ -364,13 +342,15 @@ function renderAll() {
       nameOf(a).toLowerCase().localeCompare(nameOf(b).toLowerCase())
     )
     const h = document.createElement('h2')
+    h.className = 'mt-[18px] mb-2 text-[13px] font-bold'
     h.textContent = s.label + ' '
     const small = document.createElement('small')
+    small.className = 'font-normal text-muted-foreground'
     small.textContent = '· ' + getList(s.key).length + ' · ' + s.sub
     h.appendChild(small)
     if (s.key === 'artists.followed') {
       const sort = document.createElement('button')
-      sort.className = 'sort'
+      sort.className = 'ml-2 cursor-pointer p-0 text-[11px] text-muted-foreground underline hover:text-foreground'
       sort.textContent = dormancySort ? 'sort: oldest release' : 'sort: A-Z'
       sort.title = 'Toggle display order (the saved file stays alphabetical)'
       sort.onclick = () => { dormancySort = !dormancySort; renderAll() }
@@ -387,10 +367,10 @@ function renderAll() {
       })
     }
     const chips = document.createElement('div')
-    chips.className = 'chips'
+    chips.className = 'mb-2 flex flex-wrap gap-1.5'
     for (const entry of entries) {
       const chip = document.createElement('span')
-      chip.className = 'chip'
+      chip.className = 'inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-[3px] text-[13px]'
       chip.appendChild(document.createTextNode(nameOf(entry)))
       if (typeof entry !== 'string') chip.title = entry.url ?? 'Apple Music artist #' + entry.id
       // Dormancy hint: an artist with no release in 18+ months is a prune
@@ -400,14 +380,18 @@ function renderAll() {
       if (last && Date.now() - Date.parse(last) > 18 * 2629746000) {
         const months = Math.round((Date.now() - Date.parse(last)) / 2629746000)
         const ago = document.createElement('span')
-        // severity by age: amber 18mo+, red 3y+
-        ago.className = 'age ' + (months >= 36 ? 'old' : 'warn')
+        // severity by age: amber 18mo+, red 3y+. Full literals — Tailwind
+        // scans this file as text, so concatenated fragments would be
+        // invisible to it. Red is accent-foreground, not primary: #e06287
+        // at 11px on the dark chip is 4.3:1, under AA.
+        ago.className = months >= 36 ? 'text-[11px] text-accent-foreground' : 'text-[11px] text-amber-700 dark:text-amber-400'
         // round, not floor — floor showed a 3.9y gap as "3y"
         ago.textContent = '· ' + (months >= 24 ? Math.round(months / 12) + 'y' : months + 'mo')
         ago.title = 'Last release ' + last
         chip.appendChild(ago)
       }
       const x = document.createElement('button')
+      x.className = 'cursor-pointer p-0 text-[13px] leading-none text-muted-foreground hover:text-destructive'
       x.textContent = '×'
       x.title = 'Remove'
       x.onclick = () => { const l = getList(s.key); l.splice(l.indexOf(entry), 1); markDirty(); renderAll() }
@@ -429,15 +413,16 @@ function addTo(key, item) {
 
 function makeAdder(s) {
   const wrap = document.createElement('div')
-  wrap.className = 'adder'
+  wrap.className = 'relative flex gap-1.5'
   const input = document.createElement('input')
+  input.className = 'flex-1 rounded-lg border border-border bg-transparent px-2.5 py-1.5 text-[13px]'
   input.placeholder = s.artist
     ? 'Add artist (name, Apple ID, or artist page URL, then pick from the list)…'
     : s.playlist
       ? 'Add playlist (paste an Apple Music playlist URL, then pick from the list)…'
       : 'Add genre (pick from the list, or press Enter for exact text)…'
   const results = document.createElement('div')
-  results.className = 'results'
+  results.className = 'absolute inset-x-0 top-[34px] z-10 max-h-60 overflow-x-hidden overflow-y-auto rounded-lg border border-border bg-background shadow-[0_8px_24px_rgba(0,0,0,.12)]'
   results.hidden = true
   input.onkeydown = (e) => {
     if (e.key !== 'Enter') return
@@ -475,15 +460,17 @@ function makeAdder(s) {
         results.replaceChildren()
         for (const a of r.results) {
           const b = document.createElement('button')
+          b.className = 'flex w-full cursor-pointer items-center gap-2.5 px-2.5 py-[7px] text-left text-[13px] hover:bg-muted'
           const nm = document.createElement('span')
           nm.textContent = a.name
           const genre = document.createElement('span')
-          genre.className = 'genre'
+          genre.className = 'ml-auto whitespace-nowrap text-[11.5px] text-muted-foreground'
           genre.textContent = a.genre
           b.append(nm, genre)
           if (a.url) {
             // verify the identity on its Apple Music page before adding
             const verify = document.createElement('a')
+            verify.className = 'px-1.5 text-sm text-muted-foreground no-underline hover:text-foreground'
             verify.textContent = '↗'
             verify.href = a.url
             verify.target = '_blank'
@@ -547,14 +534,24 @@ function makeAdder(s) {
 
 let wasRunning = false
 let pollTimer
+// Status colors stay semantic (amber/green/orange); only the error state
+// joins the brand red family. Full literal strings per state — Tailwind
+// scans this file as text and can't see concatenated fragments.
+const BANNER_BASE = 'fixed inset-x-0 bottom-14 px-4 py-[9px] text-center text-[13px]'
+const BANNER = {
+  running: 'bg-amber-100 text-amber-900',
+  ok: 'bg-green-100 text-green-900',
+  warn: 'bg-orange-100 text-orange-900',
+  bad: 'bg-accent text-accent-foreground',
+}
 function setBanner(cls, text) {
   const b = $('banner')
   b.hidden = !cls
-  b.className = cls ?? ''
+  b.className = cls ? BANNER_BASE + ' ' + BANNER[cls] : ''
   b.replaceChildren()
   if (cls === 'running') {
     const dot = document.createElement('span')
-    dot.className = 'dot'
+    dot.className = 'inline-block animate-pulse'
     dot.textContent = '●\\u2009'
     b.appendChild(dot)
   }
@@ -606,7 +603,7 @@ $('refresh').onclick = async () => {
   clearTimeout(pollTimer) // restart the single poll chain, don't fork a second one
   poll()
 }
-$('quit').onclick = async () => { await fetch('/api/quit', { method: 'POST' }); document.body.innerHTML = '<p style="padding:40px;text-align:center">Server stopped — you can close this tab.</p>' }
+$('quit').onclick = async () => { await fetch('/api/quit', { method: 'POST' }); document.body.innerHTML = '<p class="p-10 text-center">Server stopped — you can close this tab.</p>' }
 window.onbeforeunload = () => (dirty ? true : undefined)
 
 fetch('/api/prefs').then((r) => r.json()).then((p) => {

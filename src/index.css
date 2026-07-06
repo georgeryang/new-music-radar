@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* The preferences editor (plain HTML served by prefs-server) uses the same
+   utility classes; scanning it here folds them into this one stylesheet,
+   which the editor links from docs/assets/ — one look, one source of truth. */
+@source "../scripts/prefs-server.mjs";
+
 /* Plus Jakarta Sans — self-hosted variable font (wght 200–800; the app uses
    400–700). Absolute /fonts/ URLs resolve to public/fonts in dev; Vite
    rebases them to /new-music-radar/fonts/ at build. The latin-ext face only
