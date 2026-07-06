@@ -18,7 +18,9 @@ export const GENRE_MAP = [
   [/opm|pinoy|philippin/i, 'OPM'],
   [/vietnam/i, 'V-pop'],
   [/thai/i, 'Thai pop'],
-  [/afro|african/i, 'Afrobeats'],
+  // umbrella tag for the whole continent's scenes — amapiano lacks an "afro"
+  // substring, so it's matched explicitly
+  [/afro|african|amapiano/i, 'African'],
   [/r&b|soul/i, 'R&B'],
   // "mexican" covers both Regional Mexicano and Apple's newer Música Mexicana
   [/latin|reggaeton|urbano|banda|mexican|salsa|cumbia/i, 'Latin'],
