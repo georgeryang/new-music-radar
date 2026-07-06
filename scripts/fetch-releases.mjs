@@ -246,7 +246,7 @@ const GENRE_FEEDS = [
   { genreId: 15, tag: 'R&B' },
   { genreId: 27, tag: 'J-pop' },
   { genreId: 1232, tag: 'C-pop' }, // Apple's "Chinese" world subgenre
-  { genreId: 1203, tag: 'Afrobeats' }, // Apple's "African" world subgenre
+  { genreId: 1203, tag: 'African' },
 ]
 
 // Returns a feed's in-window raw entries. topalbums entries are collections
