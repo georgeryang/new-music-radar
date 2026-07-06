@@ -14,13 +14,6 @@ export function formatRelativeTime(timestamp: number | null): string {
 const localDateStr = (d: Date) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 
-// Display window: only releases from the last N hours — a release dated
-// on/after the calendar date N hours ago counts as fresh. Note this is a
-// lower bound only: future dates pass it (use isUnreleased for those).
-export function isFresh(releaseDate: string, hours: number): boolean {
-  return releaseDate >= localDateStr(new Date(Date.now() - hours * 3600e3))
-}
-
 // Still unreleased: dated strictly after today. Drives the Upcoming tab —
 // on release day the card leaves Upcoming and enters the grid via the next
 // fetch.
