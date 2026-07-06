@@ -188,7 +188,7 @@ function LoadingGrid() {
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-4" aria-busy="true">
       {Array.from({ length: 8 }, (_, i) => (
-        <div key={i} className="aspect-square animate-pulse rounded-lg bg-muted" />
+        <div key={i} className="aspect-square rounded-lg bg-muted motion-safe:animate-pulse" />
       ))}
     </div>
   )

@@ -22,7 +22,7 @@ function TypeIcon({ type }: { type: Release['type'] }) {
 
 // Unified release card (the only card type): clean artwork, then title,
 // artist, and a small meta row — type icon, genre chip. A card whose date is
-// still in the future carries a release-date badge (amber within a week) —
+// still in the future carries a release-date badge (red within a week) —
 // with App's clock-driven split those are exactly the Upcoming-tab cards, so
 // the badge doubles as that tab's date label and New stays chip-free.
 // The whole card links to Apple Music.
@@ -89,12 +89,14 @@ function UpcomingBadge({ date }: { date: string }) {
   return (
     <span
       title={`Pre-order, releases ${full}`}
-      aria-label={`Pre-order, releases ${full}`}
       className={`rounded-full px-1.5 py-px text-[10px] sm:text-[9px] ${
         soon ? 'bg-primary font-bold text-primary-foreground' : 'border border-border font-medium'
       }`}
     >
       {label}
+      {/* name-from-content: aria-label on a generic span is unreliably
+          exposed, and title is mouse-only */}
+      <span className="sr-only"> (pre-order, releases {full})</span>
     </span>
   )
 }

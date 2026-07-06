@@ -6,10 +6,10 @@
 @source "../scripts/prefs-server.mjs";
 
 /* Plus Jakarta Sans — self-hosted variable font (wght 200–800; the app uses
-   400–700). Absolute /fonts/ URLs resolve to public/fonts in dev; Vite
-   rebases them to /new-music-radar/fonts/ at build. The latin-ext face only
-   downloads when a name needs one of its glyphs; ★ and ⚙ are outside both
-   ranges and stay on the system fallback. */
+   400–700). Vite rebases these /fonts/ URLs to /new-music-radar/fonts/ in
+   dev and build alike (public/ assets always serve under the base path).
+   The latin-ext face only downloads when a name needs one of its glyphs;
+   ★ and ⚙ are outside both ranges and stay on the system fallback. */
 @font-face {
   font-family: 'Plus Jakarta Sans';
   font-style: normal;
@@ -33,14 +33,16 @@
 
 /* "Red · soft" theme: portfolio red accents on a just-off-white canvas.
    Dark mode follows the OS setting via the media query below — there is no
-   in-app toggle. muted-foreground is darker than the shadcn stock value
-   because #767676 on #fafafa is 4.35:1, just under AA. */
+   in-app toggle. muted-foreground is darker than the shadcn stock value:
+   it has to clear AA (4.5:1) not just on the #fafafa canvas but on the
+   #ededed muted surface too (editor chips, hovered rows) — #6b6b6b is
+   the lightest gray that passes both. */
 :root {
   --radius: 0.625rem;
   --background: #fafafa;
   --foreground: #0a0a0a;
   --muted: #ededed;
-  --muted-foreground: #6f6f6f;
+  --muted-foreground: #6b6b6b;
   --primary: #b3264a;
   --primary-foreground: #ffffff;
   --accent: #f9eaee;
@@ -101,6 +103,11 @@
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
+  }
+  /* Preflight's placeholder (currentcolor at 50%) is ~3.3:1 on the light
+     canvas; the muted token passes AA in both modes. */
+  ::placeholder {
+    color: var(--muted-foreground);
   }
   body {
     @apply bg-background text-foreground;
