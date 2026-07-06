@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf docs/assets && tsc --noEmit && vite build",
+    "build": "rm -rf docs/assets docs/fonts && tsc --noEmit && vite build",
     "preview": "vite preview",
     "fetch": "node scripts/fetch-releases.mjs",
     "update": "bash scripts/update.sh"
