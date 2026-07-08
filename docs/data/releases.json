@@ -1,16 +1,6 @@
 {
-  "fetched_at": 1783424405160,
+  "fetched_at": 1783509496446,
   "releases": [
-    {
-      "title": "<1",
-      "artist": "DOMMIU李由音",
-      "type": "song",
-      "release_date": "2026-07-04",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6c/20/c4/6c20c476-a6aa-f7f3-39a6-8e88703658ce/4896016564690.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop",
-      "link": "https://music.apple.com/us/album/1-single/6787212386?uo=4",
-      "followed": true
-    },
     {
       "title": "We made",
       "artist": "i-dle",
@@ -22,6 +12,35 @@
       "followed": true
     },
     {
+      "title": "Mutualism",
+      "artist": "MRCH",
+      "type": "album",
+      "release_date": "2026-07-07",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2c/8c/60/2c8c60ba-837d-ddbb-2589-891894f19dc6/8800388555343_cover.jpg/400x400bb.jpg",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/mutualism-ep/6786111290?uo=4",
+      "followed": true
+    },
+    {
+      "title": "Pretty Girl",
+      "artist": "RESCENE",
+      "type": "song",
+      "release_date": "2026-07-08",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/44/70/65/44706599-2480-efab-7cfe-564b5e254b25/888272184075_Cover.jpg/400x400bb.jpg",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/pretty-girl-single/6786111944?uo=4",
+      "followed": true
+    },
+    {
+      "title": "猫じゃらし",
+      "artist": "7co",
+      "type": "song",
+      "release_date": "2026-07-05",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/bc/bd/a9/bcbda96b-c0ca-192d-ef18-a2a59a14d4f9/4547366833874.jpg/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/%E7%8C%AB%E3%81%98%E3%82%83%E3%82%89%E3%81%97-single/6781555396?uo=4"
+    },
+    {
       "title": "BAD (Ofenbach Ver.)",
       "artist": "ATEEZ",
       "type": "song",
@@ -31,13 +50,31 @@
       "link": "https://music.apple.com/us/album/bad-ofenbach-ver-single/6782774604?uo=4"
     },
     {
-      "title": "MORNING DEW (DONK)",
-      "artist": "Beyoncé",
+      "title": "Mi Alma Quedó Atrás (Live)",
+      "artist": "Blooz Room",
       "type": "song",
-      "release_date": "2026-07-04",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/3f/65/3d/3f653d87-197c-084c-dca2-0c6e0ca742c9/196874580721.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/morning-dew-donk-single/6787303151?uo=4"
+      "release_date": "2026-07-07",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d2/57/fe/d257fe35-5be7-6c86-4880-e698e62ff2f3/artwork.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/mi-alma-qued%C3%B3-atr%C3%A1s-live-single/6788359733?uo=4"
+    },
+    {
+      "title": "Zaire Noir Rhumba",
+      "artist": "CHID MAREL",
+      "type": "album",
+      "release_date": "2026-07-06",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0f/5a/21/0f5a21ce-50d3-bc08-9747-ad78ce65589f/artwork.jpg/400x400bb.png",
+      "genre": "African",
+      "link": "https://music.apple.com/us/album/zaire-noir-rhumba-ep/6788086957?uo=2"
+    },
+    {
+      "title": "Zaire Noir Rhumba 2026",
+      "artist": "CHID MAREL",
+      "type": "album",
+      "release_date": "2026-07-06",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/3a/5c/16/3a5c167d-2b4b-f54c-2dde-4a941341ece1/artwork.jpg/400x400bb.png",
+      "genre": "African",
+      "link": "https://music.apple.com/us/album/zaire-noir-rhumba-2026/6788079813?uo=2"
     },
     {
       "title": "Yes",
@@ -49,42 +86,6 @@
       "link": "https://music.apple.com/us/album/yes-single/6784806163?uo=4"
     },
     {
-      "title": "Tu Culpa",
-      "artist": "Clave Especial & Los Parras",
-      "type": "song",
-      "release_date": "2026-07-04",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a6/15/df/a615dfbc-83e5-21d1-b2e1-6d1cb574bf8c/823375262114_Cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/tu-culpa-single/6783977903?uo=4"
-    },
-    {
-      "title": "TACTIC",
-      "artist": "Daoko",
-      "type": "song",
-      "release_date": "2026-07-04",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2b/5d/e7/2b5de7e8-74ae-2616-4c75-7af57836911b/4540774749089.jpg/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/tactic-single/6775800407?uo=4"
-    },
-    {
-      "title": "Money & Love",
-      "artist": "DevoX",
-      "type": "album",
-      "release_date": "2026-07-04",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/05/3b/03/053b03f5-7f76-deee-4ba8-072780d134d5/artwork.jpg/400x400bb.png",
-      "genre": "African",
-      "link": "https://music.apple.com/us/album/money-love-ep/6785954164?uo=2"
-    },
-    {
-      "title": "Baba",
-      "artist": "Hamex",
-      "type": "song",
-      "release_date": "2026-07-04",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b2/ea/e7/b2eae733-99ae-2320-567a-88bbe3677a4b/artwork.jpg/400x400bb.jpg",
-      "genre": "African",
-      "link": "https://music.apple.com/us/album/baba-single/6787399025?uo=4"
-    },
-    {
       "title": "It’s Never Too Late",
       "artist": "JHAY ES",
       "type": "album",
@@ -92,15 +93,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d8/dc/85/d8dc853c-202f-e32a-e41c-68134bd342f6/artwork.jpg/400x400bb.png",
       "genre": "African",
       "link": "https://music.apple.com/us/album/its-never-too-late/6784479467?uo=2"
-    },
-    {
-      "title": "Bon Appétit",
-      "artist": "Joel Kapat",
-      "type": "album",
-      "release_date": "2026-07-04",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7b/ae/85/7bae857e-b8ae-dc29-e9e8-d57f59dfcc0a/859739013818_cover.jpg/400x400bb.png",
-      "genre": "African",
-      "link": "https://music.apple.com/us/album/bon-app%C3%A9tit/6773276710?uo=2"
     },
     {
       "title": "孔雀",
@@ -112,6 +104,15 @@
       "link": "https://music.apple.com/us/album/%E5%AD%94%E9%9B%80-single/6782046137?uo=4"
     },
     {
+      "title": "BORDERLINE",
+      "artist": "Kihyun",
+      "type": "album",
+      "release_date": "2026-07-07",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7c/f3/14/7cf3145e-6de7-fb77-e7b3-6b13bc0e3e51/820233794343.jpg/400x400bb.png",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/borderline/6783832454?uo=2"
+    },
+    {
       "title": "back shot",
       "artist": "Masanori Otoda",
       "type": "song",
@@ -121,13 +122,13 @@
       "link": "https://music.apple.com/us/album/back-shot-single/6783201847?uo=4"
     },
     {
-      "title": "Where I've Been",
-      "artist": "POODEE",
-      "type": "song",
-      "release_date": "2026-07-04",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/72/95/b5/7295b598-00a4-bfc6-74c9-c9c9c239c606/859741611101_cover.jpg/400x400bb.jpg",
-      "genre": "African",
-      "link": "https://music.apple.com/us/album/where-ive-been-single/6786319525?uo=4"
+      "title": "Peachful Story",
+      "artist": "Momosuzu Nene",
+      "type": "album",
+      "release_date": "2026-07-08",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8e/fa/9c/8efa9cbc-badf-9021-a469-6157be0a8aa4/4580883403687_art.png/400x400bb.png",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/peachful-story/6783616219?uo=2"
     },
     {
       "title": "グッタイム",
