@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1783509496446,
+  "fetched_at": 1783523276531,
   "releases": [
     {
       "title": "We made",
@@ -9,6 +9,26 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6f/10/5d/6f105d4d-171d-436d-64de-ec210bcea0aa/4099964247879.jpg/400x400bb.jpg",
       "genre": "K-pop",
       "link": "https://music.apple.com/us/album/we-made-ep/6779753532?uo=4",
+      "followed": true
+    },
+    {
+      "title": "Drip (feat. Emily Carter)",
+      "artist": "ILLIT",
+      "type": "song",
+      "release_date": "2026-07-08",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5e/ef/20/5eef20dd-2cd3-64f2-23c5-c5af093039e7/698334064197.jpg/400x400bb.jpg",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/drip-feat-emily-carter-single/6787917844?uo=4",
+      "followed": true
+    },
+    {
+      "title": "LUCID DREAM (Shin Sakiura Remix)",
+      "artist": "IVE",
+      "type": "song",
+      "release_date": "2026-07-08",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/88/3c/80/883c8082-8cae-0620-1411-3dd36c487456/4547366836172.jpg/400x400bb.jpg",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/lucid-dream-shin-sakiura-remix-single/6784485061?uo=4",
       "followed": true
     },
     {
@@ -39,6 +59,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/bc/bd/a9/bcbda96b-c0ca-192d-ef18-a2a59a14d4f9/4547366833874.jpg/400x400bb.jpg",
       "genre": "J-pop",
       "link": "https://music.apple.com/us/album/%E7%8C%AB%E3%81%98%E3%82%83%E3%82%89%E3%81%97-single/6781555396?uo=4"
+    },
+    {
+      "title": "RUN TO YOU",
+      "artist": "AHOF",
+      "type": "album",
+      "release_date": "2026-07-08",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9d/72/05/9d720528-290c-0c9f-3c9a-5b96e3065b0a/cover_KM0024746_1.jpg/400x400bb.png",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/run-to-you-ep/6786223865?uo=2"
     },
     {
       "title": "BAD (Ofenbach Ver.)",
@@ -131,6 +160,24 @@
       "link": "https://music.apple.com/us/album/peachful-story/6783616219?uo=2"
     },
     {
+      "title": "ダントツで愛して/また、あなたに恋焦がれているんだ(Special Edition)",
+      "artist": "OCHA NORMA",
+      "type": "album",
+      "release_date": "2026-07-08",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/95/49/95/9549957b-ab7a-c633-9891-2462cfa98b70/UFDL-1593.jpg/400x400bb.png",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/%E3%83%80%E3%83%B3%E3%83%88%E3%83%84%E3%81%A7%E6%84%9B%E3%81%97%E3%81%A6-%E3%81%BE%E3%81%9F-%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AB%E6%81%8B%E7%84%A6%E3%81%8C%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E3%82%93%E3%81%A0-special-edition-ep/6773287144?uo=2"
+    },
+    {
+      "title": "Stella",
+      "artist": "SEKAI NO OWARI",
+      "type": "song",
+      "release_date": "2026-07-08",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/eb/fb/6d/ebfb6d9d-8e2f-631a-3c14-96019f9cc117/26UMGIM73140.rgb.jpg/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/stella-single/6784368653?uo=4"
+    },
+    {
       "title": "グッタイム",
       "artist": "Snow Man",
       "type": "song",
@@ -158,6 +205,16 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7e/aa/b8/7eaab803-3fed-e0ca-057d-cef099febcde/26UMGIM74875.rgb.jpg/400x400bb.jpg",
       "genre": "Latin",
       "link": "https://music.apple.com/us/album/otra-que-arde/6782227091?uo=4",
+      "followed": true
+    },
+    {
+      "title": "Valley Girl Problems",
+      "artist": "Kylie Cantrall",
+      "type": "album",
+      "release_date": "2026-07-24",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ec/97/16/ec9716da-7380-ee9a-c66b-401b06906d6c/26UMGIM85978.rgb.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/valley-girl-problems/6788201325?uo=4",
       "followed": true
     },
     {
