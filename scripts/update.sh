@@ -3,7 +3,9 @@
 # Needs no node_modules — just node and git.
 set -uo pipefail
 
-REPO_DIR="/Users/gyang/Dev/new-music-radar"
+# Derive the repo root from this script's own location, so the job survives
+# being moved to another machine or path without editing this line.
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_DIR" || exit 1
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
