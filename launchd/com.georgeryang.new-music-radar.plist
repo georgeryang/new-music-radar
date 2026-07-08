@@ -7,7 +7,7 @@
   <key>ProgramArguments</key>
   <array>
     <string>/bin/bash</string>
-    <string>/Users/gyang/Dev/new-music-radar/scripts/update.sh</string>
+    <string>/Users/georgeyang/dev/new-music-radar/scripts/update.sh</string>
     <string>--if-stale</string>
   </array>
   <!-- 10-minute tick. launchd fires a missed tick once when the Mac wakes
@@ -19,9 +19,9 @@
   <key>StartInterval</key>
   <integer>600</integer>
   <key>StandardOutPath</key>
-  <string>/Users/gyang/Library/Logs/new-music-radar.log</string>
+  <string>/Users/georgeyang/Library/Logs/new-music-radar.log</string>
   <key>StandardErrorPath</key>
-  <string>/Users/gyang/Library/Logs/new-music-radar.log</string>
+  <string>/Users/georgeyang/Library/Logs/new-music-radar.log</string>
   <key>EnvironmentVariables</key>
   <dict>
     <key>PATH</key>
