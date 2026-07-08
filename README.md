@@ -70,14 +70,14 @@ When you're done, press the **Quit** button (or close the Terminal window).
 Run these two commands once in Terminal (copy-paste both lines together):
 
 ```
-cp ~/Dev/new-music-radar/launchd/com.georgeryang.new-music-radar.plist ~/Library/LaunchAgents/
-launchctl load ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist
+cp ~/dev/new-music-radar/launchd/com.georgeryang.new-music-radar.plist ~/Library/LaunchAgents/
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist
 ```
 
 After that, the Mac quietly updates the site once a day around 6:15 PM Korea
 time (or the next time it wakes from sleep). Nothing else to do.
 
-To turn it off: `launchctl unload ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist`
+To turn it off: `launchctl bootout gui/$(id -u)/com.georgeryang.new-music-radar`
 
 ## If something looks wrong
 
@@ -97,9 +97,9 @@ The website itself works from anywhere; this is only for the computer that
 performs the daily update.
 
 1. Install `node` and `git`, and make sure `git push` to GitHub works.
-2. `git clone git@github.com:georgeryang/new-music-radar.git ~/Dev/new-music-radar`
+2. `git clone git@github.com:georgeryang/new-music-radar.git ~/dev/new-music-radar`
    (this exact location, the schedule file expects it).
-3. Test once: `bash ~/Dev/new-music-radar/scripts/update.sh`
+3. Test once: `bash ~/dev/new-music-radar/scripts/update.sh`
    (about two minutes; ends with "Published").
 4. Do the one-time setup above.
 
