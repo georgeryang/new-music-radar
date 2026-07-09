@@ -51,10 +51,12 @@ export default function App() {
 
   // The fetcher's New/Upcoming routing is an 18:15 KST snapshot; the split is
   // recomputed here against the viewer's clock so it stays honest between
-  // fetches. Anything still future-dated renders on Upcoming — including
-  // tomorrow-dated entries the fetch window deliberately admits into
+  // fetches. A followed artist's future-dated entry renders on Upcoming —
+  // including tomorrow-dated entries the fetch window deliberately admits into
   // releases[] — and a pre-order whose date has arrived joins the New grid at
-  // local midnight instead of waiting for the evening fetch. Display windows
+  // local midnight instead of waiting for the evening fetch. Non-followed
+  // discovery finds never appear on Upcoming (Upcoming is a follow-list
+  // feature); a future-dated one simply waits until it releases. Display windows
   // anchor to the LAST FETCH, never the viewer's clock — cards never expire
   // between fetches, only a new file changes the set. Followed artists get
   // the file's full window (the fetcher's WINDOW_DAYS); discovery finds show
@@ -84,7 +86,9 @@ export default function App() {
         a.title.localeCompare(b.title)
     )
   const upcoming = entries
-    .filter((r) => isUnreleased(r.release_date))
+    // followed artists only — a non-followed discovery/genre-chart find with a
+    // future date must not leak into Upcoming (the New grid gates the same way)
+    .filter((r) => r.followed && isUnreleased(r.release_date))
     .sort(
       (a, b) =>
         a.release_date.localeCompare(b.release_date) ||
