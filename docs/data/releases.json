@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1783523276531,
+  "fetched_at": 1783596332078,
   "releases": [
     {
       "title": "We made",
@@ -9,16 +9,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6f/10/5d/6f105d4d-171d-436d-64de-ec210bcea0aa/4099964247879.jpg/400x400bb.jpg",
       "genre": "K-pop",
       "link": "https://music.apple.com/us/album/we-made-ep/6779753532?uo=4",
-      "followed": true
-    },
-    {
-      "title": "Drip (feat. Emily Carter)",
-      "artist": "ILLIT",
-      "type": "song",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5e/ef/20/5eef20dd-2cd3-64f2-23c5-c5af093039e7/698334064197.jpg/400x400bb.jpg",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/drip-feat-emily-carter-single/6787917844?uo=4",
       "followed": true
     },
     {
@@ -52,15 +42,6 @@
       "followed": true
     },
     {
-      "title": "猫じゃらし",
-      "artist": "7co",
-      "type": "song",
-      "release_date": "2026-07-05",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/bc/bd/a9/bcbda96b-c0ca-192d-ef18-a2a59a14d4f9/4547366833874.jpg/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/%E7%8C%AB%E3%81%98%E3%82%83%E3%82%89%E3%81%97-single/6781555396?uo=4"
-    },
-    {
       "title": "RUN TO YOU",
       "artist": "AHOF",
       "type": "album",
@@ -70,6 +51,15 @@
       "link": "https://music.apple.com/us/album/run-to-you-ep/6786223865?uo=2"
     },
     {
+      "title": "Dependent",
+      "artist": "Alessi Rose",
+      "type": "song",
+      "release_date": "2026-07-08",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b4/01/fc/b401fc2a-6cae-84ec-411a-4648f958aab2/26UMGIM75462.rgb.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/dependent-single/6784059190?uo=4"
+    },
+    {
       "title": "BAD (Ofenbach Ver.)",
       "artist": "ATEEZ",
       "type": "song",
@@ -77,6 +67,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/73/a3/52/73a3524f-3377-5842-25c2-aa9b4d265093/196874529348.jpg/400x400bb.jpg",
       "genre": "K-pop",
       "link": "https://music.apple.com/us/album/bad-ofenbach-ver-single/6782774604?uo=4"
+    },
+    {
+      "title": "The Scrapbook: Grown Folks' Music, Pt. 1",
+      "artist": "BakerBarnes",
+      "type": "album",
+      "release_date": "2026-07-06",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9f/42/14/9f421430-565c-f83e-2d40-815379cd821c/artwork.jpg/400x400bb.png",
+      "genre": "R&B",
+      "link": "https://music.apple.com/us/album/the-scrapbook-grown-folks-music-pt-1/6783107532?uo=2"
     },
     {
       "title": "Mi Alma Quedó Atrás (Live)",
@@ -106,31 +105,31 @@
       "link": "https://music.apple.com/us/album/zaire-noir-rhumba-2026/6788079813?uo=2"
     },
     {
-      "title": "Yes",
-      "artist": "Ciara",
+      "title": "一進",
+      "artist": "Haku.",
       "type": "song",
-      "release_date": "2026-07-06",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/31/23/78/3123780e-7079-23c0-52b1-5ed8b08669d7/1200214424534.jpg/400x400bb.jpg",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/yes-single/6784806163?uo=4"
-    },
-    {
-      "title": "It’s Never Too Late",
-      "artist": "JHAY ES",
-      "type": "album",
-      "release_date": "2026-07-07",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d8/dc/85/d8dc853c-202f-e32a-e41c-68134bd342f6/artwork.jpg/400x400bb.png",
-      "genre": "African",
-      "link": "https://music.apple.com/us/album/its-never-too-late/6784479467?uo=2"
-    },
-    {
-      "title": "孔雀",
-      "artist": "Kei Sugawara",
-      "type": "song",
-      "release_date": "2026-07-05",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3d/5f/d6/3d5fd676-a26c-15e9-4663-faa0a8dae022/4547366833706.jpg/400x400bb.jpg",
+      "release_date": "2026-07-08",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/db/7e/22/db7e22d2-ed92-a03f-2e7e-33609b8b7a04/4517331101369.jpg/400x400bb.jpg",
       "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/%E5%AD%94%E9%9B%80-single/6782046137?uo=4"
+      "link": "https://music.apple.com/us/album/%E4%B8%80%E9%80%B2-single/6784536094?uo=4"
+    },
+    {
+      "title": "19BOX ~STARMAN~",
+      "artist": "Ikusaburo Yamazaki",
+      "type": "album",
+      "release_date": "2026-07-08",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/58/18/2f/58182f9f-632c-77bd-22e9-6a2543fb70e0/4547366833652.jpg/400x400bb.png",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/19box-starman/6782047482?uo=2"
+    },
+    {
+      "title": "WAVE",
+      "artist": "Kazuya Kamenashi",
+      "type": "album",
+      "release_date": "2026-07-08",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ae/9c/ca/ae9ccafc-09e5-3bf0-e241-fb8366e8d3de/4517331101307.jpg/400x400bb.png",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/wave/6779188789?uo=2"
     },
     {
       "title": "BORDERLINE",
@@ -142,15 +141,6 @@
       "link": "https://music.apple.com/us/album/borderline/6783832454?uo=2"
     },
     {
-      "title": "back shot",
-      "artist": "Masanori Otoda",
-      "type": "song",
-      "release_date": "2026-07-05",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/aa/7f/05/aa7f059c-fa88-227b-737a-9cab341005e4/4547366833881.jpg/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/back-shot-single/6783201847?uo=4"
-    },
-    {
       "title": "Peachful Story",
       "artist": "Momosuzu Nene",
       "type": "album",
@@ -158,6 +148,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8e/fa/9c/8efa9cbc-badf-9021-a469-6157be0a8aa4/4580883403687_art.png/400x400bb.png",
       "genre": "J-pop",
       "link": "https://music.apple.com/us/album/peachful-story/6783616219?uo=2"
+    },
+    {
+      "title": "Highway 79",
+      "artist": "Ne-Yo",
+      "type": "album",
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0c/b8/ed/0cb8ed7c-9782-0df7-7bea-45e4cd9aa749/075679575913.jpg/400x400bb.jpg",
+      "genre": "R&B",
+      "link": "https://music.apple.com/us/album/highway-79/6770614875?uo=4"
     },
     {
       "title": "ダントツで愛して/また、あなたに恋焦がれているんだ(Special Edition)",
@@ -185,6 +184,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a5/42/4b/a5424b45-7eca-05af-0e20-e93539e193dd/ANTCD-A0000020458.jpg/400x400bb.jpg",
       "genre": "J-pop",
       "link": "https://music.apple.com/us/album/%E3%82%B0%E3%83%83%E3%82%BF%E3%82%A4%E3%83%A0-single/6785411719?uo=4"
+    },
+    {
+      "title": "On My Knees",
+      "artist": "TRENDZ",
+      "type": "song",
+      "release_date": "2026-07-08",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/12/cf/4e/12cf4edd-1717-8abe-f9b7-a2a4e4d106c3/823375259633_Cover.jpg/400x400bb.jpg",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/on-my-knees-single/6783645617?uo=4"
     },
     {
       "title": "Youth Today",
