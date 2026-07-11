@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1783684082211,
+  "fetched_at": 1783807958090,
   "releases": [
     {
       "title": "EPA (Don Diablo Remix)",
@@ -22,16 +22,6 @@
       "followed": true
     },
     {
-      "title": "LUCID DREAM (Shin Sakiura Remix)",
-      "artist": "IVE",
-      "type": "song",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/88/3c/80/883c8082-8cae-0620-1411-3dd36c487456/4547366836172.jpg/400x400bb.jpg",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/lucid-dream-shin-sakiura-remix-single/6784485061?uo=4",
-      "followed": true
-    },
-    {
       "title": "NYC",
       "artist": "Mary Ann Alexander & Hunna G",
       "type": "song",
@@ -39,26 +29,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6c/71/af/6c71afb0-3368-4141-54a7-6d6178cd379b/881392217777-copy-aa6fb5a9.png/400x400bb.jpg",
       "genre": "R&B",
       "link": "https://music.apple.com/us/album/nyc-single/6784384413?uo=4",
-      "followed": true
-    },
-    {
-      "title": "Mutualism",
-      "artist": "MRCH",
-      "type": "album",
-      "release_date": "2026-07-07",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2c/8c/60/2c8c60ba-837d-ddbb-2589-891894f19dc6/8800388555343_cover.jpg/400x400bb.jpg",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/mutualism-ep/6786111290?uo=4",
-      "followed": true
-    },
-    {
-      "title": "Pretty Girl",
-      "artist": "RESCENE",
-      "type": "song",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/44/70/65/44706599-2480-efab-7cfe-564b5e254b25/888272184075_Cover.jpg/400x400bb.jpg",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/pretty-girl-single/6786111944?uo=4",
       "followed": true
     },
     {
@@ -82,24 +52,6 @@
       "followed": true
     },
     {
-      "title": "RUN TO YOU",
-      "artist": "AHOF",
-      "type": "album",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9d/72/05/9d720528-290c-0c9f-3c9a-5b96e3065b0a/cover_KM0024746_1.jpg/400x400bb.png",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/run-to-you-ep/6786223865?uo=2"
-    },
-    {
-      "title": "Dependent",
-      "artist": "Alessi Rose",
-      "type": "song",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b4/01/fc/b401fc2a-6cae-84ec-411a-4648f958aab2/26UMGIM75462.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/dependent-single/6784059190?uo=4"
-    },
-    {
       "title": "Think I'm in Love",
       "artist": "Alex Lambert",
       "type": "song",
@@ -107,6 +59,24 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/68/a5/c7/68a5c732-f4f4-d82c-2ede-862b0139cc11/26UMGIM80290.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/think-im-in-love-single/6783529897?uo=4"
+    },
+    {
+      "title": "Mi Chico",
+      "artist": "AM NATION",
+      "type": "song",
+      "release_date": "2026-07-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f8/f8/f5/f8f8f520-97bb-abe0-466d-fdad825bb609/artwork.jpg/400x400bb.jpg",
+      "genre": "African",
+      "link": "https://music.apple.com/us/album/mi-chico-single/6787862623?uo=4"
+    },
+    {
+      "title": "Best Hearts",
+      "artist": "Andy Grammer",
+      "type": "song",
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0f/76/64/0f7664fe-5d5f-bf34-3f47-36655d719a87/26UMGIM75434.rgb.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/best-hearts-single/6781886373?uo=4"
     },
     {
       "title": "Piguet",
@@ -145,13 +115,13 @@
       "link": "https://music.apple.com/us/album/la-culpa-fue-mia-single/6788451713?uo=4"
     },
     {
-      "title": "Mi Alma Quedó Atrás (Live)",
-      "artist": "Blooz Room",
+      "title": "Complice",
+      "artist": "CAFE BOHEMIA",
       "type": "song",
-      "release_date": "2026-07-07",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d2/57/fe/d257fe35-5be7-6c86-4880-e698e62ff2f3/artwork.jpg/400x400bb.jpg",
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/3a/46/ff/3a46ff11-db9a-ca72-0067-5eaa1cb654e5/artwork.jpg/400x400bb.jpg",
       "genre": "Latin",
-      "link": "https://music.apple.com/us/album/mi-alma-qued%C3%B3-atr%C3%A1s-live-single/6788359733?uo=4"
+      "link": "https://music.apple.com/us/album/complice-single/6787984405?uo=4"
     },
     {
       "title": "WHAT ELSE?",
@@ -199,6 +169,24 @@
       "link": "https://music.apple.com/us/album/la-monda-single/6786832455?uo=4"
     },
     {
+      "title": "On Your Side",
+      "artist": "December 10",
+      "type": "album",
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ae/ed/a7/aeeda779-ec90-fd7f-cb59-9e1552c30640/26UMGIM71282.rgb.jpg/400x400bb.png",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/on-your-side/6777159639?uo=2"
+    },
+    {
+      "title": "Para Que Ya No Duela (Remix)",
+      "artist": "Duelo & Bronco",
+      "type": "song",
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d6/a6/1c/d6a61c1b-aed1-9854-7e80-6559bced62c0/1200214496845.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/para-que-ya-no-duela-remix-single/6788150051?uo=4"
+    },
+    {
       "title": "Bendecido",
       "artist": "Edgardo Nuñez",
       "type": "song",
@@ -215,6 +203,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/00/29/b3/0029b379-7559-12bb-02aa-57a37ae4e03e/823375278139_Cover.jpg/400x400bb.jpg",
       "genre": "Latin",
       "link": "https://music.apple.com/us/album/miami-penthouse-single/6786462467?uo=4"
+    },
+    {
+      "title": "Peda De Vatos, Vol. 6 (Puras de Ramón)",
+      "artist": "Elias Medina",
+      "type": "album",
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/76/39/83/763983f4-edd7-e620-f276-0a65ed53e1c9/1200214516024.jpg/400x400bb.png",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/peda-de-vatos-vol-6-puras-de-ram%C3%B3n/6788936369?uo=2"
     },
     {
       "title": "Baile",
@@ -235,15 +232,6 @@
       "link": "https://music.apple.com/us/album/a-xon-de-que-single/6789281255?uo=4"
     },
     {
-      "title": "SOS",
-      "artist": "Francisca Valenzuela",
-      "type": "song",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1c/1c/09/1c1c098a-03bf-cd70-cb4c-cca314e637cd/cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/sos-single/6783955884?uo=4"
-    },
-    {
       "title": "Understand",
       "artist": "Grace VanderWaal",
       "type": "song",
@@ -253,13 +241,22 @@
       "link": "https://music.apple.com/us/album/understand-single/6781398838?uo=4"
     },
     {
-      "title": "19BOX ~STARMAN~",
-      "artist": "Ikusaburo Yamazaki",
+      "title": "Do You See Me?",
+      "artist": "Heavenly",
+      "type": "song",
+      "release_date": "2026-07-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/5a/d5/4b/5ad54be9-6be1-4a2f-d713-721b89a4c1f7/artwork.jpg/400x400bb.jpg",
+      "genre": "R&B",
+      "link": "https://music.apple.com/us/album/do-you-see-me-single/6788085751?uo=4"
+    },
+    {
+      "title": "Mood",
+      "artist": "Jacquees",
       "type": "album",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/58/18/2f/58182f9f-632c-77bd-22e9-6a2543fb70e0/4547366833652.jpg/400x400bb.png",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/19box-starman/6782047482?uo=2"
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8a/a0/dd/8aa0dd38-15b6-9c4b-0c50-6dbcf2eeb2d4/199316669275_cover.jpg/400x400bb.jpg",
+      "genre": "R&B",
+      "link": "https://music.apple.com/us/album/mood/6784484055?uo=4"
     },
     {
       "title": "99 Degrees",
@@ -271,6 +268,24 @@
       "link": "https://music.apple.com/us/album/99-degrees-single/6786966036?uo=4"
     },
     {
+      "title": "Pop Experience",
+      "artist": "Jake Shimabukuro",
+      "type": "album",
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/87/23/5c/87235c1b-e46d-f797-2011-72f0cf0b0d62/artwork.jpg/400x400bb.png",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/pop-experience/1896388446?uo=2"
+    },
+    {
+      "title": "Otra Vez (feat. Lucía Haze)",
+      "artist": "Jamy Nox & Andre Soueid",
+      "type": "song",
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ca/c2/cb/cac2cbe8-e4b3-af72-21df-07736892a9bf/cover.jpg/400x400bb.jpg",
+      "genre": "African",
+      "link": "https://music.apple.com/us/album/otra-vez-feat-luc%C3%ADa-haze-single/6783829260?uo=4"
+    },
+    {
       "title": "FROSTY",
       "artist": "Jasson Arellano",
       "type": "album",
@@ -278,15 +293,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d2/06/12/d206128a-9ae1-13d9-8f75-63c9599c9c83/823375256236_Cover.jpg/400x400bb.jpg",
       "genre": "Latin",
       "link": "https://music.apple.com/us/album/frosty/6783389359?uo=4"
-    },
-    {
-      "title": "TARTAMUDEANDO",
-      "artist": "Juanpa Salazar",
-      "type": "song",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/51/9c/67/519c67fa-ddd2-2ba0-e30c-b58fc0575d5d/21446.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/tartamudeando-single/6785617068?uo=4"
     },
     {
       "title": "Covell",
@@ -298,22 +304,13 @@
       "link": "https://music.apple.com/us/album/covell-single/6783496553?uo=4"
     },
     {
-      "title": "WAVE",
-      "artist": "Kazuya Kamenashi",
+      "title": "new avatar",
+      "artist": "Kelela",
       "type": "album",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ae/9c/ca/ae9ccafc-09e5-3bf0-e241-fb8366e8d3de/4517331101307.jpg/400x400bb.png",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/wave/6779188789?uo=2"
-    },
-    {
-      "title": "BORDERLINE",
-      "artist": "Kihyun",
-      "type": "album",
-      "release_date": "2026-07-07",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7c/f3/14/7cf3145e-6de7-fb77-e7b3-6b13bc0e3e51/820233794343.jpg/400x400bb.png",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/borderline/6783832454?uo=2"
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7a/a8/9e/7aa89e2c-ebb2-f4c4-fc20-42b17b465601/5056818808807.png/400x400bb.jpg",
+      "genre": "R&B",
+      "link": "https://music.apple.com/us/album/new-avatar/1888561538?uo=4"
     },
     {
       "title": "Magnificent",
@@ -415,24 +412,6 @@
       "link": "https://music.apple.com/us/album/gataza-single/6779409918?uo=4"
     },
     {
-      "title": "I'm Done Now",
-      "artist": "Millionaire Neal",
-      "type": "album",
-      "release_date": "2026-07-07",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ca/bd/b3/cabdb3b3-5dea-6be3-823e-79aa8dd4f8af/881392355813.png/400x400bb.png",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/im-done-now/6787487996?uo=2"
-    },
-    {
-      "title": "Peachful Story",
-      "artist": "Momosuzu Nene",
-      "type": "album",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8e/fa/9c/8efa9cbc-badf-9021-a469-6157be0a8aa4/4580883403687_art.png/400x400bb.png",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/peachful-story/6783616219?uo=2"
-    },
-    {
       "title": "Highway 79",
       "artist": "Ne-Yo",
       "type": "album",
@@ -440,15 +419,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0c/b8/ed/0cb8ed7c-9782-0df7-7bea-45e4cd9aa749/075679575913.jpg/400x400bb.png",
       "genre": "R&B",
       "link": "https://music.apple.com/us/album/highway-79/6770614875?uo=2"
-    },
-    {
-      "title": "ダントツで愛して/また、あなたに恋焦がれているんだ(Special Edition)",
-      "artist": "OCHA NORMA",
-      "type": "album",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/95/49/95/9549957b-ab7a-c633-9891-2462cfa98b70/UFDL-1593.jpg/400x400bb.png",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/%E3%83%80%E3%83%B3%E3%83%88%E3%83%84%E3%81%A7%E6%84%9B%E3%81%97%E3%81%A6-%E3%81%BE%E3%81%9F-%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AB%E6%81%8B%E7%84%A6%E3%81%8C%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E3%82%93%E3%81%A0-special-edition-ep/6773287144?uo=2"
     },
     {
       "title": "Lady Luck",
@@ -460,6 +430,24 @@
       "link": "https://music.apple.com/us/album/lady-luck-ep/1878457741?uo=4"
     },
     {
+      "title": "Tiki Tiki 2.0 (feat. Bun Xapa)",
+      "artist": "OSKIDO, SALIMA CHICA & Argento Dust",
+      "type": "song",
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e3/38/72/e3387291-a4d1-6bf5-b44f-861cb50f4b30/5059449391809.png/400x400bb.jpg",
+      "genre": "African",
+      "link": "https://music.apple.com/us/album/tiki-tiki-2-0-feat-bun-xapa-single/6789198397?uo=4"
+    },
+    {
+      "title": "Not Mine",
+      "artist": "Owen Saward",
+      "type": "song",
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1f/49/cb/1f49cb27-aa08-e5d7-eb7f-c2bb840ed754/26UMGIM80225.rgb.jpg/400x400bb.jpg",
+      "genre": "R&B",
+      "link": "https://music.apple.com/us/album/not-mine-single/6785978848?uo=4"
+    },
+    {
       "title": "Tenemos El Funk (feat. Luisito Quintero)",
       "artist": "Pahua & Willy Soul",
       "type": "song",
@@ -467,6 +455,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f1/3e/19/f13e1918-0c00-5ee2-cfc0-50f41b9df32c/4062548147490.png/400x400bb.jpg",
       "genre": "R&B",
       "link": "https://music.apple.com/us/album/tenemos-el-funk-feat-luisito-quintero-single/6781723345?uo=4"
+    },
+    {
+      "title": "Esquisse",
+      "artist": "pomodorosa",
+      "type": "album",
+      "release_date": "2026-07-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c7/29/72/c72972dc-a4e1-a8a7-5e18-7fb5ab94c46e/4550757551950_cover.jpg/400x400bb.png",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/esquisse/6778800326?uo=2"
     },
     {
       "title": "Dirty Shoes",
@@ -487,6 +484,15 @@
       "link": "https://music.apple.com/us/album/hot-wet-delirious-single/6780569676?uo=4"
     },
     {
+      "title": "COCOON",
+      "artist": "Reol",
+      "type": "song",
+      "release_date": "2026-07-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4e/70/44/4e7044c9-39ec-3131-d692-d953c996ef3f/4547366835038.jpg/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/cocoon-single/6784205578?uo=4"
+    },
+    {
       "title": "Flat out",
       "artist": "Rindo Chihaya",
       "type": "song",
@@ -503,15 +509,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0f/e3/2c/0fe32cf8-f4b7-01d6-c7a8-782573c4c2fc/artwork.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/thazoud-dayi-tsamhad-feat-ilham-single/6789380711?uo=4"
-    },
-    {
-      "title": "Stella",
-      "artist": "SEKAI NO OWARI",
-      "type": "song",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/eb/fb/6d/ebfb6d9d-8e2f-631a-3c14-96019f9cc117/26UMGIM73140.rgb.jpg/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/stella-single/6784368653?uo=4"
     },
     {
       "title": "Track Team",
@@ -532,6 +529,15 @@
       "link": "https://music.apple.com/us/album/yes-single/6781004788?uo=4"
     },
     {
+      "title": "Something To Believe In",
+      "artist": "Tate Butts",
+      "type": "album",
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c2/95/47/c29547da-fddf-2ebb-9ec6-a0948801d1f6/612891063110.jpg/400x400bb.png",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/something-to-believe-in/6776326659?uo=2"
+    },
+    {
       "title": "Break Up in Reverse",
       "artist": "Teddy Swims",
       "type": "song",
@@ -550,22 +556,13 @@
       "link": "https://music.apple.com/us/album/love-hate-ii/6778238107?uo=4"
     },
     {
-      "title": "On My Knees",
-      "artist": "TRENDZ",
+      "title": "#NobodyDoesItLikeUs",
+      "artist": "Tokoyami Towa & Momosuzu Nene",
       "type": "song",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/12/cf/4e/12cf4edd-1717-8abe-f9b7-a2a4e4d106c3/823375259633_Cover.jpg/400x400bb.jpg",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/on-my-knees-single/6783645617?uo=4"
-    },
-    {
-      "title": "Peguemos Fuga",
-      "artist": "Victor Cibrian & Jesús Uriarte",
-      "type": "song",
-      "release_date": "2026-07-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/02/0e/61/020e612a-c71d-a7d5-3b7e-fa5ccbc42986/612735131401_cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/peguemos-fuga-single/6785707617?uo=4"
+      "release_date": "2026-07-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2c/0c/2b/2c0c2bf3-2af4-3305-edcc-b9d3e1f62af4/4580883404660_art.png/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/nobodydoesitlikeus-single/6788198131?uo=4"
     },
     {
       "title": "OTA",
@@ -605,16 +602,6 @@
     }
   ],
   "upcoming": [
-    {
-      "title": "Otra Que Arde",
-      "artist": "Olivia Wald",
-      "type": "album",
-      "release_date": "2026-07-23",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7e/aa/b8/7eaab803-3fed-e0ca-057d-cef099febcde/26UMGIM74875.rgb.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/otra-que-arde/6782227091?uo=4",
-      "followed": true
-    },
     {
       "title": "Valley Girl Problems",
       "artist": "Kylie Cantrall",
