@@ -1,6 +1,7 @@
 import { useEffect, useState, type KeyboardEvent } from 'react'
 import { ReleaseCard } from '@/components/ReleaseCard'
 import { formatRelativeTime, isFreshAsOf, isUnreleased } from '@/lib/utils'
+import { keyOf, releaseOrder, upcomingOrder } from '../scripts/card-key.mjs'
 import type { FeedData, Release } from '@/lib/types'
 
 const PREFS_URL = 'http://127.0.0.1:4747'
@@ -64,9 +65,16 @@ export default function App() {
   // two files' lists are disjoint by construction, but carryover after a
   // failed sweep can overlap them briefly — collapse by card key before
   // splitting.
+  // keyOf is the fetcher's own dedup key (shared module) — a weaker key here
+  // would let one release render twice when its title drifts between fetches.
+  // release_date joins the key because keyOf alone over-collapses across the
+  // two lists: a deluxe/edition PRE-ORDER of an already-released album strips
+  // to the same keyOf and would silently lose its Upcoming card. Carryover
+  // duplicates of one logical release share the date, so they still collapse.
+  const cardKey = (r: Release) => `${keyOf(r)}|${r.release_date}`
   const byKey = new Map<string, Release>()
   for (const r of [...(data?.releases ?? []), ...(data?.upcoming ?? [])]) {
-    const k = `${r.artist}|${r.title}|${r.type}`
+    const k = cardKey(r)
     if (!byKey.has(k)) byKey.set(k, r)
   }
   const entries = [...byKey.values()]
@@ -78,22 +86,12 @@ export default function App() {
     )
     // re-sort: a flipped pre-order must slot into the fetcher's order
     // (followed first, artist A-Z, newest within artist), not trail the grid
-    .sort(
-      (a, b) =>
-        (b.followed ? 1 : 0) - (a.followed ? 1 : 0) ||
-        a.artist.localeCompare(b.artist, undefined, { sensitivity: 'base' }) ||
-        b.release_date.localeCompare(a.release_date) ||
-        a.title.localeCompare(b.title)
-    )
+    .sort(releaseOrder)
   const upcoming = entries
     // followed artists only — a non-followed discovery/genre-chart find with a
     // future date must not leak into Upcoming (the New grid gates the same way)
     .filter((r) => r.followed && isUnreleased(r.release_date))
-    .sort(
-      (a, b) =>
-        a.release_date.localeCompare(b.release_date) ||
-        a.artist.localeCompare(b.artist, undefined, { sensitivity: 'base' })
-    )
+    .sort(upcomingOrder)
   // An empty tab hides entirely: only-New renders barless (as before the
   // feature), only-Upcoming shows a single labelled pill for context, and
   // both-empty falls through to the info message.
@@ -172,9 +170,8 @@ export default function App() {
             aria-labelledby={showBar && active ? `tab-${active.key}` : undefined}
             className="grid grid-cols-2 gap-3 sm:grid-cols-4"
           >
-            {/* | key separator — a hyphen is ambiguous when artist or title contains one */}
             {shown.map((r) => (
-              <ReleaseCard key={`${r.artist}|${r.title}|${r.type}`} release={r} />
+              <ReleaseCard key={cardKey(r)} release={r} />
             ))}
           </div>
         ) : (
