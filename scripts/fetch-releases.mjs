@@ -29,6 +29,7 @@
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { GENRE_MAP, canonGenre } from './genre-map.mjs'
+import { keyOf, normArtist, releaseOrder, upcomingOrder } from './card-key.mjs'
 
 // The file holds WINDOW_DAYS of releases. The frontend (src/App.tsx) shows
 // followed artists for that full window and trims discovery finds to 24h —
@@ -39,11 +40,15 @@ const OUT = new URL('../docs/data/releases.json', import.meta.url)
 
 const PREFS = JSON.parse(readFileSync(new URL('../config/preferences.json', import.meta.url), 'utf8'))
 
-const log = (...a) => console.log(`[${new Date().toISOString().slice(0, 19).replace('T', ' ')}]`, ...a)
+// local time, matching update.sh's log() — the two interleave in one file
+// and used to jump hours mid-run (fetcher stamped UTC)
+const log = (...a) => console.log(`[${new Date().toLocaleString('sv-SE')}]`, ...a)
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
+// 30s abort: stalled connections have hung batches for 17–78 minutes —
+// far better to fail fast and let the retry pass / carryover handle it.
 async function getJSON(url) {
-  const res = await fetch(url, { headers: { 'User-Agent': UA } })
+  const res = await fetch(url, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(30_000) })
   if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`)
   return res.json()
 }
@@ -63,28 +68,17 @@ async function itunesJSON(url) {
 }
 
 // ---------- normalization / canonical key ----------
+// normTitle/normArtist/keyOf live in card-key.mjs, shared with the app so
+// the fetcher's dedup and the app's list-collapse can never key differently.
 
-const EDITION_RE =
-  /\s*[-–(\[]\s*(the\s+\d+\w*\s+(mini\s+)?album|ep|single|deluxe( edition| version)?|standard( edition)?|explicit|extended|remaster(ed)?( \d{4})?|alternate cover[^)\]]*)\s*[)\]]?\s*$/i
 const NOISE_RE = /\b(instrumental|sped[ -]?up|slowed( \+ reverb)?|inst\.)\b/i
 
-function normTitle(raw) {
-  let t = raw.normalize('NFKC').toLowerCase()
-  let prev
-  do {
-    prev = t
-    t = t.replace(EDITION_RE, '')
-  } while (t !== prev && t.length > 2)
-  return t.replace(/[^\p{L}\p{N} ]/gu, '').replace(/\s+/g, ' ').trim()
-}
-
-const normArtist = (raw) =>
-  raw.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N} ]/gu, '').replace(/\s+/g, ' ').trim()
-
-const keyOf = (r) => `${normArtist(r.artist)}|${normTitle(r.title)}|${r.type}`
+// Every window rule below is phrased in days since the release date —
+// one definition so the tolerances can't drift apart.
+const daysSince = (releaseDate) => (Date.now() - Date.parse(releaseDate)) / 86400e3
 
 function inWindow(releaseDate) {
-  const days = (Date.now() - Date.parse(releaseDate)) / 86400e3
+  const days = daysSince(releaseDate)
   // lower bound: catalogs list pre-orders (future dates) — released-only scope.
   return days <= WINDOW_DAYS + 0.5 && days >= -1
 }
@@ -93,7 +87,7 @@ function inWindow(releaseDate) {
 // two sets stay disjoint. Tomorrow-dated releases ride in releases[] instead;
 // the app re-splits both lists by the viewer's clock, so they still render
 // under Upcoming until their day arrives.
-const isUpcoming = (releaseDate) => (Date.now() - Date.parse(releaseDate)) / 86400e3 < -1
+const isUpcoming = (releaseDate) => daysSince(releaseDate) < -1
 
 // Two types only: song (a single) vs album (EPs, mini albums, and larger).
 // Hybrid rule: Apple's "- Single" designation wins (kpop singles often carry
@@ -108,8 +102,12 @@ function classify(name, trackCount) {
 const displayTitle = (name) =>
   name.replace(/\s*-\s*(Single|EP)\s*$/i, '').replace(/\s*\(alternate cover[^)]*\)\s*$/i, '').trim()
 // Artwork URLs embed their size (100x100bb from lookups, 170x170bb from the
-// legacy feeds) — 400x400 covers the 4-up grid on retina screens.
-const artUrl = (u) => (u ? u.replace(/\d+x\d+bb/, '400x400bb') : '')
+// legacy feeds) — 400x400 covers the 4-up grid on retina screens. Allowlisted
+// to Apple's artwork CDN like appleLink does for links: artwork is the only
+// other URL field on a card, and one source is scraped, so anything else
+// renders as the placeholder rather than a third-party image.
+const artUrl = (u) =>
+  u && /^https:\/\/[^/]+\.mzstatic\.com\//.test(u) ? u.replace(/\d+x\d+bb/, '400x400bb') : ''
 // Normalize any storefront path to /us/ — every source queries the US catalog
 // already, so this is defense in depth for whatever URL a feed hands back.
 const usLink = (u) => (u ? u.replace(/(music|itunes)\.apple\.com\/[a-z]{2}\//, '$1.apple.com/us/') : '')
@@ -121,7 +119,8 @@ const appleLink = (u) =>
 // One iTunes lookup result (wrapperType "collection") → release card shape.
 // Every lookup-backed source (artist sweep, playlists, chart enrichment)
 // funnels through this so the shapes can't drift apart. artist_id is
-// match-time plumbing for ID-based blocking; it's stripped before writing.
+// match-time plumbing for ID-based blocking; it stays on written entries so
+// failed-batch carryover can match on it across runs (the app ignores it).
 const fromCollection = (a) => ({
   title: displayTitle(a.collectionName),
   artist: a.artistName,
@@ -156,16 +155,20 @@ for (const e of PREFS.artists?.blocked ?? []) {
 // can't be swept (no ID) but their name still earns the star and filter
 // bypass for releases arriving via other sources.
 const entryName = (e) => (typeof e === 'string' ? e : e?.name)
-const FOLLOWED_ARTIST_RES = FOLLOWED_ENTRIES.map(entryName).filter(Boolean).map(
-  // Whole-word match so "IVE" can't match inside "RIIZE". Unicode lookarounds
-  // instead of \b — \b is ASCII-only and never matches at CJK name boundaries
-  // (鄧紫棋 would silently lose its followed status).
-  (name) =>
-    new RegExp(
-      `(?<![\\p{L}\\p{N}])${normArtist(name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}])`,
-      'u'
-    )
-)
+// Whole-word match so "IVE" can't match inside "RIIZE". Unicode lookarounds
+// instead of \b — \b is ASCII-only and never matches at CJK name boundaries
+// (鄧紫棋 would silently lose its followed status).
+const nameRe = (name) =>
+  new RegExp(
+    `(?<![\\p{L}\\p{N}])${normArtist(name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}])`,
+    'u'
+  )
+// Names that normalize to nothing (all-symbol acts like "!!!") are excluded:
+// nameRe('') is an empty-pattern regex that matches every OTHER symbol-only
+// artist's normalized name, wrongly marking their releases followed. Such
+// artists are still swept by ID — they just can't earn name-based credit.
+const hasNormName = (name) => normArtist(name).length > 0
+const FOLLOWED_ARTIST_RES = FOLLOWED_ENTRIES.map(entryName).filter(Boolean).filter(hasNormName).map(nameRe)
 
 const isGenreFollowed = (g) => !!g && GENRES_FOLLOWED.includes(g.toLowerCase())
 const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
@@ -173,10 +176,15 @@ const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 // ---------- followed artists via iTunes ----------
 
 // Batched sweep: lookup accepts comma-joined ids and returns each artist's
-// newest `limit` albums, grouped per artist, with no global cap — one paced
-// call per BATCH_SIZE artists instead of one per artist. US storefront only
-// (see the header for why).
-const BATCH_SIZE = 10
+// `limit` most recent albums (Apple's own recency ranking — not a strict
+// date sort, and interleaved across artists; nothing here depends on
+// response order) with no global cap — one paced call per BATCH_SIZE
+// artists instead of one per artist. US storefront only (see the header for
+// why). Verified live 2026-07-12: 20 ids × limit=100 keeps every artist's
+// newest releases, including for an artist capped at 100 collections; the
+// per-artist selection is a strict superset of the old 10×50 sweep (one
+// followed artist has 80 collections and was silently truncated at 50).
+const BATCH_SIZE = 20
 
 // Newest US release date per swept artist id — feeds the dormancy hints in
 // the prefs editor. Only ids in the current sweep are recorded: batch
@@ -198,7 +206,7 @@ const upcomingRaw = []
 
 async function batchReleases(ids) {
   const data = await itunesJSON(
-    `https://itunes.apple.com/lookup?id=${ids.join(',')}&entity=album&country=us&limit=50&sort=recent`
+    `https://itunes.apple.com/lookup?id=${ids.join(',')}&entity=album&country=us&limit=100&sort=recent`
   )
   const collections = (data.results ?? []).filter((r) => r.wrapperType === 'collection')
   const swept = new Set(ids)
@@ -215,12 +223,25 @@ async function batchReleases(ids) {
 }
 
 // Batched collection-id lookup (chunks of 100), shared by chart enrichment,
-// song-chart resolution, and playlist albums.
+// song-chart resolution, and playlist albums. A hot release charting in
+// several sources used to be looked up once per source through the paced
+// lane — the run-scoped cache serves repeats for free. Keys are stringified:
+// callers pass a mix of numbers and strings and a type mismatch would
+// silently miss.
+const collectionCache = new Map()
 async function lookupCollections(ids) {
-  const hits = []
-  for (let i = 0; i < ids.length; i += 100) {
-    const d = await itunesJSON(`https://itunes.apple.com/lookup?id=${ids.slice(i, i + 100).join(',')}&country=us`)
-    hits.push(...(d.results ?? []).filter((r) => r.wrapperType === 'collection'))
+  const wanted = [...new Set(ids.map(String))]
+  const hits = wanted.map((id) => collectionCache.get(id)).filter(Boolean)
+  const misses = wanted.filter((id) => !collectionCache.has(id))
+  for (let i = 0; i < misses.length; i += 100) {
+    const d = await itunesJSON(`https://itunes.apple.com/lookup?id=${misses.slice(i, i + 100).join(',')}&country=us`)
+    for (const r of (d.results ?? []).filter((r) => r.wrapperType === 'collection')) {
+      collectionCache.set(String(r.collectionId), r)
+      // return every collection Apple sends, not just exact id matches — a
+      // stale/scraped id can resolve to a replacement collection under a
+      // DIFFERENT collectionId, and dropping it would silently lose the card
+      hits.push(r)
+    }
   }
   return hits
 }
@@ -303,6 +324,7 @@ async function playlistAlbumIds(pl) {
       'User-Agent':
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15',
     },
+    signal: AbortSignal.timeout(30_000),
   })
   if (!res.ok) throw new Error(`HTTP ${res.status} ${pl.url}`)
   const html = await res.text()
@@ -340,6 +362,13 @@ const releases = []
 // itunes.apple.com hostname with the throttled Search/Lookup API, so they get
 // a small stagger as insurance. Results are consumed in pipeline order below.
 const chartP = fetchChart()
+// chartP is consumed minutes later (after the sweep) — without an early
+// handler, a chart failure DURING the sweep is an unhandled rejection that
+// kills the whole run before anything is written, holding every other
+// source's data hostage. The no-op keeps it handled; the real await's
+// try/catch still sees the error. (The other two starters are allSettled
+// and can't reject.)
+chartP.catch(() => {})
 const genreFeedsP = Promise.allSettled(
   GENRE_FEEDS.flatMap(({ genreId, tag }, gi) =>
     ['topalbums', 'topsongs'].map((feedType, fi) =>
@@ -375,23 +404,58 @@ const sweepArtists = FOLLOWED_ENTRIES.filter((e) => {
 const batches = []
 for (let i = 0; i < sweepArtists.length; i += BATCH_SIZE) batches.push(sweepArtists.slice(i, i + BATCH_SIZE))
 let followedCount = 0
-let batchFailures = 0
+let failedBatches = []
+// timeouts surface as TimeoutError, undici network errors carry a cause code —
+// both matter when diagnosing why a batch failed from the log alone
+const errDetail = (e) => `${e.message}${e.cause?.code ? ` [${e.cause.code}]` : e.name === 'TimeoutError' ? ' [timeout]' : ''}`
+// batchReleases throws only at its lookup await (before pushing anything), so
+// a failed batch can be re-run without double-counting releases or pre-orders.
+async function sweepBatch(n, batch) {
+  const found = await batchReleases(batch.map((a) => a.id))
+  followedCount += found.length
+  releases.push(...found)
+  log(
+    `batch ${n}/${batches.length} (${batch.length} artists)` +
+      (found.length ? ` — ${found.length} new: ${[...new Set(found.map((f) => f.artist))].join(', ')}` : '')
+  )
+}
 let n = 0
 for (const batch of batches) {
   n++
   try {
-    const found = await batchReleases(batch.map((a) => a.id))
-    followedCount += found.length
-    releases.push(...found)
-    log(
-      `batch ${n}/${batches.length} (${batch.length} artists)` +
-        (found.length ? ` — ${found.length} new: ${[...new Set(found.map((f) => f.artist))].join(', ')}` : '')
-    )
+    await sweepBatch(n, batch)
   } catch (e) {
-    batchFailures++
-    log(`batch ${n}/${batches.length} failed: ${e.message}`)
+    failedBatches.push({ n, batch })
+    log(`batch ${n}/${batches.length} failed: ${errDetail(e)}`)
   }
 }
+// One retry pass for failed batches: the failures seen in practice are
+// intermittent connection stalls, so a second paced attempt after a short
+// backoff usually lands. Runs before the artistActivity write so rescued
+// batches' activity updates are included.
+if (failedBatches.length) {
+  log(`retrying ${failedBatches.length} failed batches in 15s`)
+  await sleep(15_000)
+  const stillFailed = []
+  for (const { n, batch } of failedBatches) {
+    try {
+      await sweepBatch(n, batch)
+    } catch (e) {
+      stillFailed.push({ n, batch })
+      log(`batch ${n}/${batches.length} failed again: ${errDetail(e)}`)
+    }
+  }
+  failedBatches = stillFailed
+}
+const batchFailures = failedBatches.length
+// Attribution sets for the Upcoming carryover: which artists' data is missing
+// this run. Ids for exact matches; name regexes for joint-credit entities
+// (their collection carries the joint entity's id, not the member's) and for
+// legacy file entries written before artist_id was kept.
+const failedSweepIds = new Set(failedBatches.flatMap(({ batch }) => batch.map((a) => a.id)))
+const failedArtistRes = failedBatches.flatMap(({ batch }) =>
+  batch.map((a) => a.name).filter(Boolean).filter(hasNormName).map(nameRe)
+)
 // prune to the current followed list — entries for unfollowed artists are
 // frozen (never swept again) and would resurface stale if re-followed.
 // Future (pre-order) values are dropped too: the only-newer update rule
@@ -422,6 +486,7 @@ try {
 // genre). Then enrich all candidates with one batched lookup instead of one
 // paced call each: classify() needs trackCount, which the chart feed lacks.
 const candidates = []
+const skippedChart = []
 for (const e of chart) {
   if (!e.releaseDate || !inWindow(e.releaseDate)) continue
   const feedGenre = (e.genres ?? []).map((g) => g.name).find((n) => n && n !== 'Music') ?? null
@@ -431,11 +496,15 @@ for (const e of chart) {
     !isGenreFollowed(canonGenre(feedGenre)) &&
     !FOLLOWED_ARTIST_RES.some((re) => re.test(normArtist(e.artistName)))
   ) {
-    log(`skipped chart lookup: ${e.artistName} — ${e.name} [${canonGenre(feedGenre)}]`)
+    skippedChart.push(`${e.artistName} — ${e.name}`)
     continue
   }
   candidates.push({ e, feedGenre })
 }
+if (skippedChart.length)
+  log(
+    `${skippedChart.length} chart lookups skipped (unfollowed genre): ${skippedChart.slice(0, 3).join('; ')}${skippedChart.length > 3 ? '; …' : ''}`
+  )
 
 const chartInfo = new Map() // collection id → lookup hit
 const wanted = [...new Set(candidates.map((x) => String(x.e.id)))]
@@ -556,24 +625,61 @@ let out = [...byKey.values()]
 // Discovery only surfaces followed genres; a followed artist bypasses
 // genre rules entirely.
 const before = out.length
+// genre drops are the bulk of playlist finds (dozens per run) — one summary
+// line instead of a line per title; blocked-artist drops stay individual
+// (rare, and worth seeing exactly what the block list caught)
+const genreDrops = new Map()
 out = out.filter((r) => {
   if (isArtistBlocked(r)) return logDrop(r, 'artist blocked')
   if (r.followed) return true
   if (isGenreFollowed(r.genre)) return true
-  return logDrop(r, `genre not followed [${r.genre ?? 'none'}]`)
+  const g = r.genre ?? 'none'
+  genreDrops.set(g, (genreDrops.get(g) ?? 0) + 1)
+  return false
 })
 function logDrop(r, why) {
   log(`dropped: ${r.artist} — ${r.title} (${why})`)
   return false
 }
-if (before !== out.length) log(`${before - out.length} releases filtered out`)
+if (before !== out.length)
+  log(
+    `${before - out.length} releases filtered out` +
+      (genreDrops.size
+        ? ` — unfollowed genres: ${[...genreDrops.entries()].sort((a, b) => b[1] - a[1]).map(([g, n]) => `${g} ${n}`).join(', ')}`
+        : '')
+  )
+
+// Previous file — read once, three consumers below (empty-success guard,
+// per-entry release carryover, per-entry upcoming carryover).
+let prevFile = {}
+try {
+  prevFile = JSON.parse(readFileSync(OUT, 'utf8'))
+} catch {}
+
+// Empty-success guard (v1 lesson: an empty success can be a failure in
+// disguise). If we FETCHED nothing but the previous file still has in-window
+// releases, keep those instead of stamping an empty file fresh. Must run
+// before the per-entry carryover below: it keys on the fetched result being
+// empty, and it is the only path that also preserves discovery entries.
+if (out.length === 0) {
+  const carried = (prevFile.releases ?? [])
+    .filter((r) => inWindow(r.release_date))
+    // tolerate a restored pre-simplification file, where link was {service, url}
+    .map((r) => ({ ...r, link: r.link && typeof r.link === 'object' ? r.link.url : r.link }))
+  if (carried.length) {
+    log(`0 fetched but ${carried.length} previous in-window releases — carrying over`)
+    out = carried
+  }
+}
 
 // Upcoming (pre-orders) — followed artists only: keep entries whose artist id
 // was in the sweep or whose credit string names a followed artist (joint
 // "A & B" credits). Batch responses also carry collab partners' own
 // pre-orders (the activity byproduct all over again) — those drop here.
-// Same noise, dedup, and block rules as the main list; soonest first. No
-// carryover: an empty Upcoming list is a normal state, not a failure.
+// Same noise, dedup, and block rules as the main list; soonest first. An
+// empty Upcoming list from a clean sweep is a normal state, not a failure —
+// but entries whose artist's batch failed carry over from the previous file
+// (see below): a tracked pre-order must never vanish because of a bad night.
 const upcomingByKey = new Map()
 for (const r of upcomingRaw) {
   if (NOISE_RE.test(r.title) || isArtistBlocked(r)) continue
@@ -591,55 +697,54 @@ for (const r of upcomingRaw) {
     if (!prev.genre && r.genre) prev.genre = r.genre
   }
 }
-let upcoming = [...upcomingByKey.values()].sort(
-  (a, b) =>
-    a.release_date.localeCompare(b.release_date) ||
-    a.artist.localeCompare(b.artist, undefined, { sensitivity: 'base' })
-)
-// A dead sweep must not blank the Upcoming tab while releases carry over —
-// keep the previous file's still-future entries. A successful sweep that
-// finds none writes the honest empty list.
-if (upcoming.length === 0 && batches.length > 0 && batchFailures === batches.length) {
-  try {
-    const prevUp = JSON.parse(readFileSync(OUT, 'utf8')).upcoming ?? []
-    const today = new Date().toISOString().slice(0, 10)
-    upcoming = prevUp.filter((r) => r.release_date > today)
-    if (upcoming.length) log(`sweep failed — carrying over ${upcoming.length} previous upcoming entries`)
-  } catch {}
-}
-log(`${upcoming.length} upcoming pre-orders`)
-
-// artist_id was match-time plumbing for ID-based blocking — not display data
-for (const r of out) delete r.artist_id
-for (const r of upcoming) delete r.artist_id
-
-// sort: followed artists first, then alphabetical by artist; newest first
-// within one artist's releases
-out.sort(
-  (a, b) =>
-    (b.followed ? 1 : 0) - (a.followed ? 1 : 0) ||
-    a.artist.localeCompare(b.artist, undefined, { sensitivity: 'base' }) ||
-    b.release_date.localeCompare(a.release_date) ||
-    a.title.localeCompare(b.title)
-)
-
-// Empty-success guard (v1 lesson: an empty success can be a failure in
-// disguise). If we got nothing but the previous file still has in-window
-// releases, keep those instead of stamping an empty file fresh.
-if (out.length === 0) {
-  let prev = []
-  try {
-    prev = JSON.parse(readFileSync(OUT, 'utf8')).releases ?? []
-  } catch {}
-  const carried = prev
-    .filter((r) => inWindow(r.release_date))
-    // tolerate a restored pre-simplification file, where link was {service, url}
-    .map((r) => ({ ...r, link: r.link && typeof r.link === 'object' ? r.link.url : r.link }))
-  if (carried.length) {
-    log(`0 fetched but ${carried.length} previous in-window releases — carrying over`)
-    out = carried
+// Per-entry carryover (both lists): a failed batch means that artist's data
+// is simply missing this run, so their previous in-window releases and
+// pre-orders carry over rather than vanish for a day. Entries whose artist
+// swept SUCCESSFULLY but no longer returned the item are genuinely gone
+// (canceled/pulled) and drop; a date change re-lands under the same key, so
+// the fresh copy wins over the stale one. Followed artists only: carried
+// discovery entries would be hidden client-side anyway (24h-of-fetch
+// window), and a failed feed's day-of finds can't be resurrected. The
+// upcoming window tolerates just-released dates (not only future ones): the
+// app's clock re-split renders those on the New tab for the file's full
+// window, completing the pre-order lifecycle even if release day itself
+// fails.
+if (batchFailures > 0) {
+  // attribution: id match for the artist's own entries; name match for
+  // joint-credit entities; entries with NO artist_id (files written before
+  // the field was kept) can't be verified either way — keep them, matching
+  // the unknown-means-keep bias, until a clean sweep re-writes them with ids
+  const missingThisRun = (r) =>
+    r.artist_id == null ||
+    failedSweepIds.has(r.artist_id) ||
+    failedArtistRes.some((re) => re.test(normArtist(r.artist)))
+  // block list / noise rules may have changed since the entry was written
+  const stillEligible = (r) => !NOISE_RE.test(r.title) && !isArtistBlocked(r)
+  const outKeys = new Set(out.map(keyOf))
+  for (const r of prevFile.releases ?? []) {
+    if (!r.followed || !inWindow(r.release_date) || outKeys.has(keyOf(r))) continue
+    if (!missingThisRun(r) || !stillEligible(r)) continue
+    outKeys.add(keyOf(r))
+    out.push(r)
+    log(`carried over (batch failed): ${r.artist} — ${r.title}`)
+  }
+  // outKeys now includes carried releases, keeping the two lists disjoint
+  for (const r of prevFile.upcoming ?? []) {
+    if (daysSince(r.release_date) > WINDOW_DAYS + 0.5) continue
+    if (upcomingByKey.has(keyOf(r)) || outKeys.has(keyOf(r))) continue
+    if (!missingThisRun(r) || !stillEligible(r)) continue
+    r.followed = true
+    upcomingByKey.set(keyOf(r), r)
+    log(`carried over (batch failed): ${r.artist} — ${r.title}`)
   }
 }
+const upcoming = [...upcomingByKey.values()].sort(upcomingOrder)
+log(`${upcoming.length} upcoming pre-orders`)
+
+// artist_id stays on every written entry: it's how the carryovers above
+// attribute an entry to a failed batch on later runs (the app ignores it).
+
+out.sort(releaseOrder)
 
 mkdirSync(new URL('../docs/data/', import.meta.url), { recursive: true })
 writeFileSync(OUT, JSON.stringify({ fetched_at: Date.now(), releases: out, upcoming }, null, 2))

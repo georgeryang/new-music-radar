@@ -46,6 +46,16 @@ if [ "${1:-}" = "--if-stale" ]; then
   sleep "$JITTER"
 fi
 
+# Cap the shared log (launchd appends forever; nothing rotates it). Runs only
+# on real refreshes — silent ticks bail above. `cat >` truncates in place so
+# the inode survives and every O_APPEND fd (launchd's redirect, a running
+# prefs-server tail) keeps working; `mv` would strand them on the old inode.
+LOG_FILE="$HOME/Library/Logs/new-music-radar.log"
+if [ -f "$LOG_FILE" ] && [ "$(stat -f %z "$LOG_FILE" 2>/dev/null || echo 0)" -gt 1048576 ]; then
+  tail -c 262144 "$LOG_FILE" > "$LOG_FILE.trim" && cat "$LOG_FILE.trim" > "$LOG_FILE" && rm -f "$LOG_FILE.trim"
+  log "log capped to last 256KB"
+fi
+
 log "Fetching new releases..."
 FETCH_FAILED=0
 if ! "$NODE" scripts/fetch-releases.mjs; then
