@@ -1,16 +1,6 @@
 {
-  "fetched_at": 1783807958090,
+  "fetched_at": 1783875541461,
   "releases": [
-    {
-      "title": "EPA (Don Diablo Remix)",
-      "artist": "Becky G",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2b/d8/f8/2bd8f8a3-ae9f-fa37-5973-b0b7647bd7ef/196874567579.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/epa-don-diablo-remix-single/6786796588?uo=4",
-      "followed": true
-    },
     {
       "title": "Esa Mujer",
       "artist": "Ivana",
@@ -52,58 +42,13 @@
       "followed": true
     },
     {
-      "title": "Think I'm in Love",
-      "artist": "Alex Lambert",
+      "title": "Wanna me (TV edit)",
+      "artist": "adieu",
       "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/68/a5/c7/68a5c732-f4f4-d82c-2ede-862b0139cc11/26UMGIM80290.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/think-im-in-love-single/6783529897?uo=4"
-    },
-    {
-      "title": "Mi Chico",
-      "artist": "AM NATION",
-      "type": "song",
-      "release_date": "2026-07-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f8/f8/f5/f8f8f520-97bb-abe0-466d-fdad825bb609/artwork.jpg/400x400bb.jpg",
-      "genre": "African",
-      "link": "https://music.apple.com/us/album/mi-chico-single/6787862623?uo=4"
-    },
-    {
-      "title": "Best Hearts",
-      "artist": "Andy Grammer",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0f/76/64/0f7664fe-5d5f-bf34-3f47-36655d719a87/26UMGIM75434.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/best-hearts-single/6781886373?uo=4"
-    },
-    {
-      "title": "Piguet",
-      "artist": "Angel Cervantes & Nueva H",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a7/34/de/a734de65-7e9f-aa7a-ca31-7bc50aa8e224/26UMGIM22426.rgb.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/piguet-single/6784376158?uo=4"
-    },
-    {
-      "title": "Tu Falta De Querer",
-      "artist": "Banda MS de Sergio Lizárraga",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/91/ca/bf/91cabf4c-6d65-c5ef-c76e-08feac392b8a/1591.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/tu-falta-de-querer-single/6786120107?uo=4"
-    },
-    {
-      "title": "Joven y Salvaje",
-      "artist": "benny blanco & Bb trickz",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1d/78/7e/1d787e1e-17ea-f5cc-5e3c-23dceb60a22b/26UMGIM83011.rgb.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/joven-y-salvaje-single/6789374005?uo=4"
+      "release_date": "2026-07-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/82/db/08/82db088d-0fa2-62d9-01ac-7b743cda95cf/4547366836776.jpg/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/wanna-me-tv-edit-single/6784483769?uo=4"
     },
     {
       "title": "La Culpa Fue Mia",
@@ -115,33 +60,6 @@
       "link": "https://music.apple.com/us/album/la-culpa-fue-mia-single/6788451713?uo=4"
     },
     {
-      "title": "Complice",
-      "artist": "CAFE BOHEMIA",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/3a/46/ff/3a46ff11-db9a-ca72-0067-5eaa1cb654e5/artwork.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/complice-single/6787984405?uo=4"
-    },
-    {
-      "title": "WHAT ELSE?",
-      "artist": "Chelsea Cutler",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f4/4f/87/f44f8792-fc56-8b05-7ff8-501876b5e5cc/26UMGIM83082.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/what-else-single/6784440871?uo=4"
-    },
-    {
-      "title": "ARRE PUE$",
-      "artist": "Clemente y su Elexion Privada",
-      "type": "song",
-      "release_date": "2026-07-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/44/e3/c0/44e3c02c-05b5-2376-2ff9-fb38bca3964a/823375264958_Cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/arre-pue%24-single/6784726309?uo=4"
-    },
-    {
       "title": "Body So Tea",
       "artist": "Coco Jones",
       "type": "song",
@@ -149,33 +67,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/4d/75/8a/4d758aff-92ac-2bfa-8b28-7f0bc17306d1/26UMGIM82486.rgb.jpg/400x400bb.jpg",
       "genre": "R&B",
       "link": "https://music.apple.com/us/album/body-so-tea-single/6785693436?uo=4"
-    },
-    {
-      "title": "Fluent",
-      "artist": "Cody Simpson",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9d/3b/98/9d3b9846-1232-645a-b588-61d068d850e4/4099964271898.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/fluent-single/6780599403?uo=4"
-    },
-    {
-      "title": "La Monda",
-      "artist": "De La Rose & Ryan Castro",
-      "type": "song",
-      "release_date": "2026-07-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a8/81/99/a881991d-fdb2-cfe6-02cd-281e11e98cdf/1200214480233.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/la-monda-single/6786832455?uo=4"
-    },
-    {
-      "title": "On Your Side",
-      "artist": "December 10",
-      "type": "album",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ae/ed/a7/aeeda779-ec90-fd7f-cb59-9e1552c30640/26UMGIM71282.rgb.jpg/400x400bb.png",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/on-your-side/6777159639?uo=2"
     },
     {
       "title": "Para Que Ya No Duela (Remix)",
@@ -187,42 +78,6 @@
       "link": "https://music.apple.com/us/album/para-que-ya-no-duela-remix-single/6788150051?uo=4"
     },
     {
-      "title": "Bendecido",
-      "artist": "Edgardo Nuñez",
-      "type": "song",
-      "release_date": "2026-07-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/94/8f/d5/948fd576-ed9d-0299-388e-0d7c6cb4f053/1200214472962.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/bendecido-single/6786804716?uo=4"
-    },
-    {
-      "title": "MIAMI PENTHOUSE",
-      "artist": "El Padrinito Toys",
-      "type": "song",
-      "release_date": "2026-07-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/00/29/b3/0029b379-7559-12bb-02aa-57a37ae4e03e/823375278139_Cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/miami-penthouse-single/6786462467?uo=4"
-    },
-    {
-      "title": "Peda De Vatos, Vol. 6 (Puras de Ramón)",
-      "artist": "Elias Medina",
-      "type": "album",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/76/39/83/763983f4-edd7-e620-f276-0a65ed53e1c9/1200214516024.jpg/400x400bb.png",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/peda-de-vatos-vol-6-puras-de-ram%C3%B3n/6788936369?uo=2"
-    },
-    {
-      "title": "Baile",
-      "artist": "Fabio Capri",
-      "type": "song",
-      "release_date": "2026-07-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/28/c7/4c/28c74cf1-91e6-695b-3445-45d6c9065084/823375278368_Cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/baile-single/6786462143?uo=4"
-    },
-    {
       "title": "A Xon De Que",
       "artist": "Feid",
       "type": "song",
@@ -232,13 +87,13 @@
       "link": "https://music.apple.com/us/album/a-xon-de-que-single/6789281255?uo=4"
     },
     {
-      "title": "Understand",
-      "artist": "Grace VanderWaal",
-      "type": "song",
+      "title": "USTED ME RECUERDA",
+      "artist": "Grupo Makillis",
+      "type": "album",
       "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/eb/95/12/eb95121c-42a7-6715-5151-aa6a5bf207f1/26CRGIM53964.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/understand-single/6781398838?uo=4"
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/dd/76/51/dd765144-c256-0d80-fbc3-1c50a0ec4b5d/artwork.jpg/400x400bb.png",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/usted-me-recuerda-ep/6789807521?uo=2"
     },
     {
       "title": "Do You See Me?",
@@ -248,6 +103,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/5a/d5/4b/5ad54be9-6be1-4a2f-d713-721b89a4c1f7/artwork.jpg/400x400bb.jpg",
       "genre": "R&B",
       "link": "https://music.apple.com/us/album/do-you-see-me-single/6788085751?uo=4"
+    },
+    {
+      "title": "Temptation",
+      "artist": "Humble Love",
+      "type": "album",
+      "release_date": "2026-07-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/4b/8b/a3/4b8ba3fd-b65a-9b35-304e-eff4fc808880/artwork.jpg/400x400bb.png",
+      "genre": "R&B",
+      "link": "https://music.apple.com/us/album/temptation/6789538719?uo=2"
     },
     {
       "title": "Mood",
@@ -277,31 +141,13 @@
       "link": "https://music.apple.com/us/album/pop-experience/1896388446?uo=2"
     },
     {
-      "title": "Otra Vez (feat. Lucía Haze)",
-      "artist": "Jamy Nox & Andre Soueid",
+      "title": "Power of Love",
+      "artist": "Kana Nishino",
       "type": "song",
       "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ca/c2/cb/cac2cbe8-e4b3-af72-21df-07736892a9bf/cover.jpg/400x400bb.jpg",
-      "genre": "African",
-      "link": "https://music.apple.com/us/album/otra-vez-feat-luc%C3%ADa-haze-single/6783829260?uo=4"
-    },
-    {
-      "title": "FROSTY",
-      "artist": "Jasson Arellano",
-      "type": "album",
-      "release_date": "2026-07-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d2/06/12/d206128a-9ae1-13d9-8f75-63c9599c9c83/823375256236_Cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/frosty/6783389359?uo=4"
-    },
-    {
-      "title": "Covell",
-      "artist": "Katelyn Tarver",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2b/e6/bf/2be6bf1d-0a3c-0b28-7f93-c2a193f5c572/067003024693.png/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/covell-single/6783496553?uo=4"
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/13/f3/ad/13f3ad0e-28ef-8114-84e8-8ee99f427717/4547366835212.jpg/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/power-of-love-single/6786146086?uo=4"
     },
     {
       "title": "new avatar",
@@ -313,42 +159,6 @@
       "link": "https://music.apple.com/us/album/new-avatar/1888561538?uo=4"
     },
     {
-      "title": "Magnificent",
-      "artist": "Lachi",
-      "type": "album",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b7/00/ac/b700ac87-ed96-c202-2046-cece43c96ba5/5059449339627.png/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/magnificent/6770725465?uo=4"
-    },
-    {
-      "title": "UN CAFECITO",
-      "artist": "LEGADO 7",
-      "type": "song",
-      "release_date": "2026-07-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/78/88/b8/7888b8ba-d55a-4d9c-1a0e-dae248574296/196874521724.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/un-cafecito-single/6788466357?uo=4"
-    },
-    {
-      "title": "De Todas Y De Nadie",
-      "artist": "Los Dos Carnales",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/43/8e/05/438e05d7-03eb-5006-7780-8dea7d567224/cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/de-todas-y-de-nadie-single/6780421290?uo=4"
-    },
-    {
-      "title": "Disociado",
-      "artist": "Low Clika",
-      "type": "song",
-      "release_date": "2026-07-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/95/a1/e1/95a1e10c-103b-9cba-da89-ab0dfaab4229/823375137214_Cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/disociado-single/6786191452?uo=4"
-    },
-    {
       "title": "Muchacho Alegre",
       "artist": "Luis R Conriquez",
       "type": "album",
@@ -356,60 +166,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/eb/86/8f/eb868fb4-4c12-e224-2e5f-1dc0bf205981/196874399736.jpg/400x400bb.jpg",
       "genre": "Latin",
       "link": "https://music.apple.com/us/album/muchacho-alegre/6779712093?uo=4"
-    },
-    {
-      "title": "11/10",
-      "artist": "Mackenzy Mackay",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/10/3c/12/103c128b-1b20-e101-c88b-1fe48f8d1be8/196874522721.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/11-10-single/6780909453?uo=4"
-    },
-    {
-      "title": "Turututu",
-      "artist": "Mar Lucas, Samuel G & Oscar el Ruso",
-      "type": "song",
-      "release_date": "2026-07-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/42/a7/44/42a744dc-122c-49f1-18c8-473a61f752d9/820233834186.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/turututu-single/6783013967?uo=4"
-    },
-    {
-      "title": "Si Tú Supieras",
-      "artist": "Marca MP",
-      "type": "song",
-      "release_date": "2026-07-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b9/a6/30/b9a630aa-cc44-eafd-2cb3-7e3b8903abff/196874521755.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/si-t%C3%BA-supieras-single/6784017273?uo=4"
-    },
-    {
-      "title": "Recommend",
-      "artist": "Masego",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b5/d4/57/b5d457a6-8ef8-0ba1-8f9f-f231e98e88c9/26UMGIM82539.rgb.jpg/400x400bb.jpg",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/recommend-single/6785757685?uo=4"
-    },
-    {
-      "title": "Bandido",
-      "artist": "Matt louis",
-      "type": "song",
-      "release_date": "2026-07-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3b/37/83/3b3783d0-d936-ffeb-b81d-3aa6f5a82b9d/820233899949.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/bandido-single/6785660859?uo=4"
-    },
-    {
-      "title": "GATAZA",
-      "artist": "Melanie Santiler",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e1/34/e0/e134e099-6b82-5b70-5888-7a6d52257286/0.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/gataza-single/6779409918?uo=4"
     },
     {
       "title": "Highway 79",
@@ -421,24 +177,6 @@
       "link": "https://music.apple.com/us/album/highway-79/6770614875?uo=2"
     },
     {
-      "title": "Lady Luck",
-      "artist": "Olympia Vitalis",
-      "type": "album",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c5/b2/56/c5b256d5-9388-31ff-d6c0-a2d3d5ac214d/5059449441344.png/400x400bb.jpg",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/lady-luck-ep/1878457741?uo=4"
-    },
-    {
-      "title": "Tiki Tiki 2.0 (feat. Bun Xapa)",
-      "artist": "OSKIDO, SALIMA CHICA & Argento Dust",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e3/38/72/e3387291-a4d1-6bf5-b44f-861cb50f4b30/5059449391809.png/400x400bb.jpg",
-      "genre": "African",
-      "link": "https://music.apple.com/us/album/tiki-tiki-2-0-feat-bun-xapa-single/6789198397?uo=4"
-    },
-    {
       "title": "Not Mine",
       "artist": "Owen Saward",
       "type": "song",
@@ -448,60 +186,6 @@
       "link": "https://music.apple.com/us/album/not-mine-single/6785978848?uo=4"
     },
     {
-      "title": "Tenemos El Funk (feat. Luisito Quintero)",
-      "artist": "Pahua & Willy Soul",
-      "type": "song",
-      "release_date": "2026-07-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f1/3e/19/f13e1918-0c00-5ee2-cfc0-50f41b9df32c/4062548147490.png/400x400bb.jpg",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/tenemos-el-funk-feat-luisito-quintero-single/6781723345?uo=4"
-    },
-    {
-      "title": "Esquisse",
-      "artist": "pomodorosa",
-      "type": "album",
-      "release_date": "2026-07-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c7/29/72/c72972dc-a4e1-a8a7-5e18-7fb5ab94c46e/4550757551950_cover.jpg/400x400bb.png",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/esquisse/6778800326?uo=2"
-    },
-    {
-      "title": "Dirty Shoes",
-      "artist": "Presley Regier",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a5/d4/ba/a5d4ba95-9449-1984-86e1-eb7d832245e3/196874517642.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/dirty-shoes-single/6786772462?uo=4"
-    },
-    {
-      "title": "Hot Wet Delirious",
-      "artist": "Rebecca Black",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/cf/03/bf/cf03bf25-9b03-417d-ffc9-d46d8b6538e1/1963624710832_cover.png/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/hot-wet-delirious-single/6780569676?uo=4"
-    },
-    {
-      "title": "COCOON",
-      "artist": "Reol",
-      "type": "song",
-      "release_date": "2026-07-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4e/70/44/4e7044c9-39ec-3131-d692-d953c996ef3f/4547366835038.jpg/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/cocoon-single/6784205578?uo=4"
-    },
-    {
-      "title": "Flat out",
-      "artist": "Rindo Chihaya",
-      "type": "song",
-      "release_date": "2026-07-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/88/88/2c/88882c57-be4e-29b7-5ba2-0e1eced74833/4580883404417_art.png/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/flat-out-single/6786096066?uo=4"
-    },
-    {
       "title": "Thazoud Dayi Tsamhad (feat. Ilham)",
       "artist": "Sallam Rifi Junior",
       "type": "song",
@@ -509,24 +193,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0f/e3/2c/0fe32cf8-f4b7-01d6-c7a8-782573c4c2fc/artwork.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/thazoud-dayi-tsamhad-feat-ilham-single/6789380711?uo=4"
-    },
-    {
-      "title": "Track Team",
-      "artist": "Sydney Rose",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/5c/b4/44/5cb4443b-208b-cbf2-01b8-5eed17066a39/26UMGIM82913.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/track-team-single/6785693350?uo=4"
-    },
-    {
-      "title": "YES",
-      "artist": "Tank",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/56/d5/ae/56d5aeb7-ae28-3822-38c6-86c3c36f07c5/4099964275445.jpg/400x400bb.jpg",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/yes-single/6781004788?uo=4"
     },
     {
       "title": "Something To Believe In",
@@ -565,24 +231,6 @@
       "link": "https://music.apple.com/us/album/nobodydoesitlikeus-single/6788198131?uo=4"
     },
     {
-      "title": "OTA",
-      "artist": "Villano Antillano",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b3/e4/fd/b3e4fd77-e1ca-45ec-572b-9cbe3cf58296/820233784849.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/ota-single/6782944986?uo=4"
-    },
-    {
-      "title": "Hoy Decidí Dejarte",
-      "artist": "Virlán García & Oscar Maydon",
-      "type": "song",
-      "release_date": "2026-07-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f7/43/63/f7436382-9644-02ef-6bd3-1c645576bc60/1963624697447_cover.png/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/hoy-decid%C3%AD-dejarte-single/6778939280?uo=4"
-    },
-    {
       "title": "NO LABELS: PART 02",
       "artist": "YEONJUN",
       "type": "album",
@@ -613,26 +261,6 @@
       "followed": true
     },
     {
-      "title": "petal",
-      "artist": "Ariana Grande",
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7e/e6/82/7ee682bd-1b17-6adc-be63-b5af1bdff369/26UMGIM51126.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/petal/1895420989?uo=4",
-      "followed": true
-    },
-    {
-      "title": "BARAJA BENDITA",
-      "artist": "Becky G",
-      "type": "album",
-      "release_date": "2026-08-14",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3c/b4/bc/3cb4bce2-2703-7319-8345-123dc3f542f6/196874013816.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/baraja-bendita/6781039813?uo=4",
-      "followed": true
-    },
-    {
       "title": "WILD",
       "artist": "KATSEYE",
       "type": "album",
@@ -640,16 +268,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e2/28/92/e22892a7-fe88-72cf-ecba-691030dfcf7e/26UMGIM41151.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/wild-ep/1891779764?uo=4",
-      "followed": true
-    },
-    {
-      "title": "Pylon",
-      "artist": "beabadoobee",
-      "type": "album",
-      "release_date": "2026-09-18",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/68/24/84/6824844d-3f59-2816-e083-f5d49c994ff1/198704876615_Cover.jpg/400x400bb.jpg",
-      "genre": "Rock",
-      "link": "https://music.apple.com/us/album/pylon/6781644608?uo=4",
       "followed": true
     }
   ]
