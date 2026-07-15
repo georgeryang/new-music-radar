@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1784028745238,
+  "fetched_at": 1784117267845,
   "releases": [
     {
       "title": "LEMONADE (Zedd Extended Mix)",
@@ -24,14 +24,36 @@
       "followed": true
     },
     {
-      "title": "コニファー",
-      "artist": "Regallily",
-      "artist_id": 1361500740,
+      "title": "Switchblade",
+      "artist": "beabadoobee",
+      "artist_id": 1307650474,
       "type": "song",
-      "release_date": "2026-07-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/4c/2d/da/4c2dda28-1d2d-06de-3a6c-c3f2c27f67fc/4547366835977.jpg/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/%E3%82%B3%E3%83%8B%E3%83%95%E3%82%A1%E3%83%BC-single/6784206107?uo=4",
+      "release_date": "2026-07-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d7/1e/20/d71e20c2-bf7d-a33b-c927-ad60554195dc/198704876950_Cover.jpg/400x400bb.jpg",
+      "genre": "Rock",
+      "link": "https://music.apple.com/us/album/switchblade-single/6786546167?uo=4",
+      "followed": true
+    },
+    {
+      "title": "Love Love (Love Love)",
+      "artist": "daine",
+      "artist_id": 1512838237,
+      "type": "song",
+      "release_date": "2026-07-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/af/1f/83/af1f83f4-42fa-6924-1f3c-eac9d9b56494/612891094060.jpg/400x400bb.jpg",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/love-love-love-love-single/6781383161?uo=4",
+      "followed": true
+    },
+    {
+      "title": "Annyeonghaseyo (CHANMINA Remix)",
+      "artist": "Yuki Chiba, Lil Moshpit & Chanmina",
+      "artist_id": 1727997785,
+      "type": "song",
+      "release_date": "2026-07-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2b/cf/a9/2bcfa9d5-62a7-ff63-3a48-12583667d19c/1200214491741.jpg/400x400bb.jpg",
+      "genre": "Hip-Hop",
+      "link": "https://music.apple.com/us/album/annyeonghaseyo-chanmina-remix-single/6788284836?uo=4",
       "followed": true
     },
     {
@@ -46,14 +68,14 @@
       "followed": true
     },
     {
-      "title": "ARRE PUE$",
-      "artist": "Clemente y su Elexion Privada",
-      "artist_id": 1834320547,
-      "type": "song",
-      "release_date": "2026-07-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/44/e3/c0/44e3c02c-05b5-2376-2ff9-fb38bca3964a/823375264958_Cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/arre-pue%24-single/6784726309?uo=4"
+      "title": "Pale Whispers in the Rain",
+      "artist": "BERNARD E BROOKS",
+      "artist_id": 6790450995,
+      "type": "album",
+      "release_date": "2026-07-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ab/bd/63/abbd6306-bbd6-4b85-fc9f-9625982ec58a/artwork.jpg/400x400bb.png",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/pale-whispers-in-the-rain/6790541631?uo=2"
     },
     {
       "title": "Summer Vibes by DJ John John Acevedo, Vol. 1",
@@ -66,34 +88,14 @@
       "link": "https://music.apple.com/us/album/summer-vibes-by-dj-john-john-acevedo-vol-1/6788971254?uo=2"
     },
     {
-      "title": "MIAMI PENTHOUSE",
-      "artist": "El Padrinito Toys",
-      "artist_id": 1611836093,
-      "type": "song",
-      "release_date": "2026-07-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/00/29/b3/0029b379-7559-12bb-02aa-57a37ae4e03e/823375278139_Cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/miami-penthouse-single/6786462467?uo=4"
-    },
-    {
-      "title": "Baile",
-      "artist": "Fabio Capri",
-      "artist_id": 1694023349,
-      "type": "song",
-      "release_date": "2026-07-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/28/c7/4c/28c74cf1-91e6-695b-3445-45d6c9065084/823375278368_Cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/baile-single/6786462143?uo=4"
-    },
-    {
-      "title": "Do You See Me?",
-      "artist": "Heavenly",
-      "artist_id": 1880279987,
-      "type": "song",
-      "release_date": "2026-07-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/5a/d5/4b/5ad54be9-6be1-4a2f-d713-721b89a4c1f7/artwork.jpg/400x400bb.jpg",
+      "title": "Gathering Wasted Years",
+      "artist": "HILLIS L ROUPE",
+      "artist_id": 6790073094,
+      "type": "album",
+      "release_date": "2026-07-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7e/a9/56/7ea95674-f3fb-bd99-bfa7-980a591e5bd0/artwork.jpg/400x400bb.png",
       "genre": "R&B",
-      "link": "https://music.apple.com/us/album/do-you-see-me-single/6788085751?uo=4"
+      "link": "https://music.apple.com/us/album/gathering-wasted-years/6790101020?uo=2"
     },
     {
       "title": "<itsnotover>",
@@ -106,6 +108,16 @@
       "link": "https://music.apple.com/us/album/itsnotover/6784586121?uo=2"
     },
     {
+      "title": "The Ghost of a Vintage Summer",
+      "artist": "JAIME L EISERT",
+      "artist_id": 6790504864,
+      "type": "album",
+      "release_date": "2026-07-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bc/ad/24/bcad2477-44e6-127e-bb73-6fb790edf81a/artwork.jpg/400x400bb.png",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/the-ghost-of-a-vintage-summer/6790607287?uo=2"
+    },
+    {
       "title": "夜鷹 - Yodaka",
       "artist": "Kenshi Yonezu",
       "artist_id": 530814268,
@@ -116,14 +128,34 @@
       "link": "https://music.apple.com/us/album/%E5%A4%9C%E9%B7%B9-yodaka-single/6785367850?uo=4"
     },
     {
-      "title": "Disociado",
-      "artist": "Low Clika",
-      "artist_id": 1849795526,
+      "title": "Starting Over",
+      "artist": "KOIAI",
+      "artist_id": 1534858203,
+      "type": "album",
+      "release_date": "2026-07-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/74/4a/9c/744a9c68-9033-6cb8-5b99-f9a1e911b3fb/PA00221266_0_248735_jacket.jpg/400x400bb.png",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/starting-over-ep/6783277193?uo=2"
+    },
+    {
+      "title": "El Peor De Mis Fracasos (En Vivo)",
+      "artist": "Los del roble, Gabito Ballesteros & El Gerry Oficial",
+      "artist_id": 1531223773,
       "type": "song",
-      "release_date": "2026-07-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/95/a1/e1/95a1e10c-103b-9cba-da89-ab0dfaab4229/823375137214_Cover.jpg/400x400bb.jpg",
+      "release_date": "2026-07-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8e/04/f1/8e04f1ab-217a-b65e-9c5b-bb8af9b84451/823375296379_Cover.jpg/400x400bb.jpg",
       "genre": "Latin",
-      "link": "https://music.apple.com/us/album/disociado-single/6786191452?uo=4"
+      "link": "https://music.apple.com/us/album/el-peor-de-mis-fracasos-en-vivo-single/6788547292?uo=4"
+    },
+    {
+      "title": "Sunny",
+      "artist": "milet",
+      "artist_id": 880638079,
+      "type": "song",
+      "release_date": "2026-07-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/75/32/e2/7532e282-028f-ded2-2031-f9a845a9965e/4547366833560.jpg/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/sunny-single/6784164026?uo=4"
     },
     {
       "title": "Highway 79 (Gentleman Soul Edition)",
@@ -136,34 +168,44 @@
       "link": "https://music.apple.com/us/album/highway-79-gentleman-soul-edition/6788566668?uo=2"
     },
     {
-      "title": "Imaginalia",
-      "artist": "Shinrabansho",
-      "artist_id": 571378491,
+      "title": "Wano",
+      "artist": "ONI",
+      "artist_id": 1301359956,
+      "type": "song",
+      "release_date": "2026-07-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/32/3d/ae/323daef0-1434-3bac-a66f-aeeea840dc1d/4550758592068_cover.png/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/wano-single/6790641096?uo=4"
+    },
+    {
+      "title": "Don’t Look At Me Like That (feat. Miss Mercy)",
+      "artist": "RAY JOHNS",
+      "artist_id": 6781032332,
+      "type": "song",
+      "release_date": "2026-07-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e0/1d/99/e01d99fa-a945-83b7-957d-713029e90895/artwork.jpg/400x400bb.jpg",
+      "genre": "R&B",
+      "link": "https://music.apple.com/us/album/dont-look-at-me-like-that-feat-miss-mercy-single/6790223854?uo=4"
+    },
+    {
+      "title": "Polaroids in the Rain",
+      "artist": "REX BRANHAM",
+      "artist_id": 6790504846,
       "type": "album",
-      "release_date": "2026-07-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8a/73/a3/8a73a3bb-44e2-e57e-a225-4420ebf7feeb/4550758476290_cover.png/400x400bb.png",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/imaginalia/6789495570?uo=2"
+      "release_date": "2026-07-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/75/4c/32/754c3229-1a19-a496-d7a5-b363d8eb7ef1/artwork.jpg/400x400bb.png",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/polaroids-in-the-rain/6790606805?uo=2"
     },
     {
-      "title": "マイオンリー",
-      "artist": "SixTONES",
-      "artist_id": 1808322699,
-      "type": "song",
-      "release_date": "2026-07-12",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/be/28/43/be284309-bce7-bfc4-a1a8-90a6712b1b8f/4547366834611.jpg/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/%E3%83%9E%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%AA%E3%83%BC-single/6785734869?uo=4"
-    },
-    {
-      "title": "Come My Way (softer version)",
-      "artist": "Sơn Tùng M-TP",
-      "artist_id": 705007874,
-      "type": "song",
-      "release_date": "2026-07-12",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/32/f7/1b/32f71bb6-ac65-49e1-8279-9f73478f8ed1/823375289418_Cover.jpg/400x400bb.jpg",
-      "genre": "African",
-      "link": "https://music.apple.com/us/album/come-my-way-softer-version-single/6788134504?uo=4"
+      "title": "Missing What Never Was",
+      "artist": "SARAH C KLUNK",
+      "artist_id": 6790292323,
+      "type": "album",
+      "release_date": "2026-07-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ca/f0/74/caf074eb-2b2f-e2ba-545f-dab8cb9ce8a8/artwork.jpg/400x400bb.png",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/missing-what-never-was/6790373221?uo=2"
     },
     {
       "title": "Whispers in the Forest Without Bells",
@@ -194,6 +236,46 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/47/fa/e4/47fae462-8d2b-1262-754f-356f7b5f2d2e/888272184617.jpg/400x400bb.jpg",
       "genre": "K-pop",
       "link": "https://music.apple.com/us/album/wish-with-w-vol-3-single/6789041675?uo=4"
+    },
+    {
+      "title": "NO LABELS: PART 02 (Cotton Candy Ver.)",
+      "artist": "YEONJUN",
+      "artist_id": 1492229490,
+      "type": "album",
+      "release_date": "2026-07-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e3/66/3d/e3663d13-988b-d43d-6df9-bbc80b2ae4aa/823375274261_Cover.jpg/400x400bb.jpg",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/no-labels-part-02-cotton-candy-ver/6789395433?uo=4"
+    },
+    {
+      "title": "NO LABELS: PART 02 (Earl Grey Ver.)",
+      "artist": "YEONJUN",
+      "artist_id": 1492229490,
+      "type": "album",
+      "release_date": "2026-07-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0b/29/e5/0b29e57a-c370-4c74-4c83-3be6347961b1/823375267591_Cover.jpg/400x400bb.jpg",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/no-labels-part-02-earl-grey-ver/6789400137?uo=4"
+    },
+    {
+      "title": "NO LABELS: PART 02 (Espresso Ver.)",
+      "artist": "YEONJUN",
+      "artist_id": 1492229490,
+      "type": "album",
+      "release_date": "2026-07-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e5/72/36/e5723692-afa9-ee2d-b351-40e5287dfcb6/823375267638_Cover.jpg/400x400bb.jpg",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/no-labels-part-02-espresso-ver/6789398004?uo=4"
+    },
+    {
+      "title": "NO LABELS: PART 02 (Mango Chili Ver.)",
+      "artist": "YEONJUN",
+      "artist_id": 1492229490,
+      "type": "album",
+      "release_date": "2026-07-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f2/04/0f/f2040f77-96c5-39dc-9663-0afa37cb2cc5/823375267607_Cover.jpg/400x400bb.jpg",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/no-labels-part-02-mango-chili-ver/6789403861?uo=4"
     }
   ],
   "upcoming": [
@@ -261,6 +343,17 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/68/24/84/6824844d-3f59-2816-e083-f5d49c994ff1/198704876615_Cover.jpg/400x400bb.jpg",
       "genre": "Rock",
       "link": "https://music.apple.com/us/album/pylon/6781644608?uo=4",
+      "followed": true
+    },
+    {
+      "title": "In Endless Awe & Agony",
+      "artist": "daine",
+      "artist_id": 1512838237,
+      "type": "album",
+      "release_date": "2026-11-06",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3b/37/69/3b376905-c78e-bd5e-2025-7489989b2443/612891028300.jpg/400x400bb.jpg",
+      "genre": "Alternative",
+      "link": "https://music.apple.com/us/album/in-endless-awe-agony/6769934903?uo=4",
       "followed": true
     }
   ]
