@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1784117267845,
+  "fetched_at": 1784198552807,
   "releases": [
     {
       "title": "LEMONADE (Zedd Extended Mix)",
@@ -68,6 +68,16 @@
       "followed": true
     },
     {
+      "title": "THE WAY",
+      "artist": "A.B.C-Z",
+      "artist_id": 1743009027,
+      "type": "album",
+      "release_date": "2026-07-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f4/6d/98/f46d9849-bf4b-1da9-cb5e-766da17d65b2/27816.jpg/400x400bb.png",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/the-way-ep/6781984996?uo=2"
+    },
+    {
       "title": "Pale Whispers in the Rain",
       "artist": "BERNARD E BROOKS",
       "artist_id": 6790450995,
@@ -76,6 +86,16 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ab/bd/63/abbd6306-bbd6-4b85-fc9f-9625982ec58a/artwork.jpg/400x400bb.png",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/pale-whispers-in-the-rain/6790541631?uo=2"
+    },
+    {
+      "title": "Swallowing Fabricated Highs",
+      "artist": "DAELEN M DORSEY",
+      "artist_id": 6790415374,
+      "type": "album",
+      "release_date": "2026-07-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/fd/16/70fd161b-6e5f-92cd-9528-715c938cc3a6/artwork.jpg/400x400bb.png",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/swallowing-fabricated-highs/6790492433?uo=2"
     },
     {
       "title": "Summer Vibes by DJ John John Acevedo, Vol. 1",
@@ -88,34 +108,14 @@
       "link": "https://music.apple.com/us/album/summer-vibes-by-dj-john-john-acevedo-vol-1/6788971254?uo=2"
     },
     {
-      "title": "Gathering Wasted Years",
-      "artist": "HILLIS L ROUPE",
-      "artist_id": 6790073094,
-      "type": "album",
-      "release_date": "2026-07-12",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7e/a9/56/7ea95674-f3fb-bd99-bfa7-980a591e5bd0/artwork.jpg/400x400bb.png",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/gathering-wasted-years/6790101020?uo=2"
-    },
-    {
-      "title": "<itsnotover>",
-      "artist": "idntt",
-      "artist_id": 1829366367,
-      "type": "album",
-      "release_date": "2026-07-13",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b3/01/ec/b301ecc6-b85b-8c71-0bb6-152144f96ad6/8804775403682.jpg/400x400bb.png",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/itsnotover/6784586121?uo=2"
-    },
-    {
-      "title": "The Ghost of a Vintage Summer",
-      "artist": "JAIME L EISERT",
-      "artist_id": 6790504864,
-      "type": "album",
-      "release_date": "2026-07-13",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bc/ad/24/bcad2477-44e6-127e-bb73-6fb790edf81a/artwork.jpg/400x400bb.png",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/the-ghost-of-a-vintage-summer/6790607287?uo=2"
+      "title": "Llego (FIFA World Cup 2026™)",
+      "artist": "Empire Of The Sun & Danny Ocean",
+      "artist_id": 284433289,
+      "type": "song",
+      "release_date": "2026-07-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/32/8a/00/328a00a2-8e43-6b95-69cf-73f7f3a4af98/26UMGIM91394.rgb.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/llego-fifa-world-cup-2026-single/6789290765?uo=4"
     },
     {
       "title": "夜鷹 - Yodaka",
@@ -138,6 +138,26 @@
       "link": "https://music.apple.com/us/album/starting-over-ep/6783277193?uo=2"
     },
     {
+      "title": "TEMPERATURE",
+      "artist": "LEE MINHYUK",
+      "artist_id": 991690131,
+      "type": "song",
+      "release_date": "2026-07-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ea/18/c8/ea18c8f3-e52d-e348-25e2-05658b3e8647/cover_KM0024933_1.jpg/400x400bb.jpg",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/temperature-single/6788697195?uo=4"
+    },
+    {
+      "title": "Tulum Receipts",
+      "artist": "LOIS F PERRY",
+      "artist_id": 6790452901,
+      "type": "album",
+      "release_date": "2026-07-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2d/e5/0e/2de50ea6-d917-3ad9-7e2f-8fa793a89700/artwork.jpg/400x400bb.png",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/tulum-receipts/6790546555?uo=2"
+    },
+    {
       "title": "El Peor De Mis Fracasos (En Vivo)",
       "artist": "Los del roble, Gabito Ballesteros & El Gerry Oficial",
       "artist_id": 1531223773,
@@ -146,16 +166,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8e/04/f1/8e04f1ab-217a-b65e-9c5b-bb8af9b84451/823375296379_Cover.jpg/400x400bb.jpg",
       "genre": "Latin",
       "link": "https://music.apple.com/us/album/el-peor-de-mis-fracasos-en-vivo-single/6788547292?uo=4"
-    },
-    {
-      "title": "Sunny",
-      "artist": "milet",
-      "artist_id": 880638079,
-      "type": "song",
-      "release_date": "2026-07-12",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/75/32/e2/7532e282-028f-ded2-2031-f9a845a9965e/4547366833560.jpg/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/sunny-single/6784164026?uo=4"
     },
     {
       "title": "Highway 79 (Gentleman Soul Edition)",
@@ -168,24 +178,54 @@
       "link": "https://music.apple.com/us/album/highway-79-gentleman-soul-edition/6788566668?uo=2"
     },
     {
-      "title": "Wano",
-      "artist": "ONI",
-      "artist_id": 1301359956,
-      "type": "song",
-      "release_date": "2026-07-14",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/32/3d/ae/323daef0-1434-3bac-a66f-aeeea840dc1d/4550758592068_cover.png/400x400bb.jpg",
+      "title": "OFFICIAL HIGE DANDISM LIVE at STADIUM 2025",
+      "artist": "OFFICIAL HIGE DANDISM",
+      "artist_id": 960568308,
+      "type": "album",
+      "release_date": "2026-07-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/4b/c7/24/4bc72490-5bde-d9cf-f4a6-a503d2661573/28044.jpg/400x400bb.png",
       "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/wano-single/6790641096?uo=4"
+      "link": "https://music.apple.com/us/album/official-hige-dandism-live-at-stadium-2025/6785845529?uo=2"
     },
     {
-      "title": "Don’t Look At Me Like That (feat. Miss Mercy)",
-      "artist": "RAY JOHNS",
-      "artist_id": 6781032332,
-      "type": "song",
+      "title": "MÚSICA EN MI JETSKI",
+      "artist": "Oscar Maydon",
+      "artist_id": 1524147696,
+      "type": "album",
+      "release_date": "2026-07-17",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/45/ac/0d/45ac0df0-5725-7ee6-812a-95e4acd34aac/196874531907.jpg/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/m%C3%BAsica-en-mi-jetski/6783493081?uo=4"
+    },
+    {
+      "title": "Outdated Devotion",
+      "artist": "PAIGE BLUMENSCHEIN",
+      "artist_id": 6790476754,
+      "type": "album",
       "release_date": "2026-07-13",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e0/1d/99/e01d99fa-a945-83b7-957d-713029e90895/artwork.jpg/400x400bb.jpg",
-      "genre": "R&B",
-      "link": "https://music.apple.com/us/album/dont-look-at-me-like-that-feat-miss-mercy-single/6790223854?uo=4"
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/87/72/21/877221aa-59de-afa5-6ceb-80e856026f84/artwork.jpg/400x400bb.png",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/outdated-devotion/6790575629?uo=2"
+    },
+    {
+      "title": "Love Sick (narr. Lee Moon Sae)",
+      "artist": "Picheolin",
+      "artist_id": 6786593989,
+      "type": "song",
+      "release_date": "2026-07-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/53/ec/08/53ec0891-4215-552b-42aa-d26261023878/823375274254_Cover.jpg/400x400bb.jpg",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/love-sick-narr-lee-moon-sae-single/6786593983?uo=4"
+    },
+    {
+      "title": "Permission Without Control",
+      "artist": "Ray Virel",
+      "artist_id": 1891258846,
+      "type": "album",
+      "release_date": "2026-07-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cf/30/4f/cf304f74-fc44-d380-8e90-170c058775a8/artwork.jpg/400x400bb.png",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/permission-without-control/6789128944?uo=2"
     },
     {
       "title": "Polaroids in the Rain",
@@ -198,6 +238,16 @@
       "link": "https://music.apple.com/us/album/polaroids-in-the-rain/6790606805?uo=2"
     },
     {
+      "title": "Shooting Star",
+      "artist": "Rokudenashi",
+      "artist_id": 1572215359,
+      "type": "song",
+      "release_date": "2026-07-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a3/82/1b/a3821b46-d273-3a8d-002f-2a1bfb4d782e/VEATP-45623.jpg/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/shooting-star-single/6785360855?uo=4"
+    },
+    {
       "title": "Missing What Never Was",
       "artist": "SARAH C KLUNK",
       "artist_id": 6790292323,
@@ -208,14 +258,14 @@
       "link": "https://music.apple.com/us/album/missing-what-never-was/6790373221?uo=2"
     },
     {
-      "title": "Whispers in the Forest Without Bells",
-      "artist": "Story Sound-notes",
-      "artist_id": 1837849584,
-      "type": "album",
-      "release_date": "2026-07-12",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/73/d8/7b/73d87b8d-f547-dceb-b98a-58c24275d9db/4550758531302_cover.png/400x400bb.png",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/whispers-in-the-forest-without-bells/6790044539?uo=2"
+      "title": "Forever July",
+      "artist": "SUNMI",
+      "artist_id": 693899983,
+      "type": "song",
+      "release_date": "2026-07-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6c/bf/63/6cbf6327-6e8a-8ad3-86e0-de2b9805e86e/cover_KM0024929_1.jpg/400x400bb.jpg",
+      "genre": "K-pop",
+      "link": "https://music.apple.com/us/album/forever-july-single/6788698406?uo=4"
     },
     {
       "title": "Promise - The 1st Mini Album",
@@ -226,6 +276,16 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/19/5e/be/195ebe8a-4b46-24e5-de66-f4c8419fa0ca/888735956362.png/400x400bb.png",
       "genre": "K-pop",
       "link": "https://music.apple.com/us/album/promise-the-1st-mini-album-ep/6786950842?uo=2"
+    },
+    {
+      "title": "Any Time (feat. James Fauntleroy)",
+      "artist": "Syd",
+      "artist_id": 504550699,
+      "type": "song",
+      "release_date": "2026-07-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/13/2d/7c/132d7c92-fb27-afe0-e3d8-ff009f677449/054391212016.jpg/400x400bb.jpg",
+      "genre": "R&B",
+      "link": "https://music.apple.com/us/album/any-time-feat-james-fauntleroy-single/6789736766?uo=4"
     },
     {
       "title": "Wish With W : Vol.3",
@@ -246,16 +306,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e3/66/3d/e3663d13-988b-d43d-6df9-bbc80b2ae4aa/823375274261_Cover.jpg/400x400bb.jpg",
       "genre": "K-pop",
       "link": "https://music.apple.com/us/album/no-labels-part-02-cotton-candy-ver/6789395433?uo=4"
-    },
-    {
-      "title": "NO LABELS: PART 02 (Earl Grey Ver.)",
-      "artist": "YEONJUN",
-      "artist_id": 1492229490,
-      "type": "album",
-      "release_date": "2026-07-13",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0b/29/e5/0b29e57a-c370-4c74-4c83-3be6347961b1/823375267591_Cover.jpg/400x400bb.jpg",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/no-labels-part-02-earl-grey-ver/6789400137?uo=4"
     },
     {
       "title": "NO LABELS: PART 02 (Espresso Ver.)",
