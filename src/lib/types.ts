@@ -1,8 +1,8 @@
 // Data contract between scripts/fetch-releases.mjs (producer) and the app (consumer).
 // The fetcher supplies the Apple Music link and assigns the canonical genre
-// tag. Its releases/upcoming routing is a fetch-time snapshot — the app
-// recomputes the New/Upcoming split (and each tab's order) against the
-// viewer's clock at render.
+// tag. Its releases/upcoming routing IS the New/Upcoming split — both lists
+// arrive sorted and the app renders them as-is; every window and label
+// anchors to fetched_at, never the viewer's clock.
 
 // song = a single (Apple's designation, or a 1-track release);
 // album = everything larger — EPs, mini albums, full albums, variants.

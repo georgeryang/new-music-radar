@@ -33,7 +33,9 @@ import { keyOf, normArtist, releaseOrder, upcomingOrder } from './card-key.mjs'
 
 // The file holds WINDOW_DAYS of releases. The frontend (src/App.tsx) shows
 // followed artists for that full window and trims discovery finds to 24h —
-// both anchored to fetched_at, so nothing expires between fetches.
+// both anchored to fetched_at, so nothing expires between fetches. The
+// New/Upcoming split is decided here too (inWindow/isUpcoming below); the
+// app renders releases[] and upcoming[] as written.
 const WINDOW_DAYS = 3
 const UA = 'new-music-radar/1.0'
 const OUT = new URL('../docs/data/releases.json', import.meta.url)
@@ -80,14 +82,15 @@ const daysSince = (releaseDate) => (Date.now() - Date.parse(releaseDate)) / 8640
 function inWindow(releaseDate) {
   const days = daysSince(releaseDate)
   // lower bound: catalogs list pre-orders (future dates) — released-only scope.
-  return days <= WINDOW_DAYS + 0.5 && days >= -1
+  return days <= WINDOW_DAYS + 0.5 && days >= 0
 }
 
-// Announced pre-orders: strictly beyond inWindow's -1 day tolerance, so the
-// two sets stay disjoint. Tomorrow-dated releases ride in releases[] instead;
-// the app re-splits both lists by the viewer's clock, so they still render
-// under Upcoming until their day arrives.
-const isUpcoming = (releaseDate) => daysSince(releaseDate) < -1
+// Announced pre-orders: anything still future-dated at fetch time, the exact
+// complement of inWindow's lower bound so the two sets stay disjoint. This
+// boundary is the ONLY New/Upcoming split — the app renders both lists as
+// written; a pre-order moves to releases[] when a fetch finds its date passed,
+// never client-side.
+const isUpcoming = (releaseDate) => daysSince(releaseDate) < 0
 
 // Two types only: song (a single) vs album (EPs, mini albums, and larger).
 // Hybrid rule: Apple's "- Single" designation wins (kpop singles often carry
@@ -704,11 +707,10 @@ for (const r of upcomingRaw) {
 // (canceled/pulled) and drop; a date change re-lands under the same key, so
 // the fresh copy wins over the stale one. Followed artists only: carried
 // discovery entries would be hidden client-side anyway (24h-of-fetch
-// window), and a failed feed's day-of finds can't be resurrected. The
-// upcoming window tolerates just-released dates (not only future ones): the
-// app's clock re-split renders those on the New tab for the file's full
-// window, completing the pre-order lifecycle even if release day itself
-// fails.
+// window), and a failed feed's day-of finds can't be resurrected. A carried
+// pre-order whose date has passed since the last fetch routes to releases[]
+// (the split is decided here, never client-side), completing the pre-order
+// lifecycle even if release day itself fails.
 if (batchFailures > 0) {
   // attribution: id match for the artist's own entries; name match for
   // joint-credit entities; entries with NO artist_id (files written before
@@ -734,7 +736,14 @@ if (batchFailures > 0) {
     if (upcomingByKey.has(keyOf(r)) || outKeys.has(keyOf(r))) continue
     if (!missingThisRun(r) || !stillEligible(r)) continue
     r.followed = true
-    upcomingByKey.set(keyOf(r), r)
+    if (isUpcoming(r.release_date)) {
+      upcomingByKey.set(keyOf(r), r)
+    } else {
+      // date passed since the last fetch — the pre-order released while its
+      // artist's batch was failing; it belongs on New now
+      outKeys.add(keyOf(r))
+      out.push(r)
+    }
     log(`carried over (batch failed): ${r.artist} — ${r.title}`)
   }
 }

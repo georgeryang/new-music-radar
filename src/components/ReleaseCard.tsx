@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { formatUpcoming, isUnreleased } from '@/lib/utils'
+import { formatUpcoming } from '@/lib/utils'
 import type { Release } from '@/lib/types'
 
 // Muted type icons under the artwork: music note = song, disc = album.
@@ -21,12 +21,19 @@ function TypeIcon({ type }: { type: Release['type'] }) {
 }
 
 // Unified release card (the only card type): clean artwork, then title,
-// artist, and a small meta row — type icon, genre chip. A card whose date is
-// still in the future carries a release-date badge (red within a week) —
-// with App's clock-driven split those are exactly the Upcoming-tab cards, so
-// the badge doubles as that tab's date label and New stays chip-free.
+// artist, and a small meta row — type icon, genre chip. Upcoming-tab cards
+// (the fetcher's upcoming[] list — `upcoming` prop) carry a release-date
+// badge (red within a week, relative to the fetch); New stays chip-free.
 // The whole card links to Apple Music.
-export function ReleaseCard({ release }: { release: Release }) {
+export function ReleaseCard({
+  release,
+  upcoming = false,
+  fetchedAt = 0,
+}: {
+  release: Release
+  upcoming?: boolean
+  fetchedAt?: number
+}) {
   const [imgFailed, setImgFailed] = useState(false)
   const showImg = release.artwork.startsWith('http') && !imgFailed
 
@@ -65,7 +72,7 @@ export function ReleaseCard({ release }: { release: Release }) {
             {release.genre}
           </span>
         )}
-        {isUnreleased(release.release_date) && <UpcomingBadge date={release.release_date} />}
+        {upcoming && <UpcomingBadge date={release.release_date} fetchedAt={fetchedAt} />}
       </div>
     </div>
   )
@@ -79,8 +86,8 @@ export function ReleaseCard({ release }: { release: Release }) {
   )
 }
 
-function UpcomingBadge({ date }: { date: string }) {
-  const { label, soon } = formatUpcoming(date)
+function UpcomingBadge({ date, fetchedAt }: { date: string; fetchedAt: number }) {
+  const { label, soon } = formatUpcoming(date, fetchedAt)
   const full = new Date(date + 'T00:00:00').toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
