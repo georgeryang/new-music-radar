@@ -157,13 +157,11 @@ const server = http.createServer(async (req, res) => {
         seen = [...new Set(releases.map((r) => r.genre).filter(Boolean))]
       } catch {}
       json(res, 200, {
-        // ?? preferred: read fallback so pre-rename config backups still load;
-        // the next save migrates the file to the followed keys.
         artists: {
-          followed: p.artists?.followed ?? p.artists?.preferred ?? [],
+          followed: p.artists?.followed ?? [],
           blocked: p.artists?.blocked ?? [],
         },
-        genres: { followed: p.genres?.followed ?? p.genres?.preferred ?? [] },
+        genres: { followed: p.genres?.followed ?? [] },
         playlists: p.discovery?.playlists ?? [],
         activity: readActivity(),
         genreOptions: [...new Set([...CANON_TAGS, ...seen])].sort((a, b) => a.localeCompare(b)),
@@ -191,7 +189,6 @@ const server = http.createServer(async (req, res) => {
       const p = readPrefs() // preserve _comment, anything else
       p.artists = { followed: incoming.artists.followed, blocked: incoming.artists.blocked }
       p.genres = { ...p.genres, followed: incoming.genres.followed }
-      delete p.genres.preferred // migrate pre-rename backups on first save
       p.discovery = { ...p.discovery, playlists: incoming.discovery.playlists }
       writeFileSync(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
       json(res, 200, { ok: true })
@@ -273,7 +270,7 @@ const PAGE = /* html */ `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>New Music Radar — Preferences</title>
+<title>New Music Radar preferences</title>
 <!--CSS-->
 </head>
 <body class="mx-auto max-w-[680px] px-4 pt-6 pb-24">
@@ -608,7 +605,7 @@ $('refresh').onclick = async () => {
   clearTimeout(pollTimer) // restart the single poll chain, don't fork a second one
   poll()
 }
-$('quit').onclick = async () => { await fetch('/api/quit', { method: 'POST' }); document.body.innerHTML = '<p class="p-10 text-center">Server stopped — you can close this tab.</p>' }
+$('quit').onclick = async () => { await fetch('/api/quit', { method: 'POST' }); document.body.innerHTML = '<p class="p-10 text-center">Server stopped. You can close this tab.</p>' }
 window.onbeforeunload = () => (dirty ? true : undefined)
 
 fetch('/api/prefs').then((r) => r.json()).then((p) => {

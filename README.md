@@ -27,8 +27,7 @@ The site shows your followed artists first, then everything else
 alphabetically by artist. A followed artist's release stays on the page for
 3 days; chart and playlist finds stay for 1 day. Cards come from
 your followed artists plus a daily scan of Apple's US charts and new-music
-playlists, filtered to your followed genres. It refreshes itself every
-evening (see setup below).
+playlists, filtered to your followed genres.
 
 ## Adding and removing artists, genres, and playlists
 
@@ -43,7 +42,7 @@ evening (see setup below).
    the exact artist by its Apple ID; typed names alone can't be used.
 3. To remove anything, click the **×** on its chip.
 4. Blocked artists never appear on the site. Followed genres are the only
-   genres discovery will surface (your followed artists always show, whatever
+   genres discovery will show (your followed artists always appear, whatever
    their genre).
 5. The **Discovery playlists** section lists the Apple Music playlists the
    nightly update scans for brand-new releases (New Music Daily and a few
@@ -59,8 +58,8 @@ evening (see setup below).
      failed but the rest was published, red if nothing was published.
 
 A small age tag next to a followed artist (`· 18mo`, `· 2y`) means their
-newest release is that old, in case you want to trim the list — amber past
-18 months, red past 3 years. The "sort: A-Z" control on the heading flips the
+newest release is that old, in case you want to trim the list (amber past
+18 months, red past 3 years). The "sort: A-Z" control on the heading flips the
 list to oldest release first so those cluster at the top. Nothing is removed
 automatically.
 
@@ -106,18 +105,16 @@ performs the daily update.
 
 ## For developers
 
-- **Data flow:** `config/preferences.json` (followed/blocked artists,
-  followed genres, discovery playlists) -> `scripts/fetch-releases.mjs`
-  (zero-dep node, four sources: batched iTunes lookups for the follow list —
-  which also collect announced pre-orders into `upcoming[]` for the site's
-  Upcoming tab — the Apple US most-played chart for discovery, US iTunes
-  genre purchase charts for day-of drops in a core set of your followed
-  genres (song-chart tracks resolve to their parent single/album, so every
-  card is one Apple collection), and Apple Music editorial playlists scraped
-  from the web player page; everything native Apple Music: links, genres,
-  artwork) ->
-  `docs/data/releases.json` ->
-  committed + pushed by `scripts/update.sh` -> GitHub Pages serves `docs/`.
+- **Data flow:** `config/preferences.json` -> `scripts/fetch-releases.mjs`
+  (zero-dep node) -> `docs/data/releases.json` -> committed + pushed by
+  `scripts/update.sh` -> GitHub Pages serves `docs/`. Four sources, all
+  native Apple Music (links, genres, artwork):
+  - Batched iTunes lookups for the follow list (also collects announced
+    pre-orders into `upcoming[]` for the Upcoming tab).
+  - The Apple US most-played chart.
+  - US iTunes genre purchase charts (day-of drops in followed genres).
+  - Apple Music editorial playlists (e.g. New Music Daily).
+
   Every source queries the US storefront only; other storefronts localize
   artist names, which duplicates cards.
 - **Frontend:** Vite + React + TS + Tailwind in `src/`; build output goes into
@@ -130,31 +127,28 @@ performs the daily update.
 - **Preferences editor:** `scripts/prefs-server.mjs`, zero-dep local server on
   127.0.0.1:4747, same-origin only (Host/Origin checks on everything but the
   site's ping). Artist entries in both lists are always `{name, id}`: the
-  Apple catalog picker is the only way to add one, the fetcher sweeps
-  followed artists by ID, and blocked artists are dropped by ID (note: a
-  blocked artist's collabs are credited to a joint entity with its own ID, so
-  those aren't blocked). Playlist chips take a pasted Apple Music playlist
-  URL; refresh runs detached (pidfile + shared log) so quitting the editor
-  can't stop it. The server also serves the built site from `docs/` at
-  `/new-music-radar/`, which is where "Open radar" points: the local copy
-  shows freshly fetched data right away, without waiting for the Pages
-  deploy. The editor has no CSS of its own — it links the app's built
+  Apple catalog picker is the only way to add one, and both fetching and
+  blocking key on the ID (a blocked artist's collabs are credited to a joint
+  entity with its own ID, so those aren't blocked). Refresh runs detached
+  (pidfile + shared log) so quitting the editor can't stop it. The server
+  also serves the built site from `docs/` at `/new-music-radar/` ("Open
+  radar"), showing freshly fetched data without waiting for the Pages
+  deploy. The editor has no CSS of its own; it links the app's built
   stylesheet from `docs/assets/` (an `@source` directive in `src/index.css`
-  scans the editor's markup, so both UIs share one set of Tailwind tokens
-  and the same font; still zero-dep — it's a `<link>`, not a package). The
-  hashed filename is resolved on every request, so a rebuild never strands
-  a stale link; after editing the editor's markup, run `npm run build` and
-  restart the server to see it. If `docs/assets/` were ever empty the page
-  falls back to unstyled-but-working HTML.
+  scans the editor's markup); the hashed filename is resolved on every
+  request, so a rebuild never strands a stale link. After editing the
+  editor's markup, run `npm run build` and restart the server.
 - **Canonical genre tags:** `scripts/genre-map.mjs`, shared by the fetcher
   (tags releases) and the editor (offers the tags in the genre picker).
 - **Config side file:** `config/artist-activity.json` records each artist's
   newest release date every night and drives the dormancy hints on
   followed-artist chips.
-- **Reliability patterns:** non-zero exit when any source fails (including a
-  single failed artist-sweep batch), empty-success carryover instead of
-  stamping an empty file fresh, paced requests with jitter to the iTunes
-  lookup API (other Apple hosts fetch concurrently), partial results still
-  publish, and the nightly push verifies its own Pages deploy and requests
-  one rebuild if it flaked (correlated to the fresh build, so a stale failed
-  status can't fool it).
+- **Reliability patterns:**
+  - Non-zero exit when any source fails (including one failed sweep batch);
+    partial results still publish.
+  - Empty-success carryover: never stamp an empty file fresh.
+  - Paced, jittered requests to the iTunes lookup API (other Apple hosts
+    fetch concurrently).
+  - The nightly push verifies its own Pages deploy and requests one rebuild
+    if it flaked (correlated to the fresh build, so a stale failed status
+    can't fool it).

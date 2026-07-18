@@ -21,15 +21,11 @@
 //      — scraped from the web player page; curated day-of, all-genre.
 // Releases with no Apple match don't exist here by construction.
 //
-// Filter precedence per release:
-//   artist blocked → drop | artist followed → keep |
-//   genre followed → keep | else drop (discovery sticks to followed genres).
-//
 // Exit codes: 0 = clean run, 2 = a source failed (partial data published).
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { GENRE_MAP, canonGenre } from './genre-map.mjs'
-import { keyOf, normArtist, releaseOrder, upcomingOrder } from './card-key.mjs'
+import { cardKeyOf, keyOf, normArtist, releaseOrder, upcomingOrder } from './card-key.mjs'
 
 // The file holds WINDOW_DAYS of releases. The frontend (src/App.tsx) shows
 // followed artists for that full window and trims discovery finds to 24h —
@@ -70,8 +66,8 @@ async function itunesJSON(url) {
 }
 
 // ---------- normalization / canonical key ----------
-// normTitle/normArtist/keyOf live in card-key.mjs, shared with the app so
-// the fetcher's dedup and the app's list-collapse can never key differently.
+// normArtist/keyOf/cardKeyOf live in card-key.mjs, shared with the app so
+// the fetcher's dedup and the app's card keys can never differ.
 
 const NOISE_RE = /\b(instrumental|sped[ -]?up|slowed( \+ reverb)?|inst\.)\b/i
 
@@ -135,13 +131,12 @@ const fromCollection = (a) => ({
   link: appleLink(a.collectionViewUrl),
 })
 
-// ?? preferred: read fallback so pre-rename config backups still load.
-const GENRES_FOLLOWED = (PREFS.genres?.followed ?? PREFS.genres?.preferred ?? []).map((s) => s.toLowerCase())
+const GENRES_FOLLOWED = (PREFS.genres?.followed ?? []).map((s) => s.toLowerCase())
 
 // Both artist lists are {name, id} — the prefs editor's Apple picker pins the
 // exact artist by ID, and both fetching (followed) and blocking (blocked)
 // key on the ID.
-const FOLLOWED_ENTRIES = PREFS.artists?.followed ?? PREFS.artists?.preferred ?? []
+const FOLLOWED_ENTRIES = PREFS.artists?.followed ?? []
 // Blocking matches by Apple ID — precise, no name collisions ("Drake" can't
 // catch "Drake Milligan"). Caveat: a blocked artist's collabs are credited to
 // a joint entity with its own ID, so those aren't blocked.
@@ -183,20 +178,14 @@ const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 // date sort, and interleaved across artists; nothing here depends on
 // response order) with no global cap — one paced call per BATCH_SIZE
 // artists instead of one per artist. US storefront only (see the header for
-// why). Verified live 2026-07-12: 20 ids × limit=100 keeps every artist's
-// newest releases, including for an artist capped at 100 collections; the
-// per-artist selection is a strict superset of the old 10×50 sweep (one
-// followed artist has 80 collections and was silently truncated at 50).
+// why).
 const BATCH_SIZE = 20
 
 // Newest US release date per swept artist id — feeds the dormancy hints in
-// the prefs editor. Only ids in the current sweep are recorded: batch
-// responses also carry collab partners' ids (a feat. single rides in both
-// discographies), and recording those planted frozen stale dates that
-// surfaced as wrong "· 3y" tags when such an artist was followed later.
-// Pre-order (future) dates are skipped, and the file is pruned to the
-// followed list on write. Collabs credited to joint artist entities don't
-// attribute — fine for spotting artists with no releases in years.
+// the prefs editor. Only ids in the current sweep are recorded (batch
+// responses also carry collab partners' ids, which would plant stale dates);
+// pre-order (future) dates are skipped, and the file is pruned to the
+// followed list on write.
 const ACTIVITY_PATH = new URL('../config/artist-activity.json', import.meta.url)
 let artistActivity = {}
 try {
@@ -368,9 +357,8 @@ const chartP = fetchChart()
 // chartP is consumed minutes later (after the sweep) — without an early
 // handler, a chart failure DURING the sweep is an unhandled rejection that
 // kills the whole run before anything is written, holding every other
-// source's data hostage. The no-op keeps it handled; the real await's
-// try/catch still sees the error. (The other two starters are allSettled
-// and can't reject.)
+// source's data hostage. (The other two starters are allSettled and can't
+// reject.)
 chartP.catch(() => {})
 const genreFeedsP = Promise.allSettled(
   GENRE_FEEDS.flatMap(({ genreId, tag }, gi) =>
@@ -665,10 +653,7 @@ try {
 // before the per-entry carryover below: it keys on the fetched result being
 // empty, and it is the only path that also preserves discovery entries.
 if (out.length === 0) {
-  const carried = (prevFile.releases ?? [])
-    .filter((r) => inWindow(r.release_date))
-    // tolerate a restored pre-simplification file, where link was {service, url}
-    .map((r) => ({ ...r, link: r.link && typeof r.link === 'object' ? r.link.url : r.link }))
+  const carried = (prevFile.releases ?? []).filter((r) => inWindow(r.release_date))
   if (carried.length) {
     log(`0 fetched but ${carried.length} previous in-window releases — carrying over`)
     out = carried
@@ -713,9 +698,10 @@ for (const r of upcomingRaw) {
 // lifecycle even if release day itself fails.
 if (batchFailures > 0) {
   // attribution: id match for the artist's own entries; name match for
-  // joint-credit entities; entries with NO artist_id (files written before
-  // the field was kept) can't be verified either way — keep them, matching
-  // the unknown-means-keep bias, until a clean sweep re-writes them with ids
+  // joint-credit entities; entries with NO artist_id (name-matched discovery
+  // finds whose feed id didn't parse) can't be verified either way — keep
+  // them, matching the unknown-means-keep bias, until a clean sweep
+  // re-writes them with ids
   const missingThisRun = (r) =>
     r.artist_id == null ||
     failedSweepIds.has(r.artist_id) ||
@@ -733,25 +719,34 @@ if (batchFailures > 0) {
   // outKeys now includes carried releases, keeping the two lists disjoint
   for (const r of prevFile.upcoming ?? []) {
     if (daysSince(r.release_date) > WINDOW_DAYS + 0.5) continue
-    if (upcomingByKey.has(keyOf(r)) || outKeys.has(keyOf(r))) continue
+    if (upcomingByKey.has(keyOf(r))) continue
     if (!missingThisRun(r) || !stillEligible(r)) continue
     r.followed = true
     if (isUpcoming(r.release_date)) {
+      // still future — no out check: it may legitimately share keyOf with a
+      // released edition in out (deluxe pre-order), and dates always differ;
+      // the card-level disjointness filter below is the backstop
       upcomingByKey.set(keyOf(r), r)
     } else {
       // date passed since the last fetch — the pre-order released while its
-      // artist's batch was failing; it belongs on New now
+      // artist's batch was failing; it belongs on New now, unless a
+      // discovery source already fetched it fresh
+      if (outKeys.has(keyOf(r))) continue
       outKeys.add(keyOf(r))
       out.push(r)
     }
     log(`carried over (batch failed): ${r.artist} — ${r.title}`)
   }
 }
-const upcoming = [...upcomingByKey.values()].sort(upcomingOrder)
+// The lists must be disjoint by card (cardKeyOf): each source evaluates the
+// date boundary at its own moment, so a run straddling UTC midnight could
+// land the same card in both. Same keyOf with a DIFFERENT date is legitimate
+// (a deluxe pre-order of an already-released album) and stays.
+const outCards = new Set(out.map(cardKeyOf))
+const upcoming = [...upcomingByKey.values()]
+  .filter((r) => !outCards.has(cardKeyOf(r)))
+  .sort(upcomingOrder)
 log(`${upcoming.length} upcoming pre-orders`)
-
-// artist_id stays on every written entry: it's how the carryovers above
-// attribute an entry to a failed batch on later runs (the app ignores it).
 
 out.sort(releaseOrder)
 
