@@ -19,7 +19,8 @@ Just open the site. What you'll see:
 - A small tag like **K-pop** or **Latin** shows each release's genre.
 - An **Upcoming** tab appears whenever artists you follow have pre-orders on
   the way; each card shows the release date ("Tomorrow", "In 5 days", or the
-  calendar date when it's further out).
+  calendar date when it's further out). A pre-order moves from Upcoming to
+  the main grid with the daily evening update, once its release date arrives.
 - **Tap or click any card** to open that release in Apple Music.
 
 The site shows your followed artists first, then everything else

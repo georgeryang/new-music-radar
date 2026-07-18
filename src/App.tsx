@@ -1,7 +1,7 @@
 import { useEffect, useState, type KeyboardEvent } from 'react'
 import { ReleaseCard } from '@/components/ReleaseCard'
-import { formatRelativeTime, isFreshAsOf, isUnreleased } from '@/lib/utils'
-import { keyOf, releaseOrder, upcomingOrder } from '../scripts/card-key.mjs'
+import { formatRelativeTime, isFreshAsOf } from '@/lib/utils'
+import { keyOf } from '../scripts/card-key.mjs'
 import type { FeedData, Release } from '@/lib/types'
 
 const PREFS_URL = 'http://127.0.0.1:4747'
@@ -50,48 +50,28 @@ export default function App() {
     }
   }, [])
 
-  // The fetcher's New/Upcoming routing is an 18:15 KST snapshot; the split is
-  // recomputed here against the viewer's clock so it stays honest between
-  // fetches. A followed artist's future-dated entry renders on Upcoming —
-  // including tomorrow-dated entries the fetch window deliberately admits into
-  // releases[] — and a pre-order whose date has arrived joins the New grid at
-  // local midnight instead of waiting for the evening fetch. Non-followed
-  // discovery finds never appear on Upcoming (Upcoming is a follow-list
-  // feature); a future-dated one simply waits until it releases. Display windows
-  // anchor to the LAST FETCH, never the viewer's clock — cards never expire
-  // between fetches, only a new file changes the set. Followed artists get
-  // the file's full window (the fetcher's WINDOW_DAYS); discovery finds show
-  // only when released within 24h of the fetch, re-evaluated each fetch. The
-  // two files' lists are disjoint by construction, but carryover after a
-  // failed sweep can overlap them briefly — collapse by card key before
-  // splitting.
+  // One clock: everything anchors to the LAST FETCH, never the viewer's. The
+  // fetcher decides the New/Upcoming split (releases[] vs upcoming[]) and
+  // writes both lists sorted; this component renders them as-is — a pre-order
+  // moves to New only when a fetch finds its date passed, and cards never
+  // expire between fetches, only a new file changes the set. Followed artists
+  // get the file's full window (the fetcher's WINDOW_DAYS); discovery finds
+  // show only when released within 24h of the fetch, re-evaluated each fetch.
   // keyOf is the fetcher's own dedup key (shared module) — a weaker key here
   // would let one release render twice when its title drifts between fetches.
   // release_date joins the key because keyOf alone over-collapses across the
   // two lists: a deluxe/edition PRE-ORDER of an already-released album strips
-  // to the same keyOf and would silently lose its Upcoming card. Carryover
-  // duplicates of one logical release share the date, so they still collapse.
+  // to the same keyOf and must keep its Upcoming card. The lists are disjoint
+  // by construction, but a stale/hand-edited file might overlap them — drop
+  // an upcoming entry whose card already renders on New.
   const cardKey = (r: Release) => `${keyOf(r)}|${r.release_date}`
-  const byKey = new Map<string, Release>()
-  for (const r of [...(data?.releases ?? []), ...(data?.upcoming ?? [])]) {
-    const k = cardKey(r)
-    if (!byKey.has(k)) byKey.set(k, r)
-  }
-  const entries = [...byKey.values()]
-  const releases = entries
-    .filter(
-      (r) =>
-        !isUnreleased(r.release_date) &&
-        (r.followed || isFreshAsOf(r.release_date, 24, data?.fetched_at ?? 0))
-    )
-    // re-sort: a flipped pre-order must slot into the fetcher's order
-    // (followed first, artist A-Z, newest within artist), not trail the grid
-    .sort(releaseOrder)
-  const upcoming = entries
-    // followed artists only — a non-followed discovery/genre-chart find with a
-    // future date must not leak into Upcoming (the New grid gates the same way)
-    .filter((r) => r.followed && isUnreleased(r.release_date))
-    .sort(upcomingOrder)
+  const releases = (data?.releases ?? []).filter(
+    (r) => r.followed || isFreshAsOf(r.release_date, 24, data?.fetched_at ?? 0)
+  )
+  const newKeys = new Set(releases.map(cardKey))
+  // followed artists only — a non-followed find with a future date must not
+  // leak into Upcoming (Upcoming is a follow-list feature)
+  const upcoming = (data?.upcoming ?? []).filter((r) => r.followed && !newKeys.has(cardKey(r)))
   // An empty tab hides entirely: only-New renders barless (as before the
   // feature), only-Upcoming shows a single labelled pill for context, and
   // both-empty falls through to the info message.
@@ -171,7 +151,12 @@ export default function App() {
             className="grid grid-cols-2 gap-3 sm:grid-cols-4"
           >
             {shown.map((r) => (
-              <ReleaseCard key={cardKey(r)} release={r} />
+              <ReleaseCard
+                key={cardKey(r)}
+                release={r}
+                upcoming={active?.key === 'upcoming'}
+                fetchedAt={data.fetched_at}
+              />
             ))}
           </div>
         ) : (
