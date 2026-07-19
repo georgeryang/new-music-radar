@@ -1,15 +1,12 @@
 @import "tailwindcss";
 
-/* The preferences editor (plain HTML served by prefs-server) uses the same
-   utility classes; scanning it here folds them into this one stylesheet,
-   which the editor links from docs/assets/ — one look, one source of truth. */
+/* The editor (HTML in prefs-server) uses the same utility classes; scanning it
+   here folds them into this stylesheet, which the editor links from docs/assets/. */
 @source "../scripts/prefs-server.mjs";
 
-/* Plus Jakarta Sans — self-hosted variable font (wght 200–800; the app uses
-   400–700). Vite rebases these /fonts/ URLs to /new-music-radar/fonts/ in
-   dev and build alike (public/ assets always serve under the base path).
-   The latin-ext face only downloads when a name needs one of its glyphs;
-   ★ and ⚙ are outside both ranges and stay on the system fallback. */
+/* Plus Jakarta Sans — self-hosted variable font. Vite rebases these /fonts/
+   URLs under the base path. The latin-ext face only downloads when a name
+   needs one of its glyphs; ★ and ⚙ are outside both ranges (system fallback). */
 @font-face {
   font-family: 'Plus Jakarta Sans';
   font-style: normal;
@@ -31,12 +28,9 @@
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-/* "Red · soft" theme: portfolio red accents on a just-off-white canvas.
-   Dark mode follows the OS setting via the media query below — there is no
-   in-app toggle. muted-foreground is darker than the shadcn stock value:
-   it has to clear AA (4.5:1) not just on the #fafafa canvas but on the
-   #ededed muted surface too (editor chips, hovered rows) — #6b6b6b is
-   the lightest gray that passes both. */
+/* "Red · soft" theme: red accents on an off-white canvas; dark mode follows
+   the OS (no in-app toggle). muted-foreground #6b6b6b is the lightest gray
+   that clears AA on both the #fafafa canvas and the #ededed muted surface. */
 :root {
   --radius: 0.625rem;
   --background: #fafafa;
@@ -54,9 +48,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* #121212 (not #0a0a0a): softens halation from bright artwork.
-       primary-foreground is dark-on-red — white on #e06287 is 3.4:1,
-       which fails at the badge's type size. */
+    /* #121212 softens halation from bright artwork. primary-foreground is
+       dark-on-red: white on #e06287 is 3.4:1, failing at the badge size. */
     --background: #121212;
     --foreground: #fafafa;
     --muted: #2a2a2a;
@@ -98,14 +91,13 @@
   * {
     @apply border-border;
   }
-  /* Keyboard focus gets a full-strength red ring (the old outline-ring/50
-     was near-invisible); mouse clicks don't trigger :focus-visible. */
+  /* Keyboard focus gets a full-strength red ring; mouse clicks don't trigger
+     :focus-visible. */
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }
-  /* Preflight's placeholder (currentcolor at 50%) is ~3.3:1 on the light
-     canvas; the muted token passes AA in both modes. */
+  /* Preflight's placeholder (~3.3:1) fails AA; the muted token passes in both modes. */
   ::placeholder {
     color: var(--muted-foreground);
   }

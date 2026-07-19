@@ -4,8 +4,8 @@ import type { Release } from '@/lib/types'
 
 // Muted type icons under the artwork: music note = song, disc = album.
 function TypeIcon({ type }: { type: Release['type'] }) {
-  // role="img" — bare <svg> aria-labels are inconsistently exposed to screen
-  // readers, and this icon is the only song/album indicator on the card.
+  // role="img": bare <svg> aria-labels are inconsistently exposed, and this is
+  // the only song/album indicator on the card.
   return type === 'song' ? (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-4 shrink-0 sm:size-3.5" role="img" aria-label="Song">
       <path d="M9 18V5l12-2v13" />
@@ -20,11 +20,9 @@ function TypeIcon({ type }: { type: Release['type'] }) {
   )
 }
 
-// Unified release card (the only card type): clean artwork, then title,
-// artist, and a small meta row — type icon, genre chip. Upcoming-tab cards
-// (the fetcher's upcoming[] list — `upcoming` prop) carry a release-date
-// badge (red within a week, relative to the fetch); New stays chip-free.
-// The whole card links to Apple Music.
+// Release card: artwork, title, artist, then a meta row (type icon, genre
+// chip). Upcoming cards also carry a release-date badge (red within a week);
+// New stays badge-free. The whole card links to Apple Music.
 export function ReleaseCard({
   release,
   upcoming = false,
@@ -68,8 +66,8 @@ export function ReleaseCard({
       <div className="mt-1 flex flex-wrap items-center gap-1 text-muted-foreground">
         <TypeIcon type={release.type} />
         {release.genre && (
-          // max-w + truncate: the chip is one unbreakable token (Apple names
-          // like "Cantopop/HK-Pop") and must never push past the card edge
+          // max-w + truncate: the chip is one unbreakable token ("Cantopop/
+          // HK-Pop") and must never push past the card edge
           <span
             title={release.genre}
             className="max-w-full truncate rounded-full border border-border px-1.5 py-px text-[10px] font-medium"
@@ -106,8 +104,7 @@ function UpcomingBadge({ date, fetchedAt }: { date: string; fetchedAt: number })
       }`}
     >
       {label}
-      {/* name-from-content: aria-label on a generic span is unreliably
-          exposed, and title is mouse-only */}
+      {/* aria-label on a generic span is unreliably exposed, title is mouse-only */}
       <span className="sr-only"> (pre-order, releases {full})</span>
     </span>
   )

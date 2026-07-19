@@ -12,8 +12,8 @@ export default function App() {
   const [prefsUp, setPrefsUp] = useState(false)
   const [tab, setTab] = useState<'new' | 'upcoming'>('new')
 
-  // Show the ⚙ link only when the local preferences editor (prefs.command)
-  // is running on this machine — elsewhere the ping just fails silently.
+  // Show the ⚙ link only when the local editor is running on this machine —
+  // elsewhere the ping fails silently.
   useEffect(() => {
     let cancelled = false
     fetch(`${PREFS_URL}/api/ping`, { signal: AbortSignal.timeout(800) })
@@ -28,10 +28,9 @@ export default function App() {
 
   useEffect(() => {
     let cancelled = false
-    // no-cache = conditional revalidation: a fresh deploy shows up immediately
-    // (Pages serves ETags), but an unchanged file costs a 304 with no body
-    // instead of the full re-download a ?v= cache-buster would force. The
-    // stable URL also lets index.html preload this request.
+    // no-cache = conditional revalidation: a fresh deploy shows immediately
+    // (Pages ETags), an unchanged file costs a 304 with no body. The stable
+    // URL also lets index.html preload this request.
     fetch(`${import.meta.env.BASE_URL}data/releases.json`, { cache: 'no-cache' })
       .then((r) => {
         if (!r.ok) throw new Error('Data not available.')
@@ -50,20 +49,15 @@ export default function App() {
     }
   }, [])
 
-  // React keys use cardKeyOf (the fetcher's own card identity, shared
-  // module — see its comment for why the date qualifies keyOf); a weaker key
-  // would collide when a title drifts between fetches.
-  // Followed artists get the file's full window; discovery trims to 24h of
-  // the fetch (isFreshAsOf).
+  // Keys use cardKeyOf (the fetcher's shared card identity). Followed artists
+  // get the file's full window; discovery trims to 24h of the fetch.
   const releases = (data?.releases ?? []).filter(
     (r) => r.followed || isFreshAsOf(r.release_date, data?.fetched_at ?? 0)
   )
-  // followed artists only — a non-followed find with a future date must not
-  // leak into Upcoming (Upcoming is a follow-list feature)
+  // followed artists only — Upcoming is a follow-list feature
   const upcoming = (data?.upcoming ?? []).filter((r) => r.followed)
-  // An empty tab hides entirely: only-New renders barless (as before the
-  // feature), only-Upcoming shows a single labelled pill for context, and
-  // both-empty falls through to the info message.
+  // An empty tab hides: only-New renders barless, only-Upcoming shows one
+  // labelled pill, both-empty falls through to the info message.
   const tabs = [
     { key: 'new' as const, label: `New · ${releases.length}`, items: releases },
     { key: 'upcoming' as const, label: `Upcoming · ${upcoming.length}`, items: upcoming },

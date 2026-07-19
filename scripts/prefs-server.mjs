@@ -1,15 +1,13 @@
 #!/usr/bin/env node
-// Local preferences editor for config/preferences.json — the file that drives
-// the nightly fetch (followed artists get discography checks + pinning,
-// blocked artists are dropped by ID). Zero deps; launched by prefs.command.
+// Local preferences editor for config/preferences.json (the file that drives
+// the nightly fetch). Zero deps; launched by prefs.command.
 //
-// Binds 127.0.0.1 only, and rejects requests whose Host/Origin isn't this
-// server (defeats cross-site POSTs and DNS rebinding from pages you visit
-// while it runs; /api/ping is the one deliberate cross-origin endpoint).
-// Writes exactly one hardcoded path (the config file), preserving keys the
-// UI doesn't manage (_comment). The Apple Music artist search is proxied so
-// the browser never talks to a third party. Also serves the built site from
-// docs/ at /new-music-radar/ — the "Open radar" link opens the local copy.
+// Binds 127.0.0.1 only and rejects requests whose Host/Origin isn't this
+// server (defeats cross-site POSTs + DNS rebinding; /api/ping is the one
+// deliberate cross-origin endpoint). Writes exactly one hardcoded path,
+// preserving keys the UI doesn't manage (_comment). The Apple Music artist
+// search is proxied so the browser never talks to a third party. Also serves
+// the built site from docs/ at /new-music-radar/ ("Open radar").
 
 import http from 'node:http'
 import { closeSync, openSync, readFileSync, readdirSync, realpathSync, writeFileSync } from 'node:fs'
@@ -23,28 +21,24 @@ const PORT = 4747
 const PREFS_PATH = new URL('../config/preferences.json', import.meta.url)
 const DATA_PATH = new URL('../docs/data/releases.json', import.meta.url)
 const REPO_DIR = fileURLToPath(new URL('..', import.meta.url))
-// "Open radar" serves the built site from docs/ on this same server — the
-// local copy shows fresh data the moment a refresh writes it, instead of
-// waiting out the Pages deploy.
+// "Open radar" serves docs/ from this server, so the local copy shows fresh
+// data the moment a refresh writes it, without waiting for the Pages deploy.
 const DOCS_DIR = fileURLToPath(new URL('../docs/', import.meta.url))
-// Symlink-resolved prefix (with the trailing / so a sibling like docs-evil/
-// can't pass a startsWith check) — the static handler re-checks realpaths
-// against this.
+// Symlink-resolved prefix (trailing / so a sibling like docs-evil/ can't pass
+// a startsWith check); the static handler re-checks realpaths against this.
 const DOCS_REAL = realpathSync(DOCS_DIR) + '/'
 const SITE_PATH = '/new-music-radar/'
 const SITE_URL = `http://localhost:${PORT}${SITE_PATH}`
 
-// The editor shares the app's built stylesheet (Tailwind tokens + font) —
-// one look, one source of truth; @source in src/index.css folds this file's
-// classes into that build. The hash changes per build, so resolve it per
-// request (the server is long-running; a mid-session rebuild must not leave
-// a stale <link>). The build script keeps at most one .css in docs/assets.
+// The editor shares the app's built stylesheet (@source in src/index.css
+// folds this file's classes into that build). The hash changes per build, so
+// resolve it per request — a mid-session rebuild must not leave a stale
+// <link>. The build keeps at most one .css in docs/assets.
 const ASSETS_DIR = fileURLToPath(new URL('../docs/assets/', import.meta.url))
 function cssHref() {
   try {
-    // strict filename shape: this is the one filesystem-derived string that
-    // reaches raw HTML (the <link> tag below), so it must not be able to
-    // carry quotes or angle brackets
+    // strict filename shape: the one filesystem-derived string that reaches
+    // raw HTML (the <link> below), so no quotes or angle brackets
     const f = readdirSync(ASSETS_DIR).find((n) => /^[\w.-]+\.css$/.test(n))
     return f ? `${SITE_PATH}assets/${f}` : null
   } catch {
@@ -66,14 +60,12 @@ const readActivity = () => {
 }
 
 const isName = (s) => typeof s === 'string' && s.trim().length > 0 && s.length < 200
-// Artist entries must be {name, id} in both lists — the Apple picker pins the
-// exact artist by ID; the fetcher sweeps followed and blocks blocked by ID
-// only. Genres are plain strings.
+// Artist entries are {name, id} in both lists — the fetcher sweeps/blocks by
+// ID only. Genres are plain strings.
 const isPinnedArtistList = (v) =>
   Array.isArray(v) && v.every((e) => e && isName(e.name) && Number.isInteger(e.id))
 const isStringList = (v) => Array.isArray(v) && v.every(isName)
-// Playlists are {name, url} where url is an Apple Music playlist page —
-// the nightly fetch scrapes exactly these pages, so the shape is enforced.
+// Playlists are {name, url}; the fetch scrapes exactly these pages, so enforce it.
 const isPlaylistList = (v) =>
   Array.isArray(v) &&
   v.every(
@@ -81,18 +73,15 @@ const isPlaylistList = (v) =>
       e && isName(e.name) && typeof e.url === 'string' &&
       /^https:\/\/music\.apple\.com\/[a-z]{2}\/playlist\/[^/]+\/pl\./.test(e.url)
   )
-// Countries are bare storefront codes; only codes from the verified map are
-// accepted — the fetcher builds chart URLs straight from these. hasOwn, not
-// a truthy lookup: inherited keys like "constructor" must not validate.
+// Countries are bare storefront codes; only verified-map codes accepted (the
+// fetcher builds chart URLs from these). hasOwn so "constructor" can't validate.
 const isCountryList = (v) =>
   Array.isArray(v) && v.every((c) => typeof c === 'string' && Object.hasOwn(STOREFRONTS, c))
 
-// "Save & Refresh" — spawns update.sh DETACHED, appending to the same log
-// launchd uses, with a pidfile for liveness. Detached means quitting this
-// server (or closing its Terminal window) cannot kill a running refresh.
+// "Save & Refresh" spawns update.sh DETACHED (into launchd's log, with a
+// pidfile), so quitting this server can't kill a running refresh.
 const REFRESH_LOG = `${process.env.HOME}/Library/Logs/new-music-radar.log`
-// Not /tmp: world-writable there, so another local user could plant a pidfile
-// and block refreshes.
+// Not /tmp (world-writable — another user could plant a pidfile and block refreshes).
 const PIDFILE = `${process.env.HOME}/Library/Logs/new-music-radar-refresh.pid`
 
 function refreshPid() {
@@ -141,34 +130,30 @@ const server = http.createServer(async (req, res) => {
   try {
     if (req.method === 'GET' && url.pathname === '/api/ping') {
       // The deployed site pings this to decide whether to show its ⚙ link —
-      // the only cross-origin endpoint, and it exposes nothing.
+      // the only cross-origin endpoint; exposes nothing.
       res.writeHead(204, { 'Access-Control-Allow-Origin': '*' })
       return res.end()
     }
-    // Everything else is same-origin only: Host must be this server (a DNS-
-    // rebound hostname fails this), and any Origin must be ours — a foreign
-    // page can fire no-preflight POSTs at localhost, and without this check
-    // it could rewrite the preference lists or trigger refresh/git-push.
+    // Everything else is same-origin only: Host must be this server (defeats
+    // DNS rebinding) and any Origin must be ours — else a foreign page's
+    // no-preflight POST could rewrite the lists or trigger refresh/git-push.
     if (!HOSTS.has(req.headers.host) || (req.headers.origin && !ORIGINS.has(req.headers.origin))) {
       return json(res, 403, { error: 'forbidden' })
     }
     if (req.method === 'GET' && url.pathname === '/') {
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
-      // No built CSS (docs/assets is committed, so only a broken clone):
-      // unstyled but fully functional — every control is semantic HTML.
+      // No built CSS = unstyled but fully functional (every control is
+      // semantic HTML); only happens in a broken clone.
       const href = cssHref()
       res.end(PAGE.replace('<!--CSS-->', href ? `<link rel="stylesheet" href="${href}">` : ''))
     } else if (req.method === 'GET' && url.pathname === '/api/prefs') {
       const p = readPrefs()
-      // Per-genre and per-source yield of the latest update, for the chip
-      // markers. Only releases WITHOUT the followed flag count: followed
-      // artists bypass filters and are swept directly, so their releases say
-      // nothing about whether a genre/country/playlist chip earns its keep.
-      // Every fetch rewrites the whole window, so the file is exactly the
-      // last fetch's output. sourceCounts is keyed by the fetcher's sources
-      // tags (country:<code>, playlist:<name>): t = releases the source
-      // surfaced, u = releases ONLY it surfaced (sole tag) — the number that
-      // says what pruning the source would actually lose.
+      // Per-genre and per-source yield of the latest fetch, for the chip
+      // markers. Only non-followed releases count: followed artists bypass
+      // filters, so their releases say nothing about whether a chip earns its
+      // keep. sourceCounts is keyed by the fetcher's sources tags
+      // (country:<code>, playlist:<name>): t = releases the source surfaced,
+      // u = those it was the sole tagged source for.
       const genreCounts = {}
       const sourceCounts = {}
       try {
@@ -194,8 +179,8 @@ const server = http.createServer(async (req, res) => {
         playlists: p.discovery?.playlists ?? [],
         countries: p.discovery?.countries ?? [],
         activity: readActivity(),
-        // localeCompare, not default sort: accented names ("Música
-        // Mexicana") land after "z" in code-point order
+        // localeCompare: accented names ("Música Mexicana") sort after "z" in
+        // code-point order
         genreOptions: [...GENRE_OPTIONS].sort((a, b) => a.localeCompare(b)),
         genreCounts,
         sourceCounts,
@@ -229,10 +214,9 @@ const server = http.createServer(async (req, res) => {
     } else if (req.method === 'GET' && url.pathname === '/api/artist-search') {
       const q = (url.searchParams.get('q') ?? '').slice(0, 100).trim()
       if (q.length < 2) return json(res, 200, { results: [] })
-      // Apple Music catalog — the same catalog the fetcher queries, so the
-      // picked artist ID is exactly what the nightly lookup uses. An
-      // all-digits query or a pasted artist page URL is resolved by ID via
-      // lookup (search?term= reads either as a name and finds nothing).
+      // Same catalog the fetcher queries, so the picked ID is what the nightly
+      // lookup uses. An all-digits query or pasted artist URL resolves by ID
+      // (search?term= would read either as a name and find nothing).
       const urlId = q.match(/^https:\/\/music\.apple\.com\/[a-z]{2}\/artist\/[^/]+\/(\d+)/)?.[1]
       const id = urlId ?? (/^\d+$/.test(q) ? q : null)
       const upstream = await fetch(
@@ -243,8 +227,8 @@ const server = http.createServer(async (req, res) => {
       )
       const data = await upstream.json()
       json(res, 200, {
-        // wrapperType filter: a lookup id that belongs to a song/album would
-        // otherwise come back as a picker entry credited to its artist
+        // wrapperType filter: a lookup id for a song/album would otherwise
+        // return as a picker entry credited to its artist
         results: (data.results ?? []).filter((a) => a.wrapperType === 'artist').map((a) => ({
           id: a.artistId,
           name: a.artistName,
@@ -339,10 +323,9 @@ const SECTIONS = [
   { key: 'discovery.playlists', label: 'Discovery playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', playlist: true },
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
-// country entries are bare storefront codes; everywhere they're shown or
-// sorted, the display name comes from the server's verified code→name map
-// hasOwn everywhere countryNames is keyed by outside input: a bare object
-// lookup would resolve inherited keys ("constructor") to junk
+// country entries are bare codes; the display name comes from the server's
+// verified code→name map. hasOwn so an inherited key ("constructor") doesn't
+// resolve to junk.
 const displayOf = (s, e) => (s.country && Object.hasOwn(countryNames, e) ? countryNames[e] : nameOf(e))
 
 // https://music.apple.com/us/playlist/<slug>/pl.<id> — display name from slug
@@ -376,8 +359,8 @@ function renderAll() {
   const root = $('sections')
   root.replaceChildren()
   for (const s of SECTIONS) {
-    // Lists stay alphabetical (also in the saved file). Safe: the fetcher only
-    // does membership checks — list order never affects the releases page.
+    // Alphabetical, in-place (so Save writes this order). Safe: the fetcher
+    // only does membership checks, never depends on list order.
     getList(s.key).sort((a, b) =>
       displayOf(s, a).toLowerCase().localeCompare(displayOf(s, b).toLowerCase())
     )
@@ -396,8 +379,7 @@ function renderAll() {
       sort.onclick = () => { dormancySort = !dormancySort; renderAll() }
       h.appendChild(sort)
     }
-    // dormancy sort works on a copy — the in-place alphabetical sort above is
-    // what Save writes, so the file order never changes with the toggle
+    // dormancy sort works on a copy, so the toggle never changes file order
     let entries = getList(s.key)
     if (s.key === 'artists.followed' && dormancySort) {
       entries = [...entries].sort((a, b) => {
@@ -409,11 +391,9 @@ function renderAll() {
     const chips = document.createElement('div')
     chips.className = 'mb-2 flex flex-wrap gap-1.5'
     // Source yield marker (countries + playlists): unique/duplicate/total
-    // releases the latest update pulled via this source. Unique = only this
-    // source surfaced it (what pruning would lose); duplicate = shared with
-    // another country or playlist. Amber 0 = prune candidate, same visual
-    // language as the genre counts and dormancy hints. A source added after
-    // the last fetch reads 0 until the next one.
+    // releases from this source. Unique = only this source surfaced it (what
+    // pruning would lose); duplicate = shared with another source. Amber 0 =
+    // prune candidate. A source added after the last fetch reads 0 until the next.
     const sourceCount = (tag) => {
       const { u, t } = sourceCounts[tag] ?? { u: 0, t: 0 }
       const span = document.createElement('span')
@@ -436,10 +416,8 @@ function renderAll() {
         chip.appendChild(sourceCount('country:' + entry))
       }
       if (s.playlist) chip.appendChild(sourceCount('playlist:' + nameOf(entry)))
-      // Genre yield marker: how many releases the latest update admitted via
-      // this genre (followed artists excluded — they bypass genre filters).
-      // Amber 0 = prune candidate, same visual language as the dormancy
-      // hints. A genre added after the last fetch reads 0 until the next one.
+      // Genre yield marker: releases admitted via this genre (followed artists
+      // excluded). Amber 0 = prune candidate.
       if (s.key === 'genres.followed') {
         const n = genreCounts[nameOf(entry).toLowerCase()] ?? 0
         const count = document.createElement('span')
@@ -450,16 +428,14 @@ function renderAll() {
       }
       if (typeof entry !== 'string') chip.title = entry.url ?? 'Apple Music artist #' + entry.id
       // Dormancy hint: an artist with no release in 18+ months is a prune
-      // candidate — fetch time no longer depends on list size, so this is
-      // curation, not performance.
+      // candidate (curation, not performance — fetch time is list-size independent).
       const last = s.key === 'artists.followed' && entry.id ? activity[entry.id] : null
       if (last && Date.now() - Date.parse(last) > 18 * 2629746000) {
         const months = Math.round((Date.now() - Date.parse(last)) / 2629746000)
         const ago = document.createElement('span')
-        // severity by age: amber 18mo+, red 3y+. Full literals — Tailwind
-        // scans this file as text and can't see concatenated fragments.
-        // Both shades are picked for AA at 11px on the chip's bg-muted:
-        // amber-700 and the red primary each fall just short there.
+        // amber 18mo+, red 3y+. Full literals — Tailwind scans this file as
+        // text. These shades clear AA at 11px on bg-muted where amber-700 and
+        // the red primary fall just short.
         ago.className = months >= 36 ? 'text-[11px] text-accent-foreground' : 'text-[11px] text-amber-800 dark:text-amber-400'
         // round, not floor — floor showed a 3.9y gap as "3y"
         ago.textContent = '· ' + (months >= 24 ? Math.round(months / 12) + 'y' : months + 'mo')
@@ -525,8 +501,7 @@ function makeAdder(s) {
       }
       addTo(s.key, pl)
     } else if (s.country) {
-      // free text must resolve to a known storefront — the fetcher builds
-      // chart URLs from these codes and the server rejects unknown ones
+      // free text must resolve to a known storefront code (server rejects others)
       const q = input.value.trim().toLowerCase()
       const code = Object.hasOwn(countryNames, q) ? q : Object.keys(countryNames).find((c) => countryNames[c].toLowerCase() === q)
       if (!code) {
@@ -578,11 +553,10 @@ function makeAdder(s) {
     }
     input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
   } else if (s.playlist) {
-    // same pick-from-the-list flow as artists: a valid URL shows one result
-    // row with the derived name, so the chip's text is visible before adding.
-    // Enter still adds directly. No raw-text onchange fallback here — the
-    // re-render mid-edit fires it with the URL still in the box and a second,
-    // URL-named chip appears.
+    // a valid URL shows one result row with the derived name, so the chip text
+    // is visible before adding. No raw-text onchange fallback: the mid-edit
+    // re-render would fire it with the URL still in the box and add a second,
+    // URL-named chip.
     input.oninput = () => {
       results.replaceChildren()
       const pl = parsePlaylist(input.value.trim())
@@ -620,8 +594,7 @@ function makeAdder(s) {
     input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
   } else {
     // genres: focus lists the curated options, typing filters, Enter takes
-    // exact free text (any Apple genre name is followable even when the
-    // curated list omits it).
+    // exact free text (any Apple genre name is followable).
     const show = () => {
       results.replaceChildren()
       const typed = input.value.trim().toLowerCase()
@@ -634,8 +607,7 @@ function makeAdder(s) {
           results.hidden = true
         })
       }
-      // nothing matches: offer the exact text explicitly (Enter always did
-      // this, invisibly) unless it's already followed
+      // nothing matches: offer the exact text explicitly (what Enter does)
       if (!opts.length && typed && !have.has(typed)) {
         resultRow(results, 'Follow exact text "' + input.value.trim() + '"', 'exact Apple genre match', () => {
           addTo(s.key, input.value)
@@ -657,24 +629,22 @@ function makeAdder(s) {
 
 let wasRunning = false
 let pollTimer
-// The floating progress log covers the lower chip lists while a refresh
-// runs — the × hides it for the rest of THIS refresh; the next one shows it
-// again (the flag resets when a refresh starts).
+// The floating progress log covers the lower chips while a refresh runs; the
+// × hides it for THIS refresh only (flag resets when the next one starts).
 let logDismissed = false
 $('log-hide').onclick = () => {
   logDismissed = true
   $('log-wrap').hidden = true
 }
-// Status colors stay semantic (amber/green/orange); only the error state
-// joins the brand red family. Full literal strings per state — Tailwind
-// scans this file as text and can't see concatenated fragments.
+// Semantic status colors; only the error state uses brand red. Full literals
+// per state — Tailwind scans this file as text.
 const BANNER_BASE = 'fixed inset-x-0 bottom-14 px-4 py-[9px] text-center text-[13px]'
 const BANNER = {
   running: 'bg-amber-100 text-amber-900',
   ok: 'bg-green-100 text-green-900',
   warn: 'bg-orange-100 text-orange-900',
   // primary, not accent: the dark accent is 28%-alpha and this strip floats
-  // over the chip list — an error banner must be opaque
+  // over the chips, so an error banner must be opaque
   bad: 'bg-primary text-primary-foreground',
 }
 function setBanner(cls, text) {
@@ -704,8 +674,8 @@ async function poll() {
       $('log').scrollTop = $('log').scrollHeight
       setBanner('running', 'Refreshing, about two minutes. Live progress above; safe to close this page, the refresh continues in the background.')
     } else if (wasRunning) {
-      // update.sh publishes partial data when a source fails (and logs the
-      // ERROR line) — that outcome is amber, not green.
+      // update.sh publishes partial data on a source failure (logging ERROR) —
+      // that outcome is amber, not green.
       const published = st.log.some((l) => /Published|No changes/.test(l))
       const failed = st.log.some((l) => /ERROR:/.test(l))
       if (published && !failed) {

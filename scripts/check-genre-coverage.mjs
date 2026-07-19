@@ -1,10 +1,8 @@
 #!/usr/bin/env node
-// Assert every curated GENRE_OPTIONS name still exists in Apple's genre
-// tree. Apple renames genres (Regional Mexicano became Música Mexicana in
-// mid-2026 and silently broke a name-based map) — a renamed genre here means
-// followed releases silently stop matching. Run ad hoc after editing
-// GENRE_OPTIONS or whenever cards look wrong; exit 1 on any miss. Zero
-// deps, one unthrottled request.
+// Assert every curated GENRE_OPTIONS name still exists in Apple's genre tree.
+// Apple renames genres (Regional Mexicano became Música Mexicana in mid-2026),
+// and a renamed genre here means followed releases silently stop matching. Run
+// after editing GENRE_OPTIONS or whenever cards look wrong; exit 1 on a miss.
 
 import { GENRE_OPTIONS } from './genre-options.mjs'
 
