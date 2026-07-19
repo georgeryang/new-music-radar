@@ -309,7 +309,7 @@ const PAGE = /* html */ `<!doctype html>
 </head>
 <body class="mx-auto max-w-[680px] px-4 pt-6 pb-24">
 <header class="mb-1 flex items-baseline justify-between"><h1 class="text-lg font-bold">Preferences</h1><a href="" id="site-link" target="_blank" rel="noopener noreferrer" class="text-[13px] text-muted-foreground hover:text-foreground">Open radar →</a></header>
-<p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away (about two minutes).</p>
+<p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away (about two minutes). Chip counts span 3 days; New only shows 24 hours, so counts often run higher than the page.</p>
 <div id="sections"></div>
 <div id="log-wrap" hidden class="fixed bottom-[92px] left-1/2 z-10 w-[min(640px,calc(100%-32px))] -translate-x-1/2">
   <button id="log-hide" class="absolute top-1.5 right-2.5 cursor-pointer p-0 text-[15px] leading-none text-muted-foreground hover:text-foreground" title="Hide the progress log (the refresh keeps running)" aria-label="Hide progress log">×</button>
