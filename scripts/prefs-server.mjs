@@ -16,7 +16,7 @@ import { closeSync, openSync, readFileSync, readdirSync, realpathSync, writeFile
 import { spawn } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { join, normalize } from 'node:path'
-import { GENRE_OPTIONS } from './genre-map.mjs'
+import { GENRE_OPTIONS } from './genre-options.mjs'
 import { STOREFRONTS } from './storefronts.mjs'
 
 const PORT = 4747
@@ -160,17 +160,29 @@ const server = http.createServer(async (req, res) => {
       res.end(PAGE.replace('<!--CSS-->', href ? `<link rel="stylesheet" href="${href}">` : ''))
     } else if (req.method === 'GET' && url.pathname === '/api/prefs') {
       const p = readPrefs()
-      // Per-genre yield of the latest update, for the chip markers. Only
-      // releases WITHOUT the followed flag count: followed artists bypass
-      // genre filters, so their releases say nothing about whether a genre
-      // chip earns its keep. Every fetch rewrites the whole window, so the
-      // file is exactly the last fetch's output.
+      // Per-genre and per-source yield of the latest update, for the chip
+      // markers. Only releases WITHOUT the followed flag count: followed
+      // artists bypass filters and are swept directly, so their releases say
+      // nothing about whether a genre/country/playlist chip earns its keep.
+      // Every fetch rewrites the whole window, so the file is exactly the
+      // last fetch's output. sourceCounts is keyed by the fetcher's sources
+      // tags (country:<code>, playlist:<name>): t = releases the source
+      // surfaced, u = releases ONLY it surfaced (sole tag) — the number that
+      // says what pruning the source would actually lose.
       const genreCounts = {}
+      const sourceCounts = {}
       try {
         for (const r of JSON.parse(readFileSync(DATA_PATH, 'utf8')).releases ?? []) {
-          if (r.followed || !r.genre) continue
-          const k = r.genre.toLowerCase()
-          genreCounts[k] = (genreCounts[k] ?? 0) + 1
+          if (r.followed) continue
+          if (r.genre) {
+            const k = r.genre.toLowerCase()
+            genreCounts[k] = (genreCounts[k] ?? 0) + 1
+          }
+          for (const tag of r.sources ?? []) {
+            const c = (sourceCounts[tag] ??= { u: 0, t: 0 })
+            c.t++
+            if (r.sources.length === 1) c.u++
+          }
         }
       } catch {}
       json(res, 200, {
@@ -186,6 +198,7 @@ const server = http.createServer(async (req, res) => {
         // Mexicana") land after "z" in code-point order
         genreOptions: [...GENRE_OPTIONS].sort((a, b) => a.localeCompare(b)),
         genreCounts,
+        sourceCounts,
         countryNames: STOREFRONTS,
         siteUrl: SITE_URL,
       })
@@ -310,7 +323,7 @@ const PAGE = /* html */ `<!doctype html>
   <button id="refresh" class="cursor-pointer rounded-lg border border-primary bg-primary px-4 py-[7px] text-[13px] text-primary-foreground disabled:cursor-default disabled:opacity-45">Save &amp; Refresh</button>
 </footer>
 <script>
-let prefs, activity = {}, genreOptions = [], genreCounts = {}, countryNames = {}, dirty = false
+let prefs, activity = {}, genreOptions = [], genreCounts = {}, sourceCounts = {}, countryNames = {}, dirty = false
 // display-only sort for the followed section: false = A-Z, true = oldest
 // release first (dormant prune candidates cluster at the top)
 let dormancySort = false
@@ -395,6 +408,22 @@ function renderAll() {
     }
     const chips = document.createElement('div')
     chips.className = 'mb-2 flex flex-wrap gap-1.5'
+    // Source yield marker (countries + playlists): unique/duplicate/total
+    // releases the latest update pulled via this source. Unique = only this
+    // source surfaced it (what pruning would lose); duplicate = shared with
+    // another country or playlist. Amber 0 = prune candidate, same visual
+    // language as the genre counts and dormancy hints. A source added after
+    // the last fetch reads 0 until the next one.
+    const sourceCount = (tag) => {
+      const { u, t } = sourceCounts[tag] ?? { u: 0, t: 0 }
+      const span = document.createElement('span')
+      span.className = t === 0 ? 'text-[11px] text-amber-800 dark:text-amber-400' : 'text-[11px] text-muted-foreground'
+      span.textContent = '· ' + (t === 0 ? '0' : u + '/' + (t - u) + '/' + t)
+      span.title = t === 0
+        ? 'nothing found by the latest update via this source'
+        : u + ' only here / ' + (t - u) + ' shared with other sources / ' + t + ' total, latest update'
+      return span
+    }
     for (const entry of entries) {
       const chip = document.createElement('span')
       chip.className = 'inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-[3px] text-[13px]'
@@ -404,7 +433,9 @@ function renderAll() {
         code.className = 'text-[11px] text-muted-foreground'
         code.textContent = '· ' + entry
         chip.appendChild(code)
+        chip.appendChild(sourceCount('country:' + entry))
       }
+      if (s.playlist) chip.appendChild(sourceCount('playlist:' + nameOf(entry)))
       // Genre yield marker: how many releases the latest update admitted via
       // this genre (followed artists excluded — they bypass genre filters).
       // Amber 0 = prune candidate, same visual language as the dormancy
@@ -715,6 +746,7 @@ fetch('/api/prefs').then((r) => r.json()).then((p) => {
   activity = p.activity ?? {}
   genreOptions = p.genreOptions ?? []
   genreCounts = p.genreCounts ?? {}
+  sourceCounts = p.sourceCounts ?? {}
   countryNames = p.countryNames ?? {}
   $('site-link').href = p.siteUrl
   renderAll()

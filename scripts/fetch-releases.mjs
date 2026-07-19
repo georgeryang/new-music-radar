@@ -287,7 +287,10 @@ async function fetchChart() {
 // list still filters every source. Extend with one line per genre — probe the
 // feed title to find a genre id. US storefront only, like every other source.
 // Every tag is the feed's own Apple genre name — it lands on cards verbatim
-// when an entry has no lookup-backed genre.
+// when an entry has no lookup-backed genre. Note the umbrella tags Chinese
+// and African are not in genres.followed, so those two feeds' lookup-failure
+// fallback publishes nothing unless the bare name is followed — accepted:
+// the list controls where we look, never what we keep.
 const GENRE_FEEDS = [
   { genreId: 51, tag: 'K-Pop' },
   { genreId: 12, tag: 'Latin' },
@@ -594,6 +597,8 @@ if (wanted.length) {
   try {
     for (const r of await lookupCollections(wanted)) chartInfo.set(String(r.collectionId), r)
   } catch (e) {
+    // degraded publish (feed-only genre/type) still counts as a failed source
+    anyFailed = true
     log(`chart enrichment lookup failed — falling back to feed data: ${e.message}`)
   }
 }
@@ -671,7 +676,7 @@ if (genreFeedIds.size) {
 // aren't in the US catalog yet — dropped with a per-storefront count, they
 // make a later fetch once they propagate.
 const usChartIds = new Set(chart.map((e) => String(Number(e.id))).filter((s) => s !== 'NaN'))
-const countryIdSources = new Map() // collection id → first storefront that surfaced it
+const countryIdSources = new Map() // collection id → Set of storefronts that surfaced it
 let usChartSubtracted = 0
 const ingestCountryFeed = ({ sf, kind }, ids) => {
   if (!ids.length) return
@@ -685,8 +690,13 @@ const ingestCountryFeed = ({ sf, kind }, ids) => {
       usChartSubtracted++
       continue
     }
-    if (!countryIdSources.has(id)) {
-      countryIdSources.set(id, sf)
+    const sfs = countryIdSources.get(id)
+    if (sfs) {
+      // every surfacing storefront gets source credit — first-wins would
+      // arbitrarily undercount later-listed countries in the editor's audit
+      sfs.add(sf)
+    } else {
+      countryIdSources.set(id, new Set([sf]))
       fresh++
     }
   }
@@ -726,11 +736,22 @@ if (countryIdSources.size) {
     const hits = await lookupCollections([...countryIdSources.keys()])
     const returned = new Set(hits.map((a) => String(a.collectionId)))
     const droppedBySf = new Map()
-    for (const [id, sf] of countryIdSources) {
+    for (const [id, sfs] of countryIdSources) {
+      // attribute drops to the first surfacer only — one log line per miss
+      const sf = sfs.values().next().value
       if (!returned.has(id)) droppedBySf.set(sf, (droppedBySf.get(sf) ?? 0) + 1)
     }
     for (const [sf, count] of droppedBySf) log(`sf=${sf} dropped ${count} not in US catalog`)
-    const found = hits.filter((a) => a.releaseDate && inWindow(a.releaseDate)).map(fromCollection)
+    // sources tags are editor-audit metadata (which discovery source earns
+    // its keep, shown on the prefs chips) — the app never reads them
+    const found = hits
+      .filter((a) => a.releaseDate && inWindow(a.releaseDate))
+      .map((a) => {
+        const r = fromCollection(a)
+        const sfs = countryIdSources.get(String(a.collectionId))
+        if (sfs) r.sources = [...sfs].map((sf) => `country:${sf}`)
+        return r
+      })
     log(`country charts: ${found.length} releases via ${countryIdSources.size} ids`)
     releases.push(...found)
   } catch (e) {
@@ -751,7 +772,7 @@ for (const settled of await playlistPagesP) {
   try {
     const fresh = (await lookupCollections(albumIds))
       .filter((a) => a.releaseDate && inWindow(a.releaseDate))
-      .map(fromCollection)
+      .map((a) => ({ ...fromCollection(a), sources: [`playlist:${pl.name}`] }))
     log(`${pl.name}: ${fresh.length} in-window releases`)
     releases.push(...fresh)
   } catch (e) {
@@ -783,6 +804,9 @@ for (const r of releases) {
     // a null-genre copy landing first must not cost the release its genre —
     // the filter would wrongly drop it as "genre not followed"
     if (!prev.genre && r.genre) prev.genre = r.genre
+    // union, not overwrite: an album on two playlists (or a playlist and a
+    // country chart) credits every source in the editor's audit counts
+    if (r.sources?.length) prev.sources = [...new Set([...(prev.sources ?? []), ...r.sources])]
     prev.followed = prev.followed || r.followed
   } else {
     byKey.set(k, r)

@@ -6,7 +6,7 @@
 // GENRE_OPTIONS or whenever cards look wrong; exit 1 on any miss. Zero
 // deps, one unthrottled request.
 
-import { GENRE_OPTIONS } from './genre-map.mjs'
+import { GENRE_OPTIONS } from './genre-options.mjs'
 
 const res = await fetch('https://itunes.apple.com/WebObjects/MZStoreServices.woa/ws/genres', {
   headers: { 'User-Agent': 'new-music-radar/1.0' },

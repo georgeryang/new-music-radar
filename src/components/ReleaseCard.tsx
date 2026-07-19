@@ -54,7 +54,7 @@ export function ReleaseCard({
         )}
       </div>
       <p className="line-clamp-2 text-[13px] leading-snug font-semibold sm:text-xs">{release.title}</p>
-      <p className="truncate text-xs text-muted-foreground sm:text-[11px]">
+      <p className="truncate text-xs text-muted-foreground">
         {release.followed && (
           <>
             <span className="sr-only">Followed artist: </span>
@@ -72,7 +72,7 @@ export function ReleaseCard({
           // like "Cantopop/HK-Pop") and must never push past the card edge
           <span
             title={release.genre}
-            className="max-w-full truncate rounded-full border border-border px-1.5 py-px text-[10px] font-medium sm:text-[9px]"
+            className="max-w-full truncate rounded-full border border-border px-1.5 py-px text-[10px] font-medium"
           >
             {release.genre}
           </span>
@@ -101,7 +101,7 @@ function UpcomingBadge({ date, fetchedAt }: { date: string; fetchedAt: number })
   return (
     <span
       title={`Pre-order, releases ${full}`}
-      className={`rounded-full px-1.5 py-px text-[10px] sm:text-[9px] ${
+      className={`rounded-full px-1.5 py-px text-[10px] ${
         soon ? 'bg-primary font-bold text-primary-foreground' : 'border border-border font-medium'
       }`}
     >
