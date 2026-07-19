@@ -155,7 +155,7 @@ performs the daily update.
   scans the editor's markup); the hashed filename is resolved on every
   request, so a rebuild never strands a stale link. After editing the
   editor's markup, run `npm run build` and restart the server.
-- **Genre options:** `scripts/genre-map.mjs` exports the curated list the
+- **Genre options:** `scripts/genre-options.mjs` exports the curated list the
   editor's picker offers (exact Apple genre names). The fetcher never maps
   genres: cards carry Apple's genre name verbatim, and the follow filter is
   an exact case-insensitive match against `genres.followed`. After editing
@@ -164,6 +164,14 @@ performs the daily update.
   still exists in Apple's genre tree (Apple renames genres; a rename means
   followed releases silently stop matching). Storefront codes for
   `discovery.countries` live in `scripts/storefronts.mjs`.
+- **Source yield counts:** country and playlist chips in the editor carry a
+  unique/duplicate/total marker from the latest update (for example "2/4/6":
+  2 releases only that source surfaced, 4 shared with another country or
+  playlist, 6 in all). An amber 0 means the source found nothing, a prune
+  candidate. The counts come from the `sources` tags the fetcher writes on
+  discovery releases, so a source added after the last fetch reads 0 until
+  the next one. Genre chips carry the same kind of marker (single count,
+  followed artists excluded).
 - **Config side file:** `config/artist-activity.json` records each artist's
   newest release date every night and drives the dormancy hints on
   followed-artist chips.

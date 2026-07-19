@@ -19,6 +19,11 @@ export interface Release {
   genre?: string | null
   link?: string // Apple Music URL, always the US storefront
   followed?: boolean // artist is in config/preferences.json — pinned first
+  // producer-side only (dedup merges, block-list matching); the UI never reads it
+  artist_id?: number
+  // producer-side only: country:<code> / playlist:<name> tags for the
+  // preferences editor's source-yield audit; the UI never reads it
+  sources?: string[]
 }
 
 export interface FeedData {

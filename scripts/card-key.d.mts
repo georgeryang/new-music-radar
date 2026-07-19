@@ -2,7 +2,7 @@
 interface CardLike {
   artist: string
   title: string
-  type: string
+  type: 'song' | 'album'
   release_date: string
   followed?: boolean
 }

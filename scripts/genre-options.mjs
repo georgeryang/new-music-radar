@@ -17,8 +17,8 @@
 // Apple renames genres, e.g. Regional Mexicano became Música Mexicana).
 export const GENRE_OPTIONS = [
   'Afrobeats',
-  'Amapiano',
   'Alternative',
+  'Amapiano',
   'Anime',
   'Cantopop/HK-Pop',
   'Chinese Hip-Hop',

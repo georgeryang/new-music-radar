@@ -1,7 +1,7 @@
 // Apple Music storefront codes selectable as "Additional countries" —
 // config discovery.countries entries must come from this map, and the prefs
 // editor uses it for display names and its country picker. Shared module for
-// the same reason as genre-map.mjs.
+// the same reason as genre-options.mjs.
 //
 // Every code verified live 2026-07-19: both the marketingtools most-played
 // feed and the legacy purchase RSS respond (kr/cn purchase feeds exist but

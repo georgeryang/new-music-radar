@@ -98,7 +98,7 @@ export default function App() {
       </header>
 
       {error && (
-        <p className="py-4 text-sm text-destructive">
+        <p role="alert" className="py-4 text-sm text-destructive">
           {error}{' '}
           <button onClick={() => location.reload()} className="underline hover:no-underline">
             Reload
@@ -149,10 +149,10 @@ export default function App() {
             ))}
           </div>
         ) : (
-          <p className="py-3 text-sm text-muted-foreground">
+          <p role="status" className="py-3 text-sm text-muted-foreground">
             {active?.key === 'upcoming'
               ? 'Nothing announced yet.'
-              : 'No new releases right now. The page updates itself every evening.'}
+              : 'No new releases right now. Updates every evening.'}
           </p>
         ))}
     </div>

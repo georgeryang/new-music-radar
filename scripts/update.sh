@@ -57,12 +57,13 @@ if [ -f "$LOG_FILE" ] && [ "$(stat -f %z "$LOG_FILE" 2>/dev/null || echo 0)" -gt
 fi
 
 log "Fetching new releases..."
-FETCH_FAILED=0
-if ! "$NODE" scripts/fetch-releases.mjs; then
+"$NODE" scripts/fetch-releases.mjs
+FETCH_FAILED=$?
+if [ "$FETCH_FAILED" -ne 0 ]; then
   # Don't bail: one source failing shouldn't hold the others' data hostage.
-  # Publish whatever was written, then exit non-zero so the failure is logged.
+  # Publish whatever was written, then exit with the fetcher's own code
+  # (2 = a source failed, per its header) so the failure is logged.
   log "ERROR: fetch failed for at least one source (publishing partial data)"
-  FETCH_FAILED=1
 fi
 
 # config/ rides along: preference edits (prefs.command) apply from disk at
