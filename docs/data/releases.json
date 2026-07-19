@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1784407343717,
+  "fetched_at": 1784454445869,
   "releases": [
     {
       "title": "Coleccionista De Flores",
@@ -46,16 +46,6 @@
       "followed": true
     },
     {
-      "title": "Love Got Me Ooh",
-      "artist": "A2O MAY",
-      "artist_id": 1790290148,
-      "type": "album",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/21/b7/ae/21b7aef5-09e6-e31f-7a57-1e34cb6ea067/820233846912.jpg/400x400bb.png",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/love-got-me-ooh-ep/6788713890?uo=2"
-    },
-    {
       "title": "Afro-Disco Makossa",
       "artist": "Adrian Younge",
       "artist_id": 333961452,
@@ -96,24 +86,14 @@
       "link": "https://music.apple.com/us/album/ni%C3%B1o-pobre-single/6786408367?uo=4"
     },
     {
-      "title": "Sunny Days (feat. Josh Cumbee) [Summer Is Calling & Impani Remix]",
-      "artist": "Armin van Buuren",
-      "artist_id": 17976294,
-      "type": "song",
+      "title": "Love at Home (Vol. 2)",
+      "artist": "Awinnah",
+      "artist_id": 1542378235,
+      "type": "album",
       "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a0/b3/a1/a0b3a1d3-479b-221d-aef5-bf644487b5fb/8718522600999.png/400x400bb.jpg",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c0/c7/91/c0c791d7-2c62-82f9-a6ea-068712c63ff8/712132040198_cover.jpg/400x400bb.png",
       "genre": "African",
-      "link": "https://music.apple.com/us/album/sunny-days-feat-josh-cumbee-summer-is-calling-impani/6785777598?uo=4"
-    },
-    {
-      "title": "BODY WAVE",
-      "artist": "BBGIRLS",
-      "artist_id": 1699528086,
-      "type": "song",
-      "release_date": "2026-07-16",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c0/94/35/c09435cf-2104-b1f8-fa6c-af785fa89bf2/cover_KM0024952_1.jpg/400x400bb.jpg",
-      "genre": "K-pop",
-      "link": "https://music.apple.com/us/album/body-wave-single/6790613660?uo=4"
+      "link": "https://music.apple.com/us/album/love-at-home-vol-2-ep/6782919962?uo=2"
     },
     {
       "title": "Super Saiyan",
@@ -134,6 +114,16 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/45/b0/ce/45b0ce1d-658a-145b-c4d7-d20da422b83b/075679568601.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/shock-single/6785601701?uo=4"
+    },
+    {
+      "title": "ロマンティックがほしいなら (feat. 小坂菜緒, 正源司陽子 & 藤嶌果歩)",
+      "artist": "BotchiBoromaru & Hinatazaka46",
+      "artist_id": 1372655978,
+      "type": "song",
+      "release_date": "2026-07-18",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7d/b0/42/7db0423f-8731-fad0-6768-75951274608c/4547366836578.jpg/400x400bb.jpg",
+      "genre": "J-pop",
+      "link": "https://music.apple.com/us/album/%E3%83%AD%E3%83%9E%E3%83%B3%E3%83%86%E3%82%A3%E3%83%83%E3%82%AF%E3%81%8C%E3%81%BB%E3%81%97%E3%81%84%E3%81%AA%E3%82%89-feat-%E5%B0%8F%E5%9D%82%E8%8F%9C%E7%B7%92-%E6%AD%A3%E6%BA%90%E5%8F%B8%E9%99%BD%E5%AD%90-%E8%97%A4%E5%B6%8C%E6%9E%9C%E6%AD%A9-single/6786673148?uo=4"
     },
     {
       "title": "No Manches",
@@ -164,6 +154,16 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5c/ba/a9/5cbaa9a4-88bb-a0f3-e344-2f2a0e49418a/1200214515331.jpg/400x400bb.jpg",
       "genre": "Latin",
       "link": "https://music.apple.com/us/album/vin-diesel-single/6788880071?uo=4"
+    },
+    {
+      "title": "Hollow Carnality",
+      "artist": "CHRISTIANA M BILLITER",
+      "artist_id": 6791725735,
+      "type": "album",
+      "release_date": "2026-07-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8d/05/db/8d05db5c-d4fc-96db-3e31-85fd10dc0169/artwork.jpg/400x400bb.png",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/hollow-carnality/6791829587?uo=2"
     },
     {
       "title": "Un Vicio",
@@ -224,6 +224,16 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/14/ef/76/14ef767a-887c-4d0a-863a-8efbebeb5509/26UMGIM94350.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/the-bitch-is-back-single/6791755694?uo=4"
+    },
+    {
+      "title": "No Curfew",
+      "artist": "ELYN LANE",
+      "artist_id": 1885234617,
+      "type": "song",
+      "release_date": "2026-07-17",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a0/4b/a6/a04ba648-e76c-d9e6-d1aa-296091ae77a8/artwork.jpg/400x400bb.jpg",
+      "genre": "African",
+      "link": "https://music.apple.com/us/album/no-curfew-single/6791958371?uo=4"
     },
     {
       "title": "Entre Besos",
@@ -436,14 +446,14 @@
       "link": "https://music.apple.com/us/album/hombre-libre-single/6784455256?uo=4"
     },
     {
-      "title": "Caribenya",
-      "artist": "Lido Pimienta",
-      "artist_id": 389475023,
-      "type": "album",
+      "title": "Love Has No Language",
+      "artist": "Levelz UP",
+      "artist_id": 1896323662,
+      "type": "song",
       "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a8/3b/55/a83b55f8-b33e-a2b0-602a-599c6f6e224f/0045778813964.png/400x400bb.png",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/caribenya/1895141218?uo=2"
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/15/aa/a4/15aaa462-49d2-d971-4a17-6a78a7061aca/881392588778-copy-43dd0055.png/400x400bb.jpg",
+      "genre": "African",
+      "link": "https://music.apple.com/us/album/love-has-no-language-single/6791811158?uo=4"
     },
     {
       "title": "SEASON 1",
@@ -484,16 +494,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ca/a1/3f/caa13fba-e682-96eb-d34b-85b5374321ad/COVERT_ART_SEXY_LOBA_V5.jpg-copy-8da3cb04.png/400x400bb.jpg",
       "genre": "Latin",
       "link": "https://music.apple.com/us/album/sexy-loba-single/6784860401?uo=4"
-    },
-    {
-      "title": "You!Joy!Parade!",
-      "artist": "M!LK",
-      "artist_id": 1356706755,
-      "type": "song",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3b/5d/b7/3b5db7d2-034a-23e4-f77a-ee01d8a2a4bd/VEATP-45775.jpg/400x400bb.jpg",
-      "genre": "J-pop",
-      "link": "https://music.apple.com/us/album/you-joy-parade-single/6789046108?uo=4"
     },
     {
       "title": "Daydream (30th Anniversary Edition)",
@@ -784,6 +784,15 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/04/39/b4/0439b4fc-be46-a7d0-00c8-24ca13e498c8/PA00222251_0_249755_jacket.jpg/400x400bb.jpg",
       "genre": "J-pop",
       "link": "https://music.apple.com/us/album/gimmesummer-jp-version-single/6787870617?uo=4"
+    },
+    {
+      "title": "Sounds of Kemet 2026",
+      "artist": "Various Artists",
+      "type": "album",
+      "release_date": "2026-07-17",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/48/fc/f3/48fcf349-db8a-bb5d-7cf3-0f50188feaa4/5063879013910.png/400x400bb.png",
+      "genre": "African",
+      "link": "https://music.apple.com/us/album/sounds-of-kemet-2026/6780943907?uo=2"
     },
     {
       "title": "sin ti",
