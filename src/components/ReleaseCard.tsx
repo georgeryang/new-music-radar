@@ -68,7 +68,12 @@ export function ReleaseCard({
       <div className="mt-1 flex flex-wrap items-center gap-1 text-muted-foreground">
         <TypeIcon type={release.type} />
         {release.genre && (
-          <span className="rounded-full border border-border px-1.5 py-px text-[10px] font-medium sm:text-[9px]">
+          // max-w + truncate: the chip is one unbreakable token (Apple names
+          // like "Cantopop/HK-Pop") and must never push past the card edge
+          <span
+            title={release.genre}
+            className="max-w-full truncate rounded-full border border-border px-1.5 py-px text-[10px] font-medium sm:text-[9px]"
+          >
             {release.genre}
           </span>
         )}

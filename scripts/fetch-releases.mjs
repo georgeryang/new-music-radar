@@ -19,12 +19,18 @@
 //      collection: every card is exactly one Apple collection.
 //   4. Editorial playlists (config discovery.playlists, e.g. New Music Daily)
 //      — scraped from the web player page; curated day-of, all-genre.
+//   5. Country charts (config discovery.countries) — each followed country's
+//      most-played Top 100 + purchase charts, date-filtered in-feed. Foreign
+//      feeds contribute collection IDS ONLY (their names/links are localized,
+//      which would split the dedup key); every card is still built from the
+//      US-catalog lookup, so the US-only rule above holds. Entries missing
+//      from the US catalog are dropped (they appear once they propagate).
 // Releases with no Apple match don't exist here by construction.
 //
 // Exit codes: 0 = clean run, 2 = a source failed (partial data published).
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { GENRE_MAP, canonGenre } from './genre-map.mjs'
+import { STOREFRONTS } from './storefronts.mjs'
 import { cardKeyOf, keyOf, normArtist, releaseOrder, upcomingOrder } from './card-key.mjs'
 
 // The file holds WINDOW_DAYS of releases. The frontend (src/App.tsx) shows
@@ -55,14 +61,32 @@ async function getJSON(url) {
 // that host goes through here: it waits out the gap since the previous call
 // (with jitter) instead of sleeping a fixed pause afterwards, so time spent
 // processing between calls counts toward the gap and the last call of a loop
-// doesn't leave a dangling sleep. Other Apple hosts (marketingtools, legacy
-// RSS, the web player) are not similarly limited and use getJSON directly.
+// doesn't leave a dangling sleep. Other Apple hosts (legacy RSS, the web
+// player) are not similarly limited and use getJSON directly.
 let lastItunesCall = 0
 async function itunesJSON(url) {
   const wait = lastItunesCall + 2500 + Math.random() * 1500 - Date.now()
   if (wait > 0) await sleep(wait)
   lastItunesCall = Date.now()
   return getJSON(url)
+}
+
+// marketingtools (most-played feeds) throttles too, just faster: a burst of
+// ~20 simultaneous requests gets 503s/stalls after the first handful (seen
+// live 2026-07-19); ~1 req/s passes. Unlike itunesJSON — whose callers
+// await sequentially — these callers all start at once, so a bare
+// gap-since-last-call check would let the whole burst through: the gate
+// chain hands out start slots 1s apart while the fetches themselves overlap.
+let lastChartCall = 0
+let chartGate = Promise.resolve()
+function marketingToolsJSON(url) {
+  const myTurn = chartGate.then(async () => {
+    const wait = lastChartCall + 1000 + Math.random() * 300 - Date.now()
+    if (wait > 0) await sleep(wait)
+    lastChartCall = Date.now()
+  })
+  chartGate = myTurn
+  return myTurn.then(() => getJSON(url))
 }
 
 // ---------- normalization / canonical key ----------
@@ -127,7 +151,9 @@ const fromCollection = (a) => ({
   type: classify(a.collectionName, a.trackCount),
   release_date: a.releaseDate.slice(0, 10),
   artwork: artUrl(a.artworkUrl100),
-  genre: canonGenre(a.primaryGenreName),
+  // verbatim: cards show Apple's exact genre name ("Afrobeats", "Mandopop"),
+  // and the follow filter matches these names exactly
+  genre: a.primaryGenreName ?? null,
   link: appleLink(a.collectionViewUrl),
 })
 
@@ -168,6 +194,8 @@ const nameRe = (name) =>
 const hasNormName = (name) => normArtist(name).length > 0
 const FOLLOWED_ARTIST_RES = FOLLOWED_ENTRIES.map(entryName).filter(Boolean).filter(hasNormName).map(nameRe)
 
+// genres.followed holds exact Apple genre names — a release passes when its
+// verbatim genre matches one, case-insensitively. No umbrella mapping.
 const isGenreFollowed = (g) => !!g && GENRES_FOLLOWED.includes(g.toLowerCase())
 const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 
@@ -222,7 +250,10 @@ async function batchReleases(ids) {
 // silently miss.
 const collectionCache = new Map()
 async function lookupCollections(ids) {
-  const wanted = [...new Set(ids.map(String))]
+  // digits only: ids come from feeds, chart JSON, and the SCRAPED playlist
+  // pages, and are comma-joined into a lookup URL — this one guard keeps
+  // every caller's ids from smuggling query syntax into that URL
+  const wanted = [...new Set(ids.map(String))].filter((id) => /^\d+$/.test(id))
   const hits = wanted.map((id) => collectionCache.get(id)).filter(Boolean)
   const misses = wanted.filter((id) => !collectionCache.has(id))
   for (let i = 0; i < misses.length; i += 100) {
@@ -241,7 +272,7 @@ async function lookupCollections(ids) {
 // ---------- Apple most-played chart (discovery) ----------
 
 async function fetchChart() {
-  const data = await getJSON(
+  const data = await marketingToolsJSON(
     'https://rss.marketingtools.apple.com/api/v2/us/music/most-played/50/albums.json'
   )
   return data.feed?.results ?? []
@@ -255,13 +286,15 @@ async function fetchChart() {
 // The list controls where we look, not what we keep: the full followed-genres
 // list still filters every source. Extend with one line per genre — probe the
 // feed title to find a genre id. US storefront only, like every other source.
+// Every tag is the feed's own Apple genre name — it lands on cards verbatim
+// when an entry has no lookup-backed genre.
 const GENRE_FEEDS = [
-  { genreId: 51, tag: 'K-pop' },
+  { genreId: 51, tag: 'K-Pop' },
   { genreId: 12, tag: 'Latin' },
   { genreId: 14, tag: 'Pop' },
-  { genreId: 15, tag: 'R&B' },
-  { genreId: 27, tag: 'J-pop' },
-  { genreId: 1232, tag: 'C-pop' }, // Apple's "Chinese" world subgenre
+  { genreId: 15, tag: 'R&B/Soul' },
+  { genreId: 27, tag: 'J-Pop' },
+  { genreId: 1232, tag: 'Chinese' },
   { genreId: 1203, tag: 'African' },
 ]
 
@@ -281,11 +314,10 @@ async function genreFeed(feedType, genreId) {
   )
 }
 
-// genre comes from the FEED's tag, not the entry's category label: umbrella
-// feeds (Chinese, African) label entries with subgenres ("Taiwanese Folk",
-// "Alte") that canonicalize outside the followed list and would be dropped
-// at the filter — the whole point of watching the feed. Charting in a
-// genre's feed is what makes a release that genre here.
+// Fallback card built from feed data alone — used ONLY when the shared
+// catalog lookup fails, so a feed outage doesn't cost the day-of finds. The
+// genre is the feed's own Apple genre name (K-Pop, Latin, …), the best
+// available stand-in when the catalog's verbatim label is unreachable.
 const albumEntryToRelease = (e, tag) => ({
   title: displayTitle(e['im:name'].label),
   artist: e['im:artist'].label,
@@ -297,6 +329,50 @@ const albumEntryToRelease = (e, tag) => ({
   genre: tag,
   link: appleLink(e.id?.label),
 })
+
+// ---------- country charts (per-storefront discovery) ----------
+
+// Followed countries from config — each code adds that storefront's
+// most-played Top 100 (marketingtools) and purchase charts (legacy RSS) to
+// the nightly scan. Unknown codes are skipped loudly rather than fetched
+// blind: STOREFRONTS is the verified set the prefs editor offers.
+const COUNTRY_CODES = [...new Set((PREFS.discovery?.countries ?? []).map((c) => String(c).toLowerCase()))].filter((c) => {
+  // hasOwn, not truthiness: an inherited key ("constructor") must be
+  // skipped loudly like any other unknown code, not fetched
+  if (Object.hasOwn(STOREFRONTS, c)) return true
+  log(`unknown storefront code "${c}" in discovery.countries — skipped`)
+  return false
+})
+
+// A country chart entry only ever contributes its parent collection id (see
+// header — names/links are localized). All three feed kinds carry a
+// per-entry release date, so entries are date-filtered IN-FEED before any id
+// is pooled: that bound is what keeps the paced lookup cost at 1–2 chunks
+// regardless of how many countries are followed.
+async function countryMostPlayed(sf) {
+  const data = await marketingToolsJSON(
+    `https://rss.marketingtools.apple.com/api/v2/${sf}/music/most-played/100/songs.json`
+  )
+  return (data.feed?.results ?? [])
+    .filter((e) => e.releaseDate && inWindow(e.releaseDate))
+    // song entries: url is /{sf}/album/<slug>/<collectionId>?i=<trackId>
+    .map((e) => e.url?.match(/\/album\/[^/]+\/(\d+)/)?.[1])
+    .filter(Boolean)
+}
+
+// legacy RSS serializes a single-entry feed as an OBJECT, not a one-element
+// array — the near-empty kr/cn feeds hit this where the US ones never do
+const asList = (x) => (Array.isArray(x) ? x : x ? [x] : [])
+
+async function countryPurchaseFeed(sf, feedType) {
+  const data = await getJSON(`https://itunes.apple.com/${sf}/rss/${feedType}/limit=100/json`)
+  const entries = asList(data.feed?.entry).filter(
+    (e) => e['im:releaseDate']?.label && inWindow(e['im:releaseDate'].label)
+  )
+  return feedType === 'topalbums'
+    ? entries.map((e) => e.id?.attributes?.['im:id']).filter(Boolean)
+    : entries.map((e) => e.id?.label?.match(/\/album\/[^/]+\/(\d+)/)?.[1]).filter(Boolean)
+}
 
 // ---------- editorial playlists (scraped web player pages) ----------
 
@@ -348,11 +424,12 @@ async function playlistAlbumIds(pl) {
 let anyFailed = false
 const releases = []
 
-// Unthrottled fetches (marketingtools chart, legacy RSS genre feeds, web
-// player playlist pages) start now and resolve while the paced artist sweep
-// runs — their wall time disappears behind it. The genre feeds share the
+// Discovery fetches start now and resolve while the paced artist sweep runs —
+// their wall time disappears behind it. The legacy RSS genre feeds and the
+// web-player playlist pages are unthrottled (the genre feeds share the
 // itunes.apple.com hostname with the throttled Search/Lookup API, so they get
-// a small stagger as insurance. Results are consumed in pipeline order below.
+// a small stagger as insurance); the US chart rides the paced marketingtools
+// lane and takes its first slot. Results are consumed in pipeline order below.
 const chartP = fetchChart()
 // chartP is consumed minutes later (after the sweep) — without an early
 // handler, a chart failure DURING the sweep is an unhandled rejection that
@@ -381,6 +458,20 @@ const playlistPagesP = Promise.allSettled(
     })
   )
 )
+// Tasks (not bare promises) so failures can be retried by re-calling run():
+// most-played serializes through the marketingtools paced lane; legacy feeds
+// continue the genre feeds' stagger sequence on the shared itunes host.
+// Everything overlaps the artist sweep either way.
+const COUNTRY_TASKS = COUNTRY_CODES.flatMap((sf, ci) => [
+  { sf, kind: 'most-played', stagger: 0, run: () => countryMostPlayed(sf) },
+  ...['topalbums', 'topsongs'].map((feedType, fi) => ({
+    sf,
+    kind: feedType,
+    stagger: (GENRE_FEEDS.length * 2 + ci * 2 + fi) * 250,
+    run: () => countryPurchaseFeed(sf, feedType),
+  })),
+])
+const countryFeedsP = Promise.allSettled(COUNTRY_TASKS.map((t) => sleep(t.stagger).then(t.run)))
 
 // 1. Followed artists — the guaranteed layer, swept in batched lookups.
 // Every entry must carry an Apple artist ID (the prefs editor's picker adds
@@ -472,19 +563,19 @@ try {
 }
 
 // Collect in-window candidates first (prefiltering entries whose feed genre
-// already maps to a non-followed tag — they'd be dropped at the filter, so
-// don't spend a lookup; unmapped labels still get looked up for a real
-// genre). Then enrich all candidates with one batched lookup instead of one
-// paced call each: classify() needs trackCount, which the chart feed lacks.
+// is not followed — they'd be dropped at the filter, so don't spend a
+// lookup; accepts the rare case where the catalog's genre differs from the
+// feed's). Then enrich all candidates with one batched lookup instead of
+// one paced call each: classify() needs trackCount, which the chart feed
+// lacks.
 const candidates = []
 const skippedChart = []
 for (const e of chart) {
   if (!e.releaseDate || !inWindow(e.releaseDate)) continue
   const feedGenre = (e.genres ?? []).map((g) => g.name).find((n) => n && n !== 'Music') ?? null
-  const mapped = feedGenre && GENRE_MAP.some(([re]) => re.test(feedGenre))
   if (
-    mapped &&
-    !isGenreFollowed(canonGenre(feedGenre)) &&
+    feedGenre &&
+    !isGenreFollowed(feedGenre) &&
     !FOLLOWED_ARTIST_RES.some((re) => re.test(normArtist(e.artistName)))
   ) {
     skippedChart.push(`${e.artistName} — ${e.name}`)
@@ -517,16 +608,19 @@ for (const { e, feedGenre } of candidates) {
     type: classify(e.name, hit?.trackCount),
     release_date: e.releaseDate.slice(0, 10),
     artwork: artUrl(e.artworkUrl100),
-    genre: canonGenre(hit?.primaryGenreName ?? feedGenre),
+    genre: hit?.primaryGenreName ?? feedGenre,
     link: appleLink(hit?.collectionViewUrl ?? e.url),
   })
 }
 
 // 3. Genre purchase charts — day-of new releases in followed genres.
-// Album entries become cards directly; song entries pool their parent
-// collection ids for one batched lookup, so a single charting under several
-// track titles still lands as one card.
-const songParentTags = new Map() // parent collection id → feed tag
+// Both feed types are reduced to collection ids and resolved through the
+// shared catalog lookup, so every card carries Apple's verbatim genre —
+// feed membership decides where we look, never what genre a release is.
+// Album entries keep their raw feed data as a fallback: if the lookup
+// fails, they still publish with the feed's own Apple genre name.
+const genreFeedIds = new Map() // collection id → feed name (first feed wins)
+const feedAlbumFallback = new Map() // collection id → raw topalbums entry
 for (const settled of await genreFeedsP) {
   if (settled.status === 'rejected') {
     anyFailed = true
@@ -536,28 +630,112 @@ for (const settled of await genreFeedsP) {
   const { tag, feedType, entries } = settled.value
   if (!entries.length) continue
   if (feedType === 'topalbums') {
+    for (const e of entries) {
+      const id = e.id?.attributes?.['im:id']
+      if (!id || !/^\d+$/.test(id)) continue
+      if (!genreFeedIds.has(id)) genreFeedIds.set(id, tag)
+      if (!feedAlbumFallback.has(id)) feedAlbumFallback.set(id, e)
+    }
     log(`${tag} topalbums: ${entries.length} in-window`)
-    releases.push(...entries.map((e) => albumEntryToRelease(e, tag)))
   } else {
     // track URLs look like /album/<slug>/<collectionId>?i=<trackId>
     const ids = entries
       .map((e) => e.id?.label?.match(/\/album\/[^/]+\/(\d+)/)?.[1])
       .filter(Boolean)
-    ids.forEach((id) => songParentTags.set(id, songParentTags.get(id) ?? tag))
+    ids.forEach((id) => genreFeedIds.set(id, genreFeedIds.get(id) ?? tag))
     log(`${tag} topsongs: ${entries.length} in-window tracks → ${ids.length} parent albums`)
   }
 }
-if (songParentTags.size) {
+if (genreFeedIds.size) {
   try {
-    const fresh = (await lookupCollections([...songParentTags.keys()]))
-      .filter((a) => a.releaseDate && inWindow(a.releaseDate))
-      // feed tag beats the collection's own label, same as the album path
-      .map((a) => ({ ...fromCollection(a), genre: songParentTags.get(String(a.collectionId)) }))
-    log(`genre song charts: ${fresh.length} releases via ${songParentTags.size} parent albums`)
+    const hits = await lookupCollections([...genreFeedIds.keys()])
+    const returned = new Set(hits.map((a) => String(a.collectionId)))
+    const fresh = hits.filter((a) => a.releaseDate && inWindow(a.releaseDate)).map(fromCollection)
+    for (const [id, e] of feedAlbumFallback) {
+      if (!returned.has(id)) fresh.push(albumEntryToRelease(e, genreFeedIds.get(id)))
+    }
+    log(`genre charts: ${fresh.length} releases via ${genreFeedIds.size} ids`)
     releases.push(...fresh)
   } catch (e) {
     anyFailed = true
-    log(`genre song chart lookup failed: ${e.message}`)
+    log(`genre chart lookup failed — album entries fall back to feed data: ${e.message}`)
+    releases.push(...[...feedAlbumFallback.entries()].map(([id, e]) => albumEntryToRelease(e, genreFeedIds.get(id))))
+  }
+}
+
+// 3b. Country charts — followed countries' most-played + purchase charts,
+// already reduced to date-filtered collection ids. An id also on the US
+// most-played chart is skipped (that source already covers it — this keeps
+// global hits from riding in on every country's chart at once); the rest
+// resolve through one shared US-catalog lookup. Ids Apple doesn't return
+// aren't in the US catalog yet — dropped with a per-storefront count, they
+// make a later fetch once they propagate.
+const usChartIds = new Set(chart.map((e) => String(Number(e.id))).filter((s) => s !== 'NaN'))
+const countryIdSources = new Map() // collection id → first storefront that surfaced it
+let usChartSubtracted = 0
+const ingestCountryFeed = ({ sf, kind }, ids) => {
+  if (!ids.length) return
+  let fresh = 0
+  for (const raw of ids) {
+    // marketingtools serializes ids as strings, lookups return numbers —
+    // normalize before any set membership (the known type trap)
+    const id = String(Number(raw))
+    if (id === 'NaN') continue
+    if (usChartIds.has(id)) {
+      usChartSubtracted++
+      continue
+    }
+    if (!countryIdSources.has(id)) {
+      countryIdSources.set(id, sf)
+      fresh++
+    }
+  }
+  log(`${sf} ${kind}: ${ids.length} in-window → ${fresh} new ids`)
+}
+// One retry pass, like the sweep's: most-played 503s are transient throttle
+// responses and a paced second attempt after a backoff usually lands.
+const failedCountryFeeds = []
+;(await countryFeedsP).forEach((settled, i) => {
+  if (settled.status === 'rejected') {
+    const t = COUNTRY_TASKS[i]
+    failedCountryFeeds.push(t)
+    log(`country chart failed (will retry): ${t.sf} ${t.kind}: ${errDetail(settled.reason)}`)
+  } else {
+    ingestCountryFeed(COUNTRY_TASKS[i], settled.value)
+  }
+})
+if (failedCountryFeeds.length) {
+  log(`retrying ${failedCountryFeeds.length} failed country feeds in 15s`)
+  await sleep(15_000)
+  const retried = await Promise.allSettled(
+    failedCountryFeeds.map((t, i) => sleep(i * 250).then(t.run))
+  )
+  retried.forEach((settled, i) => {
+    const t = failedCountryFeeds[i]
+    if (settled.status === 'rejected') {
+      anyFailed = true
+      log(`country chart failed again: ${t.sf} ${t.kind}: ${errDetail(settled.reason)}`)
+    } else {
+      ingestCountryFeed(t, settled.value)
+    }
+  })
+}
+if (usChartSubtracted) log(`country charts: ${usChartSubtracted} ids already on the US chart — skipped`)
+if (countryIdSources.size) {
+  try {
+    const hits = await lookupCollections([...countryIdSources.keys()])
+    const returned = new Set(hits.map((a) => String(a.collectionId)))
+    const droppedBySf = new Map()
+    for (const [id, sf] of countryIdSources) {
+      if (!returned.has(id)) droppedBySf.set(sf, (droppedBySf.get(sf) ?? 0) + 1)
+    }
+    for (const [sf, count] of droppedBySf) log(`sf=${sf} dropped ${count} not in US catalog`)
+    const found = hits.filter((a) => a.releaseDate && inWindow(a.releaseDate)).map(fromCollection)
+    log(`country charts: ${found.length} releases via ${countryIdSources.size} ids`)
+    releases.push(...found)
+  } catch (e) {
+    anyFailed = true
+    log(`country chart lookup failed: ${e.message}`)
   }
 }
 

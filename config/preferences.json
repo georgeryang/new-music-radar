@@ -1,5 +1,5 @@
 {
-  "_comment": "genres.followed is case-insensitive and matches the canonical umbrella tags from GENRE_MAP in scripts/genre-map.mjs (or a release's exact Apple genre name) — discovery only surfaces these genres (followed artists always show regardless). artists.* entries (both lists) must be {name, id} objects where id is an APPLE MUSIC artist id, added via the prefs.command picker — followed artists are fetched by id, blocked artists are dropped by id. discovery.countries are Apple storefront codes from scripts/storefronts.mjs — each adds that country's Top 100 + purchase charts to the nightly scan (US charts are always scanned). discovery.playlists are Apple Music playlist pages scraped nightly for day-of releases — paste any playlist URL from music.apple.com (also editable in prefs.command).",
+  "_comment": "genres.followed holds exact Apple genre names, matched case-insensitively against each release's genre - discovery only surfaces these genres (followed artists always show regardless). The prefs.command editor offers a curated list; any other Apple genre name can be followed by typing it exactly. artists.* entries (both lists) must be {name, id} objects where id is an APPLE MUSIC artist id, added via the prefs.command picker - followed artists are fetched by id, blocked artists are dropped by id. discovery.countries are Apple storefront codes from scripts/storefronts.mjs - each adds that country's Top 100 + purchase charts to the nightly scan (US charts are always scanned). discovery.playlists are Apple Music playlist pages scraped nightly for day-of releases - paste any playlist URL from music.apple.com (also editable in prefs.command).",
   "artists": {
     "followed": [
       {
@@ -708,19 +708,21 @@
   },
   "genres": {
     "followed": [
-      "African",
-      "C-Pop",
+      "Afrobeats",
       "Cantopop/HK-Pop",
-      "Indian",
-      "Indo Pop",
+      "Chinese Hip-Hop",
+      "Dance",
+      "Hip-Hop/Rap",
       "J-Pop",
       "K-Pop",
+      "Korean Hip-Hop",
       "Latin",
       "Mandopop",
-      "Pinoy Pop",
       "Pop",
+      "Pop Latino",
       "R&B/Soul",
-      "Thai Pop"
+      "Singer/Songwriter",
+      "Urbano latino"
     ]
   },
   "discovery": {
