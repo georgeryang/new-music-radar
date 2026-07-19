@@ -36,12 +36,11 @@ filtered to your followed genres.
 1. Open the project folder and **double-click `prefs.command`**.
    A Terminal window opens (leave it alone) and the editor appears in your browser.
 2. To add an artist: type their name (or paste an Apple artist ID or their
-   Apple Music page address) in the "Add artist" box. A list of matching
-   artists from Apple Music appears, each with its genre. If two artists share
-   a name, click the **↗** to peek at their Apple Music page and make sure
-   it's the right one, then click the one you want. Artists must be picked
-   from this list, in both the followed and blocked sections. The pick pins
-   the exact artist by its Apple ID; typed names alone can't be used.
+   Apple Music page address) in the "Add artist" box, then pick from the
+   matching artists Apple Music returns (each shown with its genre; use the
+   **↗** to check an Apple Music page if two share a name). Picking from this
+   list is required in both sections; it pins the exact artist by Apple ID,
+   so a typed name alone won't match.
 3. To remove anything, click the **×** on its chip.
 4. Blocked artists never appear on the site. Followed genres are the only
    genres discovery will show (your followed artists always appear, whatever
@@ -63,12 +62,12 @@ filtered to your followed genres.
    (Enter works too).
 7. Finish with one of two buttons:
    - **Save** keeps your changes; the site picks them up at tonight's update.
-   - **Save & Refresh** applies them right now. A progress panel shows what's
-     happening (its **×** hides it; the refresh keeps running); the whole
-     thing takes about two minutes, and it's safe to close the page since
-     the update keeps running and the site refreshes on its own. When
-     it finishes, the banner is green if everything worked, amber if a source
-     failed but the rest was published, red if nothing was published.
+   - **Save & Refresh** applies them right now (about two minutes); a
+     progress panel shows what's happening (its **×** hides it, the refresh
+     keeps running). It's safe to close the page: the update keeps running
+     and the site refreshes on its own. The banner is green when everything
+     worked, amber if a source failed but the rest published, red if nothing
+     published.
 
 A small age tag next to a followed artist (`· 18mo`, `· 2y`) means their
 newest release is that old, in case you want to trim the list (amber past
@@ -136,9 +135,9 @@ performs the daily update.
   until they propagate.
 - **Frontend:** Vite + React + TS + Tailwind in `src/`; build output goes into
   `docs/` next to the data (never wiped, see vite.config.ts). The UI uses
-  self-hosted Plus Jakarta Sans from `public/fonts/` (copied to `docs/fonts/`
-  on build; the build script wipes and recopies `docs/fonts` the same way it
-  does `docs/assets`, so renamed files can't go stale).
+  self-hosted Plus Jakarta Sans from `public/fonts/`; the build script wipes
+  and recopies `docs/fonts` the same way it does `docs/assets`, so renamed
+  font files can't go stale.
 - **Scheduling:** launchd ticks every 10 min; `update.sh --if-stale` turns
   that into exactly one fetch/day anchored to 18:15 KST, timezone-proof.
 - **Preferences editor:** `scripts/prefs-server.mjs`, zero-dep local server on
@@ -150,9 +149,9 @@ performs the daily update.
   (pidfile + shared log) so quitting the editor can't stop it. The server
   also serves the built site from `docs/` at `/new-music-radar/` ("Open
   radar"), showing freshly fetched data without waiting for the Pages
-  deploy. The editor has no CSS of its own; it links the app's built
-  stylesheet from `docs/assets/` (an `@source` directive in `src/index.css`
-  scans the editor's markup); the hashed filename is resolved on every
+  deploy. The editor has no CSS of its own: it links the app's built
+  stylesheet from `docs/assets/` (`src/index.css`'s `@source` directive
+  scans the editor's markup) via a hashed filename resolved on every
   request, so a rebuild never strands a stale link. After editing the
   editor's markup, run `npm run build` and restart the server.
 - **Genre options:** `scripts/genre-options.mjs` exports the curated list the
@@ -167,11 +166,11 @@ performs the daily update.
 - **Source yield counts:** country and playlist chips in the editor carry a
   unique/duplicate/total marker from the latest update (for example "2/4/6":
   2 releases only that source surfaced, 4 shared with another country or
-  playlist, 6 in all). An amber 0 means the source found nothing, a prune
-  candidate. The counts come from the `sources` tags the fetcher writes on
-  discovery releases, so a source added after the last fetch reads 0 until
-  the next one. Genre chips carry the same kind of marker (single count,
-  followed artists excluded).
+  playlist, 6 in all), driven by `sources` tags the fetcher writes on
+  discovery releases. Genre chips carry the same kind of marker (single
+  count). All three count over the fetcher's full `WINDOW_DAYS` (3 days),
+  not the 24h the site's New tab trims discovery finds to, so a chip's count
+  routinely exceeds what's on the page.
 - **Config side file:** `config/artist-activity.json` records each artist's
   newest release date every night and drives the dormancy hints on
   followed-artist chips.
