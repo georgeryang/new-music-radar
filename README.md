@@ -1,8 +1,8 @@
 # New Music Radar
 
-A personal website that shows new songs and albums from artists and genres you
-care about (K-pop, C-pop, J-pop, Latin, R&B, and more), updated every evening.
-Tap anything to open it in Apple Music.
+A personal website that shows new songs and albums from artists, genres, and
+countries you care about (K-Pop, Latin, Thailand's Top 100, and more),
+updated every evening. Tap anything to open it in Apple Music.
 
 **The site:** https://georgeryang.github.io/new-music-radar/
 (works on any phone, tablet, or computer, so bookmark it)
@@ -16,7 +16,8 @@ Just open the site. What you'll see:
 - Under each cover: a small **♪** means it's a song (single), a **disc** icon
   means an album or EP.
 - **★** next to an artist means you follow them.
-- A small tag like **K-pop** or **Latin** shows each release's genre.
+- A small tag shows each release's genre, exactly as Apple Music names it
+  (**K-Pop**, **Afrobeats**, **Baladas y Boleros**).
 - An **Upcoming** tab appears whenever artists you follow have pre-orders on
   the way; each card shows the release date ("Tomorrow", "In 5 days", or the
   calendar date when it's further out). A pre-order moves from Upcoming to
@@ -25,11 +26,12 @@ Just open the site. What you'll see:
 
 The site shows your followed artists first, then everything else
 alphabetically by artist. A followed artist's release stays on the page for
-3 days; chart and playlist finds stay for 1 day. Cards come from
-your followed artists plus a daily scan of Apple's US charts and new-music
-playlists, filtered to your followed genres.
+3 days; chart and playlist finds stay for 1 day. Cards come from your
+followed artists plus a daily scan of Apple's US charts, new-music playlists,
+and the Top 100 and purchase charts of every country you follow, all
+filtered to your followed genres.
 
-## Adding and removing artists, genres, and playlists
+## Adding and removing artists, genres, countries, and playlists
 
 1. Open the project folder and **double-click `prefs.command`**.
    A Terminal window opens (leave it alone) and the editor appears in your browser.
@@ -43,17 +45,28 @@ playlists, filtered to your followed genres.
 3. To remove anything, click the **×** on its chip.
 4. Blocked artists never appear on the site. Followed genres are the only
    genres discovery will show (your followed artists always appear, whatever
-   their genre).
-5. The **Discovery playlists** section lists the Apple Music playlists the
+   their genre). Each followed genre matches releases Apple labels with
+   exactly that name, so **Afrobeats** and **Amapiano** are separate picks.
+   The picker offers a curated list of current mainstream genres; to follow
+   any Apple genre outside the list, type its exact name and press Enter.
+   Each followed genre shows how many releases the latest update found for
+   it (amber `· 0` marks one that found nothing), so rarely-hitting genres
+   are easy to spot and remove.
+5. The **Additional countries** section lists the countries whose Apple Music
+   charts the nightly update scans on top of the US ones. Pick a country from
+   the list to follow it, click its chip's **×** to stop. Finds from these
+   charts pass the same genre filter as everything else.
+6. The **Discovery playlists** section lists the Apple Music playlists the
    nightly update scans for brand-new releases (New Music Daily and a few
    others ship by default). To add one, open the playlist on music.apple.com,
    copy the address, paste it into the box, and pick the row that appears
    (Enter works too).
-6. Finish with one of two buttons:
+7. Finish with one of two buttons:
    - **Save** keeps your changes; the site picks them up at tonight's update.
    - **Save & Refresh** applies them right now. A progress panel shows what's
-     happening; it takes about two minutes, and it's safe to close the page
-     since the update keeps running and the site refreshes on its own. When
+     happening (its **×** hides it; the refresh keeps running); the whole
+     thing takes about two minutes, and it's safe to close the page since
+     the update keeps running and the site refreshes on its own. When
      it finishes, the banner is green if everything worked, amber if a source
      failed but the rest was published, red if nothing was published.
 
@@ -107,16 +120,20 @@ performs the daily update.
 
 - **Data flow:** `config/preferences.json` -> `scripts/fetch-releases.mjs`
   (zero-dep node) -> `docs/data/releases.json` -> committed + pushed by
-  `scripts/update.sh` -> GitHub Pages serves `docs/`. Four sources, all
+  `scripts/update.sh` -> GitHub Pages serves `docs/`. Five sources, all
   native Apple Music (links, genres, artwork):
   - Batched iTunes lookups for the follow list (also collects announced
     pre-orders into `upcoming[]` for the Upcoming tab).
   - The Apple US most-played chart.
   - US iTunes genre purchase charts (day-of drops in followed genres).
   - Apple Music editorial playlists (e.g. New Music Daily).
+  - Country charts (`discovery.countries`): each followed country's
+    most-played Top 100 plus purchase charts, date-filtered in-feed.
 
-  Every source queries the US storefront only; other storefronts localize
-  artist names, which duplicates cards.
+  Every card is built from a US-catalog lookup; other storefronts localize
+  artist names, which would duplicate cards, so country feeds contribute
+  collection ids only and entries missing from the US catalog are dropped
+  until they propagate.
 - **Frontend:** Vite + React + TS + Tailwind in `src/`; build output goes into
   `docs/` next to the data (never wiped, see vite.config.ts). The UI uses
   self-hosted Plus Jakarta Sans from `public/fonts/` (copied to `docs/fonts/`
@@ -138,8 +155,15 @@ performs the daily update.
   scans the editor's markup); the hashed filename is resolved on every
   request, so a rebuild never strands a stale link. After editing the
   editor's markup, run `npm run build` and restart the server.
-- **Canonical genre tags:** `scripts/genre-map.mjs`, shared by the fetcher
-  (tags releases) and the editor (offers the tags in the genre picker).
+- **Genre options:** `scripts/genre-map.mjs` exports the curated list the
+  editor's picker offers (exact Apple genre names). The fetcher never maps
+  genres: cards carry Apple's genre name verbatim, and the follow filter is
+  an exact case-insensitive match against `genres.followed`. After editing
+  the list, run
+  `node scripts/check-genre-coverage.mjs` to confirm every curated name
+  still exists in Apple's genre tree (Apple renames genres; a rename means
+  followed releases silently stop matching). Storefront codes for
+  `discovery.countries` live in `scripts/storefronts.mjs`.
 - **Config side file:** `config/artist-activity.json` records each artist's
   newest release date every night and drives the dormancy hints on
   followed-artist chips.
@@ -147,8 +171,10 @@ performs the daily update.
   - Non-zero exit when any source fails (including one failed sweep batch);
     partial results still publish.
   - Empty-success carryover: never stamp an empty file fresh.
-  - Paced, jittered requests to the iTunes lookup API (other Apple hosts
-    fetch concurrently).
+  - Paced, jittered requests to the iTunes lookup API, and a second paced
+    lane for the marketingtools chart feeds (a burst of ~20 gets 503s);
+    legacy RSS and the web player fetch concurrently. Failed country feeds
+    get one retry pass, like sweep batches.
   - The nightly push verifies its own Pages deploy and requests one rebuild
     if it flaked (correlated to the fresh build, so a stale failed status
     can't fool it).

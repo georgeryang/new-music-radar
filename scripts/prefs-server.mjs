@@ -16,7 +16,8 @@ import { closeSync, openSync, readFileSync, readdirSync, realpathSync, writeFile
 import { spawn } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { join, normalize } from 'node:path'
-import { CANON_TAGS } from './genre-map.mjs'
+import { GENRE_OPTIONS } from './genre-map.mjs'
+import { STOREFRONTS } from './storefronts.mjs'
 
 const PORT = 4747
 const PREFS_PATH = new URL('../config/preferences.json', import.meta.url)
@@ -41,7 +42,10 @@ const SITE_URL = `http://localhost:${PORT}${SITE_PATH}`
 const ASSETS_DIR = fileURLToPath(new URL('../docs/assets/', import.meta.url))
 function cssHref() {
   try {
-    const f = readdirSync(ASSETS_DIR).find((n) => n.endsWith('.css'))
+    // strict filename shape: this is the one filesystem-derived string that
+    // reaches raw HTML (the <link> tag below), so it must not be able to
+    // carry quotes or angle brackets
+    const f = readdirSync(ASSETS_DIR).find((n) => /^[\w.-]+\.css$/.test(n))
     return f ? `${SITE_PATH}assets/${f}` : null
   } catch {
     return null
@@ -77,6 +81,11 @@ const isPlaylistList = (v) =>
       e && isName(e.name) && typeof e.url === 'string' &&
       /^https:\/\/music\.apple\.com\/[a-z]{2}\/playlist\/[^/]+\/pl\./.test(e.url)
   )
+// Countries are bare storefront codes; only codes from the verified map are
+// accepted — the fetcher builds chart URLs straight from these. hasOwn, not
+// a truthy lookup: inherited keys like "constructor" must not validate.
+const isCountryList = (v) =>
+  Array.isArray(v) && v.every((c) => typeof c === 'string' && Object.hasOwn(STOREFRONTS, c))
 
 // "Save & Refresh" — spawns update.sh DETACHED, appending to the same log
 // launchd uses, with a pidfile for liveness. Detached means quitting this
@@ -151,10 +160,18 @@ const server = http.createServer(async (req, res) => {
       res.end(PAGE.replace('<!--CSS-->', href ? `<link rel="stylesheet" href="${href}">` : ''))
     } else if (req.method === 'GET' && url.pathname === '/api/prefs') {
       const p = readPrefs()
-      let seen = []
+      // Per-genre yield of the latest update, for the chip markers. Only
+      // releases WITHOUT the followed flag count: followed artists bypass
+      // genre filters, so their releases say nothing about whether a genre
+      // chip earns its keep. Every fetch rewrites the whole window, so the
+      // file is exactly the last fetch's output.
+      const genreCounts = {}
       try {
-        const releases = JSON.parse(readFileSync(DATA_PATH, 'utf8')).releases ?? []
-        seen = [...new Set(releases.map((r) => r.genre).filter(Boolean))]
+        for (const r of JSON.parse(readFileSync(DATA_PATH, 'utf8')).releases ?? []) {
+          if (r.followed || !r.genre) continue
+          const k = r.genre.toLowerCase()
+          genreCounts[k] = (genreCounts[k] ?? 0) + 1
+        }
       } catch {}
       json(res, 200, {
         artists: {
@@ -163,10 +180,13 @@ const server = http.createServer(async (req, res) => {
         },
         genres: { followed: p.genres?.followed ?? [] },
         playlists: p.discovery?.playlists ?? [],
+        countries: p.discovery?.countries ?? [],
         activity: readActivity(),
-        genreOptions: [...new Set([...CANON_TAGS, ...seen])].sort((a, b) => a.localeCompare(b)),
-        // tags on the page right now — the editor annotates these in the picker
-        genresSeen: seen,
+        // localeCompare, not default sort: accented names ("Música
+        // Mexicana") land after "z" in code-point order
+        genreOptions: [...GENRE_OPTIONS].sort((a, b) => a.localeCompare(b)),
+        genreCounts,
+        countryNames: STOREFRONTS,
         siteUrl: SITE_URL,
       })
     } else if (req.method === 'POST' && url.pathname === '/api/prefs') {
@@ -184,12 +204,13 @@ const server = http.createServer(async (req, res) => {
       if (
         !isPinnedArtistList(incoming?.artists?.followed) || !isPinnedArtistList(incoming?.artists?.blocked) ||
         !isStringList(incoming?.genres?.followed) ||
-        !isPlaylistList(incoming?.discovery?.playlists)
+        !isPlaylistList(incoming?.discovery?.playlists) ||
+        !isCountryList(incoming?.discovery?.countries)
       ) return json(res, 400, { error: 'invalid list shape' })
       const p = readPrefs() // preserve _comment, anything else
       p.artists = { followed: incoming.artists.followed, blocked: incoming.artists.blocked }
       p.genres = { ...p.genres, followed: incoming.genres.followed }
-      p.discovery = { ...p.discovery, playlists: incoming.discovery.playlists }
+      p.discovery = { ...p.discovery, countries: incoming.discovery.countries, playlists: incoming.discovery.playlists }
       writeFileSync(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
       json(res, 200, { ok: true })
     } else if (req.method === 'GET' && url.pathname === '/api/artist-search') {
@@ -277,7 +298,10 @@ const PAGE = /* html */ `<!doctype html>
 <header class="mb-1 flex items-baseline justify-between"><h1 class="text-lg font-bold">Preferences</h1><a href="" id="site-link" target="_blank" rel="noopener noreferrer" class="text-[13px] text-muted-foreground hover:text-foreground">Open radar →</a></header>
 <p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away (about two minutes).</p>
 <div id="sections"></div>
-<pre id="log" hidden class="fixed bottom-[92px] left-1/2 max-h-[180px] w-[min(640px,calc(100%-32px))] -translate-x-1/2 overflow-y-auto rounded-lg border border-border bg-muted px-3 py-2.5 font-mono text-[11px] leading-[1.5] whitespace-pre-wrap wrap-break-word"></pre>
+<div id="log-wrap" hidden class="fixed bottom-[92px] left-1/2 z-10 w-[min(640px,calc(100%-32px))] -translate-x-1/2">
+  <button id="log-hide" class="absolute top-1.5 right-2.5 cursor-pointer p-0 text-[15px] leading-none text-muted-foreground hover:text-foreground" title="Hide the progress log (the refresh keeps running)" aria-label="Hide progress log">×</button>
+  <pre id="log" class="max-h-[180px] overflow-y-auto rounded-lg border border-border bg-muted px-3 py-2.5 pr-8 font-mono text-[11px] leading-[1.5] whitespace-pre-wrap wrap-break-word"></pre>
+</div>
 <div id="banner" hidden role="status"></div>
 <footer class="fixed inset-x-0 bottom-0 flex items-center justify-center gap-2 border-t border-border bg-background px-4 py-2.5">
   <span id="status" role="status" class="mr-auto max-w-[40%] truncate text-xs text-muted-foreground"></span>
@@ -286,7 +310,7 @@ const PAGE = /* html */ `<!doctype html>
   <button id="refresh" class="cursor-pointer rounded-lg border border-primary bg-primary px-4 py-[7px] text-[13px] text-primary-foreground disabled:cursor-default disabled:opacity-45">Save &amp; Refresh</button>
 </footer>
 <script>
-let prefs, activity = {}, genreOptions = [], genresSeen = [], dirty = false
+let prefs, activity = {}, genreOptions = [], genreCounts = {}, countryNames = {}, dirty = false
 // display-only sort for the followed section: false = A-Z, true = oldest
 // release first (dormant prune candidates cluster at the top)
 let dormancySort = false
@@ -298,9 +322,15 @@ const SECTIONS = [
   { key: 'artists.followed', label: 'Followed artists', sub: 'pinned first ★, fetched by Apple ID, bypass filters', artist: true, requireId: true },
   { key: 'artists.blocked', label: 'Blocked artists', sub: 'never shown (matched by Apple ID)', artist: true, requireId: true },
   { key: 'genres.followed', label: 'Followed genres', sub: 'discovery only surfaces these (followed artists always show)', artist: false },
+  { key: 'discovery.countries', label: 'Additional countries', sub: 'always-scanned US charts (mostly English) plus these countries\\' Top 100 and purchase charts', country: true },
   { key: 'discovery.playlists', label: 'Discovery playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', playlist: true },
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
+// country entries are bare storefront codes; everywhere they're shown or
+// sorted, the display name comes from the server's verified code→name map
+// hasOwn everywhere countryNames is keyed by outside input: a bare object
+// lookup would resolve inherited keys ("constructor") to junk
+const displayOf = (s, e) => (s.country && Object.hasOwn(countryNames, e) ? countryNames[e] : nameOf(e))
 
 // https://music.apple.com/us/playlist/<slug>/pl.<id> — display name from slug
 function parsePlaylist(u) {
@@ -336,7 +366,7 @@ function renderAll() {
     // Lists stay alphabetical (also in the saved file). Safe: the fetcher only
     // does membership checks — list order never affects the releases page.
     getList(s.key).sort((a, b) =>
-      nameOf(a).toLowerCase().localeCompare(nameOf(b).toLowerCase())
+      displayOf(s, a).toLowerCase().localeCompare(displayOf(s, b).toLowerCase())
     )
     const h = document.createElement('h2')
     h.className = 'mt-[18px] mb-2 text-[13px] font-bold'
@@ -368,7 +398,25 @@ function renderAll() {
     for (const entry of entries) {
       const chip = document.createElement('span')
       chip.className = 'inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-[3px] text-[13px]'
-      chip.appendChild(document.createTextNode(nameOf(entry)))
+      chip.appendChild(document.createTextNode(displayOf(s, entry)))
+      if (s.country) {
+        const code = document.createElement('span')
+        code.className = 'text-[11px] text-muted-foreground'
+        code.textContent = '· ' + entry
+        chip.appendChild(code)
+      }
+      // Genre yield marker: how many releases the latest update admitted via
+      // this genre (followed artists excluded — they bypass genre filters).
+      // Amber 0 = prune candidate, same visual language as the dormancy
+      // hints. A genre added after the last fetch reads 0 until the next one.
+      if (s.key === 'genres.followed') {
+        const n = genreCounts[nameOf(entry).toLowerCase()] ?? 0
+        const count = document.createElement('span')
+        count.className = n === 0 ? 'text-[11px] text-amber-800 dark:text-amber-400' : 'text-[11px] text-muted-foreground'
+        count.textContent = '· ' + n
+        count.title = 'found by the latest update via this genre'
+        chip.appendChild(count)
+      }
       if (typeof entry !== 'string') chip.title = entry.url ?? 'Apple Music artist #' + entry.id
       // Dormancy hint: an artist with no release in 18+ months is a prune
       // candidate — fetch time no longer depends on list size, so this is
@@ -420,7 +468,9 @@ function makeAdder(s) {
     ? 'Add artist (name, Apple ID, or artist page URL, then pick from the list)…'
     : s.playlist
       ? 'Add playlist (paste an Apple Music playlist URL, then pick from the list)…'
-      : 'Add genre (pick from the list, or press Enter for exact text)…'
+      : s.country
+        ? 'Add country (pick from the list)…'
+        : 'Add genre (pick from the list, or press Enter for exact text)…'
   const results = document.createElement('div')
   results.className = 'absolute inset-x-0 top-[34px] z-10 max-h-60 overflow-x-hidden overflow-y-auto rounded-lg border border-border bg-background shadow-[0_8px_24px_rgba(0,0,0,.12)]'
   results.hidden = true
@@ -443,6 +493,16 @@ function makeAdder(s) {
         return
       }
       addTo(s.key, pl)
+    } else if (s.country) {
+      // free text must resolve to a known storefront — the fetcher builds
+      // chart URLs from these codes and the server rejects unknown ones
+      const q = input.value.trim().toLowerCase()
+      const code = Object.hasOwn(countryNames, q) ? q : Object.keys(countryNames).find((c) => countryNames[c].toLowerCase() === q)
+      if (!code) {
+        $('status').textContent = 'Pick a country from the list.'
+        return
+      }
+      addTo(s.key, code)
     } else {
       addTo(s.key, input.value)
     }
@@ -505,22 +565,54 @@ function makeAdder(s) {
       results.hidden = false
     }
     input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
+  } else if (s.country) {
+    // countries: focus lists every storefront not yet followed, typing
+    // filters by name or code; add only from the list (codes are verified).
+    const show = () => {
+      results.replaceChildren()
+      const typed = input.value.trim().toLowerCase()
+      const have = new Set(getList(s.key))
+      const opts = Object.entries(countryNames)
+        .filter(([code, name]) => !have.has(code) && (name.toLowerCase().includes(typed) || code.includes(typed)))
+        .sort((a, b) => a[1].localeCompare(b[1]))
+      for (const [code, name] of opts) {
+        resultRow(results, name, code, () => {
+          addTo(s.key, code)
+          input.value = ''
+          results.hidden = true
+        })
+      }
+      results.hidden = opts.length === 0
+    }
+    input.oninput = show
+    input.onfocus = show
+    input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
   } else {
-    // genres: focus lists every known tag (canonical + seen in the current
-    // data), typing filters, Enter takes exact free text (a tag outside the
-    // canonical list is still followable — unmapped genre names pass through
-    // the fetcher untouched).
+    // genres: focus lists the curated options, typing filters, Enter takes
+    // exact free text (any Apple genre name is followable even when the
+    // curated list omits it).
     const show = () => {
       results.replaceChildren()
       const typed = input.value.trim().toLowerCase()
       const have = new Set(getList(s.key).map((g) => nameOf(g).toLowerCase()))
       const opts = genreOptions.filter((g) => !have.has(g.toLowerCase()) && g.toLowerCase().includes(typed))
       for (const g of opts) {
-        resultRow(results, g, genresSeen.includes(g) ? 'on the site now' : '', () => {
+        resultRow(results, g, '', () => {
           addTo(s.key, g)
           input.value = ''
           results.hidden = true
         })
+      }
+      // nothing matches: offer the exact text explicitly (Enter always did
+      // this, invisibly) unless it's already followed
+      if (!opts.length && typed && !have.has(typed)) {
+        resultRow(results, 'Follow exact text "' + input.value.trim() + '"', 'exact Apple genre match', () => {
+          addTo(s.key, input.value)
+          input.value = ''
+          results.hidden = true
+        })
+        results.hidden = false
+        return
       }
       results.hidden = opts.length === 0
     }
@@ -534,6 +626,14 @@ function makeAdder(s) {
 
 let wasRunning = false
 let pollTimer
+// The floating progress log covers the lower chip lists while a refresh
+// runs — the × hides it for the rest of THIS refresh; the next one shows it
+// again (the flag resets when a refresh starts).
+let logDismissed = false
+$('log-hide').onclick = () => {
+  logDismissed = true
+  $('log-wrap').hidden = true
+}
 // Status colors stay semantic (amber/green/orange); only the error state
 // joins the brand red family. Full literal strings per state — Tailwind
 // scans this file as text and can't see concatenated fragments.
@@ -566,7 +666,8 @@ async function poll() {
     $('refresh').disabled = st.running
     $('refresh').textContent = st.running ? 'Refreshing…' : 'Save & Refresh'
     $('status').textContent = st.running ? '' : (st.log.at(-1) ?? '')
-    $('log').hidden = !st.running
+    if (st.running && !wasRunning) logDismissed = false // new refresh, show again
+    $('log-wrap').hidden = !st.running || logDismissed
     if (st.running) {
       $('log').textContent = st.log.join('\\n')
       $('log').scrollTop = $('log').scrollHeight
@@ -602,6 +703,7 @@ $('refresh').onclick = async () => {
   setBanner('running', 'Starting refresh…')
   await fetch('/api/refresh', { method: 'POST' })
   wasRunning = true
+  logDismissed = false // this click preempts poll's false→true transition
   clearTimeout(pollTimer) // restart the single poll chain, don't fork a second one
   poll()
 }
@@ -609,10 +711,11 @@ $('quit').onclick = async () => { await fetch('/api/quit', { method: 'POST' }); 
 window.onbeforeunload = () => (dirty ? true : undefined)
 
 fetch('/api/prefs').then((r) => r.json()).then((p) => {
-  prefs = { artists: p.artists, genres: p.genres, discovery: { playlists: p.playlists ?? [] } }
+  prefs = { artists: p.artists, genres: p.genres, discovery: { countries: p.countries ?? [], playlists: p.playlists ?? [] } }
   activity = p.activity ?? {}
   genreOptions = p.genreOptions ?? []
-  genresSeen = p.genresSeen ?? []
+  genreCounts = p.genreCounts ?? {}
+  countryNames = p.countryNames ?? {}
   $('site-link').href = p.siteUrl
   renderAll()
   poll()

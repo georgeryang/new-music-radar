@@ -1,6 +1,6 @@
 // Data contract between scripts/fetch-releases.mjs (producer) and the app (consumer).
-// The fetcher supplies the Apple Music link and assigns the canonical genre
-// tag. Its releases/upcoming routing IS the New/Upcoming split — both lists
+// The fetcher supplies the Apple Music link and Apple's genre name verbatim.
+// Its releases/upcoming routing IS the New/Upcoming split — both lists
 // arrive sorted and the app renders them as-is; every window and label
 // anchors to fetched_at, never the viewer's clock.
 
@@ -14,7 +14,9 @@ export interface Release {
   type: ReleaseType
   release_date: string // YYYY-MM-DD (sources report dates, not times)
   artwork: string // '' when the source has none
-  genre?: string | null // canonical tag (K-pop, Latin, …); null when unknown
+  // Apple's genre name — verbatim from the catalog lookup, or the surfacing
+  // chart feed's own Apple label when that lookup failed; null when unknown
+  genre?: string | null
   link?: string // Apple Music URL, always the US storefront
   followed?: boolean // artist is in config/preferences.json — pinned first
 }
