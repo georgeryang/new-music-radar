@@ -1,5 +1,5 @@
 {
-  "_comment": "genres.followed is case-insensitive and matches the canonical tags from GENRE_MAP in scripts/genre-map.mjs — discovery only surfaces these genres (followed artists always show regardless). artists.* entries (both lists) must be {name, id} objects where id is an APPLE MUSIC artist id, added via the prefs.command picker — followed artists are fetched by id, blocked artists are dropped by id. discovery.playlists are Apple Music playlist pages scraped nightly for day-of releases — paste any playlist URL from music.apple.com (also editable in prefs.command).",
+  "_comment": "genres.followed is case-insensitive and matches the canonical umbrella tags from GENRE_MAP in scripts/genre-map.mjs (or a release's exact Apple genre name) — discovery only surfaces these genres (followed artists always show regardless). artists.* entries (both lists) must be {name, id} objects where id is an APPLE MUSIC artist id, added via the prefs.command picker — followed artists are fetched by id, blocked artists are dropped by id. discovery.countries are Apple storefront codes from scripts/storefronts.mjs — each adds that country's Top 100 + purchase charts to the nightly scan (US charts are always scanned). discovery.playlists are Apple Music playlist pages scraped nightly for day-of releases — paste any playlist URL from music.apple.com (also editable in prefs.command).",
   "artists": {
     "followed": [
       {
@@ -709,18 +709,39 @@
   "genres": {
     "followed": [
       "African",
-      "C-pop",
-      "J-pop",
-      "K-pop",
+      "C-Pop",
+      "Cantopop/HK-Pop",
+      "Indian",
+      "Indo Pop",
+      "J-Pop",
+      "K-Pop",
       "Latin",
-      "OPM",
+      "Mandopop",
+      "Pinoy Pop",
       "Pop",
-      "R&B",
-      "Thai pop",
-      "V-pop"
+      "R&B/Soul",
+      "Thai Pop"
     ]
   },
   "discovery": {
+    "countries": [
+      "ar",
+      "cn",
+      "co",
+      "hk",
+      "in",
+      "id",
+      "jp",
+      "kr",
+      "mx",
+      "ng",
+      "pe",
+      "ph",
+      "za",
+      "tw",
+      "th",
+      "vn"
+    ],
     "playlists": [
       {
         "name": "Breaking Mandopop",
