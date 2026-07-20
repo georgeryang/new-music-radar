@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1784499239848,
+  "fetched_at": 1784543566452,
   "releases": [
     {
       "title": "Mírame - Leo Fire",
@@ -11,6 +11,19 @@
       "genre": "Latin",
       "link": "https://music.apple.com/us/album/m%C3%ADrame-leo-fire-single/6785616810?uo=4",
       "followed": true
+    },
+    {
+      "title": "Love Got Me Ooh",
+      "artist": "A2O MAY",
+      "artist_id": 1790290148,
+      "type": "album",
+      "release_date": "2026-07-17",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/21/b7/ae/21b7aef5-09e6-e31f-7a57-1e34cb6ea067/820233846912.jpg/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/love-got-me-ooh-ep/6788713890?uo=4",
+      "sources": [
+        "country:tw"
+      ]
     },
     {
       "title": "Método Uve",
@@ -49,32 +62,6 @@
       "link": "https://music.apple.com/us/album/isnt-it-sweeter-ep/6780722925?uo=4",
       "sources": [
         "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "CÔNG DIỄN 1 (Anh Trai Vượt Ngàn Chông Gai 2026)",
-      "artist": "Anh Trai Vượt Ngàn Chông Gai",
-      "artist_id": 6781213801,
-      "type": "album",
-      "release_date": "2026-07-18",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9d/e1/4d/9de14de8-3170-52d4-1c9a-e6eefe3d070d/196874585269.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/c%C3%B4ng-di%E1%BB%85n-1-anh-trai-v%C6%B0%E1%BB%A3t-ng%C3%A0n-ch%C3%B4ng-gai-2026-ep/6788318047?uo=4",
-      "sources": [
-        "country:vn"
-      ]
-    },
-    {
-      "title": "Nasaan Ka Na?",
-      "artist": "Ashtine Olviga",
-      "artist_id": 6791592523,
-      "type": "song",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2c/f9/e4/2cf9e4bd-454b-5077-234e-5e55830079b8/cover.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/nasaan-ka-na-single/6789641692?uo=4",
-      "sources": [
-        "country:ph"
       ]
     },
     {
@@ -118,32 +105,6 @@
       ]
     },
     {
-      "title": "Simi Kanje (feat. Focalistic & Mas Musiq)",
-      "artist": "Daliwonga",
-      "artist_id": 1464901981,
-      "type": "song",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9c/35/e0/9c35e00f-cf66-a42b-179e-fb9fa565505b/196874325896.jpg/400x400bb.jpg",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/simi-kanje-feat-focalistic-mas-musiq-single/6785800258?uo=4",
-      "sources": [
-        "country:za"
-      ]
-    },
-    {
-      "title": "Ác Mộng Đẹp - Chapter 1",
-      "artist": "Đạt G",
-      "artist_id": 1331391416,
-      "type": "song",
-      "release_date": "2026-07-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f7/0b/cc/f70bcc95-d246-7708-3688-1a18d9c5e61d/823375320081_Cover.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/%C3%A1c-m%E1%BB%99ng-%C4%91%E1%BA%B9p-chapter-1-single/6791876727?uo=4",
-      "sources": [
-        "country:vn"
-      ]
-    },
-    {
       "title": "Candles",
       "artist": "Dom Innarella",
       "artist_id": 1799787707,
@@ -169,16 +130,6 @@
         "playlist:New Music Daily",
         "playlist:Nuevo Nuevo"
       ]
-    },
-    {
-      "title": "Finessin Distribution Deals",
-      "artist": "Fox BD",
-      "artist_id": 1681412405,
-      "type": "album",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/21/f5/11/21f511ac-4a5f-364b-c366-1166ea1658ef/075679569332.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/finessin-distribution-deals/6790992537?uo=4"
     },
     {
       "title": "Hangin' On",
@@ -208,16 +159,6 @@
       ]
     },
     {
-      "title": "Hablando Música: La Música de José Madera (feat. Orquesta Filarmónica Arturo Somohano)",
-      "artist": "Gilberto Santa Rosa & Jose Madera",
-      "artist_id": 1311894,
-      "type": "album",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d4/ee/a5/d4eea50c-3b72-0b7d-ef48-96ed8bafa6aa/792278138973.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/hablando-mu-sica-la-mu-sica-de-jose-madera-feat/6786951757?uo=4"
-    },
-    {
       "title": "CHAT",
       "artist": "GIRLSET",
       "artist_id": 1833111616,
@@ -245,6 +186,19 @@
       ]
     },
     {
+      "title": "Daughter from Hell (Bonus Tracks)",
+      "artist": "Gracie Abrams",
+      "artist_id": 1450554836,
+      "type": "album",
+      "release_date": "2026-07-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f6/25/0f/f6250f82-560e-e774-3a9e-48d7d8aa0eae/26UMGIM54147.rgb.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/daughter-from-hell-bonus-tracks/6791774883?uo=4",
+      "sources": [
+        "country:ar"
+      ]
+    },
+    {
       "title": "Daughter from Hell",
       "artist": "Gracie Abrams",
       "artist_id": 1450554836,
@@ -254,20 +208,9 @@
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/daughter-from-hell/6766750836?uo=4",
       "sources": [
+        "country:co",
+        "country:hk",
         "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Heath Jornales",
-      "artist": "Heath Jornales",
-      "artist_id": 1891278373,
-      "type": "album",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d8/0b/d4/d80bd44e-8ff5-e06f-276a-5a983fb73e48/820233509619.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/heath-jornales-ep/6788244712?uo=4",
-      "sources": [
-        "country:ph"
       ]
     },
     {
@@ -284,39 +227,16 @@
       ]
     },
     {
-      "title": "第八大洋",
-      "artist": "Hua Chen",
-      "artist_id": 1558470706,
+      "title": "Beyond My Control (feat. A-Lin)",
+      "artist": "Jam Hsiao",
+      "artist_id": 283971013,
       "type": "song",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/60/f0/ce/60f0ce8b-8fa0-90fd-0d0a-aacb78fd28ad/4711548159421.png/400x400bb.jpg",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/%E7%AC%AC%E5%85%AB%E5%A4%A7%E6%B4%8B-single/6791167345?uo=4",
+      "release_date": "2026-07-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e7/62/c8/e762c83e-d50c-a730-a01f-4b4347b4c75f/196874535301.jpg/400x400bb.jpg",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/beyond-my-control-feat-a-lin-single/6787933011?uo=4",
       "sources": [
         "country:tw"
-      ]
-    },
-    {
-      "title": "Rich Off Pints 4",
-      "artist": "Icewear Vezzo",
-      "artist_id": 514871285,
-      "type": "album",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4c/99/c8/4c99c85d-2f43-a772-7900-a6896a7ab43b/66111.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/rich-off-pints-4/6780209881?uo=4"
-    },
-    {
-      "title": "Jy moet dit weet",
-      "artist": "Jakkals Vibes",
-      "artist_id": 1752360086,
-      "type": "song",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/02/d7/7d/02d77d3e-59c1-93d8-c420-7fd4e40b6b3b/artwork.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/jy-moet-dit-weet-single/6790120304?uo=4",
-      "sources": [
-        "country:za"
       ]
     },
     {
@@ -333,16 +253,6 @@
       ]
     },
     {
-      "title": "THE ETERNAL PULL",
-      "artist": "JOHN H WALKER",
-      "artist_id": 6791958286,
-      "type": "album",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/af/69/f0/af69f0ed-1845-58c0-e1fc-cf21f25be7a6/artwork.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/the-eternal-pull/6792024690?uo=4"
-    },
-    {
       "title": "Clouds",
       "artist": "Joshua Bassett",
       "artist_id": 1507805651,
@@ -356,16 +266,6 @@
       ]
     },
     {
-      "title": "I Just Wanna Make You Smile",
-      "artist": "KAITO HORI",
-      "artist_id": 6791870449,
-      "type": "album",
-      "release_date": "2026-07-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/3b/7d/65/3b7d65bf-e6c9-1239-f269-be82fad8d8ca/4550758731764_cover.png/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/i-just-wanna-make-you-smile-ep/6792219436?uo=4"
-    },
-    {
       "title": "I'd Be Lyin'",
       "artist": "Kelly Clarkson",
       "artist_id": 316265,
@@ -375,7 +275,6 @@
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/id-be-lyin-single/6784410352?uo=4",
       "sources": [
-        "country:ph",
         "playlist:New Music Daily"
       ]
     },
@@ -460,19 +359,6 @@
       ]
     },
     {
-      "title": "Slow Motion",
-      "artist": "Luca Zuccotti",
-      "artist_id": 1507873418,
-      "type": "album",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0e/29/e1/0e29e1f4-3c30-e368-6e4b-86deb28afd5a/859740247189_cover.jpg/400x400bb.jpg",
-      "genre": "Afrobeats",
-      "link": "https://music.apple.com/us/album/slow-motion-ep/6779556773?uo=4",
-      "sources": [
-        "country:ng"
-      ]
-    },
-    {
       "title": "You!Joy!Parade!",
       "artist": "M!LK",
       "artist_id": 1356706755,
@@ -509,10 +395,8 @@
       "link": "https://music.apple.com/us/album/daydream-30th-anniversary-edition/6789414774?uo=4",
       "sources": [
         "country:hk",
-        "country:ph",
-        "country:tw",
-        "country:th",
-        "country:vn"
+        "country:mx",
+        "country:tw"
       ]
     },
     {
@@ -542,19 +426,6 @@
       ]
     },
     {
-      "title": "self",
-      "artist": "Nao Yoshioka",
-      "artist_id": 533392203,
-      "type": "album",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/49/00/dc/4900dc6f-6171-37f6-d3bb-6b4e63e58fd3/4560365714272.jpg/400x400bb.jpg",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/self/6770780571?uo=4",
-      "sources": [
-        "country:hk"
-      ]
-    },
-    {
       "title": "Pretty Bitch",
       "artist": "Nesi",
       "artist_id": 203376453,
@@ -575,7 +446,10 @@
       "release_date": "2026-07-17",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/81/7e/2f/817e2f61-78c2-1a5d-fafc-5e7357d29468/827568002877.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": "https://music.apple.com/us/album/the-best-of-the-rest-of-new-order/6770508949?uo=4"
+      "link": "https://music.apple.com/us/album/the-best-of-the-rest-of-new-order/6770508949?uo=4",
+      "sources": [
+        "country:hk"
+      ]
     },
     {
       "title": "PIXIE",
@@ -589,16 +463,6 @@
       "sources": [
         "playlist:New Music Daily"
       ]
-    },
-    {
-      "title": "América!",
-      "artist": "Orquesta Akokán",
-      "artist_id": 1334147786,
-      "type": "album",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/90/77/82/90778276-abb6-dd7e-70ce-99c9fb5abecd/126578.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/am%C3%A9rica/1895688521?uo=4"
     },
     {
       "title": "MÚSICA EN MI JETSKI",
@@ -623,8 +487,7 @@
       "genre": "R&B/Soul",
       "link": "https://music.apple.com/us/album/usad-single/6789944030?uo=4",
       "sources": [
-        "country:hk",
-        "country:ph"
+        "country:hk"
       ]
     },
     {
@@ -667,16 +530,6 @@
       ]
     },
     {
-      "title": "A Piano in the Wrong Dimension",
-      "artist": "REVA M HARMON",
-      "artist_id": 6792219461,
-      "type": "album",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1a/b5/4b/1ab54bc0-f764-ecff-c388-a59a2ce3bd0c/artwork.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/a-piano-in-the-wrong-dimension/6792253148?uo=4"
-    },
-    {
       "title": "Set In Stone",
       "artist": "Rick Ross",
       "artist_id": 4022281,
@@ -687,6 +540,19 @@
       "link": "https://music.apple.com/us/album/set-in-stone/6767398649?uo=4",
       "sources": [
         "playlist:New Music Daily"
+      ]
+    },
+    {
+      "title": "Desire (Official FIFA Anthem) [feat. Nicole Scherzinger & Laura Pausini]",
+      "artist": "Robbie Williams",
+      "artist_id": 17973,
+      "type": "song",
+      "release_date": "2026-07-17",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8e/42/89/8e4289b7-876b-6e39-7be2-46d2dd8e3319/196874602317.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/desire-official-fifa-anthem-feat-nicole-scherzinger/6790533663?uo=4",
+      "sources": [
+        "country:tw"
       ]
     },
     {
@@ -738,6 +604,7 @@
       "genre": "Pop Latino",
       "link": "https://music.apple.com/us/album/dai-dai-a-cappella-single/6791763227?uo=4",
       "sources": [
+        "country:ar",
         "country:co",
         "country:mx"
       ]
@@ -783,16 +650,6 @@
       ]
     },
     {
-      "title": "All the Space Between",
-      "artist": "Surfaces",
-      "artist_id": 1168766439,
-      "type": "album",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ef/a4/1a/efa41a2a-b908-c981-319b-d141fae4295e/824296974889_cover.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/all-the-space-between/6781019540?uo=4"
-    },
-    {
       "title": "Beard",
       "artist": "Syd",
       "artist_id": 504550699,
@@ -819,52 +676,29 @@
       ]
     },
     {
-      "title": "Made You Think I Was Gone ...But",
-      "artist": "Tory Lanez",
-      "artist_id": 440458549,
-      "type": "album",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ba/18/1f/ba181f99-914c-e701-0e0f-e6f915d265ed/075679567727.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/made-you-think-i-was-gone-but/6786970161?uo=4"
+      "title": "Time's Tickin'",
+      "artist": "U-KNOW",
+      "artist_id": 453430689,
+      "type": "song",
+      "release_date": "2026-07-20",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/65/39/5d/65395d04-e926-59dd-fb09-21dd39f048ba/888735956379.png/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/times-tickin-single/6790623318?uo=4",
+      "sources": [
+        "playlist:New In K Pop"
+      ]
     },
     {
-      "title": "Gimmesummer (Jp Version)",
-      "artist": "UNIS",
-      "artist_id": 1736907509,
-      "type": "song",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/04/39/b4/0439b4fc-be46-a7d0-00c8-24ca13e498c8/PA00222251_0_249755_jacket.jpg/400x400bb.jpg",
+      "title": "琴の音",
+      "artist": "Various Artists",
+      "artist_id": 4035426,
+      "type": "album",
+      "release_date": "2026-07-20",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/62/eb/ee/62ebee30-69a3-0b7b-4129-5ae23b92dad1/823375306252_Cover.jpg/400x400bb.jpg",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/gimmesummer-jp-version-single/6787870617?uo=4",
+      "link": "https://music.apple.com/us/album/%E7%90%B4%E3%81%AE%E9%9F%B3/6790375713?uo=4",
       "sources": [
-        "country:ph"
-      ]
-    },
-    {
-      "title": "最初的记忆",
-      "artist": "XIAOJUN",
-      "artist_id": 1500359586,
-      "type": "song",
-      "release_date": "2026-07-18",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/fa/d4/1e/fad41e98-69fc-99b8-0e58-95ecf5555d36/4896010595058.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E6%9C%80%E5%88%9D%E7%9A%84%E8%AE%B0%E5%BF%86-single/6791524320?uo=4",
-      "sources": [
-        "country:id"
-      ]
-    },
-    {
-      "title": "Let's Never Give A Sh**",
-      "artist": "Xuân Nghi",
-      "artist_id": 451118296,
-      "type": "album",
-      "release_date": "2026-07-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1d/11/26/1d1126f4-5f7c-4488-4261-2142c09dd5ae/26UMGIM92300.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/lets-never-give-a-sh/6789548962?uo=4",
-      "sources": [
-        "country:vn"
+        "country:jp"
       ]
     },
     {

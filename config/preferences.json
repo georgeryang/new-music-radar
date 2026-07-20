@@ -728,20 +728,12 @@
   "discovery": {
     "countries": [
       "ar",
-      "cn",
       "co",
       "hk",
-      "in",
-      "id",
       "jp",
       "kr",
       "mx",
-      "ng",
-      "ph",
-      "za",
-      "tw",
-      "th",
-      "vn"
+      "tw"
     ],
     "playlists": [
       {
