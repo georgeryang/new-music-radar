@@ -693,16 +693,148 @@
     ],
     "blocked": [
       {
+        "name": "2 Chainz",
+        "id": 435300447
+      },
+      {
+        "name": "21 Savage",
+        "id": 894820464
+      },
+      {
+        "name": "Arcángel",
+        "id": 28215216
+      },
+      {
+        "name": "Bad Bunny",
+        "id": 1126808565
+      },
+      {
         "name": "Chris Brown",
         "id": 95705522
+      },
+      {
+        "name": "DaBaby",
+        "id": 1175595427
+      },
+      {
+        "name": "DJ Khaled",
+        "id": 157749142
+      },
+      {
+        "name": "Don Toliver",
+        "id": 1237012992
       },
       {
         "name": "Drake",
         "id": 271256
       },
       {
+        "name": "Future",
+        "id": 128050210
+      },
+      {
+        "name": "Gunna",
+        "id": 1236267297
+      },
+      {
+        "name": "JAŸ-Z",
+        "id": 1352449404
+      },
+      {
+        "name": "Jeezy",
+        "id": 276972832
+      },
+      {
+        "name": "Kanye West",
+        "id": 2715720
+      },
+      {
+        "name": "Kodak Black",
+        "id": 953921140
+      },
+      {
+        "name": "Lil Baby",
+        "id": 1276656483
+      },
+      {
+        "name": "Lil Uzi Vert",
+        "id": 940710524
+      },
+      {
+        "name": "Meek Mill",
+        "id": 313865761
+      },
+      {
+        "name": "Migos",
+        "id": 569925101
+      },
+      {
+        "name": "Morgan Wallen",
+        "id": 829142092
+      },
+      {
+        "name": "Nicki Minaj",
+        "id": 278464538
+      },
+      {
+        "name": "Offset",
+        "id": 3973268
+      },
+      {
+        "name": "Pharrell Williams",
+        "id": 1361068
+      },
+      {
+        "name": "Playboi Carti",
+        "id": 982372505
+      },
+      {
+        "name": "Post Malone",
+        "id": 966309175
+      },
+      {
+        "name": "Quavo",
+        "id": 673556643
+      },
+      {
+        "name": "Rauw Alejandro",
+        "id": 1107186883
+      },
+      {
+        "name": "Rick Ross",
+        "id": 4022281
+      },
+      {
+        "name": "Sexyy Red",
+        "id": 1409330762
+      },
+      {
+        "name": "T.I.",
+        "id": 14967
+      },
+      {
         "name": "The Weeknd",
         "id": 479756766
+      },
+      {
+        "name": "Tory Lanez",
+        "id": 440458549
+      },
+      {
+        "name": "Travis Scott",
+        "id": 549236696
+      },
+      {
+        "name": "YG",
+        "id": 189792075
+      },
+      {
+        "name": "Young Thug",
+        "id": 81886939
+      },
+      {
+        "name": "YoungBoy Never Broke Again",
+        "id": 1168822104
       }
     ]
   },
