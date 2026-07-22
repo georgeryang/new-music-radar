@@ -1,41 +1,28 @@
 {
-  "fetched_at": 1784633116831,
+  "fetched_at": 1784728550993,
   "releases": [
     {
-      "title": "No Vocals Needed",
-      "artist": "Alee Frank",
-      "artist_id": 1847865850,
+      "title": "To the Living Creatures",
+      "artist": "Akiko Yano",
+      "artist_id": 79757431,
       "type": "album",
-      "release_date": "2026-07-21",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/aa/f6/f1/aaf6f12e-c64d-2e6d-d053-345806a39196/5064021001373_cover.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/no-vocals-needed/6789655505?uo=4",
-      "sources": [
-        "country:mx"
-      ]
-    },
-    {
-      "title": "樂活道",
-      "artist": "Aska Cheung",
-      "artist_id": 1598612244,
-      "type": "song",
-      "release_date": "2026-07-18",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0b/fc/0e/0bfc0ef7-d31b-6190-d97e-54ba293c0bc2/820233997478.jpg/400x400bb.jpg",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E6%A8%82%E6%B4%BB%E9%81%93-single/6789024615?uo=4",
-      "sources": [
-        "country:hk"
-      ]
-    },
-    {
-      "title": "ロマンティックがほしいなら (feat. 小坂菜緒, 正源司陽子 & 藤嶌果歩)",
-      "artist": "BotchiBoromaru & Hinatazaka46",
-      "artist_id": 1372655978,
-      "type": "song",
-      "release_date": "2026-07-18",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7d/b0/42/7db0423f-8731-fad0-6768-75951274608c/4547366836578.jpg/400x400bb.jpg",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d9/07/b4/d907b4b2-28e9-d71d-8cb8-646edd7b071a/VICL-66142.jpg/400x400bb.jpg",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E3%83%AD%E3%83%9E%E3%83%B3%E3%83%86%E3%82%A3%E3%83%83%E3%82%AF%E3%81%8C%E3%81%BB%E3%81%97%E3%81%84%E3%81%AA%E3%82%89-feat-%E5%B0%8F%E5%9D%82%E8%8F%9C%E7%B7%92-%E6%AD%A3%E6%BA%90%E5%8F%B8%E9%99%BD%E5%AD%90-%E8%97%A4%E5%B6%8C%E6%9E%9C%E6%AD%A9-single/6786673148?uo=4",
+      "link": "https://music.apple.com/us/album/to-the-living-creatures/6772865400?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "BaBaBa Burning Love!/愛が愛のままでいられますように",
+      "artist": "ANGERME",
+      "artist_id": 960147470,
+      "type": "album",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/27/74/6c/27746cd8-0243-dc42-05ef-d4e57fc980cb/HKCN-50873.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/bababa-burning-love-%E6%84%9B%E3%81%8C%E6%84%9B%E3%81%AE%E3%81%BE%E3%81%BE%E3%81%A7%E3%81%84%E3%82%89%E3%82%8C%E3%81%BE%E3%81%99%E3%82%88%E3%81%86%E3%81%AB-ep/6776592773?uo=4",
       "sources": [
         "country:jp"
       ]
@@ -51,42 +38,57 @@
       "link": "https://music.apple.com/us/album/through-the-fire-a-colors-show-single/6792040459?uo=4"
     },
     {
-      "title": "停在那邊",
-      "artist": "Evangeline",
-      "artist_id": 1233764662,
+      "title": "Rocket",
+      "artist": "Claire Rosinkranz",
+      "artist_id": 1483262366,
       "type": "song",
       "release_date": "2026-07-20",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/40/3e/fa/403efa10-aed7-9061-3218-599ab56bd93c/4711548159049.png/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E5%81%9C%E5%9C%A8%E9%82%A3%E9%82%8A-single/6789300669?uo=4",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2b/c4/51/2bc45103-c1fc-1ad8-cfe4-f36d54a337d4/075679568496.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/rocket-single/6785601397?uo=4",
       "sources": [
-        "country:tw"
+        "playlist:New Music Daily"
       ]
     },
     {
-      "title": "Báilame",
-      "artist": "Gabito Ballesteros & La Joaqui",
-      "artist_id": 968949255,
-      "type": "song",
-      "release_date": "2026-07-18",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/23/08/09/23080942-98fb-60fa-15f6-ee6ec114dc6f/823375277521_Cover.jpg/400x400bb.jpg",
-      "genre": "Urbano latino",
-      "link": "https://music.apple.com/us/album/b%C3%A1ilame-single/6786321613?uo=4",
-      "sources": [
-        "playlist:Nuevo Nuevo"
-      ]
-    },
-    {
-      "title": "DOMO",
-      "artist": "HEEDAE",
-      "artist_id": 6791068301,
+      "title": "OVER LIFE",
+      "artist": "Eriko Hashimoto",
+      "artist_id": 357208205,
       "type": "album",
-      "release_date": "2026-07-18",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/15/f2/fb/15f2fb63-3199-33bb-ce9b-5376ee298adb/191953561967.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/domo-ep/6791085675?uo=4",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/05/08/6a/05086aec-db2e-d725-da4f-0899e086802f/4542696011831.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/over-life/6784625005?uo=4",
       "sources": [
-        "country:kr"
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Glow ME",
+      "artist": "fromis_9",
+      "artist_id": 1319150216,
+      "type": "album",
+      "release_date": "2026-07-21",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/db/44/03/db440319-e991-e392-c8a8-750cb0134206/191953562353.jpg/400x400bb.jpg",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/glow-me/6791520495?uo=4",
+      "sources": [
+        "country:hk",
+        "country:jp",
+        "playlist:New In K Pop"
+      ]
+    },
+    {
+      "title": "会いたいと思えること",
+      "artist": "Hanako Oku",
+      "artist_id": 262543998,
+      "type": "album",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ff/0f/26/ff0f2607-ab1b-6f3b-6b67-3829abf5f14e/28035.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E4%BC%9A%E3%81%84%E3%81%9F%E3%81%84%E3%81%A8%E6%80%9D%E3%81%88%E3%82%8B%E3%81%93%E3%81%A8/6786498051?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -99,30 +101,65 @@
       "genre": "Mandopop",
       "link": "https://music.apple.com/us/album/beyond-my-control-feat-a-lin-single/6787933011?uo=4",
       "sources": [
-        "country:tw"
+        "country:hk"
       ]
     },
     {
-      "title": "I Just Wanna Make You Smile",
-      "artist": "KAITO HORI",
-      "artist_id": 6791870449,
+      "title": "One More Summer(ワン・モア・サマー)",
+      "artist": "Japanese City Pop",
+      "artist_id": 1809809866,
       "type": "album",
-      "release_date": "2026-07-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/3b/7d/65/3b7d65bf-e6c9-1239-f269-be82fad8d8ca/4550758731764_cover.png/400x400bb.jpg",
+      "release_date": "2026-07-21",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d8/e8/f4/d8e8f4e4-bf27-6b5b-1b48-b62a712700a1/artwork.jpg/400x400bb.jpg",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/i-just-wanna-make-you-smile-ep/6792219436?uo=4"
+      "link": "https://music.apple.com/us/album/one-more-summer-%E3%83%AF%E3%83%B3-%E3%83%A2%E3%82%A2-%E3%82%B5%E3%83%9E%E3%83%BC/6786436177?uo=4"
     },
     {
-      "title": "Dulce Amargo",
-      "artist": "Los Primos Del Este",
-      "artist_id": 1462043487,
+      "title": "POP GIRLS CLUB",
+      "artist": "Lexie Liu, Yves, BAYLI & Isabella Lovestory",
+      "artist_id": 1331378256,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/16/46/8f/16468f78-0eb3-96f1-79e7-90c269b1400f/193017207385.png/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/pop-girls-club-single/6769395744?uo=4"
+    },
+    {
+      "title": "Little Glee Monster Live Tour 2025 \"Ambitious\" - 2025.07.21",
+      "artist": "Little Glee Monster",
+      "artist_id": 839998091,
       "type": "album",
-      "release_date": "2026-07-18",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/25/6d/05/256d051d-c413-a2fc-22d7-e0169443e5d9/823375243243_Cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/dulce-amargo/6781070926?uo=4",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c2/3e/35/c23e35f9-fe2c-c922-f4d6-c01ff6426670/4547366838343.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/little-glee-monster-live-tour-2025-ambitious-2025-07-21/6788657959?uo=4",
       "sources": [
-        "playlist:Nuevo Nuevo"
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Spit Soft Lies",
+      "artist": "MATTHEW DRASHER",
+      "artist_id": 6793097780,
+      "type": "album",
+      "release_date": "2026-07-21",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c3/6f/d1/c36fd15a-af10-ab96-dbc0-dcb905f382b3/artwork.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/spit-soft-lies/6793174496?uo=4"
+    },
+    {
+      "title": "On-Deck!",
+      "artist": "MECHATU-A",
+      "artist_id": 1796350406,
+      "type": "album",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ee/23/fc/ee23fc89-caea-d958-2e28-289595edc023/4550758432449_cover.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/on-deck/6789023798?uo=4",
+      "sources": [
+        "country:hk",
+        "country:jp",
+        "country:tw"
       ]
     },
     {
@@ -136,16 +173,67 @@
       "link": "https://music.apple.com/us/album/re-ep/6790272829?uo=4"
     },
     {
+      "title": "是非に及ばず (Special Edition)",
+      "artist": "Nogizaka46",
+      "artist_id": 571990937,
+      "type": "album",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/54/a6/3d/54a63d3c-d364-92a6-b757-77aae87255e3/4547366838268.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E6%98%AF%E9%9D%9E%E3%81%AB%E5%8F%8A%E3%81%B0%E3%81%9A-special-edition/6788656464?uo=4",
+      "sources": [
+        "country:hk",
+        "country:jp",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "Traces of Sun on an Old Piano",
+      "artist": "RAY D ANDERSON",
+      "artist_id": 6793063339,
+      "type": "album",
+      "release_date": "2026-07-21",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d1/dd/dd/d1dddd6b-ce8b-88f5-5e27-7ed626b8d88b/artwork.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/traces-of-sun-on-an-old-piano/6793134750?uo=4"
+    },
+    {
+      "title": "A",
+      "artist": "Soichiro Yamauchi",
+      "artist_id": 193509516,
+      "type": "album",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d8/a0/bf/d8a0bf3f-7511-a258-7ffe-5b2070dd3c9a/ANTCD-A0000020517.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/a/6787821927?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "Lay Your Head On Me",
       "artist": "Stanley 邱士縉",
       "artist_id": 1751640693,
       "type": "song",
       "release_date": "2026-07-20",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a8/76/1b/a8761b64-dda8-bd8b-c9a6-48c8f7d4c7c0/4897004798578.jpg/400x400bb.jpg",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/5f/07/3a/5f073a40-fd13-2241-b035-69b401cc3c5d/4897004798578.jpg/400x400bb.jpg",
       "genre": "Cantopop/HK-Pop",
       "link": "https://music.apple.com/us/album/lay-your-head-on-me-single/6792008457?uo=4",
       "sources": [
         "country:hk"
+      ]
+    },
+    {
+      "title": "如果你也刚好抬头看树",
+      "artist": "Tianyu Sun",
+      "artist_id": 1512288802,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/18/35/40/18354057-0dcd-540a-88b6-58bf79db9ce5/196874606322.jpg/400x400bb.jpg",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E5%A6%82%E6%9E%9C%E4%BD%A0%E4%B9%9F%E5%88%9A%E5%A5%BD%E6%8A%AC%E5%A4%B4%E7%9C%8B%E6%A0%91-single/6790713097?uo=4",
+      "sources": [
+        "playlist:Breaking Mandopop"
       ]
     },
     {
@@ -159,7 +247,8 @@
       "link": "https://music.apple.com/us/album/times-tickin-single/6790623318?uo=4",
       "sources": [
         "country:jp",
-        "country:tw"
+        "country:tw",
+        "playlist:New In K Pop"
       ]
     },
     {
@@ -176,27 +265,33 @@
       ]
     },
     {
-      "title": "The Pretty Good Journey (Deluxe)",
-      "artist": "XiX",
-      "artist_id": 732895840,
+      "title": "CORE",
+      "artist": "WONHO",
+      "artist_id": 1527284016,
       "type": "album",
-      "release_date": "2026-07-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/56/12/96/561296bf-c9b7-7c24-329d-455f73bff7d7/26UMGIM92874.rgb.jpg/400x400bb.jpg",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/the-pretty-good-journey-deluxe/6791418435?uo=4",
+      "release_date": "2026-07-21",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/82/c5/3d/82c53d3d-1516-561c-a670-c6dc5a651d1a/820233911610.jpg/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/core/6788731749?uo=4",
       "sources": [
-        "country:hk"
+        "country:ar",
+        "country:mx",
+        "country:tw",
+        "playlist:New In K Pop"
       ]
     },
     {
-      "title": "interludes",
-      "artist": "Ye Ali",
-      "artist_id": 438206059,
-      "type": "album",
+      "title": "Fdo El Infaltable",
+      "artist": "YOVNGCHIMI",
+      "artist_id": 1558257759,
+      "type": "song",
       "release_date": "2026-07-21",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b8/1b/84/b81b841a-c3fb-0a9b-7101-f964cd899978/artwork.jpg/400x400bb.jpg",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/interludes-ep/6792456216?uo=4"
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0e/fd/52/0efd522c-e0dc-117e-60f8-4969c0d1af99/8721628651345.png/400x400bb.jpg",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/fdo-el-infaltable-single/6793162372?uo=4",
+      "sources": [
+        "playlist:Nuevo Nuevo"
+      ]
     }
   ],
   "upcoming": [
