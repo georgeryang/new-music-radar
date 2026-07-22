@@ -118,6 +118,16 @@ const usLink = (u) => (u ? u.replace(/(music|itunes)\.apple\.com\/[a-z]{2}\//, '
 // is scraped) until they match this shape.
 const appleLink = (u) =>
   u && /^https:\/\/(music|itunes)\.apple\.com\//.test(u) ? usLink(u) : undefined
+// Track URLs look like .../album/<slug>/<collectionId>?i=<trackId> — feeds
+// that expose only tracks yield their parent album id from the URL.
+const albumIdFromTrackUrl = (u) => u?.match(/\/album\/[^/]+\/(\d+)/)?.[1]
+// marketingtools serializes ids as strings, lookups return numbers — normalize
+// to one canonical string (null when not numeric) before any set membership
+// (the known type trap).
+const normId = (raw) => {
+  const s = String(Number(raw))
+  return s === 'NaN' ? null : s
+}
 
 // One iTunes lookup result (wrapperType "collection") → release card shape.
 // Every lookup-backed source funnels through this so the shapes can't drift.
@@ -179,6 +189,9 @@ async function batchReleases(ids) {
     `https://itunes.apple.com/lookup?id=${ids.join(',')}&entity=album&country=us&limit=100&sort=recent`
   )
   const collections = (data.results ?? []).filter((r) => r.wrapperType === 'collection')
+  // seed the shared collection cache: a followed artist's release that also
+  // charts or lands on a playlist skips a second lookup
+  for (const a of collections) collectionCache.set(String(a.collectionId), a)
   const swept = new Set(ids)
   const today = new Date().toISOString().slice(0, 10)
   for (const a of collections) {
@@ -295,8 +308,7 @@ async function countryMostPlayed(sf) {
   )
   return (data.feed?.results ?? [])
     .filter((e) => e.releaseDate && inWindow(e.releaseDate))
-    // song entries: url is /{sf}/album/<slug>/<collectionId>?i=<trackId>
-    .map((e) => e.url?.match(/\/album\/[^/]+\/(\d+)/)?.[1])
+    .map((e) => albumIdFromTrackUrl(e.url))
     .filter(Boolean)
 }
 
@@ -311,7 +323,7 @@ async function countryPurchaseFeed(sf, feedType) {
   )
   return feedType === 'topalbums'
     ? entries.map((e) => e.id?.attributes?.['im:id']).filter(Boolean)
-    : entries.map((e) => e.id?.label?.match(/\/album\/[^/]+\/(\d+)/)?.[1]).filter(Boolean)
+    : entries.map((e) => albumIdFromTrackUrl(e.id?.label)).filter(Boolean)
 }
 
 // ---------- editorial playlists (scraped web player pages) ----------
@@ -511,11 +523,11 @@ if (skippedChart.length)
     `${skippedChart.length} chart lookups skipped (unfollowed genre): ${skippedChart.slice(0, 3).join('; ')}${skippedChart.length > 3 ? '; …' : ''}`
   )
 
-const chartInfo = new Map() // collection id → lookup hit
 const wanted = [...new Set(candidates.map((x) => String(x.e.id)))]
 if (wanted.length) {
   try {
-    for (const r of await lookupCollections(wanted)) chartInfo.set(String(r.collectionId), r)
+    // hits land in collectionCache; cards read them from there below
+    await lookupCollections(wanted)
   } catch (e) {
     // degraded publish (feed-only genre/type) still counts as a failed source
     anyFailed = true
@@ -524,7 +536,7 @@ if (wanted.length) {
 }
 
 for (const { e, feedGenre } of candidates) {
-  const hit = chartInfo.get(String(e.id))
+  const hit = collectionCache.get(String(e.id))
   releases.push({
     title: displayTitle(e.name),
     artist: e.artistName,
@@ -561,9 +573,8 @@ for (const settled of await genreFeedsP) {
     }
     log(`${tag} topalbums: ${entries.length} in-window`)
   } else {
-    // track URLs look like /album/<slug>/<collectionId>?i=<trackId>
     const ids = entries
-      .map((e) => e.id?.label?.match(/\/album\/[^/]+\/(\d+)/)?.[1])
+      .map((e) => albumIdFromTrackUrl(e.id?.label))
       .filter(Boolean)
     ids.forEach((id) => genreFeedIds.set(id, genreFeedIds.get(id) ?? tag))
     log(`${tag} topsongs: ${entries.length} in-window tracks → ${ids.length} parent albums`)
@@ -591,17 +602,15 @@ if (genreFeedIds.size) {
 // global hits off every country's chart); the rest resolve through one shared
 // US lookup. Ids Apple doesn't return aren't in the US catalog yet — dropped
 // with a per-storefront count, they make a later fetch once they propagate.
-const usChartIds = new Set(chart.map((e) => String(Number(e.id))).filter((s) => s !== 'NaN'))
+const usChartIds = new Set(chart.map((e) => normId(e.id)).filter(Boolean))
 const countryIdSources = new Map() // collection id → Set of storefronts that surfaced it
 let usChartSubtracted = 0
 const ingestCountryFeed = ({ sf, kind }, ids) => {
   if (!ids.length) return
   let fresh = 0
   for (const raw of ids) {
-    // marketingtools serializes ids as strings, lookups return numbers —
-    // normalize before any set membership (the known type trap)
-    const id = String(Number(raw))
-    if (id === 'NaN') continue
+    const id = normId(raw)
+    if (!id) continue
     if (usChartIds.has(id)) {
       usChartSubtracted++
       continue
@@ -674,8 +683,23 @@ if (countryIdSources.size) {
   }
 }
 
-// 4. Editorial playlists — curated day-of releases across all genres
-for (const settled of await playlistPagesP) {
+// 4. Editorial playlists — curated day-of releases across all genres.
+// One batched warm-up lookup covers every playlist's albums, so the
+// per-playlist calls below resolve from cache while keeping their source tags
+// and failure reporting. A warm-up failure is deferred, not swallowed: the
+// per-playlist lookups retry the misses and mark anyFailed themselves — safe
+// only while the warm-up set stays exactly the union of the per-playlist
+// lists below.
+const playlistPages = await playlistPagesP
+const allPlaylistAlbumIds = playlistPages
+  .filter((s) => s.status === 'fulfilled')
+  .flatMap((s) => s.value.albumIds)
+if (allPlaylistAlbumIds.length) {
+  try {
+    await lookupCollections(allPlaylistAlbumIds)
+  } catch {}
+}
+for (const settled of playlistPages) {
   if (settled.status === 'rejected') {
     anyFailed = true
     log(`playlist scrape failed: ${settled.reason.message}`)
