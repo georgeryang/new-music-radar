@@ -72,17 +72,28 @@ When you're done, press the **Quit** button (or close the Terminal window).
 
 ## One-time setup: make it update itself every evening
 
-Run these two commands once in Terminal (copy-paste both lines together):
+Run these three commands once in Terminal (copy-paste all lines together):
 
 ```
 cp ~/dev/new-music-radar/launchd/com.georgeryang.new-music-radar.plist ~/Library/LaunchAgents/
 launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist
+( crontab -l 2>/dev/null | grep -v 'new-music-radar/.*watchdog.sh'; echo '*/5 * * * * $HOME/dev/new-music-radar/launchd/watchdog.sh' ) | crontab -
 ```
 
 After that, the Mac quietly updates the site once a day around 6:15 PM Korea
 time (or the next time it wakes from sleep). Nothing else to do.
 
-To turn it off: `launchctl bootout gui/$(id -u)/com.georgeryang.new-music-radar`
+The first two lines schedule the daily update. The third is a safety net: after
+a reboot macOS does not always reload the scheduler on its own, which leaves the
+site a day stale. A small check runs every 5 minutes and reloads the scheduler
+if it has dropped out. It never fetches; it only makes sure the daily updater is
+loaded.
+
+To turn it off:
+```
+launchctl bootout gui/$(id -u)/com.georgeryang.new-music-radar
+crontab -l 2>/dev/null | grep -v 'new-music-radar/.*watchdog.sh' | crontab -
+```
 
 ## If something looks wrong
 
@@ -129,12 +140,17 @@ performs the daily update.
   Jakarta Sans from `public/fonts/`; the build wipes and recopies `docs/fonts`
   like `docs/assets`, so renamed font files can't go stale.
 - **Scheduling:** launchd ticks every 10 min; `update.sh --if-stale` makes that
-  exactly one fetch/day anchored to 18:15 KST, timezone-proof.
+  exactly one fetch/day anchored to 18:15 KST, timezone-proof. A cron check
+  (`launchd/watchdog.sh`, every 5 min) re-bootstraps the agent when it has
+  fallen out of launchd, since macOS does not reliably autoload it after a
+  reboot; the check never fetches. Its actions log to
+  `~/Library/Logs/new-music-radar-watchdog.log`.
 - **Preferences editor:** `scripts/prefs-server.mjs`, zero-dep local server on
   127.0.0.1:4747, same-origin only (Host/Origin checks on all but the site's
   ping). Artist entries are always `{name, id}` (the picker is the only way to
-  add one; fetching and blocking key on the ID). Refresh runs detached so
-  quitting the editor can't stop it. The server also serves the built site at
+  add one; fetching, blocking, and the followed ★ all key on the ID, never the
+  credit name, so a collab released under a joint artist page is not starred).
+  Refresh runs detached so quitting the editor can't stop it. The server also serves the built site at
   `/new-music-radar/` ("Open radar") for fresh data without the Pages deploy.
   The editor has no CSS of its own: it links the app's built stylesheet (an
   `@source` directive in `src/index.css` scans the editor markup) by a hash
@@ -144,7 +160,8 @@ performs the daily update.
   fetcher never maps genres: cards carry Apple's name verbatim, the follow
   filter is an exact case-insensitive match against `genres.followed`. After
   editing, run `node scripts/check-genre-coverage.mjs` to confirm every name
-  still exists in Apple's tree (a rename means followed releases stop matching).
+  still exists in Apple's tree (a rename means followed releases stop matching),
+  and restart `prefs.command` (the server reads the list once at startup).
   Storefront codes for `discovery.countries` live in `scripts/storefronts.mjs`.
 - **Source yield counts:** country and playlist chips carry a unique/duplicate/
   total marker from the latest update (e.g. "2/4/6": 2 only that source found,
