@@ -72,12 +72,14 @@ When you're done, press the **Quit** button (or close the Terminal window).
 
 ## One-time setup: make it update itself every evening
 
-Run these three commands once in Terminal (copy-paste all lines together):
+Run these four commands once in Terminal (copy-paste all lines together; the
+last one asks for your password):
 
 ```
 cp ~/dev/new-music-radar/launchd/com.georgeryang.new-music-radar.plist ~/Library/LaunchAgents/
 launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist
 ( crontab -l 2>/dev/null | grep -v 'new-music-radar/.*watchdog.sh'; echo '*/5 * * * * $HOME/dev/new-music-radar/launchd/watchdog.sh' ) | crontab -
+sudo pmset repeat wakeorpoweron MTWRFSU 05:30:00
 ```
 
 After that, the Mac quietly updates the site once a day around 6:15 PM Korea
@@ -87,12 +89,16 @@ The first two lines schedule the daily update. The third is a safety net: after
 a reboot macOS does not always reload the scheduler on its own, which leaves the
 site a day stale. A small check runs every 5 minutes and reloads the scheduler
 if it has dropped out. It never fetches; it only makes sure the daily updater is
-loaded.
+loaded. The fourth wakes the Mac briefly at 5:30 each morning so the update runs
+before you're up, screen off, even with the lid closed; it goes back to sleep a
+few minutes later. The wake only fires when the Mac is plugged in. On battery
+nights the update simply waits for the next time you open the lid, as before.
 
 To turn it off:
 ```
 launchctl bootout gui/$(id -u)/com.georgeryang.new-music-radar
 crontab -l 2>/dev/null | grep -v 'new-music-radar/.*watchdog.sh' | crontab -
+sudo pmset repeat cancel
 ```
 
 ## If something looks wrong
@@ -145,6 +151,13 @@ performs the daily update.
   fallen out of launchd, since macOS does not reliably autoload it after a
   reboot; the check never fetches. Its actions log to
   `~/Library/Logs/new-music-radar-watchdog.log`.
+  The agent wraps `update.sh` in `caffeinate -sim`, which holds a sleep
+  assertion only while the script runs: about a second on fresh ticks, 5 to 20
+  minutes on the one tick that fetches. Without it, a run started during a
+  dark wake could be put back to sleep mid-push. A scheduled wake
+  (`pmset repeat wakeorpoweron`, 05:30 local) makes the overnight refresh
+  deterministic when the Mac is plugged in; on battery with the lid closed the
+  firmware skips the wake and the fetch happens at the next real wake instead.
 - **Preferences editor:** `scripts/prefs-server.mjs`, zero-dep local server on
   127.0.0.1:4747, same-origin only (Host/Origin checks on all but the site's
   ping). Artist entries are always `{name, id}` (the picker is the only way to
