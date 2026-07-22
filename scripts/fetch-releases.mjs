@@ -18,7 +18,7 @@
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { STOREFRONTS } from './storefronts.mjs'
-import { cardKeyOf, keyOf, normArtist, releaseOrder, upcomingOrder } from './card-key.mjs'
+import { cardKeyOf, keyOf, releaseOrder, upcomingOrder } from './card-key.mjs'
 
 // The file holds WINDOW_DAYS of releases. The app shows followed artists for
 // the full window, discovery finds for 24h, both anchored to fetched_at. The
@@ -73,7 +73,7 @@ function marketingToolsJSON(url) {
 }
 
 // ---------- normalization / canonical key ----------
-// normArtist/keyOf/cardKeyOf live in card-key.mjs, shared with the app so
+// keyOf/cardKeyOf live in card-key.mjs, shared with the app so
 // the fetcher's dedup and the app's card keys can never differ.
 
 const NOISE_RE = /\b(instrumental|sped[ -]?up|slowed( \+ reverb)?|inst\.)\b/i
@@ -147,25 +147,6 @@ for (const e of PREFS.artists?.blocked ?? []) {
   if (e?.id) BLOCKED_IDS.add(e.id)
   else log(`blocked artist "${e?.name ?? e}" has no Apple ID — re-add via the prefs picker; not blocking`)
 }
-// Followed *marking* (★ + filter bypass for releases from other sources) is
-// name-based on purpose: collab releases carry a joint entity's ID, not the
-// member's, but the member's name is in the credit string. Tolerates legacy
-// bare-string entries (pre-migration): no ID to sweep, but the name still
-// earns the star.
-const entryName = (e) => (typeof e === 'string' ? e : e?.name)
-// Whole-word match so "IVE" can't match inside "RIIZE". Unicode lookarounds,
-// not \b — \b is ASCII-only and never matches at CJK boundaries (鄧紫棋 would
-// silently lose its followed status).
-const nameRe = (name) =>
-  new RegExp(
-    `(?<![\\p{L}\\p{N}])${normArtist(name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}])`,
-    'u'
-  )
-// All-symbol acts ("!!!") normalize to nothing; nameRe('') is an empty-pattern
-// regex that would match every other symbol-only name and mark it followed.
-// Excluded here — still swept by ID, just no name-based credit.
-const hasNormName = (name) => normArtist(name).length > 0
-const FOLLOWED_ARTIST_RES = FOLLOWED_ENTRIES.map(entryName).filter(Boolean).filter(hasNormName).map(nameRe)
 
 // genres.followed holds exact Apple genre names — a release passes when its
 // verbatim genre matches one, case-insensitively. No umbrella mapping.
@@ -429,7 +410,7 @@ const countryFeedsP = Promise.allSettled(COUNTRY_TASKS.map((t) => sleep(t.stagge
 // exist) and skipped loudly.
 const sweepArtists = FOLLOWED_ENTRIES.filter((e) => {
   if (e?.id) return true
-  log(`"${entryName(e) ?? e}" has no Apple artist ID — re-add it via the prefs editor picker; skipped`)
+  log(`"${e?.name ?? e}" has no Apple artist ID — re-add it via the prefs editor picker; skipped`)
   return false
 })
 
@@ -479,13 +460,9 @@ if (failedBatches.length) {
   failedBatches = stillFailed
 }
 const batchFailures = failedBatches.length
-// Which artists' data is missing this run, for the Upcoming carryover. Ids for
-// exact matches; name regexes for joint-credit entities (their collection
-// carries the joint id, not the member's) and legacy pre-artist_id entries.
+// Which artists' data is missing this run, for the Upcoming carryover —
+// matched by swept id (the follow list is id-only).
 const failedSweepIds = new Set(failedBatches.flatMap(({ batch }) => batch.map((a) => a.id)))
-const failedArtistRes = failedBatches.flatMap(({ batch }) =>
-  batch.map((a) => a.name).filter(Boolean).filter(hasNormName).map(nameRe)
-)
 // prune to the followed list: unfollowed artists' entries are frozen (never
 // re-swept) and would resurface stale if re-followed. Future dates dropped too
 // — the only-newer update rule means a real date could never displace one.
@@ -517,10 +494,12 @@ const skippedChart = []
 for (const e of chart) {
   if (!e.releaseDate || !inWindow(e.releaseDate)) continue
   const feedGenre = (e.genres ?? []).map((g) => g.name).find((n) => n && n !== 'Music') ?? null
+  // keep a followed artist's chart hit for lookup even when its feed genre
+  // isn't followed — matched by id (the feed serializes artistId as a string)
   if (
     feedGenre &&
     !isGenreFollowed(feedGenre) &&
-    !FOLLOWED_ARTIST_RES.some((re) => re.test(normArtist(e.artistName)))
+    !sweepIds.has(Number(e.artistId))
   ) {
     skippedChart.push(`${e.artistName} — ${e.name}`)
     continue
@@ -716,9 +695,12 @@ for (const settled of await playlistPagesP) {
   }
 }
 
-// mark followed artists (before dedup so merges keep the flag)
+// mark followed artists (before dedup so merges keep the flag) — ★ + filter
+// bypass for a followed artist's own releases, matched by Apple artist_id (the
+// follow list is id-only, same as the block list). A collab credited to a
+// separate joint-entity id won't match — accepted.
 for (const r of releases) {
-  if (FOLLOWED_ARTIST_RES.some((re) => re.test(normArtist(r.artist)))) r.followed = true
+  if (r.artist_id && sweepIds.has(r.artist_id)) r.followed = true
 }
 
 // noise + canonical-key dedup (type is in the key: same-titled song + album
@@ -796,15 +778,14 @@ if (out.length === 0) {
 }
 
 // Upcoming (pre-orders) — followed artists only: keep entries whose artist id
-// was swept or whose credit names a followed artist (joint "A & B" credits);
-// collab partners' own pre-orders drop here. Same noise/dedup/block rules as
-// the main list, soonest first. An empty list from a clean sweep is normal;
-// entries whose batch failed carry over below so a tracked pre-order never
-// vanishes on a bad night.
+// was swept; a collab pre-order under a joint entity id drops here. Same
+// noise/dedup/block rules as the main list, soonest first. An empty list from
+// a clean sweep is normal; entries whose batch failed carry over below so a
+// tracked pre-order never vanishes on a bad night.
 const upcomingByKey = new Map()
 for (const r of upcomingRaw) {
   if (NOISE_RE.test(r.title) || isArtistBlocked(r)) continue
-  if (!sweepIds.has(r.artist_id) && !FOLLOWED_ARTIST_RES.some((re) => re.test(normArtist(r.artist)))) continue
+  if (!sweepIds.has(r.artist_id)) continue
   r.followed = true
   const prev = upcomingByKey.get(keyOf(r))
   if (!prev) {
@@ -827,13 +808,11 @@ for (const r of upcomingRaw) {
 // whose date has since passed routes to releases[], completing the lifecycle
 // even if release day itself fails.
 if (batchFailures > 0) {
-  // attribution: id match for own entries, name match for joint-credit
-  // entities; entries with NO artist_id can't be verified — keep them
-  // (unknown-means-keep) until a clean sweep rewrites them with ids
+  // attribution by swept id; entries with NO artist_id can't be verified —
+  // keep them (unknown-means-keep) until a clean sweep rewrites them with ids
   const missingThisRun = (r) =>
     r.artist_id == null ||
-    failedSweepIds.has(r.artist_id) ||
-    failedArtistRes.some((re) => re.test(normArtist(r.artist)))
+    failedSweepIds.has(r.artist_id)
   // block list / noise rules may have changed since the entry was written
   const stillEligible = (r) => !NOISE_RE.test(r.title) && !isArtistBlocked(r)
   const outKeys = new Set(out.map(keyOf))
