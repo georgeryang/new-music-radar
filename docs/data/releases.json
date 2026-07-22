@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1784733334208,
+  "fetched_at": 1784744755691,
   "releases": [
     {
       "title": "LOVE AGAIN (2a.m. Version)",
@@ -125,6 +125,19 @@
       ]
     },
     {
+      "title": "BLAZE",
+      "artist": "Hina Aoki",
+      "artist_id": 1696262485,
+      "type": "album",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0a/bb/ac/0abbacac-4fbb-2592-6fd0-e28307c0d401/823375284291_Cover.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/blaze/6787033184?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
       "title": "Beyond My Control (feat. A-Lin)",
       "artist": "Jam Hsiao",
       "artist_id": 283971013,
@@ -146,6 +159,19 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d8/e8/f4/d8e8f4e4-bf27-6b5b-1b48-b62a712700a1/artwork.jpg/400x400bb.jpg",
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/one-more-summer-%E3%83%AF%E3%83%B3-%E3%83%A2%E3%82%A2-%E3%82%B5%E3%83%9E%E3%83%BC/6786436177?uo=4"
+    },
+    {
+      "title": "Kasumibiyori / Starry Smile Story",
+      "artist": "Kobukuro",
+      "artist_id": 41295873,
+      "type": "album",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/cd/f7/2a/cdf72aca-9c5e-60ec-cf17-dd301b6606b1/1200214417628.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/kasumibiyori-starry-smile-story/6785475742?uo=4",
+      "sources": [
+        "country:jp"
+      ]
     },
     {
       "title": "Little Glee Monster Live Tour 2025 \"Ambitious\" - 2025.07.21",
@@ -170,18 +196,9 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/off-the-grid-ep/6790706418?uo=4",
       "sources": [
-        "country:hk"
+        "country:hk",
+        "country:jp"
       ]
-    },
-    {
-      "title": "Spit Soft Lies",
-      "artist": "MATTHEW DRASHER",
-      "artist_id": 6793097780,
-      "type": "album",
-      "release_date": "2026-07-21",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c3/6f/d1/c36fd15a-af10-ab96-dbc0-dcb905f382b3/artwork.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/spit-soft-lies/6793174496?uo=4"
     },
     {
       "title": "On-Deck!",
@@ -224,14 +241,14 @@
       ]
     },
     {
-      "title": "Traces of Sun on an Old Piano",
-      "artist": "RAY D ANDERSON",
-      "artist_id": 6793063339,
-      "type": "album",
-      "release_date": "2026-07-21",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d1/dd/dd/d1dddd6b-ce8b-88f5-5e27-7ed626b8d88b/artwork.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/traces-of-sun-on-an-old-piano/6793134750?uo=4"
+      "title": "Mi-cheo Mi-cheo",
+      "artist": "Picheolin",
+      "artist_id": 6786593989,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/55/69/05/55690515-65f1-f3ed-7121-416b3ea02c2a/823375281641_Cover.jpg/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/mi-cheo-mi-cheo-single/6791076218?uo=4"
     },
     {
       "title": "A",
@@ -255,6 +272,32 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/5f/07/3a/5f073a40-fd13-2241-b035-69b401cc3c5d/4897004798578.jpg/400x400bb.jpg",
       "genre": "Cantopop/HK-Pop",
       "link": "https://music.apple.com/us/album/lay-your-head-on-me-single/6792008457?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
+      "title": "白井貴子45th セルフセレクション\"Peace of Love\"～全国高等学校女子硬式野球選手権大会 30th. Anniversary 応援スペシャル",
+      "artist": "Takako Shirai & The Crazy Boys",
+      "artist_id": 544101250,
+      "type": "album",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f8/3e/7e/f83e7e85-76d7-a7fa-c4e0-827769687cdc/4547366834895.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E7%99%BD%E4%BA%95%E8%B2%B4%E5%AD%9045th-%E3%82%BB%E3%83%AB%E3%83%95%E3%82%BB%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3-peace-of-love-%E5%85%A8%E5%9B%BD%E9%AB%98%E7%AD%89%E5%AD%A6%E6%A0%A1%E5%A5%B3%E5%AD%90%E7%A1%AC%E5%BC%8F%E9%87%8E%E7%90%83%E9%81%B8%E6%89%8B%E6%A8%A9%E5%A4%A7%E4%BC%9A/6790746702?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "無時無刻",
+      "artist": "Tang Siu Hau",
+      "artist_id": 996826441,
+      "type": "song",
+      "release_date": "2026-07-20",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a6/99/48/a6994882-bede-486f-02a1-4e8fe023370a/4895261202388.jpg/400x400bb.jpg",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E7%84%A1%E6%99%82%E7%84%A1%E5%88%BB-single/6791463474?uo=4",
       "sources": [
         "country:hk"
       ]
