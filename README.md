@@ -150,7 +150,8 @@ performs the daily update.
   (`launchd/watchdog.sh`, every 5 min) re-bootstraps the agent when it has
   fallen out of launchd, since macOS does not reliably autoload it after a
   reboot; the check never fetches. Its actions log to
-  `~/Library/Logs/new-music-radar-watchdog.log`.
+  `~/Library/Logs/new-music-radar-watchdog.log`, and each quiet tick overwrites
+  the heartbeat file `~/Library/Logs/new-music-radar-watchdog.heartbeat`.
   The agent wraps `update.sh` in `caffeinate -sim`, which holds a sleep
   assertion only while the script runs: about a second on fresh ticks, 5 to 20
   minutes on the one tick that fetches. Without it, a run started during a
