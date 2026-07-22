@@ -4,8 +4,14 @@
 <dict>
   <key>Label</key>
   <string>com.georgeryang.new-music-radar</string>
+  <!-- caffeinate holds a sleep assertion only while update.sh runs: ~1s on
+       fresh ticks, 5-20 min on the one daily fetch. Without it a run started
+       during a dark wake can be put back to sleep mid-push. -s needs AC and
+       covers dark wakes; -i covers battery idle sleep; -m covers disk. -->
   <key>ProgramArguments</key>
   <array>
+    <string>/usr/bin/caffeinate</string>
+    <string>-sim</string>
     <string>/bin/bash</string>
     <string>/Users/georgeyang/dev/new-music-radar/scripts/update.sh</string>
     <string>--if-stale</string>
