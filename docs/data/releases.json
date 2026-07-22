@@ -1,6 +1,38 @@
 {
-  "fetched_at": 1784728550993,
+  "fetched_at": 1784733334208,
   "releases": [
+    {
+      "title": "LOVE AGAIN (2a.m. Version)",
+      "artist": "Denise Julia",
+      "artist_id": 1524523313,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ce/b4/53/ceb45350-1b5b-471b-6693-61a3143d5863/199316704488_cover.jpg/400x400bb.jpg",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/love-again-2a-m-version-single/6792168383?uo=4",
+      "followed": true
+    },
+    {
+      "title": "POP GIRLS CLUB",
+      "artist": "Lexie Liu, Yves, BAYLI & Isabella Lovestory",
+      "artist_id": 1331378256,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/16/46/8f/16468f78-0eb3-96f1-79e7-90c269b1400f/193017207385.png/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/pop-girls-club-single/6769395744?uo=4",
+      "followed": true
+    },
+    {
+      "title": "fade into blue (feat. 花澤香菜)",
+      "artist": "Aiobahn",
+      "artist_id": 1065018260,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/00/58/4b/00584ba2-23d8-8b23-dd32-4434f750f8cd/ANTCD-A0000020390.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/fade-into-blue-feat-%E8%8A%B1%E6%BE%A4%E9%A6%99%E8%8F%9C-single/6784079220?uo=4"
+    },
     {
       "title": "To the Living Creatures",
       "artist": "Akiko Yano",
@@ -75,6 +107,7 @@
       "sources": [
         "country:hk",
         "country:jp",
+        "country:kr",
         "playlist:New In K Pop"
       ]
     },
@@ -115,16 +148,6 @@
       "link": "https://music.apple.com/us/album/one-more-summer-%E3%83%AF%E3%83%B3-%E3%83%A2%E3%82%A2-%E3%82%B5%E3%83%9E%E3%83%BC/6786436177?uo=4"
     },
     {
-      "title": "POP GIRLS CLUB",
-      "artist": "Lexie Liu, Yves, BAYLI & Isabella Lovestory",
-      "artist_id": 1331378256,
-      "type": "song",
-      "release_date": "2026-07-22",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/16/46/8f/16468f78-0eb3-96f1-79e7-90c269b1400f/193017207385.png/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/pop-girls-club-single/6769395744?uo=4"
-    },
-    {
       "title": "Little Glee Monster Live Tour 2025 \"Ambitious\" - 2025.07.21",
       "artist": "Little Glee Monster",
       "artist_id": 839998091,
@@ -135,6 +158,19 @@
       "link": "https://music.apple.com/us/album/little-glee-monster-live-tour-2025-ambitious-2025-07-21/6788657959?uo=4",
       "sources": [
         "country:jp"
+      ]
+    },
+    {
+      "title": "Off the Grid",
+      "artist": "LUN8",
+      "artist_id": 1691823539,
+      "type": "album",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/34/6f/06/346f0681-b51d-8869-782c-db5d190c7b0b/cover_KM0024951_1.jpg/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/off-the-grid-ep/6790706418?uo=4",
+      "sources": [
+        "country:hk"
       ]
     },
     {
@@ -315,6 +351,17 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7e/aa/b8/7eaab803-3fed-e0ca-057d-cef099febcde/26UMGIM74875.rgb.jpg/400x400bb.jpg",
       "genre": "Pop Latino",
       "link": "https://music.apple.com/us/album/otra-que-arde/6782227091?uo=4",
+      "followed": true
+    },
+    {
+      "title": "LOVE AGAIN",
+      "artist": "Denise Julia",
+      "artist_id": 1524523313,
+      "type": "album",
+      "release_date": "2026-07-24",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ad/99/e1/ad99e134-81cd-4fbc-26a4-4b6903700ac0/199316611267_cover.jpg/400x400bb.jpg",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/love-again-ep/6767713498?uo=4",
       "followed": true
     },
     {
