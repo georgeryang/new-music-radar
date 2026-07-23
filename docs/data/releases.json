@@ -1,6 +1,28 @@
 {
-  "fetched_at": 1784744755691,
+  "fetched_at": 1784806391710,
   "releases": [
+    {
+      "title": "KISS N TELL",
+      "artist": "aespa",
+      "artist_id": 1540251304,
+      "type": "album",
+      "release_date": "2026-07-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/47/e5/1c/47e51c1f-8153-3f2f-11ed-781b1dbe5cac/1200214475819.jpg/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/kiss-n-tell-ep/6790246891?uo=4",
+      "followed": true
+    },
+    {
+      "title": "Trágico",
+      "artist": "AloSofia",
+      "artist_id": 1498914587,
+      "type": "song",
+      "release_date": "2026-07-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c3/09/3a/c3093a49-7363-4bd8-ad0c-43cc26292c04/792278138485.jpg/400x400bb.jpg",
+      "genre": "Urbano latino",
+      "link": "https://music.apple.com/us/album/tr%C3%A1gico-single/6784765039?uo=4",
+      "followed": true
+    },
     {
       "title": "LOVE AGAIN (2a.m. Version)",
       "artist": "Denise Julia",
@@ -24,14 +46,15 @@
       "followed": true
     },
     {
-      "title": "fade into blue (feat. 花澤香菜)",
-      "artist": "Aiobahn",
-      "artist_id": 1065018260,
-      "type": "song",
-      "release_date": "2026-07-22",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/00/58/4b/00584ba2-23d8-8b23-dd32-4434f750f8cd/ANTCD-A0000020390.jpg/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/fade-into-blue-feat-%E8%8A%B1%E6%BE%A4%E9%A6%99%E8%8F%9C-single/6784079220?uo=4"
+      "title": "Otra Que Arde",
+      "artist": "Olivia Wald",
+      "artist_id": 1472948885,
+      "type": "album",
+      "release_date": "2026-07-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7e/aa/b8/7eaab803-3fed-e0ca-057d-cef099febcde/26UMGIM74875.rgb.jpg/400x400bb.jpg",
+      "genre": "Pop Latino",
+      "link": "https://music.apple.com/us/album/otra-que-arde/6782227091?uo=4",
+      "followed": true
     },
     {
       "title": "To the Living Creatures",
@@ -60,14 +83,27 @@
       ]
     },
     {
-      "title": "Through the Fire - A COLORS SHOW",
-      "artist": "Chaka Khan",
-      "artist_id": 17402,
+      "title": "HAJIMARI COLOR",
+      "artist": "aoen",
+      "artist_id": 1812850327,
+      "type": "album",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e2/8b/ba/e28bba0f-1cfc-743e-6f6f-e6e238d5ce93/26UMGIM75572.rgb.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/hajimari-color-ep/6784551526?uo=4"
+    },
+    {
+      "title": "Lamipus",
+      "artist": "Chevon",
+      "artist_id": 1602012172,
       "type": "song",
-      "release_date": "2026-07-20",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/35/b2/ee/35b2ee9a-8e1c-2c59-7f7e-219ef58510a6/840054916090.png/400x400bb.jpg",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/through-the-fire-a-colors-show-single/6792040459?uo=4"
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ac/15/f2/ac15f2b9-fc4d-b840-b568-203c760fd24e/ANTCD-A0000020578.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/lamipus-single/6790308978?uo=4",
+      "sources": [
+        "country:jp"
+      ]
     },
     {
       "title": "Rocket",
@@ -91,6 +127,19 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/05/08/6a/05086aec-db2e-d725-da4f-0899e086802f/4542696011831.jpg/400x400bb.jpg",
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/over-life/6784625005?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Heart to Heart Part 2",
+      "artist": "EXILE ATSUSHI",
+      "artist_id": 285671886,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9c/9b/ec/9c9bec97-c07e-18f5-6e49-c8920205c511/ANTCD-A0000020460.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/heart-to-heart-part-2-single/6785362783?uo=4",
       "sources": [
         "country:jp"
       ]
@@ -125,6 +174,19 @@
       ]
     },
     {
+      "title": "Draw",
+      "artist": "Hideaki Sasaoka",
+      "artist_id": 1621212303,
+      "type": "album",
+      "release_date": "2026-07-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f4/63/f7/f463f705-9744-14aa-2921-8647d8c4c530/4550758772637_cover.png/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/draw-ep/6792459153?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "BLAZE",
       "artist": "Hina Aoki",
       "artist_id": 1696262485,
@@ -138,16 +200,42 @@
       ]
     },
     {
-      "title": "Beyond My Control (feat. A-Lin)",
-      "artist": "Jam Hsiao",
-      "artist_id": 283971013,
-      "type": "song",
-      "release_date": "2026-07-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e7/62/c8/e762c83e-d50c-a730-a01f-4b4347b4c75f/196874535301.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/beyond-my-control-feat-a-lin-single/6787933011?uo=4",
+      "title": "OriginaLyn",
+      "artist": "HYOLYN",
+      "artist_id": 766141963,
+      "type": "album",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/38/9f/d7/389fd74b-f983-aaca-79f9-307be8c231a8/191953560724.jpg/400x400bb.jpg",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/originalyn/6790724696?uo=4",
       "sources": [
-        "country:hk"
+        "country:tw"
+      ]
+    },
+    {
+      "title": "Rule the Stage [Division Jam Tour] -vol.3-",
+      "artist": "HYPNOSISMIC -D.R.B- Rule the Stage (Division Jam Tour vol.3 All Cast)",
+      "artist_id": 6788685027,
+      "type": "album",
+      "release_date": "2026-07-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7c/bc/15/7cbc15c1-4176-d50e-50a5-b9d81afaabbc/NOPA-8401.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/rule-the-stage-division-jam-tour-vol-3-ep/6788685026?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Summer Challenger",
+      "artist": "Inori Minase",
+      "artist_id": 1057869661,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/46/25/ee/4625eebb-955e-3cd5-9f27-e424762b9a1b/NOPA-8915.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/summer-challenger-single/6788688207?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -161,6 +249,16 @@
       "link": "https://music.apple.com/us/album/one-more-summer-%E3%83%AF%E3%83%B3-%E3%83%A2%E3%82%A2-%E3%82%B5%E3%83%9E%E3%83%BC/6786436177?uo=4"
     },
     {
+      "title": "MIDNIGHT IN COLOR",
+      "artist": "Junetober",
+      "artist_id": 1670462762,
+      "type": "album",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/69/73/b9/6973b921-8c0b-63aa-b637-2e686447f474/artwork.jpg/400x400bb.jpg",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/midnight-in-color/6790158224?uo=4"
+    },
+    {
       "title": "Kasumibiyori / Starry Smile Story",
       "artist": "Kobukuro",
       "artist_id": 41295873,
@@ -171,6 +269,19 @@
       "link": "https://music.apple.com/us/album/kasumibiyori-starry-smile-story/6785475742?uo=4",
       "sources": [
         "country:jp"
+      ]
+    },
+    {
+      "title": "陪多我半日好嗎",
+      "artist": "Lai Ying",
+      "artist_id": 1501313292,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e5/30/1f/e5301ff6-ca9e-ae23-a3ff-328330977077/754213536138.jpg/400x400bb.jpg",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E9%99%AA%E5%A4%9A%E6%88%91%E5%8D%8A%E6%97%A5%E5%A5%BD%E5%97%8E-single/6791855406?uo=4",
+      "sources": [
+        "country:hk"
       ]
     },
     {
@@ -216,16 +327,6 @@
       ]
     },
     {
-      "title": "Re",
-      "artist": "morihi",
-      "artist_id": 1885736168,
-      "type": "album",
-      "release_date": "2026-07-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/09/ad/9f/09ad9f7d-1228-c3ab-c3cc-620aa85f41ee/4550758570813_cover.png/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/re-ep/6790272829?uo=4"
-    },
-    {
       "title": "是非に及ばず (Special Edition)",
       "artist": "Nogizaka46",
       "artist_id": 571990937,
@@ -241,6 +342,19 @@
       ]
     },
     {
+      "title": "HUNGRY (Side A)",
+      "artist": "OURBIRTHDAY",
+      "artist_id": 6783251556,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b3/56/12/b35612f2-0080-5eb2-48f7-59eb6c8ff5d0/8809928957227_Cover.jpg/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/hungry-side-a-single/6786602247?uo=4",
+      "sources": [
+        "playlist:New In K Pop"
+      ]
+    },
+    {
       "title": "Mi-cheo Mi-cheo",
       "artist": "Picheolin",
       "artist_id": 6786593989,
@@ -248,7 +362,49 @@
       "release_date": "2026-07-22",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/55/69/05/55690515-65f1-f3ed-7121-416b3ea02c2a/823375281641_Cover.jpg/400x400bb.jpg",
       "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/mi-cheo-mi-cheo-single/6791076218?uo=4"
+      "link": "https://music.apple.com/us/album/mi-cheo-mi-cheo-single/6791076218?uo=4",
+      "sources": [
+        "country:tw"
+      ]
+    },
+    {
+      "title": "Bonbon Samba Bonba-Yeah!",
+      "artist": "Reni Takagi",
+      "artist_id": 450417305,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d9/9c/42/d99c42f0-4e73-2ac3-18ff-ec8aae729882/NOPA-9050.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/bonbon-samba-bonba-yeah-single/6788688804?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "GHOST HOUSE",
+      "artist": "ROIROM",
+      "artist_id": 1848076386,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ed/97/62/ed976229-636d-e715-ec46-ca6cb6ca7d26/VEATP-45754.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/ghost-house-single/6790219715?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Kokushimusou Love",
+      "artist": "Sayaka Okada",
+      "artist_id": 6780838382,
+      "type": "song",
+      "release_date": "2026-07-21",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e3/fa/bd/e3fabd63-9495-210b-9bdb-4615970ad45e/1200214341930.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/kokushimusou-love-single/6779491531?uo=4",
+      "sources": [
+        "country:jp"
+      ]
     },
     {
       "title": "A",
@@ -277,29 +433,31 @@
       ]
     },
     {
-      "title": "白井貴子45th セルフセレクション\"Peace of Love\"～全国高等学校女子硬式野球選手権大会 30th. Anniversary 応援スペシャル",
-      "artist": "Takako Shirai & The Crazy Boys",
-      "artist_id": 544101250,
-      "type": "album",
+      "title": "Drivin' My Life",
+      "artist": "STARGLOW",
+      "artist_id": 1838696637,
+      "type": "song",
       "release_date": "2026-07-22",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f8/3e/7e/f83e7e85-76d7-a7fa-c4e0-827769687cdc/4547366834895.jpg/400x400bb.jpg",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/17/c0/8f/17c08fff-42ba-36a2-2129-4b6bb1540c4e/ANTCD-A0000020356.jpg/400x400bb.jpg",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E7%99%BD%E4%BA%95%E8%B2%B4%E5%AD%9045th-%E3%82%BB%E3%83%AB%E3%83%95%E3%82%BB%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3-peace-of-love-%E5%85%A8%E5%9B%BD%E9%AB%98%E7%AD%89%E5%AD%A6%E6%A0%A1%E5%A5%B3%E5%AD%90%E7%A1%AC%E5%BC%8F%E9%87%8E%E7%90%83%E9%81%B8%E6%89%8B%E6%A8%A9%E5%A4%A7%E4%BC%9A/6790746702?uo=4",
+      "link": "https://music.apple.com/us/album/drivin-my-life-single/6781148831?uo=4",
       "sources": [
         "country:jp"
       ]
     },
     {
-      "title": "無時無刻",
-      "artist": "Tang Siu Hau",
-      "artist_id": 996826441,
+      "title": "HOT LIMIT - From THE FIRST TAKE",
+      "artist": "T.M.Revolution",
+      "artist_id": 634213603,
       "type": "song",
-      "release_date": "2026-07-20",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a6/99/48/a6994882-bede-486f-02a1-4e8fe023370a/4895261202388.jpg/400x400bb.jpg",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E7%84%A1%E6%99%82%E7%84%A1%E5%88%BB-single/6791463474?uo=4",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ef/fc/89/effc89bd-dfd3-2b35-09f9-ef7c775588ba/4547366842395.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/hot-limit-from-the-first-take-single/6791192398?uo=4",
       "sources": [
-        "country:hk"
+        "country:hk",
+        "country:jp",
+        "country:tw"
       ]
     },
     {
@@ -326,7 +484,6 @@
       "link": "https://music.apple.com/us/album/times-tickin-single/6790623318?uo=4",
       "sources": [
         "country:jp",
-        "country:tw",
         "playlist:New In K Pop"
       ]
     },
@@ -339,6 +496,32 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2f/b1/1c/2fb11c86-ff5c-91f9-1d15-357068a151b2/885288006827.jpg/400x400bb.jpg",
       "genre": "Cantopop/HK-Pop",
       "link": "https://music.apple.com/us/album/%E8%BF%B7%E6%88%80%E6%9C%89%E5%AE%B3-single/6790256633?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
+      "title": "Strawberry Got it (feat. Peanuts-Kun)",
+      "artist": "WEDNESDAY CAMPANELLA",
+      "artist_id": 658145772,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7b/26/3a/7b263a9d-7b76-caa4-ba65-8ae7f585a1dc/1200214419943.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/strawberry-got-it-feat-peanuts-kun-single/6785348980?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "好好照顧自己",
+      "artist": "Winka Chan",
+      "artist_id": 1564442367,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b3/03/ce/b303ce5a-59ae-8631-4196-d54ff96af5f9/4897004798585.jpg/400x400bb.jpg",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E5%A5%BD%E5%A5%BD%E7%85%A7%E9%A1%A7%E8%87%AA%E5%B7%B1-single/6792008487?uo=4",
       "sources": [
         "country:hk"
       ]
@@ -371,31 +554,22 @@
       "sources": [
         "playlist:Nuevo Nuevo"
       ]
+    },
+    {
+      "title": "My Telepathy! Watashi No Atsui Kosen",
+      "artist": "Yui Sakurai",
+      "artist_id": 1413096911,
+      "type": "song",
+      "release_date": "2026-07-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/71/30/78/71307867-9b4e-087b-efa4-78c33a596069/26UMGIM85543.rgb.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/my-telepathy-watashi-no-atsui-kosen-single/6789450879?uo=4",
+      "sources": [
+        "country:jp"
+      ]
     }
   ],
   "upcoming": [
-    {
-      "title": "KISS N TELL",
-      "artist": "aespa",
-      "artist_id": 1540251304,
-      "type": "album",
-      "release_date": "2026-07-23",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/47/e5/1c/47e51c1f-8153-3f2f-11ed-781b1dbe5cac/1200214475819.jpg/400x400bb.jpg",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/kiss-n-tell-ep/6790246891?uo=4",
-      "followed": true
-    },
-    {
-      "title": "Otra Que Arde",
-      "artist": "Olivia Wald",
-      "artist_id": 1472948885,
-      "type": "album",
-      "release_date": "2026-07-23",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7e/aa/b8/7eaab803-3fed-e0ca-057d-cef099febcde/26UMGIM74875.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop Latino",
-      "link": "https://music.apple.com/us/album/otra-que-arde/6782227091?uo=4",
-      "followed": true
-    },
     {
       "title": "LOVE AGAIN",
       "artist": "Denise Julia",
