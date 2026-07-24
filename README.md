@@ -9,90 +9,66 @@ updated every evening. Tap anything to open it in Apple Music.
 
 ## Everyday use
 
-Just open the site. What you'll see:
+Open the site and browse the grid. What the icons mean:
 
-- One grid of cover art, every new release together, four per row on a
-  computer and two on a phone.
-- Under each cover: a small **♪** means it's a song (single), a **disc** icon
-  means an album or EP.
+- **♪** = song (single), disc icon = album or EP.
 - **★** next to an artist means you follow them.
-- A small tag shows each release's genre, exactly as Apple Music names it
-  (**K-Pop**, **Afrobeats**, **Baladas y Boleros**).
-- An **Upcoming** tab appears when followed artists have pre-orders on the way,
-  each with its release date ("Tomorrow", "In 5 days", or a calendar date). A
-  pre-order moves to the main grid on the evening its date arrives.
-- **Tap or click any card** to open that release in Apple Music.
+- The genre tag is Apple's verbatim genre name for the release.
+- **Upcoming** holds followed pre-orders, moving to the grid on release
+  evening.
 
-Followed artists show first, then everyone else alphabetically. A followed
-artist's release stays 3 days; chart and playlist finds stay 1 day. Cards come
-from your followed artists plus a daily scan of Apple's US charts, new-music
-playlists, and every followed country's Top 100 and purchase charts, all
-filtered to your followed genres.
+Followed artists show first, then everyone else alphabetically. Followed
+releases keep 3 days; chart and playlist finds keep 1. Cards come from your
+followed artists plus a daily scan of Apple's charts, new-music playlists,
+and your followed countries, filtered to your genres.
 
-## Adding and removing artists, genres, countries, and playlists
+## The preferences editor
 
-1. Open the project folder and **double-click `prefs.command`**.
-   A Terminal window opens (leave it alone) and the editor appears in your browser.
-2. To add an artist: type their name (or paste an Apple artist ID or their
-   Apple Music page address) in the "Add artist" box, then pick from the
-   matching artists Apple Music returns (each shown with its genre; use the
-   **↗** to check an Apple Music page if two share a name). Picking from this
-   list is required in both sections; it pins the exact artist by Apple ID,
-   so a typed name alone won't match.
-3. To remove anything, click the **×** on its chip.
-4. Blocked artists never appear. Followed genres are the only genres discovery
-   shows (followed artists always appear, whatever their genre). A genre
-   matches releases Apple labels with exactly that name, so **Afrobeats** and
-   **Amapiano** are separate picks; the picker offers a curated list, and any
-   other Apple genre is followable by typing its exact name and pressing Enter.
-   Each genre chip shows how many releases the last update found (amber `· 0`
-   means none), so rarely-hitting genres are easy to spot.
-5. **Additional countries** are the storefronts scanned on top of the US ones.
-   Pick one from the list to follow, click its **×** to stop. Finds pass the
-   same genre filter as everything else.
-6. **Discovery playlists** are the Apple Music playlists scanned for brand-new
-   releases (New Music Daily and a few others ship by default). To add one,
-   copy its music.apple.com address, paste it into the box, and pick the row
-   that appears.
-7. Finish with one of two buttons:
-   - **Save** keeps your changes; the site picks them up at tonight's update.
-   - **Save & Refresh** applies them right now (about two minutes); a
-     progress panel shows what's happening (its **×** hides it, the refresh
-     keeps running). It's safe to close the page: the update keeps running
-     and the site refreshes on its own. The banner is green when everything
-     worked, amber if a source failed but the rest published, red if nothing
-     published.
+Double-click `prefs.command` to open the editor in your browser.
 
-An age tag next to a followed artist (`· 18mo`, `· 2y`) means their newest
-release is that old (amber past 18 months, red past 3 years), in case you want
-to trim the list. The "sort: A-Z" control flips it to oldest-release-first so
-those cluster at the top. Nothing is removed automatically.
+- **Artists:** type a name, ID, or page address, then pick from the matching
+  list Apple returns; that pins the pick by Apple ID, for follows and blocks
+  alike, so a typed name alone won't match.
+- **Genres:** pick from the curated list, or type any exact Apple genre name.
+- **Additional countries:** extra storefronts scanned on top of the US ones.
+- **Discovery playlists:** paste a music.apple.com playlist address to scan it.
+- **Save** applies at tonight's update; **Save & Refresh** runs now (about
+  two minutes). Green means all good; amber means a source failed but the
+  rest published; red means nothing published.
 
-When you're done, press the **Quit** button (or close the Terminal window).
+Age tags flag followed artists with no recent releases (amber past 18
+months, red past 3 years). Nothing is removed automatically.
 
-## One-time setup: make it update itself every evening
+## Setting up on a new computer
 
-Run these four commands once in Terminal (copy-paste all lines together; the
-last one asks for your password):
+This is only for the computer that runs the nightly update; the site itself
+works from any device.
+
+1. Install `node`, `git`, and `gh`.
+2. Clone the repo anywhere, to a path without spaces or special characters:
+   `git clone git@github.com:georgeryang/new-music-radar.git`
+3. Run `gh auth login`, which lets the update verify its Pages deploy (skip
+   `gh` and it skips that check, so a deploy flake goes unnoticed). Then make
+   sure `git push` works (SSH key for the SSH URL; `gh auth setup-git` if you
+   cloned over HTTPS).
+4. Test once from the repo root: `bash scripts/update.sh` (about two minutes,
+   ends with "Published").
+5. Schedule it, pasting all four lines together from the repo root (two of
+   them record the folder they run from; the last asks for your password):
 
 ```
-cp ~/dev/new-music-radar/launchd/com.georgeryang.new-music-radar.plist ~/Library/LaunchAgents/
+sed -e "s|/Users/georgeyang/dev/new-music-radar|$PWD|g" -e "s|/Users/georgeyang|$HOME|g" launchd/com.georgeryang.new-music-radar.plist > ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist
 launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist
-( crontab -l 2>/dev/null | grep -v 'new-music-radar/.*watchdog.sh'; echo '*/5 * * * * $HOME/dev/new-music-radar/launchd/watchdog.sh' ) | crontab -
+( crontab -l 2>/dev/null | grep -v 'new-music-radar/.*watchdog.sh'; echo "*/5 * * * * $PWD/launchd/watchdog.sh" ) | crontab -
 sudo pmset repeat wakeorpoweron MTWRFSU 05:30:00
 ```
 
-After that, the Mac quietly updates the site once a day around 6:15 PM Korea
-time (or the next time it wakes from sleep). Nothing else to do.
-
-The first two lines schedule the daily update. The third is a safety net: after
-a reboot macOS does not always reload the scheduler on its own, which leaves the
-site a day stale. A small check runs every 5 minutes and reloads the scheduler
-if it has dropped out. It never fetches; it only makes sure the daily updater is
-loaded. The fourth wakes the Mac briefly at 5:30 each morning so the update runs
-before you're up, screen off, even with the lid closed; it goes back to sleep a
-few minutes later. The wake only fires when the Mac is plugged in. On battery
-nights the update simply waits for the next time you open the lid, as before.
+The first command fills in this computer's folder locations, since the
+scheduler needs full paths, not `~`. The Mac updates the site once a day
+around 6:15 PM Korea time, or at the next wake. The 5-minute check reloads
+the scheduler if a reboot drops it, but never fetches. The 5:30 wake runs
+the update before you're up when plugged in; on battery it waits for the
+next lid-open.
 
 To turn it off:
 ```
@@ -112,85 +88,32 @@ sudo pmset repeat cancel
   Remove and re-add them via the search list (the **↗** link shows whose page
   you're pinning).
 
-## Moving to a new Mac
-
-The website itself works from anywhere; this is only for the computer that
-performs the daily update.
-
-1. Install `node` and `git`, and make sure `git push` to GitHub works.
-2. `git clone git@github.com:georgeryang/new-music-radar.git ~/dev/new-music-radar`
-   (this exact location, the schedule file expects it).
-3. Test once: `bash ~/dev/new-music-radar/scripts/update.sh`
-   (about two minutes; ends with "Published").
-4. Do the one-time setup above.
-
 ## For developers
 
-- **Data flow:** `config/preferences.json` -> `scripts/fetch-releases.mjs`
-  (zero-dep node) -> `docs/data/releases.json` -> committed + pushed by
-  `scripts/update.sh` -> GitHub Pages serves `docs/`. Five sources, all native
-  Apple Music (links, genres, artwork):
-  - Batched iTunes lookups for the follow list (also collects pre-orders into
-    `upcoming[]`).
-  - The US most-played chart.
-  - US iTunes genre purchase charts (day-of drops in followed genres).
-  - Editorial playlists (e.g. New Music Daily).
-  - Country charts (`discovery.countries`): each country's most-played Top 100
-    plus purchase charts, date-filtered in-feed.
-
-  Every card is built from a US-catalog lookup; other storefronts localize
-  artist names (which would duplicate cards), so country feeds contribute
-  collection ids only and US-catalog misses are dropped until they propagate.
-- **Frontend:** Vite + React + TS + Tailwind in `src/`; build output goes into
-  `docs/` next to the data (never wiped, see vite.config.ts). Self-hosted Plus
-  Jakarta Sans from `public/fonts/`; the build wipes and recopies `docs/fonts`
-  like `docs/assets`, so renamed font files can't go stale.
-- **Scheduling:** launchd ticks every 10 min; `update.sh --if-stale` makes that
-  exactly one fetch/day anchored to 18:15 KST, timezone-proof. A cron check
-  (`launchd/watchdog.sh`, every 5 min) re-bootstraps the agent when it has
-  fallen out of launchd, since macOS does not reliably autoload it after a
-  reboot; the check never fetches. Its actions log to
-  `~/Library/Logs/new-music-radar-watchdog.log`, and each quiet tick overwrites
-  the heartbeat file `~/Library/Logs/new-music-radar-watchdog.heartbeat`.
-  The agent wraps `update.sh` in `caffeinate -sim`, which holds a sleep
-  assertion only while the script runs: about a second on fresh ticks, 5 to 20
-  minutes on the one tick that fetches. Without it, a run started during a
-  dark wake could be put back to sleep mid-push. A scheduled wake
-  (`pmset repeat wakeorpoweron`, 05:30 local) makes the overnight refresh
-  deterministic when the Mac is plugged in; on battery with the lid closed the
-  firmware skips the wake and the fetch happens at the next real wake instead.
-- **Preferences editor:** `scripts/prefs-server.mjs`, zero-dep local server on
-  127.0.0.1:4747, same-origin only (Host/Origin checks on all but the site's
-  ping). Artist entries are always `{name, id}` (the picker is the only way to
-  add one; fetching, blocking, and the followed ★ all key on the ID, never the
-  credit name, so a collab released under a joint artist page is not starred).
-  Refresh runs detached so quitting the editor can't stop it. The server also serves the built site at
-  `/new-music-radar/` ("Open radar") for fresh data without the Pages deploy.
-  The editor has no CSS of its own: it links the app's built stylesheet (an
-  `@source` directive in `src/index.css` scans the editor markup) by a hash
-  resolved per request, so a rebuild never strands a stale link. After editing
-  the markup, run `npm run build` and restart the server.
-- **Genre options:** `scripts/genre-options.mjs` is the curated picker list. The
-  fetcher never maps genres: cards carry Apple's name verbatim, the follow
-  filter is an exact case-insensitive match against `genres.followed`. After
-  editing, run `node scripts/check-genre-coverage.mjs` to confirm every name
-  still exists in Apple's tree (a rename means followed releases stop matching),
-  and restart `prefs.command` (the server reads the list once at startup).
-  Storefront codes for `discovery.countries` live in `scripts/storefronts.mjs`.
-- **Source yield counts:** country and playlist chips carry a unique/duplicate/
-  total marker from the latest update (e.g. "2/4/6": 2 only that source found,
-  4 shared, 6 total), driven by `sources` tags the fetcher writes on discovery
-  releases. Genre chips carry a single-count version. All count over the
-  fetcher's full `WINDOW_DAYS` (3 days), not the 24h the New tab trims
-  discovery to, so a chip's count routinely exceeds what's on the page.
-- **Config side file:** `config/artist-activity.json` records each artist's
-  newest release date nightly, driving the dormancy hints.
-- **Reliability patterns:**
-  - Non-zero exit when any source fails (including one sweep batch); partial
-    results still publish.
-  - Empty-success carryover: never stamp an empty file fresh.
-  - Paced, jittered iTunes lookups, plus a second paced lane for the
-    marketingtools feeds (a burst of ~20 gets 503s); legacy RSS and the web
-    player fetch concurrently. Failed country feeds get one retry pass.
-  - The nightly push verifies its own Pages deploy and requests one rebuild if
-    it flaked (correlated to the fresh build, so a stale status can't fool it).
+- **Data flow:** `config/preferences.json` -> `scripts/fetch-releases.mjs` ->
+  `docs/data/releases.json` -> pushed by `scripts/update.sh` -> GitHub Pages
+  serves `docs/`. Five sources, all resolved through US-catalog lookups: the
+  follow list (also collects pre-orders into `upcoming[]`), the US
+  most-played chart, US genre purchase charts, editorial playlists, and
+  country charts. Foreign storefronts contribute ids only, never card data.
+- **Frontend:** Vite + React + TS + Tailwind in `src/`, built into `docs/`
+  (never wiped). Self-hosted Plus Jakarta Sans is recopied from
+  `public/fonts/` on every build.
+- **Scheduling:** launchd ticks every 10 min; `update.sh --if-stale` turns
+  that into one fetch a day, anchored to 18:15 KST. `launchd/watchdog.sh`
+  (cron, every 5 min) re-bootstraps the agent if macOS drops it after a
+  reboot. `caffeinate -sim` holds the Mac awake mid-run; a `pmset` wake at
+  05:30 and a `StartCalendarInterval` at 05:25 just trigger that run at the
+  right moment; they aren't the anchor.
+- **Preferences editor:** `scripts/prefs-server.mjs`, local-only on
+  127.0.0.1:4747. Follow, block, and the followed star all key on Apple ID,
+  never name. Also serves the built site at `/new-music-radar/`, for a
+  refresh without a Pages deploy.
+- **Genres and chip counts:** no genre mapping; cards carry Apple's name
+  verbatim, matched exactly ignoring case. Curated list is `scripts/genre-options.mjs`;
+  storefront codes are in `scripts/storefronts.mjs`. Editor chips count over
+  the fetcher's full `WINDOW_DAYS` (3 days), not the site's 24h New tab, so
+  chip counts routinely exceed what's on the page.
+- **Reliability:** any source failing exits non-zero but still publishes
+  partial results; an empty result never overwrites good data. The nightly
+  push also verifies its Pages deploy and retries once if it flaked.
