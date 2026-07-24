@@ -7,7 +7,9 @@
   <!-- caffeinate holds a sleep assertion only while update.sh runs: ~1s on
        fresh ticks, 5-20 min on the one daily fetch. Without it a run started
        during a dark wake can be put back to sleep mid-push. -s needs AC and
-       covers dark wakes; -i covers battery idle sleep; -m covers disk. -->
+       covers dark wakes; -i covers battery idle sleep; -m covers disk. The
+       absolute paths below are for this machine only; README's install
+       command rewrites them for whatever machine it runs on. -->
   <key>ProgramArguments</key>
   <array>
     <string>/usr/bin/caffeinate</string>
@@ -21,9 +23,23 @@
        guard in update.sh turns ticks into exactly one fetch per day, in the
        18:15-18:30 KST window when awake or at first wake after it. A fixed
        StartCalendarInterval can't do this: it uses the Mac's local timezone,
-       which drifts against KST with DST and travel. -->
+       which drifts against KST with DST and travel. The StartCalendarInterval
+       below is a separate, narrower fix for a wake-timing gap; it is a
+       trigger only, never the anchor. -->
   <key>StartInterval</key>
   <integer>600</integer>
+  <!-- Not the staleness anchor, only a wake-catch trigger. 05:25 is strictly
+       before the 05:30 pmset wake, so this fire is already missed when the
+       Mac wakes and launchd runs it then, with caffeinate holding the Mac
+       awake through the run. Needed because the lid-closed wake window is
+       only ~15s, too short for the coalesced StartInterval tick. -->
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict>
+      <key>Hour</key><integer>5</integer>
+      <key>Minute</key><integer>25</integer>
+    </dict>
+  </array>
   <key>StandardOutPath</key>
   <string>/Users/georgeyang/Library/Logs/new-music-radar.log</string>
   <key>StandardErrorPath</key>
