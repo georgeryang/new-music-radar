@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1785130802511,
+  "fetched_at": 1785150222653,
   "releases": [
     {
       "title": "<Born Stunner>",
@@ -170,6 +170,17 @@
       "followed": true
     },
     {
+      "title": "love me not (feat. Wonstein)",
+      "artist": "Moon Sujin",
+      "artist_id": 1440461416,
+      "type": "song",
+      "release_date": "2026-07-27",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/42/82/bd/4282bd2a-41d8-b0ef-c3ad-d89073c31e1e/1200214638894.jpg/400x400bb.jpg",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/love-me-not-feat-wonstein-single/6792692693?uo=4",
+      "followed": true
+    },
+    {
       "title": "A*POP",
       "artist": "Tyla",
       "artist_id": 1552925732,
@@ -212,16 +223,6 @@
       ]
     },
     {
-      "title": "Deep Dive",
-      "artist": "Alice Syndrome",
-      "artist_id": 6793853070,
-      "type": "song",
-      "release_date": "2026-07-25",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/32/e9/1e/32e91e53-ab59-3996-69ff-2540da3ac415/cover_KM0024999_1.jpg/400x400bb.jpg",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/deep-dive-single/6793863937?uo=4"
-    },
-    {
       "title": "Activo",
       "artist": "ANGEL DIOR, Elmaestrox9 & Zunna",
       "artist_id": 1552026045,
@@ -244,19 +245,8 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/from-tokyo-with-love/6777193336?uo=4",
       "sources": [
-        "country:jp",
-        "country:mx"
+        "country:jp"
       ]
-    },
-    {
-      "title": "Bellator Ruber",
-      "artist": "Axel Syrios",
-      "artist_id": 1638864062,
-      "type": "song",
-      "release_date": "2026-07-24",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7f/97/85/7f978556-f2ec-cd75-7f0e-785972834ee6/4580883406480_art.png/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/bellator-ruber-single/6792969371?uo=4"
     },
     {
       "title": "I Hope You Don't Remember Me",
@@ -283,26 +273,6 @@
       "sources": [
         "playlist:New Music Daily"
       ]
-    },
-    {
-      "title": "Heartlink",
-      "artist": "BATTEN GIRLS",
-      "artist_id": 1100091749,
-      "type": "song",
-      "release_date": "2026-07-26",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a5/51/52/a5515205-e237-6541-4f83-6f5ae8c83cbb/4550758804468_cover.png/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/heartlink-single/6792760949?uo=4"
-    },
-    {
-      "title": "Playing Human",
-      "artist": "BATTEN GIRLS",
-      "artist_id": 1100091749,
-      "type": "song",
-      "release_date": "2026-07-26",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/22/f9/a7/22f9a755-c529-8585-9ad5-d9c6c99cdf62/4550758804482_cover.png/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/playing-human-single/6792760731?uo=4"
     },
     {
       "title": "1989 TOKYO NIGHT CRUISE",
@@ -373,8 +343,20 @@
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/music-fashion-film/6774745611?uo=4",
       "sources": [
-        "country:ar",
         "playlist:New Music Daily"
+      ]
+    },
+    {
+      "title": "I KNOW HERO (Special Edition)",
+      "artist": "CLASS SEVEN",
+      "artist_id": 1819692524,
+      "type": "album",
+      "release_date": "2026-07-27",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/05/67/d2/0567d2ea-5ba4-b95b-9fa1-ccee38644e4b/4570199893852.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/i-know-hero-special-edition-ep/6785741365?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -476,6 +458,16 @@
       ]
     },
     {
+      "title": "Gimmick Gimmick Entertainment",
+      "artist": "hololive IDOL PROJECT",
+      "artist_id": 1479292202,
+      "type": "song",
+      "release_date": "2026-07-25",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/aa/00/4a/aa004a58-bf0c-a1cf-cbff-60b3e63ff08f/4580883406633_art.png/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/gimmick-gimmick-entertainment-single/6793765283?uo=4"
+    },
+    {
       "title": "yumeiro wonder",
       "artist": "hololive IDOL PROJECT",
       "artist_id": 1479292202,
@@ -502,16 +494,16 @@
       ]
     },
     {
-      "title": "AKAN TUA BERSAMA",
-      "artist": "irfan Jaelani",
-      "artist_id": 6794321934,
-      "type": "song",
-      "release_date": "2026-07-24",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e2/d8/b8/e2d8b8cf-3b97-0133-58a8-be57171259f0/artwork.jpg/400x400bb.jpg",
+      "title": "Memórias Póstumas",
+      "artist": "Jão",
+      "artist_id": 1198758946,
+      "type": "album",
+      "release_date": "2026-07-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9c/07/a7/9c07a740-a651-f8be-40d3-afee76974367/26UMGIM97503.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": "https://music.apple.com/us/album/akan-tua-bersama-single/6794400222?uo=4",
+      "link": "https://music.apple.com/us/album/mem%C3%B3rias-p%C3%B3stumas/6793667697?uo=4",
       "sources": [
-        "country:hk"
+        "country:mx"
       ]
     },
     {
@@ -525,19 +517,6 @@
       "link": "https://music.apple.com/us/album/hold-me-single/6793324918?uo=4",
       "sources": [
         "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Replica No Yoru",
-      "artist": "junno's",
-      "artist_id": 6793791775,
-      "type": "album",
-      "release_date": "2026-07-26",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1c/db/8e/1cdb8e8f-ed69-70f1-e29f-1257ee59d1c1/4550758880325_cover.png/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/replica-no-yoru-ep/6793911181?uo=4",
-      "sources": [
-        "country:hk"
       ]
     },
     {
@@ -590,14 +569,14 @@
       "link": "https://music.apple.com/us/album/i-love-you-un-c-o-single/6791354841?uo=4"
     },
     {
-      "title": "Love Song",
-      "artist": "MACHINA",
-      "artist_id": 1826353996,
-      "type": "song",
-      "release_date": "2026-07-25",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/41/5a/12/415a1295-a84b-58c3-8222-3e96dbeea641/4550758881193_cover.png/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/love-song-single/6793947352?uo=4"
+      "title": "Pretty Girlz Run The World",
+      "artist": "Loe Shimmy",
+      "artist_id": 1506815992,
+      "type": "album",
+      "release_date": "2026-07-24",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3d/10/50/3d105032-2671-5f3e-7c64-68ef4c8bc6c4/712132082525_cover.jpg/400x400bb.jpg",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/pretty-girlz-run-the-world/6790948448?uo=4"
     },
     {
       "title": "Fireflies",
@@ -670,6 +649,19 @@
       "link": "https://music.apple.com/us/album/i-can-see/6769136946?uo=4",
       "sources": [
         "playlist:New Music Daily"
+      ]
+    },
+    {
+      "title": "Natsumeki",
+      "artist": "OCTPATH",
+      "artist_id": 1603381977,
+      "type": "album",
+      "release_date": "2026-07-27",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/30/6b/d7/306bd72b-3fdc-73fe-71d3-20efba058d40/26UMGIM94643.rgb.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/natsumeki-ep/6793816418?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -802,16 +794,6 @@
       "link": "https://music.apple.com/us/album/soumia-feat-ilham-single/6794211801?uo=4"
     },
     {
-      "title": "THE FLOWERS CAN’T HEAR YOUR APOLOGY",
-      "artist": "SAM THE MOTIVATOR 30",
-      "artist_id": 6793578663,
-      "type": "album",
-      "release_date": "2026-07-25",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/64/75/c9/6475c9c8-364e-47da-ede1-e177bc5c1691/artwork.jpg/400x400bb.jpg",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/the-flowers-cant-hear-your-apology/6794720520?uo=4"
-    },
-    {
       "title": "In The Movies",
       "artist": "SunandMoon, Ogi & Anoop",
       "artist_id": 1136057398,
@@ -847,8 +829,7 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/%E7%AC%AC%E4%B8%89%E6%83%91%E6%98%9F-the-third-planet-single/6788714012?uo=4",
       "sources": [
-        "country:jp",
-        "country:tw"
+        "country:jp"
       ]
     },
     {
@@ -930,6 +911,19 @@
       ]
     },
     {
+      "title": "YOUNGEST",
+      "artist": "Young K",
+      "artist_id": 1583152693,
+      "type": "album",
+      "release_date": "2026-07-27",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b1/04/96/b1049630-6600-5617-2f02-47c5a0fe69e7/8809928957272_Cover.jpg/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/youngest/6786929443?uo=4",
+      "sources": [
+        "playlist:New In K Pop"
+      ]
+    },
+    {
       "title": "Dreams Never Sleep (映画『仮面ライダーゼッツ さよならのミッション』主題歌)",
       "artist": "YUTA",
       "artist_id": 1658021468,
@@ -939,9 +933,7 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/dreams-never-sleep-%E6%98%A0%E7%94%BB-%E4%BB%AE%E9%9D%A2%E3%83%A9%E3%82%A4%E3%83%80%E3%83%BC%E3%82%BC%E3%83%83%E3%83%84-%E3%81%95%E3%82%88%E3%81%AA%E3%82%89%E3%81%AE%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3-%E4%B8%BB%E9%A1%8C%E6%AD%8C-ep/6786523326?uo=4",
       "sources": [
-        "country:hk",
-        "country:jp",
-        "country:tw"
+        "country:jp"
       ]
     },
     {
