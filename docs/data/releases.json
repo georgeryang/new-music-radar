@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1785236841841,
+  "fetched_at": 1785317462028,
   "releases": [
     {
       "title": "I Got Your Back",
@@ -12,9 +12,7 @@
       "link": "https://music.apple.com/us/album/i-got-your-back-single/6792947885?uo=4",
       "followed": true,
       "sources": [
-        "country:hk",
-        "country:jp",
-        "country:tw"
+        "country:jp"
       ]
     },
     {
@@ -27,30 +25,6 @@
       "genre": "R&B/Soul",
       "link": "https://music.apple.com/us/album/love-me-not-feat-wonstein-single/6792692693?uo=4",
       "followed": true
-    },
-    {
-      "title": "螺旋 - RASEN",
-      "artist": "9Lana",
-      "artist_id": 1721402990,
-      "type": "song",
-      "release_date": "2026-07-25",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/57/e3/45/57e3458e-e2b6-734e-259f-a6e000668f30/4547366836509.jpg/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E8%9E%BA%E6%97%8B-rasen-single/6789014109?uo=4",
-      "sources": [
-        "country:jp",
-        "country:mx"
-      ]
-    },
-    {
-      "title": "Deep Dive",
-      "artist": "Alice Syndrome",
-      "artist_id": 6793853070,
-      "type": "song",
-      "release_date": "2026-07-25",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/32/e9/1e/32e91e53-ab59-3996-69ff-2540da3ac415/cover_KM0024999_1.jpg/400x400bb.jpg",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/deep-dive-single/6793863937?uo=4"
     },
     {
       "title": "I KNOW HERO (Special Edition)",
@@ -66,50 +40,40 @@
       ]
     },
     {
-      "title": "First Story",
-      "artist": "Dia Story",
-      "artist_id": 6787843053,
-      "type": "album",
-      "release_date": "2026-07-25",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/79/93/2a/79932a0a-bc22-b0ab-3b1d-ea1c2c34d570/4550758904618_cover.jpg/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/first-story-ep/6794318037?uo=4"
-    },
-    {
-      "title": "Little Star Birthday : We love Panchi",
-      "artist": "dicksonai",
-      "artist_id": 1863461492,
-      "type": "album",
-      "release_date": "2026-07-25",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d9/93/45/d9934566-311f-b7b8-4afa-88848d98a7e5/artwork.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/little-star-birthday-we-love-panchi/6788626999?uo=4",
-      "sources": [
-        "country:hk"
-      ]
-    },
-    {
-      "title": "Into The Abyss (映画『仮面ライダーゼッツ さよならのミッション』挿入歌)",
-      "artist": "Do As Infinity",
-      "artist_id": 73955226,
+      "title": "->->->sp",
+      "artist": "Haruka Amami (CV: Eriko Nakamura), Uzuki Shimamura (CV: Ayaka Ohashi), Mirai Kasuga (CV: Haruka Yamazaki), 天道輝, MANO SAKURAGI (CV: Hitomi Sekine) & Saki Hanami",
+      "artist_id": 1433522038,
       "type": "song",
-      "release_date": "2026-07-25",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c9/fa/ac/c9faac0b-c7ae-1c01-bcf1-fe4208daaa4a/ANTCD-A0000020497.jpg/400x400bb.jpg",
+      "release_date": "2026-07-28",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0c/e4/b2/0ce4b21a-ea0e-5d65-45af-218503d349bf/PA00223354_0_250549_jacket.jpg/400x400bb.jpg",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/into-the-abyss-%E6%98%A0%E7%94%BB-%E4%BB%AE%E9%9D%A2%E3%83%A9%E3%82%A4%E3%83%80%E3%83%BC%E3%82%BC%E3%83%83%E3%83%84-%E3%81%95%E3%82%88%E3%81%AA%E3%82%89%E3%81%AE%E3%83%9F%E3%83%83%E3%82%B7%E3%83%A7%E3%83%B3-%E6%8C%BF%E5%85%A5%E6%AD%8C-single/6787904921?uo=4",
+      "link": "https://music.apple.com/us/album/sp-single/6793033369?uo=4",
       "sources": [
         "country:jp"
       ]
     },
     {
-      "title": "仿生覺知",
-      "artist": "Endy Chow",
-      "artist_id": 201546334,
+      "title": "BINGO",
+      "artist": "HUI",
+      "artist_id": 41755337,
       "type": "song",
-      "release_date": "2026-07-27",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d3/b8/af/d3b8afc5-f71f-c087-e6fa-2992dd578e82/4895261202982.jpg/400x400bb.jpg",
+      "release_date": "2026-07-28",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f0/8b/8c/f08b8ca6-6ecb-b5bf-deb3-90a370cac96b/888272185423_Cover.jpg/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/bingo-single/6793956862?uo=4",
+      "sources": [
+        "country:mx"
+      ]
+    },
+    {
+      "title": "人間缺憾美",
+      "artist": "Jay Fung",
+      "artist_id": 566806262,
+      "type": "song",
+      "release_date": "2026-07-28",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e0/bf/b9/e0bfb95b-56f4-8902-fd9f-c1aff29eeb7c/1200214516734.jpg/400x400bb.jpg",
       "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E4%BB%BF%E7%94%9F%E8%A6%BA%E7%9F%A5-single/6793824440?uo=4",
+      "link": "https://music.apple.com/us/album/%E4%BA%BA%E9%96%93%E7%BC%BA%E6%86%BE%E7%BE%8E-single/6793943378?uo=4",
       "sources": [
         "country:hk"
       ]
@@ -128,6 +92,33 @@
       ]
     },
     {
+      "title": "Replica No Yoru",
+      "artist": "junno's",
+      "artist_id": 6793791775,
+      "type": "album",
+      "release_date": "2026-07-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1c/db/8e/1cdb8e8f-ed69-70f1-e29f-1257ee59d1c1/4550758880325_cover.png/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/replica-no-yoru-ep/6793911181?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
+      "title": "KARD 1st Album 'Where To Now? (Pt. 2) : NOWHERE'",
+      "artist": "KARD",
+      "artist_id": 1215832588,
+      "type": "album",
+      "release_date": "2026-07-28",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8a/4b/bc/8a4bbc49-3b5b-99b5-23bd-65d86eea355b/cover_KM0024950_1.jpg/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/kard-1st-album-where-to-now-pt-2-nowhere/6791470521?uo=4",
+      "sources": [
+        "country:ar",
+        "country:co"
+      ]
+    },
+    {
       "title": "Oasis/ Michishirube",
       "artist": "Kim Jae Joong",
       "artist_id": 291573698,
@@ -137,7 +128,6 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/oasis-michishirube-single/6793895597?uo=4",
       "sources": [
-        "country:hk",
         "country:jp",
         "country:tw"
       ]
@@ -156,16 +146,59 @@
       ]
     },
     {
-      "title": ".exe",
-      "artist": "NouerA",
-      "artist_id": 1783502769,
+      "title": "Adamantite",
+      "artist": "Kuzuha",
+      "artist_id": 1513877344,
       "type": "album",
-      "release_date": "2026-07-27",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1d/7c/33/1d7c338e-58d1-7df8-f30e-5c9d54f59296/8804775411083.jpg/400x400bb.jpg",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/exe-ep/6791124611?uo=4",
+      "release_date": "2026-07-29",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/53/7f/35/537f3544-1731-c34c-3d80-0e30e1c808f5/26UMGIM74088.rgb.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/adamantite/6784356607?uo=4",
       "sources": [
+        "country:hk",
         "country:jp"
+      ]
+    },
+    {
+      "title": "HANAKIN/シャニカマー(Special Edition)",
+      "artist": "Miyamoto Karin",
+      "artist_id": 1237059798,
+      "type": "album",
+      "release_date": "2026-07-29",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2d/30/66/2d30669b-838d-e84a-aedc-d7c830621c3f/UFDL-1594.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/hanakin-%E3%82%B7%E3%83%A3%E3%83%8B%E3%82%AB%E3%83%9E%E3%83%BC-special-edition-ep/6776593342?uo=4",
+      "sources": [
+        "country:jp",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "KMK",
+      "artist": "NEWS",
+      "artist_id": 1765474507,
+      "type": "album",
+      "release_date": "2026-07-29",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a8/ec/e8/a8ece804-d475-b51c-c3a9-66ab9a938982/4517331101611.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/kmk/6793023328?uo=4",
+      "sources": [
+        "country:hk",
+        "country:jp",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "WannaCry",
+      "artist": "Ninajirachi & Porter Robinson",
+      "artist_id": 1210938233,
+      "type": "song",
+      "release_date": "2026-07-28",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/94/79/01/94790156-60e5-ff9b-f844-171f15910d66/820233879705.jpg/400x400bb.jpg",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/wannacry-single/6789021486?uo=4",
+      "sources": [
+        "country:mx"
       ]
     },
     {
@@ -192,49 +225,30 @@
       "link": "https://music.apple.com/us/album/tell-me/6793864385?uo=4"
     },
     {
-      "title": "Perfect",
-      "artist": "Queen Butterfly",
-      "artist_id": 1896568024,
+      "title": "Neon Garden",
+      "artist": "Penthouse",
+      "artist_id": 1469329916,
       "type": "album",
-      "release_date": "2026-07-25",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/51/b3/4b/51b34bfc-09d3-c42f-81a6-35aeefd5237d/881392681011.png/400x400bb.jpg",
+      "release_date": "2026-07-29",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/71/22/17/712217f4-1993-f416-cb8c-445b10913b8a/VICL-66159.jpg/400x400bb.jpg",
       "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/perfect/6793653153?uo=4"
-    },
-    {
-      "title": "Soumia (feat. Ilham)",
-      "artist": "Sallam Rifi Junior",
-      "artist_id": 1225532923,
-      "type": "song",
-      "release_date": "2026-07-25",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/86/9f/6d/869f6d30-977a-97a8-e46c-622b5f15e199/artwork.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/soumia-feat-ilham-single/6794211801?uo=4"
-    },
-    {
-      "title": "日蝕",
-      "artist": "Sol.O",
-      "artist_id": 6791051438,
-      "type": "album",
-      "release_date": "2026-07-28",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0e/80/d8/0e80d869-975e-7ef9-53d6-b35150c25c9f/4711720319025.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E6%97%A5%E8%9D%95/6792605692?uo=4",
+      "link": "https://music.apple.com/us/album/neon-garden/6788200542?uo=4",
       "sources": [
-        "country:tw"
+        "country:jp"
       ]
     },
     {
-      "title": "Late el Sur",
-      "artist": "Soledad",
-      "artist_id": 1166995,
-      "type": "song",
-      "release_date": "2026-07-26",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/75/55/43/755543b9-7eb0-5a1d-a5a1-02f335879f32/196874596739.jpg/400x400bb.jpg",
-      "genre": "Pop Latino",
-      "link": "https://music.apple.com/us/album/late-el-sur-single/6792099375?uo=4",
+      "title": "To Be Continued",
+      "artist": "QWER",
+      "artist_id": 1711739664,
+      "type": "album",
+      "release_date": "2026-07-28",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/af/b0/83/afb08355-a71f-4d31-f984-19b4a6019e6e/1200214638399.jpg/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/to-be-continued-ep/6793082178?uo=4",
       "sources": [
-        "country:ar"
+        "country:hk",
+        "country:tw"
       ]
     },
     {
@@ -257,9 +271,7 @@
       "genre": "R&B/Soul",
       "link": "https://music.apple.com/us/album/if-you-dont-mean-it-%E0%B8%96-%E0%B8%B2%E0%B9%84%E0%B8%A1-%E0%B8%84-%E0%B8%94-%E0%B8%AD%E0%B8%A2-%E0%B8%B2%E0%B8%97%E0%B8%B3%E0%B9%83%E0%B8%AB-%E0%B8%84-%E0%B8%94-single/6793785938?uo=4",
       "sources": [
-        "country:jp",
-        "country:mx",
-        "country:tw"
+        "country:jp"
       ]
     },
     {
@@ -301,6 +313,45 @@
         "country:hk",
         "country:tw",
         "playlist:New In K Pop"
+      ]
+    },
+    {
+      "title": "光与盐(下)",
+      "artist": "周峻炜",
+      "artist_id": 6795053201,
+      "type": "album",
+      "release_date": "2026-07-28",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7c/1e/da/7c1eda44-89ea-4c7e-0825-f6f380da7845/4896010645746.jpg/400x400bb.jpg",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E5%85%89%E4%B8%8E%E7%9B%90-%E4%B8%8B-ep/6795099048?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
+      "title": "Honeymoon",
+      "artist": "大野雄大 (from Da-iCE)",
+      "artist_id": 1115971679,
+      "type": "album",
+      "release_date": "2026-07-29",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7e/cf/33/7ecf3327-07e9-b099-32dc-106e5b4b7444/ANTCD-A0000020211.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/honeymoon-ep/6786510567?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "應無所住而生其心",
+      "artist": "禪天下",
+      "artist_id": 1896480658,
+      "type": "song",
+      "release_date": "2026-07-27",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/87/bf/90/87bf9038-cef1-6ce1-68c9-9f9a1326e0a8/4711548147190.png/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/%E6%87%89%E7%84%A1%E6%89%80%E4%BD%8F%E8%80%8C%E7%94%9F%E5%85%B6%E5%BF%83-single/6791903098?uo=4",
+      "sources": [
+        "country:tw"
       ]
     }
   ],
