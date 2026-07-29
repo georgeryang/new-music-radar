@@ -42,6 +42,11 @@ if [ "${1:-}" = "--if-stale" ]; then
   JITTER=$((RANDOM % 420))
   log "Last fetch predates the 18:15 KST slot — refreshing in ${JITTER}s"
   sleep "$JITTER"
+elif [ -n "${1:-}" ]; then
+  # Every path below this point commits and pushes to the live site, so a typo
+  # ("--if-state") must not fall through into an unscheduled publish.
+  log "ERROR: unknown argument '$1' (usage: update.sh [--if-stale])"
+  exit 1
 fi
 
 # Cap the shared log (launchd appends forever, nothing rotates it). `cat >`
@@ -52,29 +57,6 @@ if [ -f "$LOG_FILE" ] && [ "$(stat -f %z "$LOG_FILE" 2>/dev/null || echo 0)" -gt
   tail -c 262144 "$LOG_FILE" > "$LOG_FILE.trim" && cat "$LOG_FILE.trim" > "$LOG_FILE" && rm -f "$LOG_FILE.trim"
   log "log capped to last 256KB"
 fi
-
-log "Fetching new releases..."
-"$NODE" scripts/fetch-releases.mjs
-FETCH_FAILED=$?
-if [ "$FETCH_FAILED" -ne 0 ]; then
-  # Don't bail: one source failing shouldn't hold the others' data hostage.
-  # Publish whatever was written, then exit with the fetcher's own code
-  # (2 = a source failed, per its header) so the failure is logged.
-  log "ERROR: fetch failed for at least one source (publishing partial data)"
-fi
-
-# config/ rides along: preference edits apply from disk at fetch time and get
-# backed up with the nightly data commit — no manual git.
-if git diff --quiet docs/data config && [ -z "$(git ls-files --others --exclude-standard docs/data config)" ]; then
-  log "No changes — nothing to publish"
-  exit "$FETCH_FAILED"
-fi
-
-log "Publishing..."
-git add docs/data config
-git commit -m "Update data $(date '+%Y-%m-%d %H:%M')" || { log "ERROR: commit failed"; exit 1; }
-git push || { log "ERROR: push failed"; exit 1; }
-log "Published"
 
 # GitHub's Pages deploy flakes transiently. The nightly push is the only one
 # of the day, so a single flake leaves the site stale for 24h — verify this
@@ -120,6 +102,47 @@ verify_deploy() {
   done
   log "WARNING: Pages rebuild ended '$STATUS' — site stays stale until tomorrow's run"
 }
+
+log "Fetching new releases..."
+"$NODE" scripts/fetch-releases.mjs
+FETCH_STATUS=$?
+if [ "$FETCH_STATUS" -eq 2 ]; then
+  # Don't bail: one source failing shouldn't hold the others' data hostage.
+  # Publish whatever was written, then exit with the fetcher's own code so the
+  # failure is logged.
+  log "ERROR: fetch failed for at least one source (publishing partial data)"
+elif [ "$FETCH_STATUS" -ne 0 ]; then
+  # Not 2 = the fetcher died before writing anything, so there is no partial
+  # data to publish. An unreadable config/preferences.json lands here.
+  log "ERROR: fetch did not run (exit $FETCH_STATUS) — check config/preferences.json and the trace above"
+fi
+
+# config/ rides along: preference edits apply from disk at fetch time and get
+# backed up with the nightly data commit — no manual git.
+if git diff --quiet docs/data config && [ -z "$(git ls-files --others --exclude-standard docs/data config)" ]; then
+  # An earlier run may have committed and then failed to push; nothing else
+  # retries that, and later runs see a clean tree and report success while the
+  # live site stays stale.
+  if [ "$(git rev-list --count @{u}..HEAD 2>/dev/null || echo 0)" -gt 0 ]; then
+    log "Unpushed commits from an earlier run — pushing"
+    git push || { log "ERROR: push failed"; exit 1; }
+    log "Published"
+    verify_deploy
+  else
+    log "No changes — nothing to publish"
+  fi
+  exit "$FETCH_STATUS"
+fi
+
+log "Publishing..."
+git add docs/data config
+# Pathspec on the commit, not just the add: this runs unattended, and a bare
+# commit would sweep any unrelated staged work into the public push.
+git commit -m "Update data $(date '+%Y-%m-%d %H:%M')" -- docs/data config \
+  || { log "ERROR: commit failed"; exit 1; }
+git push || { log "ERROR: push failed"; exit 1; }
+log "Published"
+
 verify_deploy
 
-exit "$FETCH_FAILED"
+exit "$FETCH_STATUS"

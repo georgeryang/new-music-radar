@@ -52,7 +52,8 @@ works from any device.
    sure `git push` works (SSH key for the SSH URL; `gh auth setup-git` if you
    cloned over HTTPS).
 4. Test once from the repo root: `bash scripts/update.sh` (about two minutes,
-   ends with "Published").
+   ends with "Published", or "No changes" if the cloned data is already
+   current).
 5. Schedule it, pasting all four lines together from the repo root (two of
    them record the folder they run from; the last asks for your password):
 
@@ -83,7 +84,9 @@ sudo pmset repeat cancel
   it catches up when it wakes. To force it now, open `prefs.command` and press
   **Save & Refresh**.
 - **Want to see what happened?** The log at `~/Library/Logs/new-music-radar.log`
-  says what was fetched or failed, in plain words.
+  says what was fetched or failed, in plain words. If it has no recent entries
+  at all, the scheduler itself never ran: check
+  `~/Library/Logs/new-music-radar-watchdog.log`.
 - **An artist's releases look wrong?** You may have picked a same-named artist.
   Remove and re-add them via the search list (the **↗** link shows whose page
   you're pinning).
@@ -111,9 +114,10 @@ sudo pmset repeat cancel
   refresh without a Pages deploy.
 - **Genres and chip counts:** no genre mapping; cards carry Apple's name
   verbatim, matched exactly ignoring case. Curated list is `scripts/genre-options.mjs`;
-  storefront codes are in `scripts/storefronts.mjs`. Editor chips count over
-  the fetcher's full `WINDOW_DAYS` (3 days), not the site's 24h New tab, so
-  chip counts routinely exceed what's on the page.
+  storefront codes are in `scripts/storefronts.mjs`; `npm run check-genres`
+  catches Apple renaming a genre out from under the list. Editor chips count
+  over the fetcher's full `WINDOW_DAYS`, not the site's 24h New tab, so chip
+  counts routinely exceed what's on the page.
 - **Reliability:** any source failing exits non-zero but still publishes
   partial results; an empty result never overwrites good data. The nightly
   push also verifies its Pages deploy and retries once if it flaked.

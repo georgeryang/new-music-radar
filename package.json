@@ -8,6 +8,7 @@
     "build": "rm -rf docs/assets docs/fonts && tsc --noEmit && vite build",
     "preview": "vite preview",
     "fetch": "node scripts/fetch-releases.mjs",
+    "check-genres": "node scripts/check-genre-coverage.mjs",
     "update": "bash scripts/update.sh"
   },
   "dependencies": {
