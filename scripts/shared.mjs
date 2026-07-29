@@ -10,6 +10,7 @@ export const UA = 'new-music-radar/1.0'
 export const PREFS_PATH = new URL('../config/preferences.json', import.meta.url)
 export const DATA_PATH = new URL('../docs/data/releases.json', import.meta.url)
 export const ACTIVITY_PATH = new URL('../config/artist-activity.json', import.meta.url)
+export const GENRE_ACTIVITY_PATH = new URL('../config/genre-activity.json', import.meta.url)
 
 // Per-release provenance tags, written by the fetcher and read back by the
 // editor's source-yield chips.
