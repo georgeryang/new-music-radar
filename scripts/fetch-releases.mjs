@@ -31,6 +31,11 @@ const PREFS = JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 const log = (...a) => console.log(`[${new Date().toLocaleString('sv-SE')}]`, ...a)
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
+// timeouts surface as TimeoutError, undici network errors carry a cause code —
+// both matter when diagnosing a failure from the log alone, so every source's
+// failure path reports through this.
+const errDetail = (e) => `${e.message}${e.cause?.code ? ` [${e.cause.code}]` : e.name === 'TimeoutError' ? ' [timeout]' : ''}`
+
 // 30s abort: stalled connections have hung batches for 17–78 min; fail fast
 // and let the retry pass / carryover handle it.
 async function getJSON(url) {
@@ -78,6 +83,8 @@ const NOISE_RE = /\b(instrumental|sped[ -]?up|slowed( \+ reverb)?|inst\.)\b/i
 // Every window rule below is phrased in days since the release date —
 // one definition so the tolerances can't drift apart.
 const daysSince = (releaseDate) => (Date.now() - Date.parse(releaseDate)) / 86400e3
+// UTC, matching the dates Apple serializes; the app formats in local time.
+const TODAY = new Date().toISOString().slice(0, 10)
 
 // 0.5 grace absorbs the timezone spread between Apple's date and ours.
 const withinWindow = (releaseDate) => daysSince(releaseDate) <= WINDOW_DAYS + 0.5
@@ -165,6 +172,10 @@ const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 // ranking, interleaved across artists; nothing here depends on it.
 const BATCH_SIZE = 20
 
+// Both retry passes (sweep batches, country feeds) wait this long: the
+// failures they cover are intermittent connection stalls and 503 throttling.
+const RETRY_BACKOFF_MS = 15_000
+
 // Newest US release date per swept artist id — feeds the editor's dormancy
 // hints. Only current-sweep ids are recorded (batch responses also carry
 // collab partners' ids, which would plant stale dates); future dates skipped,
@@ -187,10 +198,9 @@ async function batchReleases(ids) {
   // charts or lands on a playlist skips a second lookup
   for (const a of collections) collectionCache.set(String(a.collectionId), a)
   const swept = new Set(ids)
-  const today = new Date().toISOString().slice(0, 10)
   for (const a of collections) {
     const d = a.releaseDate?.slice(0, 10)
-    if (!swept.has(a.artistId) || !d || d > today) continue
+    if (!swept.has(a.artistId) || !d || d > TODAY) continue
     if (!artistActivity[a.artistId] || d > artistActivity[a.artistId]) artistActivity[a.artistId] = d
   }
   upcomingRaw.push(
@@ -209,8 +219,13 @@ async function lookupCollections(ids) {
   // and get comma-joined into a lookup URL — one guard against smuggled query
   // syntax
   const wanted = [...new Set(ids.map(String))].filter((id) => /^\d+$/.test(id))
-  const hits = wanted.map((id) => collectionCache.get(id)).filter(Boolean)
-  const misses = wanted.filter((id) => !collectionCache.has(id))
+  const hits = []
+  const misses = []
+  for (const id of wanted) {
+    const cached = collectionCache.get(id)
+    if (cached) hits.push(cached)
+    else misses.push(id)
+  }
   for (let i = 0; i < misses.length; i += 100) {
     const d = await itunesJSON(`https://itunes.apple.com/lookup?id=${misses.slice(i, i + 100).join(',')}&country=us`)
     for (const r of (d.results ?? []).filter((r) => r.wrapperType === 'collection')) {
@@ -384,7 +399,7 @@ const genreFeedsP = Promise.allSettled(
         .then(
           (entries) => ({ tag, feedType, entries }),
           (e) => {
-            throw new Error(`${tag} ${feedType}: ${e.message}`)
+            throw new Error(`${tag} ${feedType}: ${errDetail(e)}`)
           }
         )
     )
@@ -393,7 +408,7 @@ const genreFeedsP = Promise.allSettled(
 const playlistPagesP = Promise.allSettled(
   (PREFS.discovery?.playlists ?? []).map((pl) =>
     playlistAlbumIds(pl).catch((e) => {
-      throw new Error(`${pl.name}: ${e.message}`)
+      throw new Error(`${pl.name}: ${errDetail(e)}`)
     })
   )
 )
@@ -424,9 +439,6 @@ const batches = []
 for (let i = 0; i < sweepArtists.length; i += BATCH_SIZE) batches.push(sweepArtists.slice(i, i + BATCH_SIZE))
 let followedCount = 0
 let failedBatches = []
-// timeouts surface as TimeoutError, undici network errors carry a cause code —
-// both matter when diagnosing why a batch failed from the log alone
-const errDetail = (e) => `${e.message}${e.cause?.code ? ` [${e.cause.code}]` : e.name === 'TimeoutError' ? ' [timeout]' : ''}`
 // batchReleases throws only at its lookup await (before pushing anything), so
 // a failed batch can be re-run without double-counting releases or pre-orders.
 async function sweepBatch(n, batch) {
@@ -448,12 +460,11 @@ for (const batch of batches) {
     log(`batch ${n}/${batches.length} failed: ${errDetail(e)}`)
   }
 }
-// One retry pass: the failures are intermittent connection stalls, so a
-// second paced attempt after a backoff usually lands. Runs before the
-// artistActivity write so rescued batches' updates are included.
+// One retry pass. Runs before the artistActivity write so rescued batches'
+// updates are included.
 if (failedBatches.length) {
-  log(`retrying ${failedBatches.length} failed batches in 15s`)
-  await sleep(15_000)
+  log(`retrying ${failedBatches.length} failed batches in ${RETRY_BACKOFF_MS / 1000}s`)
+  await sleep(RETRY_BACKOFF_MS)
   const stillFailed = []
   for (const { n, batch } of failedBatches) {
     try {
@@ -465,7 +476,6 @@ if (failedBatches.length) {
   }
   failedBatches = stillFailed
 }
-const batchFailures = failedBatches.length
 // Which artists' data is missing this run, for the Upcoming carryover —
 // matched by swept id (the follow list is id-only).
 const failedSweepIds = new Set(failedBatches.flatMap(({ batch }) => batch.map((a) => a.id)))
@@ -473,14 +483,13 @@ const failedSweepIds = new Set(failedBatches.flatMap(({ batch }) => batch.map((a
 // re-swept) and would resurface stale if re-followed. Future dates dropped too
 // — the only-newer update rule means a real date could never displace one.
 const sweepIds = new Set(sweepArtists.map((a) => a.id))
-const todayStr = new Date().toISOString().slice(0, 10)
 artistActivity = Object.fromEntries(
-  Object.entries(artistActivity).filter(([id, d]) => sweepIds.has(Number(id)) && d <= todayStr)
+  Object.entries(artistActivity).filter(([id, d]) => sweepIds.has(Number(id)) && d <= TODAY)
 )
 writeFileSync(ACTIVITY_PATH, JSON.stringify(artistActivity, null, 2) + '\n')
 log(`${followedCount} releases (pre-dedup) via ${sweepArtists.length} followed artists in ${batches.length} batches`)
 // a failed batch is ~10 artists silently skipped — flag the run (exit 2)
-if (batchFailures > 0) anyFailed = true
+if (failedBatches.length > 0) anyFailed = true
 
 // 2. Chart — in-window entries from the US most-played chart as discovery
 let chart = []
@@ -488,7 +497,7 @@ try {
   chart = await chartP
 } catch (e) {
   anyFailed = true
-  log(`US chart fetch failed: ${e.message}`)
+  log(`US chart fetch failed: ${errDetail(e)}`)
 }
 
 // Collect in-window candidates, prefiltering entries whose feed genre isn't
@@ -525,7 +534,7 @@ if (wanted.length) {
   } catch (e) {
     // degraded publish (feed-only genre/type) still counts as a failed source
     anyFailed = true
-    log(`chart enrichment lookup failed — falling back to feed data: ${e.message}`)
+    log(`chart enrichment lookup failed — falling back to feed data: ${errDetail(e)}`)
   }
 }
 
@@ -586,7 +595,7 @@ if (genreFeedIds.size) {
     releases.push(...fresh)
   } catch (e) {
     anyFailed = true
-    log(`genre chart lookup failed — album entries fall back to feed data: ${e.message}`)
+    log(`genre chart lookup failed — album entries fall back to feed data: ${errDetail(e)}`)
     releases.push(...[...feedAlbumFallback.entries()].map(([id, e]) => albumEntryToRelease(e, genreFeedIds.get(id))))
   }
 }
@@ -621,7 +630,7 @@ const ingestCountryFeed = ({ sf, kind }, ids) => {
   }
   log(`${sf} ${kind}: ${ids.length} in-window → ${fresh} new ids`)
 }
-// One retry pass, like the sweep's: most-played 503s are transient throttling.
+// One retry pass, like the sweep's.
 const failedCountryFeeds = []
 ;(await countryFeedsP).forEach((settled, i) => {
   if (settled.status === 'rejected') {
@@ -633,8 +642,8 @@ const failedCountryFeeds = []
   }
 })
 if (failedCountryFeeds.length) {
-  log(`retrying ${failedCountryFeeds.length} failed country feeds in 15s`)
-  await sleep(15_000)
+  log(`retrying ${failedCountryFeeds.length} failed country feeds in ${RETRY_BACKOFF_MS / 1000}s`)
+  await sleep(RETRY_BACKOFF_MS)
   const retried = await Promise.allSettled(
     failedCountryFeeds.map((t, i) => sleep(i * 250).then(t.run))
   )
@@ -673,7 +682,7 @@ if (countryIdSources.size) {
     releases.push(...found)
   } catch (e) {
     anyFailed = true
-    log(`country chart lookup failed: ${e.message}`)
+    log(`country chart lookup failed: ${errDetail(e)}`)
   }
 }
 
@@ -709,7 +718,7 @@ for (const settled of playlistPages) {
     releases.push(...fresh)
   } catch (e) {
     anyFailed = true
-    log(`${pl.name} lookup failed: ${e.message}`)
+    log(`${pl.name} lookup failed: ${errDetail(e)}`)
   }
 }
 
@@ -819,7 +828,7 @@ for (const r of upcomingRaw) {
 // would be hidden by the client's 24h window anyway). A carried pre-order
 // whose date has since passed routes to releases[], completing the lifecycle
 // even if release day itself fails.
-if (batchFailures > 0) {
+if (failedBatches.length > 0) {
   // attribution by swept id; entries with NO artist_id can't be verified —
   // keep them (unknown-means-keep) until a clean sweep rewrites them with ids
   const missingThisRun = (r) =>

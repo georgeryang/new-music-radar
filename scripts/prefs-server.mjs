@@ -10,7 +10,7 @@
 // the built site from docs/ at /new-music-radar/ ("Open radar").
 
 import http from 'node:http'
-import { closeSync, openSync, readFileSync, readdirSync, realpathSync, writeFileSync } from 'node:fs'
+import { closeSync, fstatSync, openSync, readFileSync, readSync, readdirSync, realpathSync, writeFileSync } from 'node:fs'
 import { spawn } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { join, normalize } from 'node:path'
@@ -27,7 +27,9 @@ const DOCS_DIR = fileURLToPath(new URL('../docs/', import.meta.url))
 // a startsWith check); the static handler re-checks realpaths against this.
 const DOCS_REAL = realpathSync(DOCS_DIR) + '/'
 const SITE_PATH = '/new-music-radar/'
-const SITE_URL = `http://localhost:${PORT}${SITE_PATH}`
+// 127.0.0.1 everywhere the URL is handed out (prefs.command, the app's ⚙
+// link, this): one spelling, and it matches the bind address exactly.
+const SITE_URL = `http://127.0.0.1:${PORT}${SITE_PATH}`
 
 // The editor shares the app's built stylesheet (@source in src/index.css
 // folds this file's classes into that build). The hash changes per build, so
@@ -104,18 +106,41 @@ function startRefresh() {
   return true
 }
 
+// Tail only. The page polls this every 2s during a refresh and every 10s while
+// idle, for as long as it stays open, and update.sh lets the shared log reach
+// 1MB before trimming — reading the whole file per poll scales with the log.
+const TAIL_BYTES = 65536
 function logTail(lines) {
+  let fd
   try {
-    const text = readFileSync(REFRESH_LOG, 'utf8')
-    return text.split('\n').filter(Boolean).slice(-lines)
+    fd = openSync(REFRESH_LOG, 'r')
+    const { size } = fstatSync(fd)
+    const start = Math.max(0, size - TAIL_BYTES)
+    const buf = Buffer.alloc(size - start)
+    readSync(fd, buf, 0, buf.length, start)
+    const all = buf.toString('utf8').split('\n').filter(Boolean)
+    // drop the first entry when we started mid-file: it is a partial line, and
+    // slicing mid-character would leave a mojibake fragment
+    if (start > 0) all.shift()
+    return all.slice(-lines)
   } catch {
     return []
+  } finally {
+    if (fd !== undefined) closeSync(fd)
   }
 }
 
 function json(res, code, body) {
   res.writeHead(code, { 'Content-Type': 'application/json' })
   res.end(JSON.stringify(body))
+}
+
+const TYPES = {
+  html: 'text/html; charset=utf-8',
+  js: 'text/javascript',
+  css: 'text/css',
+  json: 'application/json',
+  woff2: 'font/woff2',
 }
 
 const HOSTS = new Set([`127.0.0.1:${PORT}`, `localhost:${PORT}`])
@@ -208,7 +233,7 @@ const server = http.createServer(async (req, res) => {
         !isCountryList(incoming?.discovery?.countries)
       ) return json(res, 400, { error: 'invalid list shape' })
       const p = readPrefs() // preserve _comment, anything else
-      p.artists = { followed: incoming.artists.followed, blocked: incoming.artists.blocked }
+      p.artists = { ...p.artists, followed: incoming.artists.followed, blocked: incoming.artists.blocked }
       p.genres = { ...p.genres, followed: incoming.genres.followed }
       p.discovery = { ...p.discovery, countries: incoming.discovery.countries, playlists: incoming.discovery.playlists }
       writeFileSync(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
@@ -257,13 +282,6 @@ const server = http.createServer(async (req, res) => {
       const rel = url.pathname.slice(SITE_PATH.length) || 'index.html'
       const file = join(DOCS_DIR, normalize(rel))
       if (!file.startsWith(DOCS_DIR)) return json(res, 403, { error: 'forbidden' })
-      const TYPES = {
-        html: 'text/html; charset=utf-8',
-        js: 'text/javascript',
-        css: 'text/css',
-        json: 'application/json',
-        woff2: 'font/woff2',
-      }
       try {
         // realpath re-check: the lexical check above can't see a symlink
         // inside docs/ pointing elsewhere
@@ -271,10 +289,13 @@ const server = http.createServer(async (req, res) => {
           return json(res, 403, { error: 'forbidden' })
         }
         const body = readFileSync(file)
+        // assets/ and fonts/ carry a content hash or never change, so they can
+        // be cached hard; docs/data changes underneath after every fetch and
+        // index.html points at the current bundle, so both must revalidate.
+        const hashed = /^(assets|fonts)\//.test(normalize(rel))
         res.writeHead(200, {
           'Content-Type': TYPES[file.split('.').pop()] ?? 'application/octet-stream',
-          // Always revalidate: docs/data changes underneath after every fetch.
-          'Cache-Control': 'no-cache',
+          'Cache-Control': hashed ? 'public, max-age=31536000, immutable' : 'no-cache',
         })
         res.end(body)
       } catch {
@@ -324,6 +345,13 @@ const $ = (id) => document.getElementById(id)
 // else); genres are plain strings; playlists are {name, url}
 const nameOf = (e) => (typeof e === 'string' ? e : e.name)
 const OFFLINE = 'Editor not responding. Reopen prefs.command.'
+// Full literals, not composed strings — Tailwind scans this file as text.
+// These shades clear AA at 11px on bg-muted where amber-700 and the red
+// primary fall just short.
+const AMBER = 'text-[11px] text-amber-800 dark:text-amber-400'
+const MUTED = 'text-[11px] text-muted-foreground'
+// average month; the dormancy hints are approximate by nature
+const MONTH_MS = 2629746000
 function setStatus(text, isError) {
   const el = $('status')
   if (!el) return
@@ -372,6 +400,22 @@ function resultRow(results, label, note, onPick) {
 
 function markDirty() { dirty = true; $('save').disabled = false }
 
+// Source yield marker (countries + playlists): unique/duplicate/total releases
+// from this source. Unique = only this source surfaced it (what pruning would
+// lose); duplicate = shared with another source. Amber 0 = prune candidate. A
+// source added after the last fetch reads 0 until the next one.
+function sourceCount(tag) {
+  if (!countsAvailable) return null
+  const { u, t } = sourceCounts[tag] ?? { u: 0, t: 0 }
+  const span = document.createElement('span')
+  span.className = t === 0 ? AMBER : MUTED
+  span.textContent = '· ' + (t === 0 ? '0' : u + '/' + (t - u) + '/' + t)
+  span.title = t === 0
+    ? 'nothing found by the latest update via this source'
+    : u + ' only here / ' + (t - u) + ' shared with other sources / ' + t + ' total, latest update'
+  return span
+}
+
 function renderAll() {
   const root = $('sections')
   root.replaceChildren()
@@ -415,21 +459,6 @@ function renderAll() {
     }
     const chips = document.createElement('div')
     chips.className = 'mb-2 flex flex-wrap gap-1.5'
-    // Source yield marker (countries + playlists): unique/duplicate/total
-    // releases from this source. Unique = only this source surfaced it (what
-    // pruning would lose); duplicate = shared with another source. Amber 0 =
-    // prune candidate. A source added after the last fetch reads 0 until the next.
-    const sourceCount = (tag) => {
-      if (!countsAvailable) return null
-      const { u, t } = sourceCounts[tag] ?? { u: 0, t: 0 }
-      const span = document.createElement('span')
-      span.className = t === 0 ? 'text-[11px] text-amber-800 dark:text-amber-400' : 'text-[11px] text-muted-foreground'
-      span.textContent = '· ' + (t === 0 ? '0' : u + '/' + (t - u) + '/' + t)
-      span.title = t === 0
-        ? 'nothing found by the latest update via this source'
-        : u + ' only here / ' + (t - u) + ' shared with other sources / ' + t + ' total, latest update'
-      return span
-    }
     for (const entry of entries) {
       const chip = document.createElement('span')
       chip.className = 'inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-[3px] text-[13px]'
@@ -451,7 +480,7 @@ function renderAll() {
       if (s.key === 'genres.followed' && countsAvailable) {
         const n = genreCounts[nameOf(entry).toLowerCase()] ?? 0
         const count = document.createElement('span')
-        count.className = n === 0 ? 'text-[11px] text-amber-800 dark:text-amber-400' : 'text-[11px] text-muted-foreground'
+        count.className = n === 0 ? AMBER : MUTED
         count.textContent = '· ' + n
         count.title = 'found by the latest update via this genre'
         chip.appendChild(count)
@@ -460,13 +489,11 @@ function renderAll() {
       // Dormancy hint: an artist with no release in 18+ months is a prune
       // candidate (curation, not performance — fetch time is list-size independent).
       const last = s.key === 'artists.followed' && entry.id ? activity[entry.id] : null
-      if (last && Date.now() - Date.parse(last) > 18 * 2629746000) {
-        const months = Math.round((Date.now() - Date.parse(last)) / 2629746000)
+      if (last && Date.now() - Date.parse(last) > 18 * MONTH_MS) {
+        const months = Math.round((Date.now() - Date.parse(last)) / MONTH_MS)
         const ago = document.createElement('span')
-        // amber 18mo+, red 3y+. Full literals — Tailwind scans this file as
-        // text. These shades clear AA at 11px on bg-muted where amber-700 and
-        // the red primary fall just short.
-        ago.className = months >= 36 ? 'text-[11px] text-accent-foreground' : 'text-[11px] text-amber-800 dark:text-amber-400'
+        // amber 18mo+, red 3y+
+        ago.className = months >= 36 ? 'text-[11px] text-accent-foreground' : AMBER
         // round, not floor — floor showed a 3.9y gap as "3y"
         ago.textContent = '· ' + (months >= 24 ? Math.round(months / 12) + 'y' : months + 'mo')
         ago.title = 'Last release ' + last
@@ -688,9 +715,9 @@ $('log-hide').onclick = () => {
 // per state — Tailwind scans this file as text.
 const BANNER_BASE = 'fixed inset-x-0 bottom-14 px-4 py-[9px] text-center text-[13px]'
 const BANNER = {
-  running: 'bg-amber-100 text-amber-900',
-  ok: 'bg-green-100 text-green-900',
-  warn: 'bg-orange-100 text-orange-900',
+  running: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-100',
+  ok: 'bg-green-100 text-green-900 dark:bg-green-950 dark:text-green-100',
+  warn: 'bg-orange-100 text-orange-900 dark:bg-orange-950 dark:text-orange-100',
   // primary, not accent: the dark accent is 28%-alpha and this strip floats
   // over the chips, so an error banner must be opaque
   bad: 'bg-primary text-primary-foreground',
@@ -819,5 +846,5 @@ fetch('/api/prefs').then((r) => {
 </html>`
 
 server.listen(PORT, '127.0.0.1', () => {
-  console.log(`Preferences editor: http://localhost:${PORT}`)
+  console.log(`Preferences editor: http://127.0.0.1:${PORT}`)
 })

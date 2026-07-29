@@ -6,7 +6,6 @@ interface CardLike {
   release_date: string
   followed?: boolean
 }
-export declare const keyOf: (r: CardLike) => string
+// Only what TypeScript imports. keyOf/releaseOrder/upcomingOrder are used by
+// the .mjs fetcher, which never reads these declarations.
 export declare const cardKeyOf: (r: CardLike) => string
-export declare const releaseOrder: (a: CardLike, b: CardLike) => number
-export declare const upcomingOrder: (a: CardLike, b: CardLike) => number
