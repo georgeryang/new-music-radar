@@ -23,6 +23,3 @@ Apple-only follow-list release tracker. Local pipeline builds `docs/`, GitHub Pa
 - `config/preferences.json` is the whole control panel (follow/block by Apple ID, exact-name genres, storefront-code countries, playlists).
 - Local editor is `prefs-server.mjs` at `127.0.0.1:4747`.
 
-## Stack
-
-React 19 + Vite + Tailwind v4, ReleaseCard grid.
