@@ -9,11 +9,7 @@ cd "$REPO_DIR" || exit 1
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
 
-# launchd's PATH doesn't include nvm; fall back to the newest installed node.
-NODE="$(command -v node || true)"
-if [ -z "$NODE" ]; then
-  NODE="$(ls -d "$HOME"/.nvm/versions/node/*/bin/node 2>/dev/null | sort -V | tail -1)"
-fi
+. "$REPO_DIR/scripts/find-node.sh"
 if [ -z "$NODE" ]; then
   log "ERROR: node not found"
   exit 1

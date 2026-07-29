@@ -64,15 +64,23 @@ export default function App() {
     { key: 'upcoming' as const, label: `Upcoming · ${upcoming.length}`, items: upcoming },
   ].filter((t) => t.items.length > 0)
   const active = tabs.find((t) => t.key === tab) ?? tabs[0]
+  // both lists empty means no tabs at all; the info message below covers it
+  const activeKey = active?.key ?? 'new'
   const shown = active?.items ?? []
   const showBar = upcoming.length > 0
 
   const onTabKey = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return
-    const idx = tabs.findIndex((t) => t.key === active?.key)
-    const next = tabs[(idx + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]
-    setTab(next.key)
-    document.getElementById(`tab-${next.key}`)?.focus()
+    const idx = tabs.findIndex((t) => t.key === activeKey)
+    let next: number
+    if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length
+    else if (e.key === 'ArrowLeft') next = (idx + tabs.length - 1) % tabs.length
+    else if (e.key === 'Home') next = 0
+    else if (e.key === 'End') next = tabs.length - 1
+    else return
+    // else the arrows also scroll the page while switching tabs
+    e.preventDefault()
+    setTab(tabs[next].key)
+    document.getElementById(`tab-${tabs[next].key}`)?.focus()
   }
 
   return (
@@ -113,12 +121,12 @@ export default function App() {
               key={t.key}
               id={`tab-${t.key}`}
               role="tab"
-              aria-selected={active?.key === t.key}
+              aria-selected={activeKey === t.key}
               aria-controls="release-panel"
-              tabIndex={active?.key === t.key ? 0 : -1}
+              tabIndex={activeKey === t.key ? 0 : -1}
               onClick={() => setTab(t.key)}
               className={`rounded-md px-3 py-1.5 font-medium sm:py-1 ${
-                active?.key === t.key ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'
+                activeKey === t.key ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {t.label}
@@ -131,21 +139,24 @@ export default function App() {
           <div
             id="release-panel"
             role={showBar ? 'tabpanel' : undefined}
-            aria-labelledby={showBar && active ? `tab-${active.key}` : undefined}
+            aria-labelledby={showBar ? `tab-${activeKey}` : undefined}
             className="grid grid-cols-2 gap-3 sm:grid-cols-4"
           >
-            {shown.map((r) => (
+            {shown.map((r, i) => (
               <ReleaseCard
                 key={cardKeyOf(r)}
                 release={r}
-                upcoming={active?.key === 'upcoming'}
+                upcoming={activeKey === 'upcoming'}
                 fetchedAt={data.fetched_at}
+                // the first row is above the fold on every layout; leaving it
+                // lazy delays the largest image by a round trip
+                eager={i < 4}
               />
             ))}
           </div>
         ) : (
           <p role="status" className="py-3 text-sm text-muted-foreground">
-            {active?.key === 'upcoming'
+            {activeKey === 'upcoming'
               ? 'Nothing announced yet.'
               : 'No new releases right now. Updates every evening.'}
           </p>

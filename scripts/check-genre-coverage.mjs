@@ -5,9 +5,10 @@
 // after editing GENRE_OPTIONS or whenever cards look wrong; exit 1 on a miss.
 
 import { GENRE_OPTIONS } from './genre-options.mjs'
+import { UA } from './shared.mjs'
 
 const res = await fetch('https://itunes.apple.com/WebObjects/MZStoreServices.woa/ws/genres', {
-  headers: { 'User-Agent': 'new-music-radar/1.0' },
+  headers: { 'User-Agent': UA },
   signal: AbortSignal.timeout(30_000),
 })
 if (!res.ok) throw new Error(`HTTP ${res.status} fetching the genre tree`)

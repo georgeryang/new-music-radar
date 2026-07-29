@@ -23,10 +23,12 @@ export function ReleaseCard({
   release,
   upcoming = false,
   fetchedAt = 0,
+  eager = false,
 }: {
   release: Release
   upcoming?: boolean
   fetchedAt?: number
+  eager?: boolean
 }) {
   const [imgFailed, setImgFailed] = useState(false)
   const showImg = release.artwork.startsWith('http') && !imgFailed
@@ -38,7 +40,8 @@ export function ReleaseCard({
           <img
             src={release.artwork}
             alt=""
-            loading="lazy"
+            loading={eager ? 'eager' : 'lazy'}
+            fetchPriority={eager ? 'high' : undefined}
             decoding="async"
             onError={() => setImgFailed(true)}
             className="size-full object-cover motion-safe:transition-transform motion-safe:group-hover:scale-[1.03]"
@@ -62,11 +65,12 @@ export function ReleaseCard({
       <div className="mt-1 flex flex-wrap items-center gap-1 text-muted-foreground">
         <TypeIcon type={release.type} />
         {release.genre && (
-          // max-w + truncate: the chip is one unbreakable token ("Cantopop/
-          // HK-Pop") and must never push past the card edge
+          // break-words, not truncate: a long unbreakable token ("Cantopop/
+          // HK-Pop") must stay inside the card, but truncating hid the rest
+          // from touch users, where the title tooltip never fires
           <span
             title={release.genre}
-            className="max-w-full truncate rounded-full border border-border px-1.5 py-px text-[10px] font-medium"
+            className="max-w-full rounded-full border border-border px-1.5 py-px text-[10px] font-medium break-words"
           >
             {release.genre}
           </span>
