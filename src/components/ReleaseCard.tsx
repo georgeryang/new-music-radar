@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { formatUpcoming } from '@/lib/utils'
 import type { Release } from '@/lib/types'
 
-// Muted type icons under the artwork: music note = song, disc = album.
 function TypeIcon({ type }: { type: Release['type'] }) {
   // role="img": bare <svg> aria-labels are inconsistently exposed, and this is
   // the only song/album indicator on the card.
@@ -20,9 +19,6 @@ function TypeIcon({ type }: { type: Release['type'] }) {
   )
 }
 
-// Release card: artwork, title, artist, then a meta row (type icon, genre
-// chip). Upcoming cards also carry a release-date badge (red within a week);
-// New stays badge-free. The whole card links to Apple Music.
 export function ReleaseCard({
   release,
   upcoming = false,

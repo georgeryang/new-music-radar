@@ -16,10 +16,9 @@ import { fileURLToPath } from 'node:url'
 import { join, normalize } from 'node:path'
 import { GENRE_OPTIONS } from './genre-options.mjs'
 import { STOREFRONTS } from './storefronts.mjs'
+import { ACTIVITY_PATH, DATA_PATH, PREFS_PATH, UA, WINDOW_DAYS } from './shared.mjs'
 
 const PORT = 4747
-const PREFS_PATH = new URL('../config/preferences.json', import.meta.url)
-const DATA_PATH = new URL('../docs/data/releases.json', import.meta.url)
 const REPO_DIR = fileURLToPath(new URL('..', import.meta.url))
 // "Open radar" serves docs/ from this server, so the local copy shows fresh
 // data the moment a refresh writes it, without waiting for the Pages deploy.
@@ -50,7 +49,6 @@ const readPrefs = () => JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
 // Newest US release date per artist id, written by the nightly fetch —
 // drives the dormancy hints on followed-artist chips.
-const ACTIVITY_PATH = new URL('../config/artist-activity.json', import.meta.url)
 const readActivity = () => {
   try {
     return JSON.parse(readFileSync(ACTIVITY_PATH, 'utf8'))
@@ -60,8 +58,6 @@ const readActivity = () => {
 }
 
 const isName = (s) => typeof s === 'string' && s.trim().length > 0 && s.length < 200
-// Artist entries are {name, id} in both lists — the fetcher sweeps/blocks by
-// ID only. Genres are plain strings.
 const isPinnedArtistList = (v) =>
   Array.isArray(v) && v.every((e) => e && isName(e.name) && Number.isInteger(e.id))
 const isStringList = (v) => Array.isArray(v) && v.every(isName)
@@ -156,6 +152,9 @@ const server = http.createServer(async (req, res) => {
       // u = those it was the sole tagged source for.
       const genreCounts = {}
       const sourceCounts = {}
+      // A 0 marker reads as "prune candidate", so an unreadable data file must
+      // not report zeros — that would advise deleting working sources.
+      let countsAvailable = true
       try {
         for (const r of JSON.parse(readFileSync(DATA_PATH, 'utf8')).releases ?? []) {
           if (r.followed) continue
@@ -169,7 +168,9 @@ const server = http.createServer(async (req, res) => {
             if (r.sources.length === 1) c.u++
           }
         }
-      } catch {}
+      } catch {
+        countsAvailable = false
+      }
       json(res, 200, {
         artists: {
           followed: p.artists?.followed ?? [],
@@ -184,6 +185,7 @@ const server = http.createServer(async (req, res) => {
         genreOptions: [...GENRE_OPTIONS].sort((a, b) => a.localeCompare(b)),
         genreCounts,
         sourceCounts,
+        countsAvailable,
         countryNames: STOREFRONTS,
         siteUrl: SITE_URL,
       })
@@ -219,12 +221,15 @@ const server = http.createServer(async (req, res) => {
       // (search?term= would read either as a name and find nothing).
       const urlId = q.match(/^https:\/\/music\.apple\.com\/[a-z]{2}\/artist\/[^/]+\/(\d+)/)?.[1]
       const id = urlId ?? (/^\d+$/.test(q) ? q : null)
+      // Same 30s abort the fetcher uses: a stalled iTunes connection would
+      // otherwise hang this request, and the editor's dropdown with it.
       const upstream = await fetch(
         id
           ? `https://itunes.apple.com/lookup?id=${id}&country=US`
           : `https://itunes.apple.com/search?term=${encodeURIComponent(q)}&entity=musicArtist&country=US&limit=6`,
-        { headers: { 'User-Agent': 'new-music-radar/1.0' } }
+        { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(30_000) }
       )
+      if (!upstream.ok) throw new Error(`iTunes search failed (HTTP ${upstream.status})`)
       const data = await upstream.json()
       json(res, 200, {
         // wrapperType filter: a lookup id for a song/album would otherwise
@@ -233,7 +238,9 @@ const server = http.createServer(async (req, res) => {
           id: a.artistId,
           name: a.artistName,
           genre: a.primaryGenreName ?? '',
-          url: a.artistLinkUrl ?? '',
+          // scheme-checked like the fetcher's appleLink: this becomes an href
+          // in a page that can rewrite preferences.json and trigger a push
+          url: /^https:\/\/(music|itunes)\.apple\.com\//.test(a.artistLinkUrl ?? '') ? a.artistLinkUrl : '',
         })),
       })
     } else if (req.method === 'POST' && url.pathname === '/api/refresh') {
@@ -293,7 +300,7 @@ const PAGE = /* html */ `<!doctype html>
 </head>
 <body class="mx-auto max-w-[680px] px-4 pt-6 pb-24">
 <header class="mb-1 flex items-baseline justify-between"><h1 class="text-lg font-bold">Preferences</h1><a href="" id="site-link" target="_blank" rel="noopener noreferrer" class="text-[13px] text-muted-foreground hover:text-foreground">Open radar →</a></header>
-<p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away (about two minutes). Chip counts span 3 days; New only shows 24 hours, so counts often run higher than the page.</p>
+<p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away (about two minutes). Chip counts span ${WINDOW_DAYS} days; New only shows 24 hours, so counts often run higher than the page.</p>
 <div id="sections"></div>
 <div id="log-wrap" hidden class="fixed bottom-[92px] left-1/2 z-10 w-[min(640px,calc(100%-32px))] -translate-x-1/2">
   <button id="log-hide" class="absolute top-1.5 right-2.5 cursor-pointer p-0 text-[15px] leading-none text-muted-foreground hover:text-foreground" title="Hide the progress log (the refresh keeps running)" aria-label="Hide progress log">×</button>
@@ -301,13 +308,14 @@ const PAGE = /* html */ `<!doctype html>
 </div>
 <div id="banner" hidden role="status"></div>
 <footer class="fixed inset-x-0 bottom-0 flex items-center justify-center gap-2 border-t border-border bg-background px-4 py-2.5">
-  <span id="status" role="status" class="mr-auto max-w-[40%] truncate text-xs text-muted-foreground"></span>
+  <span id="status" role="status" class="mr-auto max-w-[50%] text-xs leading-snug text-muted-foreground"></span>
   <button id="quit" class="cursor-pointer rounded-lg border border-border bg-transparent px-4 py-[7px] text-[13px] disabled:cursor-default disabled:opacity-45">Quit</button>
   <button id="save" disabled class="cursor-pointer rounded-lg border border-border bg-transparent px-4 py-[7px] text-[13px] disabled:cursor-default disabled:opacity-45">Save</button>
   <button id="refresh" class="cursor-pointer rounded-lg border border-primary bg-primary px-4 py-[7px] text-[13px] text-primary-foreground disabled:cursor-default disabled:opacity-45">Save &amp; Refresh</button>
 </footer>
 <script>
 let prefs, activity = {}, genreOptions = [], genreCounts = {}, sourceCounts = {}, countryNames = {}, dirty = false
+let countsAvailable = true
 // display-only sort for the followed section: false = A-Z, true = oldest
 // release first (dormant prune candidates cluster at the top)
 let dormancySort = false
@@ -315,6 +323,15 @@ const $ = (id) => document.getElementById(id)
 // artist entries are {name, id} (picker-pinned; the server rejects anything
 // else); genres are plain strings; playlists are {name, url}
 const nameOf = (e) => (typeof e === 'string' ? e : e.name)
+const OFFLINE = 'Editor not responding. Reopen prefs.command.'
+function setStatus(text, isError) {
+  const el = $('status')
+  if (!el) return
+  el.textContent = text
+  el.className = isError
+    ? 'mr-auto max-w-[50%] text-xs leading-snug text-destructive'
+    : 'mr-auto max-w-[50%] text-xs leading-snug text-muted-foreground'
+}
 const SECTIONS = [
   { key: 'artists.followed', label: 'Followed artists', sub: 'pinned first ★, fetched by Apple ID, bypass filters', artist: true, requireId: true },
   { key: 'artists.blocked', label: 'Blocked artists', sub: 'never shown (matched by Apple ID)', artist: true, requireId: true },
@@ -358,6 +375,14 @@ function markDirty() { dirty = true; $('save').disabled = false }
 function renderAll() {
   const root = $('sections')
   root.replaceChildren()
+  // A standing condition, so it lives here rather than in #status, which the
+  // idle poll overwrites with the log tail every 10s.
+  if (!countsAvailable) {
+    const warn = document.createElement('p')
+    warn.className = 'mb-2 text-[12.5px] text-amber-800 dark:text-amber-400'
+    warn.textContent = 'Could not read the latest results, so the per-chip counts are hidden. Press Save & Refresh to rebuild them.'
+    root.appendChild(warn)
+  }
   for (const s of SECTIONS) {
     // Alphabetical, in-place (so Save writes this order). Safe: the fetcher
     // only does membership checks, never depends on list order.
@@ -395,6 +420,7 @@ function renderAll() {
     // pruning would lose); duplicate = shared with another source. Amber 0 =
     // prune candidate. A source added after the last fetch reads 0 until the next.
     const sourceCount = (tag) => {
+      if (!countsAvailable) return null
       const { u, t } = sourceCounts[tag] ?? { u: 0, t: 0 }
       const span = document.createElement('span')
       span.className = t === 0 ? 'text-[11px] text-amber-800 dark:text-amber-400' : 'text-[11px] text-muted-foreground'
@@ -413,12 +439,16 @@ function renderAll() {
         code.className = 'text-[11px] text-muted-foreground'
         code.textContent = '· ' + entry
         chip.appendChild(code)
-        chip.appendChild(sourceCount('country:' + entry))
+        const c = sourceCount('country:' + entry)
+        if (c) chip.appendChild(c)
       }
-      if (s.playlist) chip.appendChild(sourceCount('playlist:' + nameOf(entry)))
+      if (s.playlist) {
+        const c = sourceCount('playlist:' + nameOf(entry))
+        if (c) chip.appendChild(c)
+      }
       // Genre yield marker: releases admitted via this genre (followed artists
       // excluded). Amber 0 = prune candidate.
-      if (s.key === 'genres.followed') {
+      if (s.key === 'genres.followed' && countsAvailable) {
         const n = genreCounts[nameOf(entry).toLowerCase()] ?? 0
         const count = document.createElement('span')
         count.className = n === 0 ? 'text-[11px] text-amber-800 dark:text-amber-400' : 'text-[11px] text-muted-foreground'
@@ -459,15 +489,51 @@ function addTo(key, item) {
   const list = getList(key)
   const name = nameOf(item).trim()
   if (!name) return
-  if (list.some((e) => nameOf(e).toLowerCase() === name.toLowerCase())) return
+  // Identity is the Apple ID where there is one: two artists can share a name,
+  // and re-adding a same-named artist is the documented fix for a wrong pick.
+  const dupe = item.id != null
+    ? list.some((e) => e.id === item.id)
+    : list.some((e) => nameOf(e).toLowerCase() === name.toLowerCase())
+  if (dupe) {
+    setStatus('"' + name + '" is already in ' + key.split('.').pop() + '.')
+    return
+  }
   list.push(typeof item === 'string' ? name : { ...item, name })
   markDirty(); renderAll()
+  // renderAll rebuilds the inputs, so keyboard focus has to be put back
+  $('add-' + key)?.focus()
 }
 
+// Dropdown keyboard + focus, shared by all four pickers. Hiding keys on focus
+// leaving the WRAPPER, not on input blur: blur fires before focus reaches a
+// row, so a blur-hide leaves the rows unreachable by Tab or arrow — and the
+// ID-required sections refuse Enter, so that is their only way to add anything.
+function wireDropdown(wrap, input, results) {
+  const rows = () => [...results.querySelectorAll('button')]
+  const focusRow = (i) => {
+    const r = rows()
+    if (r.length) r[(i + r.length) % r.length].focus()
+  }
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown' && !results.hidden) { e.preventDefault(); focusRow(0) }
+    else if (e.key === 'Escape') results.hidden = true
+  })
+  results.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); focusRow(rows().indexOf(document.activeElement) + 1) }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); focusRow(rows().indexOf(document.activeElement) - 1) }
+    else if (e.key === 'Escape') { e.preventDefault(); results.hidden = true; input.focus() }
+  })
+  wrap.addEventListener('focusout', (e) => {
+    if (!wrap.contains(e.relatedTarget)) results.hidden = true
+  })
+}
+
+// Shared input + dropdown shell; one wireX per picker kind supplies the rows.
 function makeAdder(s) {
   const wrap = document.createElement('div')
   wrap.className = 'relative flex gap-1.5'
   const input = document.createElement('input')
+  input.id = 'add-' + s.key
   input.className = 'flex-1 rounded-lg border border-border bg-transparent px-2.5 py-1.5 text-[13px]'
   // placeholders disappear on typing — give the field a persistent name
   input.setAttribute('aria-label', 'Add to ' + s.label)
@@ -481,154 +547,136 @@ function makeAdder(s) {
   const results = document.createElement('div')
   results.className = 'absolute inset-x-0 top-[34px] z-10 max-h-60 overflow-x-hidden overflow-y-auto rounded-lg border border-border bg-background shadow-[0_8px_24px_rgba(0,0,0,.12)]'
   results.hidden = true
-  input.onkeydown = (e) => {
-    if (e.key !== 'Enter') return
-    if (s.requireId) {
-      // free-text entries have no Apple ID — the fetcher can't sweep them
-      $('status').textContent = 'Pick an artist from the search list (entries are pinned by Apple ID).'
-      return
-    }
-    if (s.playlist) {
-      const pl = parsePlaylist(input.value.trim())
-      if (!pl) {
-        $('status').textContent = 'Not an Apple Music playlist URL.'
-        return
-      }
-      if (getList(s.key).some((e) => e.url === pl.url)) {
-        $('status').textContent = 'That playlist is already in the list.'
-        input.value = ''
-        return
-      }
-      addTo(s.key, pl)
-    } else if (s.country) {
-      // free text must resolve to a known storefront code (server rejects others)
-      const q = input.value.trim().toLowerCase()
-      const code = Object.hasOwn(countryNames, q) ? q : Object.keys(countryNames).find((c) => countryNames[c].toLowerCase() === q)
-      if (!code) {
-        $('status').textContent = 'Pick a country from the list.'
-        return
-      }
-      addTo(s.key, code)
-    } else {
-      addTo(s.key, input.value)
-    }
-    input.value = ''
-    results.hidden = true
-  }
-  if (s.artist) {
-    let timer
-    input.oninput = () => {
-      clearTimeout(timer)
-      const q = input.value
-      if (q.trim().length < 2) { results.hidden = true; return }
-      timer = setTimeout(async () => { // 500ms: iTunes Search is ~20 req/min
-        const r = await fetch('/api/artist-search?q=' + encodeURIComponent(q)).then((r) => r.json())
-        results.replaceChildren()
-        for (const a of r.results) {
-          const b = document.createElement('button')
-          b.className = 'flex w-full cursor-pointer items-center gap-2.5 px-2.5 py-[7px] text-left text-[13px] hover:bg-muted focus-visible:bg-muted'
-          const nm = document.createElement('span')
-          nm.textContent = a.name
-          const genre = document.createElement('span')
-          genre.className = 'ml-auto whitespace-nowrap text-[11.5px] text-muted-foreground'
-          genre.textContent = a.genre
-          b.append(nm, genre)
-          if (a.url) {
-            // verify the identity on its Apple Music page before adding
-            const verify = document.createElement('a')
-            verify.className = 'px-1.5 text-sm text-muted-foreground no-underline hover:text-foreground'
-            verify.textContent = '↗'
-            verify.href = a.url
-            verify.target = '_blank'
-            verify.rel = 'noopener noreferrer'
-            verify.title = 'Open on Apple Music to verify'
-            verify.onclick = (ev) => ev.stopPropagation()
-            b.appendChild(verify)
-          }
-          b.onclick = () => { addTo(s.key, { name: a.name, id: a.id }); input.value = ''; results.hidden = true }
-          results.appendChild(b)
-        }
-        results.hidden = r.results.length === 0
-      }, 500)
-    }
-    input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
-  } else if (s.playlist) {
-    // a valid URL shows one result row with the derived name, so the chip text
-    // is visible before adding. No raw-text onchange fallback: the mid-edit
-    // re-render would fire it with the URL still in the box and add a second,
-    // URL-named chip.
-    input.oninput = () => {
-      results.replaceChildren()
-      const pl = parsePlaylist(input.value.trim())
-      if (!pl) { results.hidden = true; return }
-      const taken = getList(s.key).some((e) => e.url === pl.url)
-      resultRow(results, pl.name, taken ? 'already in the list' : 'playlist', () => {
-        if (!taken) addTo(s.key, pl)
-        input.value = ''
-        results.hidden = true
-      })
-      results.hidden = false
-    }
-    input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
-  } else if (s.country) {
-    // countries: focus lists every storefront not yet followed, typing
-    // filters by name or code; add only from the list (codes are verified).
-    const show = () => {
-      results.replaceChildren()
-      const typed = input.value.trim().toLowerCase()
-      const have = new Set(getList(s.key))
-      const opts = Object.entries(countryNames)
-        .filter(([code, name]) => !have.has(code) && (name.toLowerCase().includes(typed) || code.includes(typed)))
-        .sort((a, b) => a[1].localeCompare(b[1]))
-      for (const [code, name] of opts) {
-        resultRow(results, name, code, () => {
-          addTo(s.key, code)
-          input.value = ''
-          results.hidden = true
-        })
-      }
-      results.hidden = opts.length === 0
-    }
-    input.oninput = show
-    input.onfocus = show
-    input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
-  } else {
-    // genres: focus lists the curated options, typing filters, Enter takes
-    // exact free text (any Apple genre name is followable).
-    const show = () => {
-      results.replaceChildren()
-      const typed = input.value.trim().toLowerCase()
-      const have = new Set(getList(s.key).map((g) => nameOf(g).toLowerCase()))
-      const opts = genreOptions.filter((g) => !have.has(g.toLowerCase()) && g.toLowerCase().includes(typed))
-      for (const g of opts) {
-        resultRow(results, g, '', () => {
-          addTo(s.key, g)
-          input.value = ''
-          results.hidden = true
-        })
-      }
-      // nothing matches: offer the exact text explicitly (what Enter does)
-      if (!opts.length && typed && !have.has(typed)) {
-        resultRow(results, 'Follow exact text "' + input.value.trim() + '"', 'exact Apple genre match', () => {
-          addTo(s.key, input.value)
-          input.value = ''
-          results.hidden = true
-        })
-        results.hidden = false
-        return
-      }
-      results.hidden = opts.length === 0
-    }
-    input.oninput = show
-    input.onfocus = show
-    input.onblur = () => setTimeout(() => { results.hidden = true }, 200)
-  }
+  const pick = (item) => { addTo(s.key, item); input.value = ''; results.hidden = true }
+  if (s.artist) wireArtist(s, input, results, pick)
+  else if (s.playlist) wirePlaylist(s, input, results, pick)
+  else if (s.country) wireCountry(s, input, results, pick)
+  else wireGenre(s, input, results, pick)
+  wireDropdown(wrap, input, results)
   wrap.append(input, results)
   return wrap
 }
 
+function wireArtist(s, input, results, pick) {
+  let timer
+  input.onkeydown = (e) => {
+    if (e.key !== 'Enter' || !s.requireId) return
+    // free-text entries have no Apple ID — the fetcher can't sweep them
+    setStatus('Pick an artist from the search list, then press Down to reach it. Entries are pinned by Apple ID.')
+  }
+  input.oninput = () => {
+    clearTimeout(timer)
+    const q = input.value
+    if (q.trim().length < 2) { results.hidden = true; return }
+    timer = setTimeout(async () => { // 500ms: iTunes Search is ~20 req/min
+      let found
+      try {
+        const res = await fetch('/api/artist-search?q=' + encodeURIComponent(q))
+        if (!res.ok) throw new Error('search failed')
+        found = (await res.json()).results
+        if (!Array.isArray(found)) throw new Error('search failed')
+      } catch {
+        // this runs inside a timer, so an unreported throw here is invisible:
+        // the box would simply never produce suggestions
+        results.hidden = true
+        setStatus('Artist search unavailable. Check the connection and try again.', true)
+        return
+      }
+      results.replaceChildren()
+      for (const a of found) {
+        const row = resultRow(results, a.name, a.genre, () => pick({ name: a.name, id: a.id }))
+        if (a.url) {
+          // verify the identity on its Apple Music page before adding
+          const verify = document.createElement('a')
+          verify.className = 'px-1.5 text-sm text-muted-foreground no-underline hover:text-foreground'
+          verify.textContent = '↗'
+          verify.href = a.url
+          verify.target = '_blank'
+          verify.rel = 'noopener noreferrer'
+          verify.title = 'Open on Apple Music to verify'
+          verify.onclick = (ev) => ev.stopPropagation()
+          row.appendChild(verify)
+        }
+      }
+      results.hidden = found.length === 0
+    }, 500)
+  }
+}
+
+// a valid URL shows one result row with the derived name, so the chip text is
+// visible before adding. No raw-text onchange fallback: the mid-edit re-render
+// would fire it with the URL still in the box and add a second, URL-named chip.
+function wirePlaylist(s, input, results, pick) {
+  const taken = (pl) => getList(s.key).some((e) => e.url === pl.url)
+  input.onkeydown = (e) => {
+    if (e.key !== 'Enter') return
+    const pl = parsePlaylist(input.value.trim())
+    if (!pl) { setStatus('Not an Apple Music playlist URL.', true); return }
+    if (taken(pl)) { setStatus('That playlist is already in the list.'); input.value = ''; return }
+    pick(pl)
+  }
+  input.oninput = () => {
+    results.replaceChildren()
+    const pl = parsePlaylist(input.value.trim())
+    if (!pl) { results.hidden = true; return }
+    const dupe = taken(pl)
+    resultRow(results, pl.name, dupe ? 'already in the list' : 'playlist', () => {
+      if (dupe) { setStatus('That playlist is already in the list.'); input.value = ''; results.hidden = true; return }
+      pick(pl)
+    })
+    results.hidden = false
+  }
+}
+
+// focus lists every storefront not yet followed, typing filters by name or
+// code; add only from the list (codes are verified server-side).
+function wireCountry(s, input, results, pick) {
+  input.onkeydown = (e) => {
+    if (e.key !== 'Enter') return
+    const q = input.value.trim().toLowerCase()
+    const code = Object.hasOwn(countryNames, q) ? q : Object.keys(countryNames).find((c) => countryNames[c].toLowerCase() === q)
+    if (!code) { setStatus('Pick a country from the list.', true); return }
+    pick(code)
+  }
+  const show = () => {
+    results.replaceChildren()
+    const typed = input.value.trim().toLowerCase()
+    const have = new Set(getList(s.key))
+    const opts = Object.entries(countryNames)
+      .filter(([code, name]) => !have.has(code) && (name.toLowerCase().includes(typed) || code.includes(typed)))
+      .sort((a, b) => a[1].localeCompare(b[1]))
+    for (const [code, name] of opts) resultRow(results, name, code, () => pick(code))
+    results.hidden = opts.length === 0
+  }
+  input.oninput = show
+  input.onfocus = show
+}
+
+// focus lists the curated options, typing filters, Enter takes exact free text
+// (any Apple genre name is followable).
+function wireGenre(s, input, results, pick) {
+  input.onkeydown = (e) => { if (e.key === 'Enter') pick(input.value) }
+  const show = () => {
+    results.replaceChildren()
+    const typed = input.value.trim().toLowerCase()
+    const have = new Set(getList(s.key).map((g) => nameOf(g).toLowerCase()))
+    const opts = genreOptions.filter((g) => !have.has(g.toLowerCase()) && g.toLowerCase().includes(typed))
+    for (const g of opts) resultRow(results, g, '', () => pick(g))
+    // nothing matches: offer the exact text explicitly (what Enter does)
+    if (!opts.length && typed && !have.has(typed)) {
+      resultRow(results, 'Follow exact text "' + input.value.trim() + '"', 'exact Apple genre match', () => pick(input.value))
+      results.hidden = false
+      return
+    }
+    results.hidden = opts.length === 0
+  }
+  input.oninput = show
+  input.onfocus = show
+}
+
 let wasRunning = false
 let pollTimer
+let offline = false
 // The floating progress log covers the lower chips while a refresh runs; the
 // × hides it for THIS refresh only (flag resets when the next one starts).
 let logDismissed = false
@@ -664,9 +712,12 @@ function setBanner(cls, text) {
 async function poll() {
   const st = await fetch('/api/status').then((r) => r.json()).catch(() => null)
   if (st) {
+    offline = false
     $('refresh').disabled = st.running
     $('refresh').textContent = st.running ? 'Refreshing…' : 'Save & Refresh'
-    $('status').textContent = st.running ? '' : (st.log.at(-1) ?? '')
+    // setStatus, not textContent: the poll must clear a previous error's color
+    // along with its text, or a log line renders in red.
+    setStatus(st.running ? '' : (st.log.at(-1) ?? ''))
     if (st.running && !wasRunning) logDismissed = false // new refresh, show again
     $('log-wrap').hidden = !st.running || logDismissed
     if (st.running) {
@@ -687,40 +738,81 @@ async function poll() {
       }
     }
     wasRunning = st.running
+  } else if (!offline) {
+    // without this a dead server looks exactly like an idle healthy one
+    offline = true
+    setStatus(OFFLINE, true)
+    setBanner('bad', OFFLINE)
   }
   pollTimer = setTimeout(poll, st?.running ? 2000 : 10000)
 }
 
 async function save() {
-  const r = await fetch('/api/prefs', { method: 'POST', body: JSON.stringify(prefs) })
-  if (r.ok) { dirty = false; $('save').disabled = true; $('status').textContent = 'Saved.' }
-  else $('status').textContent = 'Save failed: ' + (await r.json()).error
-  return r.ok
+  try {
+    const r = await fetch('/api/prefs', { method: 'POST', body: JSON.stringify(prefs) })
+    if (r.ok) { dirty = false; $('save').disabled = true; setStatus('Saved.'); return true }
+    const body = await r.json().catch(() => ({}))
+    setStatus('Save failed: ' + (body.error ?? 'HTTP ' + r.status), true)
+    return false
+  } catch {
+    setStatus(OFFLINE, true)
+    return false
+  }
 }
 $('save').onclick = save
 // Primary action: saves any pending edits, then fetches with them.
 $('refresh').onclick = async () => {
   if (dirty && !(await save())) return
   setBanner('running', 'Starting refresh…')
-  await fetch('/api/refresh', { method: 'POST' })
+  try {
+    const r = await fetch('/api/refresh', { method: 'POST' })
+    // 409 = a detached refresh from an earlier click is still going
+    if (r.status === 409) { setStatus('A refresh is already running.') }
+    else if (!r.ok) throw new Error('refresh failed')
+  } catch {
+    setBanner('bad', OFFLINE)
+    setStatus(OFFLINE, true)
+    return
+  }
   wasRunning = true
   logDismissed = false // this click preempts poll's false→true transition
   clearTimeout(pollTimer) // restart the single poll chain, don't fork a second one
   poll()
 }
-$('quit').onclick = async () => { await fetch('/api/quit', { method: 'POST' }); document.body.innerHTML = '<p class="p-10 text-center">Server stopped. You can close this tab.</p>' }
+$('quit').onclick = async () => {
+  // onbeforeunload can't guard this: quitting is a fetch plus an innerHTML
+  // swap, not a navigation, so that handler never fires here.
+  if (dirty && !confirm('You have unsaved changes. Quit without saving them?')) return
+  clearTimeout(pollTimer) // the page is about to lose its status elements
+  try {
+    await fetch('/api/quit', { method: 'POST' })
+  } catch {
+    // the server may exit before the response lands — that is a successful quit
+  }
+  document.body.innerHTML = '<p class="p-10 text-center">Server stopped. You can close this tab.</p>'
+}
 window.onbeforeunload = () => (dirty ? true : undefined)
 
-fetch('/api/prefs').then((r) => r.json()).then((p) => {
+fetch('/api/prefs').then((r) => {
+  if (!r.ok) throw new Error('HTTP ' + r.status)
+  return r.json()
+}).then((p) => {
   prefs = { artists: p.artists, genres: p.genres, discovery: { countries: p.countries ?? [], playlists: p.playlists ?? [] } }
   activity = p.activity ?? {}
   genreOptions = p.genreOptions ?? []
   genreCounts = p.genreCounts ?? {}
   sourceCounts = p.sourceCounts ?? {}
+  countsAvailable = p.countsAvailable !== false
   countryNames = p.countryNames ?? {}
   $('site-link').href = p.siteUrl
   renderAll()
   poll()
+}).catch(() => {
+  // a hand-edited preferences.json that no longer parses is the case this
+  // editor exists to recover from, so it must not render as a blank page
+  $('sections').innerHTML =
+    '<p class="py-4 text-sm text-destructive">Could not load preferences. Check that config/preferences.json is valid JSON, then reload this page. Details are in the terminal window that prefs.command opened.</p>'
+  setStatus('Preferences did not load.', true)
 })
 </script>
 </body>

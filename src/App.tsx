@@ -33,24 +33,25 @@ export default function App() {
     // URL also lets index.html preload this request.
     fetch(`${import.meta.env.BASE_URL}data/releases.json`, { cache: 'no-cache' })
       .then((r) => {
-        if (!r.ok) throw new Error('Data not available.')
+        if (!r.ok) throw new Error()
         return r.json()
       })
       .then((d: FeedData) => {
         // a malformed file should land in the error UI, not crash the render
-        if (!Array.isArray(d?.releases)) throw new Error('Data not available.')
+        if (!Array.isArray(d?.releases)) throw new Error()
         if (!cancelled) setData(d)
       })
-      .catch((err: Error) => {
-        if (!cancelled) setError(err.message || 'Failed to load releases')
+      .catch(() => {
+        // one written message, never the raw rejection: an HTML error page
+        // makes r.json() reject with "Unexpected token '<'"
+        if (!cancelled) setError('Could not load releases. The nightly update may not have run yet.')
       })
     return () => {
       cancelled = true
     }
   }, [])
 
-  // Keys use cardKeyOf (the fetcher's shared card identity). Followed artists
-  // get the file's full window; discovery trims to 24h of the fetch.
+  // Keys use cardKeyOf (the fetcher's shared card identity).
   const releases = (data?.releases ?? []).filter(
     (r) => r.followed || isFreshAsOf(r.release_date, data?.fetched_at ?? 0)
   )

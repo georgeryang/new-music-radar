@@ -16,14 +16,13 @@ function normTitle(raw) {
   return t.replace(/[^\p{L}\p{N} ]/gu, '').replace(/\s+/g, ' ').trim()
 }
 
-export const normArtist = (raw) =>
+const normArtist = (raw) =>
   raw.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N} ]/gu, '').replace(/\s+/g, ' ').trim()
 
 export const keyOf = (r) => `${normArtist(r.artist)}|${normTitle(r.title)}|${r.type}`
 
 // keyOf alone over-collapses across the two lists (a deluxe pre-order of a
-// released album strips to the same keyOf), so the date qualifies it. Used by
-// the fetcher's disjointness filter and the app's React card keys.
+// released album strips to the same keyOf), so the date qualifies it.
 export const cardKeyOf = (r) => `${keyOf(r)}|${r.release_date}`
 
 // sort: followed artists first, then alphabetical by artist; newest first

@@ -1,6 +1,6 @@
 // Data contract between scripts/fetch-releases.mjs (producer) and the app.
 // The fetcher's releases/upcoming routing IS the New/Upcoming split; both
-// lists arrive sorted and render as-is, anchored to fetched_at.
+// lists arrive sorted and render as-is.
 
 // song = a single (or 1-track release); album = everything larger.
 export type ReleaseType = 'album' | 'song'

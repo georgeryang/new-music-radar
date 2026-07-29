@@ -19,16 +19,13 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { STOREFRONTS } from './storefronts.mjs'
 import { cardKeyOf, keyOf, releaseOrder, upcomingOrder } from './card-key.mjs'
+import { ACTIVITY_PATH, DATA_PATH, PREFS_PATH, UA, WINDOW_DAYS, sourceTag } from './shared.mjs'
 
-// The file holds WINDOW_DAYS of releases. The app shows followed artists for
-// the full window, discovery finds for 24h, both anchored to fetched_at. The
-// New/Upcoming split is decided here (inWindow/isUpcoming); the app renders
+// The New/Upcoming split is decided here (inWindow/isUpcoming); the app renders
 // releases[] and upcoming[] as written.
-const WINDOW_DAYS = 3
-const UA = 'new-music-radar/1.0'
-const OUT = new URL('../docs/data/releases.json', import.meta.url)
+const OUT = DATA_PATH
 
-const PREFS = JSON.parse(readFileSync(new URL('../config/preferences.json', import.meta.url), 'utf8'))
+const PREFS = JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
 // local time, matching update.sh's log() — the two interleave in one file.
 const log = (...a) => console.log(`[${new Date().toLocaleString('sv-SE')}]`, ...a)
@@ -82,11 +79,11 @@ const NOISE_RE = /\b(instrumental|sped[ -]?up|slowed( \+ reverb)?|inst\.)\b/i
 // one definition so the tolerances can't drift apart.
 const daysSince = (releaseDate) => (Date.now() - Date.parse(releaseDate)) / 86400e3
 
-function inWindow(releaseDate) {
-  const days = daysSince(releaseDate)
-  // lower bound: catalogs list pre-orders (future dates) — released-only scope.
-  return days <= WINDOW_DAYS + 0.5 && days >= 0
-}
+// 0.5 grace absorbs the timezone spread between Apple's date and ours.
+const withinWindow = (releaseDate) => daysSince(releaseDate) <= WINDOW_DAYS + 0.5
+
+// lower bound: catalogs list pre-orders (future dates) — released-only scope.
+const inWindow = (releaseDate) => withinWindow(releaseDate) && daysSince(releaseDate) >= 0
 
 // Announced pre-orders: anything still future-dated at fetch time, the exact
 // complement of inWindow's lower bound so the two sets stay disjoint. This
@@ -140,14 +137,12 @@ const fromCollection = (a) => ({
   type: classify(a.collectionName, a.trackCount),
   release_date: a.releaseDate.slice(0, 10),
   artwork: artUrl(a.artworkUrl100),
-  // verbatim Apple genre name — cards show it and the follow filter matches it exactly
   genre: a.primaryGenreName ?? null,
   link: appleLink(a.collectionViewUrl),
 })
 
 const GENRES_FOLLOWED = (PREFS.genres?.followed ?? []).map((s) => s.toLowerCase())
 
-// Both artist lists are {name, id}; fetching and blocking key on the ID.
 const FOLLOWED_ENTRIES = PREFS.artists?.followed ?? []
 // Blocking is by Apple ID — precise ("Drake" can't catch "Drake Milligan").
 // Caveat: a blocked artist's collabs carry a joint entity's ID, not theirs,
@@ -174,7 +169,6 @@ const BATCH_SIZE = 20
 // hints. Only current-sweep ids are recorded (batch responses also carry
 // collab partners' ids, which would plant stale dates); future dates skipped,
 // file pruned to the followed list on write.
-const ACTIVITY_PATH = new URL('../config/artist-activity.json', import.meta.url)
 let artistActivity = {}
 try {
   artistActivity = JSON.parse(readFileSync(ACTIVITY_PATH, 'utf8'))
@@ -672,7 +666,7 @@ if (countryIdSources.size) {
       .map((a) => {
         const r = fromCollection(a)
         const sfs = countryIdSources.get(String(a.collectionId))
-        if (sfs) r.sources = [...sfs].map((sf) => `country:${sf}`)
+        if (sfs) r.sources = [...sfs].map((sf) => sourceTag('country', sf))
         return r
       })
     log(`country charts: ${found.length} releases via ${countryIdSources.size} ids`)
@@ -710,7 +704,7 @@ for (const settled of playlistPages) {
   try {
     const fresh = (await lookupCollections(albumIds))
       .filter((a) => a.releaseDate && inWindow(a.releaseDate))
-      .map((a) => ({ ...fromCollection(a), sources: [`playlist:${pl.name}`] }))
+      .map((a) => ({ ...fromCollection(a), sources: [sourceTag('playlist', pl.name)] }))
     log(`${pl.name}: ${fresh.length} in-window releases`)
     releases.push(...fresh)
   } catch (e) {
@@ -719,12 +713,27 @@ for (const settled of playlistPages) {
   }
 }
 
-// mark followed artists (before dedup so merges keep the flag) — ★ + filter
-// bypass for a followed artist's own releases, matched by Apple artist_id (the
-// follow list is id-only, same as the block list). A collab credited to a
-// separate joint-entity id won't match — accepted.
+// mark followed artists BEFORE dedup, so merges keep the flag — ★ + filter
+// bypass for a followed artist's own releases.
 for (const r of releases) {
   if (r.artist_id && sweepIds.has(r.artist_id)) r.followed = true
+}
+
+// Back-fill a duplicate's fields into the copy already kept. First-seen may be
+// the sparse one (a joint-credit listing without artwork/link), so every field
+// a later copy fills in has to survive the collapse.
+function mergeInto(prev, r) {
+  if (r.release_date < prev.release_date) prev.release_date = r.release_date
+  if (!prev.artwork && r.artwork) prev.artwork = r.artwork
+  if (!prev.link && r.link) prev.link = r.link
+  // carryover matches on artist_id, so a sparse copy must not cost the entry its id
+  if (!prev.artist_id && r.artist_id) prev.artist_id = r.artist_id
+  // a null-genre copy landing first mustn't cost the release its genre (the
+  // filter would drop it as "genre not followed")
+  if (!prev.genre && r.genre) prev.genre = r.genre
+  // union so an album on two sources credits both in the editor's audit
+  if (r.sources?.length) prev.sources = [...new Set([...(prev.sources ?? []), ...r.sources])]
+  prev.followed = prev.followed || r.followed
 }
 
 // noise + canonical-key dedup (type is in the key: same-titled song + album
@@ -737,26 +746,12 @@ for (const r of releases) {
   }
   const k = keyOf(r)
   const prev = byKey.get(k)
-  if (prev) {
-    if (r.release_date < prev.release_date) prev.release_date = r.release_date
-    if (!prev.artwork && r.artwork) prev.artwork = r.artwork
-    if (!prev.link && r.link) prev.link = r.link
-    if (!prev.artist_id && r.artist_id) prev.artist_id = r.artist_id
-    // a null-genre copy landing first mustn't cost the release its genre (the
-    // filter would drop it as "genre not followed")
-    if (!prev.genre && r.genre) prev.genre = r.genre
-    // union so an album on two sources credits both in the editor's audit
-    if (r.sources?.length) prev.sources = [...new Set([...(prev.sources ?? []), ...r.sources])]
-    prev.followed = prev.followed || r.followed
-  } else {
-    byKey.set(k, r)
-  }
+  if (prev) mergeInto(prev, r)
+  else byKey.set(k, r)
 }
 let out = [...byKey.values()]
 
 // filter precedence: artist block > artist follow > genre follow > drop.
-// Discovery only surfaces followed genres; a followed artist bypasses
-// genre rules entirely.
 const before = out.length
 // genre drops are the bulk (dozens per run) — one summary line; blocked-artist
 // drops stay individual (rare, worth seeing what the block list caught)
@@ -811,17 +806,10 @@ for (const r of upcomingRaw) {
   if (NOISE_RE.test(r.title) || isArtistBlocked(r)) continue
   if (!sweepIds.has(r.artist_id)) continue
   r.followed = true
-  const prev = upcomingByKey.get(keyOf(r))
-  if (!prev) {
-    upcomingByKey.set(keyOf(r), r)
-  } else {
-    // same back-fill as the main dedup — first-seen may be the sparse copy
-    // (a joint-credit listing without artwork/link)
-    if (r.release_date < prev.release_date) prev.release_date = r.release_date
-    if (!prev.artwork && r.artwork) prev.artwork = r.artwork
-    if (!prev.link && r.link) prev.link = r.link
-    if (!prev.genre && r.genre) prev.genre = r.genre
-  }
+  const k = keyOf(r)
+  const prev = upcomingByKey.get(k)
+  if (prev) mergeInto(prev, r)
+  else upcomingByKey.set(k, r)
 }
 // Per-entry carryover (both lists): a failed batch means that artist's data is
 // missing this run, so their previous in-window releases and pre-orders carry
@@ -841,28 +829,30 @@ if (batchFailures > 0) {
   const stillEligible = (r) => !NOISE_RE.test(r.title) && !isArtistBlocked(r)
   const outKeys = new Set(out.map(keyOf))
   for (const r of prevFile.releases ?? []) {
-    if (!r.followed || !inWindow(r.release_date) || outKeys.has(keyOf(r))) continue
+    const k = keyOf(r)
+    if (!r.followed || !inWindow(r.release_date) || outKeys.has(k)) continue
     if (!missingThisRun(r) || !stillEligible(r)) continue
-    outKeys.add(keyOf(r))
+    outKeys.add(k)
     out.push(r)
     log(`carried over (batch failed): ${r.artist} — ${r.title}`)
   }
   // outKeys now includes carried releases, keeping the two lists disjoint
   for (const r of prevFile.upcoming ?? []) {
-    if (daysSince(r.release_date) > WINDOW_DAYS + 0.5) continue
-    if (upcomingByKey.has(keyOf(r))) continue
+    const k = keyOf(r)
+    if (!withinWindow(r.release_date)) continue
+    if (upcomingByKey.has(k)) continue
     if (!missingThisRun(r) || !stillEligible(r)) continue
     r.followed = true
     if (isUpcoming(r.release_date)) {
       // still future — no out check: it may share keyOf with a released
       // edition (deluxe pre-order) but dates differ; the card-level
       // disjointness filter below is the backstop
-      upcomingByKey.set(keyOf(r), r)
+      upcomingByKey.set(k, r)
     } else {
       // date passed while the artist's batch was failing — belongs on New
       // now, unless a discovery source already fetched it fresh
-      if (outKeys.has(keyOf(r))) continue
-      outKeys.add(keyOf(r))
+      if (outKeys.has(k)) continue
+      outKeys.add(k)
       out.push(r)
     }
     log(`carried over (batch failed): ${r.artist} — ${r.title}`)
