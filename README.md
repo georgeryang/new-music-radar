@@ -114,10 +114,13 @@ sudo pmset repeat cancel
   refresh without a Pages deploy.
 - **Genres and chip counts:** no genre mapping; cards carry Apple's name
   verbatim, matched exactly ignoring case. Curated list is `scripts/genre-options.mjs`;
-  storefront codes are in `scripts/storefronts.mjs`; `npm run check-genres`
-  catches Apple renaming a genre out from under the list. Editor chips count
-  over the fetcher's full `WINDOW_DAYS`, not the site's 24h New tab, so chip
-  counts routinely exceed what's on the page.
+  storefront codes are in `scripts/storefronts.mjs`. `npm run check-genres`
+  catches Apple renaming a genre out from under the list, and reports which
+  unfollowed genres discovery has been dropping (tallied into
+  `config/genre-activity.json` by each fetch) so a subgenre worth following
+  surfaces instead of staying invisible. Editor chips count over the fetcher's
+  full `WINDOW_DAYS`, not the site's 24h New tab, so chip counts routinely
+  exceed what's on the page.
 - **Reliability:** any source failing exits non-zero but still publishes
   partial results; an empty result never overwrites good data. The nightly
   push also verifies its Pages deploy and retries once if it flaked.

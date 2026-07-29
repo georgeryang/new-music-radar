@@ -12,6 +12,7 @@ Apple-only follow-list release tracker. Local pipeline builds `docs/`, GitHub Pa
 - Local-only, single-writer, push-only pipeline: `fetch-releases.mjs` → `docs/` → Pages, driven by launchd + `update.sh --if-stale`. Do not add a second writer or a server-side build.
 - foreign feeds contribute catalog ids ONLY; every card built from a US lookup. US catalog only.
 - Genres have NO mapping layer. Cards show Apple's verbatim primaryGenreName; the follow filter is an exact case-insensitive match; the picker offers a curated 19-name list. Do not reintroduce a genre map.
+- Parent/child genre matching (following `Hip-Hop/Rap` also admitting `Rap`) was proposed and declined 2026-07-29: Apple's tree puts 78 extra names under the current follow list, including `Soft Rock` and `Adult Contemporary` under `Pop`. `npm run check-genres` reports leaf genres that cost releases so they can be followed by name instead.
 - Filter precedence is fixed: block > follow > genre > drop.
 - Follow and block both match by Apple `artist_id` only (no name matching); both lists are id-required and the prefs picker enforces it. A collab credited to a separate joint-entity id won't match a followed member.
 - The pipeline fails loudly (exit 2 + partial publish), never silently. Preserve this; never swallow errors.

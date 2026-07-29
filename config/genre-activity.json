@@ -1,0 +1,37 @@
+{
+  "Anime": {
+    "dropped": 6,
+    "last_seen": "2026-07-29",
+    "example": "名探偵プリキュア! — 『名探偵プリキュア!』ボーカルアルバム～ツナガル♡ツラナル～"
+  },
+  "Soundtrack": {
+    "dropped": 3,
+    "last_seen": "2026-07-29",
+    "example": "Tokyo DisneySea — Tokyo DisneySea 25th \"Sparkling Jubilee\" Music Album (Deluxe)"
+  },
+  "Rock": {
+    "dropped": 3,
+    "last_seen": "2026-07-29",
+    "example": "The Biscats — BLACK or PINK?"
+  },
+  "Chinese": {
+    "dropped": 1,
+    "last_seen": "2026-07-29",
+    "example": "bo一霖 — 我问菩萨何为善缘"
+  },
+  "Afro-Pop": {
+    "dropped": 1,
+    "last_seen": "2026-07-29",
+    "example": "Sherry Kunta — Whiskey Roads"
+  },
+  "Alternative Folk": {
+    "dropped": 1,
+    "last_seen": "2026-07-29",
+    "example": "pada — 拆"
+  },
+  "Música Mexicana": {
+    "dropped": 1,
+    "last_seen": "2026-07-29",
+    "example": "Tito Double P — Tito Double P: Music Room"
+  }
+}

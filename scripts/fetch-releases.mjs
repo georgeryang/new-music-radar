@@ -19,7 +19,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { STOREFRONTS } from './storefronts.mjs'
 import { cardKeyOf, keyOf, releaseOrder, upcomingOrder } from './card-key.mjs'
-import { ACTIVITY_PATH, DATA_PATH, PREFS_PATH, UA, WINDOW_DAYS, sourceTag } from './shared.mjs'
+import { ACTIVITY_PATH, DATA_PATH, GENRE_ACTIVITY_PATH, PREFS_PATH, UA, WINDOW_DAYS, sourceTag } from './shared.mjs'
 
 // The New/Upcoming split is decided here (inWindow/isUpcoming); the app renders
 // releases[] and upcoming[] as written.
@@ -134,9 +134,10 @@ const normId = (raw) => {
 }
 
 // One iTunes lookup result (wrapperType "collection") → release card shape.
-// Every lookup-backed source funnels through this so the shapes can't drift.
-// artist_id drives ID-based blocking and cross-run carryover matching; the
-// app ignores it.
+// EVERY lookup-backed source funnels through this so the shapes can't drift;
+// the *ToRelease helpers below build from raw feed data and are only reached
+// when a lookup didn't return the id. artist_id drives ID-based blocking and
+// cross-run carryover matching; the app ignores it.
 const fromCollection = (a) => ({
   title: displayTitle(a.collectionName),
   artist: a.artistName,
@@ -247,6 +248,20 @@ async function fetchChart() {
   )
   return data.feed?.results ?? []
 }
+
+// Fallback card from a most-played chart entry, for the ids the shared lookup
+// didn't return. No trackCount here, so classify() leans on the title alone.
+const chartEntryToRelease = (e, feedGenre) => ({
+  title: displayTitle(e.name),
+  artist: e.artistName,
+  // the feed serializes artistId as a string; BLOCKED_IDS holds numbers
+  artist_id: Number(e.artistId) || undefined,
+  type: classify(e.name, undefined),
+  release_date: e.releaseDate.slice(0, 10),
+  artwork: artUrl(e.artworkUrl100),
+  genre: feedGenre,
+  link: appleLink(e.url),
+})
 
 // ---------- genre charts (iTunes purchase charts — day-of discovery) ----------
 
@@ -538,19 +553,21 @@ if (wanted.length) {
   }
 }
 
+// Lookup-backed like every other source: the catalog record wins, and the
+// window is re-checked against ITS date so a card can't show a date outside
+// the window. Feed and catalog agree on title/artist/date/artwork in practice
+// (0 differences across a 50-entry chart, 2026-07-29); the feed's own genre is
+// still the fallback when the catalog has none.
 for (const { e, feedGenre } of candidates) {
   const hit = collectionCache.get(String(e.id))
-  releases.push({
-    title: displayTitle(e.name),
-    artist: e.artistName,
-    // the feed serializes artistId as a string; BLOCKED_IDS holds numbers
-    artist_id: Number(hit?.artistId ?? e.artistId) || undefined,
-    type: classify(e.name, hit?.trackCount),
-    release_date: e.releaseDate.slice(0, 10),
-    artwork: artUrl(e.artworkUrl100),
-    genre: hit?.primaryGenreName ?? feedGenre,
-    link: appleLink(hit?.collectionViewUrl ?? e.url),
-  })
+  if (hit) {
+    if (!hit.releaseDate || !inWindow(hit.releaseDate)) continue
+    const r = fromCollection(hit)
+    if (!r.genre) r.genre = feedGenre
+    releases.push(r)
+  } else {
+    releases.push(chartEntryToRelease(e, feedGenre))
+  }
 }
 
 // 3. Genre purchase charts — day-of releases in followed genres. Both feed
@@ -770,7 +787,9 @@ out = out.filter((r) => {
   if (r.followed) return true
   if (isGenreFollowed(r.genre)) return true
   const g = r.genre ?? 'none'
-  genreDrops.set(g, (genreDrops.get(g) ?? 0) + 1)
+  const d = genreDrops.get(g) ?? { n: 0, example: `${r.artist} — ${r.title}` }
+  d.n++
+  genreDrops.set(g, d)
   return false
 })
 function logDrop(r, why) {
@@ -781,9 +800,35 @@ if (before !== out.length)
   log(
     `${before - out.length} releases filtered out` +
       (genreDrops.size
-        ? ` — unfollowed genres: ${[...genreDrops.entries()].sort((a, b) => b[1] - a[1]).map(([g, n]) => `${g} ${n}`).join(', ')}`
+        ? ` — unfollowed genres: ${[...genreDrops.entries()].sort((a, b) => b[1].n - a[1].n).map(([g, d]) => `${g} ${d.n}`).join(', ')}`
         : '')
   )
+
+// Rolling tally of what the genre filter cost, for `npm run check-genres`.
+// Apple labels releases with both umbrella and leaf names (a release can be
+// "Hip-Hop/Rap" or "Rap"), and there is no mapping layer by design — so a leaf
+// you don't follow silently drops releases you'd have wanted. One run's counts
+// are noise; accumulated they show which names are actually worth following.
+// Entries expire so a genre you later follow, or one Apple stops using, leaves.
+const GENRE_MEMORY_DAYS = 30
+let genreActivity = {}
+try {
+  genreActivity = JSON.parse(readFileSync(GENRE_ACTIVITY_PATH, 'utf8'))
+} catch {}
+for (const [g, d] of genreDrops) {
+  if (g === 'none') continue // no genre at all isn't a follow candidate
+  genreActivity[g] = {
+    dropped: (genreActivity[g]?.dropped ?? 0) + d.n,
+    last_seen: TODAY,
+    example: d.example,
+  }
+}
+genreActivity = Object.fromEntries(
+  Object.entries(genreActivity)
+    .filter(([g, d]) => !isGenreFollowed(g) && daysSince(d.last_seen) <= GENRE_MEMORY_DAYS)
+    .sort((a, b) => b[1].dropped - a[1].dropped)
+)
+writeFileSync(GENRE_ACTIVITY_PATH, JSON.stringify(genreActivity, null, 2) + '\n')
 
 // Previous file — read once, three consumers below (empty-success guard +
 // the two per-entry carryovers).
