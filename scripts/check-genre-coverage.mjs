@@ -14,7 +14,7 @@
 
 import { readFileSync } from 'node:fs'
 import { GENRE_OPTIONS } from './genre-options.mjs'
-import { GENRE_ACTIVITY_PATH, PREFS_PATH, UA } from './shared.mjs'
+import { GENRE_ACTIVITY_PATH, GENRE_MEMORY_DAYS, PREFS_PATH, UA } from './shared.mjs'
 
 // This prints a report for a person, so its own failures get a sentence rather
 // than a stack trace over an npm banner.
@@ -103,7 +103,7 @@ const show = ([g, d], note) => {
 }
 
 console.log(`\nUnfollowed genres discovery is dropping. The count is the current`)
-console.log(`run of consecutive days, and an entry disappears after 30 quiet days:`)
+console.log(`run of consecutive days, and an entry disappears after ${GENRE_MEMORY_DAYS} quiet days:`)
 if (likely.length) {
   console.log('\n  LIKELY ADDS — Apple filed these under a leaf of a genre you already')
   console.log('  follow, and exact matching means the umbrella does not catch them:')

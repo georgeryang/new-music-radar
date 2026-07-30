@@ -14,7 +14,8 @@ Apple-only follow-list release tracker. Local pipeline builds `docs/`, GitHub Pa
 - Genres have NO mapping layer. Cards show Apple's verbatim primaryGenreName; the follow filter is an exact case-insensitive match; the picker offers a curated 19-name list. Do not reintroduce a genre map.
 - Parent/child genre matching (following `Hip-Hop/Rap` also admitting `Rap`) was proposed and declined 2026-07-29: Apple's tree puts 78 extra names under the current follow list, including `Soft Rock` and `Adult Contemporary` under `Pop`. `npm run check-genres` reports leaf genres that cost releases so they can be followed by name instead.
 - Filter precedence is fixed: block > follow > genre > drop.
-- Follow and block both match by Apple `artist_id` only (no name matching); both lists are id-required and the prefs picker enforces it. A collab credited to a separate joint-entity id won't match a followed member.
+- Follow and block both match by Apple id only (no name matching); both lists are id-required and the prefs picker enforces it.
+- Follow matches on provenance, block on credit. The sweep response is grouped per requested id, so every card records the followed artist whose discography returned it as `via_artist_id`; that is how a collab credited to a joint entity (`george & MINNIE`) is followed. Block sees only the credited id, so a blocked artist's joint-entity collab is not blocked, and one shared with a followed artist shows starred.
 - The pipeline fails loudly (exit 2 + partial publish), never silently. Preserve this; never swallow errors.
 - One clock: windows, labels, and the New/Upcoming split all anchor to `fetched_at`. The viewer clock is only for "Updated Xh ago". Do not anchor filtering to the viewer clock.
 - Two count windows are intentional: editor chips tally the fetcher's `WINDOW_DAYS`; the site's New tab trims to 24h. Chip counts exceeding the page is expected, not a bug.
