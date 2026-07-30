@@ -113,8 +113,18 @@ const displayTitle = (name) =>
 // Artwork embeds its size in the URL; 400x400 covers the 4-up retina grid.
 // Allowlisted to Apple's CDN (one source is scraped) — anything else falls
 // back to the placeholder rather than loading a third-party image.
-const artUrl = (u) =>
-  u && /^https:\/\/[^/]+\.mzstatic\.com\//.test(u) ? u.replace(/\d+x\d+bb/, '400x400bb') : ''
+const artUrl = (u) => {
+  // Parsed, not regex-matched on the raw string: a `[^/]+` host class also
+  // swallows # and ?, so "https://evil.example#.mzstatic.com/a.jpg" passes a
+  // pattern check while the browser loads it from evil.example.
+  try {
+    const h = new URL(u).hostname
+    if (h !== 'mzstatic.com' && !h.endsWith('.mzstatic.com')) return ''
+  } catch {
+    return ''
+  }
+  return u.replace(/\d+x\d+bb/, '400x400bb')
+}
 // Normalize any storefront path to /us/ — defense in depth (sources already
 // query the US catalog).
 const usLink = (u) => (u ? u.replace(/(music|itunes)\.apple\.com\/[a-z]{2}\//, '$1.apple.com/us/') : '')
@@ -183,8 +193,13 @@ const RETRY_BACKOFF_MS = 15_000
 // file pruned to the followed list on write.
 let artistActivity = {}
 try {
-  artistActivity = JSON.parse(readFileSync(ACTIVITY_PATH, 'utf8'))
-} catch {}
+  const parsed = JSON.parse(readFileSync(ACTIVITY_PATH, 'utf8'))
+  if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) artistActivity = parsed
+  else log('artist-activity.json is not an object — starting a fresh tally')
+} catch (e) {
+  // absent on a first run, which is normal; anything else is worth a line
+  if (e.code !== 'ENOENT') log(`could not read artist-activity.json (${errDetail(e)}) — starting a fresh tally`)
+}
 
 // Sweep-found pre-orders, collected across batches → the Upcoming tab (its
 // own mini-pipeline at the end).
@@ -564,6 +579,7 @@ for (const { e, feedGenre } of candidates) {
     if (!hit.releaseDate || !inWindow(hit.releaseDate)) continue
     const r = fromCollection(hit)
     if (!r.genre) r.genre = feedGenre
+    if (!r.link) r.link = appleLink(e.url)
     releases.push(r)
   } else {
     releases.push(chartEntryToRelease(e, feedGenre))
@@ -804,32 +820,6 @@ if (before !== out.length)
         : '')
   )
 
-// Rolling tally of what the genre filter cost, for `npm run check-genres`.
-// Apple labels releases with both umbrella and leaf names (a release can be
-// "Hip-Hop/Rap" or "Rap"), and there is no mapping layer by design — so a leaf
-// you don't follow silently drops releases you'd have wanted. One run's counts
-// are noise; accumulated they show which names are actually worth following.
-// Entries expire so a genre you later follow, or one Apple stops using, leaves.
-const GENRE_MEMORY_DAYS = 30
-let genreActivity = {}
-try {
-  genreActivity = JSON.parse(readFileSync(GENRE_ACTIVITY_PATH, 'utf8'))
-} catch {}
-for (const [g, d] of genreDrops) {
-  if (g === 'none') continue // no genre at all isn't a follow candidate
-  genreActivity[g] = {
-    dropped: (genreActivity[g]?.dropped ?? 0) + d.n,
-    last_seen: TODAY,
-    example: d.example,
-  }
-}
-genreActivity = Object.fromEntries(
-  Object.entries(genreActivity)
-    .filter(([g, d]) => !isGenreFollowed(g) && daysSince(d.last_seen) <= GENRE_MEMORY_DAYS)
-    .sort((a, b) => b[1].dropped - a[1].dropped)
-)
-writeFileSync(GENRE_ACTIVITY_PATH, JSON.stringify(genreActivity, null, 2) + '\n')
-
 // Previous file — read once, three consumers below (empty-success guard +
 // the two per-entry carryovers).
 let prevFile = {}
@@ -923,7 +913,43 @@ log(`${upcoming.length} upcoming pre-orders`)
 
 out.sort(releaseOrder)
 
-mkdirSync(new URL('../docs/data/', import.meta.url), { recursive: true })
+mkdirSync(new URL('.', OUT), { recursive: true })
 writeFileSync(OUT, JSON.stringify({ fetched_at: Date.now(), releases: out, upcoming }, null, 2))
 log(`wrote ${out.length} releases + ${upcoming.length} upcoming`)
+
+// Rolling tally of what the genre filter cost, for `npm run check-genres`.
+// Apple labels releases with both umbrella and leaf names (a release can be
+// "Hip-Hop/Rap" or "Rap"), and there is no mapping layer by design, so a leaf
+// you don't follow silently drops releases you'd have wanted.
+//
+// LAST, and never fatal: this is an advisory side file, so a problem writing it
+// must not cost the run its published data.
+try {
+  const GENRE_MEMORY_DAYS = 30
+  let tally = {}
+  try {
+    const parsed = JSON.parse(readFileSync(GENRE_ACTIVITY_PATH, 'utf8'))
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) tally = parsed
+  } catch {} // absent on a first run; a corrupt one just restarts the tally
+  for (const [g, d] of genreDrops) {
+    if (g === 'none') continue // no genre at all isn't a follow candidate
+    // Counts restart once a genre goes quiet for a day, so the number reads as
+    // the current streak rather than a lifetime total that can only ever grow.
+    // `today` is carried so a second run the same day (Save & Refresh) replaces
+    // today's contribution instead of doubling it.
+    const prev = tally[g]
+    const recent = prev && daysSince(prev.last_seen) <= 1.5
+    const before = !recent ? 0 : prev.last_seen === TODAY ? prev.dropped - (prev.today ?? prev.dropped) : prev.dropped
+    tally[g] = { dropped: before + d.n, today: d.n, last_seen: TODAY, example: d.example }
+  }
+  tally = Object.fromEntries(
+    Object.entries(tally)
+      .filter(([g, d]) => !isGenreFollowed(g) && daysSince(d.last_seen) <= GENRE_MEMORY_DAYS)
+      .sort((a, b) => b[1].dropped - a[1].dropped)
+  )
+  writeFileSync(GENRE_ACTIVITY_PATH, JSON.stringify(tally, null, 2) + '\n')
+} catch (e) {
+  log(`could not update genre-activity.json: ${errDetail(e)}`)
+}
+
 process.exit(anyFailed ? 2 : 0)

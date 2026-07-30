@@ -108,9 +108,13 @@ if [ "$FETCH_STATUS" -eq 2 ]; then
   # failure is logged.
   log "ERROR: fetch failed for at least one source (publishing partial data)"
 elif [ "$FETCH_STATUS" -ne 0 ]; then
-  # Not 2 = the fetcher died before writing anything, so there is no partial
-  # data to publish. An unreadable config/preferences.json lands here.
+  # Not 2 = the fetcher died before writing releases.json, so there is no new
+  # data to publish. An unreadable config/preferences.json lands here. Bail
+  # rather than fall through: the fetcher writes artist-activity.json early, so
+  # a mid-run crash would otherwise commit and push an "Update data" that
+  # carries no updated data.
   log "ERROR: fetch did not run (exit $FETCH_STATUS) — check config/preferences.json and the trace above"
+  exit "$FETCH_STATUS"
 fi
 
 # config/ rides along: preference edits apply from disk at fetch time and get
@@ -119,11 +123,18 @@ if git diff --quiet docs/data config && [ -z "$(git ls-files --others --exclude-
   # An earlier run may have committed and then failed to push; nothing else
   # retries that, and later runs see a clean tree and report success while the
   # live site stays stale.
-  if [ "$(git rev-list --count @{u}..HEAD 2>/dev/null || echo 0)" -gt 0 ]; then
-    log "Unpushed commits from an earlier run — pushing"
+  #
+  # Only retry when every unpushed commit is data. Local commits that touch
+  # anything else are someone's work-in-progress held back on purpose, and this
+  # runs unattended at 18:15 with no one to notice it publishing them.
+  UNPUSHED="$(git rev-list --count @{u}..HEAD 2>/dev/null || echo 0)"
+  if [ "$UNPUSHED" -gt 0 ] && [ -z "$(git diff --name-only @{u}..HEAD -- . ':!docs/data' ':!config')" ]; then
+    log "Unpushed data commits from an earlier run — pushing"
     git push || { log "ERROR: push failed"; exit 1; }
     log "Published"
     verify_deploy
+  elif [ "$UNPUSHED" -gt 0 ]; then
+    log "No changes. $UNPUSHED unpushed commit(s) touch files outside docs/data and config, so they are left alone — push them yourself if they are meant to go live"
   else
     log "No changes — nothing to publish"
   fi

@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url'
 import { join, normalize } from 'node:path'
 import { GENRE_OPTIONS } from './genre-options.mjs'
 import { STOREFRONTS } from './storefronts.mjs'
-import { ACTIVITY_PATH, DATA_PATH, PREFS_PATH, UA, WINDOW_DAYS } from './shared.mjs'
+import { ACTIVITY_PATH, DATA_PATH, PREFS_PATH, UA, WINDOW_DAYS, sourceTag } from './shared.mjs'
 
 const PORT = 4747
 const REPO_DIR = fileURLToPath(new URL('..', import.meta.url))
@@ -141,6 +141,13 @@ const TYPES = {
   css: 'text/css',
   json: 'application/json',
   woff2: 'font/woff2',
+}
+
+// hasOwn, not a bare lookup: a file named "x.constructor" would otherwise
+// resolve to a function and make writeHead throw, 500-ing a readable file.
+const mimeOf = (file) => {
+  const ext = file.split('.').pop()
+  return Object.hasOwn(TYPES, ext) ? TYPES[ext] : 'application/octet-stream'
 }
 
 const HOSTS = new Set([`127.0.0.1:${PORT}`, `localhost:${PORT}`])
@@ -292,9 +299,11 @@ const server = http.createServer(async (req, res) => {
         // assets/ and fonts/ carry a content hash or never change, so they can
         // be cached hard; docs/data changes underneath after every fetch and
         // index.html points at the current bundle, so both must revalidate.
-        const hashed = /^(assets|fonts)\//.test(normalize(rel))
+        // assets/ only: fonts/ is re-copied under a stable name by every build,
+        // so pinning it for a year would strand a replaced subset in the browser.
+        const hashed = /^assets\//.test(normalize(rel))
         res.writeHead(200, {
-          'Content-Type': TYPES[file.split('.').pop()] ?? 'application/octet-stream',
+          'Content-Type': mimeOf(file),
           'Cache-Control': hashed ? 'public, max-age=31536000, immutable' : 'no-cache',
         })
         res.end(body)
@@ -305,6 +314,9 @@ const server = http.createServer(async (req, res) => {
       json(res, 404, { error: 'not found' })
     }
   } catch (e) {
+    // Also to the terminal prefs.command opened: the browser gets one line, and
+    // a parse failure in preferences.json is worth a stack somewhere.
+    console.error(`${req.method} ${url.pathname} failed:`, e)
     json(res, 500, { error: e.message })
   }
 })
@@ -341,6 +353,10 @@ let countsAvailable = true
 // release first (dormant prune candidates cluster at the top)
 let dormancySort = false
 const $ = (id) => document.getElementById(id)
+// Interpolated from shared.mjs's sourceTag so the wire format has exactly one
+// definition; hardcoding it here is what would make every chip read 0 in silence.
+const TAG_COUNTRY = '${sourceTag('country', '')}'
+const TAG_PLAYLIST = '${sourceTag('playlist', '')}'
 // artist entries are {name, id} (picker-pinned; the server rejects anything
 // else); genres are plain strings; playlists are {name, url}
 const nameOf = (e) => (typeof e === 'string' ? e : e.name)
@@ -352,7 +368,11 @@ const AMBER = 'text-[11px] text-amber-800 dark:text-amber-400'
 const MUTED = 'text-[11px] text-muted-foreground'
 // average month; the dormancy hints are approximate by nature
 const MONTH_MS = 2629746000
-function setStatus(text, isError) {
+// Set when a message came from a user action, so the 10s poll won't overwrite
+// it with the ambient log tail. Cleared by the next action.
+let statusHeld = false
+function setStatus(text, isError, hold) {
+  statusHeld = !!hold
   const el = $('status')
   if (!el) return
   el.textContent = text
@@ -380,13 +400,16 @@ function parsePlaylist(u) {
   return { name: parts[5].replace(/-/g, ' ').replace(/\\b\\w/g, (c) => c.toUpperCase()), url: u }
 }
 
-// one dropdown row, same shape for artists, playlists, and genres
-function resultRow(results, label, note, onPick) {
+// one dropdown row, same shape for artists, playlists, and genres. The optional
+// trailing element (the artist picker's ↗ link) sits BESIDE the button, never inside it:
+// interactive content nested in a button is invalid, and screen readers
+// flatten it into the button's name instead of exposing a link.
+function resultRow(results, label, note, onPick, extra) {
   const b = document.createElement('button')
   const nm = document.createElement('span')
   nm.textContent = label
   b.appendChild(nm)
-  b.className = 'flex w-full cursor-pointer items-center gap-2.5 px-2.5 py-[7px] text-left text-[13px] hover:bg-muted focus-visible:bg-muted'
+  b.className = 'flex min-w-0 flex-1 cursor-pointer items-center gap-2.5 px-2.5 py-[7px] text-left text-[13px] hover:bg-muted focus-visible:bg-muted'
   if (note) {
     const n = document.createElement('span')
     n.className = 'ml-auto whitespace-nowrap text-[11.5px] text-muted-foreground'
@@ -394,7 +417,11 @@ function resultRow(results, label, note, onPick) {
     b.appendChild(n)
   }
   b.onclick = onPick
-  results.appendChild(b)
+  const row = document.createElement('div')
+  row.className = 'flex w-full items-center'
+  row.append(b)
+  if (extra) row.append(extra)
+  results.appendChild(row)
   return b
 }
 
@@ -468,11 +495,11 @@ function renderAll() {
         code.className = 'text-[11px] text-muted-foreground'
         code.textContent = '· ' + entry
         chip.appendChild(code)
-        const c = sourceCount('country:' + entry)
+        const c = sourceCount(TAG_COUNTRY + entry)
         if (c) chip.appendChild(c)
       }
       if (s.playlist) {
-        const c = sourceCount('playlist:' + nameOf(entry))
+        const c = sourceCount(TAG_PLAYLIST + nameOf(entry))
         if (c) chip.appendChild(c)
       }
       // Genre yield marker: releases admitted via this genre (followed artists
@@ -504,7 +531,10 @@ function renderAll() {
       x.textContent = '×'
       x.title = 'Remove'
       x.setAttribute('aria-label', 'Remove ' + nameOf(entry))
-      x.onclick = () => { const l = getList(s.key); l.splice(l.indexOf(entry), 1); markDirty(); renderAll() }
+      x.onclick = () => {
+        const l = getList(s.key); l.splice(l.indexOf(entry), 1); markDirty(); renderAll()
+        $('add-' + s.key)?.focus() // renderAll replaced every node; don't strand focus on <body>
+      }
       chip.appendChild(x)
       chips.appendChild(chip)
     }
@@ -512,17 +542,21 @@ function renderAll() {
   }
 }
 
+const sectionLabel = (key) => (SECTIONS.find((s) => s.key === key) ?? {}).label ?? key
+
 function addTo(key, item) {
   const list = getList(key)
   const name = nameOf(item).trim()
   if (!name) return
+  const section = SECTIONS.find((s) => s.key === key)
+  const displayName = section ? displayOf(section, typeof item === 'string' ? name : item) : name
   // Identity is the Apple ID where there is one: two artists can share a name,
   // and re-adding a same-named artist is the documented fix for a wrong pick.
   const dupe = item.id != null
     ? list.some((e) => e.id === item.id)
     : list.some((e) => nameOf(e).toLowerCase() === name.toLowerCase())
   if (dupe) {
-    setStatus('"' + name + '" is already in ' + key.split('.').pop() + '.')
+    setStatus(displayName + ' is already in ' + sectionLabel(key) + '.', false, true)
     return
   }
   list.push(typeof item === 'string' ? name : { ...item, name })
@@ -550,6 +584,11 @@ function wireDropdown(wrap, input, results) {
     else if (e.key === 'ArrowUp') { e.preventDefault(); focusRow(rows().indexOf(document.activeElement) - 1) }
     else if (e.key === 'Escape') { e.preventDefault(); results.hidden = true; input.focus() }
   })
+  // Safari and Firefox on macOS do not focus a <button> on mousedown, so
+  // without this the focusout below fires with a null relatedTarget and hides
+  // the list before mouseup — the row's click never lands. prefs.command opens
+  // the DEFAULT browser, so that is the common case, not the edge case.
+  results.addEventListener('mousedown', (e) => e.preventDefault())
   wrap.addEventListener('focusout', (e) => {
     if (!wrap.contains(e.relatedTarget)) results.hidden = true
   })
@@ -589,7 +628,7 @@ function wireArtist(s, input, results, pick) {
   input.onkeydown = (e) => {
     if (e.key !== 'Enter' || !s.requireId) return
     // free-text entries have no Apple ID — the fetcher can't sweep them
-    setStatus('Pick an artist from the search list, then press Down to reach it. Entries are pinned by Apple ID.')
+    setStatus('Pick an artist from the search list, then press Down to reach it. Entries are pinned by Apple ID.', false, true)
   }
   input.oninput = () => {
     clearTimeout(timer)
@@ -606,24 +645,24 @@ function wireArtist(s, input, results, pick) {
         // this runs inside a timer, so an unreported throw here is invisible:
         // the box would simply never produce suggestions
         results.hidden = true
-        setStatus('Artist search unavailable. Check the connection and try again.', true)
+        setStatus('Artist search unavailable. Check the connection and try again.', true, true)
         return
       }
       results.replaceChildren()
       for (const a of found) {
-        const row = resultRow(results, a.name, a.genre, () => pick({ name: a.name, id: a.id }))
+        let verify
         if (a.url) {
           // verify the identity on its Apple Music page before adding
-          const verify = document.createElement('a')
-          verify.className = 'px-1.5 text-sm text-muted-foreground no-underline hover:text-foreground'
+          verify = document.createElement('a')
+          verify.className = 'shrink-0 px-1.5 text-sm text-muted-foreground no-underline hover:text-foreground'
           verify.textContent = '↗'
           verify.href = a.url
           verify.target = '_blank'
           verify.rel = 'noopener noreferrer'
           verify.title = 'Open on Apple Music to verify'
-          verify.onclick = (ev) => ev.stopPropagation()
-          row.appendChild(verify)
+          verify.setAttribute('aria-label', 'Open ' + a.name + ' on Apple Music')
         }
+        resultRow(results, a.name, a.genre, () => pick({ name: a.name, id: a.id }), verify)
       }
       results.hidden = found.length === 0
     }, 500)
@@ -638,8 +677,8 @@ function wirePlaylist(s, input, results, pick) {
   input.onkeydown = (e) => {
     if (e.key !== 'Enter') return
     const pl = parsePlaylist(input.value.trim())
-    if (!pl) { setStatus('Not an Apple Music playlist URL.', true); return }
-    if (taken(pl)) { setStatus('That playlist is already in the list.'); input.value = ''; return }
+    if (!pl) { setStatus('Not an Apple Music playlist URL.', true, true); return }
+    if (taken(pl)) { setStatus('That playlist is already in the list.', false, true); input.value = ''; return }
     pick(pl)
   }
   input.oninput = () => {
@@ -648,7 +687,7 @@ function wirePlaylist(s, input, results, pick) {
     if (!pl) { results.hidden = true; return }
     const dupe = taken(pl)
     resultRow(results, pl.name, dupe ? 'already in the list' : 'playlist', () => {
-      if (dupe) { setStatus('That playlist is already in the list.'); input.value = ''; results.hidden = true; return }
+      if (dupe) { setStatus('That playlist is already in the list.', false, true); input.value = ''; results.hidden = true; return }
       pick(pl)
     })
     results.hidden = false
@@ -662,7 +701,7 @@ function wireCountry(s, input, results, pick) {
     if (e.key !== 'Enter') return
     const q = input.value.trim().toLowerCase()
     const code = Object.hasOwn(countryNames, q) ? q : Object.keys(countryNames).find((c) => countryNames[c].toLowerCase() === q)
-    if (!code) { setStatus('Pick a country from the list.', true); return }
+    if (!code) { setStatus('Pick a country from the list.', true, true); return }
     pick(code)
   }
   const show = () => {
@@ -739,30 +778,36 @@ function setBanner(cls, text) {
 async function poll() {
   const st = await fetch('/api/status').then((r) => r.json()).catch(() => null)
   if (st) {
-    offline = false
+    if (offline) { offline = false; setBanner(null); setStatus('') } // recovered
     $('refresh').disabled = st.running
     $('refresh').textContent = st.running ? 'Refreshing…' : 'Save & Refresh'
-    // setStatus, not textContent: the poll must clear a previous error's color
-    // along with its text, or a log line renders in red.
-    setStatus(st.running ? '' : (st.log.at(-1) ?? ''))
+    // The log tail is ambient information, so it must never overwrite something
+    // the user needs to read. A message from an action holds until they act again.
+    if (!statusHeld) setStatus(st.running ? '' : (st.log.at(-1) ?? ''))
     if (st.running && !wasRunning) logDismissed = false // new refresh, show again
     $('log-wrap').hidden = !st.running || logDismissed
     if (st.running) {
       $('log').textContent = st.log.join('\\n')
       $('log').scrollTop = $('log').scrollHeight
-      setBanner('running', 'Refreshing, about two minutes. Live progress above; safe to close this page, the refresh continues in the background.')
+      setBanner('running', 'Refreshing. Usually about two minutes, longer if the site deploy needs a retry. Live progress above; safe to close this page, the refresh continues in the background.')
     } else if (wasRunning) {
-      // update.sh publishes partial data on a source failure (logging ERROR) —
-      // that outcome is amber, not green.
+      // Classify from what update.sh actually logs. ERROR and WARNING mean
+      // different things (a failed source vs a failed deploy) and neither is a
+      // clean success; "fetch did not run" published nothing at all.
       const published = st.log.some((l) => /Published|No changes/.test(l))
+      const neverRan = st.log.some((l) => /ERROR: fetch did not run/.test(l))
       const failed = st.log.some((l) => /ERROR:/.test(l))
-      if (published && !failed) {
-        setBanner('ok', 'Refresh complete. The site shows the new data within a minute.')
-      } else if (published) {
+      const warned = st.log.some((l) => /WARNING:/.test(l))
+      if (neverRan || !published) {
+        setBanner('bad', 'The update could not run, so nothing was published. Check config/preferences.json, then ~/Library/Logs/new-music-radar.log.')
+      } else if (failed) {
         setBanner('warn', 'Refresh finished, but a source failed. Everything else was published; check ~/Library/Logs/new-music-radar.log.')
+      } else if (warned) {
+        setBanner('warn', 'New data was published, but the site deploy did not confirm. The page may show old data until the next update. See ~/Library/Logs/new-music-radar.log.')
       } else {
-        setBanner('bad', 'Refresh finished with errors. Check ~/Library/Logs/new-music-radar.log.')
+        setBanner('ok', 'Refresh complete. The site shows the new data within a minute.')
       }
+      reloadPrefs() // chip counts and dormancy hints are stale after a fetch
     }
     wasRunning = st.running
   } else if (!offline) {
@@ -777,12 +822,12 @@ async function poll() {
 async function save() {
   try {
     const r = await fetch('/api/prefs', { method: 'POST', body: JSON.stringify(prefs) })
-    if (r.ok) { dirty = false; $('save').disabled = true; setStatus('Saved.'); return true }
+    if (r.ok) { dirty = false; $('save').disabled = true; setStatus('Saved.', false, true); return true }
     const body = await r.json().catch(() => ({}))
-    setStatus('Save failed: ' + (body.error ?? 'HTTP ' + r.status), true)
+    setStatus('Save failed: ' + (body.error ?? 'HTTP ' + r.status), true, true)
     return false
   } catch {
-    setStatus(OFFLINE, true)
+    setStatus(OFFLINE, true, true)
     return false
   }
 }
@@ -794,11 +839,17 @@ $('refresh').onclick = async () => {
   try {
     const r = await fetch('/api/refresh', { method: 'POST' })
     // 409 = a detached refresh from an earlier click is still going
-    if (r.status === 409) { setStatus('A refresh is already running.') }
-    else if (!r.ok) throw new Error('refresh failed')
+    if (r.status === 409) { setStatus('A refresh is already running.', false, true) }
+    else if (!r.ok) {
+      // a reachable server that refused is a different problem from a dead one
+      const body = await r.json().catch(() => ({}))
+      setBanner('bad', 'Could not start the refresh.')
+      setStatus('Could not start the refresh: ' + (body.error || 'HTTP ' + r.status), true, true)
+      return
+    }
   } catch {
     setBanner('bad', OFFLINE)
-    setStatus(OFFLINE, true)
+    setStatus(OFFLINE, true, true)
     return
   }
   wasRunning = true
@@ -810,6 +861,7 @@ $('quit').onclick = async () => {
   // onbeforeunload can't guard this: quitting is a fetch plus an innerHTML
   // swap, not a navigation, so that handler never fires here.
   if (dirty && !confirm('You have unsaved changes. Quit without saving them?')) return
+  dirty = false // confirmed: don't let onbeforeunload ask a second time
   clearTimeout(pollTimer) // the page is about to lose its status elements
   try {
     await fetch('/api/quit', { method: 'POST' })
@@ -820,10 +872,7 @@ $('quit').onclick = async () => {
 }
 window.onbeforeunload = () => (dirty ? true : undefined)
 
-fetch('/api/prefs').then((r) => {
-  if (!r.ok) throw new Error('HTTP ' + r.status)
-  return r.json()
-}).then((p) => {
+function applyPrefs(p) {
   prefs = { artists: p.artists, genres: p.genres, discovery: { countries: p.countries ?? [], playlists: p.playlists ?? [] } }
   activity = p.activity ?? {}
   genreOptions = p.genreOptions ?? []
@@ -833,13 +882,40 @@ fetch('/api/prefs').then((r) => {
   countryNames = p.countryNames ?? {}
   $('site-link').href = p.siteUrl
   renderAll()
+}
+
+// A finished refresh rewrites the counts and dormancy dates on disk, so the
+// numbers on screen are stale until they are re-read. Skipped while dirty:
+// re-rendering from disk would throw away edits the user has not saved.
+function reloadPrefs() {
+  if (dirty) return
+  fetch('/api/prefs')
+    .then((r) => (r.ok ? r.json() : null))
+    .then((p) => { if (p && !dirty) applyPrefs(p) })
+    .catch(() => {})
+}
+
+fetch('/api/prefs').then(async (r) => {
+  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || 'HTTP ' + r.status)
+  return r.json()
+}).then((p) => {
+  applyPrefs(p)
   poll()
-}).catch(() => {
-  // a hand-edited preferences.json that no longer parses is the case this
-  // editor exists to recover from, so it must not render as a blank page
-  $('sections').innerHTML =
-    '<p class="py-4 text-sm text-destructive">Could not load preferences. Check that config/preferences.json is valid JSON, then reload this page. Details are in the terminal window that prefs.command opened.</p>'
-  setStatus('Preferences did not load.', true)
+}).catch((err) => {
+  // A hand-edited preferences.json that no longer parses is the case this
+  // editor exists to recover from, so it must not render as a blank page. Build
+  // with DOM nodes, not innerHTML: the message carries the parser's text.
+  const box = document.createElement('div')
+  box.className = 'py-4 text-sm text-destructive'
+  const p1 = document.createElement('p')
+  p1.textContent = 'Could not load preferences. Check that config/preferences.json is valid JSON, then reload this page.'
+  const p2 = document.createElement('p')
+  p2.className = 'mt-2 font-mono text-[12px] break-words'
+  p2.textContent = String(err && err.message ? err.message : err)
+  box.append(p1, p2)
+  $('sections').replaceChildren(box)
+  setStatus('Preferences did not load.', true, true)
+  poll() // still detect the server dying while the page sits in this state
 })
 </script>
 </body>

@@ -5,7 +5,7 @@
 //    (Regional Mexicano became Música Mexicana in mid-2026), and because there
 //    is no mapping layer a renamed name matches nothing, silently. Exit 1.
 // 2. Which unfollowed genres discovery has been DROPPING (from the rolling
-//    tally the fetcher writes to config/genre-activity.json). Apple labels
+//    streak the fetcher tallies into config/genre-activity.json). Apple labels
 //    releases with both umbrella and leaf names, so following "Hip-Hop/Rap"
 //    does not catch a release labelled "Rap". Advisory, never fails.
 //
@@ -89,7 +89,8 @@ const show = ([g, d], note) => {
   console.log(`    e.g. ${d.example}`)
 }
 
-console.log(`\nUnfollowed genres discovery dropped recently:`)
+console.log(`\nUnfollowed genres discovery is dropping. The count is the current`)
+console.log(`run of consecutive days, and an entry disappears after 30 quiet days:`)
 if (likely.length) {
   console.log('\n  LIKELY ADDS — Apple filed these under a leaf of a genre you already')
   console.log('  follow, and exact matching means the umbrella does not catch them:')
