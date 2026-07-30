@@ -21,13 +21,15 @@ fi
 # launchd ticks every 10 min while awake, so the fetch lands in the 18:15–18:30
 # window (or at first wake after).
 if [ "${1:-}" = "--if-stale" ]; then
-  STALE="$("$NODE" -e '
+  STALE="$("$NODE" --input-type=module -e '
+    import { readFileSync } from "node:fs";
+    import { DATA_PATH } from "./scripts/shared.mjs";
     const KST = 9 * 3600e3, DAY = 86400e3, SLOT = (18 * 60 + 15) * 60e3;
     const kstNow = Date.now() + KST;
     let slot = Math.floor(kstNow / DAY) * DAY + SLOT;
     if (slot > kstNow) slot -= DAY;
     let fetchedAt = 0;
-    try { fetchedAt = JSON.parse(require("fs").readFileSync("docs/data/releases.json", "utf8")).fetched_at } catch {}
+    try { fetchedAt = JSON.parse(readFileSync(DATA_PATH, "utf8")).fetched_at } catch {}
     process.stdout.write(fetchedAt < slot - KST ? "1" : "0");
   ' 2>/dev/null || echo 1)"
   if [ "$STALE" != "1" ]; then

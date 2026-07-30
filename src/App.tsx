@@ -148,8 +148,9 @@ export default function App() {
                 release={r}
                 upcoming={activeKey === 'upcoming'}
                 fetchedAt={data.fetched_at}
-                // the first row is above the fold on every layout; leaving it
-                // lazy delays the largest image by a round trip
+                // first four: one row at sm and up, two rows on a phone. All
+                // are above the fold either way, and lazy-loading them costs
+                // the largest image a round trip.
                 eager={i < 4}
               />
             ))}

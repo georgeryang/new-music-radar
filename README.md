@@ -18,9 +18,9 @@ Open the site and browse the grid. What the icons mean:
   evening.
 
 Followed artists show first, then everyone else alphabetically. Followed
-releases keep 3 days; chart and playlist finds keep 1. Cards come from your
-followed artists plus a daily scan of Apple's charts, new-music playlists,
-and your followed countries, filtered to your genres.
+releases stay for a few days; chart and playlist finds keep 1. Cards come
+from your followed artists plus a daily scan of Apple's charts, new-music
+playlists, and your followed countries, filtered to your genres.
 
 ## The preferences editor
 
@@ -32,9 +32,10 @@ Double-click `prefs.command` to open the editor in your browser.
 - **Genres:** pick from the curated list, or type any exact Apple genre name.
 - **Additional countries:** extra storefronts scanned on top of the US ones.
 - **Discovery playlists:** paste a music.apple.com playlist address to scan it.
-- **Save** applies at tonight's update; **Save & Refresh** runs now (about
-  two minutes). Green means all good; amber means a source failed but the
-  rest published; red means nothing published.
+- **Save** applies at tonight's update; **Save & Refresh** runs now and
+  publishes to the public site (about two minutes). Green means all good;
+  amber means it published but something needs a look (a source failed, or
+  the site deploy did not confirm); red means nothing published.
 
 Age tags flag followed artists with no recent releases (amber past 18
 months, red past 3 years). Nothing is removed automatically.

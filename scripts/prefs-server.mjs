@@ -10,7 +10,7 @@
 // the built site from docs/ at /new-music-radar/ ("Open radar").
 
 import http from 'node:http'
-import { closeSync, fstatSync, openSync, readFileSync, readSync, readdirSync, realpathSync, writeFileSync } from 'node:fs'
+import { closeSync, fstatSync, openSync, readFileSync, readSync, readdirSync, realpathSync, unlinkSync, writeFileSync } from 'node:fs'
 import { spawn } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { join, normalize } from 'node:path'
@@ -83,11 +83,18 @@ const REFRESH_LOG = `${process.env.HOME}/Library/Logs/new-music-radar.log`
 const PIDFILE = `${process.env.HOME}/Library/Logs/new-music-radar-refresh.pid`
 
 function refreshPid() {
+  let pid
   try {
-    const pid = parseInt(readFileSync(PIDFILE, 'utf8'), 10)
+    pid = parseInt(readFileSync(PIDFILE, 'utf8'), 10)
     process.kill(pid, 0) // liveness probe, no signal sent
     return pid
-  } catch {
+  } catch (e) {
+    // Clear a pidfile whose process is gone. Without this a crashed refresh
+    // leaves the button disabled with no way out of the UI; ESRCH means the
+    // pid is dead, EPERM means it was recycled by another user's process.
+    if (pid !== undefined && (e.code === 'ESRCH' || e.code === 'EPERM')) {
+      try { unlinkSync(PIDFILE) } catch {}
+    }
     return null
   }
 }
@@ -109,7 +116,9 @@ function startRefresh() {
 // Tail only. The page polls this every 2s during a refresh and every 10s while
 // idle, for as long as it stays open, and update.sh lets the shared log reach
 // 1MB before trimming — reading the whole file per poll scales with the log.
-const TAIL_BYTES = 65536
+// 8KB comfortably holds the 10 lines the page shows (the longest observed line
+// is under 400 chars) without re-reading a log that update.sh lets reach 1MB.
+const TAIL_BYTES = 8192
 function logTail(lines) {
   let fd
   try {
@@ -117,14 +126,19 @@ function logTail(lines) {
     const { size } = fstatSync(fd)
     const start = Math.max(0, size - TAIL_BYTES)
     const buf = Buffer.alloc(size - start)
-    readSync(fd, buf, 0, buf.length, start)
-    const all = buf.toString('utf8').split('\n').filter(Boolean)
+    // use the byte count actually read: update.sh truncates this log in place,
+    // so a poll landing mid-truncation would otherwise render the unwritten
+    // remainder of the buffer as NUL padding on the last line
+    const n = readSync(fd, buf, 0, buf.length, start)
+    const all = buf.subarray(0, n).toString('utf8').split('\n').filter(Boolean)
     // drop the first entry when we started mid-file: it is a partial line, and
     // slicing mid-character would leave a mojibake fragment
     if (start > 0) all.shift()
     return all.slice(-lines)
   } catch {
-    return []
+    // a sentinel, not []: an empty array renders as a blank progress box with
+    // no hint that the log itself is the problem
+    return ['(progress log unavailable)']
   } finally {
     if (fd !== undefined) closeSync(fd)
   }
@@ -333,7 +347,7 @@ const PAGE = /* html */ `<!doctype html>
 </head>
 <body class="mx-auto max-w-[680px] px-4 pt-6 pb-24">
 <header class="mb-1 flex items-baseline justify-between"><h1 class="text-lg font-bold">Preferences</h1><a href="" id="site-link" target="_blank" rel="noopener noreferrer" class="text-[13px] text-muted-foreground hover:text-foreground">Open radar →</a></header>
-<p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away (about two minutes). Chip counts span ${WINDOW_DAYS} days; New only shows 24 hours, so counts often run higher than the page.</p>
+<p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away and publishes to the public site (about two minutes). Chip counts span ${WINDOW_DAYS} days; New only shows 24 hours, so counts often run higher than the page.</p>
 <div id="sections"></div>
 <div id="log-wrap" hidden class="fixed bottom-[92px] left-1/2 z-10 w-[min(640px,calc(100%-32px))] -translate-x-1/2">
   <button id="log-hide" class="absolute top-1.5 right-2.5 cursor-pointer p-0 text-[15px] leading-none text-muted-foreground hover:text-foreground" title="Hide the progress log (the refresh keeps running)" aria-label="Hide progress log">×</button>
@@ -371,27 +385,28 @@ const MONTH_MS = 2629746000
 // Set when a message came from a user action, so the 10s poll won't overwrite
 // it with the ambient log tail. Cleared by the next action.
 let statusHeld = false
+const STATUS_BASE = 'mr-auto max-w-[50%] text-xs leading-snug'
 function setStatus(text, isError, hold) {
   statusHeld = !!hold
   const el = $('status')
   if (!el) return
   el.textContent = text
-  el.className = isError
-    ? 'mr-auto max-w-[50%] text-xs leading-snug text-destructive'
-    : 'mr-auto max-w-[50%] text-xs leading-snug text-muted-foreground'
+  el.className = STATUS_BASE + (isError ? ' text-destructive' : ' text-muted-foreground')
 }
+// kind drives the placeholder AND the wiring, so adding a picker is one entry
+// here plus one PICKERS row, not three parallel edits.
 const SECTIONS = [
-  { key: 'artists.followed', label: 'Followed artists', sub: 'pinned first ★, fetched by Apple ID, bypass filters', artist: true, requireId: true },
-  { key: 'artists.blocked', label: 'Blocked artists', sub: 'never shown (matched by Apple ID)', artist: true, requireId: true },
-  { key: 'genres.followed', label: 'Followed genres', sub: 'discovery only surfaces these (followed artists always show)', artist: false },
-  { key: 'discovery.countries', label: 'Additional countries', sub: 'always-scanned US charts (mostly English) plus these countries\\' Top 100 and purchase charts', country: true },
-  { key: 'discovery.playlists', label: 'Discovery playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', playlist: true },
+  { key: 'artists.followed', label: 'Followed artists', sub: 'pinned first ★, fetched by Apple ID, bypass filters', kind: 'artist' },
+  { key: 'artists.blocked', label: 'Blocked artists', sub: 'never shown (matched by Apple ID)', kind: 'artist' },
+  { key: 'genres.followed', label: 'Followed genres', sub: 'discovery only surfaces these (followed artists always show)', kind: 'genre' },
+  { key: 'discovery.countries', label: 'Additional countries', sub: 'always-scanned US charts (mostly English) plus these countries\\' Top 100 and purchase charts', kind: 'country' },
+  { key: 'discovery.playlists', label: 'Discovery playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', kind: 'playlist' },
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
 // country entries are bare codes; the display name comes from the server's
 // verified code→name map. hasOwn so an inherited key ("constructor") doesn't
 // resolve to junk.
-const displayOf = (s, e) => (s.country && Object.hasOwn(countryNames, e) ? countryNames[e] : nameOf(e))
+const displayOf = (s, e) => (s.kind === 'country' && Object.hasOwn(countryNames, e) ? countryNames[e] : nameOf(e))
 
 // https://music.apple.com/us/playlist/<slug>/pl.<id> — display name from slug
 function parsePlaylist(u) {
@@ -431,6 +446,19 @@ function markDirty() { dirty = true; $('save').disabled = false }
 // from this source. Unique = only this source surfaced it (what pruning would
 // lose); duplicate = shared with another source. Amber 0 = prune candidate. A
 // source added after the last fetch reads 0 until the next one.
+// Genre yield marker: releases admitted via this genre (followed artists
+// excluded). Amber 0 = prune candidate. Same null-when-unavailable shape as
+// sourceCount, so the gate is expressed once.
+function genreCount(name) {
+  if (!countsAvailable) return null
+  const n = genreCounts[name.toLowerCase()] ?? 0
+  const span = document.createElement('span')
+  span.className = n === 0 ? AMBER : MUTED
+  span.textContent = '· ' + n
+  span.title = 'found by the latest update via this genre'
+  return span
+}
+
 function sourceCount(tag) {
   if (!countsAvailable) return null
   const { u, t } = sourceCounts[tag] ?? { u: 0, t: 0 }
@@ -490,7 +518,7 @@ function renderAll() {
       const chip = document.createElement('span')
       chip.className = 'inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-[3px] text-[13px]'
       chip.appendChild(document.createTextNode(displayOf(s, entry)))
-      if (s.country) {
+      if (s.kind === 'country') {
         const code = document.createElement('span')
         code.className = 'text-[11px] text-muted-foreground'
         code.textContent = '· ' + entry
@@ -498,19 +526,13 @@ function renderAll() {
         const c = sourceCount(TAG_COUNTRY + entry)
         if (c) chip.appendChild(c)
       }
-      if (s.playlist) {
+      if (s.kind === 'playlist') {
         const c = sourceCount(TAG_PLAYLIST + nameOf(entry))
         if (c) chip.appendChild(c)
       }
-      // Genre yield marker: releases admitted via this genre (followed artists
-      // excluded). Amber 0 = prune candidate.
-      if (s.key === 'genres.followed' && countsAvailable) {
-        const n = genreCounts[nameOf(entry).toLowerCase()] ?? 0
-        const count = document.createElement('span')
-        count.className = n === 0 ? AMBER : MUTED
-        count.textContent = '· ' + n
-        count.title = 'found by the latest update via this genre'
-        chip.appendChild(count)
+      if (s.key === 'genres.followed') {
+        const c = genreCount(nameOf(entry))
+        if (c) chip.appendChild(c)
       }
       if (typeof entry !== 'string') chip.title = entry.url ?? 'Apple Music artist #' + entry.id
       // Dormancy hint: an artist with no release in 18+ months is a prune
@@ -595,6 +617,13 @@ function wireDropdown(wrap, input, results) {
 }
 
 // Shared input + dropdown shell; one wireX per picker kind supplies the rows.
+const PICKERS = {
+  artist: { placeholder: 'Add artist (name, Apple ID, or artist page URL, then pick from the list)…', wire: wireArtist },
+  playlist: { placeholder: 'Add playlist (paste an Apple Music playlist URL, then pick from the list)…', wire: wirePlaylist },
+  country: { placeholder: 'Add country (pick from the list)…', wire: wireCountry },
+  genre: { placeholder: 'Add genre (pick from the list, or press Enter for exact text)…', wire: wireGenre },
+}
+
 function makeAdder(s) {
   const wrap = document.createElement('div')
   wrap.className = 'relative flex gap-1.5'
@@ -603,21 +632,13 @@ function makeAdder(s) {
   input.className = 'flex-1 rounded-lg border border-border bg-transparent px-2.5 py-1.5 text-[13px]'
   // placeholders disappear on typing — give the field a persistent name
   input.setAttribute('aria-label', 'Add to ' + s.label)
-  input.placeholder = s.artist
-    ? 'Add artist (name, Apple ID, or artist page URL, then pick from the list)…'
-    : s.playlist
-      ? 'Add playlist (paste an Apple Music playlist URL, then pick from the list)…'
-      : s.country
-        ? 'Add country (pick from the list)…'
-        : 'Add genre (pick from the list, or press Enter for exact text)…'
+  const picker = PICKERS[s.kind]
+  input.placeholder = picker.placeholder
   const results = document.createElement('div')
   results.className = 'absolute inset-x-0 top-[34px] z-10 max-h-60 overflow-x-hidden overflow-y-auto rounded-lg border border-border bg-background shadow-[0_8px_24px_rgba(0,0,0,.12)]'
   results.hidden = true
   const pick = (item) => { addTo(s.key, item); input.value = ''; results.hidden = true }
-  if (s.artist) wireArtist(s, input, results, pick)
-  else if (s.playlist) wirePlaylist(s, input, results, pick)
-  else if (s.country) wireCountry(s, input, results, pick)
-  else wireGenre(s, input, results, pick)
+  picker.wire(s, input, results, pick)
   wireDropdown(wrap, input, results)
   wrap.append(input, results)
   return wrap
@@ -626,7 +647,7 @@ function makeAdder(s) {
 function wireArtist(s, input, results, pick) {
   let timer
   input.onkeydown = (e) => {
-    if (e.key !== 'Enter' || !s.requireId) return
+    if (e.key !== 'Enter') return
     // free-text entries have no Apple ID — the fetcher can't sweep them
     setStatus('Pick an artist from the search list, then press Down to reach it. Entries are pinned by Apple ID.', false, true)
   }
@@ -721,7 +742,11 @@ function wireCountry(s, input, results, pick) {
 // focus lists the curated options, typing filters, Enter takes exact free text
 // (any Apple genre name is followable).
 function wireGenre(s, input, results, pick) {
-  input.onkeydown = (e) => { if (e.key === 'Enter') pick(input.value) }
+  input.onkeydown = (e) => {
+    if (e.key !== 'Enter') return
+    if (!input.value.trim()) { setStatus('Type a genre name, or pick one from the list.', true, true); return }
+    pick(input.value)
+  }
   const show = () => {
     results.replaceChildren()
     const typed = input.value.trim().toLowerCase()
@@ -816,8 +841,14 @@ async function poll() {
     setStatus(OFFLINE, true)
     setBanner('bad', OFFLINE)
   }
+  // Nothing to show while the tab is hidden, and this loop otherwise runs for
+  // as long as the page stays open. visibilitychange restarts it.
+  if (document.hidden && !st?.running) return
   pollTimer = setTimeout(poll, st?.running ? 2000 : 10000)
 }
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) { clearTimeout(pollTimer); poll() }
+})
 
 async function save() {
   try {
