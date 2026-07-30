@@ -12,7 +12,8 @@ updated every evening. Tap anything to open it in Apple Music.
 Open the site and browse the grid. What the icons mean:
 
 - **♪** = song (single), disc icon = album or EP.
-- **★** next to an artist means you follow them.
+- **★** means the release came from an artist you follow, collabs included, so
+  the credited name can be one you never added.
 - The genre tag is Apple's verbatim genre name for the release.
 - **Upcoming** holds followed pre-orders, moving to the grid on release
   evening.
@@ -110,9 +111,9 @@ sudo pmset repeat cancel
   05:30 and a `StartCalendarInterval` at 05:25 just trigger that run at the
   right moment; they aren't the anchor.
 - **Preferences editor:** `scripts/prefs-server.mjs`, local-only on
-  127.0.0.1:4747. Follow, block, and the followed star all key on Apple ID,
-  never name. Also serves the built site at `/new-music-radar/`, for a
-  refresh without a Pages deploy.
+  127.0.0.1:4747. Follow, block, and the star all key on Apple ID, never name.
+  Also serves the built site at `/new-music-radar/`, for a refresh without a
+  Pages deploy.
 - **Genres and chip counts:** no genre mapping; cards carry Apple's name
   verbatim, matched exactly ignoring case. Curated list is `scripts/genre-options.mjs`;
   storefront codes are in `scripts/storefronts.mjs`. `npm run check-genres`

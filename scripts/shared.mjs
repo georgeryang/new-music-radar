@@ -5,6 +5,10 @@
 // The file holds this many days of releases; the editor's chip counts span it.
 export const WINDOW_DAYS = 3
 
+// A genre-activity entry disappears after this many quiet days. The fetcher
+// prunes on it and check-genres states it in its report.
+export const GENRE_MEMORY_DAYS = 30
+
 export const UA = 'new-music-radar/1.0'
 
 export const PREFS_PATH = new URL('../config/preferences.json', import.meta.url)

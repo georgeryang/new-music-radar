@@ -54,7 +54,7 @@ export function ReleaseCard({
       <p className="truncate text-xs text-muted-foreground">
         {release.followed && (
           <>
-            <span className="sr-only">Followed artist: </span>
+            <span className="sr-only">From an artist you follow: </span>
             <span aria-hidden="true" className="text-primary">
               ★{' '}
             </span>

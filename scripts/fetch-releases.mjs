@@ -19,10 +19,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { STOREFRONTS } from './storefronts.mjs'
 import { cardKeyOf, keyOf, releaseOrder, upcomingOrder } from './card-key.mjs'
-import { ACTIVITY_PATH, DATA_PATH, GENRE_ACTIVITY_PATH, PREFS_PATH, UA, WINDOW_DAYS, sourceTag } from './shared.mjs'
-
-// The New/Upcoming split is decided here (inWindow/isUpcoming); the app renders
-// releases[] and upcoming[] as written.
+import { ACTIVITY_PATH, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_MEMORY_DAYS, PREFS_PATH, UA, WINDOW_DAYS, sourceTag } from './shared.mjs'
 
 const PREFS = JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
@@ -166,24 +163,21 @@ const GENRES_FOLLOWED = (PREFS.genres?.followed ?? []).map((s) => s.toLowerCase(
 
 const FOLLOWED_ENTRIES = PREFS.artists?.followed ?? []
 // Blocking is by Apple ID — precise ("Drake" can't catch "Drake Milligan").
-// Caveat: a blocked artist's collabs carry a joint entity's ID, not theirs,
-// so those aren't blocked.
 const BLOCKED_IDS = new Set()
 for (const e of PREFS.artists?.blocked ?? []) {
   if (e?.id) BLOCKED_IDS.add(e.id)
   else log(`blocked artist "${e?.name ?? e}" has no Apple ID — re-add via the prefs picker; not blocking`)
 }
 
-// genres.followed holds exact Apple genre names — a release passes when its
-// verbatim genre matches one, case-insensitively. No umbrella mapping.
+// No umbrella mapping: the match is against Apple's verbatim genre name.
 const isGenreFollowed = (g) => !!g && GENRES_FOLLOWED.includes(g.toLowerCase())
 const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 
 // ---------- followed artists via iTunes ----------
 
 // Batched sweep: one paced lookup per BATCH_SIZE artists (comma-joined ids),
-// each returning its most recent albums. Response order is Apple's recency
-// ranking, interleaved across artists; nothing here depends on it.
+// each returning its most recent albums. Response ORDER is load-bearing —
+// batchReleases reads the grouping to attribute each collection.
 const BATCH_SIZE = 20
 
 // Both retry passes (sweep batches, country feeds) wait this long: the
@@ -212,7 +206,27 @@ async function batchReleases(ids) {
   const data = await itunesJSON(
     `https://itunes.apple.com/lookup?id=${ids.join(',')}&entity=album&country=us&limit=100&sort=recent`
   )
-  const collections = (data.results ?? []).filter((r) => r.wrapperType === 'collection')
+  // Apple returns the batch GROUPED: one `artist` record per requested id,
+  // then that artist's collections. Walking in order is what attributes a
+  // joint-entity collab to the member who was followed; filtering to
+  // collections first would discard the separators that carry it.
+  const collections = []
+  let via = null
+  let orphans = 0
+  for (const r of data.results ?? []) {
+    if (r.wrapperType === 'artist') via = r.artistId
+    else if (r.wrapperType !== 'collection') continue
+    else if (via == null) orphans++
+    else collections.push({ ...r, via })
+  }
+  // Grouping is undocumented, so a layout change must not silently empty the
+  // sweep. Exit 2 is what "loud" means; a log line alone scrolls out of the
+  // editor's tail. No severity prefix: prefs-server reads those as update.sh's
+  // and would report a deploy problem instead.
+  if (orphans) {
+    anyFailed = true
+    log(`${orphans} collections arrived before any artist record — lookup grouping changed?`)
+  }
   // seed the shared collection cache: a followed artist's release that also
   // charts or lands on a playlist skips a second lookup
   for (const a of collections) collectionCache.set(String(a.collectionId), a)
@@ -222,10 +236,12 @@ async function batchReleases(ids) {
     if (!swept.has(a.artistId) || !d || d > TODAY) continue
     if (!artistActivity[a.artistId] || d > artistActivity[a.artistId]) artistActivity[a.artistId] = d
   }
+  // provenance rides along for the Upcoming and carryover rules below
+  const fromSweep = (a) => ({ ...fromCollection(a), followed: true, via_artist_id: a.via })
   upcomingRaw.push(
-    ...collections.filter((a) => a.releaseDate && isUpcoming(a.releaseDate)).map(fromCollection)
+    ...collections.filter((a) => a.releaseDate && isUpcoming(a.releaseDate)).map(fromSweep)
   )
-  return collections.filter((a) => a.releaseDate && inWindow(a.releaseDate)).map(fromCollection)
+  return collections.filter((a) => a.releaseDate && inWindow(a.releaseDate)).map(fromSweep)
 }
 
 // Batched collection-id lookup (chunks of 100), shared by chart enrichment,
@@ -753,7 +769,9 @@ for (const settled of playlistPages) {
 }
 
 // mark followed artists BEFORE dedup, so merges keep the flag — ★ + filter
-// bypass for a followed artist's own releases.
+// bypass for a followed artist's own releases. Sweep cards arrive already
+// flagged (see batchReleases); this catches the same release reaching us
+// through a chart or playlist instead.
 for (const r of releases) {
   if (r.artist_id && sweepIds.has(r.artist_id)) r.followed = true
 }
@@ -767,6 +785,8 @@ function mergeInto(prev, r) {
   if (!prev.link && r.link) prev.link = r.link
   // carryover matches on artist_id, so a sparse copy must not cost the entry its id
   if (!prev.artist_id && r.artist_id) prev.artist_id = r.artist_id
+  // same for provenance: the chart copy of a release has none, the sweep copy does
+  if (!prev.via_artist_id && r.via_artist_id) prev.via_artist_id = r.via_artist_id
   // a null-genre copy landing first mustn't cost the release its genre (the
   // filter would drop it as "genre not followed")
   if (!prev.genre && r.genre) prev.genre = r.genre
@@ -790,7 +810,7 @@ for (const r of releases) {
 }
 let out = [...byKey.values()]
 
-// filter precedence: artist block > artist follow > genre follow > drop.
+// precedence per CLAUDE.md; the chain below is the whole rule
 const before = out.length
 // genre drops are the bulk (dozens per run) — one summary line; blocked-artist
 // drops stay individual (rare, worth seeing what the block list caught)
@@ -822,7 +842,14 @@ if (before !== out.length)
 let prevFile = {}
 try {
   prevFile = JSON.parse(readFileSync(DATA_PATH, 'utf8'))
-} catch {}
+} catch (e) {
+  // absent is normal on a first run; unreadable silently disables both the
+  // empty-success guard and the carryover, so it must not pass unremarked
+  if (e.code !== 'ENOENT') {
+    anyFailed = true
+    log(`could not read releases.json (${errDetail(e)}) — carryover and the empty-success guard are unavailable this run`)
+  }
+}
 
 // Empty-success guard (an empty success can be a failure in disguise): if we
 // fetched nothing but the previous file has in-window releases, keep those
@@ -837,16 +864,15 @@ if (out.length === 0) {
   }
 }
 
-// Upcoming (pre-orders) — followed artists only: keep entries whose artist id
-// was swept; a collab pre-order under a joint entity id drops here. Same
-// noise/dedup/block rules as the main list, soonest first. An empty list from
-// a clean sweep is normal; entries whose batch failed carry over below so a
-// tracked pre-order never vanishes on a bad night.
+// Upcoming (pre-orders) — followed artists only, enforced against the id whose
+// discography returned the pre-order, so a collab under a joint entity id
+// qualifies. Same noise/dedup/block rules as the main list, soonest first. An
+// empty list from a clean sweep is normal; entries whose batch failed carry
+// over below so a tracked pre-order never vanishes on a bad night.
 const upcomingByKey = new Map()
 for (const r of upcomingRaw) {
   if (NOISE_RE.test(r.title) || isArtistBlocked(r)) continue
-  if (!sweepIds.has(r.artist_id)) continue
-  r.followed = true
+  if (!sweepIds.has(r.via_artist_id)) continue
   const k = keyOf(r)
   const prev = upcomingByKey.get(k)
   if (prev) mergeInto(prev, r)
@@ -861,11 +887,13 @@ for (const r of upcomingRaw) {
 // whose date has since passed routes to releases[], completing the lifecycle
 // even if release day itself fails.
 if (failedBatches.length > 0) {
-  // attribution by swept id; entries with NO artist_id can't be verified —
-  // keep them (unknown-means-keep) until a clean sweep rewrites them with ids
-  const missingThisRun = (r) =>
-    r.artist_id == null ||
-    failedSweepIds.has(r.artist_id)
+  // Attribution by the id whose sweep produced the entry — via_artist_id for a
+  // collab, the credited id otherwise. An entry with no id can't be verified:
+  // unknown-means-keep, until a clean sweep rewrites it.
+  const missingThisRun = (r) => {
+    const id = r.via_artist_id ?? r.artist_id
+    return id == null || failedSweepIds.has(id)
+  }
   // block list / noise rules may have changed since the entry was written
   const stillEligible = (r) => !NOISE_RE.test(r.title) && !isArtistBlocked(r)
   const outKeys = new Set(out.map(keyOf))
@@ -922,7 +950,6 @@ log(`wrote ${out.length} releases + ${upcoming.length} upcoming`)
 // LAST, and never fatal: this is an advisory side file, so a problem writing it
 // must not cost the run its published data.
 try {
-  const GENRE_MEMORY_DAYS = 30
   let tally = {}
   try {
     const parsed = JSON.parse(readFileSync(GENRE_ACTIVITY_PATH, 'utf8'))

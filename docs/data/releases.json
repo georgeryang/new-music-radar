@@ -1,6 +1,18 @@
 {
-  "fetched_at": 1785404222302,
+  "fetched_at": 1785412459219,
   "releases": [
+    {
+      "title": "if i’m with you",
+      "artist": "george & MINNIE",
+      "artist_id": 1356692897,
+      "type": "song",
+      "release_date": "2026-07-29",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/01/15/57/01155798-6bc1-79cc-f6b6-77100ff461e9/8800388555695_cover.jpg/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/if-im-with-you-single/6789457894?uo=4",
+      "followed": true,
+      "via_artist_id": 1398281724
+    },
     {
       "title": "YES$$",
       "artist": "ilham",
@@ -10,7 +22,8 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9e/18/db/9e18dbac-cbc9-afcf-22f3-ae2e2cc08099/859742132872_cover.jpg/400x400bb.jpg",
       "genre": "R&B/Soul",
       "link": "https://music.apple.com/us/album/yes%24%24-single/6788877662?uo=4",
-      "followed": true
+      "followed": true,
+      "via_artist_id": 1326644605
     },
     {
       "title": "WE JUST",
@@ -21,7 +34,8 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7d/cb/be/7dcbbe05-80f0-bf97-18f5-87188994ffbf/cover_KM0024978_1.jpg/400x400bb.jpg",
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/we-just-single/6793063059?uo=4",
-      "followed": true
+      "followed": true,
+      "via_artist_id": 1865318166
     },
     {
       "title": "love me not (feat. Wonstein)",
@@ -32,7 +46,8 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/42/82/bd/4282bd2a-41d8-b0ef-c3ad-d89073c31e1e/1200214638894.jpg/400x400bb.jpg",
       "genre": "R&B/Soul",
       "link": "https://music.apple.com/us/album/love-me-not-feat-wonstein-single/6792692693?uo=4",
-      "followed": true
+      "followed": true,
+      "via_artist_id": 1440461416
     },
     {
       "title": "BAD (Japanese Ver.)",
@@ -63,14 +78,17 @@
       ]
     },
     {
-      "title": "if i’m with you",
-      "artist": "george & MINNIE",
-      "artist_id": 1356692897,
+      "title": "舍不得又没资格",
+      "artist": "Da Yin",
+      "artist_id": 6788771338,
       "type": "song",
-      "release_date": "2026-07-29",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/01/15/57/01155798-6bc1-79cc-f6b6-77100ff461e9/8800388555695_cover.jpg/400x400bb.jpg",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/if-im-with-you-single/6789457894?uo=4"
+      "release_date": "2026-07-28",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/16/4c/fc/164cfc84-aadb-cd5b-64d0-93d488253b5c/artwork.jpg/400x400bb.jpg",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/%E8%88%8D%E4%B8%8D%E5%BE%97%E5%8F%88%E6%B2%A1%E8%B5%84%E6%A0%BC-single/6795771197?uo=4",
+      "sources": [
+        "country:tw"
+      ]
     },
     {
       "title": "->->->sp",
@@ -93,10 +111,7 @@
       "release_date": "2026-07-28",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f0/8b/8c/f08b8ca6-6ecb-b5bf-deb3-90a370cac96b/888272185423_Cover.jpg/400x400bb.jpg",
       "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/bingo-single/6793956862?uo=4",
-      "sources": [
-        "country:mx"
-      ]
+      "link": "https://music.apple.com/us/album/bingo-single/6793956862?uo=4"
     },
     {
       "title": "人間缺憾美",
@@ -150,6 +165,19 @@
       ]
     },
     {
+      "title": "Super Daddy (feat. 高爾宣 OSN & Marz23)",
+      "artist": "KEN-G",
+      "artist_id": 1371733878,
+      "type": "song",
+      "release_date": "2026-07-28",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9f/4b/dc/9f4bdc84-4f96-636e-6ded-cf7b28dd3b01/4710149725103_cover.jpg/400x400bb.jpg",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/super-daddy-feat-%E9%AB%98%E7%88%BE%E5%AE%A3-osn-marz23-single/6791897986?uo=4",
+      "sources": [
+        "country:tw"
+      ]
+    },
+    {
       "title": "Oasis/ Michishirube",
       "artist": "Kim Jae Joong",
       "artist_id": 291573698,
@@ -174,6 +202,19 @@
       "sources": [
         "country:hk",
         "country:jp",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "唯我論者的獨白",
+      "artist": "Ma Jiaqi",
+      "artist_id": 1383307631,
+      "type": "song",
+      "release_date": "2026-07-27",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e2/39/c0/e239c0f4-9475-e468-6b77-b87d341a1bcc/26UMGIM97661.rgb.jpg/400x400bb.jpg",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E5%94%AF%E6%88%91%E8%AB%96%E8%80%85%E7%9A%84%E7%8D%A8%E7%99%BD-single/6793824947?uo=4",
+      "sources": [
         "country:tw"
       ]
     },
@@ -217,19 +258,6 @@
       ]
     },
     {
-      "title": "ほんまやで☆なんでやねん☆しらんけど/すみなすものは心なりけり(Cタイプ)",
-      "artist": "MONAKI",
-      "artist_id": 1878550824,
-      "type": "album",
-      "release_date": "2026-07-29",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/89/d8/d0/89d8d0e5-0fbb-5cde-e291-f3547bfa484c/CRCN-8849.jpg/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E3%81%BB%E3%82%93%E3%81%BE%E3%82%84%E3%81%A7-%E3%81%AA%E3%82%93%E3%81%A7%E3%82%84%E3%81%AD%E3%82%93-%E3%81%97%E3%82%89%E3%82%93%E3%81%91%E3%81%A9-%E3%81%99%E3%81%BF%E3%81%AA%E3%81%99%E3%82%82%E3%81%AE%E3%81%AF%E5%BF%83%E3%81%AA%E3%82%8A%E3%81%91%E3%82%8A-c%E3%82%BF%E3%82%A4%E3%83%97-ep/6789401025?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
       "title": "How could you?",
       "artist": "Nancy Kwai",
       "artist_id": 1666497104,
@@ -254,16 +282,6 @@
       "sources": [
         "country:jp"
       ]
-    },
-    {
-      "title": "MAGiC VoX",
-      "artist": "NEK!",
-      "artist_id": 1740731197,
-      "type": "song",
-      "release_date": "2026-07-29",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2a/b0/4c/2ab04c2a-3b8f-ab6b-2887-62d80e94447f/28127.jpg/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/magic-vox-single/6788296875?uo=4"
     },
     {
       "title": "KMK",
@@ -486,7 +504,8 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7e/e6/82/7ee682bd-1b17-6adc-be63-b5af1bdff369/26UMGIM51126.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/petal/1895420989?uo=4",
-      "followed": true
+      "followed": true,
+      "via_artist_id": 412778295
     },
     {
       "title": "Baila",
@@ -497,7 +516,8 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/11/f0/fb/11f0fb5a-d516-aea3-4663-9478c30e2259/612891161076.jpg/400x400bb.jpg",
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/baila-single/6795262145?uo=4",
-      "followed": true
+      "followed": true,
+      "via_artist_id": 1701524614
     },
     {
       "title": "Velvet Summer - Summer Mini Album",
@@ -508,7 +528,8 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/bc/cd/10/bccd1053-e9f5-cbff-1cfd-23f83b726c99/888735956256.png/400x400bb.jpg",
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/velvet-summer-summer-mini-album-ep/6794291724?uo=4",
-      "followed": true
+      "followed": true,
+      "via_artist_id": 906961899
     },
     {
       "title": "BARAJA BENDITA",
@@ -519,7 +540,8 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3c/b4/bc/3cb4bce2-2703-7319-8345-123dc3f542f6/196874013816.jpg/400x400bb.jpg",
       "genre": "Pop Latino",
       "link": "https://music.apple.com/us/album/baraja-bendita/6781039813?uo=4",
-      "followed": true
+      "followed": true,
+      "via_artist_id": 550411604
     },
     {
       "title": "WILD",
@@ -530,7 +552,8 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e2/28/92/e22892a7-fe88-72cf-ecba-691030dfcf7e/26UMGIM41151.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/wild-ep/1891779764?uo=4",
-      "followed": true
+      "followed": true,
+      "via_artist_id": 1754284416
     },
     {
       "title": "Pylon",
@@ -541,7 +564,8 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/68/24/84/6824844d-3f59-2816-e083-f5d49c994ff1/198704876615_Cover.jpg/400x400bb.jpg",
       "genre": "Rock",
       "link": "https://music.apple.com/us/album/pylon/6781644608?uo=4",
-      "followed": true
+      "followed": true,
+      "via_artist_id": 1307650474
     },
     {
       "title": "Popstar",
@@ -552,7 +576,8 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/33/26/5a/33265a39-a36e-9455-716c-0e63a9173b29/075679570758.jpg/400x400bb.jpg",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/popstar/6789739137?uo=4",
-      "followed": true
+      "followed": true,
+      "via_artist_id": 464835513
     },
     {
       "title": "In Endless Awe & Agony",
@@ -563,7 +588,8 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3b/37/69/3b376905-c78e-bd5e-2025-7489989b2443/612891028300.jpg/400x400bb.jpg",
       "genre": "Alternative",
       "link": "https://music.apple.com/us/album/in-endless-awe-agony/6769934903?uo=4",
-      "followed": true
+      "followed": true,
+      "via_artist_id": 1512838237
     }
   ]
 }

@@ -31,14 +31,21 @@ export default function App() {
     // no-cache = conditional revalidation: a fresh deploy shows immediately
     // (Pages ETags), an unchanged file costs a 304 with no body. The stable
     // URL also lets index.html preload this request.
-    fetch(`${import.meta.env.BASE_URL}data/releases.json`, { cache: 'no-cache' })
+    // timeout so a stalled connection lands in the error UI instead of
+    // pulsing the skeleton grid forever
+    fetch(`${import.meta.env.BASE_URL}data/releases.json`, {
+      cache: 'no-cache',
+      signal: AbortSignal.timeout(15_000),
+    })
       .then((r) => {
         if (!r.ok) throw new Error()
         return r.json()
       })
       .then((d: FeedData) => {
-        // a malformed file should land in the error UI, not crash the render
+        // a malformed file should land in the error UI, not crash the render.
+        // upcoming too — it is filtered below, so a non-array throws mid-render
         if (!Array.isArray(d?.releases)) throw new Error()
+        if (d.upcoming !== undefined && !Array.isArray(d.upcoming)) throw new Error()
         if (!cancelled) setData(d)
       })
       .catch(() => {
@@ -51,7 +58,6 @@ export default function App() {
     }
   }, [])
 
-  // Keys use cardKeyOf (the fetcher's shared card identity).
   const releases = (data?.releases ?? []).filter(
     (r) => r.followed || isFreshAsOf(r.release_date, data?.fetched_at ?? 0)
   )

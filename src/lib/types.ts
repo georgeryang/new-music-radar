@@ -15,8 +15,11 @@ export interface Release {
   // lookup failure); null when unknown
   genre?: string | null
   link?: string // Apple Music URL, US storefront
-  followed?: boolean // artist is in preferences.json — pinned first
+  followed?: boolean // came from a followed artist's discography — pinned first
   artist_id?: number // producer-side (dedup, block matching); UI ignores it
+  // producer-side: followed artist whose discography returned this, which for
+  // a collab is not artist_id; UI ignores it
+  via_artist_id?: number
   // producer-side: country:<code> / playlist:<name> tags for the editor's
   // source-yield audit; UI ignores it
   sources?: string[]

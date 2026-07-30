@@ -54,7 +54,11 @@ const readPrefs = () => JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 const readActivity = () => {
   try {
     return JSON.parse(readFileSync(ACTIVITY_PATH, 'utf8'))
-  } catch {
+  } catch (e) {
+    // absent before the first fetch is normal; unreadable drops every dormancy
+    // hint, and a missing age reads as "recently active" — say so rather than
+    // silently advising against pruning
+    if (e.code !== 'ENOENT') console.error(`could not read artist-activity.json (${e.message}) — dormancy hints unavailable`)
     return {}
   }
 }
@@ -116,8 +120,8 @@ function startRefresh() {
 // Tail only. The page polls this every 2s during a refresh and every 10s while
 // idle, for as long as it stays open, and update.sh lets the shared log reach
 // 1MB before trimming — reading the whole file per poll scales with the log.
-// 8KB comfortably holds the 10 lines the page shows (the longest observed line
-// is under 400 chars) without re-reading a log that update.sh lets reach 1MB.
+// 8KB comfortably holds the lines the page shows (the longest observed line is
+// under 400 chars).
 const TAIL_BYTES = 8192
 function logTail(lines) {
   let fd
@@ -233,7 +237,6 @@ const server = http.createServer(async (req, res) => {
         sourceCounts,
         countsAvailable,
         countryNames: STOREFRONTS,
-        siteUrl: SITE_URL,
       })
     } else if (req.method === 'POST' && url.pathname === '/api/prefs') {
       let body = ''
@@ -346,7 +349,7 @@ const PAGE = /* html */ `<!doctype html>
 <!--CSS-->
 </head>
 <body class="mx-auto max-w-[680px] px-4 pt-6 pb-24">
-<header class="mb-1 flex items-baseline justify-between"><h1 class="text-lg font-bold">Preferences</h1><a href="" id="site-link" target="_blank" rel="noopener noreferrer" class="text-[13px] text-muted-foreground hover:text-foreground">Open radar →</a></header>
+<header class="mb-1 flex items-baseline justify-between"><h1 class="text-lg font-bold">Preferences</h1><a href="${SITE_URL}" id="site-link" target="_blank" rel="noopener noreferrer" class="text-[13px] text-muted-foreground hover:text-foreground">Open radar →</a></header>
 <p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away and publishes to the public site (about two minutes). Chip counts span ${WINDOW_DAYS} days; New only shows 24 hours, so counts often run higher than the page.</p>
 <div id="sections"></div>
 <div id="log-wrap" hidden class="fixed bottom-[92px] left-1/2 z-10 w-[min(640px,calc(100%-32px))] -translate-x-1/2">
@@ -442,10 +445,6 @@ function resultRow(results, label, note, onPick, extra) {
 
 function markDirty() { dirty = true; $('save').disabled = false }
 
-// Source yield marker (countries + playlists): unique/duplicate/total releases
-// from this source. Unique = only this source surfaced it (what pruning would
-// lose); duplicate = shared with another source. Amber 0 = prune candidate. A
-// source added after the last fetch reads 0 until the next one.
 // Genre yield marker: releases admitted via this genre (followed artists
 // excluded). Amber 0 = prune candidate. Same null-when-unavailable shape as
 // sourceCount, so the gate is expressed once.
@@ -459,6 +458,10 @@ function genreCount(name) {
   return span
 }
 
+// Source yield marker (countries + playlists): unique/duplicate/total releases
+// from this source. Unique = only this source surfaced it (what pruning would
+// lose); duplicate = shared with another source. Amber 0 = prune candidate. A
+// source added after the last fetch reads 0 until the next one.
 function sourceCount(tag) {
   if (!countsAvailable) return null
   const { u, t } = sourceCounts[tag] ?? { u: 0, t: 0 }
@@ -911,7 +914,6 @@ function applyPrefs(p) {
   sourceCounts = p.sourceCounts ?? {}
   countsAvailable = p.countsAvailable !== false
   countryNames = p.countryNames ?? {}
-  $('site-link').href = p.siteUrl
   renderAll()
 }
 
@@ -951,6 +953,17 @@ fetch('/api/prefs').then(async (r) => {
 </script>
 </body>
 </html>`
+
+// Double-clicking prefs.command twice is the everyday case: the browser lands
+// on the editor already running, so the second process has only noise to add.
+server.on('error', (e) => {
+  if (e.code === 'EADDRINUSE') {
+    console.log(`The editor is already running at http://127.0.0.1:${PORT}`)
+    process.exit(0)
+  }
+  console.error(`Could not start the preferences editor: ${e.message}`)
+  process.exit(1)
+})
 
 server.listen(PORT, '127.0.0.1', () => {
   console.log(`Preferences editor: http://127.0.0.1:${PORT}`)
