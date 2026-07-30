@@ -23,7 +23,6 @@ import { ACTIVITY_PATH, DATA_PATH, GENRE_ACTIVITY_PATH, PREFS_PATH, UA, WINDOW_D
 
 // The New/Upcoming split is decided here (inWindow/isUpcoming); the app renders
 // releases[] and upcoming[] as written.
-const OUT = DATA_PATH
 
 const PREFS = JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
@@ -135,6 +134,10 @@ const appleLink = (u) =>
 // Track URLs look like .../album/<slug>/<collectionId>?i=<trackId> — feeds
 // that expose only tracks yield their parent album id from the URL.
 const albumIdFromTrackUrl = (u) => u?.match(/\/album\/[^/]+\/(\d+)/)?.[1]
+// Legacy RSS entry → parent album id. topalbums entries carry it directly;
+// topsongs entries are tracks, so it comes out of the track URL.
+const rssAlbumId = (e, feedType) =>
+  feedType === 'topalbums' ? e.id?.attributes?.['im:id'] : albumIdFromTrackUrl(e.id?.label)
 // marketingtools serializes ids as strings, lookups return numbers — normalize
 // to one canonical string (null when not numeric) before any set membership
 // (the known type trap).
@@ -360,9 +363,7 @@ async function countryPurchaseFeed(sf, feedType) {
   const entries = asList(data.feed?.entry).filter(
     (e) => e['im:releaseDate']?.label && inWindow(e['im:releaseDate'].label)
   )
-  return feedType === 'topalbums'
-    ? entries.map((e) => e.id?.attributes?.['im:id']).filter(Boolean)
-    : entries.map((e) => albumIdFromTrackUrl(e.id?.label)).filter(Boolean)
+  return entries.map((e) => rssAlbumId(e, feedType)).filter(Boolean)
 }
 
 // ---------- editorial playlists (scraped web player pages) ----------
@@ -556,11 +557,11 @@ if (skippedChart.length)
     `${skippedChart.length} chart lookups skipped (unfollowed genre): ${skippedChart.slice(0, 3).join('; ')}${skippedChart.length > 3 ? '; …' : ''}`
   )
 
-const wanted = [...new Set(candidates.map((x) => String(x.e.id)))]
-if (wanted.length) {
+// lookupCollections dedups and digit-filters its own input
+if (candidates.length) {
   try {
     // hits land in collectionCache; cards read them from there below
-    await lookupCollections(wanted)
+    await lookupCollections(candidates.map((x) => x.e.id))
   } catch (e) {
     // degraded publish (feed-only genre/type) still counts as a failed source
     anyFailed = true
@@ -600,21 +601,17 @@ for (const settled of await genreFeedsP) {
   }
   const { tag, feedType, entries } = settled.value
   if (!entries.length) continue
-  if (feedType === 'topalbums') {
-    for (const e of entries) {
-      const id = e.id?.attributes?.['im:id']
-      if (!id || !/^\d+$/.test(id)) continue
-      if (!genreFeedIds.has(id)) genreFeedIds.set(id, tag)
-      if (!feedAlbumFallback.has(id)) feedAlbumFallback.set(id, e)
-    }
-    log(`${tag} topalbums: ${entries.length} in-window`)
-  } else {
-    const ids = entries
-      .map((e) => albumIdFromTrackUrl(e.id?.label))
-      .filter(Boolean)
-    ids.forEach((id) => genreFeedIds.set(id, genreFeedIds.get(id) ?? tag))
-    log(`${tag} topsongs: ${entries.length} in-window tracks → ${ids.length} parent albums`)
+  let ids = 0
+  for (const e of entries) {
+    const id = rssAlbumId(e, feedType)
+    if (!id || !/^\d+$/.test(id)) continue
+    ids++
+    // first feed to claim an id names it; the lookup usually overrides anyway
+    if (!genreFeedIds.has(id)) genreFeedIds.set(id, tag)
+    // album entries double as the fallback card if the lookup misses the id
+    if (feedType === 'topalbums' && !feedAlbumFallback.has(id)) feedAlbumFallback.set(id, e)
   }
+  log(`${tag} ${feedType}: ${entries.length} in-window → ${ids} album ids`)
 }
 if (genreFeedIds.size) {
   try {
@@ -824,7 +821,7 @@ if (before !== out.length)
 // the two per-entry carryovers).
 let prevFile = {}
 try {
-  prevFile = JSON.parse(readFileSync(OUT, 'utf8'))
+  prevFile = JSON.parse(readFileSync(DATA_PATH, 'utf8'))
 } catch {}
 
 // Empty-success guard (an empty success can be a failure in disguise): if we
@@ -913,8 +910,8 @@ log(`${upcoming.length} upcoming pre-orders`)
 
 out.sort(releaseOrder)
 
-mkdirSync(new URL('.', OUT), { recursive: true })
-writeFileSync(OUT, JSON.stringify({ fetched_at: Date.now(), releases: out, upcoming }, null, 2))
+mkdirSync(new URL('.', DATA_PATH), { recursive: true })
+writeFileSync(DATA_PATH, JSON.stringify({ fetched_at: Date.now(), releases: out, upcoming }, null, 2))
 log(`wrote ${out.length} releases + ${upcoming.length} upcoming`)
 
 // Rolling tally of what the genre filter cost, for `npm run check-genres`.

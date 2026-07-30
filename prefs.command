@@ -4,9 +4,9 @@
 # Starts a local editor at http://127.0.0.1:4747 (this window keeps it running;
 # use the Quit button on the page or close this window to stop).
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || { echo "ERROR: cannot enter the repo folder"; read -p "Press Enter to close..."; exit 1; }
 
-. scripts/find-node.sh
+. "$(dirname "$0")/scripts/find-node.sh"
 if [ -z "$NODE" ]; then
   echo "ERROR: node not found"
   read -p "Press Enter to close..."

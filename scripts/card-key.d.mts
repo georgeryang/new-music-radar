@@ -4,7 +4,6 @@ interface CardLike {
   title: string
   type: 'song' | 'album'
   release_date: string
-  followed?: boolean
 }
 // Only what TypeScript imports. keyOf/releaseOrder/upcomingOrder are used by
 // the .mjs fetcher, which never reads these declarations.

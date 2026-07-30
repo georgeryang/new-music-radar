@@ -16,16 +16,30 @@ import { readFileSync } from 'node:fs'
 import { GENRE_OPTIONS } from './genre-options.mjs'
 import { GENRE_ACTIVITY_PATH, PREFS_PATH, UA } from './shared.mjs'
 
-const followed = JSON.parse(readFileSync(PREFS_PATH, 'utf8')).genres?.followed ?? []
+// This prints a report for a person, so its own failures get a sentence rather
+// than a stack trace over an npm banner.
+const die = (msg) => { console.error(msg); process.exit(1) }
+
+let followed
+try {
+  followed = JSON.parse(readFileSync(PREFS_PATH, 'utf8')).genres?.followed ?? []
+} catch (e) {
+  die(`Could not read config/preferences.json (${e.message}). Fix the file, then run this again.`)
+}
 const followedSet = new Set(followed.map((g) => g.toLowerCase()))
 
-const res = await fetch('https://itunes.apple.com/WebObjects/MZStoreServices.woa/ws/genres', {
-  headers: { 'User-Agent': UA },
-  signal: AbortSignal.timeout(30_000),
-})
-if (!res.ok) throw new Error(`HTTP ${res.status} fetching the genre tree`)
-const music = (await res.json())['34'] // 34 = Music
-if (!music) throw new Error('genre tree has no Music root (key 34) — API shape changed')
+let music
+try {
+  const res = await fetch('https://itunes.apple.com/WebObjects/MZStoreServices.woa/ws/genres', {
+    headers: { 'User-Agent': UA },
+    signal: AbortSignal.timeout(30_000),
+  })
+  if (!res.ok) die(`Apple's genre list returned HTTP ${res.status}. Try again in a minute.`)
+  music = (await res.json())['34'] // 34 = Music
+} catch (e) {
+  die(`Could not reach Apple's genre list (${e.message}). Check the connection and try again.`)
+}
+if (!music) die("Apple's genre list has no Music root (key 34) — the API shape changed, so this check needs updating.")
 
 // name → ancestor names, outermost first. Umbrella/leaf pairs are the whole
 // point of check 2, so the tree has to be kept, not flattened to a name set.
@@ -48,11 +62,10 @@ const checkExists = (names, label) => {
 checkExists(GENRE_OPTIONS, 'curated picker')
 checkExists(followed, 'followed')
 
-if (misses) {
-  console.error(`\n${misses} missing genre names`)
-  process.exit(1)
-}
-console.log(`Names OK: all ${GENRE_OPTIONS.length} curated and ${followed.length} followed names exist in Apple's tree.`)
+// Note it, but keep going: the coverage report below is the part worth reading,
+// and one renamed name should not hide it. Exit code is set at the very end.
+if (misses) console.error(`\n${misses} missing genre name(s) — fix those first.\n`)
+else console.log(`Names OK: all ${GENRE_OPTIONS.length} curated and ${followed.length} followed names exist in Apple's tree.`)
 
 // ---------- 2. what the follow list is missing ----------
 
@@ -61,13 +74,13 @@ try {
   activity = JSON.parse(readFileSync(GENRE_ACTIVITY_PATH, 'utf8'))
 } catch {
   console.log('\nNo drop history yet (config/genre-activity.json). Run `npm run fetch` first.')
-  process.exit(0)
+  process.exit(misses ? 1 : 0)
 }
 
 const entries = Object.entries(activity).filter(([g]) => !followedSet.has(g.toLowerCase()))
 if (!entries.length) {
   console.log('\nNothing dropped recently that you do not already follow.')
-  process.exit(0)
+  process.exit(misses ? 1 : 0)
 }
 
 // Only ONE direction is a signal. A genre nested UNDER one you follow means you
@@ -85,7 +98,7 @@ for (const e of entries.sort((a, b) => b[1].dropped - a[1].dropped)) {
 
 const pad = (s, n) => String(s).padEnd(n)
 const show = ([g, d], note) => {
-  console.log(`  ${pad(g, 18)} ${pad(d.dropped + ' dropped', 12)} ${pad(note ?? '', 30)}`.trimEnd())
+  console.log(`  ${pad(g, 18)} ${pad(d.dropped + ' dropped', 12)} ${note ?? ''}`.trimEnd())
   console.log(`    e.g. ${d.example}`)
 }
 
@@ -102,3 +115,5 @@ if (rest.length) {
   rest.forEach((e) => show(e, over(e[0]) ? `parent of ${over(e[0])}` : null))
 }
 console.log('\nAdd any you want via the prefs editor, or by typing the exact name.')
+
+process.exit(misses ? 1 : 0)
