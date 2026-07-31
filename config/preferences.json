@@ -1,5 +1,5 @@
 {
-  "_comment": "genres.followed holds exact Apple genre names, matched case-insensitively against each release's genre - discovery only surfaces these genres (followed artists always show regardless). The prefs.command editor offers a curated list; any other Apple genre name can be followed by typing it exactly. artists.* entries (both lists) must be {name, id} objects where id is an APPLE MUSIC artist id, added via the prefs.command picker - followed artists are fetched by id, blocked artists are dropped by id. discovery.countries are Apple storefront codes from scripts/storefronts.mjs - each adds that country's Top 100 + purchase charts to the nightly scan (US charts are always scanned). discovery.playlists are Apple Music playlist pages scraped nightly for day-of releases - paste any playlist URL from music.apple.com (also editable in prefs.command).",
+  "_comment": "genres.followed holds exact Apple genre names, matched case-insensitively against each release's genre - discovery only surfaces these genres (followed artists always show regardless). The prefs.command editor offers a curated list; any other Apple genre name can be followed by typing it exactly. artists.* entries (both lists) must be {name, id} objects where id is an APPLE MUSIC artist id, added via the prefs.command picker - followed artists are fetched by id, blocked artists are dropped by id. discovery.countries are Apple storefront codes from scripts/storefronts.mjs - each adds that country's Top 100 and, where Apple runs a purchase store, its purchase charts too (US charts are always scanned). discovery.playlists are Apple Music playlist pages scraped nightly for day-of releases - paste any playlist URL from music.apple.com (also editable in prefs.command).",
   "artists": {
     "followed": [
       {
@@ -135,7 +135,7 @@
         "id": 1524523313
       },
       {
-        "name": "DENȲ",
+        "name": "DEN\u0232",
         "id": 1503419603
       },
       {
@@ -147,7 +147,7 @@
         "id": 1747585448
       },
       {
-        "name": "DOMMIU李由音",
+        "name": "DOMMIU\u674e\u7531\u97f3",
         "id": 1820894339
       },
       {
@@ -351,7 +351,7 @@
         "id": 1766037553
       },
       {
-        "name": "Lolo Zouaï",
+        "name": "Lolo Zoua\u00ef",
         "id": 1067025591
       },
       {
@@ -503,11 +503,11 @@
         "id": 280877709
       },
       {
-        "name": "ROSÉ",
+        "name": "ROS\u00c9",
         "id": 1406242696
       },
       {
-        "name": "Rubí",
+        "name": "Rub\u00ed",
         "id": 1451357879
       },
       {
@@ -515,7 +515,7 @@
         "id": 1544161258
       },
       {
-        "name": "Salomé Brun",
+        "name": "Salom\u00e9 Brun",
         "id": 1758669377
       },
       {
@@ -555,7 +555,7 @@
         "id": 1628805835
       },
       {
-        "name": "STILA言芯",
+        "name": "STILA\u8a00\u82af",
         "id": 1828715130
       },
       {
@@ -571,7 +571,7 @@
         "id": 1420488633
       },
       {
-        "name": "thủy",
+        "name": "th\u1ee7y",
         "id": 935348123
       },
       {
@@ -607,7 +607,7 @@
         "id": 1252286426
       },
       {
-        "name": "Vale Garzón",
+        "name": "Vale Garz\u00f3n",
         "id": 1685473918
       },
       {
@@ -679,23 +679,23 @@
         "id": 1486438030
       },
       {
-        "name": "민지운",
+        "name": "\ubbfc\uc9c0\uc6b4",
         "id": 1398854281
       },
       {
-        "name": "刘柏辛Lexie",
+        "name": "\u5218\u67cf\u8f9bLexie",
         "id": 1331378256
       },
       {
-        "name": "胡恂舞",
+        "name": "\u80e1\u6042\u821e",
         "id": 1617320698
       },
       {
-        "name": "鄧紫棋",
+        "name": "\u9127\u7d2b\u68cb",
         "id": 425208570
       },
       {
-        "name": "黄之仪",
+        "name": "\u9ec4\u4e4b\u4eea",
         "id": 1519109335
       }
     ],
@@ -709,7 +709,7 @@
         "id": 894820464
       },
       {
-        "name": "Arcángel",
+        "name": "Arc\u00e1ngel",
         "id": 28215216
       },
       {
@@ -745,7 +745,7 @@
         "id": 1236267297
       },
       {
-        "name": "JAŸ-Z",
+        "name": "JA\u0178-Z",
         "id": 1352449404
       },
       {
@@ -851,6 +851,7 @@
       "Afrobeats",
       "Cantopop/HK-Pop",
       "Dance",
+      "Hip-Hop",
       "Hip-Hop/Rap",
       "J-Pop",
       "K-Pop",
@@ -871,16 +872,17 @@
       "jp",
       "kr",
       "mx",
-      "tw"
+      "tw",
+      "za"
     ],
     "playlists": [
       {
-        "name": "Breaking Mandopop",
-        "url": "https://music.apple.com/us/playlist/breaking-mandopop/pl.80e13199d5db46c7b519b25cf6e5816a"
+        "name": "New in Afrobeats",
+        "url": "https://music.apple.com/us/playlist/new-in-afrobeats/pl.540e1ff15b544e93bb012e477bce22d1"
       },
       {
-        "name": "New In K Pop",
-        "url": "https://music.apple.com/us/playlist/new-in-k-pop/pl.a784f95d4f504d579647523ff95433be"
+        "name": "New in C-Pop",
+        "url": "https://music.apple.com/us/playlist/new-in-c-pop/pl.b3dcb52a0a8c48f2a867ae62f63671e0"
       },
       {
         "name": "New Music Daily",
@@ -889,6 +891,10 @@
       {
         "name": "Nuevo Nuevo",
         "url": "https://music.apple.com/us/playlist/nuevo-nuevo/pl.a4d0e897a1f64d1c9a7f2b75eac67c2d"
+      },
+      {
+        "name": "The A-List Cantopop",
+        "url": "https://music.apple.com/us/playlist/the-a-list-cantopop/pl.31991c6bcf0447ac9f16c07678a5a0a0"
       }
     ]
   }
