@@ -9,66 +9,30 @@
 //   1. Followed artists (preferences.json) — batched iTunes lookups; the
 //      guaranteed layer. Same sweep collects pre-orders → the Upcoming tab.
 //   2. US most-played chart.
-//   3. US iTunes genre purchase charts (GENRE_FEEDS) — purchases spike on
-//      release day, so drops appear within hours (most-played lags by days).
+//   3. US iTunes genre purchase charts (GENRE_FEEDS in shared.mjs) — purchases
+//      spike on release day, so drops appear within hours (most-played lags).
 //   4. Editorial playlists (discovery.playlists) — scraped, curated day-of.
-//   5. Country charts (discovery.countries) — each country's most-played +
-//      purchase charts. Foreign feeds contribute collection IDS ONLY; every
-//      card is built from a US lookup, and US-catalog misses are dropped.
+//   5. Country charts (discovery.countries) — each country's most-played, plus
+//      its purchase charts where Apple runs a store. Foreign feeds contribute
+//      collection IDS ONLY; every card is built from a US lookup, and
+//      US-catalog misses are dropped.
+// Every discovery card records which of these found it, in `sources`, for the
+// editor's audit (sweep cards carry `followed` and `via_artist_id` instead).
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { STOREFRONTS } from './storefronts.mjs'
+import { STOREFRONTS, purchaseFeedsOf } from './storefronts.mjs'
 import { cardKeyOf, keyOf, releaseOrder, upcomingOrder } from './card-key.mjs'
-import { ACTIVITY_PATH, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_MEMORY_DAYS, PREFS_PATH, UA, WINDOW_DAYS, sourceTag } from './shared.mjs'
+import {
+  US_CHART_URL, albumIdFromTrackUrl, artistAlbumsUrl, asList, countryMostPlayedUrl,
+  countryPurchaseUrl, errDetail, genreFeedUrl, getJSON, itunesJSON, lookupUrl,
+  marketingToolsJSON, normId, rssAlbumId, scrapePlaylistAlbumIds, sleep, usLink,
+} from './apple-api.mjs'
+import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, daysSince, feedTypesOf, sourceTag } from './shared.mjs'
 
 const PREFS = JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
 // local time, matching update.sh's log() — the two interleave in one file.
 const log = (...a) => console.log(`[${new Date().toLocaleString('sv-SE')}]`, ...a)
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
-
-// timeouts surface as TimeoutError, undici network errors carry a cause code —
-// both matter when diagnosing a failure from the log alone, so every source's
-// failure path reports through this.
-const errDetail = (e) => `${e.message}${e.cause?.code ? ` [${e.cause.code}]` : e.name === 'TimeoutError' ? ' [timeout]' : ''}`
-
-// 30s abort: stalled connections have hung batches for 17–78 min; fail fast
-// and let the retry pass / carryover handle it.
-async function getJSON(url) {
-  const res = await fetch(url, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(30_000) })
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`)
-  return res.json()
-}
-
-// iTunes Search/Lookup is unofficially rate-limited (~20/min). Every call to
-// that host waits out the gap since the previous call (with jitter) rather
-// than sleeping a fixed pause after, so processing time counts toward the gap
-// and a loop's last call leaves no dangling sleep. Other Apple hosts (legacy
-// RSS, web player) aren't limited and use getJSON directly.
-let lastItunesCall = 0
-async function itunesJSON(url) {
-  const wait = lastItunesCall + 2500 + Math.random() * 1500 - Date.now()
-  if (wait > 0) await sleep(wait)
-  lastItunesCall = Date.now()
-  return getJSON(url)
-}
-
-// marketingtools (most-played feeds) throttles faster: a burst of ~20 gets
-// 503s after the first handful (seen 2026-07-19); ~1 req/s passes. These
-// callers all start at once (unlike itunesJSON's sequential awaits), so a
-// bare gap check wouldn't hold them — the gate chain hands out start slots
-// 1s apart while the fetches overlap.
-let lastChartCall = 0
-let chartGate = Promise.resolve()
-function marketingToolsJSON(url) {
-  const myTurn = chartGate.then(async () => {
-    const wait = lastChartCall + 1000 + Math.random() * 300 - Date.now()
-    if (wait > 0) await sleep(wait)
-    lastChartCall = Date.now()
-  })
-  chartGate = myTurn
-  return myTurn.then(() => getJSON(url))
-}
 
 // ---------- normalization / canonical key ----------
 // keyOf/cardKeyOf live in card-key.mjs, shared with the app so
@@ -76,9 +40,6 @@ function marketingToolsJSON(url) {
 
 const NOISE_RE = /\b(instrumental|sped[ -]?up|slowed( \+ reverb)?|inst\.)\b/i
 
-// Every window rule below is phrased in days since the release date —
-// one definition so the tolerances can't drift apart.
-const daysSince = (releaseDate) => (Date.now() - Date.parse(releaseDate)) / 86400e3
 // UTC, matching the dates Apple serializes; the app formats in local time.
 const TODAY = new Date().toISOString().slice(0, 10)
 
@@ -121,27 +82,10 @@ const artUrl = (u) => {
   }
   return u.replace(/\d+x\d+bb/, '400x400bb')
 }
-// Normalize any storefront path to /us/ — defense in depth (sources already
-// query the US catalog).
-const usLink = (u) => (u ? u.replace(/(music|itunes)\.apple\.com\/[a-z]{2}\//, '$1.apple.com/us/') : '')
 // Only Apple catalog URLs reach cards — link fields are untrusted (one source
 // is scraped) until they match this shape.
 const appleLink = (u) =>
   u && /^https:\/\/(music|itunes)\.apple\.com\//.test(u) ? usLink(u) : undefined
-// Track URLs look like .../album/<slug>/<collectionId>?i=<trackId> — feeds
-// that expose only tracks yield their parent album id from the URL.
-const albumIdFromTrackUrl = (u) => u?.match(/\/album\/[^/]+\/(\d+)/)?.[1]
-// Legacy RSS entry → parent album id. topalbums entries carry it directly;
-// topsongs entries are tracks, so it comes out of the track URL.
-const rssAlbumId = (e, feedType) =>
-  feedType === 'topalbums' ? e.id?.attributes?.['im:id'] : albumIdFromTrackUrl(e.id?.label)
-// marketingtools serializes ids as strings, lookups return numbers — normalize
-// to one canonical string (null when not numeric) before any set membership
-// (the known type trap).
-const normId = (raw) => {
-  const s = String(Number(raw))
-  return s === 'NaN' ? null : s
-}
 
 // One iTunes lookup result (wrapperType "collection") → release card shape.
 // EVERY lookup-backed source funnels through this so the shapes can't drift;
@@ -169,7 +113,6 @@ for (const e of PREFS.artists?.blocked ?? []) {
   else log(`blocked artist "${e?.name ?? e}" has no Apple ID — re-add via the prefs picker; not blocking`)
 }
 
-// No umbrella mapping: the match is against Apple's verbatim genre name.
 const isGenreFollowed = (g) => !!g && GENRES_FOLLOWED.includes(g.toLowerCase())
 const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 
@@ -178,7 +121,6 @@ const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 // Batched sweep: one paced lookup per BATCH_SIZE artists (comma-joined ids),
 // each returning its most recent albums. Response ORDER is load-bearing —
 // batchReleases reads the grouping to attribute each collection.
-const BATCH_SIZE = 20
 
 // Both retry passes (sweep batches, country feeds) wait this long: the
 // failures they cover are intermittent connection stalls and 503 throttling.
@@ -203,9 +145,7 @@ try {
 const upcomingRaw = []
 
 async function batchReleases(ids) {
-  const data = await itunesJSON(
-    `https://itunes.apple.com/lookup?id=${ids.join(',')}&entity=album&country=us&limit=100&sort=recent`
-  )
+  const data = await itunesJSON(artistAlbumsUrl(ids, 100))
   // Apple returns the batch GROUPED: one `artist` record per requested id,
   // then that artist's collections. Walking in order is what attributes a
   // joint-entity collab to the member who was followed; filtering to
@@ -244,9 +184,9 @@ async function batchReleases(ids) {
   return collections.filter((a) => a.releaseDate && inWindow(a.releaseDate)).map(fromSweep)
 }
 
-// Batched collection-id lookup (chunks of 100), shared by chart enrichment,
-// song-chart resolution, and playlist albums. Run-scoped cache serves repeats
-// (a hot release charts in several sources) for free. Keys stringified — a
+// Batched collection-id lookup, shared by chart enrichment, song-chart
+// resolution, and playlist albums. Run-scoped cache serves repeats (a hot
+// release charts in several sources) for free. Keys stringified — a
 // number/string mismatch would silently miss.
 const collectionCache = new Map()
 async function lookupCollections(ids) {
@@ -261,8 +201,8 @@ async function lookupCollections(ids) {
     if (cached) hits.push(cached)
     else misses.push(id)
   }
-  for (let i = 0; i < misses.length; i += 100) {
-    const d = await itunesJSON(`https://itunes.apple.com/lookup?id=${misses.slice(i, i + 100).join(',')}&country=us`)
+  for (let i = 0; i < misses.length; i += LOOKUP_CHUNK) {
+    const d = await itunesJSON(lookupUrl(misses.slice(i, i + LOOKUP_CHUNK)))
     for (const r of (d.results ?? []).filter((r) => r.wrapperType === 'collection')) {
       collectionCache.set(String(r.collectionId), r)
       // keep every collection Apple sends, not just exact id matches: a
@@ -277,9 +217,7 @@ async function lookupCollections(ids) {
 // ---------- Apple most-played chart (discovery) ----------
 
 async function fetchChart() {
-  const data = await marketingToolsJSON(
-    'https://rss.marketingtools.apple.com/api/v2/us/music/most-played/50/albums.json'
-  )
+  const data = await marketingToolsJSON(US_CHART_URL)
   return data.feed?.results ?? []
 }
 
@@ -299,31 +237,12 @@ const chartEntryToRelease = (e, feedGenre) => ({
 
 // ---------- genre charts (iTunes purchase charts — day-of discovery) ----------
 
-// iTunes Store *purchase* charts per core genre: buying spikes on release day,
-// so drops appear within hours (most-played lags by days). This list controls
-// where we look, not what we keep — the followed-genres filter still applies.
-// Each tag is the feed's Apple genre name, used verbatim only as the fallback
-// when an entry has no lookup-backed genre. The umbrella tags Chinese/African
-// aren't in genres.followed, so their fallback cards drop unless the bare name
-// is followed (accepted).
-const GENRE_FEEDS = [
-  { genreId: 51, tag: 'K-Pop' },
-  { genreId: 12, tag: 'Latin' },
-  { genreId: 14, tag: 'Pop' },
-  { genreId: 15, tag: 'R&B/Soul' },
-  { genreId: 27, tag: 'J-Pop' },
-  { genreId: 1232, tag: 'Chinese' },
-  { genreId: 1203, tag: 'African' },
-]
-
 // A feed's in-window raw entries. topalbums entries are collections; topsongs
 // entries are TRACKS, so emitting them directly would put one card per track
 // of the same single. Song entries contribute only their parent collection id
 // (resolved later), so every card is exactly one Apple collection.
 async function genreFeed(feedType, genreId) {
-  const data = await getJSON(
-    `https://itunes.apple.com/us/rss/${feedType}/genre=${genreId}/limit=100/json`
-  )
+  const data = await getJSON(genreFeedUrl(feedType, genreId))
   return (data.feed?.entry ?? []).filter(
     (e) => e['im:releaseDate']?.label && inWindow(e['im:releaseDate'].label)
   )
@@ -361,21 +280,15 @@ const COUNTRY_CODES = [...new Set((PREFS.discovery?.countries ?? []).map((c) => 
 // date-filtered IN-FEED before any id is pooled — that bound keeps the paced
 // lookup at 1–2 chunks no matter how many countries are followed.
 async function countryMostPlayed(sf) {
-  const data = await marketingToolsJSON(
-    `https://rss.marketingtools.apple.com/api/v2/${sf}/music/most-played/100/songs.json`
-  )
+  const data = await marketingToolsJSON(countryMostPlayedUrl(sf))
   return (data.feed?.results ?? [])
     .filter((e) => e.releaseDate && inWindow(e.releaseDate))
     .map((e) => albumIdFromTrackUrl(e.url))
     .filter(Boolean)
 }
 
-// legacy RSS serializes a single-entry feed as an OBJECT, not a one-element
-// array — the near-empty kr/cn feeds hit this where the US ones never do
-const asList = (x) => (Array.isArray(x) ? x : x ? [x] : [])
-
 async function countryPurchaseFeed(sf, feedType) {
-  const data = await getJSON(`https://itunes.apple.com/${sf}/rss/${feedType}/limit=100/json`)
+  const data = await getJSON(countryPurchaseUrl(sf, feedType))
   const entries = asList(data.feed?.entry).filter(
     (e) => e['im:releaseDate']?.label && inWindow(e['im:releaseDate'].label)
   )
@@ -384,49 +297,19 @@ async function countryPurchaseFeed(sf, feedType) {
 
 // ---------- editorial playlists (scraped web player pages) ----------
 
-// Playlists are the only day-of, all-genre surface Apple exposes without an
-// API token. The web player page embeds the track list as JSON; this parses
-// it to parent-album ids (resolved to releases by the paced lookups later).
-// The page fetch is unthrottled and overlaps the artist sweep. Scraping is
-// the fragile source — failures must be loud (exit 2).
-async function playlistAlbumIds(pl) {
-  // usLink: pin the scrape to /us/ even if a pasted URL carries another code
-  const res = await fetch(usLink(pl.url), {
-    // full browser UA: the web player only embeds the JSON for browsers
-    headers: {
-      'User-Agent':
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15',
-    },
-    signal: AbortSignal.timeout(30_000),
-  })
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${pl.url}`)
-  const html = await res.text()
-  const m = html.match(/<script type="application\/json" id="serialized-server-data">(.*?)<\/script>/s)
-  if (!m) throw new Error('no serialized-server-data block (page layout changed?)')
-  const albumIds = new Set()
-  let tracks = 0
-  ;(function walk(o) {
-    if (Array.isArray(o)) return o.forEach(walk)
-    if (!o || typeof o !== 'object') return
-    if (o.artistName) {
-      tracks++
-      // parent album is in a tertiary link of kind "album"; fall back to the
-      // item's own descriptor (also an album id in practice)
-      const fromLinks = (o.tertiaryLinks ?? [])
-        .map((l) => l.segue?.destination?.contentDescriptor)
-        .find((d) => d?.kind === 'album')?.identifiers?.storeAdamID
-      const id = fromLinks ?? o.contentDescriptor?.identifiers?.storeAdamID
-      if (id) albumIds.add(String(id))
-      return
-    }
-    Object.values(o).forEach(walk)
-  })(JSON.parse(m[1]))
-  return { pl, tracks, albumIds: [...albumIds] }
-}
+// The scrape itself is in apple-api.mjs (the audit reads the same pages). Here it
+// only picks up the playlist it belongs to; the page fetch is unthrottled and
+// overlaps the artist sweep, and failures must be loud (exit 2).
+const playlistAlbumIds = async (pl) => ({ pl, ...(await scrapePlaylistAlbumIds(pl.url)) })
 
 // ---------- pipeline ----------
 
 let anyFailed = false
+// Source tags whose data is missing or degraded this run. The rolling tally at
+// the end records null for these rather than 0 — a transient feed error that
+// reads as "produced nothing" is exactly what makes a healthy source look dead.
+const failedSources = new Set()
+const CHART_SOURCE = sourceTag('chart', 'us')
 const releases = []
 
 // Discovery fetches start now and resolve behind the paced artist sweep, so
@@ -438,15 +321,22 @@ const chartP = fetchChart()
 // mid-sweep is an unhandled rejection that kills the run before anything is
 // written. (The other two starters are allSettled and can't reject.)
 chartP.catch(() => {})
+// Genre feeds and country purchase feeds share the itunes host, so they draw from
+// one running slot counter. A per-list formula (gi * 2 + fi) would collide or gap,
+// because an entry does not always contribute exactly two requests.
+let itunesSlot = 0
+const nextStagger = () => itunesSlot++ * 250
+
 const genreFeedsP = Promise.allSettled(
-  GENRE_FEEDS.flatMap(({ genreId, tag }, gi) =>
-    ['topalbums', 'topsongs'].map((feedType, fi) =>
-      sleep((gi * 2 + fi) * 250)
-        .then(() => genreFeed(feedType, genreId))
+  GENRE_FEEDS.flatMap((f) =>
+    feedTypesOf(f).map((feedType) =>
+      sleep(nextStagger())
+        .then(() => genreFeed(feedType, f.genreId))
         .then(
-          (entries) => ({ tag, feedType, entries }),
+          (entries) => ({ tag: f.tag, feedType, entries }),
           (e) => {
-            throw new Error(`${tag} ${feedType}: ${errDetail(e)}`)
+            // tag rides along so the source tally can record null, not 0
+            throw Object.assign(new Error(`${f.tag} ${feedType}: ${errDetail(e)}`), { tag: f.tag })
           }
         )
     )
@@ -455,19 +345,20 @@ const genreFeedsP = Promise.allSettled(
 const playlistPagesP = Promise.allSettled(
   (PREFS.discovery?.playlists ?? []).map((pl) =>
     playlistAlbumIds(pl).catch((e) => {
-      throw new Error(`${pl.name}: ${errDetail(e)}`)
+      throw Object.assign(new Error(`${pl.name}: ${errDetail(e)}`), { playlist: pl.name })
     })
   )
 )
 // Tasks (not bare promises) so failures can be retried by re-calling run().
 // most-played takes the marketingtools lane; legacy feeds continue the genre
 // feeds' stagger on the shared itunes host. All overlap the sweep.
-const COUNTRY_TASKS = COUNTRY_CODES.flatMap((sf, ci) => [
+const COUNTRY_TASKS = COUNTRY_CODES.flatMap((sf) => [
   { sf, kind: 'most-played', stagger: 0, run: () => countryMostPlayed(sf) },
-  ...['topalbums', 'topsongs'].map((feedType, fi) => ({
+  // empty where Apple runs no purchase store, so not fetched every night for nothing
+  ...purchaseFeedsOf(sf).map((feedType) => ({
     sf,
     kind: feedType,
-    stagger: (GENRE_FEEDS.length * 2 + ci * 2 + fi) * 250,
+    stagger: nextStagger(),
     run: () => countryPurchaseFeed(sf, feedType),
   })),
 ])
@@ -535,7 +426,7 @@ artistActivity = Object.fromEntries(
 )
 writeFileSync(ACTIVITY_PATH, JSON.stringify(artistActivity, null, 2) + '\n')
 log(`${followedCount} releases (pre-dedup) via ${sweepArtists.length} followed artists in ${batches.length} batches`)
-// a failed batch is ~10 artists silently skipped — flag the run (exit 2)
+// a failed batch is up to BATCH_SIZE artists silently skipped — flag the run (exit 2)
 if (failedBatches.length > 0) anyFailed = true
 
 // 2. Chart — in-window entries from the US most-played chart as discovery
@@ -544,6 +435,7 @@ try {
   chart = await chartP
 } catch (e) {
   anyFailed = true
+  failedSources.add(CHART_SOURCE)
   log(`US chart fetch failed: ${errDetail(e)}`)
 }
 
@@ -581,6 +473,7 @@ if (candidates.length) {
   } catch (e) {
     // degraded publish (feed-only genre/type) still counts as a failed source
     anyFailed = true
+    failedSources.add(CHART_SOURCE)
     log(`chart enrichment lookup failed — falling back to feed data: ${errDetail(e)}`)
   }
 }
@@ -597,9 +490,10 @@ for (const { e, feedGenre } of candidates) {
     const r = fromCollection(hit)
     if (!r.genre) r.genre = feedGenre
     if (!r.link) r.link = appleLink(e.url)
+    r.sources = [CHART_SOURCE]
     releases.push(r)
   } else {
-    releases.push(chartEntryToRelease(e, feedGenre))
+    releases.push({ ...chartEntryToRelease(e, feedGenre), sources: [CHART_SOURCE] })
   }
 }
 
@@ -612,6 +506,7 @@ const feedAlbumFallback = new Map() // collection id → raw topalbums entry
 for (const settled of await genreFeedsP) {
   if (settled.status === 'rejected') {
     anyFailed = true
+    if (settled.reason.tag) failedSources.add(sourceTag('genre', settled.reason.tag))
     log(`genre feed failed: ${settled.reason.message}`)
     continue
   }
@@ -629,20 +524,37 @@ for (const settled of await genreFeedsP) {
   }
   log(`${tag} ${feedType}: ${entries.length} in-window → ${ids} album ids`)
 }
+// Tagged by the feed that surfaced the id, not by the card's catalog genre —
+// the chip answers "did this feed earn its slot", which the genre chips can't.
+// Guarded like the country block below: lookupCollections deliberately keeps
+// collections Apple returns under a REPLACEMENT id, which no feed claimed, and
+// an unguarded get() would tag those "genre:undefined".
+const genreSource = (id) => {
+  const tag = genreFeedIds.get(id)
+  return tag ? [sourceTag('genre', tag)] : undefined
+}
 if (genreFeedIds.size) {
   try {
     const hits = await lookupCollections([...genreFeedIds.keys()])
     const returned = new Set(hits.map((a) => String(a.collectionId)))
-    const fresh = hits.filter((a) => a.releaseDate && inWindow(a.releaseDate)).map(fromCollection)
+    const fresh = hits
+      .filter((a) => a.releaseDate && inWindow(a.releaseDate))
+      .map((a) => ({ ...fromCollection(a), sources: genreSource(String(a.collectionId)) }))
     for (const [id, e] of feedAlbumFallback) {
-      if (!returned.has(id)) fresh.push(albumEntryToRelease(e, genreFeedIds.get(id)))
+      if (!returned.has(id)) fresh.push({ ...albumEntryToRelease(e, genreFeedIds.get(id)), sources: genreSource(id) })
     }
     log(`genre charts: ${fresh.length} releases via ${genreFeedIds.size} ids`)
     releases.push(...fresh)
   } catch (e) {
     anyFailed = true
+    for (const f of GENRE_FEEDS) failedSources.add(sourceTag('genre', f.tag))
     log(`genre chart lookup failed — album entries fall back to feed data: ${errDetail(e)}`)
-    releases.push(...[...feedAlbumFallback.entries()].map(([id, e]) => albumEntryToRelease(e, genreFeedIds.get(id))))
+    releases.push(
+      ...[...feedAlbumFallback.entries()].map(([id, e]) => ({
+        ...albumEntryToRelease(e, genreFeedIds.get(id)),
+        sources: genreSource(id),
+      }))
+    )
   }
 }
 
@@ -697,6 +609,7 @@ if (failedCountryFeeds.length) {
     const t = failedCountryFeeds[i]
     if (settled.status === 'rejected') {
       anyFailed = true
+      failedSources.add(sourceTag('country', t.sf))
       log(`country chart failed again: ${t.sf} ${t.kind}: ${errDetail(settled.reason)}`)
     } else {
       ingestCountryFeed(t, settled.value)
@@ -728,6 +641,7 @@ if (countryIdSources.size) {
     releases.push(...found)
   } catch (e) {
     anyFailed = true
+    for (const sf of COUNTRY_CODES) failedSources.add(sourceTag('country', sf))
     log(`country chart lookup failed: ${errDetail(e)}`)
   }
 }
@@ -751,6 +665,7 @@ if (allPlaylistAlbumIds.length) {
 for (const settled of playlistPages) {
   if (settled.status === 'rejected') {
     anyFailed = true
+    if (settled.reason.playlist) failedSources.add(sourceTag('playlist', settled.reason.playlist))
     log(`playlist scrape failed: ${settled.reason.message}`)
     continue
   }
@@ -764,6 +679,7 @@ for (const settled of playlistPages) {
     releases.push(...fresh)
   } catch (e) {
     anyFailed = true
+    failedSources.add(sourceTag('playlist', pl.name))
     log(`${pl.name} lookup failed: ${errDetail(e)}`)
   }
 }
@@ -856,11 +772,15 @@ try {
 // rather than stamp an empty file. Must run before the per-entry carryover
 // (it keys on the result being empty) and is the only path that also
 // preserves discovery entries.
+// carried releases keep the PREVIOUS run's source tags, so counting them would
+// credit sources for work they did not do tonight — the tally records null instead
+let carriedWholesale = false
 if (out.length === 0) {
   const carried = (prevFile.releases ?? []).filter((r) => inWindow(r.release_date))
   if (carried.length) {
     log(`0 fetched but ${carried.length} previous in-window releases — carrying over`)
     out = carried
+    carriedWholesale = true
   }
 }
 
@@ -974,6 +894,77 @@ try {
   writeFileSync(GENRE_ACTIVITY_PATH, JSON.stringify(tally, null, 2) + '\n')
 } catch (e) {
   log(`could not update genre-activity.json: ${errDetail(e)}`)
+}
+
+// Rolling per-source yield, read by `npm run audit-sources` and the editor's chips.
+// Columnar (one shared date array, parallel per-source arrays) because update.sh
+// commits config/ every night: a date-keyed map would repeat the date once per
+// source per day, and this file is meant to stay small enough to push daily.
+//
+// LAST, and never fatal: advisory data must not cost the run its published output.
+try {
+  let hist = { days: [], sources: {} }
+  try {
+    const parsed = JSON.parse(readFileSync(SOURCE_ACTIVITY_PATH, 'utf8'))
+    if (Array.isArray(parsed?.days) && parsed.sources && typeof parsed.sources === 'object') hist = parsed
+  } catch {} // absent on a first run; a corrupt one restarts the history
+
+  // a second run the same day (Save & Refresh) replaces today rather than appending
+  if (hist.days.at(-1) === TODAY) {
+    hist.days.pop()
+    for (const col of Object.values(hist.sources)) col.pop()
+  }
+
+  // followed artists bypass every filter, so their releases say nothing about
+  // whether a source earns its keep — same rule the editor's chips already use
+  const tally = new Map()
+  for (const r of out) {
+    if (r.followed) continue
+    for (const tag of r.sources ?? []) {
+      const t = tally.get(tag) ?? [0, 0]
+      t[0]++
+      if (r.sources.length === 1) t[1]++
+      tally.set(tag, t)
+    }
+  }
+
+  const configured = new Set([
+    CHART_SOURCE,
+    ...GENRE_FEEDS.map((f) => sourceTag('genre', f.tag)),
+    ...COUNTRY_CODES.map((sf) => sourceTag('country', sf)),
+    ...(PREFS.discovery?.playlists ?? []).map((pl) => sourceTag('playlist', pl.name)),
+  ])
+  hist.days.push(TODAY)
+  const len = hist.days.length
+  for (const tag of new Set([...configured, ...Object.keys(hist.sources)])) {
+    const col = (hist.sources[tag] ??= [])
+    while (col.length < len - 1) col.push(null) // a source added later starts blank
+    const unmeasured = !configured.has(tag) || carriedWholesale || failedSources.has(tag)
+    col.push(unmeasured ? null : (tally.get(tag) ?? [0, 0]))
+  }
+
+  const drop = len - SOURCE_MEMORY_DAYS
+  if (drop > 0) {
+    hist.days = hist.days.slice(drop)
+    for (const k of Object.keys(hist.sources)) hist.sources[k] = hist.sources[k].slice(drop)
+  }
+  // A source dropped from the config keeps its history until it ages out entirely,
+  // then goes. A CONFIGURED source always keeps its column even when every day is
+  // null: "configured but never once measured" is exactly the signal the audit
+  // needs, and deleting it would hide a feed that has been failing since day one.
+  for (const [k, col] of Object.entries(hist.sources)) {
+    if (!configured.has(k) && col.every((d) => d == null)) delete hist.sources[k]
+  }
+
+  // one line per source: this file changes every night in a tracked directory, and
+  // a single-line blob would make every commit an unreadable whole-file diff
+  const rows = Object.keys(hist.sources)
+    .sort()
+    .map((k) => ` ${JSON.stringify(k)}: ${JSON.stringify(hist.sources[k])}`)
+    .join(',\n')
+  writeFileSync(SOURCE_ACTIVITY_PATH, `{\n"days": ${JSON.stringify(hist.days)},\n"sources": {\n${rows}\n}\n}\n`)
+} catch (e) {
+  log(`could not update source-activity.json: ${errDetail(e)}`)
 }
 
 process.exit(anyFailed ? 2 : 0)

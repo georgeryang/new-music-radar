@@ -2,12 +2,10 @@
 // Local preferences editor for config/preferences.json (the file that drives
 // the nightly fetch). Zero deps; launched by prefs.command.
 //
-// Binds 127.0.0.1 only and rejects requests whose Host/Origin isn't this
-// server (defeats cross-site POSTs + DNS rebinding; /api/ping is the one
-// deliberate cross-origin endpoint). Writes exactly one hardcoded path,
-// preserving keys the UI doesn't manage (_comment). The Apple Music artist
-// search is proxied so the browser never talks to a third party. Also serves
-// the built site from docs/ at /new-music-radar/ ("Open radar").
+// Loopback-only, with the Host/Origin gate enforced at the routes below. Writes
+// exactly one hardcoded path, preserving keys the UI doesn't manage (_comment).
+// The Apple Music artist search is proxied so the browser never talks to a third
+// party. Also serves the built site from docs/ at /new-music-radar/ ("Open radar").
 
 import http from 'node:http'
 import { closeSync, fstatSync, openSync, readFileSync, readSync, readdirSync, realpathSync, unlinkSync, writeFileSync } from 'node:fs'
@@ -15,8 +13,8 @@ import { spawn } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { join, normalize } from 'node:path'
 import { GENRE_OPTIONS } from './genre-options.mjs'
-import { STOREFRONTS } from './storefronts.mjs'
-import { ACTIVITY_PATH, DATA_PATH, PREFS_PATH, UA, WINDOW_DAYS, sourceTag } from './shared.mjs'
+import { STOREFRONTS, STREAMING_ONLY } from './storefronts.mjs'
+import { ACTIVITY_PATH, DATA_PATH, GENRE_FEEDS, PREFS_PATH, REFRESH_LOG, REFRESH_PIDFILE, SOURCE_ACTIVITY_PATH, SOURCE_CHIP_DAYS, SOURCE_THIN_DAYS, UA, WINDOW_DAYS, feedTypesOf, sourceTag, sourceWindow, windowIndices } from './shared.mjs'
 
 const PORT = 4747
 const REPO_DIR = fileURLToPath(new URL('..', import.meta.url))
@@ -80,16 +78,10 @@ const isPlaylistList = (v) =>
 const isCountryList = (v) =>
   Array.isArray(v) && v.every((c) => typeof c === 'string' && Object.hasOwn(STOREFRONTS, c))
 
-// "Save & Refresh" spawns update.sh DETACHED (into launchd's log, with a
-// pidfile), so quitting this server can't kill a running refresh.
-const REFRESH_LOG = `${process.env.HOME}/Library/Logs/new-music-radar.log`
-// Not /tmp (world-writable — another user could plant a pidfile and block refreshes).
-const PIDFILE = `${process.env.HOME}/Library/Logs/new-music-radar-refresh.pid`
-
 function refreshPid() {
   let pid
   try {
-    pid = parseInt(readFileSync(PIDFILE, 'utf8'), 10)
+    pid = parseInt(readFileSync(REFRESH_PIDFILE, 'utf8'), 10)
     process.kill(pid, 0) // liveness probe, no signal sent
     return pid
   } catch (e) {
@@ -97,7 +89,7 @@ function refreshPid() {
     // leaves the button disabled with no way out of the UI; ESRCH means the
     // pid is dead, EPERM means it was recycled by another user's process.
     if (pid !== undefined && (e.code === 'ESRCH' || e.code === 'EPERM')) {
-      try { unlinkSync(PIDFILE) } catch {}
+      try { unlinkSync(REFRESH_PIDFILE) } catch {}
     }
     return null
   }
@@ -111,7 +103,7 @@ function startRefresh() {
     detached: true,
     stdio: ['ignore', fd, fd],
   })
-  writeFileSync(PIDFILE, String(child.pid))
+  writeFileSync(REFRESH_PIDFILE, String(child.pid))
   child.unref()
   closeSync(fd)
   return true
@@ -198,10 +190,8 @@ const server = http.createServer(async (req, res) => {
       // markers. Only non-followed releases count: followed artists bypass
       // filters, so their releases say nothing about whether a chip earns its
       // keep. sourceCounts is keyed by the fetcher's sources tags
-      // (country:<code>, playlist:<name>): t = releases the source surfaced,
-      // u = those it was the sole tagged source for.
+      // (country:<code>, playlist:<name>).
       const genreCounts = {}
-      const sourceCounts = {}
       // A 0 marker reads as "prune candidate", so an unreadable data file must
       // not report zeros — that would advise deleting working sources.
       let countsAvailable = true
@@ -212,14 +202,26 @@ const server = http.createServer(async (req, res) => {
             const k = r.genre.toLowerCase()
             genreCounts[k] = (genreCounts[k] ?? 0) + 1
           }
-          for (const tag of r.sources ?? []) {
-            const c = (sourceCounts[tag] ??= { u: 0, t: 0 })
-            c.t++
-            if (r.sources.length === 1) c.u++
-          }
         }
       } catch {
         countsAvailable = false
+      }
+
+      // Source yield over a window, from the fetcher's rolling tally rather than
+      // the latest file. A one-night count made a perfectly healthy source read
+      // amber on any quiet weekday, which is advice to delete working sources.
+      // sourceWindow (shared with the audit) is what skips the failed days.
+      const sourceCounts = {}
+      let historyDays = 0
+      try {
+        const h = JSON.parse(readFileSync(SOURCE_ACTIVITY_PATH, 'utf8'))
+        historyDays = (h.days ?? []).length
+        const idx = windowIndices(h, SOURCE_CHIP_DAYS)
+        for (const tag of Object.keys(h.sources ?? {})) sourceCounts[tag] = sourceWindow(h, tag, idx)
+      } catch (e) {
+        // Absent before the first fetch is normal. Unreadable after months of
+        // nightly writes would present as "still collecting", so say it out loud.
+        if (e.code !== 'ENOENT') console.error(`could not read source-activity.json (${e.message}) — chips say "collecting"`)
       }
       json(res, 200, {
         artists: {
@@ -236,7 +238,19 @@ const server = http.createServer(async (req, res) => {
         genreCounts,
         sourceCounts,
         countsAvailable,
+        historyDays,
         countryNames: STOREFRONTS,
+        streamingOnly: [...STREAMING_ONLY],
+        // the always-scanned sources, so the editor can audit them like the
+        // editable lists. Order matches the fetcher's.
+        alwaysScanned: [
+          { label: 'US most-played chart', tag: sourceTag('chart', 'us'), sub: 'albums' },
+          ...GENRE_FEEDS.map((f) => ({
+            label: f.tag,
+            tag: sourceTag('genre', f.tag),
+            sub: feedTypesOf(f).join(' + '),
+          })),
+        ],
       })
     } else if (req.method === 'POST' && url.pathname === '/api/prefs') {
       let body = ''
@@ -313,11 +327,10 @@ const server = http.createServer(async (req, res) => {
           return json(res, 403, { error: 'forbidden' })
         }
         const body = readFileSync(file)
-        // assets/ and fonts/ carry a content hash or never change, so they can
-        // be cached hard; docs/data changes underneath after every fetch and
-        // index.html points at the current bundle, so both must revalidate.
-        // assets/ only: fonts/ is re-copied under a stable name by every build,
-        // so pinning it for a year would strand a replaced subset in the browser.
+        // assets/ only: it carries a content hash, so it can be cached hard.
+        // fonts/ is re-copied under a stable name by every build, so pinning it
+        // for a year would strand a replaced subset in the browser; docs/data
+        // changes after every fetch and index.html points at the current bundle.
         const hashed = /^assets\//.test(normalize(rel))
         res.writeHead(200, {
           'Content-Type': mimeOf(file),
@@ -350,7 +363,7 @@ const PAGE = /* html */ `<!doctype html>
 </head>
 <body class="mx-auto max-w-[680px] px-4 pt-6 pb-24">
 <header class="mb-1 flex items-baseline justify-between"><h1 class="text-lg font-bold">Preferences</h1><a href="${SITE_URL}" id="site-link" target="_blank" rel="noopener noreferrer" class="text-[13px] text-muted-foreground hover:text-foreground">Open radar →</a></header>
-<p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away and publishes to the public site (about two minutes). Chip counts span ${WINDOW_DAYS} days; New only shows 24 hours, so counts often run higher than the page.</p>
+<p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away and publishes to the public site (about two minutes). Genre chips count the last ${WINDOW_DAYS} days, so they run higher than New, which shows 24 hours. Country, playlist and feed chips count ${SOURCE_CHIP_DAYS} measured days, as only-here/shared/total.</p>
 <div id="sections"></div>
 <div id="log-wrap" hidden class="fixed bottom-[92px] left-1/2 z-10 w-[min(640px,calc(100%-32px))] -translate-x-1/2">
   <button id="log-hide" class="absolute top-1.5 right-2.5 cursor-pointer p-0 text-[15px] leading-none text-muted-foreground hover:text-foreground" title="Hide the progress log (the refresh keeps running)" aria-label="Hide progress log">×</button>
@@ -366,6 +379,7 @@ const PAGE = /* html */ `<!doctype html>
 <script>
 let prefs, activity = {}, genreOptions = [], genreCounts = {}, sourceCounts = {}, countryNames = {}, dirty = false
 let countsAvailable = true
+let streamingOnly = new Set(), alwaysScanned = [], historyDays = 0
 // display-only sort for the followed section: false = A-Z, true = oldest
 // release first (dormant prune candidates cluster at the top)
 let dormancySort = false
@@ -402,14 +416,26 @@ const SECTIONS = [
   { key: 'artists.followed', label: 'Followed artists', sub: 'pinned first ★, fetched by Apple ID, bypass filters', kind: 'artist' },
   { key: 'artists.blocked', label: 'Blocked artists', sub: 'never shown (matched by Apple ID)', kind: 'artist' },
   { key: 'genres.followed', label: 'Followed genres', sub: 'discovery only surfaces these (followed artists always show)', kind: 'genre' },
-  { key: 'discovery.countries', label: 'Additional countries', sub: 'always-scanned US charts (mostly English) plus these countries\\' Top 100 and purchase charts', kind: 'country' },
+  { key: 'discovery.countries', label: 'Additional countries', sub: 'each country\\'s Top 100, plus its purchase charts where Apple runs a store', kind: 'country' },
   { key: 'discovery.playlists', label: 'Discovery playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', kind: 'playlist' },
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
 // country entries are bare codes; the display name comes from the server's
 // verified code→name map. hasOwn so an inherited key ("constructor") doesn't
 // resolve to junk.
-const displayOf = (s, e) => (s.kind === 'country' && Object.hasOwn(countryNames, e) ? countryNames[e] : nameOf(e))
+const displayOf = (s, e) =>
+  s.kind === 'country' && Object.hasOwn(countryNames, e) ? countryNames[e] : nameOf(e)
+
+// Apple runs no purchase store in a few storefronts, so "Top 100 and purchase
+// charts" is only true for most of them. Say which ones, rather than quietly
+// scanning a different feed set behind an identical-looking chip.
+function streamingOnlyNote() {
+  const span = document.createElement('span')
+  span.className = MUTED
+  span.textContent = '· streaming only'
+  span.title = 'Apple runs no purchase store here, so only the most-played chart is scanned'
+  return span
+}
 
 // https://music.apple.com/us/playlist/<slug>/pl.<id> — display name from slug
 function parsePlaylist(u) {
@@ -446,8 +472,8 @@ function resultRow(results, label, note, onPick, extra) {
 function markDirty() { dirty = true; $('save').disabled = false }
 
 // Genre yield marker: releases admitted via this genre (followed artists
-// excluded). Amber 0 = prune candidate. Same null-when-unavailable shape as
-// sourceCount, so the gate is expressed once.
+// excluded). Amber 0 = prune candidate. Null when the data file was unreadable,
+// because a false 0 here reads as "delete me".
 function genreCount(name) {
   if (!countsAvailable) return null
   const n = genreCounts[name.toLowerCase()] ?? 0
@@ -458,20 +484,64 @@ function genreCount(name) {
   return span
 }
 
-// Source yield marker (countries + playlists): unique/duplicate/total releases
-// from this source. Unique = only this source surfaced it (what pruning would
-// lose); duplicate = shared with another source. Amber 0 = prune candidate. A
-// source added after the last fetch reads 0 until the next one.
+// Source yield marker (countries, playlists, always-scanned feeds):
+// unique/duplicate/total releases over the window. Unique = only this source
+// surfaced it, which is what pruning would actually cost you.
+//
+// A window, not one run: healthy sources draw a blank on quiet weekdays, and a
+// nightly zero reads as a prune candidate.
+const THIN_DAYS = ${SOURCE_THIN_DAYS}
+const CHIP_DAYS = ${SOURCE_CHIP_DAYS}
 function sourceCount(tag) {
-  if (!countsAvailable) return null
-  const { u, t } = sourceCounts[tag] ?? { u: 0, t: 0 }
+  const c = sourceCounts[tag]
   const span = document.createElement('span')
-  span.className = t === 0 ? AMBER : MUTED
-  span.textContent = '· ' + (t === 0 ? '0' : u + '/' + (t - u) + '/' + t)
-  span.title = t === 0
-    ? 'nothing found by the latest update via this source'
-    : u + ' only here / ' + (t - u) + ' shared with other sources / ' + t + ' total, latest update'
+  // Per source, not per file: a country added to months-old history has only its
+  // own measured nights behind it, and 0 after one of them is the false
+  // "delete me" signal.
+  if (!c || c.measured < THIN_DAYS) {
+    span.className = MUTED
+    span.textContent = '· collecting'
+    const n = c?.measured ?? 0
+    span.title = historyDays < THIN_DAYS
+      ? 'Needs about a week of nightly updates before this figure means anything (' + historyDays + ' nights so far)'
+      : 'Only ' + n + ' measured ' + (n === 1 ? 'night' : 'nights') + ' for this source so far'
+    return span
+  }
+  const shared = c.surfaced - c.unique
+  span.className = c.surfaced === 0 ? AMBER : MUTED
+  span.textContent = '· ' + (c.surfaced === 0 ? '0' : c.unique + '/' + shared + '/' + c.surfaced)
+  span.title = c.surfaced === 0
+    ? 'nothing across ' + c.measured + ' measured days in the last ' + CHIP_DAYS + ', worth a look'
+    : c.unique + ' only here / ' + shared + ' shared / ' + c.surfaced + ' total, over ' +
+      c.measured + ' measured days' + (c.last ? '; last found something on ' + c.last : '')
   return span
+}
+
+// The always-scanned feeds are code constants, not a control: nothing to add,
+// remove or pick. A closed footnote keeps their yield one click from the country
+// and playlist chips it gets compared against, without one more pill per fixed
+// feed that looks exactly as editable as the ones above it.
+let fixedOpen = false
+function renderFixed() {
+  const d = document.createElement('details')
+  d.className = 'mt-[18px]'
+  d.open = fixedOpen
+  // renderAll rebuilds this node on every edit, so the open state has to live
+  // outside it or the panel snaps shut mid-edit.
+  d.ontoggle = () => { fixedOpen = d.open }
+  const sum = document.createElement('summary')
+  sum.className = 'cursor-pointer text-[12.5px] text-muted-foreground hover:text-foreground'
+  sum.textContent = 'Always scanned · ' + alwaysScanned.length + ' · US charts and genre feeds, fixed in code'
+  const list = document.createElement('ul')
+  list.className = 'mt-2 ml-4 text-[12.5px] leading-[1.5] text-muted-foreground'
+  for (const e of alwaysScanned) {
+    const li = document.createElement('li')
+    li.appendChild(document.createTextNode(e.label + ' (' + e.sub + ') '))
+    li.appendChild(sourceCount(e.tag))
+    list.appendChild(li)
+  }
+  d.append(sum, list)
+  return d
 }
 
 function renderAll() {
@@ -482,7 +552,7 @@ function renderAll() {
   if (!countsAvailable) {
     const warn = document.createElement('p')
     warn.className = 'mb-2 text-[12.5px] text-amber-800 dark:text-amber-400'
-    warn.textContent = 'Could not read the latest results, so the per-chip counts are hidden. Press Save & Refresh to rebuild them.'
+    warn.textContent = 'Could not read the latest results, so the genre chip counts are hidden. Press Save & Refresh to rebuild them.'
     root.appendChild(warn)
   }
   for (const s of SECTIONS) {
@@ -526,25 +596,22 @@ function renderAll() {
         code.className = 'text-[11px] text-muted-foreground'
         code.textContent = '· ' + entry
         chip.appendChild(code)
-        const c = sourceCount(TAG_COUNTRY + entry)
-        if (c) chip.appendChild(c)
+        if (streamingOnly.has(entry)) chip.appendChild(streamingOnlyNote())
+        chip.appendChild(sourceCount(TAG_COUNTRY + entry))
       }
-      if (s.kind === 'playlist') {
-        const c = sourceCount(TAG_PLAYLIST + nameOf(entry))
-        if (c) chip.appendChild(c)
-      }
+      if (s.kind === 'playlist') chip.appendChild(sourceCount(TAG_PLAYLIST + nameOf(entry)))
       if (s.key === 'genres.followed') {
         const c = genreCount(nameOf(entry))
         if (c) chip.appendChild(c)
       }
       if (typeof entry !== 'string') chip.title = entry.url ?? 'Apple Music artist #' + entry.id
       // Dormancy hint: an artist with no release in 18+ months is a prune
-      // candidate (curation, not performance — fetch time is list-size independent).
+      // candidate. Mostly curation: the sweep batches BATCH_SIZE artists per
+      // paced call, so cost only moves when a removal crosses a batch boundary.
       const last = s.key === 'artists.followed' && entry.id ? activity[entry.id] : null
       if (last && Date.now() - Date.parse(last) > 18 * MONTH_MS) {
         const months = Math.round((Date.now() - Date.parse(last)) / MONTH_MS)
         const ago = document.createElement('span')
-        // amber 18mo+, red 3y+
         ago.className = months >= 36 ? 'text-[11px] text-accent-foreground' : AMBER
         // round, not floor — floor showed a 3.9y gap as "3y"
         ago.textContent = '· ' + (months >= 24 ? Math.round(months / 12) + 'y' : months + 'mo')
@@ -565,6 +632,7 @@ function renderAll() {
     }
     root.append(h, chips, makeAdder(s))
   }
+  root.append(renderFixed())
 }
 
 const sectionLabel = (key) => (SECTIONS.find((s) => s.key === key) ?? {}).label ?? key
@@ -735,7 +803,8 @@ function wireCountry(s, input, results, pick) {
     const opts = Object.entries(countryNames)
       .filter(([code, name]) => !have.has(code) && (name.toLowerCase().includes(typed) || code.includes(typed)))
       .sort((a, b) => a[1].localeCompare(b[1]))
-    for (const [code, name] of opts) resultRow(results, name, code, () => pick(code))
+    for (const [code, name] of opts)
+      resultRow(results, name, streamingOnly.has(code) ? code + ' · streaming only' : code, () => pick(code))
     results.hidden = opts.length === 0
   }
   input.oninput = show
@@ -866,7 +935,6 @@ async function save() {
   }
 }
 $('save').onclick = save
-// Primary action: saves any pending edits, then fetches with them.
 $('refresh').onclick = async () => {
   if (dirty && !(await save())) return
   setBanner('running', 'Starting refresh…')
@@ -914,6 +982,9 @@ function applyPrefs(p) {
   sourceCounts = p.sourceCounts ?? {}
   countsAvailable = p.countsAvailable !== false
   countryNames = p.countryNames ?? {}
+  historyDays = p.historyDays ?? 0
+  streamingOnly = new Set(p.streamingOnly ?? [])
+  alwaysScanned = p.alwaysScanned ?? []
   renderAll()
 }
 

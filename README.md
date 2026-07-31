@@ -32,6 +32,9 @@ Double-click `prefs.command` to open the editor in your browser.
   alike, so a typed name alone won't match.
 - **Genres:** pick from the curated list, or type any exact Apple genre name.
 - **Additional countries:** extra storefronts scanned on top of the US ones.
+  Each adds that country's Top 100 and, where Apple runs a purchase store,
+  its purchase charts too. A few storefronts have no purchase store, and
+  their chips say "streaming only".
 - **Discovery playlists:** paste a music.apple.com playlist address to scan it.
 - **Save** applies at tonight's update; **Save & Refresh** runs now and
   publishes to the public site (about two minutes). Green means all good;
@@ -48,7 +51,9 @@ works from any device.
 
 1. Install `node`, `git`, and `gh`.
 2. Clone the repo anywhere, to a path without spaces or special characters:
-   `git clone git@github.com:georgeryang/new-music-radar.git`
+   `git clone git@github.com:georgeryang/new-music-radar.git`, then
+   `npm install`. If you edit the project with Claude Code, also run
+   `npm run setup-skills` (see below).
 3. Run `gh auth login`, which lets the update verify its Pages deploy (skip
    `gh` and it skips that check, so a deploy flake goes unnoticed). Then make
    sure `git push` works (SSH key for the SSH URL; `gh auth setup-git` if you
@@ -101,6 +106,8 @@ sudo pmset repeat cancel
   follow list (also collects pre-orders into `upcoming[]`), the US
   most-played chart, US genre purchase charts, editorial playlists, and
   country charts. Foreign storefronts contribute ids only, never card data.
+  Every discovery card records which source found it, and the editor lists all
+  the sources, the fixed ones included, with what each has returned over 30 days.
 - **Frontend:** Vite + React + TS + Tailwind in `src/`, built into `docs/`
   (never wiped). Self-hosted Plus Jakarta Sans is recopied from
   `public/fonts/` on every build.
@@ -120,9 +127,24 @@ sudo pmset repeat cancel
   catches Apple renaming a genre out from under the list, and reports which
   unfollowed genres discovery has been dropping (tallied into
   `config/genre-activity.json` by each fetch) so a subgenre worth following
-  surfaces instead of staying invisible. Editor chips count over the fetcher's
-  full `WINDOW_DAYS`, not the site's 24h New tab, so chip counts routinely
-  exceed what's on the page.
+  surfaces instead of staying invisible. Genre chips count the fetcher's full
+  `WINDOW_DAYS`; country, playlist and feed chips count 30 measured days as
+  only-here/shared/total. Neither is the site's 24h New tab, so chip counts
+  routinely exceed what's on the page.
+- **Claude Code skills:** `skills/` is version controlled with the code it
+  describes; `npm run setup-skills` links it into `.claude/skills/`, which is
+  gitignored because it also holds per-machine settings. The links are local
+  state, so a fresh clone needs that one command. Skills load only in this
+  folder. **audit-radar-sources** runs the source audit and explains how to read
+  it; **verify-radar** covers testing the fetcher, the site and the editor.
+- **Source audit:** `npm run audit-sources` grades every source the editor
+  shows and suggests what to drop, replace or add. It reads
+  `config/source-activity.json`, a rolling per-day tally each fetch appends to,
+  so the numbers are trends rather than one night, and a day where a source
+  failed records nothing rather than a zero, which keeps a passing network
+  glitch from looking like a dead feed. `npm run audit-sources -- --no-discover`
+  skips the hunt for replacements and finishes in under a minute. It refuses to
+  run while an editor refresh is going, but cannot see the nightly one.
 - **Reliability:** any source failing exits non-zero but still publishes
   partial results; an empty result never overwrites good data. The nightly
   push also verifies its Pages deploy and retries once if it flaked.
