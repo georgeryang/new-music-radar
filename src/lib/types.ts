@@ -20,8 +20,9 @@ export interface Release {
   // producer-side: followed artist whose discography returned this, which for
   // a collab is not artist_id; UI ignores it
   via_artist_id?: number
-  // producer-side: country:<code> / playlist:<name> tags for the editor's
-  // source-yield audit; UI ignores it
+  // producer-side: which source surfaced this, for the editor's yield audit.
+  // chart:us / genre:<apple name> / country:<code> / playlist:<name>, unioned
+  // when several found it. UI ignores it
   sources?: string[]
 }
 

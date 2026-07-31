@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "fetch": "node scripts/fetch-releases.mjs",
     "check-genres": "node scripts/check-genre-coverage.mjs",
-    "update": "bash scripts/update.sh"
+    "audit-sources": "node scripts/audit-sources.mjs",
+    "update": "bash scripts/update.sh",
+    "setup-skills": "bash scripts/setup-skills.sh"
   },
   "dependencies": {
     "react": "^19.2.7",

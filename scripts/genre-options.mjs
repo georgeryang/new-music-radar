@@ -16,6 +16,9 @@ export const GENRE_OPTIONS = [
   'Cantopop/HK-Pop',
   'Dance',
   'Electronic',
+  // leaf under Hip-Hop/Rap: Apple labels plenty of releases with the bare name,
+  // and with no mapping layer those drop unless it is followed in its own right
+  'Hip-Hop',
   'Hip-Hop/Rap',
   'J-Pop',
   'K-Pop',

@@ -14,7 +14,8 @@
 
 import { readFileSync } from 'node:fs'
 import { GENRE_OPTIONS } from './genre-options.mjs'
-import { GENRE_ACTIVITY_PATH, GENRE_MEMORY_DAYS, PREFS_PATH, UA } from './shared.mjs'
+import { fetchGenreTree, overFollowed, underFollowed } from './genre-tree.mjs'
+import { GENRE_ACTIVITY_PATH, GENRE_MEMORY_DAYS, PREFS_PATH } from './shared.mjs'
 
 // This prints a report for a person, so its own failures get a sentence rather
 // than a stack trace over an npm banner.
@@ -28,26 +29,12 @@ try {
 }
 const followedSet = new Set(followed.map((g) => g.toLowerCase()))
 
-let music
+let ancestors
 try {
-  const res = await fetch('https://itunes.apple.com/WebObjects/MZStoreServices.woa/ws/genres', {
-    headers: { 'User-Agent': UA },
-    signal: AbortSignal.timeout(30_000),
-  })
-  if (!res.ok) die(`Apple's genre list returned HTTP ${res.status}. Try again in a minute.`)
-  music = (await res.json())['34'] // 34 = Music
+  ;({ ancestors } = await fetchGenreTree())
 } catch (e) {
-  die(`Could not reach Apple's genre list (${e.message}). Check the connection and try again.`)
+  die(e.message)
 }
-if (!music) die("Apple's genre list has no Music root (key 34) — the API shape changed, so this check needs updating.")
-
-// name → ancestor names, outermost first. Umbrella/leaf pairs are the whole
-// point of check 2, so the tree has to be kept, not flattened to a name set.
-const ancestors = new Map()
-;(function walk(node, path) {
-  ancestors.set(node.name, path)
-  for (const child of Object.values(node.subgenres ?? {})) walk(child, [...path, node.name])
-})(music, [])
 
 // ---------- 1. names still exist ----------
 
@@ -83,12 +70,9 @@ if (!entries.length) {
   process.exit(misses ? 1 : 0)
 }
 
-// Only ONE direction is a signal. A genre nested UNDER one you follow means you
-// asked for the umbrella and Apple filed the release under a leaf — you almost
-// certainly wanted it. The reverse (an ancestor of something you follow) is not:
-// following Singer/Songwriter says nothing about wanting all of Rock.
-const under = (g) => (ancestors.get(g) ?? []).find((a) => followedSet.has(a.toLowerCase()))
-const over = (g) => followed.find((f) => (ancestors.get(f) ?? []).includes(g))
+// see genre-tree.mjs for why only the "under" direction is a signal
+const under = (g) => underFollowed(ancestors, followedSet, g)
+const over = (g) => overFollowed(ancestors, followed, g)
 
 const likely = []
 const rest = []
