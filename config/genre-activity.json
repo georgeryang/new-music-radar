@@ -1,27 +1,75 @@
 {
   "Anime": {
-    "dropped": 8,
+    "dropped": 16,
     "today": 8,
-    "last_seen": "2026-07-30",
+    "last_seen": "2026-07-31",
     "example": "名探偵プリキュア! — 『名探偵プリキュア!』ボーカルアルバム～ツナガル♡ツラナル～"
   },
   "Rock": {
-    "dropped": 8,
-    "today": 8,
-    "last_seen": "2026-07-30",
+    "dropped": 15,
+    "today": 9,
+    "last_seen": "2026-07-31",
     "example": "The Biscats — BLACK or PINK?"
   },
-  "Soundtrack": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-07-30",
-    "example": "Tokyo DisneySea — Tokyo DisneySea 25th \"Sparkling Jubilee\" Music Album (Deluxe)"
+  "Música Mexicana": {
+    "dropped": 12,
+    "today": 10,
+    "last_seen": "2026-07-31",
+    "example": "AJ Castillo & Gabriella Flores — Me Tienes Asi"
   },
   "Alternative": {
+    "dropped": 11,
+    "today": 9,
+    "last_seen": "2026-07-31",
+    "example": "King Gnu — GO GHOST"
+  },
+  "Country": {
+    "dropped": 9,
+    "today": 9,
+    "last_seen": "2026-07-31",
+    "example": "Cameron Whitcomb — The Hard Way (Complete Edition)"
+  },
+  "Soundtrack": {
+    "dropped": 5,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Michael Giacchino — Spider-Man: Brand New Day (Original Motion Picture Soundtrack)"
+  },
+  "Rap": {
+    "dropped": 3,
+    "today": 2,
+    "last_seen": "2026-07-31",
+    "example": "Dave East & Harry Fraud — Price of Pain"
+  },
+  "Afro-Pop": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-07-31",
+    "example": "Lukbrown Yolkyell — 29 in 29"
+  },
+  "House": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Kimo Sounds — Make It Spectacular"
+  },
+  "Chinese Rock": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-07-30",
-    "example": "King Gnu — GO GHOST"
+    "last_seen": "2026-07-31",
+    "example": "無常樂 — 成人禮"
+  },
+  "Tai-Pop": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-07-31",
+    "example": "Kuljelje — 出外人"
+  },
+  "Electronic": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-07-31",
+    "example": "Arca — XXXXX"
   },
   "Alternative Folk": {
     "dropped": 1,
@@ -29,10 +77,100 @@
     "last_seen": "2026-07-30",
     "example": "pada — 拆"
   },
-  "Música Mexicana": {
+  "Afro-Beat": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-07-30",
-    "example": "Tito Double P — Tito Double P: Music Room"
+    "last_seen": "2026-07-31",
+    "example": "EL MATADOR — MALADIE"
+  },
+  "Trance": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Paul Oakenfold — Mission Underground"
+  },
+  "Techno": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Nyra Noir — Closer Than Fear"
+  },
+  "Reggae": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "MINMI — Vibration"
+  },
+  "Jazz": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "DOMi & JD BECK — WHO ASKED?"
+  },
+  "Christian": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "William McDowell — Dreams, Revelations & Moments"
+  },
+  "South Africa": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Mashelela — IMBONGOLO YISHENDE"
+  },
+  "Afro Soul": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Lodù — Wine & Honey"
+  },
+  "Afro-fusion": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Rikila — Dunlop"
+  },
+  "African": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Sangold — Mujo"
+  },
+  "Metal": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Five Finger Death Punch — Legacy"
+  },
+  "Spoken Word": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Tom Waits — The Fly"
+  },
+  "Americana": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Abigail Rose & Weston Hunter — Betty's in the Band"
+  },
+  "Folk": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Baby Bugs & Black Polish — Rabies"
+  },
+  "Worldwide": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Arley Perez — Corridos"
+  },
+  "Garage": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-07-31",
+    "example": "Microhm & Imaabs — Latencia"
   }
 }
