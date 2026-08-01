@@ -1,39 +1,63 @@
 {
-  "Anime": {
-    "dropped": 16,
-    "today": 8,
-    "last_seen": "2026-07-31",
-    "example": "名探偵プリキュア! — 『名探偵プリキュア!』ボーカルアルバム～ツナガル♡ツラナル～"
-  },
   "Rock": {
-    "dropped": 15,
+    "dropped": 24,
     "today": 9,
-    "last_seen": "2026-07-31",
-    "example": "The Biscats — BLACK or PINK?"
+    "last_seen": "2026-08-01",
+    "example": "Peter Gabriel — One by One (Bright-Side Mix)"
   },
   "Música Mexicana": {
-    "dropped": 12,
-    "today": 10,
-    "last_seen": "2026-07-31",
-    "example": "AJ Castillo & Gabriella Flores — Me Tienes Asi"
+    "dropped": 24,
+    "today": 12,
+    "last_seen": "2026-08-01",
+    "example": "Elsa García & Nortex — En Vivo Desde La Expo Guadalupe"
+  },
+  "Anime": {
+    "dropped": 21,
+    "today": 5,
+    "last_seen": "2026-08-01",
+    "example": "名探偵プリキュア! — 『名探偵プリキュア!』ボーカルアルバム～ツナガル♡ツラナル～"
   },
   "Alternative": {
-    "dropped": 11,
-    "today": 9,
-    "last_seen": "2026-07-31",
+    "dropped": 19,
+    "today": 8,
+    "last_seen": "2026-08-01",
     "example": "King Gnu — GO GHOST"
   },
   "Country": {
-    "dropped": 9,
+    "dropped": 18,
     "today": 9,
-    "last_seen": "2026-07-31",
-    "example": "Cameron Whitcomb — The Hard Way (Complete Edition)"
+    "last_seen": "2026-08-01",
+    "example": "Shaboozey — The Outlaw Cherie Lee & Other Western Tales"
   },
   "Soundtrack": {
-    "dropped": 5,
+    "dropped": 7,
+    "today": 2,
+    "last_seen": "2026-08-01",
+    "example": "Lin-Manuel Miranda, Catherine Laga'aia & Dwayne Johnson — Moana (Japanese Original Motion Picture Soundtrack)"
+  },
+  "Electronic": {
+    "dropped": 7,
+    "today": 5,
+    "last_seen": "2026-08-01",
+    "example": "Fcukers — nüyork"
+  },
+  "Afro-Pop": {
+    "dropped": 4,
     "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "Michael Giacchino — Spider-Man: Brand New Day (Original Motion Picture Soundtrack)"
+    "last_seen": "2026-08-01",
+    "example": "Lukbrown Yolkyell — 29 in 29"
+  },
+  "House": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-08-01",
+    "example": "NOCYTRA — Closer"
+  },
+  "Chinese Rock": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-08-01",
+    "example": "無常樂 — 成人禮"
   },
   "Rap": {
     "dropped": 3,
@@ -41,71 +65,83 @@
     "last_seen": "2026-07-31",
     "example": "Dave East & Harry Fraud — Price of Pain"
   },
-  "Afro-Pop": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-07-31",
-    "example": "Lukbrown Yolkyell — 29 in 29"
-  },
-  "House": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "Kimo Sounds — Make It Spectacular"
-  },
-  "Chinese Rock": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-07-31",
-    "example": "無常樂 — 成人禮"
-  },
   "Tai-Pop": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-07-31",
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-08-01",
     "example": "Kuljelje — 出外人"
   },
-  "Electronic": {
-    "dropped": 2,
+  "Trance": {
+    "dropped": 3,
     "today": 2,
-    "last_seen": "2026-07-31",
-    "example": "Arca — XXXXX"
+    "last_seen": "2026-08-01",
+    "example": "Paul Oakenfold — Mission Underground"
+  },
+  "Afro-Beat": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-01",
+    "example": "Cut Chemist — Simetachin - ስሜታችንን (feat. Derib Zenebe & Dexter Story)"
+  },
+  "Techno": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-01",
+    "example": "Strauss — Hammer of Dawn"
+  },
+  "Reggae": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-01",
+    "example": "EL NAOYA — Kiwami"
+  },
+  "Jazz": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-01",
+    "example": "DOMi & JD BECK — WHO ASKED?"
+  },
+  "Metal": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-01",
+    "example": "Five Finger Death Punch — Legacy"
+  },
+  "Spoken Word": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-01",
+    "example": "Tom Waits — The Fly"
+  },
+  "Americana": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-01",
+    "example": "Abigail Rose & Weston Hunter — Betty's in the Band"
+  },
+  "Folk": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-01",
+    "example": "Baby Bugs & Black Polish — Rabies"
+  },
+  "Worldwide": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-01",
+    "example": "Arley Perez — Corridos"
+  },
+  "Garage": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-01",
+    "example": "Microhm & Imaabs — Latencia"
   },
   "Alternative Folk": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-07-30",
     "example": "pada — 拆"
-  },
-  "Afro-Beat": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "EL MATADOR — MALADIE"
-  },
-  "Trance": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "Paul Oakenfold — Mission Underground"
-  },
-  "Techno": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "Nyra Noir — Closer Than Fear"
-  },
-  "Reggae": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "MINMI — Vibration"
-  },
-  "Jazz": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "DOMi & JD BECK — WHO ASKED?"
   },
   "Christian": {
     "dropped": 1,
@@ -137,40 +173,16 @@
     "last_seen": "2026-07-31",
     "example": "Sangold — Mujo"
   },
-  "Metal": {
+  "Rock y Alternativo": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "Five Finger Death Punch — Legacy"
+    "last_seen": "2026-08-01",
+    "example": "Milo j — Live From NPR's Tiny Desk"
   },
-  "Spoken Word": {
+  "Hip-Hop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "Tom Waits — The Fly"
-  },
-  "Americana": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "Abigail Rose & Weston Hunter — Betty's in the Band"
-  },
-  "Folk": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "Baby Bugs & Black Polish — Rabies"
-  },
-  "Worldwide": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "Arley Perez — Corridos"
-  },
-  "Garage": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "Microhm & Imaabs — Latencia"
+    "last_seen": "2026-08-01",
+    "example": "Debians, Mvchoo23 & Yama Make Them Bounce — 4Me"
   }
 }
