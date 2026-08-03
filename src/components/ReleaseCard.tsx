@@ -22,12 +22,14 @@ function TypeIcon({ type }: { type: Release['type'] }) {
 export function ReleaseCard({
   release,
   upcoming = false,
-  fetchedAt = 0,
+  fetchedAt,
   eager = false,
 }: {
   release: Release
   upcoming?: boolean
-  fetchedAt?: number
+  // required: defaulting it to 0 would silently date every upcoming badge from
+  // 1970 rather than fail to compile
+  fetchedAt: number
   eager?: boolean
 }) {
   const [imgFailed, setImgFailed] = useState(false)

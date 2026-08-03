@@ -11,7 +11,7 @@ log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
 
 . "$REPO_DIR/scripts/find-node.sh"
 if [ -z "$NODE" ]; then
-  log "ERROR: node not found"
+  log "ERROR: node not found on PATH or under ~/.nvm/versions/node/*/bin — install node, or point scripts/find-node.sh at it"
   exit 1
 fi
 
@@ -31,12 +31,19 @@ if [ "${1:-}" = "--if-stale" ]; then
     let fetchedAt = 0;
     try { fetchedAt = JSON.parse(readFileSync(DATA_PATH, "utf8")).fetched_at } catch {}
     process.stdout.write(fetchedAt < slot - KST ? "1" : "0");
-  ' 2>/dev/null || echo 1)"
+  ' 2>&1)"
+  if [ "$STALE" != "0" ] && [ "$STALE" != "1" ]; then
+    # Fail open (a missed night costs more than an extra fetch), but name the real
+    # cause: the "predates the slot" line below would otherwise repeat every tick
+    # while the probe stayed broken. First line only, or a stack trace floods the log.
+    log "WARNING: staleness probe failed, refreshing anyway ($(printf '%s' "${STALE:-no output}" | head -1))"
+    STALE=1
+  fi
   if [ "$STALE" != "1" ]; then
     exit 0  # silent: ticks run every 10 min, logging each skip would flood the log
   fi
   # Jitter 0-7 min so the fetch never lands at a machine-regular moment.
-  # Manual runs (prefs.command's Refresh-now) skip this branch entirely.
+  # Manual runs (the editor's Save & Refresh) skip this branch entirely.
   JITTER=$((RANDOM % 420))
   log "Last fetch predates the 18:15 KST slot — refreshing in ${JITTER}s"
   sleep "$JITTER"

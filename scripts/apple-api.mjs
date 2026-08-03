@@ -27,11 +27,11 @@ export async function getJSON(url) {
   return res.json()
 }
 
-// iTunes Search/Lookup is unofficially rate-limited (~20/min). Every call to
-// that host waits out the gap since the previous call (with jitter) rather
-// than sleeping a fixed pause after, so processing time counts toward the gap
-// and a loop's last call leaves no dangling sleep. Other Apple hosts (legacy
-// RSS, web player) aren't limited and use getJSON directly.
+// iTunes Search/Lookup is unofficially rate-limited (~20/min). Every Search or
+// Lookup call waits out the gap since the previous one (with jitter) rather than
+// sleeping a fixed pause after, so processing time counts toward the gap and a
+// loop's last call leaves no dangling sleep. The legacy RSS paths share this host
+// but are not limited, so they use getJSON and their callers stagger them.
 let lastItunesCall = 0
 export async function itunesJSON(url) {
   const wait = lastItunesCall + 2500 + Math.random() * 1500 - Date.now()

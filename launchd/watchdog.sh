@@ -1,11 +1,9 @@
 #!/bin/bash
 # Redundant loader for the new-music-radar launchd updater.
 #
-# Why this exists: after the 2026-07-21 reboot (the first since the LaunchAgent
-# was created) macOS did NOT autoload the agent, despite an active console
-# session, so no 10-min tick fired and the site went a full day stale. cron is a
-# system daemon that loads at boot independent of the GUI-login autoload path
-# that failed, so it can re-bootstrap the agent whenever it has fallen out.
+# Why this exists: macOS may not autoload the LaunchAgent after a reboot, and a
+# missed tick costs a full day of staleness. cron loads at boot independent of the
+# GUI-login autoload path that fails, so it can re-bootstrap the agent.
 #
 # It does NOT run the fetch: the single writer is still launchd -> update.sh
 # --if-stale. RunAtLoad on the re-bootstrapped agent fires the catch-up, and

@@ -27,7 +27,7 @@ import {
   countryPurchaseUrl, errDetail, genreFeedUrl, getJSON, itunesJSON, lookupUrl,
   marketingToolsJSON, normId, rssAlbumId, scrapePlaylistAlbumIds, sleep, usLink,
 } from './apple-api.mjs'
-import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, daysSince, feedTypesOf, sourceTag } from './shared.mjs'
+import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, daysSince, feedTypesOf, sourceTag, withinDays } from './shared.mjs'
 
 const PREFS = JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
@@ -43,11 +43,14 @@ const NOISE_RE = /\b(instrumental|sped[ -]?up|slowed( \+ reverb)?|inst\.)\b/i
 // UTC, matching the dates Apple serializes; the app formats in local time.
 const TODAY = new Date().toISOString().slice(0, 10)
 
-// 0.5 grace absorbs the timezone spread between Apple's date and ours.
+// Upper bound only: its one caller carries pre-orders forward, and those are
+// future-dated, so a lower bound would reject every one. The 0.5 grace absorbs
+// the timezone spread between Apple's date and ours.
 const withinWindow = (releaseDate) => daysSince(releaseDate) <= WINDOW_DAYS + 0.5
 
-// lower bound: catalogs list pre-orders (future dates) — released-only scope.
-const inWindow = (releaseDate) => withinWindow(releaseDate) && daysSince(releaseDate) >= 0
+// Released-only scope: withinDays owns both the grace and the pre-order bound, so
+// the tolerance is defined once.
+const inWindow = (releaseDate) => withinDays(releaseDate, WINDOW_DAYS)
 
 // Announced pre-orders: anything still future-dated at fetch time, the exact
 // complement of inWindow's lower bound so the two sets stay disjoint. This
@@ -119,8 +122,7 @@ const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 // ---------- followed artists via iTunes ----------
 
 // Batched sweep: one paced lookup per BATCH_SIZE artists (comma-joined ids),
-// each returning its most recent albums. Response ORDER is load-bearing —
-// batchReleases reads the grouping to attribute each collection.
+// each returning its most recent albums.
 
 // Both retry passes (sweep batches, country feeds) wait this long: the
 // failures they cover are intermittent connection stalls and 503 throttling.
@@ -305,9 +307,8 @@ const playlistAlbumIds = async (pl) => ({ pl, ...(await scrapePlaylistAlbumIds(p
 // ---------- pipeline ----------
 
 let anyFailed = false
-// Source tags whose data is missing or degraded this run. The rolling tally at
-// the end records null for these rather than 0 — a transient feed error that
-// reads as "produced nothing" is exactly what makes a healthy source look dead.
+// Source tags whose data is missing or degraded this run; the tally at the end
+// records null for these, never 0 (see sourceWindow in shared.mjs).
 const failedSources = new Set()
 const CHART_SOURCE = sourceTag('chart', 'us')
 const releases = []
@@ -319,7 +320,7 @@ const releases = []
 const chartP = fetchChart()
 // chartP is consumed after the sweep — without this handler, a chart failure
 // mid-sweep is an unhandled rejection that kills the run before anything is
-// written. (The other two starters are allSettled and can't reject.)
+// written. (The other starters are allSettled and can't reject.)
 chartP.catch(() => {})
 // Genre feeds and country purchase feeds share the itunes host, so they draw from
 // one running slot counter. A per-list formula (gi * 2 + fi) would collide or gap,

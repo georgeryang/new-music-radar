@@ -186,11 +186,10 @@ const server = http.createServer(async (req, res) => {
       res.end(PAGE.replace('<!--CSS-->', href ? `<link rel="stylesheet" href="${href}">` : ''))
     } else if (req.method === 'GET' && url.pathname === '/api/prefs') {
       const p = readPrefs()
-      // Per-genre and per-source yield of the latest fetch, for the chip
-      // markers. Only non-followed releases count: followed artists bypass
-      // filters, so their releases say nothing about whether a chip earns its
-      // keep. sourceCounts is keyed by the fetcher's sources tags
-      // (country:<code>, playlist:<name>).
+      // Per-genre and per-source yield of the latest fetch, for the chip markers.
+      // Only non-followed releases count, for the reason fetch-releases.mjs gives
+      // where it writes the tally. sourceCounts is keyed by the fetcher's sources
+      // tags (country:<code>, playlist:<name>).
       const genreCounts = {}
       // A 0 marker reads as "prune candidate", so an unreadable data file must
       // not report zeros — that would advise deleting working sources.
@@ -372,7 +371,7 @@ const PAGE = /* html */ `<!doctype html>
 <div id="banner" hidden role="status"></div>
 <footer class="fixed inset-x-0 bottom-0 flex items-center justify-center gap-2 border-t border-border bg-background px-4 py-2.5">
   <span id="status" role="status" class="mr-auto max-w-[50%] text-xs leading-snug text-muted-foreground"></span>
-  <button id="quit" class="cursor-pointer rounded-lg border border-border bg-transparent px-4 py-[7px] text-[13px] disabled:cursor-default disabled:opacity-45">Quit</button>
+  <button id="quit" class="cursor-pointer rounded-lg border border-border bg-transparent px-4 py-[7px] text-[13px]">Quit</button>
   <button id="save" disabled class="cursor-pointer rounded-lg border border-border bg-transparent px-4 py-[7px] text-[13px] disabled:cursor-default disabled:opacity-45">Save</button>
   <button id="refresh" class="cursor-pointer rounded-lg border border-primary bg-primary px-4 py-[7px] text-[13px] text-primary-foreground disabled:cursor-default disabled:opacity-45">Save &amp; Refresh</button>
 </footer>
@@ -437,11 +436,14 @@ function streamingOnlyNote() {
   return span
 }
 
-// https://music.apple.com/us/playlist/<slug>/pl.<id> — display name from slug
+// https://music.apple.com/us/playlist/<slug>/pl.<id> — display name from slug.
+// The same shape isPlaylistList enforces on save: a looser test here would add a
+// chip and then fail Save with an "invalid list shape" that names no entry.
+const PLAYLIST_RE = /^https:\\/\\/music\\.apple\\.com\\/[a-z]{2}\\/playlist\\/([^/]+)\\/pl\\./
 function parsePlaylist(u) {
-  const parts = u.split('/')
-  if (!(u.startsWith('https://music.apple.com/') && parts[4] === 'playlist' && (parts[6] ?? '').startsWith('pl.'))) return null
-  return { name: parts[5].replace(/-/g, ' ').replace(/\\b\\w/g, (c) => c.toUpperCase()), url: u }
+  const m = PLAYLIST_RE.exec(u)
+  if (!m) return null
+  return { name: m[1].replace(/-/g, ' ').replace(/\\b\\w/g, (c) => c.toUpperCase()), url: u }
 }
 
 // one dropdown row, same shape for artists, playlists, and genres. The optional
@@ -466,7 +468,16 @@ function resultRow(results, label, note, onPick, extra) {
   row.append(b)
   if (extra) row.append(extra)
   results.appendChild(row)
-  return b
+}
+
+// A non-pickable dropdown row: "Searching…" and "no matches" must not look like
+// something you can choose, and a hidden dropdown reads as "no matches" instead.
+function noteRow(results, text) {
+  const d = document.createElement('div')
+  d.className = 'px-2.5 py-[7px] text-[13px] text-muted-foreground'
+  d.textContent = text
+  results.replaceChildren(d)
+  results.hidden = false
 }
 
 function markDirty() { dirty = true; $('save').disabled = false }
@@ -635,8 +646,6 @@ function renderAll() {
   root.append(renderFixed())
 }
 
-const sectionLabel = (key) => (SECTIONS.find((s) => s.key === key) ?? {}).label ?? key
-
 function addTo(key, item) {
   const list = getList(key)
   const name = nameOf(item).trim()
@@ -649,7 +658,7 @@ function addTo(key, item) {
     ? list.some((e) => e.id === item.id)
     : list.some((e) => nameOf(e).toLowerCase() === name.toLowerCase())
   if (dupe) {
-    setStatus(displayName + ' is already in ' + sectionLabel(key) + '.', false, true)
+    setStatus(displayName + ' is already in ' + (section?.label ?? key) + '.', false, true)
     return
   }
   list.push(typeof item === 'string' ? name : { ...item, name })
@@ -726,6 +735,9 @@ function wireArtist(s, input, results, pick) {
     clearTimeout(timer)
     const q = input.value
     if (q.trim().length < 2) { results.hidden = true; return }
+    // 500ms of debounce plus a request round trip, and this dropdown is the only
+    // way to add an artist (Enter is refused above), so the wait needs a marker.
+    noteRow(results, 'Searching…')
     timer = setTimeout(async () => { // 500ms: iTunes Search is ~20 req/min
       let found
       try {
@@ -740,6 +752,7 @@ function wireArtist(s, input, results, pick) {
         setStatus('Artist search unavailable. Check the connection and try again.', true, true)
         return
       }
+      if (!found.length) { noteRow(results, 'No artists found'); return }
       results.replaceChildren()
       for (const a of found) {
         let verify
@@ -756,7 +769,7 @@ function wireArtist(s, input, results, pick) {
         }
         resultRow(results, a.name, a.genre, () => pick({ name: a.name, id: a.id }), verify)
       }
-      results.hidden = found.length === 0
+      results.hidden = false
     }, 500)
   }
 }

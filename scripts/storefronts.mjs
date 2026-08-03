@@ -2,10 +2,8 @@
 // entries must come from this map, and the editor uses it for display names
 // and its picker. Covers the P1–P3 tiers plus same-language storefronts.
 //
-// Audited live 2026-07-30 across all codes. Dropped cn, uy and mo: the first two
-// have no purchase store AND almost nothing recent, and mo returned 9 recent
-// releases of which zero were absent from hk (78% shared) — a duplicate of a
-// storefront already scanned.
+// cn, uy and mo are deliberately absent: the first two have no purchase store and
+// almost nothing recent, and mo's recent releases are all carried by hk.
 
 import { PURCHASE_FEED_TYPES } from './shared.mjs'
 

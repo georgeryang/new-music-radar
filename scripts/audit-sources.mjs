@@ -2,20 +2,16 @@
 // Grade every source the preferences editor exposes, and suggest replacements.
 // Read-only: it never edits config, it prints a report for a person to act on.
 //
-// Two rules this report is built around, both learned by getting them wrong:
+// Two rules this report is built around, both learned by getting them wrong, and
+// both printed with the recommendations at the end:
 //
-//   1. QUIET IS NOT DEAD. A feed returning 0 entries is broken; a feed returning
-//      68 entries with nothing released recently is healthy and slow. Removing
-//      the second because it looks like the first is the mistake to avoid.
-//   2. ABSENCE IS NOT ZERO. A day a source's fetch failed records null in
-//      source-activity.json, not 0, and every window below skips those days.
-//      A transient error read as "produced nothing" is what makes a healthy
-//      source look prunable.
+//   1. QUIET IS NOT DEAD — a feed with 0 entries is broken, a feed with 68 and
+//      nothing recent is healthy and slow.
+//   2. ABSENCE IS NOT ZERO — see sourceWindow in shared.mjs.
 //
-// Every feed URL, parser and pacer comes from apple-api.mjs, so this grades the
-// feeds the pipeline actually reads rather than a second copy that can drift.
-//
-// Usage: node scripts/audit-sources.mjs [--no-discover] [--json]
+// skills/audit-radar-sources/SKILL.md explains both for someone acting on the
+// report. Every feed URL, parser and pacer comes from apple-api.mjs, so this
+// grades the feeds the pipeline reads rather than a copy that can drift.
 
 import { readFileSync } from 'node:fs'
 import { STOREFRONTS, STREAMING_ONLY, purchaseFeedsOf } from './storefronts.mjs'
@@ -33,10 +29,17 @@ import {
   withinDays,
 } from './shared.mjs'
 
-const DISCOVER = !process.argv.includes('--no-discover')
-const AS_JSON = process.argv.includes('--json')
-const say = (...a) => { if (!AS_JSON) console.log(...a) }
+const USAGE = 'usage: node scripts/audit-sources.mjs [--no-discover] [--json]'
 const die = (m) => { console.error(m); process.exit(1) }
+const argv = process.argv.slice(2)
+if (argv.includes('--help') || argv.includes('-h')) { console.log(USAGE); process.exit(0) }
+// A silently ignored typo runs the multi-minute discovery pass --no-discover was
+// meant to skip, or prints the human report when --json was wanted.
+const unknown = argv.find((a) => a !== '--no-discover' && a !== '--json')
+if (unknown) die(`unknown argument '${unknown}' (${USAGE})`)
+const DISCOVER = !argv.includes('--no-discover')
+const AS_JSON = argv.includes('--json')
+const say = (...a) => { if (!AS_JSON) console.log(...a) }
 
 // A fetch competing with a refresh would fight it for the same rate limit and
 // read its half-written output. prefs-server owns this pidfile, so this catches
@@ -48,8 +51,17 @@ try {
   if (pid) { process.kill(pid, 0); die(`A refresh is running (pid ${pid}). Let it finish, then run this again.`) }
 } catch {}
 
-const read = (p, fallback) => { try { return JSON.parse(readFileSync(p, 'utf8')) } catch { return fallback } }
-const PREFS = read(PREFS_PATH, null) ?? die('Could not read config/preferences.json.')
+// A missing file is a real "not yet"; a corrupt one is not. Falling back silently
+// would report "0 day(s) of history" or "admitted: none" with no cause, which is
+// the same absence-read-as-zero mistake rule 2 exists to prevent.
+const fileLabel = (p) => decodeURIComponent(String(p)).split('/').slice(-2).join('/')
+const read = (p, fallback) => {
+  try { return JSON.parse(readFileSync(p, 'utf8')) } catch (e) {
+    if (e.code !== 'ENOENT') die(`Could not read ${fileLabel(p)} (${e.message}). Fix the file, then run this again.`)
+    return fallback
+  }
+}
+const PREFS = read(PREFS_PATH, null) ?? die('config/preferences.json is missing.')
 const HIST = read(SOURCE_ACTIVITY_PATH, { days: [], sources: {} })
 const GENRE_ACT = read(GENRE_ACTIVITY_PATH, {})
 const FEED = read(DATA_PATH, { releases: [] })
@@ -64,15 +76,15 @@ const followedSet = new Set(followedGenres.map((g) => g.toLowerCase()))
 const countries = PREFS.discovery?.countries ?? []
 const playlists = PREFS.discovery?.playlists ?? []
 
-// What the current file admitted through discovery. Followed artists bypass every
-// filter, so their releases say nothing about whether a source earns its keep.
+// What the current file admitted through discovery; followed artists excluded for
+// the reason fetch-releases.mjs gives where it writes the tally.
 const admitted = {}
 for (const r of FEED.releases ?? []) if (!r.followed && r.genre) admitted[r.genre] = (admitted[r.genre] ?? 0) + 1
 
 // ---------- history windows ----------
 
-// Index sets hoisted: sourceWindow is called twice per source, and re-walking the
-// date array each time was the same projection ~50 times over.
+// Index sets hoisted: sourceWindow is called twice per source, so re-walking the
+// date array each time repeats one projection across every source.
 const IDX7 = windowIndices(HIST, 7)
 const IDX30 = windowIndices(HIST, SOURCE_CHIP_DAYS)
 // consecutive measured days with zero yield, most recent first; nulls skipped
@@ -117,7 +129,7 @@ async function mtLiveness(url) {
 
 // A source's purchase feeds rolled into one set of numbers. Every RSS probe in the
 // report goes through this, so the day thresholds cannot differ between the
-// configured rows and the candidates (they already had).
+// configured rows and the candidates.
 async function probeRss(feeds) {
   const idSet = new Set()
   let entries = 0, newest = null, fresh = 0, ok = true, err = null
@@ -188,10 +200,16 @@ const artistRows = []
     } catch (e) { say(`  batch ${i / BATCH_SIZE + 1} failed (${errDetail(e)}) — those artists are unrated below`); continue }
     const per = new Map()
     let via = null
+    let orphans = 0
     for (const r of results) {
       if (r.wrapperType === 'artist') { via = r.artistId; per.set(via, { name: r.artistName, albums: [] }) }
-      else if (r.wrapperType === 'collection' && via != null) per.get(via)?.albums.push(r)
+      else if (r.wrapperType !== 'collection') continue
+      else if (via == null) orphans++
+      else per.get(via)?.albums.push(r)
     }
+    // The fetcher exits 2 on this; here it only skews a row, but dropping it
+    // silently would undercount exactly the artists being graded.
+    if (orphans) say(`  ${orphans} collections arrived before any artist record — lookup grouping changed?`)
     for (const a of batch) {
       const hit = per.get(a.id)
       if (!hit) { artistRows.push({ ...a, dead: true }); continue }
@@ -363,8 +381,8 @@ for (const { pl, ids, err } of plPages) {
 // count as cover — otherwise a source that merely failed to load would make its
 // neighbours look redundant, which is how a probe failure turns into bad advice.
 const measured = rows.filter((r) => r.live.ok)
-// One pass over every id: rebuilding the union of all other sources per row was
-// the same work once per row.
+// One pass over every id, so a row's uniqueness reads off a shared tally rather
+// than rebuilding the union of all other sources per row.
 const carriers = new Map()
 for (const r of measured) for (const i of r.idSet) carriers.set(i, (carriers.get(i) ?? 0) + 1)
 for (const r of rows) {

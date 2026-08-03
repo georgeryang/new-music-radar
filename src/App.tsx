@@ -70,7 +70,6 @@ export default function App() {
     { key: 'upcoming' as const, label: `Upcoming · ${upcoming.length}`, items: upcoming },
   ].filter((t) => t.items.length > 0)
   const active = tabs.find((t) => t.key === tab) ?? tabs[0]
-  // both lists empty means no tabs at all; the info message below covers it
   const activeKey = active?.key ?? 'new'
   const shown = active?.items ?? []
   const showBar = upcoming.length > 0
@@ -173,8 +172,11 @@ export default function App() {
 }
 
 function LoadingGrid() {
+  // role="status" with real text: aria-busy on a non-live element announces
+  // nothing, which left the 15s load silent for a screen reader.
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4" aria-busy="true">
+    <div role="status" className="grid grid-cols-2 gap-3 sm:grid-cols-4" aria-busy="true">
+      <span className="sr-only">Loading releases</span>
       {Array.from({ length: 8 }, (_, i) => (
         <div key={i} className="aspect-square rounded-lg bg-muted motion-safe:animate-pulse" />
       ))}
