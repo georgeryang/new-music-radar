@@ -1,45 +1,45 @@
 {
   "Música Mexicana": {
-    "dropped": 34,
-    "today": 10,
-    "last_seen": "2026-08-02",
-    "example": "Julión Álvarez y su Norteño Banda — Llévala a La Luna"
-  },
-  "Rock": {
-    "dropped": 28,
-    "today": 4,
-    "last_seen": "2026-08-02",
-    "example": "Eri Kitamura — Impact!!!Scream"
+    "dropped": 37,
+    "today": 3,
+    "last_seen": "2026-08-03",
+    "example": "Los Tigres del Norte — México Sigue De Pie"
   },
   "Country": {
-    "dropped": 27,
+    "dropped": 36,
     "today": 9,
-    "last_seen": "2026-08-02",
+    "last_seen": "2026-08-03",
     "example": "Shaboozey — The Outlaw Cherie Lee & Other Western Tales"
   },
-  "Anime": {
-    "dropped": 24,
-    "today": 3,
-    "last_seen": "2026-08-02",
-    "example": "Hatsuboshi Gakuen & Tsubame Amaya — Kuraiai"
+  "Rock": {
+    "dropped": 33,
+    "today": 5,
+    "last_seen": "2026-08-03",
+    "example": "Hotaru — Azure"
   },
   "Alternative": {
-    "dropped": 24,
-    "today": 5,
-    "last_seen": "2026-08-02",
+    "dropped": 28,
+    "today": 4,
+    "last_seen": "2026-08-03",
     "example": "Michigander — Over Before You Know It"
   },
+  "Anime": {
+    "dropped": 26,
+    "today": 2,
+    "last_seen": "2026-08-03",
+    "example": "Hatsuboshi Gakuen & Tsubame Amaya — Kuraiai"
+  },
   "Soundtrack": {
-    "dropped": 12,
-    "today": 5,
-    "last_seen": "2026-08-02",
+    "dropped": 14,
+    "today": 2,
+    "last_seen": "2026-08-03",
     "example": "Zhou Shen — 耀眼的我们(《天才,女友》影视剧主题曲/片头曲)"
   },
   "Electronic": {
-    "dropped": 11,
-    "today": 4,
-    "last_seen": "2026-08-02",
-    "example": "Fcukers — nüyork"
+    "dropped": 14,
+    "today": 3,
+    "last_seen": "2026-08-03",
+    "example": "Fred again.. & LATIN MAFIA — 9 months & 50 hours"
   },
   "House": {
     "dropped": 8,
@@ -48,16 +48,22 @@
     "example": "ViTaMiNkAhno2 — RISE SLOW"
   },
   "Chinese Rock": {
-    "dropped": 5,
+    "dropped": 6,
     "today": 1,
-    "last_seen": "2026-08-02",
+    "last_seen": "2026-08-03",
     "example": "無常樂 — 成人禮"
   },
   "Trance": {
+    "dropped": 6,
+    "today": 1,
+    "last_seen": "2026-08-03",
+    "example": "Armin van Buuren & SACHA — Everlasting"
+  },
+  "Jazz": {
     "dropped": 5,
     "today": 2,
-    "last_seen": "2026-08-02",
-    "example": "Paul Oakenfold — Mission Underground"
+    "last_seen": "2026-08-03",
+    "example": "DOMi & JD BECK — WHO ASKED?"
   },
   "Afro-Pop": {
     "dropped": 4,
@@ -71,29 +77,35 @@
     "last_seen": "2026-08-02",
     "example": "Kuljelje — 出外人"
   },
+  "Metal": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-08-03",
+    "example": "Five Finger Death Punch — Legacy"
+  },
+  "Spoken Word": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-08-03",
+    "example": "Tom Waits — The Fly"
+  },
+  "Worldwide": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-08-03",
+    "example": "Arley Perez — Corridos"
+  },
+  "Garage": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-08-03",
+    "example": "Microhm & Imaabs — Latencia"
+  },
   "Rap": {
     "dropped": 3,
     "today": 2,
     "last_seen": "2026-07-31",
     "example": "Dave East & Harry Fraud — Price of Pain"
-  },
-  "Jazz": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-02",
-    "example": "PERSONA 5 Special Big Band — PERSONA 5 Special Big Band Concert 2025"
-  },
-  "Metal": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-02",
-    "example": "Five Finger Death Punch — Legacy"
-  },
-  "Spoken Word": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-02",
-    "example": "Tom Waits — The Fly"
   },
   "Americana": {
     "dropped": 3,
@@ -107,17 +119,11 @@
     "last_seen": "2026-08-02",
     "example": "Baby Bugs & Black Polish — Rabies"
   },
-  "Worldwide": {
+  "Hip-Hop": {
     "dropped": 3,
     "today": 1,
-    "last_seen": "2026-08-02",
-    "example": "Arley Perez — Corridos"
-  },
-  "Garage": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-02",
-    "example": "Microhm & Imaabs — Latencia"
+    "last_seen": "2026-08-03",
+    "example": "Debians, Mvchoo23 & Yama Make Them Bounce — 4Me"
   },
   "Afro-Beat": {
     "dropped": 2,
@@ -142,12 +148,6 @@
     "today": 1,
     "last_seen": "2026-08-02",
     "example": "Milo j — Live From NPR's Tiny Desk"
-  },
-  "Hip-Hop": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-02",
-    "example": "Debians, Mvchoo23 & Yama Make Them Bounce — 4Me"
   },
   "Alternative Folk": {
     "dropped": 1,
