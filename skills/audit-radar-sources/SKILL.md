@@ -59,8 +59,8 @@ newly dead, re-run before believing it.
   gate is freshness *and* unique contribution, because a 90%-fresh list whose every
   release you already get changes nothing.
 - **Never guess an Apple genre id.** The audit cross-checks every `GENRE_FEEDS`
-  entry against Apple's live tree and flags a tag that disagrees. Id 1123 looks
-  like it should be Afro-Beat; it is Música Mexicana.
+  entry against Apple's live tree and flags a tag that disagrees; `genre-tree.mjs`
+  carries the worked example of an id that reads as one genre and is another.
 - **Sole-source counts before 2026-07-30 understate sharing.** The US chart and
   genre feeds were untagged until then, so a release they also found looked unique
   to whichever country surfaced it.

@@ -50,10 +50,8 @@ not the outcome, which only proves it for the browser you ran.
 
 ## Source audit (scripts/audit-sources.mjs)
 
-- `npm run audit-sources` is read-only and safe to run any time except during a
-  fetch. It refuses while an editor refresh is going, but cannot see the nightly
-  one, so check the clock. `npm run audit-sources -- --no-discover` for the fast
-  pass (the `--` is required through npm).
+- Read-only and safe to run any time except during a fetch. How to run it and how
+  to read it are in `skills/audit-radar-sources/SKILL.md`.
 - It depends on `config/source-activity.json`, which the fetcher appends to. To
   test multi-day behaviour without waiting, hand-write a synthetic prior day into
   that file, run the fetcher, then restore — never leave invented days in place.

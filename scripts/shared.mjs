@@ -110,9 +110,8 @@ export function sourceWindow(hist, tag, idx) {
 // Lives here, not in the fetcher, because the editor lists these as always-scanned
 // sources and importing fetch-releases.mjs would run the whole pipeline.
 //
-// 1251/1253 sit under Pop (14), NOT under Chinese (1232) — 1232 is the traditional
-// branch (Chinese Classical, Opera, Regional Folk) and never produced a single
-// release, so it was dropped 2026-07-30.
+// 1251/1253 sit under Pop (14), NOT under Chinese (1232): 1232 is the traditional
+// branch (Chinese Classical, Opera, Regional Folk) and yields no current releases.
 export const GENRE_FEEDS = [
   { genreId: 51, tag: 'K-Pop' },
   { genreId: 12, tag: 'Latin' },

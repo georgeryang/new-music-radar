@@ -102,12 +102,10 @@ sudo pmset repeat cancel
 
 - **Data flow:** `config/preferences.json` -> `scripts/fetch-releases.mjs` ->
   `docs/data/releases.json` -> pushed by `scripts/update.sh` -> GitHub Pages
-  serves `docs/`. Five sources, all resolved through US-catalog lookups: the
-  follow list (also collects pre-orders into `upcoming[]`), the US
-  most-played chart, US genre purchase charts, editorial playlists, and
-  country charts. Foreign storefronts contribute ids only, never card data.
-  Every discovery card records which source found it, and the editor lists all
-  the sources, the fixed ones included, with what each has returned over 30 days.
+  serves `docs/`. The five sources and the US-catalog-lookup rule are listed in
+  the fetcher's own header comment. Every discovery card records which source
+  found it, and the editor lists all the sources, the fixed ones included, with
+  what each has returned over 30 days.
 - **Frontend:** Vite + React + TS + Tailwind in `src/`, built into `docs/`
   (never wiped). Self-hosted Plus Jakarta Sans is recopied from
   `public/fonts/` on every build.
@@ -127,9 +125,8 @@ sudo pmset repeat cancel
   catches Apple renaming a genre out from under the list, and reports which
   unfollowed genres discovery has been dropping (tallied into
   `config/genre-activity.json` by each fetch) so a subgenre worth following
-  surfaces instead of staying invisible. Genre chips count the fetcher's full
-  `WINDOW_DAYS`; country, playlist and feed chips count 30 measured days as
-  only-here/shared/total. Neither is the site's 24h New tab, so chip counts
+  surfaces instead of staying invisible. The three chip windows are spelled out
+  on the editor page itself, and are deliberately different, so chip counts
   routinely exceed what's on the page.
 - **Claude Code skills:** `skills/` is version controlled with the code it
   describes; `npm run setup-skills` links it into `.claude/skills/`, which is
@@ -143,7 +140,7 @@ sudo pmset repeat cancel
   so the numbers are trends rather than one night, and a day where a source
   failed records nothing rather than a zero, which keeps a passing network
   glitch from looking like a dead feed. `npm run audit-sources -- --no-discover`
-  skips the hunt for replacements and finishes in under a minute. It refuses to
+  skips the hunt for replacements, which is the slow part. It refuses to
   run while an editor refresh is going, but cannot see the nightly one.
 - **Reliability:** any source failing exits non-zero but still publishes
   partial results; an empty result never overwrites good data. The nightly
