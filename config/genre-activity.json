@@ -24,15 +24,15 @@
     "example": "Michigander — Over Before You Know It"
   },
   "Anime": {
-    "dropped": 26,
-    "today": 2,
-    "last_seen": "2026-08-03",
+    "dropped": 27,
+    "today": 1,
+    "last_seen": "2026-08-04",
     "example": "Hatsuboshi Gakuen & Tsubame Amaya — Kuraiai"
   },
   "Soundtrack": {
-    "dropped": 14,
-    "today": 2,
-    "last_seen": "2026-08-03",
+    "dropped": 15,
+    "today": 1,
+    "last_seen": "2026-08-04",
     "example": "Zhou Shen — 耀眼的我们(《天才,女友》影视剧主题曲/片头曲)"
   },
   "Electronic": {
@@ -40,12 +40,6 @@
     "today": 3,
     "last_seen": "2026-08-03",
     "example": "Fred again.. & LATIN MAFIA — 9 months & 50 hours"
-  },
-  "House": {
-    "dropped": 8,
-    "today": 4,
-    "last_seen": "2026-08-02",
-    "example": "ViTaMiNkAhno2 — RISE SLOW"
   },
   "Chinese Rock": {
     "dropped": 6,
@@ -64,6 +58,12 @@
     "today": 2,
     "last_seen": "2026-08-03",
     "example": "DOMi & JD BECK — WHO ASKED?"
+  },
+  "Worldwide": {
+    "dropped": 5,
+    "today": 1,
+    "last_seen": "2026-08-04",
+    "example": "Chantel 姚焯菲Yumi 鍾柔美Windy 詹天文 — S.H.E.R.O. (劇集《夫妻的博弈》片尾曲)"
   },
   "Afro-Pop": {
     "dropped": 4,
@@ -88,12 +88,6 @@
     "today": 1,
     "last_seen": "2026-08-03",
     "example": "Tom Waits — The Fly"
-  },
-  "Worldwide": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-03",
-    "example": "Arley Perez — Corridos"
   },
   "Garage": {
     "dropped": 4,
@@ -149,6 +143,12 @@
     "last_seen": "2026-08-02",
     "example": "Milo j — Live From NPR's Tiny Desk"
   },
+  "House": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-04",
+    "example": "Hamaeel — Parallel Lives - Chapter II"
+  },
   "Alternative Folk": {
     "dropped": 1,
     "today": 1,
@@ -202,5 +202,17 @@
     "today": 1,
     "last_seen": "2026-08-02",
     "example": "Various Artists — 天赐的声音第七季 第8期 (Live)"
+  },
+  "Contemporary Latin": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-04",
+    "example": "Harmony Rhythm — More of Who I Am"
+  },
+  "Afro House": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-04",
+    "example": "Sefu Aura — Pump It (Afrohouse)"
   }
 }

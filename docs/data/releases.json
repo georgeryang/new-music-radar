@@ -1,63 +1,29 @@
 {
-  "fetched_at": 1785754618490,
+  "fetched_at": 1785843012575,
   "releases": [
     {
-      "title": "petal",
+      "title": "petal - hello, i love to sing",
       "artist": "Ariana Grande",
       "artist_id": 412778295,
       "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7e/e6/82/7ee682bd-1b17-6adc-be63-b5af1bdff369/26UMGIM51126.rgb.jpg/400x400bb.jpg",
+      "release_date": "2026-08-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c5/96/d4/c596d4f7-2324-38a1-f3d3-25288a1b8d97/26UM1IM01663.rgb.jpg/400x400bb.jpg",
       "genre": "Pop",
-      "link": "https://music.apple.com/us/album/petal/1895420989?uo=4",
-      "followed": true,
-      "via_artist_id": 412778295,
-      "sources": [
-        "chart:us",
-        "country:ar",
-        "country:co",
-        "country:hk",
-        "country:kr",
-        "country:mx",
-        "country:tw",
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "petal (making a song with ari and ilya)",
-      "artist": "Ariana Grande",
-      "artist_id": 412778295,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/21/67/d5/2167d574-1df2-0c20-32df-6fda6da82dad/26UM1IM00529.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/petal-making-a-song-with-ari-and-ilya/6796545990?uo=4",
+      "link": "https://music.apple.com/us/album/petal-hello-i-love-to-sing/6797647887?uo=4",
       "followed": true,
       "via_artist_id": 412778295
     },
     {
-      "title": "Switchblade",
-      "artist": "beabadoobee",
-      "artist_id": 1307650474,
+      "title": "Noroi",
+      "artist": "AUDIO RADICAL & e5",
+      "artist_id": 1616169258,
       "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2d/4f/86/2d4f8625-d1b4-81f5-e258-24c476b4460e/5063752645436_cover.jpg/400x400bb.jpg",
-      "genre": "Alternative",
-      "link": "https://music.apple.com/us/album/switchblade-single/6793768001?uo=4",
+      "release_date": "2026-08-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/cd/a7/68/cda768d1-afb7-8ef5-a67f-79c0b2946e65/4550758836278_cover.png/400x400bb.jpg",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/noroi-single/6793385248?uo=4",
       "followed": true,
-      "via_artist_id": 1307650474
-    },
-    {
-      "title": "Te Olvido (La La)",
-      "artist": "benny blanco, Selena Gomez & Becky G",
-      "artist_id": 1410841257,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/14/b5/ff/14b5ff37-7a76-9c13-92bf-1201c7367ff7/26UMGIM83011.rgb.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/te-olvido-la-la-single/6791332745?uo=4",
-      "followed": true,
-      "via_artist_id": 550411604
+      "via_artist_id": 1561898727
     },
     {
       "title": "社交距離 (feat. KiBi)",
@@ -88,16 +54,16 @@
       ]
     },
     {
-      "title": "Girlfriend Material",
-      "artist": "Elizabeth Tan, CLAUDIA & Talitha.",
-      "artist_id": 942533219,
+      "title": "エラーコード (feat. YURA)",
+      "artist": "E17ER",
+      "artist_id": 6797038198,
       "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d5/c3/c2/d5c3c2d0-8899-09a4-7212-3663c82d55e0/196874631041.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/girlfriend-material-single/6793621178?uo=4",
+      "release_date": "2026-08-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a2/1e/9d/a21e9d80-f05e-720f-a303-6c6f1bea0a78/artwork.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E3%82%A8%E3%83%A9%E3%83%BC%E3%82%B3%E3%83%BC%E3%83%89-feat-yura-single/6797093826?uo=4",
       "followed": true,
-      "via_artist_id": 1420488633
+      "via_artist_id": 1485314065
     },
     {
       "title": "Velvet Summer - Summer Mini Album",
@@ -109,7 +75,15 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/velvet-summer-summer-mini-album-ep/6794291724?uo=4",
       "followed": true,
-      "via_artist_id": 906961899
+      "via_artist_id": 906961899,
+      "sources": [
+        "genre:K-Pop",
+        "country:hk",
+        "country:jp",
+        "country:kr",
+        "country:mx",
+        "country:tw"
+      ]
     },
     {
       "title": "Dream Dress",
@@ -137,565 +111,108 @@
       ]
     },
     {
-      "title": "lo que sí",
-      "artist": "ABÍNA",
-      "artist_id": 1850137845,
+      "title": "You Had To Be There",
+      "artist": "Alexander Mack",
+      "artist_id": 1266485211,
       "type": "album",
-      "release_date": "2026-08-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8d/cd/e2/8dcde25a-5399-7ae3-262f-ac8027b5c0ec/65a44ad7-b498-4d5d-b2e5-6c2b2a244126.jpg/400x400bb.png",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/lo-que-s%C3%AD/6794505210?uo=2",
-      "sources": [
-        "genre:Latin"
-      ]
-    },
-    {
-      "title": "Ado 1st Live Kigeki (Live At Zepp DiverCity, 2022)",
-      "artist": "Ado",
-      "artist_id": 1492604670,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/88/11/2d/88112daf-63bd-7803-69e8-6af9b567b67b/26UMGIM86648.rgb.jpg/400x400bb.png",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/ado-1st-live-kigeki-live-at-zepp-divercity-2022/6793760883?uo=2",
-      "sources": [
-        "genre:J-Pop",
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Ado 2nd Live Campanella (Live At Saitama Super Arena, 2022)",
-      "artist": "Ado",
-      "artist_id": 1492604670,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2c/c0/09/2cc00951-e671-a4ee-7bad-960cf4db1281/26UMGIM86681.rgb.jpg/400x400bb.png",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/ado-2nd-live-campanella-live-at-saitama-super-arena-2022/6793761038?uo=2",
-      "sources": [
-        "genre:J-Pop",
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Ado JAPAN TOUR 2024 Profile of Mona Lisa (Live At K-Arena Yokohama, 2024)",
-      "artist": "Ado",
-      "artist_id": 1492604670,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/23/1e/19/231e19ef-f331-2d15-f9d3-a87d72067b7e/26UMGIM86692.rgb.jpg/400x400bb.png",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/ado-japan-tour-2024-profile-of-mona-lisa-live-at-k/6793784291?uo=2",
-      "sources": [
-        "genre:J-Pop",
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Ado Nationwide Tour 2023 Mars (Live At Nippon Budokan, 2023)",
-      "artist": "Ado",
-      "artist_id": 1492604670,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/46/32/56/46325635-a9f7-bcda-c332-7eaa35067c6b/26UMGIM86688.rgb.jpg/400x400bb.png",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/ado-nationwide-tour-2023-mars-live-at-nippon-budokan-2023/6793760667?uo=2",
-      "sources": [
-        "genre:J-Pop",
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Ado Special Live 2024 Shinzou (Live At Japan National Stadium, 2024)",
-      "artist": "Ado",
-      "artist_id": 1492604670,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1d/e4/2c/1de42ccc-b980-6cc5-662e-17d6ed58b818/26UMGIM94625.rgb.jpg/400x400bb.png",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/ado-special-live-2024-shinzou-live-at-japan-national/6793787437?uo=2",
-      "sources": [
-        "genre:J-Pop",
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Ado THE FIRST WORLD TOUR “Wish” (Live At Peacock Theater, Los Angeles, 2024)",
-      "artist": "Ado",
-      "artist_id": 1492604670,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d7/43/85/d74385f9-a3e0-affc-5812-b0aec6d8d3bf/26UMGIM94624.rgb.jpg/400x400bb.png",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/ado-the-first-world-tour-wish-live-at-peacock-theater/6793783912?uo=2",
-      "sources": [
-        "genre:J-Pop",
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Ado WORLD TOUR “Hibana” (Live At Saitama Super Arena, 2025)",
-      "artist": "Ado",
-      "artist_id": 1492604670,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b8/8f/11/b88f1113-d86b-4513-2fc4-3b26f5b2c75d/26UMGIM97651.rgb.jpg/400x400bb.png",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/ado-world-tour-hibana-live-at-saitama-super-arena-2025/6793852884?uo=2",
-      "sources": [
-        "genre:J-Pop",
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Island",
-      "artist": "Alfie Jukes",
-      "artist_id": 1593862264,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/8e/e4/708ee4e4-75f7-32b5-a5e5-7786c765d828/193436478847_ISLAND.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/island-single/6788884843?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Hookah Baby",
-      "artist": "Ari Lennox",
-      "artist_id": 448854570,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6b/6b/1a/6b6b1afe-2c18-c221-96c8-b0f7f50006e1/26UMGIM93827.rgb.jpg/400x400bb.jpg",
+      "release_date": "2026-08-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8b/4c/9d/8b4c9d0f-7cf6-fc88-3b0e-7e5d72bbb4d8/808391389274.jpg/400x400bb.jpg",
       "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/hookah-baby-single/6792948589?uo=4",
+      "link": "https://music.apple.com/us/album/you-had-to-be-there/6785652248?uo=4",
       "sources": [
-        "playlist:New Music Daily"
+        "genre:R&B/Soul"
       ]
     },
     {
-      "title": "Biggest Fan",
-      "artist": "Asha Banks",
-      "artist_id": 943493421,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d3/45/d4/d345d45c-3a26-f20b-eadb-32f2929c10c7/26UMGIM93795.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/biggest-fan-single/6791068345?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Work (from PAW Patrol: The Dino Movie)",
-      "artist": "Ava Max & PAW Patrol",
-      "artist_id": 1265164818,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2a/24/d2/2a24d2e6-155b-f8cb-4490-1b1f3a758f18/26UMGIM98108.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/work-from-paw-patrol-the-dino-movie-single/6794425536?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "D-DAY",
-      "artist": "B1A4",
-      "artist_id": 433573050,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e6/b2/d8/e6b2d810-4a5c-317a-4118-54014bc23d23/191953565804.jpg/400x400bb.jpg",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/d-day-single/6795838190?uo=4",
-      "sources": [
-        "country:tw"
-      ]
-    },
-    {
-      "title": "i",
-      "artist": "babyMINT",
-      "artist_id": 1761478118,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f4/61/bf/f461bf03-21a0-f433-c937-c2f8bb33d336/4711280336609.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/i-single/6794236767?uo=4",
-      "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "Stay",
-      "artist": "BUNT. & Lauren Spencer Smith",
-      "artist_id": 1436090348,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/5e/c9/79/5ec979e4-b3d4-beed-0540-dc6847bd5ad6/196874420089.jpg/400x400bb.jpg",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/stay-single/6790578775?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "AH HA",
-      "artist": "Cardi B",
-      "artist_id": 956078923,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/fe/c0/87/fec08752-1d79-5809-100c-8a4de8517fde/075679562944.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/ah-ha-single/6796123269?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "MOTION (feat. Juicy J)",
-      "artist": "CORTIS",
-      "artist_id": 1831651635,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/82/f9/a9/82f9a9b8-db69-6fec-3816-54a403297436/823375327356_Cover.jpg/400x400bb.jpg",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/motion-feat-juicy-j-single/6793946474?uo=4",
-      "sources": [
-        "country:hk",
-        "country:kr",
-        "country:tw",
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Glue",
-      "artist": "Curley Gao",
-      "artist_id": 1435590896,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4c/e3/8b/4ce38b1f-8ba9-0b2e-ae0d-fa44f2ea7f70/196874618875.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/glue-single/6791901766?uo=4",
-      "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "Oriade",
-      "artist": "Davido",
-      "artist_id": 254654363,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a8/fb/21/a8fb21ed-2106-199e-75dc-f01099c29394/196874507544.jpg/400x400bb.jpg",
-      "genre": "Afrobeats",
-      "link": "https://music.apple.com/us/album/oriade/6784220944?uo=4",
-      "sources": [
-        "chart:us",
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "They Can’t Count",
-      "artist": "Dee Mula",
-      "artist_id": 1330325377,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d6/90/7d/d6907dc5-3cff-649c-b129-8a9e98de609a/26UMGIM97548.rgb.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/they-cant-count-single/6793749116?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Unbreakable",
-      "artist": "DUNYA",
-      "artist_id": 6794782487,
+      "title": "Azielle",
+      "artist": "Azielle & Bullet Loko",
+      "artist_id": 6796682364,
       "type": "album",
       "release_date": "2026-08-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/46/70/e1/4670e1f5-200a-a102-28b5-b117ae8e264f/artwork.jpg/400x400bb.png",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/unbreakable-ep/6794810700?uo=2",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2e/a7/c6/2ea7c635-1552-88bd-b1b0-5087eb816680/artwork.jpg/400x400bb.jpg",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/azielle-ep/6796682363?uo=4",
       "sources": [
-        "genre:Pop"
+        "genre:R&B/Soul"
       ]
     },
     {
-      "title": "12 vasos",
-      "artist": "Eddy",
-      "artist_id": 1779584924,
+      "title": "La Noche es mía",
+      "artist": "Eva Lunella",
+      "artist_id": 6786852614,
       "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2a/4d/2d/2a4d2d50-10bf-d797-1b9c-5d061a9966ca/1963624833623_cover.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/12-vasos-single/6793709549?uo=4",
+      "release_date": "2026-08-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/96/d8/eb/96d8eba1-26c2-3bdd-d350-1c31b1f93de4/artwork.jpg/400x400bb.jpg",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/la-noche-es-m%C3%ADa-single/6795555334?uo=4",
       "sources": [
-        "playlist:Nuevo Nuevo"
+        "country:co"
       ]
     },
     {
-      "title": "The Midsummer Club",
-      "artist": "Emma Boop",
-      "artist_id": 1863418587,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/78/50/c1/7850c19f-333b-8b14-7b11-72cfcf2b7b1d/4550758707622_cover.png/400x400bb.png",
+      "title": "Spotlight",
+      "artist": "hololive English -Advent-",
+      "artist_id": 1699712700,
+      "type": "song",
+      "release_date": "2026-08-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/04/12/f3/0412f3b9-fd4e-e6e8-7138-1ccf3820e212/4580883406473_art.png/400x400bb.jpg",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/the-midsummer-club-ep/6791956596?uo=2",
+      "link": "https://music.apple.com/us/album/spotlight-single/6792968436?uo=4",
       "sources": [
         "genre:J-Pop"
       ]
     },
     {
-      "title": "Shells (HBO Original \"Fired Up!\" End Credits Song)",
-      "artist": "Eric Chou",
-      "artist_id": 903273139,
+      "title": "如果你記得",
+      "artist": "Irene 林芊瑩",
+      "artist_id": 1734189656,
       "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/cc/a9/09/cca9096f-8709-7b10-0063-d5cd7f6e744d/196874630259.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/shells-hbo-original-fired-up-end-credits-song-single/6794222652?uo=4",
+      "release_date": "2026-08-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/81/3a/22/813a220a-283a-8dc5-42dd-f826a0d69577/849578017122.jpg/400x400bb.jpg",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E5%A6%82%E6%9E%9C%E4%BD%A0%E8%A8%98%E5%BE%97-single/6797392031?uo=4",
       "sources": [
-        "playlist:New in C-Pop"
+        "country:hk"
       ]
     },
     {
-      "title": "Grupo Niche (Mix En Vivo)",
-      "artist": "Free Cover Venezuela & Grupo Niche",
-      "artist_id": 1444535707,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/41/34/d5/4134d5b3-871d-94c1-a8b8-9b0342f564c1/663899166518_cover.jpg/400x400bb.png",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/grupo-niche-mix-en-vivo-ep/6796389933?uo=2",
-      "sources": [
-        "genre:Latin",
-        "country:co"
-      ]
-    },
-    {
-      "title": "Pompas de Jabón",
-      "artist": "Gloria Trevi",
-      "artist_id": 6711586,
+      "title": "Dark Dawn [From \"My Daddy Hid His Power\" (Original Soundtrack)]",
+      "artist": "JINJIN",
+      "artist_id": 1388244580,
       "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/23/38/a0/2338a03f-042e-e0d0-cd30-cb2091806d45/1963624756021_cover.jpg/400x400bb.jpg",
-      "genre": "Pop Latino",
-      "link": "https://music.apple.com/us/album/pompas-de-jab%C3%B3n-single/6786069662?uo=4",
+      "release_date": "2026-08-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1f/6e/75/1f6e7511-3ad8-4a0e-c87c-8240082b8e8a/8800388557385_cover.jpg/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/dark-dawn-from-my-daddy-hid-his-power-original-soundtrack/6794974470?uo=4",
       "sources": [
         "country:mx"
       ]
     },
     {
-      "title": "想念在你身邊",
-      "artist": "Hannah 柏喜恩",
-      "artist_id": 1868898381,
+      "title": "等等等等",
+      "artist": "Joey Yung",
+      "artist_id": 370528896,
       "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ec/df/a9/ecdfa962-018e-a4d5-908a-3d97872fadf8/693085931392.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E6%83%B3%E5%BF%B5%E5%9C%A8%E4%BD%A0%E8%BA%AB%E9%82%8A-single/6786989126?uo=4",
-      "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "Frankenstein's Monster",
-      "artist": "HIMEHINA",
-      "artist_id": 1448678212,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/35/89/fc/3589fc04-1e2c-a832-e4c9-dad6072a6778/PA00222077_0_249743_jacket.jpg/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/frankensteins-monster-single/6788236181?uo=4",
-      "sources": [
-        "country:tw"
-      ]
-    },
-    {
-      "title": "靈魂相願",
-      "artist": "Hins Cheung",
-      "artist_id": 647198652,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/74/a7/05/74a7056c-6ddb-fcc7-c170-bf25f4b4bbbf/4895261201138.jpg/400x400bb.jpg",
+      "release_date": "2026-08-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/17/08/a7/1708a7ed-a69f-cfb0-8578-a436bca85925/4895261203101.jpg/400x400bb.jpg",
       "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E9%9D%88%E9%AD%82%E7%9B%B8%E9%A1%98-single/6795983960?uo=4",
+      "link": "https://music.apple.com/us/album/%E7%AD%89%E7%AD%89%E7%AD%89%E7%AD%89-single/6796697720?uo=4",
       "sources": [
         "country:hk",
-        "country:tw",
         "playlist:The A-List Cantopop"
       ]
     },
     {
-      "title": "名残花",
-      "artist": "HIRAIDAI",
-      "artist_id": 429610343,
+      "title": "Tsumi to Batsu to Ame to Kiss (Hayato Sano & Jinto Yoshida)",
+      "artist": "M!LK",
+      "artist_id": 1356706755,
       "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ae/67/2b/ae672b4f-ca2e-b7c2-bb0b-04b35fcae04a/ANTCD-A0000020625.jpg/400x400bb.jpg",
+      "release_date": "2026-08-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/bd/11/7d/bd117d15-042d-c606-6e45-2bc5a14a96d4/VEATP-45813.jpg/400x400bb.jpg",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E5%90%8D%E6%AE%8B%E8%8A%B1-single/6791974408?uo=4",
+      "link": "https://music.apple.com/us/album/tsumi-to-batsu-to-ame-to-kiss-hayato-sano-jinto-yoshida/6793456209?uo=4",
       "sources": [
         "country:jp"
-      ]
-    },
-    {
-      "title": "LVRS PARADISE (SIDE B)",
-      "artist": "Isaiah Falls",
-      "artist_id": 1607911349,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/90/d0/2b/90d02b1f-4b11-88ce-b2d5-f79c7c6e8194/8721555554320.png/400x400bb.jpg",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/lvrs-paradise-side-b/6781810815?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Mood 2",
-      "artist": "Jacquees",
-      "artist_id": 386779763,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/47/27/2f/47272fe6-533a-f359-3a52-00d27b6675de/26UMGIM69789.rgb.jpg/400x400bb.jpg",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/mood-2/6779424635?uo=4",
-      "sources": [
-        "chart:us",
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "合照",
-      "artist": "Jestinna Kuan & Danny Lee",
-      "artist_id": 1141470257,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2d/0a/25/2d0a25b9-390c-e7e9-f23a-5fdbe69d65f2/cover.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E5%90%88%E7%85%A7-single/6791254960?uo=4",
-      "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "Easier",
-      "artist": "Joshua Bassett",
-      "artist_id": 1507805651,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bf/93/a7/bf93a77e-8a36-9c69-ccba-9f65b9d04b4b/1200214719203.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/easier-ep/6795723817?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "KEEP UP W ME",
-      "artist": "KARRAHBOOO & Zukenee",
-      "artist_id": 1653276309,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e8/d3/52/e8d352a8-1c94-1a36-87c7-e2da35bb0f88/26UMGIM90676.rgb.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/keep-up-w-me-single/6791771678?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "三秒一生",
-      "artist": "Kelly Chen",
-      "artist_id": 274097576,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/47/3e/6a/473e6a8d-1797-8ebb-4736-6388806521d9/26UMGIM84832.rgb.jpg/400x400bb.jpg",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E4%B8%89%E7%A7%92%E4%B8%80%E7%94%9F-single/6793475050?uo=4",
-      "sources": [
-        "country:hk",
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "Wow War Tonight Tokiniwaokoseyo Movement",
-      "artist": "Ko Shibasaki",
-      "artist_id": 74495298,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b1/fc/64/b1fc640d-2187-7075-12c4-d00cdd9ca123/26UMGIM83143.rgb.jpg/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/wow-war-tonight-tokiniwaokoseyo-movement-single/6790700854?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "愛在大雨落下",
-      "artist": "Kuan Hong",
-      "artist_id": 1765275799,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7c/4d/88/7c4d8891-7b8e-866e-3dda-33f7d682bde2/cover.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E6%84%9B%E5%9C%A8%E5%A4%A7%E9%9B%A8%E8%90%BD%E4%B8%8B-single/6793140483?uo=4",
-      "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "Punk Goes Princess",
-      "artist": "Lauren Paley & Cole Rolland",
-      "artist_id": 1503590023,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c1/7c/03/c17c03f7-46a3-9034-00bf-de06ecd710fb/1201222.jpg/400x400bb.png",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/punk-goes-princess-ep/6789537419?uo=2",
-      "sources": [
-        "genre:Pop"
-      ]
-    },
-    {
-      "title": "Wine",
-      "artist": "Lila Drew",
-      "artist_id": 1439482732,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a8/8b/16/a88b16f0-fb38-09a9-fb68-2791b78f51f7/823375259350_Cover.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/wine-single/6785742900?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "霓虹",
-      "artist": "LOEWEN 洛文",
-      "artist_id": 1896547604,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/93/10/9d/93109d31-18d9-fa87-369c-ccbf78f3bb26/693085931415.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E9%9C%93%E8%99%B9-single/6786989090?uo=4",
-      "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "Paradise Records (Compilation)",
-      "artist": "Logic",
-      "artist_id": 30865945,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/27/0d/9f/270d9fd9-063f-6abc-dfad-a43e84816810/193436477048_ParadiseRecordsCompilationCover.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/paradise-records-compilation/6783853427?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
       ]
     },
     {
@@ -712,33 +229,6 @@
       ]
     },
     {
-      "title": "Alone",
-      "artist": "Mark Tuan",
-      "artist_id": 1502110916,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e2/40/1d/e2401d0c-62c4-8ec8-f398-69b8966f931a/820233982788.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/alone-single/6791312118?uo=4",
-      "sources": [
-        "country:mx",
-        "country:tw"
-      ]
-    },
-    {
-      "title": "Despecho Medley (La Gata Bajo La Lluvia / Un Buen Perdedor / Pega La Vuelta / Detenedla Ya / Que Ganas de No Verte Nunca Más / El Triste) [Live From Las Vegas]",
-      "artist": "Matute",
-      "artist_id": 643331041,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a7/2b/82/a72b82e1-e7b1-47c6-7be2-b9f6683b51ca/823375339304_Cover.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/despecho-medley-la-gata-bajo-la-lluvia-un-buen/6795606042?uo=4",
-      "sources": [
-        "country:mx"
-      ]
-    },
-    {
       "title": "Flower Road",
       "artist": "ME:I",
       "artist_id": 1736570286,
@@ -749,58 +239,6 @@
       "link": "https://music.apple.com/us/album/flower-road-ep/6782032198?uo=4",
       "sources": [
         "country:jp"
-      ]
-    },
-    {
-      "title": "Expensive Taste",
-      "artist": "MEEK",
-      "artist_id": 1784432868,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f1/db/f1/f1dbf1b9-0f66-d389-92c7-291eb3356fec/4099964278828.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/expensive-taste-single/6788807813?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Hearts Cry",
-      "artist": "Moena",
-      "artist_id": 1792993182,
-      "type": "song",
-      "release_date": "2026-08-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1a/13/e1/1a13e1e1-b8c8-12d6-8e81-bf8323e06246/4550759075126_cover.png/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/hearts-cry-single/6796684391?uo=4",
-      "sources": [
-        "country:hk"
-      ]
-    },
-    {
-      "title": "BADDIES <3 MOLIY",
-      "artist": "MOLIY",
-      "artist_id": 1493122482,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/84/8d/e0/848de01d-d8d4-287a-9474-c8eaf9ff26b3/712132096805_cover.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/baddies-3-moliy/6793701746?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Pero Me Acuerdo de Tí",
-      "artist": "Monica Saldivar",
-      "artist_id": 1134904437,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/45/c7/b1/45c7b10b-8402-b477-b277-d93cf2780fe5/885288023497.jpg/400x400bb.jpg",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/pero-me-acuerdo-de-t%C3%AD-single/6790899467?uo=4",
-      "sources": [
-        "playlist:Nuevo Nuevo"
       ]
     },
     {
@@ -817,294 +255,89 @@
       ]
     },
     {
-      "title": "dance til i die",
-      "artist": "Natalie Jane",
-      "artist_id": 1504380197,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ab/92/c5/ab92c531-e8da-a05e-db6c-f8c4af8da58e/26UMGIM90058.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/dance-til-i-die-single/6790974870?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "tokyo",
-      "artist": "Niko Rubio",
-      "artist_id": 1301992136,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/86/a2/de/86a2dee2-78ee-071a-069a-4889a85ab450/075679566751.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/tokyo-single/6795651842?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Your Girl",
-      "artist": "October London",
-      "artist_id": 1125515360,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/45/65/5c/45655ca4-1518-f919-2b4b-333cf23e9276/712132093156_cover.jpg/400x400bb.jpg",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/your-girl-single/6793268032?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "For A Good Time...",
-      "artist": "Odeal",
-      "artist_id": 1221904128,
+      "title": "Nj25_demo.Zip",
+      "artist": "NJ25_demo",
+      "artist_id": 6793376359,
       "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ac/06/60/ac0660ad-b8ee-3cf7-be14-7e6a3befa8b9/885288060829.jpg/400x400bb.png",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/for-a-good-time/6792506836?uo=2",
-      "sources": [
-        "genre:R&B/Soul",
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "BAD IDEA",
-      "artist": "Patrick Brasca",
-      "artist_id": 1052525542,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/77/af/3d/77af3de4-6fa7-171a-e645-a5035718278e/26UMGIM93273.rgb.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/bad-idea/6791041193?uo=4",
-      "sources": [
-        "country:hk",
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "Dream inside a dream…",
-      "artist": "R3HAB",
-      "artist_id": 331900515,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/59/eb/c4/59ebc44e-11cc-5f55-1331-31c07eed2aac/26UMGIM05942.rgb.jpg/400x400bb.jpg",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/dream-inside-a-dream/1870971550?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Look Don't Touch",
-      "artist": "Ray Vaughn",
-      "artist_id": 1303356758,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/25/37/82/25378298-b212-55b6-6a75-70578a82d678/196874618080.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/look-dont-touch-single/6795205248?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Twiggy",
-      "artist": "Remi Wolf",
-      "artist_id": 1223869670,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a2/9e/f6/a29ef668-353a-7a24-c34b-82c1e71709bf/26UMGIM97565.rgb.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/twiggy-single/6794074962?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "晴々",
-      "artist": "Ryokuoushoku Shakai",
-      "artist_id": 747734869,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/50/e2/da/50e2da6e-251a-5026-3c39-31717d17dba8/4547366839784.jpg/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E6%99%B4%E3%80%85-single/6792312143?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Sakimidare Apparade",
-      "artist": "Sakura Miko",
-      "artist_id": 1536366304,
-      "type": "song",
-      "release_date": "2026-08-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/27/0f/39/270f3978-f600-7fa1-1fe6-89bdf980985c/4580883407067_art.png/400x400bb.jpg",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/sakimidare-apparade-single/6796221923?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "ANYWHERE HERE IS PERFECT (DELUXE)",
-      "artist": "Sam Gellaitry",
-      "artist_id": 958258124,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/03/ba/21/03ba2198-acf8-2a82-ece0-fedf337700d8/093624818199.jpg/400x400bb.jpg",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/anywhere-here-is-perfect-deluxe/6784856357?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Glitter",
-      "artist": "Sasha Alex Sloan",
-      "artist_id": 868093249,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5b/5a/05/5b5a05cb-4234-b60e-a2df-d0e365b652e4/075679567963.jpg/400x400bb.jpg",
-      "genre": "Singer/Songwriter",
-      "link": "https://music.apple.com/us/album/glitter-single/6788155776?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "LAWLESS",
-      "artist": "SB19",
-      "artist_id": 1439702222,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0a/cd/9f/0acd9f29-f153-6b6b-a327-28dfa39ac18b/196874615034.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/lawless-single/6793036352?uo=4",
-      "sources": [
-        "country:hk",
-        "country:tw"
-      ]
-    },
-    {
-      "title": "brand new chanel$",
-      "artist": "Slayyyter",
-      "artist_id": 1424342162,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f8/f6/e1/f8f6e1ea-279c-c3a6-df70-37aedab1728b/196874456026.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/brand-new-chanel%24-single/6793636947?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "SHOTTY",
-      "artist": "Storm Reid",
-      "artist_id": 6776344721,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ca/47/36/ca4736c8-4a9f-37c4-04da-2ab7cedff29e/810084927427_ShottyCovernew.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/shotty-single/6791618250?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "SKZ-REPLAY 2026 Pt.1",
-      "artist": "Stray Kids",
-      "artist_id": 1304823362,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/22/70/ea/2270ea94-60f0-94a6-bce2-99fafaa8a057/8809928957340_Cover.jpg/400x400bb.png",
+      "release_date": "2026-08-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9a/7f/ce/9a7fceda-26c9-a761-86cf-f4cf103bf834/4550758835578_cover.png/400x400bb.jpg",
       "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/skz-replay-2026-pt-1/6790903804?uo=2",
-      "sources": [
-        "genre:K-Pop",
-        "country:hk",
-        "country:tw"
-      ]
-    },
-    {
-      "title": "Ms. Icy",
-      "artist": "Sumling 李芯駖",
-      "artist_id": 1750415371,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f5/3d/11/f53d112b-dceb-e916-fcf2-ae25a388a0ba/367457941769.jpg/400x400bb.jpg",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/ms-icy-single/6795396057?uo=4",
-      "sources": [
-        "country:hk"
-      ]
-    },
-    {
-      "title": "Happiness Is So Sad",
-      "artist": "Swedish House Mafia & Lykke Li",
-      "artist_id": 375569761,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cf/19/9c/cf199c26-6f59-a4b6-4309-c597ceea14d2/14006.jpg/400x400bb.jpg",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/happiness-is-so-sad-single/6792537373?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "CS/KM",
-      "artist": "That's My Shhh, Sandee Chan, LEO37 & Robot Swing",
-      "artist_id": 1614964481,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8a/c3/9e/8ac39e75-2a15-6b1f-cda5-3e97197a0cc1/ticket.qqryfzrg.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/cs-km-single/6791500315?uo=4",
-      "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "SWAGGER",
-      "artist": "Trippie Redd",
-      "artist_id": 1203172438,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/72/96/1e/72961ea0-a9ac-a415-73c1-e1ce3913e3cb/075679564238.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/swagger-single/6794476238?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "I Just Need A Little Time",
-      "artist": "Tyler James Bellinger",
-      "artist_id": 1394603081,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/4a/95/36/4a953697-be7c-1651-5510-dde85a23a746/artwork.jpg/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/i-just-need-a-little-time-single/6785171275?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "UNI Sparkle!",
-      "artist": "UNIS",
-      "artist_id": 1736907509,
-      "type": "album",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0a/cd/67/0acd67ff-aca6-4cce-3c18-e62603c18ee0/PA00222258_0_250490_jacket.jpg/400x400bb.png",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/uni-sparkle-ep/6791421272?uo=2",
+      "link": "https://music.apple.com/us/album/nj25-demo-zip-ep/6793376356?uo=4",
       "sources": [
         "genre:K-Pop"
+      ]
+    },
+    {
+      "title": "吉BOARD(Gilboard)",
+      "artist": "Picheolin",
+      "artist_id": 6786593989,
+      "type": "album",
+      "release_date": "2026-08-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f5/fe/77/f5fe77b8-3b82-9937-0cff-bea7f67fe1b6/823375281665_Cover.jpg/400x400bb.jpg",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/%E5%90%89board-gilboard/6791119478?uo=4",
+      "sources": [
+        "genre:K-Pop",
+        "country:ar",
+        "country:hk",
+        "country:mx",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "FAMIEN '26 e.p.",
+      "artist": "Shiritsu Ebisu Chugaku",
+      "artist_id": 573956537,
+      "type": "album",
+      "release_date": "2026-08-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/74/19/ca/7419ca57-07d2-ade9-6764-fbed7088d6f7/4547366840773.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/famien-26-e-p/6791381097?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Dawn After Dark",
+      "artist": "Team H",
+      "artist_id": 505929148,
+      "type": "album",
+      "release_date": "2026-08-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a0/c5/80/a0c58032-8e6c-20c5-7811-bfe1b15d45f9/4550758357308_cover.jpg/400x400bb.jpg",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/dawn-after-dark-ep/6788108816?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "On My Road (Stadium ver.)",
+      "artist": "Travis Japan",
+      "artist_id": 1649344367,
+      "type": "song",
+      "release_date": "2026-08-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0c/18/d2/0c18d2dc-004e-a30d-ed0f-b25e45c25609/26UMGIM82572.rgb.jpg/400x400bb.jpg",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/on-my-road-stadium-ver-single/6791038144?uo=4",
+      "sources": [
+        "genre:J-Pop",
+        "country:hk",
+        "country:jp",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "SODA SODA",
+      "artist": "TWS",
+      "artist_id": 1721226191,
+      "type": "song",
+      "release_date": "2026-08-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/89/e4/0c/89e40cb0-ba79-0890-d87f-c9c685891418/26UMGIM92720.rgb.jpg/400x400bb.jpg",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/soda-soda-single/6793458528?uo=4",
+      "sources": [
+        "country:jp",
+        "country:tw"
       ]
     },
     {
@@ -1121,29 +354,31 @@
       ]
     },
     {
-      "title": "Overthink",
-      "artist": "Wale & Elmiene",
-      "artist_id": 129335935,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/72/0e/ce/720ece8a-112e-6884-3f5e-5a81619564e8/26UMGIM96856.rgb.jpg/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/overthink-single/6793423262?uo=4",
+      "title": "Stay",
+      "artist": "Xiao Yu",
+      "artist_id": 311541510,
+      "type": "album",
+      "release_date": "2026-08-04",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b7/1d/78/b71d788c-c896-440f-81f5-d30f53633db1/196874550021.jpg/400x400bb.jpg",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/stay/6794217086?uo=4",
       "sources": [
-        "playlist:New Music Daily"
+        "country:hk",
+        "country:tw"
       ]
     },
     {
-      "title": "147米香",
-      "artist": "Wing Lo",
-      "artist_id": 312511671,
+      "title": "二缺一的美 (劇集《夫妻的博弈》插曲)",
+      "artist": "Yumi Chung",
+      "artist_id": 1594853562,
       "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/82/e0/09/82e00955-ce4f-0eda-1921-8bee82be3fb1/26UMGIM94081.rgb.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/147%E7%B1%B3%E9%A6%99-single/6793786524?uo=4",
+      "release_date": "2026-08-03",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6b/9b/d8/6b9bd8b3-d517-24c7-b30a-36fe5758bb31/885288220469.jpg/400x400bb.jpg",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E4%BA%8C%E7%BC%BA%E4%B8%80%E7%9A%84%E7%BE%8E-%E5%8A%87%E9%9B%86-%E5%A4%AB%E5%A6%BB%E7%9A%84%E5%8D%9A%E5%BC%88-%E6%8F%92%E6%9B%B2-single/6795844088?uo=4",
       "sources": [
-        "playlist:New in C-Pop"
+        "genre:Cantopop/HK-Pop",
+        "country:hk"
       ]
     },
     {
@@ -1152,9 +387,9 @@
       "artist_id": 6796740528,
       "type": "album",
       "release_date": "2026-08-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/da/b9/fe/dab9fe19-cc66-1cb9-f9d4-09b0bc570697/artwork.jpg/400x400bb.png",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/da/b9/fe/dab9fe19-cc66-1cb9-f9d4-09b0bc570697/artwork.jpg/400x400bb.jpg",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/one-more-chance/6797130610?uo=2",
+      "link": "https://music.apple.com/us/album/one-more-chance/6797130610?uo=4",
       "sources": [
         "genre:J-Pop"
       ]
@@ -1172,73 +407,9 @@
         "country:hk",
         "country:tw"
       ]
-    },
-    {
-      "title": "完美候備",
-      "artist": "力臻 Lagchun",
-      "artist_id": 1742155572,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ac/02/84/ac028453-2735-b804-da47-6f465e3e8c68/196874381670.jpg/400x400bb.jpg",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E5%AE%8C%E7%BE%8E%E5%80%99%E5%82%99-single/6790759367?uo=4",
-      "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "水磨的风有点甜",
-      "artist": "斯丹曼簇",
-      "artist_id": 1556434136,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/03/44/22/034422bd-c820-1114-2f8a-385fada326d7/4896010640710.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E6%B0%B4%E7%A3%A8%E7%9A%84%E9%A3%8E%E6%9C%89%E7%82%B9%E7%94%9C-single/6794299937?uo=4",
-      "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "笨拙的爱",
-      "artist": "色燃",
-      "artist_id": 1881925904,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/67/b9/4e/67b94e8a-1555-8d8f-b906-3e1f6ec7c8cf/4711499351769.jpg/400x400bb.jpg",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E7%AC%A8%E6%8B%99%E7%9A%84%E7%88%B1-single/6791968372?uo=4",
-      "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "Baby先生全壘打",
-      "artist": "達康.come",
-      "artist_id": 1896294653,
-      "type": "song",
-      "release_date": "2026-07-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b4/60/e9/b460e96d-2200-92f7-b365-605342831f99/4711548160984.png/400x400bb.jpg",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/baby%E5%85%88%E7%94%9F%E5%85%A8%E5%A3%98%E6%89%93-single/6795909985?uo=4",
-      "sources": [
-        "country:tw"
-      ]
     }
   ],
   "upcoming": [
-    {
-      "title": "Noroi",
-      "artist": "AUDIO RADICAL & e5",
-      "artist_id": 1616169258,
-      "type": "song",
-      "release_date": "2026-08-04",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/cd/a7/68/cda768d1-afb7-8ef5-a67f-79c0b2946e65/4550758836278_cover.png/400x400bb.jpg",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/noroi-single/6793385248?uo=4",
-      "followed": true,
-      "via_artist_id": 1561898727
-    },
     {
       "title": "Jimoto",
       "artist": "5Leaf",
