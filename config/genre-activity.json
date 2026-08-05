@@ -11,18 +11,6 @@
     "last_seen": "2026-08-03",
     "example": "Shaboozey — The Outlaw Cherie Lee & Other Western Tales"
   },
-  "Rock": {
-    "dropped": 33,
-    "today": 5,
-    "last_seen": "2026-08-03",
-    "example": "Hotaru — Azure"
-  },
-  "Alternative": {
-    "dropped": 28,
-    "today": 4,
-    "last_seen": "2026-08-03",
-    "example": "Michigander — Over Before You Know It"
-  },
   "Anime": {
     "dropped": 27,
     "today": 1,
@@ -30,10 +18,10 @@
     "example": "Hatsuboshi Gakuen & Tsubame Amaya — Kuraiai"
   },
   "Soundtrack": {
-    "dropped": 15,
+    "dropped": 16,
     "today": 1,
-    "last_seen": "2026-08-04",
-    "example": "Zhou Shen — 耀眼的我们(《天才,女友》影视剧主题曲/片头曲)"
+    "last_seen": "2026-08-05",
+    "example": "Bestards — 整個世界,只有你連上了我 (《整個世界,只有你連上了我》影集主題曲)"
   },
   "Electronic": {
     "dropped": 14,
@@ -53,17 +41,23 @@
     "last_seen": "2026-08-03",
     "example": "Armin van Buuren & SACHA — Everlasting"
   },
+  "Worldwide": {
+    "dropped": 6,
+    "today": 1,
+    "last_seen": "2026-08-05",
+    "example": "Chantel 姚焯菲Yumi 鍾柔美Windy 詹天文 — S.H.E.R.O. (劇集《夫妻的博弈》片尾曲)"
+  },
   "Jazz": {
     "dropped": 5,
     "today": 2,
     "last_seen": "2026-08-03",
     "example": "DOMi & JD BECK — WHO ASKED?"
   },
-  "Worldwide": {
-    "dropped": 5,
-    "today": 1,
-    "last_seen": "2026-08-04",
-    "example": "Chantel 姚焯菲Yumi 鍾柔美Windy 詹天文 — S.H.E.R.O. (劇集《夫妻的博弈》片尾曲)"
+  "Rock": {
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-08-05",
+    "example": "Kizu — Gokuraku yori Gokujou no Ame"
   },
   "Afro-Pop": {
     "dropped": 4,
@@ -94,12 +88,6 @@
     "today": 1,
     "last_seen": "2026-08-03",
     "example": "Microhm & Imaabs — Latencia"
-  },
-  "Rap": {
-    "dropped": 3,
-    "today": 2,
-    "last_seen": "2026-07-31",
-    "example": "Dave East & Harry Fraud — Price of Pain"
   },
   "Americana": {
     "dropped": 3,
@@ -137,11 +125,35 @@
     "last_seen": "2026-08-01",
     "example": "EL NAOYA — Kiwami"
   },
-  "Rock y Alternativo": {
+  "Contemporary Latin": {
     "dropped": 2,
     "today": 1,
-    "last_seen": "2026-08-02",
-    "example": "Milo j — Live From NPR's Tiny Desk"
+    "last_seen": "2026-08-05",
+    "example": "Harmony Rhythm — More of Who I Am"
+  },
+  "Afro House": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-05",
+    "example": "Sefu Aura — Pump It (Afrohouse)"
+  },
+  "Alternative": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-05",
+    "example": "Cloudy — Light Of Mind"
+  },
+  "Rap": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-05",
+    "example": "Nino Paid — Somewhere Over The Rainbow"
+  },
+  "Rock y Alternativo": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-05",
+    "example": "Witch Wolf Music — Messages From Dead Crawlers"
   },
   "House": {
     "dropped": 1,
@@ -203,16 +215,16 @@
     "last_seen": "2026-08-02",
     "example": "Various Artists — 天赐的声音第七季 第8期 (Live)"
   },
-  "Contemporary Latin": {
+  "Kayokyoku": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-04",
-    "example": "Harmony Rhythm — More of Who I Am"
+    "last_seen": "2026-08-05",
+    "example": "SATO TRIPLETS — DAISUKI (嘉人バージョン)"
   },
-  "Afro House": {
+  "Blues": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-04",
-    "example": "Sefu Aura — Pump It (Afrohouse)"
+    "last_seen": "2026-08-05",
+    "example": "Enlly Blue Music — The Sound of Missing You"
   }
 }
