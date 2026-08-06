@@ -11,23 +11,23 @@
     "last_seen": "2026-08-03",
     "example": "Shaboozey — The Outlaw Cherie Lee & Other Western Tales"
   },
-  "Anime": {
-    "dropped": 27,
-    "today": 1,
-    "last_seen": "2026-08-04",
-    "example": "Hatsuboshi Gakuen & Tsubame Amaya — Kuraiai"
-  },
   "Soundtrack": {
     "dropped": 16,
     "today": 1,
     "last_seen": "2026-08-05",
     "example": "Bestards — 整個世界,只有你連上了我 (《整個世界,只有你連上了我》影集主題曲)"
   },
-  "Electronic": {
-    "dropped": 14,
-    "today": 3,
-    "last_seen": "2026-08-03",
-    "example": "Fred again.. & LATIN MAFIA — 9 months & 50 hours"
+  "Rock": {
+    "dropped": 8,
+    "today": 4,
+    "last_seen": "2026-08-06",
+    "example": "Kizu — Gokuraku yori Gokujou no Ame"
+  },
+  "Worldwide": {
+    "dropped": 7,
+    "today": 1,
+    "last_seen": "2026-08-06",
+    "example": "Chantel 姚焯菲Yumi 鍾柔美Windy 詹天文 — S.H.E.R.O. (劇集《夫妻的博弈》片尾曲)"
   },
   "Chinese Rock": {
     "dropped": 6,
@@ -41,29 +41,11 @@
     "last_seen": "2026-08-03",
     "example": "Armin van Buuren & SACHA — Everlasting"
   },
-  "Worldwide": {
-    "dropped": 6,
-    "today": 1,
-    "last_seen": "2026-08-05",
-    "example": "Chantel 姚焯菲Yumi 鍾柔美Windy 詹天文 — S.H.E.R.O. (劇集《夫妻的博弈》片尾曲)"
-  },
   "Jazz": {
     "dropped": 5,
     "today": 2,
     "last_seen": "2026-08-03",
     "example": "DOMi & JD BECK — WHO ASKED?"
-  },
-  "Rock": {
-    "dropped": 4,
-    "today": 4,
-    "last_seen": "2026-08-05",
-    "example": "Kizu — Gokuraku yori Gokujou no Ame"
-  },
-  "Afro-Pop": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-01",
-    "example": "Lukbrown Yolkyell — 29 in 29"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -107,6 +89,12 @@
     "last_seen": "2026-08-03",
     "example": "Debians, Mvchoo23 & Yama Make Them Bounce — 4Me"
   },
+  "Afro House": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-08-06",
+    "example": "Sefu Aura — Pump It (Afrohouse)"
+  },
   "Afro-Beat": {
     "dropped": 2,
     "today": 1,
@@ -131,23 +119,35 @@
     "last_seen": "2026-08-05",
     "example": "Harmony Rhythm — More of Who I Am"
   },
-  "Afro House": {
+  "Alternative": {
     "dropped": 2,
     "today": 1,
-    "last_seen": "2026-08-05",
-    "example": "Sefu Aura — Pump It (Afrohouse)"
-  },
-  "Alternative": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-05",
+    "last_seen": "2026-08-06",
     "example": "Cloudy — Light Of Mind"
   },
   "Rap": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-06",
+    "example": "Nino Paid — Somewhere Over The Rainbow"
+  },
+  "Anime": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-05",
-    "example": "Nino Paid — Somewhere Over The Rainbow"
+    "last_seen": "2026-08-06",
+    "example": "Kyosuke Aoi (CV: Yoshitaka Yamaya), Kirio Nekoyanagi (CV: Daiki Yamashita), Hayato Akiyama (CV: Shoya Chiba) & Takeru Taiga (CV: Junta Terashima) — THE IDOLM@STER SideM TRANSCENDENT T@LES 11"
+  },
+  "Electronic": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-06",
+    "example": "bystander & emerge — ALREADY OVER IT"
+  },
+  "Afro-Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-06",
+    "example": "Zivara — Watch Me"
   },
   "Rock y Alternativo": {
     "dropped": 1,
@@ -170,8 +170,8 @@
   "Christian": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "William McDowell — Dreams, Revelations & Moments"
+    "last_seen": "2026-08-06",
+    "example": "Isabella Rios — Restaura Mi Corazón"
   },
   "South Africa": {
     "dropped": 1,
@@ -226,5 +226,17 @@
     "today": 1,
     "last_seen": "2026-08-05",
     "example": "Enlly Blue Music — The Sound of Missing You"
+  },
+  "Música tropical": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-06",
+    "example": "Dalvin La Melodia — La Bachata Volvió"
+  },
+  "Instrumental": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-06",
+    "example": "soul of NEKO Recommended Jazz Music for Work & Study, Buzz BGM Lab: A Research Studio for Mastering Work, Sleep, Focus, and Relaxation & Deep Sleep Music — Relaxing Café Jazz Work BGM With City Pop & Lo-Fi to Improve Focus and Productivity for Work and Study"
   }
 }
