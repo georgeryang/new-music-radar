@@ -140,8 +140,15 @@ function logTail(lines) {
   }
 }
 
+// The Host/Origin gate below cannot see a framing attempt: a frame navigation
+// carries a passing Host, no Origin, and same-origin clicks.
+const SECURITY_HEADERS = {
+  'X-Frame-Options': 'DENY',
+  'X-Content-Type-Options': 'nosniff',
+}
+
 function json(res, code, body) {
-  res.writeHead(code, { 'Content-Type': 'application/json' })
+  res.writeHead(code, { ...SECURITY_HEADERS, 'Content-Type': 'application/json' })
   res.end(JSON.stringify(body))
 }
 
@@ -179,7 +186,7 @@ const server = http.createServer(async (req, res) => {
       return json(res, 403, { error: 'forbidden' })
     }
     if (req.method === 'GET' && url.pathname === '/') {
-      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
+      res.writeHead(200, { ...SECURITY_HEADERS, 'Content-Type': 'text/html; charset=utf-8' })
       // No built CSS = unstyled but fully functional (every control is
       // semantic HTML); only happens in a broken clone.
       const href = cssHref()
@@ -191,8 +198,7 @@ const server = http.createServer(async (req, res) => {
       // where it writes the tally. sourceCounts is keyed by the fetcher's sources
       // tags (country:<code>, playlist:<name>).
       const genreCounts = {}
-      // A 0 marker reads as "prune candidate", so an unreadable data file must
-      // not report zeros — that would advise deleting working sources.
+      // An unreadable data file must report null, never zeros (see genreCount).
       let countsAvailable = true
       try {
         for (const r of JSON.parse(readFileSync(DATA_PATH, 'utf8')).releases ?? []) {
@@ -207,9 +213,7 @@ const server = http.createServer(async (req, res) => {
       }
 
       // Source yield over a window, from the fetcher's rolling tally rather than
-      // the latest file. A one-night count made a perfectly healthy source read
-      // amber on any quiet weekday, which is advice to delete working sources.
-      // sourceWindow (shared with the audit) is what skips the failed days.
+      // the latest file. sourceWindow (shared with the audit) skips failed days.
       const sourceCounts = {}
       let historyDays = 0
       try {
@@ -313,7 +317,7 @@ const server = http.createServer(async (req, res) => {
       json(res, 200, { ok: true })
       setTimeout(() => process.exit(0), 100)
     } else if (req.method === 'GET' && url.pathname === SITE_PATH.slice(0, -1)) {
-      res.writeHead(302, { Location: SITE_PATH })
+      res.writeHead(302, { ...SECURITY_HEADERS, Location: SITE_PATH })
       res.end()
     } else if (req.method === 'GET' && url.pathname.startsWith(SITE_PATH)) {
       const rel = url.pathname.slice(SITE_PATH.length) || 'index.html'
@@ -332,6 +336,7 @@ const server = http.createServer(async (req, res) => {
         // changes after every fetch and index.html points at the current bundle.
         const hashed = /^assets\//.test(normalize(rel))
         res.writeHead(200, {
+          ...SECURITY_HEADERS,
           'Content-Type': mimeOf(file),
           'Cache-Control': hashed ? 'public, max-age=31536000, immutable' : 'no-cache',
         })
@@ -362,13 +367,17 @@ const PAGE = /* html */ `<!doctype html>
 </head>
 <body class="mx-auto max-w-[680px] px-4 pt-6 pb-24">
 <header class="mb-1 flex items-baseline justify-between"><h1 class="text-lg font-bold">Preferences</h1><a href="${SITE_URL}" id="site-link" target="_blank" rel="noopener noreferrer" class="text-[13px] text-muted-foreground hover:text-foreground">Open radar →</a></header>
+<!-- header outside main: it is a banner landmark only while it is not a
+     descendant of main -->
+<main>
 <p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away and publishes to the public site (about two minutes). Genre chips count the last ${WINDOW_DAYS} days, so they run higher than New, which shows 24 hours. Country, playlist and feed chips count ${SOURCE_CHIP_DAYS} measured days, as only-here/shared/total.</p>
 <div id="sections"></div>
 <div id="log-wrap" hidden class="fixed bottom-[92px] left-1/2 z-10 w-[min(640px,calc(100%-32px))] -translate-x-1/2">
-  <button id="log-hide" class="absolute top-1.5 right-2.5 cursor-pointer p-0 text-[15px] leading-none text-muted-foreground hover:text-foreground" title="Hide the progress log (the refresh keeps running)" aria-label="Hide progress log">×</button>
+  <button id="log-hide" class="absolute top-0.5 right-1 inline-flex size-6 cursor-pointer items-center justify-center text-[15px] leading-none text-muted-foreground hover:text-foreground" title="Hide the progress log (the refresh keeps running)" aria-label="Hide progress log">×</button>
   <pre id="log" class="max-h-[180px] overflow-y-auto rounded-lg border border-border bg-muted px-3 py-2.5 pr-8 font-mono text-[11px] leading-[1.5] whitespace-pre-wrap wrap-break-word"></pre>
 </div>
 <div id="banner" hidden role="status"></div>
+</main>
 <footer class="fixed inset-x-0 bottom-0 flex items-center justify-center gap-2 border-t border-border bg-background px-4 py-2.5">
   <span id="status" role="status" class="mr-auto max-w-[50%] text-xs leading-snug text-muted-foreground"></span>
   <button id="quit" class="cursor-pointer rounded-lg border border-border bg-transparent px-4 py-[7px] text-[13px]">Quit</button>
@@ -409,6 +418,16 @@ function setStatus(text, isError, hold) {
   el.textContent = text
   el.className = STATUS_BASE + (isError ? ' text-destructive' : ' text-muted-foreground')
 }
+// Unhidden before the write: a role=alert that is display:none at mutation time
+// is out of the a11y tree, so it may not announce at all.
+function setFieldError(key, text) {
+  const el = $('err-' + key)
+  if (!el) return
+  el.hidden = !text
+  el.textContent = text
+  $('add-' + key)?.setAttribute('aria-invalid', text ? 'true' : 'false')
+}
+const clearFieldError = (key) => setFieldError(key, '')
 // kind drives the placeholder AND the wiring, so adding a picker is one entry
 // here plus one PICKERS row, not three parallel edits.
 const SECTIONS = [
@@ -480,7 +499,9 @@ function noteRow(results, text) {
   results.hidden = false
 }
 
-function markDirty() { dirty = true; $('save').disabled = false }
+// Clearing the held status too: "Saved." pins itself against the idle poll, and
+// without this it stays on screen contradicting the re-enabled Save button.
+function markDirty() { dirty = true; $('save').disabled = false; statusHeld = false }
 
 // Genre yield marker: releases admitted via this genre (followed artists
 // excluded). Amber 0 = prune candidate. Null when the data file was unreadable,
@@ -498,17 +519,13 @@ function genreCount(name) {
 // Source yield marker (countries, playlists, always-scanned feeds):
 // unique/duplicate/total releases over the window. Unique = only this source
 // surfaced it, which is what pruning would actually cost you.
-//
-// A window, not one run: healthy sources draw a blank on quiet weekdays, and a
-// nightly zero reads as a prune candidate.
 const THIN_DAYS = ${SOURCE_THIN_DAYS}
 const CHIP_DAYS = ${SOURCE_CHIP_DAYS}
 function sourceCount(tag) {
   const c = sourceCounts[tag]
   const span = document.createElement('span')
   // Per source, not per file: a country added to months-old history has only its
-  // own measured nights behind it, and 0 after one of them is the false
-  // "delete me" signal.
+  // own measured nights behind it.
   if (!c || c.measured < THIN_DAYS) {
     span.className = MUTED
     span.textContent = '· collecting'
@@ -584,7 +601,13 @@ function renderAll() {
       sort.className = 'ml-2 cursor-pointer p-0 text-[11px] text-muted-foreground underline hover:text-foreground'
       sort.textContent = dormancySort ? 'sort: oldest release' : 'sort: A-Z'
       sort.title = 'Toggle display order (the saved file stays alphabetical)'
-      sort.onclick = () => { dormancySort = !dormancySort; renderAll() }
+      sort.setAttribute('aria-pressed', String(dormancySort))
+      sort.id = 'sort-followed'
+      sort.onclick = () => {
+        dormancySort = !dormancySort
+        renderAll()
+        $('sort-followed')?.focus() // renderAll replaced this very button
+      }
       h.appendChild(sort)
     }
     // dormancy sort works on a copy, so the toggle never changes file order
@@ -630,10 +653,12 @@ function renderAll() {
         chip.appendChild(ago)
       }
       const x = document.createElement('button')
-      x.className = 'cursor-pointer p-0 text-[13px] leading-none text-muted-foreground hover:text-destructive'
+      // size-6 for a 24x24 target on the only destructive control here; the
+      // negative margins spend the chip's own padding rather than widening it.
+      x.className = 'inline-flex size-6 cursor-pointer items-center justify-center -my-1 -mr-1.5 text-[13px] leading-none text-muted-foreground hover:text-destructive'
       x.textContent = '×'
       x.title = 'Remove'
-      x.setAttribute('aria-label', 'Remove ' + nameOf(entry))
+      x.setAttribute('aria-label', 'Remove ' + displayOf(s, entry))
       x.onclick = () => {
         const l = getList(s.key); l.splice(l.indexOf(entry), 1); markDirty(); renderAll()
         $('add-' + s.key)?.focus() // renderAll replaced every node; don't strand focus on <body>
@@ -658,7 +683,7 @@ function addTo(key, item) {
     ? list.some((e) => e.id === item.id)
     : list.some((e) => nameOf(e).toLowerCase() === name.toLowerCase())
   if (dupe) {
-    setStatus(displayName + ' is already in ' + (section?.label ?? key) + '.', false, true)
+    setFieldError(key, displayName + ' is already in ' + (section?.label ?? key) + '.')
     return
   }
   list.push(typeof item === 'string' ? name : { ...item, name })
@@ -712,16 +737,35 @@ function makeAdder(s) {
   input.className = 'flex-1 rounded-lg border border-border bg-transparent px-2.5 py-1.5 text-[13px]'
   // placeholders disappear on typing — give the field a persistent name
   input.setAttribute('aria-label', 'Add to ' + s.label)
+  // Left set permanently: a description pointing at a hidden element is out of
+  // the accessibility tree, so it needs no toggling alongside err.hidden.
+  input.setAttribute('aria-describedby', 'err-' + s.key)
   const picker = PICKERS[s.kind]
   input.placeholder = picker.placeholder
   const results = document.createElement('div')
   results.className = 'absolute inset-x-0 top-[34px] z-10 max-h-60 overflow-x-hidden overflow-y-auto rounded-lg border border-border bg-background shadow-[0_8px_24px_rgba(0,0,0,.12)]'
   results.hidden = true
+  const err = document.createElement('p')
+  err.id = 'err-' + s.key
+  err.hidden = true
+  err.setAttribute('role', 'alert')
+  // Above the input, not below: the dropdown is absolutely positioned over the
+  // space under it, and every one of these messages points AT that list, so it
+  // has to stay readable while the list is open.
+  err.className = 'mb-1 text-[11.5px] text-destructive'
+  // No clear here: a successful add re-renders the adder, and the reject path
+  // inside addTo sets a message this would wipe.
   const pick = (item) => { addTo(s.key, item); input.value = ''; results.hidden = true }
   picker.wire(s, input, results, pick)
+  // addEventListener, not input.oninput: every wireX assigns that property.
+  input.addEventListener('input', () => clearFieldError(s.key))
   wireDropdown(wrap, input, results)
   wrap.append(input, results)
-  return wrap
+  // err goes outside wrap: wrap is the flex row and the positioning context for
+  // the absolute results list.
+  const col = document.createElement('div')
+  col.append(err, wrap)
+  return col
 }
 
 function wireArtist(s, input, results, pick) {
@@ -729,7 +773,7 @@ function wireArtist(s, input, results, pick) {
   input.onkeydown = (e) => {
     if (e.key !== 'Enter') return
     // free-text entries have no Apple ID — the fetcher can't sweep them
-    setStatus('Pick an artist from the search list, then press Down to reach it. Entries are pinned by Apple ID.', false, true)
+    setFieldError(s.key, 'Pick an artist from the search list, then press Down to reach it. Entries are pinned by Apple ID.')
   }
   input.oninput = () => {
     clearTimeout(timer)
@@ -749,7 +793,7 @@ function wireArtist(s, input, results, pick) {
         // this runs inside a timer, so an unreported throw here is invisible:
         // the box would simply never produce suggestions
         results.hidden = true
-        setStatus('Artist search unavailable. Check the connection and try again.', true, true)
+        setFieldError(s.key, 'Artist search unavailable. The editor may have stopped; reopen prefs.command.')
         return
       }
       if (!found.length) { noteRow(results, 'No artists found'); return }
@@ -759,7 +803,10 @@ function wireArtist(s, input, results, pick) {
         if (a.url) {
           // verify the identity on its Apple Music page before adding
           verify = document.createElement('a')
-          verify.className = 'shrink-0 px-1.5 text-sm text-muted-foreground no-underline hover:text-foreground'
+          // Padded to clear 24x24 (measured 26.6x32): it sits flush against the
+          // pick button, so WCAG 2.5.8's spacing exception does not cover it and
+          // both axes have to make the size on their own.
+          verify.className = 'shrink-0 px-2 py-1.5 text-sm text-muted-foreground no-underline hover:text-foreground'
           verify.textContent = '↗'
           verify.href = a.url
           verify.target = '_blank'
@@ -782,8 +829,9 @@ function wirePlaylist(s, input, results, pick) {
   input.onkeydown = (e) => {
     if (e.key !== 'Enter') return
     const pl = parsePlaylist(input.value.trim())
-    if (!pl) { setStatus('Not an Apple Music playlist URL.', true, true); return }
-    if (taken(pl)) { setStatus('That playlist is already in the list.', false, true); input.value = ''; return }
+    if (!pl) { setFieldError(s.key, 'Not an Apple Music playlist URL.'); return }
+    // addTo owns duplicate rejection for every section; taken() stays only to
+    // label the row below, where it warns before the click rather than after.
     pick(pl)
   }
   input.oninput = () => {
@@ -791,10 +839,7 @@ function wirePlaylist(s, input, results, pick) {
     const pl = parsePlaylist(input.value.trim())
     if (!pl) { results.hidden = true; return }
     const dupe = taken(pl)
-    resultRow(results, pl.name, dupe ? 'already in the list' : 'playlist', () => {
-      if (dupe) { setStatus('That playlist is already in the list.', false, true); input.value = ''; results.hidden = true; return }
-      pick(pl)
-    })
+    resultRow(results, pl.name, dupe ? 'already in the list' : 'playlist', () => pick(pl))
     results.hidden = false
   }
 }
@@ -806,7 +851,7 @@ function wireCountry(s, input, results, pick) {
     if (e.key !== 'Enter') return
     const q = input.value.trim().toLowerCase()
     const code = Object.hasOwn(countryNames, q) ? q : Object.keys(countryNames).find((c) => countryNames[c].toLowerCase() === q)
-    if (!code) { setStatus('Pick a country from the list.', true, true); return }
+    if (!code) { setFieldError(s.key, 'Pick a country from the list.'); return }
     pick(code)
   }
   const show = () => {
@@ -829,7 +874,7 @@ function wireCountry(s, input, results, pick) {
 function wireGenre(s, input, results, pick) {
   input.onkeydown = (e) => {
     if (e.key !== 'Enter') return
-    if (!input.value.trim()) { setStatus('Type a genre name, or pick one from the list.', true, true); return }
+    if (!input.value.trim()) { setFieldError(s.key, 'Type a genre name, or pick one from the list.'); return }
     pick(input.value)
   }
   const show = () => {
@@ -923,7 +968,8 @@ async function poll() {
   } else if (!offline) {
     // without this a dead server looks exactly like an idle healthy one
     offline = true
-    setStatus(OFFLINE, true)
+    // Banner only: both it and #status are role="status", so writing the same
+    // sentence to each in one tick has assistive tech read it twice.
     setBanner('bad', OFFLINE)
   }
   // Nothing to show while the tab is hidden, and this loop otherwise runs for
@@ -964,7 +1010,6 @@ $('refresh').onclick = async () => {
     }
   } catch {
     setBanner('bad', OFFLINE)
-    setStatus(OFFLINE, true, true)
     return
   }
   wasRunning = true
@@ -1006,6 +1051,10 @@ function applyPrefs(p) {
 // re-rendering from disk would throw away edits the user has not saved.
 function reloadPrefs() {
   if (dirty) return
+  // A re-render rebuilds every input, so refreshing under an active field would
+  // swallow a half-typed name, its open dropdown and any error mid-keystroke.
+  // The dirty flag doesn't cover this: typing sets nothing until an add lands.
+  if ($('sections')?.contains(document.activeElement)) return
   fetch('/api/prefs')
     .then((r) => (r.ok ? r.json() : null))
     .then((p) => { if (p && !dirty) applyPrefs(p) })

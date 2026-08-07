@@ -5,19 +5,11 @@
 //
 // Apple-only, US storefront only: other storefronts localize artist names
 // (KR lists CHUU as 츄), splitting the dedup key. Foreign-only releases appear
-// once they propagate to the US catalog (usually within hours). Five sources:
-//   1. Followed artists (preferences.json) — batched iTunes lookups; the
-//      guaranteed layer. Same sweep collects pre-orders → the Upcoming tab.
-//   2. US most-played chart.
-//   3. US iTunes genre purchase charts (GENRE_FEEDS in shared.mjs) — purchases
-//      spike on release day, so drops appear within hours (most-played lags).
-//   4. Editorial playlists (discovery.playlists) — scraped, curated day-of.
-//   5. Country charts (discovery.countries) — each country's most-played, plus
-//      its purchase charts where Apple runs a store. Foreign feeds contribute
-//      collection IDS ONLY; every card is built from a US lookup, and
-//      US-catalog misses are dropped.
-// Every discovery card records which of these found it, in `sources`, for the
-// editor's audit (sweep cards carry `followed` and `via_artist_id` instead).
+// once they propagate to the US catalog (usually within hours).
+//
+// Five sources, each labelled at its own section below. Every discovery card
+// records which one found it, in `sources`, for the editor's audit; sweep cards
+// carry `followed` and `via_artist_id` instead.
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { STOREFRONTS, purchaseFeedsOf } from './storefronts.mjs'
@@ -34,22 +26,15 @@ const PREFS = JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 // local time, matching update.sh's log() — the two interleave in one file.
 const log = (...a) => console.log(`[${new Date().toLocaleString('sv-SE')}]`, ...a)
 
-// ---------- normalization / canonical key ----------
-// keyOf/cardKeyOf live in card-key.mjs, shared with the app so
-// the fetcher's dedup and the app's card keys can never differ.
-
 const NOISE_RE = /\b(instrumental|sped[ -]?up|slowed( \+ reverb)?|inst\.)\b/i
 
 // UTC, matching the dates Apple serializes; the app formats in local time.
 const TODAY = new Date().toISOString().slice(0, 10)
 
 // Upper bound only: its one caller carries pre-orders forward, and those are
-// future-dated, so a lower bound would reject every one. The 0.5 grace absorbs
-// the timezone spread between Apple's date and ours.
+// future-dated, so a lower bound would reject every one.
 const withinWindow = (releaseDate) => daysSince(releaseDate) <= WINDOW_DAYS + 0.5
 
-// Released-only scope: withinDays owns both the grace and the pre-order bound, so
-// the tolerance is defined once.
 const inWindow = (releaseDate) => withinDays(releaseDate, WINDOW_DAYS)
 
 // Announced pre-orders: anything still future-dated at fetch time, the exact
@@ -83,7 +68,11 @@ const artUrl = (u) => {
   } catch {
     return ''
   }
-  return u.replace(/\d+x\d+bb/, '400x400bb')
+  // mzstatic renders the trailing size+format segment on demand, and the WebP is
+  // ~40% of the JPEG's bytes. Only .jpg is swapped: an unverified format would
+  // trade a working card for the placeholder.
+  const webp = u.replace(/\d+x\d+bb\.jpg$/, '400x400bb.webp')
+  return webp === u ? u.replace(/\d+x\d+bb/, '400x400bb') : webp
 }
 // Only Apple catalog URLs reach cards — link fields are untrusted (one source
 // is scraped) until they match this shape.

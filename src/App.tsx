@@ -51,7 +51,9 @@ export default function App() {
       .catch(() => {
         // one written message, never the raw rejection: an HTML error page
         // makes r.json() reject with "Unexpected token '<'"
-        if (!cancelled) setError('Could not load releases. The nightly update may not have run yet.')
+        // names no single cause: this also fires offline, on a DNS failure and
+        // on the 15s timeout, where blaming the update would be wrong
+        if (!cancelled) setError('Could not load releases. Check your connection, or the nightly update may not have run yet.')
       })
     return () => {
       cancelled = true
@@ -61,10 +63,8 @@ export default function App() {
   const releases = (data?.releases ?? []).filter(
     (r) => r.followed || isFreshAsOf(r.release_date, data?.fetched_at ?? 0)
   )
-  // followed artists only — Upcoming is a follow-list feature
+  // Upcoming is a follow-list feature
   const upcoming = (data?.upcoming ?? []).filter((r) => r.followed)
-  // An empty tab hides: only-New renders barless, only-Upcoming shows one
-  // labelled pill, both-empty falls through to the info message.
   const tabs = [
     { key: 'new' as const, label: `New · ${releases.length}`, items: releases },
     { key: 'upcoming' as const, label: `Upcoming · ${upcoming.length}`, items: upcoming },
@@ -105,68 +105,71 @@ export default function App() {
         </span>
       </header>
 
-      {error && (
-        <p role="alert" className="py-4 text-sm text-destructive">
-          {error}{' '}
-          <button onClick={() => location.reload()} className="underline hover:no-underline">
-            Reload
-          </button>
-        </p>
-      )}
-      {!data && !error && <LoadingGrid />}
-      {data && showBar && (
-        <div
-          role="tablist"
-          aria-label="Release lists"
-          onKeyDown={onTabKey}
-          className="mb-4 flex w-fit gap-0.5 rounded-lg border border-border p-0.5 text-[13px] sm:text-xs"
-        >
-          {tabs.map((t) => (
-            <button
-              key={t.key}
-              id={`tab-${t.key}`}
-              role="tab"
-              aria-selected={activeKey === t.key}
-              aria-controls="release-panel"
-              tabIndex={activeKey === t.key ? 0 : -1}
-              onClick={() => setTab(t.key)}
-              className={`rounded-md px-3 py-1.5 font-medium sm:py-1 ${
-                activeKey === t.key ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              {t.label}
+      {/* header outside main: banner landmark only while not inside it */}
+      <main>
+        {error && (
+          <p role="alert" className="py-4 text-sm text-destructive">
+            {error}{' '}
+            <button onClick={() => location.reload()} className="underline hover:no-underline">
+              Reload
             </button>
-          ))}
-        </div>
-      )}
-      {data &&
-        (shown.length ? (
+          </p>
+        )}
+        {!data && !error && <LoadingGrid />}
+        {data && showBar && (
           <div
-            id="release-panel"
-            role={showBar ? 'tabpanel' : undefined}
-            aria-labelledby={showBar ? `tab-${activeKey}` : undefined}
-            className="grid grid-cols-2 gap-3 sm:grid-cols-4"
+            role="tablist"
+            aria-label="Release lists"
+            onKeyDown={onTabKey}
+            className="mb-4 flex w-fit gap-0.5 rounded-lg border border-border p-0.5 text-[13px] sm:text-xs"
           >
-            {shown.map((r, i) => (
-              <ReleaseCard
-                key={cardKeyOf(r)}
-                release={r}
-                upcoming={activeKey === 'upcoming'}
-                fetchedAt={data.fetched_at}
-                // first four: one row at sm and up, two rows on a phone. All
-                // are above the fold either way, and lazy-loading them costs
-                // the largest image a round trip.
-                eager={i < 4}
-              />
+            {tabs.map((t) => (
+              <button
+                key={t.key}
+                id={`tab-${t.key}`}
+                role="tab"
+                aria-selected={activeKey === t.key}
+                aria-controls="release-panel"
+                tabIndex={activeKey === t.key ? 0 : -1}
+                onClick={() => setTab(t.key)}
+                className={`rounded-md px-3 py-1.5 font-medium sm:py-1 ${
+                  activeKey === t.key ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {t.label}
+              </button>
             ))}
           </div>
-        ) : (
-          <p role="status" className="py-3 text-sm text-muted-foreground">
-            {activeKey === 'upcoming'
-              ? 'Nothing announced yet.'
-              : 'No new releases right now. Updates every evening.'}
-          </p>
-        ))}
+        )}
+        {data &&
+          (shown.length ? (
+            <div
+              id="release-panel"
+              role={showBar ? 'tabpanel' : undefined}
+              aria-labelledby={showBar ? `tab-${activeKey}` : undefined}
+              className="grid grid-cols-2 gap-3 sm:grid-cols-4"
+            >
+              {shown.map((r, i) => (
+                <ReleaseCard
+                  key={cardKeyOf(r)}
+                  release={r}
+                  upcoming={activeKey === 'upcoming'}
+                  fetchedAt={data.fetched_at}
+                  // first four: one row at sm and up, two rows on a phone. All
+                  // are above the fold either way, and lazy-loading them costs
+                  // the largest image a round trip.
+                  eager={i < 4}
+                />
+              ))}
+            </div>
+          ) : (
+            <p role="status" className="py-3 text-sm text-muted-foreground">
+              {activeKey === 'upcoming'
+                ? 'Nothing announced yet.'
+                : 'No new releases right now. Updates every evening.'}
+            </p>
+          ))}
+      </main>
     </div>
   )
 }
