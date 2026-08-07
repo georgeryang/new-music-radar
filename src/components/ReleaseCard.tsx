@@ -42,6 +42,8 @@ export function ReleaseCard({
           <img
             src={release.artwork}
             alt=""
+            width={400}
+            height={400}
             loading={eager ? 'eager' : 'lazy'}
             fetchPriority={eager ? 'high' : undefined}
             decoding="async"
@@ -49,7 +51,9 @@ export function ReleaseCard({
             className="size-full object-cover motion-safe:transition-transform motion-safe:group-hover:scale-[1.03]"
           />
         ) : (
-          <div className="flex size-full items-center justify-center text-3xl">🎵</div>
+          <div aria-hidden="true" className="flex size-full items-center justify-center text-3xl">
+            🎵
+          </div>
         )}
       </div>
       <p className="line-clamp-2 text-[13px] leading-snug font-semibold sm:text-xs">{release.title}</p>

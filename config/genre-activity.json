@@ -1,13 +1,13 @@
 {
   "Rock": {
-    "dropped": 13,
-    "today": 5,
+    "dropped": 11,
+    "today": 3,
     "last_seen": "2026-08-07",
     "example": "Kizu — Gokuraku yori Gokujou no Ame"
   },
   "Alternative": {
-    "dropped": 9,
-    "today": 7,
+    "dropped": 10,
+    "today": 8,
     "last_seen": "2026-08-07",
     "example": "DØKAYUGI — Natsu No DØKAYUGI"
   },
@@ -28,12 +28,6 @@
     "today": 1,
     "last_seen": "2026-08-03",
     "example": "無常樂 — 成人禮"
-  },
-  "Trance": {
-    "dropped": 6,
-    "today": 1,
-    "last_seen": "2026-08-03",
-    "example": "Armin van Buuren & SACHA — Everlasting"
   },
   "Jazz": {
     "dropped": 5,
@@ -69,7 +63,7 @@
     "dropped": 3,
     "today": 3,
     "last_seen": "2026-08-07",
-    "example": "John Carpenter, Cody Carpenter & Daniel Davies — Cathedral"
+    "example": "Zeal & Ardor — Devil Is Fine X"
   },
   "Americana": {
     "dropped": 3,
@@ -83,18 +77,6 @@
     "last_seen": "2026-08-02",
     "example": "Baby Bugs & Black Polish — Rabies"
   },
-  "Hip-Hop": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-03",
-    "example": "Debians, Mvchoo23 & Yama Make Them Bounce — 4Me"
-  },
-  "Afro House": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-06",
-    "example": "Sefu Aura — Pump It (Afrohouse)"
-  },
   "Rap": {
     "dropped": 3,
     "today": 1,
@@ -106,6 +88,12 @@
     "today": 2,
     "last_seen": "2026-08-07",
     "example": "Overmono — Pure Devotion"
+  },
+  "Christian": {
+    "dropped": 3,
+    "today": 2,
+    "last_seen": "2026-08-07",
+    "example": "ECCOS — ECCLESIA"
   },
   "Techno": {
     "dropped": 2,
@@ -131,12 +119,6 @@
     "last_seen": "2026-08-07",
     "example": "Kyosuke Aoi (CV: Yoshitaka Yamaya), Kirio Nekoyanagi (CV: Daiki Yamashita), Hayato Akiyama (CV: Shoya Chiba) & Takeru Taiga (CV: Junta Terashima) — THE IDOLM@STER SideM TRANSCENDENT T@LES 11"
   },
-  "Christian": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-07",
-    "example": "Carly Ann Taylor & KB — Lifeline"
-  },
   "Música tropical": {
     "dropped": 2,
     "today": 1,
@@ -149,17 +131,41 @@
     "last_seen": "2026-08-07",
     "example": "soul of NEKO Recommended Jazz Music for Work & Study, Buzz BGM Lab: A Research Studio for Mastering Work, Sleep, Focus, and Relaxation & Deep Sleep Music — Relaxing Café Jazz Work BGM With City Pop & Lo-Fi to Improve Focus and Productivity for Work and Study"
   },
+  "Afro-Beat": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-08-07",
+    "example": "ASE — Black Diamond, Vol. 3"
+  },
+  "Modern Dancehall": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-08-07",
+    "example": "Spice & La Joaqui — Miss World Body"
+  },
+  "Trance": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-07",
+    "example": "Armin van Buuren — A State of Trance Anthems (Remixes)"
+  },
+  "Hip-Hop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-07",
+    "example": "FattMack — Mr. Did It By Hisself 3"
+  },
+  "Afro House": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-07",
+    "example": "Antonius Ore — Fear.not"
+  },
   "Soundtrack": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-08-07",
     "example": "Liu Yu Ning — 一诺 (《花开锦绣》电视剧主题曲/片尾曲)"
-  },
-  "Afro-Beat": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-07",
-    "example": "Ok Listen — Out of the Shadows"
   },
   "Afro-Pop": {
     "dropped": 1,
@@ -239,16 +245,16 @@
     "last_seen": "2026-08-05",
     "example": "Enlly Blue Music — The Sound of Missing You"
   },
-  "Modern Dancehall": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-07",
-    "example": "Ryan Castro & Feid — Mentira"
-  },
   "Death Metal/Black Metal": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-08-07",
     "example": "Hulder — Verbolgen"
+  },
+  "Classical": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-07",
+    "example": "Bruce Liu — Lunaris"
   }
 }
