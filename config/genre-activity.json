@@ -1,33 +1,27 @@
 {
-  "Música Mexicana": {
-    "dropped": 37,
-    "today": 3,
-    "last_seen": "2026-08-03",
-    "example": "Los Tigres del Norte — México Sigue De Pie"
-  },
-  "Country": {
-    "dropped": 36,
-    "today": 9,
-    "last_seen": "2026-08-03",
-    "example": "Shaboozey — The Outlaw Cherie Lee & Other Western Tales"
-  },
-  "Soundtrack": {
-    "dropped": 16,
-    "today": 1,
-    "last_seen": "2026-08-05",
-    "example": "Bestards — 整個世界,只有你連上了我 (《整個世界,只有你連上了我》影集主題曲)"
-  },
   "Rock": {
-    "dropped": 8,
-    "today": 4,
-    "last_seen": "2026-08-06",
+    "dropped": 13,
+    "today": 5,
+    "last_seen": "2026-08-07",
     "example": "Kizu — Gokuraku yori Gokujou no Ame"
+  },
+  "Alternative": {
+    "dropped": 9,
+    "today": 7,
+    "last_seen": "2026-08-07",
+    "example": "DØKAYUGI — Natsu No DØKAYUGI"
   },
   "Worldwide": {
     "dropped": 7,
     "today": 1,
     "last_seen": "2026-08-06",
     "example": "Chantel 姚焯菲Yumi 鍾柔美Windy 詹天文 — S.H.E.R.O. (劇集《夫妻的博弈》片尾曲)"
+  },
+  "Música Mexicana": {
+    "dropped": 6,
+    "today": 6,
+    "last_seen": "2026-08-07",
+    "example": "Alfredo Olivas — MAYDAY"
   },
   "Chinese Rock": {
     "dropped": 6,
@@ -47,17 +41,17 @@
     "last_seen": "2026-08-03",
     "example": "DOMi & JD BECK — WHO ASKED?"
   },
+  "Country": {
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-08-07",
+    "example": "Koe Wetzel & Ella Langley — Jaded"
+  },
   "Tai-Pop": {
     "dropped": 4,
     "today": 1,
     "last_seen": "2026-08-02",
     "example": "Kuljelje — 出外人"
-  },
-  "Metal": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-03",
-    "example": "Five Finger Death Punch — Legacy"
   },
   "Spoken Word": {
     "dropped": 4,
@@ -70,6 +64,12 @@
     "today": 1,
     "last_seen": "2026-08-03",
     "example": "Microhm & Imaabs — Latencia"
+  },
+  "Metal": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-08-07",
+    "example": "John Carpenter, Cody Carpenter & Daniel Davies — Cathedral"
   },
   "Americana": {
     "dropped": 3,
@@ -95,11 +95,17 @@
     "last_seen": "2026-08-06",
     "example": "Sefu Aura — Pump It (Afrohouse)"
   },
-  "Afro-Beat": {
-    "dropped": 2,
+  "Rap": {
+    "dropped": 3,
     "today": 1,
-    "last_seen": "2026-08-01",
-    "example": "Cut Chemist — Simetachin - ስሜታችንን (feat. Derib Zenebe & Dexter Story)"
+    "last_seen": "2026-08-07",
+    "example": "Nino Paid — Somewhere Over The Rainbow"
+  },
+  "Electronic": {
+    "dropped": 3,
+    "today": 2,
+    "last_seen": "2026-08-07",
+    "example": "Overmono — Pure Devotion"
   },
   "Techno": {
     "dropped": 2,
@@ -119,29 +125,41 @@
     "last_seen": "2026-08-05",
     "example": "Harmony Rhythm — More of Who I Am"
   },
-  "Alternative": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-06",
-    "example": "Cloudy — Light Of Mind"
-  },
-  "Rap": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-06",
-    "example": "Nino Paid — Somewhere Over The Rainbow"
-  },
   "Anime": {
-    "dropped": 1,
+    "dropped": 2,
     "today": 1,
-    "last_seen": "2026-08-06",
+    "last_seen": "2026-08-07",
     "example": "Kyosuke Aoi (CV: Yoshitaka Yamaya), Kirio Nekoyanagi (CV: Daiki Yamashita), Hayato Akiyama (CV: Shoya Chiba) & Takeru Taiga (CV: Junta Terashima) — THE IDOLM@STER SideM TRANSCENDENT T@LES 11"
   },
-  "Electronic": {
+  "Christian": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-07",
+    "example": "Carly Ann Taylor & KB — Lifeline"
+  },
+  "Música tropical": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-07",
+    "example": "Dalvin La Melodia — La Bachata Volvió"
+  },
+  "Instrumental": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-07",
+    "example": "soul of NEKO Recommended Jazz Music for Work & Study, Buzz BGM Lab: A Research Studio for Mastering Work, Sleep, Focus, and Relaxation & Deep Sleep Music — Relaxing Café Jazz Work BGM With City Pop & Lo-Fi to Improve Focus and Productivity for Work and Study"
+  },
+  "Soundtrack": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-06",
-    "example": "bystander & emerge — ALREADY OVER IT"
+    "last_seen": "2026-08-07",
+    "example": "Liu Yu Ning — 一诺 (《花开锦绣》电视剧主题曲/片尾曲)"
+  },
+  "Afro-Beat": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-07",
+    "example": "Ok Listen — Out of the Shadows"
   },
   "Afro-Pop": {
     "dropped": 1,
@@ -167,12 +185,6 @@
     "last_seen": "2026-07-30",
     "example": "pada — 拆"
   },
-  "Christian": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-06",
-    "example": "Isabella Rios — Restaura Mi Corazón"
-  },
   "South Africa": {
     "dropped": 1,
     "today": 1,
@@ -182,8 +194,8 @@
   "Afro Soul": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "Lodù — Wine & Honey"
+    "last_seen": "2026-08-07",
+    "example": "Ṣẹwà — Detox (Deluxe)"
   },
   "Afro-fusion": {
     "dropped": 1,
@@ -227,16 +239,16 @@
     "last_seen": "2026-08-05",
     "example": "Enlly Blue Music — The Sound of Missing You"
   },
-  "Música tropical": {
+  "Modern Dancehall": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-06",
-    "example": "Dalvin La Melodia — La Bachata Volvió"
+    "last_seen": "2026-08-07",
+    "example": "Ryan Castro & Feid — Mentira"
   },
-  "Instrumental": {
+  "Death Metal/Black Metal": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-06",
-    "example": "soul of NEKO Recommended Jazz Music for Work & Study, Buzz BGM Lab: A Research Studio for Mastering Work, Sleep, Focus, and Relaxation & Deep Sleep Music — Relaxing Café Jazz Work BGM With City Pop & Lo-Fi to Improve Focus and Productivity for Work and Study"
+    "last_seen": "2026-08-07",
+    "example": "Hulder — Verbolgen"
   }
 }
