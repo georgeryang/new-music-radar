@@ -1,15 +1,9 @@
 {
-  "Rock": {
-    "dropped": 11,
-    "today": 3,
-    "last_seen": "2026-08-07",
-    "example": "Kizu — Gokuraku yori Gokujou no Ame"
-  },
   "Alternative": {
-    "dropped": 10,
-    "today": 8,
-    "last_seen": "2026-08-07",
-    "example": "DØKAYUGI — Natsu No DØKAYUGI"
+    "dropped": 7,
+    "today": 7,
+    "last_seen": "2026-08-08",
+    "example": "twenty one pilots — More Than We Ever Imagined (Live in Mexico City)"
   },
   "Worldwide": {
     "dropped": 7,
@@ -18,9 +12,9 @@
     "example": "Chantel 姚焯菲Yumi 鍾柔美Windy 詹天文 — S.H.E.R.O. (劇集《夫妻的博弈》片尾曲)"
   },
   "Música Mexicana": {
-    "dropped": 6,
-    "today": 6,
-    "last_seen": "2026-08-07",
+    "dropped": 7,
+    "today": 7,
+    "last_seen": "2026-08-08",
     "example": "Alfredo Olivas — MAYDAY"
   },
   "Chinese Rock": {
@@ -28,6 +22,12 @@
     "today": 1,
     "last_seen": "2026-08-03",
     "example": "無常樂 — 成人禮"
+  },
+  "Rock": {
+    "dropped": 5,
+    "today": 5,
+    "last_seen": "2026-08-08",
+    "example": "Spitz — Unknown Thread"
   },
   "Jazz": {
     "dropped": 5,
@@ -38,7 +38,7 @@
   "Country": {
     "dropped": 4,
     "today": 4,
-    "last_seen": "2026-08-07",
+    "last_seen": "2026-08-08",
     "example": "Koe Wetzel & Ella Langley — Jaded"
   },
   "Tai-Pop": {
@@ -62,8 +62,8 @@
   "Metal": {
     "dropped": 3,
     "today": 3,
-    "last_seen": "2026-08-07",
-    "example": "Zeal & Ardor — Devil Is Fine X"
+    "last_seen": "2026-08-08",
+    "example": "John Carpenter, Cody Carpenter & Daniel Davies — Cathedral"
   },
   "Americana": {
     "dropped": 3,
@@ -84,16 +84,10 @@
     "example": "Nino Paid — Somewhere Over The Rainbow"
   },
   "Electronic": {
-    "dropped": 3,
+    "dropped": 2,
     "today": 2,
-    "last_seen": "2026-08-07",
+    "last_seen": "2026-08-08",
     "example": "Overmono — Pure Devotion"
-  },
-  "Christian": {
-    "dropped": 3,
-    "today": 2,
-    "last_seen": "2026-08-07",
-    "example": "ECCOS — ECCLESIA"
   },
   "Techno": {
     "dropped": 2,
@@ -119,12 +113,6 @@
     "last_seen": "2026-08-07",
     "example": "Kyosuke Aoi (CV: Yoshitaka Yamaya), Kirio Nekoyanagi (CV: Daiki Yamashita), Hayato Akiyama (CV: Shoya Chiba) & Takeru Taiga (CV: Junta Terashima) — THE IDOLM@STER SideM TRANSCENDENT T@LES 11"
   },
-  "Música tropical": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-07",
-    "example": "Dalvin La Melodia — La Bachata Volvió"
-  },
   "Instrumental": {
     "dropped": 2,
     "today": 1,
@@ -134,44 +122,62 @@
   "Afro-Beat": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-08-07",
+    "last_seen": "2026-08-08",
     "example": "ASE — Black Diamond, Vol. 3"
   },
   "Modern Dancehall": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-08-07",
+    "last_seen": "2026-08-08",
     "example": "Spice & La Joaqui — Miss World Body"
+  },
+  "Soundtrack": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-08-08",
+    "example": "Aaron Kwok — 衝衝衝 (香港賽馬會年度主題曲)"
+  },
+  "Afro Soul": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-08-08",
+    "example": "Angel Ahz & Allah Thérèse — The Soul Mixes (Réédition)"
+  },
+  "Christian": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-08",
+    "example": "Carly Ann Taylor & KB — Lifeline"
+  },
+  "Música tropical": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-08",
+    "example": "Dalvin La Melodia — La Bachata Volvió"
   },
   "Trance": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-07",
+    "last_seen": "2026-08-08",
     "example": "Armin van Buuren — A State of Trance Anthems (Remixes)"
   },
   "Hip-Hop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-07",
+    "last_seen": "2026-08-08",
     "example": "FattMack — Mr. Did It By Hisself 3"
   },
   "Afro House": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-07",
+    "last_seen": "2026-08-08",
     "example": "Antonius Ore — Fear.not"
-  },
-  "Soundtrack": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-07",
-    "example": "Liu Yu Ning — 一诺 (《花开锦绣》电视剧主题曲/片尾曲)"
   },
   "Afro-Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-06",
-    "example": "Zivara — Watch Me"
+    "last_seen": "2026-08-08",
+    "example": "6STALIGHT — 6"
   },
   "Rock y Alternativo": {
     "dropped": 1,
@@ -197,12 +203,6 @@
     "last_seen": "2026-07-31",
     "example": "Mashelela — IMBONGOLO YISHENDE"
   },
-  "Afro Soul": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-07",
-    "example": "Ṣẹwà — Detox (Deluxe)"
-  },
   "Afro-fusion": {
     "dropped": 1,
     "today": 1,
@@ -224,8 +224,8 @@
   "Amapiano": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-02",
-    "example": "Kaeyos & Stainless — Show me"
+    "last_seen": "2026-08-08",
+    "example": "Mustbedubz — KWANDA"
   },
   "Shows": {
     "dropped": 1,
@@ -248,13 +248,19 @@
   "Death Metal/Black Metal": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-07",
+    "last_seen": "2026-08-08",
     "example": "Hulder — Verbolgen"
   },
   "Classical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-07",
+    "last_seen": "2026-08-08",
     "example": "Bruce Liu — Lunaris"
+  },
+  "Europe": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-08",
+    "example": "Jorge Rojas — Acústico"
   }
 }
