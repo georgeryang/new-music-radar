@@ -2,16 +2,15 @@
 // Grade every source the preferences editor exposes, and suggest replacements.
 // Read-only: it never edits config, it prints a report for a person to act on.
 //
-// Two rules this report is built around, both learned by getting them wrong, and
-// both printed with the recommendations at the end:
+// Two rules this report is built around, printed with the recommendations at the
+// end and explained in skills/audit-radar-sources/SKILL.md:
 //
 //   1. QUIET IS NOT DEAD — a feed with 0 entries is broken, a feed with 68 and
 //      nothing recent is healthy and slow.
 //   2. ABSENCE IS NOT ZERO — see sourceWindow in shared.mjs.
 //
-// skills/audit-radar-sources/SKILL.md explains both for someone acting on the
-// report. Every feed URL, parser and pacer comes from apple-api.mjs, so this
-// grades the feeds the pipeline reads rather than a copy that can drift.
+// Every feed URL, parser and pacer comes from apple-api.mjs, so this grades the
+// feeds the pipeline reads rather than a copy that can drift.
 
 import { readFileSync } from 'node:fs'
 import { STOREFRONTS, STREAMING_ONLY, purchaseFeedsOf } from './storefronts.mjs'
@@ -19,8 +18,9 @@ import { GENRE_OPTIONS } from './genre-options.mjs'
 import { fetchGenreTree, genreNamesById, underFollowed } from './genre-tree.mjs'
 import {
   US_CHART_URL, albumIdFromTrackUrl, artistAlbumsUrl, asList, countryMostPlayedUrl,
-  countryPurchaseUrl, errDetail, genreFeedUrl, getJSON, itunesJSON, lookupUrl,
-  marketingToolsJSON, normId, rssAlbumId, scrapeHTML, scrapePlaylistAlbumIds, sleep,
+  countryPurchaseUrl, errDetail, genreFeedUrl, getJSON, groupArtistLookup, itunesJSON,
+  lookupUrl, marketingToolsJSON, normId, rssAlbumId, scrapeHTML, scrapePlaylistAlbumIds,
+  sleep,
 } from './apple-api.mjs'
 import {
   BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, LOOKUP_CHUNK, PACED_CALL_S,
@@ -33,8 +33,6 @@ const USAGE = 'usage: node scripts/audit-sources.mjs [--no-discover] [--json]'
 const die = (m) => { console.error(m); process.exit(1) }
 const argv = process.argv.slice(2)
 if (argv.includes('--help') || argv.includes('-h')) { console.log(USAGE); process.exit(0) }
-// A silently ignored typo runs the multi-minute discovery pass --no-discover was
-// meant to skip, or prints the human report when --json was wanted.
 const unknown = argv.find((a) => a !== '--no-discover' && a !== '--json')
 if (unknown) die(`unknown argument '${unknown}' (${USAGE})`)
 const DISCOVER = !argv.includes('--no-discover')
@@ -52,8 +50,7 @@ try {
 } catch {}
 
 // A missing file is a real "not yet"; a corrupt one is not. Falling back silently
-// would report "0 day(s) of history" or "admitted: none" with no cause, which is
-// the same absence-read-as-zero mistake rule 2 exists to prevent.
+// would report "0 day(s) of history" or "admitted: none" with no cause (rule 2).
 const fileLabel = (p) => decodeURIComponent(String(p)).split('/').slice(-2).join('/')
 const read = (p, fallback) => {
   try { return JSON.parse(readFileSync(p, 'utf8')) } catch (e) {
@@ -198,15 +195,7 @@ const artistRows = []
       const d = await itunesJSON(artistAlbumsUrl(batch.map((a) => a.id), 200))
       results = d.results ?? []
     } catch (e) { say(`  batch ${i / BATCH_SIZE + 1} failed (${errDetail(e)}) — those artists are unrated below`); continue }
-    const per = new Map()
-    let via = null
-    let orphans = 0
-    for (const r of results) {
-      if (r.wrapperType === 'artist') { via = r.artistId; per.set(via, { name: r.artistName, albums: [] }) }
-      else if (r.wrapperType !== 'collection') continue
-      else if (via == null) orphans++
-      else per.get(via)?.albums.push(r)
-    }
+    const { groups: per, orphans } = groupArtistLookup(results)
     // The fetcher exits 2 on this; here it only skews a row, but dropping it
     // silently would undercount exactly the artists being graded.
     if (orphans) say(`  ${orphans} collections arrived before any artist record — lookup grouping changed?`)
@@ -484,8 +473,6 @@ if (DISCOVER) {
   }
 
   // Genre mix of what a candidate would ADD, against what the file already carries.
-  // Volume alone once ranked three Asian-pop stores top in a project whose problem
-  // was too much Asian pop; the mix is what turns a number into a decision.
   const heavy = new Set(Object.entries(admitted).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([g]) => g))
   const ranked = sfScores.filter((s) => s.ok).sort((a, b) => b.additive - a.additive)
   const TOP = 6
@@ -539,7 +526,7 @@ if (DISCOVER) {
   for (const g of followedGenres) {
     const mine = []
     try {
-      const html = await scrapeHTML(`https://music.apple.com/us/search?term=${encodeURIComponent(g)}`, 30_000)
+      const html = await scrapeHTML(`https://music.apple.com/us/search?term=${encodeURIComponent(g)}`)
       for (const m of html.matchAll(/music\.apple\.com\/us\/playlist\/([a-z0-9-]+)\/(pl\.[a-z0-9]+)/g)) {
         if (SKIP.test(m[1])) continue
         const url = `https://music.apple.com/us/playlist/${m[1]}/${m[2]}`

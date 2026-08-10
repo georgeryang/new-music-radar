@@ -63,7 +63,8 @@ export default function App() {
   const releases = (data?.releases ?? []).filter(
     (r) => r.followed || isFreshAsOf(r.release_date, data?.fetched_at ?? 0)
   )
-  // Upcoming is a follow-list feature
+  // Redundant with the fetcher's own filter, deliberately: the followed-only gate
+  // must hold client-side too.
   const upcoming = (data?.upcoming ?? []).filter((r) => r.followed)
   const tabs = [
     { key: 'new' as const, label: `New · ${releases.length}`, items: releases },

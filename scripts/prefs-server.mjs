@@ -256,11 +256,17 @@ const server = http.createServer(async (req, res) => {
         ],
       })
     } else if (req.method === 'POST' && url.pathname === '/api/prefs') {
-      let body = ''
+      // Buffers, not string concat: a multibyte name straddling a chunk boundary
+      // decodes to U+FFFD on both sides, and the result is written straight to
+      // preferences.json. CJK artist names make that a real corruption path.
+      const chunks = []
+      let size = 0
       for await (const chunk of req) {
-        body += chunk
-        if (body.length > 1_000_000) return json(res, 413, { error: 'body too large' })
+        size += chunk.length
+        if (size > 1_000_000) return json(res, 413, { error: 'body too large' })
+        chunks.push(chunk)
       }
+      const body = Buffer.concat(chunks).toString('utf8')
       let incoming
       try {
         incoming = JSON.parse(body)
@@ -410,12 +416,15 @@ const MONTH_MS = 2629746000
 // Set when a message came from a user action, so the 10s poll won't overwrite
 // it with the ambient log tail. Cleared by the next action.
 let statusHeld = false
-const STATUS_BASE = 'mr-auto max-w-[50%] text-xs leading-snug'
+// truncate, not wrap: the footer is fixed at bottom-0 and the banner and log sit
+// at hardcoded offsets above it, so a status line long enough to wrap covers them.
+const STATUS_BASE = 'mr-auto max-w-[50%] truncate text-xs leading-snug'
 function setStatus(text, isError, hold) {
   statusHeld = !!hold
   const el = $('status')
   if (!el) return
   el.textContent = text
+  el.title = text ?? ''
   el.className = STATUS_BASE + (isError ? ' text-destructive' : ' text-muted-foreground')
 }
 // Unhidden before the write: a role=alert that is display:none at mutation time
@@ -918,6 +927,11 @@ const BANNER = {
 }
 function setBanner(cls, text) {
   const b = $('banner')
+  // role=status re-announces on every mutation, and poll() re-sets the identical
+  // running text every 2s for the length of a refresh.
+  const key = (cls ?? '') + '|' + (text ?? '')
+  if (b.dataset.rendered === key) return
+  b.dataset.rendered = key
   b.hidden = !cls
   b.className = cls ? BANNER_BASE + ' ' + BANNER[cls] : ''
   b.replaceChildren()
@@ -1046,9 +1060,8 @@ function applyPrefs(p) {
   renderAll()
 }
 
-// A finished refresh rewrites the counts and dormancy dates on disk, so the
-// numbers on screen are stale until they are re-read. Skipped while dirty:
-// re-rendering from disk would throw away edits the user has not saved.
+// Skipped while dirty: re-rendering from disk would throw away edits the user
+// has not saved.
 function reloadPrefs() {
   if (dirty) return
   // A re-render rebuilds every input, so refreshing under an active field would

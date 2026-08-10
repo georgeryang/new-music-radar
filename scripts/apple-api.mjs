@@ -2,16 +2,33 @@
 // audit hit the same hosts and parse the same feeds, and a second hand-rolled copy
 // is how you get 503s, or an audit that grades a feed the pipeline never reads.
 //
-// Two deliberate exceptions, both single unpaced calls to endpoints this module
-// does not cover: prefs-server's artist-search proxy, and genre-tree's genre list
-// (which keeps its own error wording because a person reads it directly).
-//
 // State is module-level, so pacing does not coordinate across processes; not
 // running an audit during a refresh is a convention, not a lock.
 
 import { UA } from './shared.mjs'
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+
+// Apple returns an artist-albums lookup GROUPED: one `artist` record per requested
+// id, then that artist's collections. Walking in order is what attributes a
+// joint-entity collab to the member who was followed; filtering to collections
+// first would discard the separators that carry it. The grouping is undocumented,
+// so orphans are counted rather than dropped and each caller picks its own
+// reaction.
+export function groupArtistLookup(results) {
+  const groups = new Map()
+  let via = null
+  let orphans = 0
+  for (const r of results ?? []) {
+    if (r.wrapperType === 'artist') {
+      via = r.artistId
+      if (!groups.has(via)) groups.set(via, { name: r.artistName, albums: [] })
+    } else if (r.wrapperType !== 'collection') continue
+    else if (via == null) orphans++
+    else groups.get(via).albums.push(r)
+  }
+  return { groups, orphans }
+}
 
 // timeouts surface as TimeoutError, undici network errors carry a cause code —
 // both matter when diagnosing a failure from the log alone, so every source's
@@ -101,10 +118,10 @@ export const normId = (raw) => {
 const BROWSER_UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15'
 
-export const scrapeHTML = async (url, timeoutMs = 30_000) => {
+export const scrapeHTML = async (url) => {
   const res = await fetch(usLink(url), {
     headers: { 'User-Agent': BROWSER_UA },
-    signal: AbortSignal.timeout(timeoutMs),
+    signal: AbortSignal.timeout(30_000),
   })
   if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`)
   return res.text()

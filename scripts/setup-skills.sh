@@ -2,9 +2,8 @@
 # Link the repo's tracked skills into .claude/skills/ so Claude Code loads them
 # in this directory and nowhere else.
 #
-# skills/ is tracked; .claude/ is gitignored (it also holds settings.local.json,
-# which is per-machine). The symlinks are therefore local state, recreated here
-# rather than committed. Idempotent — safe to re-run.
+# skills/ is tracked; .claude/ is gitignored, so the symlinks are local state
+# recreated here rather than committed.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
