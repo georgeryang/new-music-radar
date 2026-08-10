@@ -24,15 +24,12 @@ export const keyOf = (r) => `${normArtist(r.artist)}|${normTitle(r.title)}|${r.t
 // released album strips to the same keyOf), so the date qualifies it.
 export const cardKeyOf = (r) => `${keyOf(r)}|${r.release_date}`
 
-// sort: followed artists first, then alphabetical by artist; newest first
-// within one artist's releases
 export const releaseOrder = (a, b) =>
   (b.followed ? 1 : 0) - (a.followed ? 1 : 0) ||
   a.artist.localeCompare(b.artist, undefined, { sensitivity: 'base' }) ||
   b.release_date.localeCompare(a.release_date) ||
   a.title.localeCompare(b.title)
 
-// upcoming: soonest first, then artist
 export const upcomingOrder = (a, b) =>
   a.release_date.localeCompare(b.release_date) ||
   a.artist.localeCompare(b.artist, undefined, { sensitivity: 'base' })

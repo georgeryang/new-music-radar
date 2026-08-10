@@ -6,10 +6,8 @@
 # GUI-login autoload path that fails, so it can re-bootstrap the agent.
 #
 # It does NOT run the fetch: the single writer is still launchd -> update.sh
-# --if-stale. RunAtLoad on the re-bootstrapped agent fires the catch-up, and
-# --if-stale keeps it to one fetch/day. Before login the gui domain does not
-# exist and bootstrap fails (logged); the next tick retries and succeeds once
-# the session is up.
+# --if-stale. Before login the gui domain does not exist and bootstrap fails
+# (logged); the next tick retries and succeeds once the session is up.
 set -u
 
 LABEL=com.georgeryang.new-music-radar

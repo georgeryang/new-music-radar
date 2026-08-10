@@ -499,8 +499,7 @@ if (DISCOVER) {
   }
 
   // Picker pruning, the other half of the same measurement: an option that would
-  // add nothing can never be worth choosing. Only ever applied to storefronts whose
-  // probe SUCCEEDED and returned entries — a failed probe is unknown, not redundant.
+  // add nothing can never be worth choosing. Same ok-and-non-empty gate as measured.
   const alive = sfScores.filter((s) => s.ok && s.entries > 0)
   const deadWeight = alive.filter((s) => s.recent >= MIN_REDUNDANCY_SAMPLE && s.additive === 0)
   const tooQuiet = alive.filter((s) => s.recent > 0 && s.recent < MIN_REDUNDANCY_SAMPLE && s.additive === 0)

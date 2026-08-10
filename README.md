@@ -101,11 +101,12 @@ sudo pmset repeat cancel
 ## Privacy
 
 The site sets no cookies, runs no analytics, and stores nothing in your browser.
-There is no server to log you: it is static files on GitHub Pages plus one
-request for `docs/data/releases.json`. Cover art loads from Apple's CDN, so
-Apple sees the IP address of anyone who opens the page. The preferences editor
-runs only on your own machine, at `127.0.0.1`, and is not reachable from the
-public site.
+It is static files, so the only logs are the ones any host keeps: GitHub Pages
+sees the IP address of whoever opens the page, and Apple's CDN sees it too
+because the cover art loads from there. The page also pings `127.0.0.1:4747` on
+load, only to learn whether the preferences editor is running on your own
+machine so it can show the ⚙ link. That ping returns an empty response; every
+other request to the editor is refused unless it comes from your machine.
 
 ## For developers
 

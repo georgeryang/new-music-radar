@@ -56,8 +56,7 @@ export function ReleaseCard({
           </div>
         )}
       </div>
-      {/* text-pretty: the clamp is 2 lines, so a one-word second line is common */}
-      <p className="line-clamp-2 text-[13px] leading-snug font-semibold text-pretty sm:text-xs">{release.title}</p>
+      <p className="line-clamp-2 text-[13px] leading-snug font-semibold sm:text-xs">{release.title}</p>
       <p className="truncate text-xs text-muted-foreground">
         {release.followed && (
           <>
@@ -75,10 +74,7 @@ export function ReleaseCard({
           // break-words, not truncate: a long unbreakable token ("Cantopop/
           // HK-Pop") must stay inside the card, but truncating hid the rest
           // from touch users, where the title tooltip never fires
-          <span
-            title={release.genre}
-            className="max-w-full rounded-full border border-border px-1.5 py-px text-[10px] font-medium break-words"
-          >
+          <span className="max-w-full rounded-full border border-border px-1.5 py-px text-[10px] font-medium break-words">
             {release.genre}
           </span>
         )}
