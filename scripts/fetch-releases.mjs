@@ -106,9 +106,6 @@ const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 
 // ---------- followed artists via iTunes ----------
 
-// Batched sweep: one paced lookup per BATCH_SIZE artists (comma-joined ids),
-// each returning its most recent albums.
-
 // Both retry passes (sweep batches, country feeds) wait this long: the
 // failures they cover are intermittent connection stalls and 503 throttling.
 const RETRY_BACKOFF_MS = 15_000
@@ -288,9 +285,8 @@ const CHART_SOURCE = sourceTag('chart', 'us')
 const releases = []
 
 // Discovery fetches start now and resolve behind the paced artist sweep, so
-// their wall time disappears. Genre feeds and playlist pages are unthrottled
-// (genre feeds share the itunes host with Search/Lookup, so a small stagger
-// as insurance); the US chart takes the marketingtools lane's first slot.
+// their wall time disappears. Genre feeds and playlist pages are unthrottled;
+// the US chart takes the marketingtools lane's first slot.
 const chartP = fetchChart()
 // chartP is consumed after the sweep — without this handler, a chart failure
 // mid-sweep is an unhandled rejection that kills the run before anything is
@@ -310,7 +306,7 @@ const genreFeedsP = Promise.allSettled(
         .then(
           (entries) => ({ tag: f.tag, feedType, entries }),
           (e) => {
-            // tag rides along so the source tally can record null, not 0
+            // tag rides along on the throw so failedSources can name this source
             throw Object.assign(new Error(`${f.tag} ${feedType}: ${errDetail(e)}`), { tag: f.tag })
           }
         )
@@ -326,7 +322,7 @@ const playlistPagesP = Promise.allSettled(
 )
 // Tasks (not bare promises) so failures can be retried by re-calling run().
 // most-played takes the marketingtools lane; legacy feeds continue the genre
-// feeds' stagger on the shared itunes host. All overlap the sweep.
+// feeds' stagger. All overlap the sweep.
 const COUNTRY_TASKS = COUNTRY_CODES.flatMap((sf) => [
   { sf, kind: 'most-played', stagger: 0, run: () => countryMostPlayed(sf) },
   // empty where Apple runs no purchase store, so not fetched every night for nothing
@@ -748,7 +744,7 @@ try {
 // (it keys on the result being empty) and is the only path that also
 // preserves discovery entries.
 // carried releases keep the PREVIOUS run's source tags, so counting them would
-// credit sources for work they did not do tonight — the tally records null instead
+// credit sources for work they did not do tonight
 let carriedWholesale = false
 if (out.length === 0) {
   const carried = (prevFile.releases ?? []).filter((r) => inWindow(r.release_date))
@@ -836,8 +832,9 @@ log(`wrote ${out.length} releases + ${upcoming.length} upcoming`)
 
 // Rolling tally of what the genre filter cost, for `npm run check-genres`.
 //
-// LAST, and never fatal: this is an advisory side file, so a problem writing it
-// must not cost the run its published data.
+// This block and the source tally below run LAST and never fatally: both are
+// advisory side files, so a problem writing one must not cost the run its
+// published data.
 try {
   let tally = {}
   try {
@@ -869,8 +866,6 @@ try {
 // Columnar (one shared date array, parallel per-source arrays) because update.sh
 // commits config/ every night: a date-keyed map would repeat the date once per
 // source per day, and this file is meant to stay small enough to push daily.
-//
-// LAST, and never fatal: advisory data must not cost the run its published output.
 try {
   let hist = { days: [], sources: {} }
   try {

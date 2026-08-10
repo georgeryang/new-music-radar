@@ -87,16 +87,9 @@
 @layer base {
   html {
     color-scheme: light dark;
-    /* New (77 cards) -> Upcoming (7) drops the scrollbar; without this the whole
-       grid shifts sideways on classic scrollbars (not macOS overlay ones). */
+    /* Switching tabs changes the card count, so without this the grid shifts
+       sideways when the scrollbar goes. No effect on macOS overlay scrollbars. */
     scrollbar-gutter: stable;
-  }
-  /* The selected tab differs from its siblings by background alone, which a forced
-     palette erases; both buttons then look identical. */
-  @media (forced-colors: active) {
-    [role='tab'][aria-selected='true'] {
-      outline: 2px solid Highlight;
-    }
   }
   * {
     @apply border-border;
@@ -105,6 +98,18 @@
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
+  }
+  /* A forced palette flattens every background, so the tab's bg-accent and the
+     skeleton's bg-muted both vanish. Underline, not outline, or the selected
+     tab's marker would mask the focus ring above. */
+  @media (forced-colors: active) {
+    [role='tab'][aria-selected='true'] {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    [aria-busy='true'] > div {
+      border: 1px solid CanvasText;
+    }
   }
   /* Preflight's placeholder (~3.3:1) fails AA; the muted token passes in both modes. */
   ::placeholder {

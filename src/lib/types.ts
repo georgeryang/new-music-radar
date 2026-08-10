@@ -16,13 +16,13 @@ export interface Release {
   genre?: string | null
   link?: string // Apple Music URL, US storefront
   followed?: boolean // came from a followed artist's discography — pinned first
-  artist_id?: number // producer-side (dedup, block matching); UI ignores it
-  // producer-side: followed artist whose discography returned this, which for
-  // a collab is not artist_id; UI ignores it
+  // The three below are producer-side; the UI ignores all of them.
+  artist_id?: number // dedup, block matching
+  // followed artist whose discography returned this, which for a collab is not
+  // artist_id
   via_artist_id?: number
-  // producer-side: which source surfaced this, for the editor's yield audit.
-  // chart:us / genre:<apple name> / country:<code> / playlist:<name>, unioned
-  // when several found it. UI ignores it
+  // which sources surfaced this, for the editor's yield audit; tag grammar is
+  // sourceTag in scripts/shared.mjs
   sources?: string[]
 }
 

@@ -145,8 +145,6 @@ function logTail(lines) {
 const SECURITY_HEADERS = {
   'X-Frame-Options': 'DENY',
   'X-Content-Type-Options': 'nosniff',
-  // artist-verify and "Open radar" open Apple in a new tab, which otherwise
-  // carries a Referer naming this local editor
   'Referrer-Policy': 'no-referrer',
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
 }
@@ -199,10 +197,10 @@ const server = http.createServer(async (req, res) => {
       const p = readPrefs()
       // Per-genre and per-source yield of the latest fetch, for the chip markers.
       // Only non-followed releases count, for the reason fetch-releases.mjs gives
-      // where it writes the tally. sourceCounts is keyed by the fetcher's sources
-      // tags (country:<code>, playlist:<name>).
+      // where it writes the tally. sourceCounts is keyed by sourceTag's output.
       const genreCounts = {}
-      // An unreadable data file must report null, never zeros (see genreCount).
+      // An unreadable data file must report null, never zeros (see sourceWindow
+      // in shared.mjs).
       let countsAvailable = true
       try {
         for (const r of JSON.parse(readFileSync(DATA_PATH, 'utf8')).releases ?? []) {
@@ -327,7 +325,6 @@ const server = http.createServer(async (req, res) => {
       json(res, 200, { ok: true })
       setTimeout(() => process.exit(0), 100)
     } else if (req.method === 'GET' && url.pathname === SITE_PATH.slice(0, -1)) {
-      // 308, not 302: the trailing slash is permanent, and 308 keeps the method
       res.writeHead(308, { ...SECURITY_HEADERS, Location: SITE_PATH })
       res.end()
     } else if (req.method === 'GET' && url.pathname.startsWith(SITE_PATH)) {
@@ -518,8 +515,7 @@ function noteRow(results, text) {
 function markDirty() { dirty = true; $('save').disabled = false; statusHeld = false }
 
 // Genre yield marker: releases admitted via this genre (followed artists
-// excluded). Amber 0 = prune candidate. Null when the data file was unreadable,
-// because a false 0 here reads as "delete me".
+// excluded). Amber 0 = prune candidate.
 function genreCount(name) {
   if (!countsAvailable) return null
   const n = genreCounts[name.toLowerCase()] ?? 0
@@ -1090,6 +1086,9 @@ fetch('/api/prefs').then(async (r) => {
   // editor exists to recover from, so it must not render as a blank page. Build
   // with DOM nodes, not innerHTML: the message carries the parser's text.
   const box = document.createElement('div')
+  // role=alert: inserted after first paint, so nothing else announces it and the
+  // footer line alone never names the file
+  box.setAttribute('role', 'alert')
   box.className = 'py-4 text-sm text-destructive'
   const p1 = document.createElement('p')
   p1.textContent = 'Could not load preferences. Check that config/preferences.json is valid JSON, then reload this page.'
