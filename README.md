@@ -98,6 +98,15 @@ sudo pmset repeat cancel
   Remove and re-add them via the search list (the **↗** link shows whose page
   you're pinning).
 
+## Privacy
+
+The site sets no cookies, runs no analytics, and stores nothing in your browser.
+There is no server to log you: it is static files on GitHub Pages plus one
+request for `docs/data/releases.json`. Cover art loads from Apple's CDN, so
+Apple sees the IP address of anyone who opens the page. The preferences editor
+runs only on your own machine, at `127.0.0.1`, and is not reachable from the
+public site.
+
 ## For developers
 
 - **Data flow:** `config/preferences.json` -> `scripts/fetch-releases.mjs` ->

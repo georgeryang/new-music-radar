@@ -56,7 +56,8 @@ export function ReleaseCard({
           </div>
         )}
       </div>
-      <p className="line-clamp-2 text-[13px] leading-snug font-semibold sm:text-xs">{release.title}</p>
+      {/* text-pretty: the clamp is 2 lines, so a one-word second line is common */}
+      <p className="line-clamp-2 text-[13px] leading-snug font-semibold text-pretty sm:text-xs">{release.title}</p>
       <p className="truncate text-xs text-muted-foreground">
         {release.followed && (
           <>

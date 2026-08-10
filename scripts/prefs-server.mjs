@@ -145,6 +145,10 @@ function logTail(lines) {
 const SECURITY_HEADERS = {
   'X-Frame-Options': 'DENY',
   'X-Content-Type-Options': 'nosniff',
+  // artist-verify and "Open radar" open Apple in a new tab, which otherwise
+  // carries a Referer naming this local editor
+  'Referrer-Policy': 'no-referrer',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
 }
 
 function json(res, code, body) {
@@ -323,7 +327,8 @@ const server = http.createServer(async (req, res) => {
       json(res, 200, { ok: true })
       setTimeout(() => process.exit(0), 100)
     } else if (req.method === 'GET' && url.pathname === SITE_PATH.slice(0, -1)) {
-      res.writeHead(302, { ...SECURITY_HEADERS, Location: SITE_PATH })
+      // 308, not 302: the trailing slash is permanent, and 308 keeps the method
+      res.writeHead(308, { ...SECURITY_HEADERS, Location: SITE_PATH })
       res.end()
     } else if (req.method === 'GET' && url.pathname.startsWith(SITE_PATH)) {
       const rel = url.pathname.slice(SITE_PATH.length) || 'index.html'
