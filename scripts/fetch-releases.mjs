@@ -16,10 +16,10 @@ import { STOREFRONTS, purchaseFeedsOf } from './storefronts.mjs'
 import { cardKeyOf, keyOf, releaseOrder, upcomingOrder } from './card-key.mjs'
 import {
   US_CHART_URL, albumIdFromTrackUrl, artistAlbumsUrl, asList, countryMostPlayedUrl,
-  countryPurchaseUrl, errDetail, genreFeedUrl, getJSON, itunesJSON, lookupUrl,
-  marketingToolsJSON, normId, rssAlbumId, scrapePlaylistAlbumIds, sleep, usLink,
+  countryPurchaseUrl, errDetail, genreFeedUrl, getJSON, groupArtistLookup, itunesJSON,
+  lookupUrl, marketingToolsJSON, normId, rssAlbumId, scrapePlaylistAlbumIds, sleep, usLink,
 } from './apple-api.mjs'
-import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, daysSince, feedTypesOf, sourceTag, withinDays } from './shared.mjs'
+import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, daysSince, feedTypesOf, notOlderThan, sourceTag, withinDays } from './shared.mjs'
 
 const PREFS = JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
@@ -30,10 +30,6 @@ const NOISE_RE = /\b(instrumental|sped[ -]?up|slowed( \+ reverb)?|inst\.)\b/i
 
 // UTC, matching the dates Apple serializes; the app formats in local time.
 const TODAY = new Date().toISOString().slice(0, 10)
-
-// Upper bound only: its one caller carries pre-orders forward, and those are
-// future-dated, so a lower bound would reject every one.
-const withinWindow = (releaseDate) => daysSince(releaseDate) <= WINDOW_DAYS + 0.5
 
 const inWindow = (releaseDate) => withinDays(releaseDate, WINDOW_DAYS)
 
@@ -137,19 +133,8 @@ const upcomingRaw = []
 
 async function batchReleases(ids) {
   const data = await itunesJSON(artistAlbumsUrl(ids, 100))
-  // Apple returns the batch GROUPED: one `artist` record per requested id,
-  // then that artist's collections. Walking in order is what attributes a
-  // joint-entity collab to the member who was followed; filtering to
-  // collections first would discard the separators that carry it.
-  const collections = []
-  let via = null
-  let orphans = 0
-  for (const r of data.results ?? []) {
-    if (r.wrapperType === 'artist') via = r.artistId
-    else if (r.wrapperType !== 'collection') continue
-    else if (via == null) orphans++
-    else collections.push({ ...r, via })
-  }
+  const { groups, orphans } = groupArtistLookup(data.results)
+  const collections = [...groups].flatMap(([via, g]) => g.albums.map((a) => ({ ...a, via })))
   // Grouping is undocumented, so a layout change must not silently empty the
   // sweep. Exit 2 is what "loud" means; a log line alone scrolls out of the
   // editor's tail. No severity prefix: prefs-server reads those as update.sh's
@@ -288,9 +273,9 @@ async function countryPurchaseFeed(sf, feedType) {
 
 // ---------- editorial playlists (scraped web player pages) ----------
 
-// The scrape itself is in apple-api.mjs (the audit reads the same pages). Here it
-// only picks up the playlist it belongs to; the page fetch is unthrottled and
-// overlaps the artist sweep, and failures must be loud (exit 2).
+// The scrape itself is in apple-api.mjs (the audit reads the same pages). The page
+// fetch is unthrottled and overlaps the artist sweep, and failures must be loud
+// (exit 2).
 const playlistAlbumIds = async (pl) => ({ pl, ...(await scrapePlaylistAlbumIds(pl.url)) })
 
 // ---------- pipeline ----------
@@ -792,10 +777,7 @@ for (const r of upcomingRaw) {
 // missing this run, so their previous in-window releases and pre-orders carry
 // over rather than vanish. Entries whose artist swept SUCCESSFULLY but no
 // longer returned drop (canceled/pulled); a date change re-lands under the
-// same key so the fresh copy wins. Followed artists only (carried discovery
-// would be hidden by the client's 24h window anyway). A carried pre-order
-// whose date has since passed routes to releases[], completing the lifecycle
-// even if release day itself fails.
+// same key so the fresh copy wins. Followed artists only.
 if (failedBatches.length > 0) {
   // Attribution by the id whose sweep produced the entry — via_artist_id for a
   // collab, the credited id otherwise. An entry with no id can't be verified:
@@ -818,7 +800,7 @@ if (failedBatches.length > 0) {
   // outKeys now includes carried releases, keeping the two lists disjoint
   for (const r of prevFile.upcoming ?? []) {
     const k = keyOf(r)
-    if (!withinWindow(r.release_date)) continue
+    if (!notOlderThan(r.release_date, WINDOW_DAYS)) continue
     if (upcomingByKey.has(k)) continue
     if (!missingThisRun(r) || !stillEligible(r)) continue
     r.followed = true
@@ -853,9 +835,6 @@ writeFileSync(DATA_PATH, JSON.stringify({ fetched_at: Date.now(), releases: out,
 log(`wrote ${out.length} releases + ${upcoming.length} upcoming`)
 
 // Rolling tally of what the genre filter cost, for `npm run check-genres`.
-// Apple labels releases with both umbrella and leaf names (a release can be
-// "Hip-Hop/Rap" or "Rap"), and there is no mapping layer by design, so a leaf
-// you don't follow silently drops releases you'd have wanted.
 //
 // LAST, and never fatal: this is an advisory side file, so a problem writing it
 // must not cost the run its published data.

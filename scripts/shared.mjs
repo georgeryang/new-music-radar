@@ -23,14 +23,17 @@ export const SOURCE_THIN_DAYS = 7
 export const UA = 'new-music-radar/1.0'
 
 // Every window rule is phrased in days since a date — one definition so the
-// tolerances can't drift apart. The 0.5 grace absorbs the timezone spread
-// between Apple's dates and ours; the lower bound excludes pre-orders.
+// tolerances can't drift apart. The grace absorbs the timezone spread between
+// Apple's dates and ours; the lower bound excludes pre-orders.
+const GRACE_DAYS = 0.5
 export const daysSince = (date) => (Date.now() - Date.parse(date)) / 86400e3
 export const withinDays = (date, days) => {
   if (!date) return false
   const age = daysSince(date)
-  return age <= days + 0.5 && age >= 0
+  return age <= days + GRACE_DAYS && age >= 0
 }
+// Upper bound alone, for callers carrying future-dated pre-orders forward.
+export const notOlderThan = (date, days) => daysSince(date) <= days + GRACE_DAYS
 
 // Artists per sweep lookup. 30, not 20: `limit` is PER ARTIST, not per batch, so
 // a bigger batch loses nothing (verified 2026-07-30 — the same 60 artists at
@@ -75,11 +78,9 @@ export const windowIndices = (hist, days) => {
   return idx
 }
 
-// One source's yield over those days. A null day means its fetch FAILED or it
-// was not configured yet, NEVER zero: that distinction is the whole point of the
-// file, because a transient error read as "produced nothing" is what makes a
-// healthy source look dead and get pruned. Leading nulls are pre-birth rather
-// than failures, so only gaps at or after the first real reading count as failed.
+// One source's yield over those days. A null day means its fetch FAILED or it was
+// not configured yet, NEVER zero. Leading nulls are pre-birth rather than failures,
+// so only gaps at or after the first real reading count as failed.
 export function sourceWindow(hist, tag, idx) {
   const col = hist.sources?.[tag] ?? []
   const born = col.findIndex((v) => v != null)
@@ -101,8 +102,7 @@ export function sourceWindow(hist, tag, idx) {
 // ---------- always-scanned genre feeds ----------
 
 // iTunes Store *purchase* charts per genre: buying spikes on release day, so drops
-// appear within hours (most-played lags by days). This list controls where we look,
-// not what we keep — the followed-genres filter still applies. `tag` is the feed's
+// appear within hours (most-played lags by days). `tag` is the feed's
 // Apple genre name, used verbatim only as the fallback when an entry has no
 // lookup-backed genre; `African` is the one tag not in genres.followed, so its
 // fallback cards drop (accepted). `feeds` narrows a genre to the half that is alive.

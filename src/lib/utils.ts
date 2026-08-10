@@ -13,16 +13,14 @@ export function formatRelativeTime(timestamp: number | null): string {
 const localDateStr = (d: Date) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 
-// Discovery window: released within 24h of the LAST FETCH, not the viewer's
-// clock, so the set never shrinks between fetches. Dates are calendar dates,
-// so "24h" means "dated the fetch day or the day before".
+// Dates are calendar dates, so "24h" means "dated the fetch day or the day before".
 export function isFreshAsOf(releaseDate: string, fetchedAt: number): boolean {
   return releaseDate >= localDateStr(new Date(fetchedAt - 24 * 3600e3))
 }
 
-// Upcoming date label: relative inside a week ("Tomorrow", "In 5 days"),
-// calendar date beyond. Anchored to the fetch, so before a morning fetch a
-// card can read "Tomorrow"; the header's "Updated Xh ago" carries staleness.
+// Upcoming date label: relative inside a week ("Tomorrow", "In 5 days"), calendar
+// date beyond. Before a morning fetch a card can still read "Tomorrow"; the
+// header's "Updated Xh ago" carries the staleness.
 export function formatUpcoming(releaseDate: string, fetchedAt: number): { label: string; soon: boolean } {
   const todayStr = localDateStr(new Date(fetchedAt))
   const days = Math.round((Date.parse(releaseDate) - Date.parse(todayStr)) / 86400e3)
