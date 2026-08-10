@@ -3,7 +3,7 @@
     "dropped": 7,
     "today": 7,
     "last_seen": "2026-08-10",
-    "example": "twenty one pilots — More Than We Ever Imagined (Live in Mexico City)"
+    "example": "wave to earth — bad pieces"
   },
   "Worldwide": {
     "dropped": 7,
@@ -134,12 +134,18 @@
   "Soundtrack": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-08-08",
+    "last_seen": "2026-08-10",
     "example": "Aaron Kwok — 衝衝衝 (香港賽馬會年度主題曲)"
   },
-  "Afro House": {
+  "Jungle/Drum'n'bass": {
     "dropped": 2,
     "today": 2,
+    "last_seen": "2026-08-10",
+    "example": "Kid Drama — Machines and Other Things"
+  },
+  "Afro House": {
+    "dropped": 1,
+    "today": 1,
     "last_seen": "2026-08-10",
     "example": "Various Artists — Solemaco 2026"
   },
@@ -224,8 +230,8 @@
   "Amapiano": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-08",
-    "example": "Mustbedubz — KWANDA"
+    "last_seen": "2026-08-10",
+    "example": "Mick Man — Stellenbosch Drive"
   },
   "Shows": {
     "dropped": 1,

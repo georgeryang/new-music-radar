@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1786335295490,
+  "fetched_at": 1786360459071,
   "releases": [
     {
       "title": "SYNK : aeXIS LINE - 2026 Special Digital Single",
@@ -47,6 +47,33 @@
       "via_artist_id": 1578319725
     },
     {
+      "title": "ICONIC HEART",
+      "artist": "Hearts2Hearts",
+      "artist_id": 1793698498,
+      "type": "song",
+      "release_date": "2026-08-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/47/1d/67/471d6742-0f54-b9c1-573d-0412254d52f1/26UMGIM90085.rgb.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/iconic-heart-single/6793317100?uo=4",
+      "followed": true,
+      "via_artist_id": 1793698498,
+      "sources": [
+        "country:tw"
+      ]
+    },
+    {
+      "title": "Sa Cape Menangis (feat. ChrisMerry, Bayu Rexa & iLham)",
+      "artist": "IichaL'Talantan",
+      "artist_id": 1592957447,
+      "type": "song",
+      "release_date": "2026-08-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7d/ad/ff/7dadff16-f57a-fae4-a0ed-8de6b940b259/681178304062_cover.jpg/400x400bb.webp",
+      "genre": "Reggae",
+      "link": "https://music.apple.com/us/album/sa-cape-menangis-feat-chrismerry-bayu-rexa-ilham-single/6799099265?uo=4",
+      "followed": true,
+      "via_artist_id": 1326644605
+    },
+    {
       "title": "Above You",
       "artist": "JVNA",
       "artist_id": 1166726627,
@@ -88,9 +115,20 @@
       "followed": true,
       "via_artist_id": 1398281724,
       "sources": [
-        "country:hk",
         "country:tw"
       ]
+    },
+    {
+      "title": "RUN AWAY",
+      "artist": "MIYEON",
+      "artist_id": 1398280057,
+      "type": "song",
+      "release_date": "2026-08-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/12/04/ff/1204ff07-857c-33fe-301c-049738a25386/26UMGIM96894.rgb.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/run-away-single/6796173973?uo=4",
+      "followed": true,
+      "via_artist_id": 1398280057
     },
     {
       "title": "Baila",
@@ -152,7 +190,8 @@
       "sources": [
         "genre:J-Pop",
         "country:hk",
-        "country:jp"
+        "country:jp",
+        "country:tw"
       ]
     },
     {
@@ -232,8 +271,7 @@
       "genre": "R&B/Soul",
       "link": "https://music.apple.com/us/album/icon-directors-cut/6797579589?uo=4",
       "sources": [
-        "chart:us",
-        "genre:R&B/Soul"
+        "chart:us"
       ]
     },
     {
@@ -311,7 +349,21 @@
       "genre": "R&B/Soul",
       "link": "https://music.apple.com/us/album/whatchu-bringing/6786482410?uo=4",
       "sources": [
-        "genre:R&B/Soul"
+        "genre:R&B/Soul",
+        "country:jp"
+      ]
+    },
+    {
+      "title": "忘记了也没关系 (动画《记忆管理局》主题曲)",
+      "artist": "DOUDOU",
+      "artist_id": 1691467301,
+      "type": "song",
+      "release_date": "2026-08-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c3/69/f6/c369f64c-b131-7682-0983-8c98225c662d/cover.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E5%BF%98%E8%AE%B0%E4%BA%86%E4%B9%9F%E6%B2%A1%E5%85%B3%E7%B3%BB-%E5%8A%A8%E7%94%BB-%E8%AE%B0%E5%BF%86%E7%AE%A1%E7%90%86%E5%B1%80-%E4%B8%BB%E9%A2%98%E6%9B%B2-single/6795122941?uo=4",
+      "sources": [
+        "genre:Mandopop"
       ]
     },
     {
@@ -355,6 +407,19 @@
       ]
     },
     {
+      "title": "LIFE",
+      "artist": "Funk Tribu",
+      "artist_id": 1454604311,
+      "type": "album",
+      "release_date": "2026-08-07",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/5d/44/8e/5d448e74-3f81-92d0-a512-7c1658c1dc60/820233273763.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/life-ep/6770483594?uo=4",
+      "sources": [
+        "country:co"
+      ]
+    },
+    {
       "title": "Bye Bye Bye",
       "artist": "Gigi Yim",
       "artist_id": 1548727728,
@@ -364,6 +429,7 @@
       "genre": "Cantopop/HK-Pop",
       "link": "https://music.apple.com/us/album/bye-bye-bye-single/6796228965?uo=4",
       "sources": [
+        "genre:Cantopop/HK-Pop",
         "country:hk",
         "playlist:New in C-Pop"
       ]
@@ -374,7 +440,7 @@
       "artist_id": 1722667143,
       "type": "song",
       "release_date": "2026-08-07",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/cf/1b/0f/cf1b0f97-1df0-629e-6f19-8f72d140b447/850086326774.png/400x400bb.webp",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/da/17/69/da176964-4f30-1bd9-441c-0a6735a1ae24/850086326774.png/400x400bb.webp",
       "genre": "Latin",
       "link": "https://music.apple.com/us/album/la-cita-fresita-2-single/6786190854?uo=4",
       "sources": [
@@ -391,21 +457,7 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/progress-ep/6797509053?uo=4",
       "sources": [
-        "genre:J-Pop",
         "country:jp"
-      ]
-    },
-    {
-      "title": "Voix d’Elles",
-      "artist": "Hinotoriprojekt",
-      "artist_id": 1896572735,
-      "type": "album",
-      "release_date": "2026-08-07",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7b/16/02/7b1602b7-6ca1-2431-ac1b-f4abede0294b/artwork.jpg/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/voix-delles/6795973729?uo=4",
-      "sources": [
-        "genre:Dance"
       ]
     },
     {
@@ -457,6 +509,7 @@
       "genre": "Mandopop",
       "link": "https://music.apple.com/us/album/reset-single/6795104689?uo=4",
       "sources": [
+        "genre:Mandopop",
         "playlist:New in C-Pop"
       ]
     },
@@ -484,6 +537,19 @@
       "link": "https://music.apple.com/us/album/everything-is-fluid-like-water-single/6797779881?uo=4",
       "sources": [
         "playlist:New in C-Pop"
+      ]
+    },
+    {
+      "title": "代代相愛 (劇集《愛・回家之三代同糖 》主題曲)",
+      "artist": "Jinny Ng",
+      "artist_id": 638280234,
+      "type": "song",
+      "release_date": "2026-08-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8a/fd/b6/8afdb6d5-a6b2-47b7-0127-c3963feefe7e/885288204391.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E4%BB%A3%E4%BB%A3%E7%9B%B8%E6%84%9B-%E5%8A%87%E9%9B%86-%E6%84%9B-%E5%9B%9E%E5%AE%B6%E4%B9%8B%E4%B8%89%E4%BB%A3%E5%90%8C%E7%B3%96-%E4%B8%BB%E9%A1%8C%E6%9B%B2-single/6797801172?uo=4",
+      "sources": [
+        "genre:Cantopop/HK-Pop"
       ]
     },
     {
@@ -575,19 +641,6 @@
       "link": "https://music.apple.com/us/album/feel-like-that-single/6793774423?uo=4",
       "sources": [
         "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Love Yourself",
-      "artist": "Lena Katina",
-      "artist_id": 455726401,
-      "type": "song",
-      "release_date": "2026-08-07",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a9/67/8e/a9678e39-82d5-a4c3-82cd-213ce3067624/cover.jpg/400x400bb.webp",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/love-yourself-single/6795891853?uo=4",
-      "sources": [
-        "country:ar"
       ]
     },
     {
@@ -754,6 +807,32 @@
       ]
     },
     {
+      "title": "When The Light Breaks",
+      "artist": "Said The Sky, ILLENIUM & Heather Sommer",
+      "artist_id": 867638609,
+      "type": "song",
+      "release_date": "2026-08-07",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d2/af/c6/d2afc65b-ff68-948c-a3b0-a9f864b218c9/8721555671614.png/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/when-the-light-breaks-single/6793436249?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
+      "title": "Asleep in the Garden of Infernal Stars & The Dreams Strange and Eternal - Remixes",
+      "artist": "Seven Lions",
+      "artist_id": 461065242,
+      "type": "album",
+      "release_date": "2026-08-07",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/83/1a/11/831a1140-864b-6353-c599-5df7324fc788/612891167696.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/asleep-in-the-garden-of-infernal-stars-the/6796541932?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
       "title": "Dai Dai (Spanish Version)",
       "artist": "Shakira & Burna Boy",
       "artist_id": 889327,
@@ -779,7 +858,6 @@
       "sources": [
         "genre:K-Pop",
         "country:ar",
-        "country:mx",
         "country:tw"
       ]
     },
@@ -794,7 +872,6 @@
       "link": "https://music.apple.com/us/album/this-that-cool-edition/6798751931?uo=4",
       "sources": [
         "genre:K-Pop",
-        "country:mx",
         "country:tw"
       ]
     },
@@ -820,7 +897,7 @@
       "type": "song",
       "release_date": "2026-08-08",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/93/ad/4a/93ad4ad0-03d4-2602-e25e-aa0105786150/26UMGIM93991.rgb.jpg/400x400bb.webp",
-      "genre": "J-Pop",
+      "genre": "Hip-Hop/Rap",
       "link": "https://music.apple.com/us/album/time-is-money-single/6795162976?uo=4",
       "sources": [
         "country:jp"
@@ -862,7 +939,6 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/sm4sh-it-up-single/6796243418?uo=4",
       "sources": [
-        "genre:J-Pop",
         "country:jp"
       ]
     },
@@ -880,27 +956,14 @@
       ]
     },
     {
-      "title": "TYNAN TIME - THE REMIXES",
-      "artist": "TYNAN",
-      "artist_id": 281474719,
-      "type": "album",
-      "release_date": "2026-08-07",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f1/b5/7e/f1b57e27-d5bb-d8c7-89d9-cbe1a1bedd2f/612891172997.jpg/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/tynan-time-the-remixes/6797937930?uo=4",
-      "sources": [
-        "genre:Dance"
-      ]
-    },
-    {
-      "title": "Gimmesummer (English Version)",
-      "artist": "UNIS",
-      "artist_id": 1736907509,
+      "title": "LOVE MISSION♡",
+      "artist": "Vestia Zeta",
+      "artist_id": 1632970361,
       "type": "song",
-      "release_date": "2026-08-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e1/58/ec/e158ecb2-9e2c-7de0-35c5-b6d4b746e430/PA00224136_0_251604_jacket.jpg/400x400bb.webp",
+      "release_date": "2026-08-07",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a5/39/dd/a539dd57-a6e2-3a38-1c08-2afd4a0af04e/4580883407197_art.png/400x400bb.webp",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/gimmesummer-english-version-single/6796611169?uo=4",
+      "link": "https://music.apple.com/us/album/love-mission-single/6798162211?uo=4",
       "sources": [
         "genre:J-Pop"
       ]
@@ -919,19 +982,6 @@
       ]
     },
     {
-      "title": "半明半昧",
-      "artist": "Yin Mei & Ting Chao Ge",
-      "artist_id": 1725417177,
-      "type": "album",
-      "release_date": "2026-08-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e4/3c/84/e43c841f-7897-fc45-d125-969c3b870c73/26UM1IM01100.rgb.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E5%8D%8A%E6%98%8E%E5%8D%8A%E6%98%A7-ep/6797407321?uo=4",
-      "sources": [
-        "country:tw"
-      ]
-    },
-    {
       "title": "Dream Light (HBO Original《Fired Up!》Theme Song)",
       "artist": "Yo Lee",
       "artist_id": 1434679836,
@@ -945,19 +995,6 @@
       ]
     },
     {
-      "title": "Shogi Ichiban!",
-      "artist": "Yukopi",
-      "artist_id": 1691239675,
-      "type": "song",
-      "release_date": "2026-08-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/63/fa/e6/63fae6b0-8dac-9bc4-915f-80c05b1a2474/PA00223282_0_251107_jacket.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/shogi-ichiban-single/6794210911?uo=4",
-      "sources": [
-        "genre:J-Pop"
-      ]
-    },
-    {
       "title": "Re, Bloom*",
       "artist": "YuukiSakuna",
       "artist_id": 6798263364,
@@ -967,8 +1004,8 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/re-bloom-single/6798263132?uo=4",
       "sources": [
-        "country:jp",
-        "country:tw"
+        "country:hk",
+        "country:jp"
       ]
     },
     {
@@ -996,47 +1033,12 @@
       "genre": "Mandopop",
       "link": "https://music.apple.com/us/album/%E6%9C%80%E5%AE%8C%E7%BE%8E%E7%9A%84%E5%AD%98%E5%9C%A8-single/6797480663?uo=4",
       "sources": [
+        "country:tw",
         "playlist:New in C-Pop"
       ]
     }
   ],
   "upcoming": [
-    {
-      "title": "ICONIC HEART",
-      "artist": "Hearts2Hearts",
-      "artist_id": 1793698498,
-      "type": "song",
-      "release_date": "2026-08-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/47/1d/67/471d6742-0f54-b9c1-573d-0412254d52f1/26UMGIM90085.rgb.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/iconic-heart-single/6793317100?uo=4",
-      "followed": true,
-      "via_artist_id": 1793698498
-    },
-    {
-      "title": "Sa Cape Menangis (feat. ChrisMerry, Bayu Rexa & iLham)",
-      "artist": "IichaL'Talantan",
-      "artist_id": 1592957447,
-      "type": "song",
-      "release_date": "2026-08-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7d/ad/ff/7dadff16-f57a-fae4-a0ed-8de6b940b259/681178304062_cover.jpg/400x400bb.webp",
-      "genre": "Reggae",
-      "link": "https://music.apple.com/us/album/sa-cape-menangis-feat-chrismerry-bayu-rexa-ilham-single/6799099265?uo=4",
-      "followed": true,
-      "via_artist_id": 1326644605
-    },
-    {
-      "title": "RUN AWAY",
-      "artist": "MIYEON",
-      "artist_id": 1398280057,
-      "type": "song",
-      "release_date": "2026-08-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/12/04/ff/1204ff07-857c-33fe-301c-049738a25386/26UMGIM96894.rgb.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/run-away-single/6796173973?uo=4",
-      "followed": true,
-      "via_artist_id": 1398280057
-    },
     {
       "title": "BARAJA BENDITA",
       "artist": "Becky G",
