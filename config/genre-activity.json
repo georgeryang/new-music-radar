@@ -2,7 +2,7 @@
   "Alternative": {
     "dropped": 7,
     "today": 7,
-    "last_seen": "2026-08-08",
+    "last_seen": "2026-08-10",
     "example": "twenty one pilots — More Than We Ever Imagined (Live in Mexico City)"
   },
   "Worldwide": {
@@ -11,23 +11,11 @@
     "last_seen": "2026-08-06",
     "example": "Chantel 姚焯菲Yumi 鍾柔美Windy 詹天文 — S.H.E.R.O. (劇集《夫妻的博弈》片尾曲)"
   },
-  "Música Mexicana": {
-    "dropped": 7,
-    "today": 7,
-    "last_seen": "2026-08-08",
-    "example": "Alfredo Olivas — MAYDAY"
-  },
   "Chinese Rock": {
     "dropped": 6,
     "today": 1,
     "last_seen": "2026-08-03",
     "example": "無常樂 — 成人禮"
-  },
-  "Rock": {
-    "dropped": 5,
-    "today": 5,
-    "last_seen": "2026-08-08",
-    "example": "Spitz — Unknown Thread"
   },
   "Jazz": {
     "dropped": 5,
@@ -36,10 +24,10 @@
     "example": "DOMi & JD BECK — WHO ASKED?"
   },
   "Country": {
-    "dropped": 4,
-    "today": 4,
-    "last_seen": "2026-08-08",
-    "example": "Koe Wetzel & Ella Langley — Jaded"
+    "dropped": 5,
+    "today": 5,
+    "last_seen": "2026-08-10",
+    "example": "Brett Young — Brett Young (Platinum Edition)"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -59,10 +47,22 @@
     "last_seen": "2026-08-03",
     "example": "Microhm & Imaabs — Latencia"
   },
+  "Música Mexicana": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-08-10",
+    "example": "Bruno Caleb — DEPENDENCIA"
+  },
+  "Rock": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-08-10",
+    "example": "Spitz — Unknown Thread"
+  },
   "Metal": {
     "dropped": 3,
     "today": 3,
-    "last_seen": "2026-08-08",
+    "last_seen": "2026-08-10",
     "example": "John Carpenter, Cody Carpenter & Daniel Davies — Cathedral"
   },
   "Americana": {
@@ -83,10 +83,16 @@
     "last_seen": "2026-08-07",
     "example": "Nino Paid — Somewhere Over The Rainbow"
   },
+  "Afro-Pop": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-08-10",
+    "example": "Levelz UP — Sound of Unity"
+  },
   "Electronic": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-08-08",
+    "last_seen": "2026-08-10",
     "example": "Overmono — Pure Devotion"
   },
   "Techno": {
@@ -125,28 +131,34 @@
     "last_seen": "2026-08-08",
     "example": "ASE — Black Diamond, Vol. 3"
   },
-  "Modern Dancehall": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-08-08",
-    "example": "Spice & La Joaqui — Miss World Body"
-  },
   "Soundtrack": {
     "dropped": 2,
     "today": 2,
     "last_seen": "2026-08-08",
     "example": "Aaron Kwok — 衝衝衝 (香港賽馬會年度主題曲)"
   },
-  "Afro Soul": {
+  "Afro House": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-08-08",
+    "last_seen": "2026-08-10",
+    "example": "Various Artists — Solemaco 2026"
+  },
+  "Modern Dancehall": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-10",
+    "example": "Spice & La Joaqui — Miss World Body"
+  },
+  "Afro Soul": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-10",
     "example": "Angel Ahz & Allah Thérèse — The Soul Mixes (Réédition)"
   },
   "Christian": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-08",
+    "last_seen": "2026-08-10",
     "example": "Carly Ann Taylor & KB — Lifeline"
   },
   "Música tropical": {
@@ -158,26 +170,14 @@
   "Trance": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-08",
+    "last_seen": "2026-08-10",
     "example": "Armin van Buuren — A State of Trance Anthems (Remixes)"
   },
   "Hip-Hop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-08",
+    "last_seen": "2026-08-10",
     "example": "FattMack — Mr. Did It By Hisself 3"
-  },
-  "Afro House": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-08",
-    "example": "Antonius Ore — Fear.not"
-  },
-  "Afro-Pop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-08",
-    "example": "6STALIGHT — 6"
   },
   "Rock y Alternativo": {
     "dropped": 1,
@@ -188,8 +188,8 @@
   "House": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-04",
-    "example": "Hamaeel — Parallel Lives - Chapter II"
+    "last_seen": "2026-08-10",
+    "example": "Archie — Famous 2.0"
   },
   "Alternative Folk": {
     "dropped": 1,
@@ -230,8 +230,8 @@
   "Shows": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-02",
-    "example": "Various Artists — 天赐的声音第七季 第8期 (Live)"
+    "last_seen": "2026-08-10",
+    "example": "Various Artists — 天赐的声音第七季 第9期 (Live)"
   },
   "Kayokyoku": {
     "dropped": 1,
@@ -248,19 +248,25 @@
   "Death Metal/Black Metal": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-08",
+    "last_seen": "2026-08-10",
     "example": "Hulder — Verbolgen"
   },
   "Classical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-08",
+    "last_seen": "2026-08-10",
     "example": "Bruce Liu — Lunaris"
   },
   "Europe": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-08",
+    "last_seen": "2026-08-10",
     "example": "Jorge Rojas — Acústico"
+  },
+  "Electronica": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-10",
+    "example": "Nikki Nair — The Sick Dimension"
   }
 }
