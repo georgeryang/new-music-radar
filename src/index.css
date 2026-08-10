@@ -87,6 +87,16 @@
 @layer base {
   html {
     color-scheme: light dark;
+    /* New (77 cards) -> Upcoming (7) drops the scrollbar; without this the whole
+       grid shifts sideways on classic scrollbars (not macOS overlay ones). */
+    scrollbar-gutter: stable;
+  }
+  /* The selected tab differs from its siblings by background alone, which a forced
+     palette erases; both buttons then look identical. */
+  @media (forced-colors: active) {
+    [role='tab'][aria-selected='true'] {
+      outline: 2px solid Highlight;
+    }
   }
   * {
     @apply border-border;
