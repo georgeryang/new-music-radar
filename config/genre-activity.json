@@ -1,10 +1,4 @@
 {
-  "Alternative": {
-    "dropped": 7,
-    "today": 7,
-    "last_seen": "2026-08-10",
-    "example": "wave to earth — bad pieces"
-  },
   "Worldwide": {
     "dropped": 7,
     "today": 1,
@@ -16,12 +10,6 @@
     "today": 1,
     "last_seen": "2026-08-03",
     "example": "無常樂 — 成人禮"
-  },
-  "Jazz": {
-    "dropped": 5,
-    "today": 2,
-    "last_seen": "2026-08-03",
-    "example": "DOMi & JD BECK — WHO ASKED?"
   },
   "Country": {
     "dropped": 5,
@@ -53,12 +41,6 @@
     "last_seen": "2026-08-10",
     "example": "Bruno Caleb — DEPENDENCIA"
   },
-  "Rock": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-08-10",
-    "example": "Spitz — Unknown Thread"
-  },
   "Metal": {
     "dropped": 3,
     "today": 3,
@@ -89,6 +71,18 @@
     "last_seen": "2026-08-10",
     "example": "Levelz UP — Sound of Unity"
   },
+  "Soundtrack": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-08-12",
+    "example": "Ramin Djawadi — House of the Dragon: Season 3 (Soundtrack from the HBO® Series)"
+  },
+  "Jazz": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-08-12",
+    "example": "Takehiro Chiba, Junichi Sato, Kazuaki Yokoyama & Lyn Inaizumi — Hero's Jazz: Project R.E.D. x Super Sentai Side"
+  },
   "Electronic": {
     "dropped": 2,
     "today": 2,
@@ -115,9 +109,9 @@
   },
   "Anime": {
     "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-07",
-    "example": "Kyosuke Aoi (CV: Yoshitaka Yamaya), Kirio Nekoyanagi (CV: Daiki Yamashita), Hayato Akiyama (CV: Shoya Chiba) & Takeru Taiga (CV: Junta Terashima) — THE IDOLM@STER SideM TRANSCENDENT T@LES 11"
+    "today": 2,
+    "last_seen": "2026-08-12",
+    "example": "Yoshino Nanjo — Tui no kyoukaisen"
   },
   "Instrumental": {
     "dropped": 2,
@@ -128,20 +122,26 @@
   "Afro-Beat": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-08-08",
-    "example": "ASE — Black Diamond, Vol. 3"
-  },
-  "Soundtrack": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-08-10",
-    "example": "Aaron Kwok — 衝衝衝 (香港賽馬會年度主題曲)"
+    "last_seen": "2026-08-12",
+    "example": "Kilómetro Internacional — Si Las Puertas Se Abren"
   },
   "Jungle/Drum'n'bass": {
     "dropped": 2,
     "today": 2,
     "last_seen": "2026-08-10",
     "example": "Kid Drama — Machines and Other Things"
+  },
+  "Alternative": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-12",
+    "example": "Samantha Crain — Tvshki cha foha (feat. Ken Pomeroy)"
+  },
+  "Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-12",
+    "example": "Kazuya Yoshii — MY LIFE"
   },
   "Afro House": {
     "dropped": 1,
@@ -274,5 +274,11 @@
     "today": 1,
     "last_seen": "2026-08-10",
     "example": "Nikki Nair — The Sick Dimension"
+  },
+  "African Dancehall": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-12",
+    "example": "LOVIXX — Don't tell your dreams (Afrobeat)"
   }
 }
