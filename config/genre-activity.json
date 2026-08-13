@@ -35,6 +35,30 @@
     "last_seen": "2026-08-03",
     "example": "Microhm & Imaabs — Latencia"
   },
+  "Soundtrack": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-08-13",
+    "example": "EGG Wong Wing Lam — 新星の物語 (《神魔之塔》圖靈與百慕達主題曲)"
+  },
+  "Jazz": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-08-13",
+    "example": "Takehiro Chiba, Junichi Sato, Kazuaki Yokoyama & Lyn Inaizumi — Hero's Jazz: Project R.E.D. x Super Sentai Side"
+  },
+  "Anime": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-08-13",
+    "example": "Yoshino Nanjo — Tui no kyoukaisen"
+  },
+  "Afro-Beat": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-08-13",
+    "example": "Afro Vibe Lounge — AFRO HOUSE 2026"
+  },
   "Música Mexicana": {
     "dropped": 3,
     "today": 3,
@@ -71,23 +95,11 @@
     "last_seen": "2026-08-10",
     "example": "Levelz UP — Sound of Unity"
   },
-  "Soundtrack": {
+  "Alternative": {
     "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-08-12",
-    "example": "Ramin Djawadi — House of the Dragon: Season 3 (Soundtrack from the HBO® Series)"
-  },
-  "Jazz": {
-    "dropped": 2,
     "today": 2,
-    "last_seen": "2026-08-12",
-    "example": "Takehiro Chiba, Junichi Sato, Kazuaki Yokoyama & Lyn Inaizumi — Hero's Jazz: Project R.E.D. x Super Sentai Side"
-  },
-  "Electronic": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-08-10",
-    "example": "Overmono — Pure Devotion"
+    "last_seen": "2026-08-13",
+    "example": "REiNa — After the End"
   },
   "Techno": {
     "dropped": 2,
@@ -107,23 +119,11 @@
     "last_seen": "2026-08-05",
     "example": "Harmony Rhythm — More of Who I Am"
   },
-  "Anime": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-08-12",
-    "example": "Yoshino Nanjo — Tui no kyoukaisen"
-  },
   "Instrumental": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-08-07",
     "example": "soul of NEKO Recommended Jazz Music for Work & Study, Buzz BGM Lab: A Research Studio for Mastering Work, Sleep, Focus, and Relaxation & Deep Sleep Music — Relaxing Café Jazz Work BGM With City Pop & Lo-Fi to Improve Focus and Productivity for Work and Study"
-  },
-  "Afro-Beat": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-08-12",
-    "example": "Kilómetro Internacional — Si Las Puertas Se Abren"
   },
   "Jungle/Drum'n'bass": {
     "dropped": 2,
@@ -131,17 +131,23 @@
     "last_seen": "2026-08-10",
     "example": "Kid Drama — Machines and Other Things"
   },
-  "Alternative": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-12",
-    "example": "Samantha Crain — Tvshki cha foha (feat. Ken Pomeroy)"
-  },
   "Rock": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-13",
+    "example": "Kazuya Yoshii — MY LIFE"
+  },
+  "African Dancehall": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-13",
+    "example": "LOVIXX — Don't tell your dreams (Afrobeat)"
+  },
+  "Electronic": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-12",
-    "example": "Kazuya Yoshii — MY LIFE"
+    "last_seen": "2026-08-13",
+    "example": "CHO CO PA CO CHO CO QUIN QUIN — Synthetic海岸"
   },
   "Afro House": {
     "dropped": 1,
@@ -188,8 +194,8 @@
   "Rock y Alternativo": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-05",
-    "example": "Witch Wolf Music — Messages From Dead Crawlers"
+    "last_seen": "2026-08-13",
+    "example": "Dillom — LA NUEVA VIOLENCIA"
   },
   "House": {
     "dropped": 1,
@@ -275,10 +281,10 @@
     "last_seen": "2026-08-10",
     "example": "Nikki Nair — The Sick Dimension"
   },
-  "African Dancehall": {
+  "Raíces": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-12",
-    "example": "LOVIXX — Don't tell your dreams (Afrobeat)"
+    "last_seen": "2026-08-13",
+    "example": "Soledad & Nati Pastorutti — Si Acaso Regresaras (Casa Sole)"
   }
 }

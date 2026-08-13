@@ -1,25 +1,6 @@
 {
-  "fetched_at": 1786534499941,
+  "fetched_at": 1786620520357,
   "releases": [
-    {
-      "title": "SYNK : aeXIS LINE - 2026 Special Digital Single",
-      "artist": "aespa",
-      "artist_id": 1540251304,
-      "type": "song",
-      "release_date": "2026-08-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cc/41/23/cc4123a6-c1c0-7e86-e44a-2f0cb1f0e081/aespa_aeXIS_2026_-F.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/synk-aexis-line-2026-special-digital-single-single/6797481676?uo=4",
-      "followed": true,
-      "via_artist_id": 1540251304,
-      "sources": [
-        "genre:K-Pop",
-        "country:hk",
-        "country:jp",
-        "country:kr",
-        "country:tw"
-      ]
-    },
     {
       "title": "A Piece of My heart",
       "artist": "AtHeart",
@@ -42,12 +23,7 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/iconic-heart-single/6793317100?uo=4",
       "followed": true,
-      "via_artist_id": 1793698498,
-      "sources": [
-        "country:hk",
-        "country:jp",
-        "country:tw"
-      ]
+      "via_artist_id": 1793698498
     },
     {
       "title": "Sa Cape Menangis (feat. ChrisMerry, Bayu Rexa, iLham & 4Secolli'official)",
@@ -60,18 +36,6 @@
       "link": "https://music.apple.com/us/album/sa-cape-menangis-feat-chrismerry-bayu-rexa-ilham-4secolliofficial/6799099265?uo=4",
       "followed": true,
       "via_artist_id": 1326644605
-    },
-    {
-      "title": "Spooky in Love, Pt. 6 (Original Soundtrack)",
-      "artist": "MINNIE",
-      "artist_id": 1398281724,
-      "type": "song",
-      "release_date": "2026-08-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/01/01/a6/0101a659-a592-dde8-9f45-8d36456d6341/888272186123_Cover.jpg/400x400bb.webp",
-      "genre": "Soundtrack",
-      "link": "https://music.apple.com/us/album/spooky-in-love-pt-6-original-soundtrack-single/6798246747?uo=4",
-      "followed": true,
-      "via_artist_id": 1398281724
     },
     {
       "title": "RUN AWAY",
@@ -90,6 +54,20 @@
       ]
     },
     {
+      "title": "Afrøtelizes: Best Hits & Afro House Anthems by Afrøtelize",
+      "artist": "Afrøtelize",
+      "artist_id": 1870721529,
+      "type": "album",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/73/c5/b1/73c5b132-a067-a330-efee-3c725d6ed472/cover.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/afr%C3%B8telizes-best-hits-afro-house-anthems-by-afr%C3%B8telize/6799958132?uo=4",
+      "sources": [
+        "genre:Dance",
+        "country:hk"
+      ]
+    },
+    {
       "title": "MIXTAPE",
       "artist": "Anna Takeuchi",
       "artist_id": 1383588813,
@@ -99,7 +77,6 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/mixtape/6791136717?uo=4",
       "sources": [
-        "genre:J-Pop",
         "country:jp"
       ]
     },
@@ -117,6 +94,58 @@
       ]
     },
     {
+      "title": "愛與(不)被愛",
+      "artist": "Arvin Tsang",
+      "artist_id": 1745487845,
+      "type": "song",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2c/68/b5/2c68b575-315a-7574-bee2-19b8a11ff67f/4895261202623.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E6%84%9B%E8%88%87-%E4%B8%8D-%E8%A2%AB%E6%84%9B-single/6800167830?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
+      "title": "盛夏 TAIPEI High Summer",
+      "artist": "AUTONOMY 任運逍遙",
+      "artist_id": 1894481594,
+      "type": "album",
+      "release_date": "2026-08-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/20/14/44/2014442e-2bb3-0744-ca17-8b894d6b306c/artwork.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/%E7%9B%9B%E5%A4%8F-taipei-high-summer/6792465584?uo=4",
+      "sources": [
+        "country:tw"
+      ]
+    },
+    {
+      "title": "HELLO AxMxP",
+      "artist": "AxMxP",
+      "artist_id": 1811258947,
+      "type": "album",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ba/5a/2a/ba5a2ad5-713e-0922-9a89-c2a22c369593/cover_KM0025046_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/hello-axmxp-ep/6798202230?uo=4",
+      "sources": [
+        "genre:K-Pop"
+      ]
+    },
+    {
+      "title": "你可以不平凡 Beyond Ordinary",
+      "artist": "Blake Zhu",
+      "artist_id": 1892862328,
+      "type": "album",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/49/30/4a/49304ab5-37f8-0e0c-8afc-323f72cb5707/artwork.jpg/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/%E4%BD%A0%E5%8F%AF%E4%BB%A5%E4%B8%8D%E5%B9%B3%E5%87%A1-beyond-ordinary/6800759864?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
       "title": "淚光",
       "artist": "COLLAR",
       "artist_id": 1604311077,
@@ -126,47 +155,33 @@
       "genre": "Cantopop/HK-Pop",
       "link": "https://music.apple.com/us/album/%E6%B7%9A%E5%85%89-single/6798577013?uo=4",
       "sources": [
-        "genre:Cantopop/HK-Pop",
         "country:hk"
       ]
     },
     {
-      "title": "忘记了也没关系 (动画《记忆管理局》主题曲)",
-      "artist": "DOUDOU",
-      "artist_id": 1691467301,
-      "type": "song",
-      "release_date": "2026-08-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c3/69/f6/c369f64c-b131-7682-0983-8c98225c662d/cover.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E5%BF%98%E8%AE%B0%E4%BA%86%E4%B9%9F%E6%B2%A1%E5%85%B3%E7%B3%BB-%E5%8A%A8%E7%94%BB-%E8%AE%B0%E5%BF%86%E7%AE%A1%E7%90%86%E5%B1%80-%E4%B8%BB%E9%A2%98%E6%9B%B2-single/6795122941?uo=4",
+      "title": "DELTA.MEMORIES",
+      "artist": "DELUTAYA",
+      "artist_id": 1495322633,
+      "type": "album",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/67/46/f1/6746f13c-5ecc-8413-9ffb-ce9cb86737ee/VEATP-45742.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/delta-memories-ep/6788198653?uo=4",
       "sources": [
-        "genre:Mandopop"
+        "genre:J-Pop"
       ]
     },
     {
-      "title": "Red Kiss",
-      "artist": "Emi Thasorn & Bonnie Pattraphus",
-      "artist_id": 1720024067,
+      "title": "夏を駆けろ",
+      "artist": "Do As Infinity",
+      "artist_id": 73955226,
       "type": "song",
-      "release_date": "2026-08-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/47/bc/67/47bc6746-dead-8abf-342d-be462e8ce0e6/888332881845.jpg/400x400bb.webp",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/red-kiss-single/6797548292?uo=4",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d1/b0/ce/d1b0ce50-65c1-8f4d-2eef-99b257d38bf0/ANTCD-A0000020667.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E5%A4%8F%E3%82%92%E9%A7%86%E3%81%91%E3%82%8D-single/6794263304?uo=4",
       "sources": [
-        "country:tw"
-      ]
-    },
-    {
-      "title": "123木頭人",
-      "artist": "GEmma Wu",
-      "artist_id": 895314237,
-      "type": "song",
-      "release_date": "2026-08-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cc/9e/c1/cc9ec136-9cbb-2ae7-7e1c-8f06e71a6ce2/cover.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/123%E6%9C%A8%E9%A0%AD%E4%BA%BA-single/6799882155?uo=4",
-      "sources": [
-        "country:hk"
+        "country:jp"
       ]
     },
     {
@@ -179,7 +194,21 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/kyapi-single/6799601928?uo=4",
       "sources": [
-        "genre:J-Pop"
+        "genre:J-Pop",
+        "country:jp"
+      ]
+    },
+    {
+      "title": "我好想你 • 一 一",
+      "artist": "Ivana Wong",
+      "artist_id": 137090893,
+      "type": "song",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/40/7a/ba/407aba63-77cb-58b4-6d2e-b1acf8f5bbf4/4896043142267.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E6%88%91%E5%A5%BD%E6%83%B3%E4%BD%A0-%E4%B8%80-%E4%B8%80-single/6800053934?uo=4",
+      "sources": [
+        "country:hk"
       ]
     },
     {
@@ -198,19 +227,6 @@
       ]
     },
     {
-      "title": "代代相愛 (劇集《愛・回家之三代同糖 》主題曲)",
-      "artist": "Jinny Ng",
-      "artist_id": 638280234,
-      "type": "song",
-      "release_date": "2026-08-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8a/fd/b6/8afdb6d5-a6b2-47b7-0127-c3963feefe7e/885288204391.jpg/400x400bb.webp",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E4%BB%A3%E4%BB%A3%E7%9B%B8%E6%84%9B-%E5%8A%87%E9%9B%86-%E6%84%9B-%E5%9B%9E%E5%AE%B6%E4%B9%8B%E4%B8%89%E4%BB%A3%E5%90%8C%E7%B3%96-%E4%B8%BB%E9%A1%8C%E6%9B%B2-single/6797801172?uo=4",
-      "sources": [
-        "genre:Cantopop/HK-Pop"
-      ]
-    },
-    {
       "title": "WhyKiiiKiii",
       "artist": "KiiiKiii",
       "artist_id": 1795471746,
@@ -222,6 +238,7 @@
       "sources": [
         "genre:K-Pop",
         "country:hk",
+        "country:mx",
         "country:tw"
       ]
     },
@@ -252,32 +269,6 @@
       ]
     },
     {
-      "title": "Banding Together 17.JULY 2013 Live in AKASAKA BLITZ",
-      "artist": "Kurosawa Kenichi",
-      "artist_id": 544165462,
-      "type": "album",
-      "release_date": "2026-08-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0a/b8/b2/0ab8b2fd-d9f0-be22-196d-d4732cdb5ad0/4511820-78687.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/banding-together-17-july-2013-live-in-akasaka-blitz/6789388943?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Pigeon Post",
-      "artist": "Lucia",
-      "artist_id": 15137685,
-      "type": "album",
-      "release_date": "2026-08-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b0/52/b5/b052b52f-7c67-d444-dbfc-54df3fec629f/4550759374717_cover.png/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/pigeon-post-ep/6799410516?uo=4",
-      "sources": [
-        "genre:J-Pop"
-      ]
-    },
-    {
       "title": "Le pregunté a mi corazón",
       "artist": "Luisfer",
       "artist_id": 6797112810,
@@ -304,6 +295,19 @@
       ]
     },
     {
+      "title": "モノクロマン",
+      "artist": "Mega Terra Zero",
+      "artist_id": 1466037690,
+      "type": "album",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/18/8b/dd/188bdd46-85db-8fa5-563f-8c2476c7d1e3/DISA-0977_000_0000_A11_001.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E3%83%A2%E3%83%8E%E3%82%AF%E3%83%AD%E3%83%9E%E3%83%B3/6792990178?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "子虛烏有",
       "artist": "Mic-go Ngan",
       "artist_id": 1372566652,
@@ -314,19 +318,6 @@
       "link": "https://music.apple.com/us/album/%E5%AD%90%E8%99%9B%E7%83%8F%E6%9C%89-single/6797477522?uo=4",
       "sources": [
         "country:hk"
-      ]
-    },
-    {
-      "title": "Magic",
-      "artist": "Nick Carter",
-      "artist_id": 3652283,
-      "type": "song",
-      "release_date": "2026-08-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/19/eb/88/19eb882c-d62d-6838-40fc-dca4da50c030/8721554170408.png/400x400bb.webp",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/magic-single/6799941297?uo=4",
-      "sources": [
-        "genre:Pop"
       ]
     },
     {
@@ -344,29 +335,16 @@
       ]
     },
     {
-      "title": "高空突破(HOY 亞運2026主題曲)",
-      "artist": "Phil Lam & 蔡俊彥 Ryan Choi",
-      "artist_id": 394019554,
+      "title": "me asfixia LA CIUDAD",
+      "artist": "Paulo Londra",
+      "artist_id": 1275513130,
       "type": "song",
-      "release_date": "2026-08-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/45/70/fe/4570fe88-f4c3-c16d-2b22-dd3b4ebaed27/196874649442.jpg/400x400bb.webp",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E9%AB%98%E7%A9%BA%E7%AA%81%E7%A0%B4-hoy-%E4%BA%9E%E9%81%8B2026%E4%B8%BB%E9%A1%8C%E6%9B%B2-single/6797833052?uo=4",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/fb/c5/8a/fbc58ab8-efee-5ed7-20b6-5dc23993161e/885288084993.jpg/400x400bb.webp",
+      "genre": "Pop Latino",
+      "link": "https://music.apple.com/us/album/me-asfixia-la-ciudad-single/6792002265?uo=4",
       "sources": [
-        "country:hk"
-      ]
-    },
-    {
-      "title": "Tao Te Ching I",
-      "artist": "Qmay",
-      "artist_id": 1642467543,
-      "type": "album",
-      "release_date": "2026-08-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cd/c6/c4/cdc6c460-1423-81d3-4e4f-7153e7f724a7/artwork.jpg/400x400bb.webp",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/tao-te-ching-i/6800224540?uo=4",
-      "sources": [
-        "genre:R&B/Soul"
+        "playlist:Nuevo Nuevo"
       ]
     },
     {
@@ -399,6 +377,32 @@
       ]
     },
     {
+      "title": "Trace",
+      "artist": "Seo In Guk",
+      "artist_id": 386265621,
+      "type": "song",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d9/57/45/d9574592-1e19-f12b-70d7-529a6dd0c164/1200214730642.jpg/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/trace-single/6796150511?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Gradation",
+      "artist": "ShowMinorSavage",
+      "artist_id": 1670107881,
+      "type": "song",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d4/34/76/d4347679-41b0-f4b4-0204-6333f9e0e97e/ANTCD-75090.jpg/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/gradation-single/6795447002?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "This & That (This Version)",
       "artist": "Stray Kids & Benjamin 55",
       "artist_id": 1304823362,
@@ -412,6 +416,32 @@
       ]
     },
     {
+      "title": "This & That (That Version)",
+      "artist": "Stray Kids & Cesar Peralta",
+      "artist_id": 1304823362,
+      "type": "song",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/fb/19/2a/fb192a5e-2db1-98f0-09a8-780ebce8860a/8809928956893_Cover.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/this-that-that-version-single/6796782711?uo=4",
+      "sources": [
+        "genre:K-Pop"
+      ]
+    },
+    {
+      "title": "黎明",
+      "artist": "Taisei Shima",
+      "artist_id": 1349642753,
+      "type": "album",
+      "release_date": "2026-08-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/78/20/ab/7820abc3-aa5c-49c1-e9e7-046778d34f01/885288100174.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E9%BB%8E%E6%98%8E-ep/6793341703?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "Checkpoint",
       "artist": "Takuya Kimura",
       "artist_id": 6776111553,
@@ -421,6 +451,7 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/checkpoint/6790658058?uo=4",
       "sources": [
+        "genre:J-Pop",
         "country:hk",
         "country:jp",
         "country:tw"
@@ -440,6 +471,32 @@
       ]
     },
     {
+      "title": "electronic music!",
+      "artist": "Vale-Smith",
+      "artist_id": 1382361805,
+      "type": "album",
+      "release_date": "2026-08-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9f/40/0f/9f400f0d-73ce-1006-2dda-41f6988b4c62/artwork.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/electronic-music/6795737505?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
+      "title": "THIS IS TRAP",
+      "artist": "VASTIAN",
+      "artist_id": 1825127513,
+      "type": "album",
+      "release_date": "2026-08-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/09/19/2e/09192e0f-e1d9-4c5c-158f-50b600981a57/artwork.jpg/400x400bb.webp",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/this-is-trap-ep/6790072344?uo=4",
+      "sources": [
+        "genre:Latin"
+      ]
+    },
+    {
       "title": "存活",
       "artist": "Vincy Chan",
       "artist_id": 543129153,
@@ -449,8 +506,21 @@
       "genre": "Cantopop/HK-Pop",
       "link": "https://music.apple.com/us/album/%E5%AD%98%E6%B4%BB-single/6798929985?uo=4",
       "sources": [
-        "genre:Cantopop/HK-Pop",
         "country:hk"
+      ]
+    },
+    {
+      "title": "You can't get away (Re-Recording)",
+      "artist": "w-inds.",
+      "artist_id": 252870232,
+      "type": "song",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9b/6d/ef/9b6def16-6f9a-3205-2d39-994626eee012/28245.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/you-cant-get-away-re-recording-single/6794141950?uo=4",
+      "sources": [
+        "country:jp",
+        "country:tw"
       ]
     },
     {
@@ -466,8 +536,7 @@
         "genre:K-Pop",
         "country:ar",
         "country:hk",
-        "country:jp",
-        "country:mx"
+        "country:jp"
       ]
     },
     {
@@ -492,19 +561,6 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0d/25/06/0d2506ac-0d8c-7f16-e6ff-5011ad28e602/26UMGIM96957.rgb.jpg/400x400bb.webp",
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/yo-oizumi-30th-anniversary-in-show-business-ep-kansha/6796192087?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Shiori",
-      "artist": "Yui Makino",
-      "artist_id": 738421282,
-      "type": "album",
-      "release_date": "2026-08-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/47/fe/69/47fe6974-b4dd-d2b8-37a7-f09a5b6fa94c/4943566355879.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/shiori-ep/6794220380?uo=4",
       "sources": [
         "country:jp"
       ]
