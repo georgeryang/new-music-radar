@@ -47,11 +47,10 @@ six weeks without a new release in mid-2026 and was fine. Korea's purchase feeds
 return literally nothing because Apple runs no purchase store there. Only the
 second kind is a removal.
 
-**Absence is not zero.** A day where a source's fetch failed records `null` in
-`config/source-activity.json`, never `0`, and every window skips those days. This
-exists because the first hand-run of this audit swallowed two transient errors and
-recommended deleting nine storefronts when three deserved it. If a source looks
-newly dead, re-run before believing it.
+**Absence is not zero** (CLAUDE.md owns the mechanism and names its definition site).
+This rule exists because the first hand-run of this audit swallowed two transient
+errors and recommended deleting nine storefronts when three deserved it. If a source
+looks newly dead, re-run before believing it.
 
 ## Traps
 
