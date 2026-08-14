@@ -1,4 +1,16 @@
 {
+  "Alternative": {
+    "dropped": 16,
+    "today": 13,
+    "last_seen": "2026-08-14",
+    "example": "thredd — It's Lovely, Come On In REWORKS"
+  },
+  "Afro-Beat": {
+    "dropped": 10,
+    "today": 6,
+    "last_seen": "2026-08-14",
+    "example": "HOMY — Set Piece"
+  },
   "Worldwide": {
     "dropped": 7,
     "today": 1,
@@ -11,11 +23,35 @@
     "last_seen": "2026-08-03",
     "example": "無常樂 — 成人禮"
   },
-  "Country": {
+  "Jazz": {
+    "dropped": 6,
+    "today": 2,
+    "last_seen": "2026-08-14",
+    "example": "Takehiro Chiba, Junichi Sato, Kazuaki Yokoyama & Lyn Inaizumi — Hero's Jazz: Project R.E.D. x Super Sentai Side"
+  },
+  "Anime": {
+    "dropped": 6,
+    "today": 2,
+    "last_seen": "2026-08-14",
+    "example": "Yoshino Nanjo — Tui no kyoukaisen"
+  },
+  "Música Mexicana": {
+    "dropped": 6,
+    "today": 6,
+    "last_seen": "2026-08-14",
+    "example": "Edgardo Nuñez — Renacer"
+  },
+  "Soundtrack": {
     "dropped": 5,
-    "today": 5,
-    "last_seen": "2026-08-10",
-    "example": "Brett Young — Brett Young (Platinum Edition)"
+    "today": 1,
+    "last_seen": "2026-08-14",
+    "example": "Shugo Tokumaru — Chiikawa the Movie: The Secret of Mermaid Island (Original Motion Picture Soundtrack)"
+  },
+  "Electronic": {
+    "dropped": 5,
+    "today": 4,
+    "last_seen": "2026-08-14",
+    "example": "CHO CO PA CO CHO CO QUIN QUIN — Synthetic海岸"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -35,41 +71,17 @@
     "last_seen": "2026-08-03",
     "example": "Microhm & Imaabs — Latencia"
   },
-  "Soundtrack": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-13",
-    "example": "EGG Wong Wing Lam — 新星の物語 (《神魔之塔》圖靈與百慕達主題曲)"
-  },
-  "Jazz": {
+  "Rock": {
     "dropped": 4,
     "today": 2,
-    "last_seen": "2026-08-13",
-    "example": "Takehiro Chiba, Junichi Sato, Kazuaki Yokoyama & Lyn Inaizumi — Hero's Jazz: Project R.E.D. x Super Sentai Side"
+    "last_seen": "2026-08-14",
+    "example": "Girl Tones — Pretty Face"
   },
-  "Anime": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-08-13",
-    "example": "Yoshino Nanjo — Tui no kyoukaisen"
-  },
-  "Afro-Beat": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-08-13",
-    "example": "Afro Vibe Lounge — AFRO HOUSE 2026"
-  },
-  "Música Mexicana": {
+  "Country": {
     "dropped": 3,
     "today": 3,
-    "last_seen": "2026-08-10",
-    "example": "Bruno Caleb — DEPENDENCIA"
-  },
-  "Metal": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-08-10",
-    "example": "John Carpenter, Cody Carpenter & Daniel Davies — Cathedral"
+    "last_seen": "2026-08-14",
+    "example": "Ashley Cooke — ashley cooke"
   },
   "Americana": {
     "dropped": 3,
@@ -95,11 +107,11 @@
     "last_seen": "2026-08-10",
     "example": "Levelz UP — Sound of Unity"
   },
-  "Alternative": {
-    "dropped": 3,
+  "Metal": {
+    "dropped": 2,
     "today": 2,
-    "last_seen": "2026-08-13",
-    "example": "REiNa — After the End"
+    "last_seen": "2026-08-14",
+    "example": "Wage War — Sweet Dreams"
   },
   "Techno": {
     "dropped": 2,
@@ -131,29 +143,29 @@
     "last_seen": "2026-08-10",
     "example": "Kid Drama — Machines and Other Things"
   },
-  "Rock": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-13",
-    "example": "Kazuya Yoshii — MY LIFE"
-  },
   "African Dancehall": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-08-13",
     "example": "LOVIXX — Don't tell your dreams (Afrobeat)"
   },
-  "Electronic": {
-    "dropped": 1,
+  "Rock y Alternativo": {
+    "dropped": 2,
     "today": 1,
-    "last_seen": "2026-08-13",
-    "example": "CHO CO PA CO CHO CO QUIN QUIN — Synthetic海岸"
+    "last_seen": "2026-08-14",
+    "example": "Dillom — LA NUEVA VIOLENCIA"
+  },
+  "House": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-08-14",
+    "example": "Kimo Sounds — Leave it Behind"
   },
   "Afro House": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-10",
-    "example": "Various Artists — Solemaco 2026"
+    "last_seen": "2026-08-14",
+    "example": "Monique Bingham & Black Coffee — DEEP IN THE BOTTOM (Of Africa) [The Remixes Pt 2.]"
   },
   "Modern Dancehall": {
     "dropped": 1,
@@ -170,14 +182,14 @@
   "Christian": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-10",
-    "example": "Carly Ann Taylor & KB — Lifeline"
+    "last_seen": "2026-08-14",
+    "example": "Stephen Stanley — Ain't On Me"
   },
   "Música tropical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-08",
-    "example": "Dalvin La Melodia — La Bachata Volvió"
+    "last_seen": "2026-08-14",
+    "example": "Briella — Tinikijima"
   },
   "Trance": {
     "dropped": 1,
@@ -190,18 +202,6 @@
     "today": 1,
     "last_seen": "2026-08-10",
     "example": "FattMack — Mr. Did It By Hisself 3"
-  },
-  "Rock y Alternativo": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-13",
-    "example": "Dillom — LA NUEVA VIOLENCIA"
-  },
-  "House": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-10",
-    "example": "Archie — Famous 2.0"
   },
   "Alternative Folk": {
     "dropped": 1,
@@ -286,5 +286,35 @@
     "today": 1,
     "last_seen": "2026-08-13",
     "example": "Soledad & Nati Pastorutti — Si Acaso Regresaras (Casa Sole)"
+  },
+  "Soul": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-14",
+    "example": "MALIA — Live In Studio"
+  },
+  "Hard Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-14",
+    "example": "Nestor — Live at Gothenburg Film Studios"
+  },
+  "Indie Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-14",
+    "example": "Phùng Khánh Linh — GIỮA MỘT VẠN NGƯỜI (MỞ RỘNG)"
+  },
+  "Classical Crossover": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-14",
+    "example": "Jon Batiste — Black Mozart"
+  },
+  "Indie Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-14",
+    "example": "Ada Lea — the end is a wave"
   }
 }
