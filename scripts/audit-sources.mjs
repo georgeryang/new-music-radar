@@ -160,9 +160,9 @@ async function lookup(ids) {
   return uniq.map((i) => lookupCache.get(i)).filter(Boolean)
 }
 
-// Estimated paced-lookup seconds this source costs per run — the price side of
-// the value/price ratio. Sources pool their ids into shared chunks, so this is a
-// fair share rather than an exact bill; for playlists it is close to exact.
+// Estimated paced-lookup seconds this source costs per run. Sources pool their ids
+// into shared chunks, so this is a fair share rather than an exact bill; for
+// playlists it is close to exact.
 const costS = (ids) => (ids / LOOKUP_CHUNK) * PACED_CALL_S
 
 const out = { generated: new Date().toISOString(), historyDays, sections: {}, recommend: [] }
@@ -285,8 +285,7 @@ const OVERLAP_DAYS = 14
 // Window the per-source cost estimate prices: only day-of arrivals cost a lookup.
 const FRESH_DAYS = 3
 // Redundancy needs a real sample. A storefront with one recent release whose single
-// id happens to appear elsewhere is QUIET, not redundant — calling that clutter is
-// the same quiet-versus-dead mistake in a new place. Below this, say so and move on.
+// id happens to appear elsewhere is QUIET, not redundant. Below this, say so and move on.
 const MIN_REDUNDANCY_SAMPLE = 5
 const rows = []
 
