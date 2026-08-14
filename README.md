@@ -122,9 +122,9 @@ other request to the editor is refused unless it comes from your machine.
 - **Scheduling:** launchd ticks every 10 min; `update.sh --if-stale` turns
   that into one fetch a day, anchored to 18:15 KST. `launchd/watchdog.sh`
   (cron, every 5 min) re-bootstraps the agent if macOS drops it after a
-  reboot. `caffeinate -sim` holds the Mac awake mid-run; a `pmset` wake at
-  05:30 and a `StartCalendarInterval` at 05:25 just trigger that run at the
-  right moment; they aren't the anchor.
+  reboot. A `pmset` wake at 05:30 and a `StartCalendarInterval` at 05:25 just
+  trigger that run; they aren't the anchor. `caffeinate -sim` only holds the
+  Mac awake on AC power, so on battery the run finishes across later wakes.
 - **Preferences editor:** `scripts/prefs-server.mjs`, local-only on
   127.0.0.1:4747. Follow, block, and the star all key on Apple ID, never name.
   Also serves the built site at `/new-music-radar/`, for a refresh without a

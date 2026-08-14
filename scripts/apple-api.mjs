@@ -9,6 +9,8 @@ import { UA } from './shared.mjs'
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
+const MARKETING_HOST = 'rss.marketingtools.apple.com'
+
 // Apple returns an artist-albums lookup GROUPED: one `artist` record per requested
 // id, then that artist's collections. Walking in order is what attributes a
 // joint-entity collab to the member who was followed; filtering to collections
@@ -30,17 +32,32 @@ export function groupArtistLookup(results) {
   return { groups, orphans }
 }
 
-// timeouts surface as TimeoutError, undici network errors carry a cause code —
-// both matter when diagnosing a failure from the log alone, so every source's
-// failure path reports through this.
-export const errDetail = (e) =>
-  `${e.message}${e.cause?.code ? ` [${e.cause.code}]` : e.name === 'TimeoutError' ? ' [timeout]' : ''}`
+let throttleHits = 0
+export const throttleCount = () => throttleHits
+
+function checkOk(res, url) {
+  if (res.ok) return
+  // 503 is throttling only on marketingtools, where a burst returns them (see
+  // marketingToolsJSON); elsewhere it is an ordinary outage.
+  const throttled =
+    res.status === 429 || res.status === 403 || (res.status === 503 && url.startsWith(`https://${MARKETING_HOST}/`))
+  if (throttled) throttleHits++
+  throw Object.assign(new Error(`HTTP ${res.status} ${url}`), { throttled })
+}
+
+// timeouts surface as TimeoutError, undici network errors carry a cause code — both
+// matter when diagnosing a failure from the log alone, so every source's failure path
+// reports through this.
+export const errDetail = (e) => {
+  const tag = e.throttled ? 'throttled' : e.cause?.code || (e.name === 'TimeoutError' ? 'timeout' : null)
+  return tag ? `${e.message} [${tag}]` : e.message
+}
 
 // 30s abort: stalled connections have hung batches for 17–78 min; fail fast
 // and let the caller's retry pass handle it.
 export async function getJSON(url) {
   const res = await fetch(url, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(30_000) })
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`)
+  checkOk(res, url)
   return res.json()
 }
 
@@ -78,9 +95,9 @@ export function marketingToolsJSON(url) {
 
 // Every URL the pipeline reads, so the audit grades the same feeds production
 // fetches: a changed limit or path can't diverge between the two.
-export const US_CHART_URL = 'https://rss.marketingtools.apple.com/api/v2/us/music/most-played/50/albums.json'
+export const US_CHART_URL = `https://${MARKETING_HOST}/api/v2/us/music/most-played/50/albums.json`
 export const countryMostPlayedUrl = (sf) =>
-  `https://rss.marketingtools.apple.com/api/v2/${sf}/music/most-played/100/songs.json`
+  `https://${MARKETING_HOST}/api/v2/${sf}/music/most-played/100/songs.json`
 export const genreFeedUrl = (feedType, genreId) =>
   `https://itunes.apple.com/us/rss/${feedType}/genre=${genreId}/limit=100/json`
 export const countryPurchaseUrl = (sf, feedType) =>
@@ -119,11 +136,12 @@ const BROWSER_UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15'
 
 export const scrapeHTML = async (url) => {
-  const res = await fetch(usLink(url), {
+  const target = usLink(url)
+  const res = await fetch(target, {
     headers: { 'User-Agent': BROWSER_UA },
     signal: AbortSignal.timeout(30_000),
   })
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`)
+  checkOk(res, target)
   return res.text()
 }
 

@@ -42,11 +42,9 @@ if [ "${1:-}" = "--if-stale" ]; then
   if [ "$STALE" != "1" ]; then
     exit 0  # silent: ticks run every 10 min, logging each skip would flood the log
   fi
-  # Jitter 0-7 min so the fetch never lands at a machine-regular moment.
-  # Manual runs (the editor's Save & Refresh) skip this branch entirely.
-  JITTER=$((RANDOM % 420))
-  log "Last fetch predates the 18:15 KST slot — refreshing in ${JITTER}s"
-  sleep "$JITTER"
+  # No jitter here: a sleep only advances during wakes, and the lid-closed 05:30 dark
+  # wake has a 30-45s budget — a 414s jitter left the 05:30 fire waiting at 07:57.
+  log "Last fetch predates the 18:15 KST slot — refreshing"
 elif [ -n "${1:-}" ]; then
   # Every path below this point commits and pushes to the live site, so a typo
   # ("--if-state") must not fall through into an unscheduled publish.
@@ -113,8 +111,6 @@ log "Fetching new releases..."
 FETCH_STATUS=$?
 if [ "$FETCH_STATUS" -eq 2 ]; then
   # Don't bail: one source failing shouldn't hold the others' data hostage.
-  # Publish whatever was written, then exit with the fetcher's own code so the
-  # failure is logged.
   log "ERROR: fetch failed for at least one source (publishing partial data)"
 elif [ "$FETCH_STATUS" -ne 0 ]; then
   # Not 2 = the fetcher died before writing releases.json, so there is no new
@@ -136,8 +132,11 @@ if git diff --quiet docs/data config && [ -z "$(git ls-files --others --exclude-
   # Only retry when every unpushed commit is data. Local commits that touch
   # anything else are someone's work-in-progress held back on purpose, and this
   # runs unattended at 18:15 with no one to notice it publishing them.
+  # `git log --name-only`, not `git diff`: a diff compares the two endpoints, so a
+  # file added in one unpushed commit and deleted in a later one cancels out and
+  # the whole range gets published.
   UNPUSHED="$(git rev-list --count @{u}..HEAD 2>/dev/null || echo 0)"
-  if [ "$UNPUSHED" -gt 0 ] && [ -z "$(git diff --name-only @{u}..HEAD -- . ':!docs/data' ':!config')" ]; then
+  if [ "$UNPUSHED" -gt 0 ] && [ -z "$(git log --name-only --pretty=format: @{u}..HEAD -- . ':!docs/data' ':!config')" ]; then
     log "Unpushed data commits from an earlier run — pushing"
     git push || { log "ERROR: push failed"; exit 1; }
     log "Published"

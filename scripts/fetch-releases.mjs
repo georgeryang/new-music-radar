@@ -17,7 +17,7 @@ import { cardKeyOf, keyOf, releaseOrder, upcomingOrder } from './card-key.mjs'
 import {
   US_CHART_URL, albumIdFromTrackUrl, artistAlbumsUrl, asList, countryMostPlayedUrl,
   countryPurchaseUrl, errDetail, genreFeedUrl, getJSON, groupArtistLookup, itunesJSON,
-  lookupUrl, marketingToolsJSON, normId, rssAlbumId, scrapePlaylistAlbumIds, sleep, usLink,
+  lookupUrl, marketingToolsJSON, normId, rssAlbumId, scrapePlaylistAlbumIds, sleep, throttleCount, usLink,
 } from './apple-api.mjs'
 import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, daysSince, feedTypesOf, notOlderThan, sourceTag, withinDays } from './shared.mjs'
 
@@ -107,7 +107,7 @@ const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 // ---------- followed artists via iTunes ----------
 
 // Both retry passes (sweep batches, country feeds) wait this long: the
-// failures they cover are intermittent connection stalls and 503 throttling.
+// failures they cover are intermittent connection stalls and marketingtools 503s.
 const RETRY_BACKOFF_MS = 15_000
 
 // Newest US release date per swept artist id — feeds the editor's dormancy
@@ -157,10 +157,8 @@ async function batchReleases(ids) {
   return collections.filter((a) => a.releaseDate && inWindow(a.releaseDate)).map(fromSweep)
 }
 
-// Batched collection-id lookup, shared by chart enrichment, song-chart
-// resolution, and playlist albums. Run-scoped cache serves repeats (a hot
-// release charts in several sources) for free. Keys stringified — a
-// number/string mismatch would silently miss.
+// Run-scoped cache serves repeats (a hot release charts in several sources) for
+// free. Keys stringified — a number/string mismatch would silently miss.
 const collectionCache = new Map()
 async function lookupCollections(ids) {
   // digits only: ids come from feeds, chart JSON, and SCRAPED playlist pages
@@ -271,7 +269,7 @@ async function countryPurchaseFeed(sf, feedType) {
 // ---------- editorial playlists (scraped web player pages) ----------
 
 // The scrape itself is in apple-api.mjs (the audit reads the same pages). The page
-// fetch is unthrottled and overlaps the artist sweep, and failures must be loud
+// fetch is unpaced and overlaps the artist sweep, and failures must be loud
 // (exit 2).
 const playlistAlbumIds = async (pl) => ({ pl, ...(await scrapePlaylistAlbumIds(pl.url)) })
 
@@ -285,7 +283,7 @@ const CHART_SOURCE = sourceTag('chart', 'us')
 const releases = []
 
 // Discovery fetches start now and resolve behind the paced artist sweep, so
-// their wall time disappears. Genre feeds and playlist pages are unthrottled;
+// their wall time disappears. Genre feeds and playlist pages are unpaced;
 // the US chart takes the marketingtools lane's first slot.
 const chartP = fetchChart()
 // chartP is consumed after the sweep — without this handler, a chart failure
@@ -930,5 +928,9 @@ try {
 } catch (e) {
   log(`could not update source-activity.json: ${errDetail(e)}`)
 }
+
+// Not "WARNING:" — prefs-server reads that prefix as a failed Pages deploy.
+const throttles = throttleCount()
+if (throttles > 0) log(`Apple throttled ${throttles} request(s) this run${anyFailed ? '' : ', all recovered on retry'}`)
 
 process.exit(anyFailed ? 2 : 0)
