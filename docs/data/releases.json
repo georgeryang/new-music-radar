@@ -1,18 +1,6 @@
 {
-  "fetched_at": 1786708685268,
+  "fetched_at": 1786786239337,
   "releases": [
-    {
-      "title": "A Piece of My heart",
-      "artist": "AtHeart",
-      "artist_id": 1811647421,
-      "type": "song",
-      "release_date": "2026-08-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/64/b9/35/64b935e1-09d7-6b50-372a-a8c3b76ad425/888272186130_Cover.jpg/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/a-piece-of-my-heart-single/6798507849?uo=4",
-      "followed": true,
-      "via_artist_id": 1811647421
-    },
     {
       "title": "BARAJA BENDITA",
       "artist": "Becky G",
@@ -25,6 +13,8 @@
       "followed": true,
       "via_artist_id": 550411604,
       "sources": [
+        "chart:us",
+        "genre:Latin",
         "playlist:New Music Daily",
         "playlist:Nuevo Nuevo"
       ]
@@ -54,6 +44,7 @@
       "via_artist_id": 1754284416,
       "sources": [
         "chart:us",
+        "genre:Pop",
         "playlist:New Music Daily"
       ]
     },
@@ -129,7 +120,21 @@
       "genre": "Urbano latino",
       "link": "https://music.apple.com/us/album/como-un-sue%C3%B1o-single/6798378770?uo=4",
       "sources": [
-        "genre:Latin"
+        "genre:Latin",
+        "playlist:Nuevo Nuevo"
+      ]
+    },
+    {
+      "title": "Dream Higher",
+      "artist": "ALL'N",
+      "artist_id": 1559749240,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ba/92/34/ba923490-c0e8-ed97-b2f7-ee218d0bf31d/199316660760_cover.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/dream-higher-single/6782983474?uo=4",
+      "sources": [
+        "genre:K-Pop"
       ]
     },
     {
@@ -146,6 +151,19 @@
       ]
     },
     {
+      "title": "Incondicional",
+      "artist": "ANGELIS",
+      "artist_id": 1882012574,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/95/a2/df/95a2dfeb-2697-0f46-1440-6ee24c411d4d/artwork.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/incondicional-single/6801408060?uo=4",
+      "sources": [
+        "country:ar"
+      ]
+    },
+    {
       "title": "MIXTAPE",
       "artist": "Anna Takeuchi",
       "artist_id": 1383588813,
@@ -156,6 +174,20 @@
       "link": "https://music.apple.com/us/album/mixtape/6791136717?uo=4",
       "sources": [
         "country:jp"
+      ]
+    },
+    {
+      "title": "Donde Hubo Fuego Cenizas Quedan",
+      "artist": "Anuel AA",
+      "artist_id": 996166916,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6d/3d/73/6d3d7313-69c5-5983-d735-8858d9f01c43/820233858090.jpg/400x400bb.webp",
+      "genre": "Urbano latino",
+      "link": "https://music.apple.com/us/album/donde-hubo-fuego-cenizas-quedan-single/6800930374?uo=4",
+      "sources": [
+        "country:ar",
+        "playlist:Nuevo Nuevo"
       ]
     },
     {
@@ -173,19 +205,6 @@
       ]
     },
     {
-      "title": "LIMBO",
-      "artist": "Arin Ray",
-      "artist_id": 575436666,
-      "type": "album",
-      "release_date": "2026-08-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/31/57/ad/3157ada0-48ff-c6d8-d5d0-9febd941d15c/5059449388083.png/400x400bb.webp",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/limbo-ep/6789408394?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
       "title": "愛與(不)被愛",
       "artist": "Arvin Tsang",
       "artist_id": 1745487845,
@@ -195,7 +214,7 @@
       "genre": "Cantopop/HK-Pop",
       "link": "https://music.apple.com/us/album/%E6%84%9B%E8%88%87-%E4%B8%8D-%E8%A2%AB%E6%84%9B-single/6800167830?uo=4",
       "sources": [
-        "country:hk"
+        "genre:Cantopop/HK-Pop"
       ]
     },
     {
@@ -221,7 +240,34 @@
       "genre": "Afrobeats",
       "link": "https://music.apple.com/us/album/starrgirl/6796539188?uo=4",
       "sources": [
+        "genre:African",
         "playlist:New Music Daily"
+      ]
+    },
+    {
+      "title": "Si lo sientes",
+      "artist": "Basi Gonzalez Music",
+      "artist_id": 1845053647,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/17/af/27/17af271b-bfc7-4ac8-6960-fc8814502711/artwork.jpg/400x400bb.webp",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/si-lo-sientes-single/6801537855?uo=4",
+      "sources": [
+        "country:co"
+      ]
+    },
+    {
+      "title": "Quédate a dormir",
+      "artist": "Basi Gonzalez Music",
+      "artist_id": 1845053647,
+      "type": "song",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/78/dc/ed/78dced20-8833-5535-1ef8-0687d1623fba/artwork.jpg/400x400bb.webp",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/qu%C3%A9date-a-dormir-single/6801141943?uo=4",
+      "sources": [
+        "country:co"
       ]
     },
     {
@@ -234,6 +280,7 @@
       "genre": "Latin",
       "link": "https://music.apple.com/us/album/hermoso/6789690860?uo=4",
       "sources": [
+        "genre:Latin",
         "playlist:New Music Daily",
         "playlist:Nuevo Nuevo"
       ]
@@ -278,6 +325,19 @@
       ]
     },
     {
+      "title": "Inside",
+      "artist": "Carmen Alexis",
+      "artist_id": 1765625233,
+      "type": "album",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ba/60/bd/ba60bdff-b26b-8058-2c15-830191043c34/artwork.jpg/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/inside/6794749897?uo=4",
+      "sources": [
+        "genre:R&B/Soul"
+      ]
+    },
+    {
       "title": "Enigma POV",
       "artist": "Channel Tres",
       "artist_id": 1293846868,
@@ -291,16 +351,55 @@
       ]
     },
     {
-      "title": "Touch",
-      "artist": "Collect 200",
-      "artist_id": 1804375505,
+      "title": "Historias (feat. DAAZ & Caztro)",
+      "artist": "Charles Ans, Sabino & Yubeili",
+      "artist_id": 699328440,
       "type": "song",
-      "release_date": "2026-08-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/17/82/93/17829308-5a7c-1257-a886-2a628fd43412/196874625712.jpg/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/touch-single/6795005164?uo=4",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0a/83/08/0a830873-d355-8184-5c36-f7177dd759df/0.jpg/400x400bb.webp",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/historias-feat-daaz-caztro-single/6793663098?uo=4",
       "sources": [
-        "playlist:New Music Daily"
+        "country:mx"
+      ]
+    },
+    {
+      "title": "Better Than Me",
+      "artist": "DAWNLINE",
+      "artist_id": 6787188313,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9c/f0/39/9cf039e7-9ec7-ed70-4ebf-02c52235bff4/4097022.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/better-than-me-single/6799186830?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
+      "title": "Fabienk",
+      "artist": "deadmau5",
+      "artist_id": 78011850,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f0/57/58/f05758f5-6389-fe5e-8120-0c10963ffcfa/612891178005.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/fabienk-single/6798829531?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
+      "title": "Junkie Mode 2",
+      "artist": "Deebaby",
+      "artist_id": 1371725495,
+      "type": "album",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bd/53/c1/bd53c1df-0dad-0e8d-353e-36cecdeb78d3/ticket.sabhoceo.png/400x400bb.webp",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/junkie-mode-2/6783447204?uo=4",
+      "sources": [
+        "chart:us"
       ]
     },
     {
@@ -313,7 +412,8 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/delta-memories-ep/6788198653?uo=4",
       "sources": [
-        "genre:J-Pop"
+        "genre:J-Pop",
+        "country:tw"
       ]
     },
     {
@@ -327,6 +427,58 @@
       "link": "https://music.apple.com/us/album/%E5%A4%8F%E3%82%92%E9%A7%86%E3%81%91%E3%82%8D-single/6794263304?uo=4",
       "sources": [
         "country:jp"
+      ]
+    },
+    {
+      "title": "all in a summer",
+      "artist": "éva jude",
+      "artist_id": 6794950364,
+      "type": "album",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/89/03/10/89031026-4fd7-7553-ff7a-153aca264066/artwork.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/all-in-a-summer-ep/6794979264?uo=4",
+      "sources": [
+        "genre:Pop"
+      ]
+    },
+    {
+      "title": "Walking Wounded (2026 Deluxe Edition)",
+      "artist": "Everything But the Girl",
+      "artist_id": 164449,
+      "type": "album",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/de/9a/6c/de9a6c56-3ad7-79d4-3f6a-9f937c8c9c78/0840401725146.png/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/walking-wounded-2026-deluxe-edition/6782067817?uo=4",
+      "sources": [
+        "genre:Pop"
+      ]
+    },
+    {
+      "title": "可是感情的事啊 (影集《整個世界 , 只有你連上了我》插曲)",
+      "artist": "EZU",
+      "artist_id": 756605032,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8e/34/b0/8e34b015-484b-0252-7e2a-388975fcda74/193017211016.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E5%8F%AF%E6%98%AF%E6%84%9F%E6%83%85%E7%9A%84%E4%BA%8B%E5%95%8A-%E5%BD%B1%E9%9B%86-%E6%95%B4%E5%80%8B%E4%B8%96%E7%95%8C-%E5%8F%AA%E6%9C%89%E4%BD%A0%E9%80%A3%E4%B8%8A%E4%BA%86%E6%88%91-%E6%8F%92%E6%9B%B2-single/6793469500?uo=4",
+      "sources": [
+        "genre:Mandopop"
+      ]
+    },
+    {
+      "title": "錯",
+      "artist": "FatBoy",
+      "artist_id": 1550890996,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/dd/12/05/dd1205cc-056a-fffa-69d2-ecd044c08fdd/301627920611.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E9%8C%AF-single/6801042010?uo=4",
+      "sources": [
+        "country:hk"
       ]
     },
     {
@@ -356,19 +508,6 @@
       ]
     },
     {
-      "title": "Te Mereces",
-      "artist": "Frankie el Poeta",
-      "artist_id": 1885617310,
-      "type": "album",
-      "release_date": "2026-08-12",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/91/9a/0b/919a0bd4-2aa6-50b1-7687-e016e5925179/1281226.jpg/400x400bb.webp",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/te-mereces/6800156196?uo=4",
-      "sources": [
-        "genre:Latin"
-      ]
-    },
-    {
       "title": "Tension",
       "artist": "Fridayy",
       "artist_id": 1491583681,
@@ -378,6 +517,7 @@
       "genre": "R&B/Soul",
       "link": "https://music.apple.com/us/album/tension/6791394852?uo=4",
       "sources": [
+        "chart:us",
         "playlist:New Music Daily"
       ]
     },
@@ -422,6 +562,19 @@
       ]
     },
     {
+      "title": "Gringa Repartera",
+      "artist": "IAmChino, Pitbull & Gente de Zona",
+      "artist_id": 1086805603,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ad/41/6b/ad416bb4-dd34-a1f8-d9fe-1489eb54f336/885288139105.jpg/400x400bb.webp",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/gringa-repartera-single/6796407622?uo=4",
+      "sources": [
+        "playlist:Nuevo Nuevo"
+      ]
+    },
+    {
       "title": "Ritual",
       "artist": "Icona Pop",
       "artist_id": 398345158,
@@ -435,6 +588,19 @@
       ]
     },
     {
+      "title": "Mood Indigo",
+      "artist": "Indigoesblues",
+      "artist_id": 1882177641,
+      "type": "album",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9e/ed/21/9eed210d-949a-38eb-4989-5cbfb5fdeaa5/artwork.jpg/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/mood-indigo-ep/6797326842?uo=4",
+      "sources": [
+        "genre:R&B/Soul"
+      ]
+    },
+    {
       "title": "WE ALL WE NEEDED",
       "artist": "Internet Money",
       "artist_id": 1406770923,
@@ -445,6 +611,19 @@
       "link": "https://music.apple.com/us/album/we-all-we-needed/6798044591?uo=4",
       "sources": [
         "playlist:New Music Daily"
+      ]
+    },
+    {
+      "title": "HEART CRUSH!",
+      "artist": "IRISÉ",
+      "artist_id": 1794445926,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2c/50/e2/2c50e27a-0aeb-9fec-e857-c27429989a26/888272185331.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/heart-crush-single/6796601125?uo=4",
+      "sources": [
+        "genre:K-Pop"
       ]
     },
     {
@@ -483,22 +662,8 @@
       "genre": "Cantopop/HK-Pop",
       "link": "https://music.apple.com/us/album/%E5%B7%B2%E5%87%BA%E4%B9%8B%E7%89%A9-single/6798583710?uo=4",
       "sources": [
+        "genre:Cantopop/HK-Pop",
         "country:hk"
-      ]
-    },
-    {
-      "title": "Summer, I",
-      "artist": "Jeong Eun Ji",
-      "artist_id": 558359377,
-      "type": "album",
-      "release_date": "2026-08-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ff/37/e3/ff37e35c-6fbc-5265-0631-b47151013ebf/cover_KM0025044_1.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/summer-i/6798093488?uo=4",
-      "sources": [
-        "genre:K-Pop",
-        "country:hk",
-        "country:tw"
       ]
     },
     {
@@ -537,8 +702,8 @@
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/sunshine/1886730527?uo=4",
       "sources": [
+        "chart:us",
         "genre:Pop",
-        "country:jp",
         "playlist:New Music Daily"
       ]
     },
@@ -553,6 +718,45 @@
       "link": "https://music.apple.com/us/album/apocalipto/6797945605?uo=4",
       "sources": [
         "playlist:Nuevo Nuevo"
+      ]
+    },
+    {
+      "title": "hit and run",
+      "artist": "Kevian Kraemer",
+      "artist_id": 1594747842,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/83/aa/03/83aa03cf-16dc-b68f-1fde-4c29dc6cbb98/075679564184.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/hit-and-run-single/6795697071?uo=4",
+      "sources": [
+        "playlist:New Music Daily"
+      ]
+    },
+    {
+      "title": "KJK Original Series Edition 01 : Roy Kim",
+      "artist": "Kim Jong Kook",
+      "artist_id": 578548964,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/71/5d/a1/715da1ca-0f72-96d3-2a31-7e7bea108160/8800388636424_cover.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/kjk-original-series-edition-01-roy-kim-single/6798959043?uo=4",
+      "sources": [
+        "country:tw"
+      ]
+    },
+    {
+      "title": "We Are You",
+      "artist": "Kolor",
+      "artist_id": 297203855,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/82/ed/7a/82ed7a91-bb5c-9baf-2ec1-b6af867b6b35/367457941875.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/we-are-you-single/6798577650?uo=4",
+      "sources": [
+        "country:hk"
       ]
     },
     {
@@ -578,8 +782,24 @@
       "genre": "Pop Latino",
       "link": "https://music.apple.com/us/album/me-despido-single/6796526621?uo=4",
       "sources": [
+        "genre:Latin",
+        "country:mx",
         "playlist:New Music Daily",
         "playlist:Nuevo Nuevo"
+      ]
+    },
+    {
+      "title": "Good Times",
+      "artist": "Lukas Graham",
+      "artist_id": 473219952,
+      "type": "album",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3c/cc/7c/3ccc7c89-ebff-c015-0c43-4f1f54c50779/26UMGIM53819.rgb.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/good-times/6769039010?uo=4",
+      "sources": [
+        "genre:Pop",
+        "country:mx"
       ]
     },
     {
@@ -635,16 +855,29 @@
       ]
     },
     {
-      "title": "Color",
-      "artist": "Mosawo",
-      "artist_id": 1523598193,
-      "type": "album",
+      "title": "Live Your Life",
+      "artist": "Molly Santana",
+      "artist_id": 1589625158,
+      "type": "song",
       "release_date": "2026-08-14",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/92/76/15/92761595-c176-e654-104b-d5faa3a36880/4573623342681.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/color/6790806928?uo=4",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1d/4b/e9/1d4be900-8e9c-41e6-306a-5c76684e6e1e/196874683316.jpg/400x400bb.webp",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/live-your-life-single/6800491932?uo=4",
       "sources": [
-        "country:jp"
+        "playlist:New Music Daily"
+      ]
+    },
+    {
+      "title": "Mirage",
+      "artist": "MPH & Skrillex",
+      "artist_id": 465495678,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/82/b4/db/82b4dbeb-b42e-8c9b-f45f-05638743cb29/823375291695_Cover.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/mirage-single/6798504846?uo=4",
+      "sources": [
+        "genre:Dance"
       ]
     },
     {
@@ -688,6 +921,32 @@
       ]
     },
     {
+      "title": "Champion Story",
+      "artist": "Noodah05",
+      "artist_id": 1458169236,
+      "type": "album",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/91/64/96/916496b0-c932-c493-2cb5-5ab479c1899f/075679561947.jpg/400x400bb.webp",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/champion-story/6800467601?uo=4",
+      "sources": [
+        "chart:us"
+      ]
+    },
+    {
+      "title": "The World Slows Down",
+      "artist": "November Kid",
+      "artist_id": 1487355344,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/fd/be/a3/fdbea3ba-d614-5b87-e6fb-d86eb720638d/196874604328.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/the-world-slows-down-single/6790489559?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
       "title": "Love Me For Me",
       "artist": "October London",
       "artist_id": 1125515360,
@@ -714,6 +973,19 @@
       ]
     },
     {
+      "title": "Cuídame de mí",
+      "artist": "Paulina Goto",
+      "artist_id": 375570406,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/31/b7/22/31b7223a-e221-0b01-3201-735682592dce/885288181104.jpg/400x400bb.webp",
+      "genre": "Pop Latino",
+      "link": "https://music.apple.com/us/album/cu%C3%ADdame-de-m%C3%AD-single/6796846314?uo=4",
+      "sources": [
+        "genre:Latin"
+      ]
+    },
+    {
       "title": "me asfixia LA CIUDAD",
       "artist": "Paulo Londra",
       "artist_id": 1275513130,
@@ -727,6 +999,19 @@
       ]
     },
     {
+      "title": "The Mermaid's Song",
+      "artist": "Phantom Siita",
+      "artist_id": 1753635664,
+      "type": "song",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a7/d2/e3/a7d2e3b0-8823-a000-aa28-96c76d858ec9/26UMGIM94003.rgb.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/the-mermaids-song-single/6798597749?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "Suki Nante Uso ni Kimatteru",
       "artist": "Rain Tree",
       "artist_id": 1790570707,
@@ -737,19 +1022,6 @@
       "link": "https://music.apple.com/us/album/suki-nante-uso-ni-kimatteru-ep/6796157048?uo=4",
       "sources": [
         "country:jp"
-      ]
-    },
-    {
-      "title": "Lownoise",
-      "artist": "ring noord",
-      "artist_id": 1804631845,
-      "type": "album",
-      "release_date": "2026-08-13",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/32/27/70322777-36e7-722e-9bdc-e4038ba36e99/5063857056878.png/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/lownoise-ep/6791640024?uo=4",
-      "sources": [
-        "genre:Dance"
       ]
     },
     {
@@ -776,20 +1048,6 @@
       "link": "https://music.apple.com/us/album/disc-1-ep/6795730627?uo=4",
       "sources": [
         "genre:Dance"
-      ]
-    },
-    {
-      "title": "UNSAID",
-      "artist": "ROCKY",
-      "artist_id": 1445110549,
-      "type": "album",
-      "release_date": "2026-08-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/dc/08/c3/dc08c3a4-b54e-dfda-3285-55a61660c199/26UM1IM01963.rgb.jpg/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/unsaid-ep/6798079134?uo=4",
-      "sources": [
-        "country:ar",
-        "country:mx"
       ]
     },
     {
@@ -880,20 +1138,21 @@
       "genre": "Dance",
       "link": "https://music.apple.com/us/album/bird-phone-single/6790877867?uo=4",
       "sources": [
+        "genre:Dance",
         "playlist:New Music Daily"
       ]
     },
     {
-      "title": "dinnermode",
-      "artist": "SUMIN",
-      "artist_id": 352539234,
-      "type": "album",
-      "release_date": "2026-08-13",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/06/9a/6e/069a6ecf-166b-7f5d-f3b3-8a77d7c0d64d/191953564548.jpg/400x400bb.webp",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/dinnermode/6794219143?uo=4",
+      "title": "Crazy For You",
+      "artist": "SWISH",
+      "artist_id": 6801489222,
+      "type": "song",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e4/d3/85/e4d38580-2f8d-9102-f25d-60fafe9cb8e7/196874653845.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/crazy-for-you-single/6797833204?uo=4",
       "sources": [
-        "genre:K-Pop"
+        "genre:Dance"
       ]
     },
     {
@@ -919,7 +1178,6 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/checkpoint/6790658058?uo=4",
       "sources": [
-        "genre:J-Pop",
         "country:hk",
         "country:jp",
         "country:tw"
@@ -936,6 +1194,19 @@
       "link": "https://music.apple.com/us/album/tempo-es-tempo-5-ep/6793277679?uo=4",
       "sources": [
         "playlist:Nuevo Nuevo"
+      ]
+    },
+    {
+      "title": "Made for TV: Official Soundtrack to Season 1 of The Monkees",
+      "artist": "The Monkees",
+      "artist_id": 4512388,
+      "type": "album",
+      "release_date": "2026-08-14",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/69/60/9d/69609dfa-38fc-58ec-50fd-dbff28f7cc80/603497802654.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/made-for-tv-official-soundtrack-to-season-1-of-the-monkees/6779404072?uo=4",
+      "sources": [
+        "genre:Pop"
       ]
     },
     {
@@ -1006,6 +1277,33 @@
       ]
     },
     {
+      "title": "綻放",
+      "artist": "Wilfred Lau",
+      "artist_id": 557091686,
+      "type": "song",
+      "release_date": "2026-08-13",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9b/25/86/9b25869d-289c-2d14-94c3-7ff2c9692ff7/196874506356.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E7%B6%BB%E6%94%BE-single/6798637583?uo=4",
+      "sources": [
+        "genre:Cantopop/HK-Pop",
+        "country:hk"
+      ]
+    },
+    {
+      "title": "mountain",
+      "artist": "yama",
+      "artist_id": 1506180365,
+      "type": "song",
+      "release_date": "2026-08-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c4/de/76/c4de764b-8887-2353-8f42-421bb2e6e0ee/4547366842142.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/mountain-single/6795372818?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "Yo Oizumi 30th Anniversary in Show Business EP “Kansha shika gozaimasen”",
       "artist": "Yo Oizumi",
       "artist_id": 458553730,
@@ -1028,34 +1326,8 @@
       "genre": "Hip-Hop/Rap",
       "link": "https://music.apple.com/us/album/vera-volpe/6800509557?uo=4",
       "sources": [
+        "chart:us",
         "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Snowlight Stories",
-      "artist": "Yukihana Lamy",
-      "artist_id": 1593347691,
-      "type": "song",
-      "release_date": "2026-08-13",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/11/58/8f/11588f40-ff99-2cd0-9202-e39f6cfea20c/4580883407371_art.png/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/snowlight-stories-single/6798164035?uo=4",
-      "sources": [
-        "genre:J-Pop",
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Tsumeawase",
-      "artist": "Yukopi",
-      "artist_id": 1691239675,
-      "type": "album",
-      "release_date": "2026-08-12",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e3/17/db/e317db17-dbb3-d3a4-6e56-778c2813acd9/PA00223967_0_251356_jacket.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/tsumeawase/6796161624?uo=4",
-      "sources": [
-        "country:jp"
       ]
     },
     {
@@ -1079,7 +1351,7 @@
       "artist_id": 1481640775,
       "type": "song",
       "release_date": "2026-08-21",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/97/0a/8a/970a8ad5-a640-a108-3995-ca55ec9d3c63/885288246605.jpg/400x400bb.webp",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/bb/04/6c/bb046cc7-ca6a-1968-4aed-72490dec7d5c/ticket.alxpqtiy.jpg/400x400bb.webp",
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/easy-radio-edit-single/6800054072?uo=4",
       "followed": true,
