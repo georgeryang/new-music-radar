@@ -1,15 +1,27 @@
 {
   "Alternative": {
-    "dropped": 16,
-    "today": 13,
-    "last_seen": "2026-08-14",
-    "example": "thredd — It's Lovely, Come On In REWORKS"
+    "dropped": 26,
+    "today": 10,
+    "last_seen": "2026-08-15",
+    "example": "MASS OF THE FERMENTING DREGS — Iwaou"
+  },
+  "Música Mexicana": {
+    "dropped": 14,
+    "today": 8,
+    "last_seen": "2026-08-15",
+    "example": "Edgardo Nuñez — Renacer"
   },
   "Afro-Beat": {
-    "dropped": 10,
-    "today": 6,
-    "last_seen": "2026-08-14",
-    "example": "HOMY — Set Piece"
+    "dropped": 13,
+    "today": 3,
+    "last_seen": "2026-08-15",
+    "example": "Chillmaster Music — Nhova The Album"
+  },
+  "Anime": {
+    "dropped": 8,
+    "today": 2,
+    "last_seen": "2026-08-15",
+    "example": "Kenji Kawai — 『機動警察パトレイバー EZY』オリジナルサウンドトラック Vol.1"
   },
   "Worldwide": {
     "dropped": 7,
@@ -17,41 +29,41 @@
     "last_seen": "2026-08-06",
     "example": "Chantel 姚焯菲Yumi 鍾柔美Windy 詹天文 — S.H.E.R.O. (劇集《夫妻的博弈》片尾曲)"
   },
+  "Jazz": {
+    "dropped": 7,
+    "today": 1,
+    "last_seen": "2026-08-15",
+    "example": "DOMi & JD BECK — YOU ASKED!"
+  },
+  "Electronic": {
+    "dropped": 7,
+    "today": 2,
+    "last_seen": "2026-08-15",
+    "example": "King Gizzard & The Lizard Wizard — Alien Metal"
+  },
+  "Rock": {
+    "dropped": 7,
+    "today": 3,
+    "last_seen": "2026-08-15",
+    "example": "THE PREDATORS — オリバー"
+  },
   "Chinese Rock": {
     "dropped": 6,
     "today": 1,
     "last_seen": "2026-08-03",
     "example": "無常樂 — 成人禮"
   },
-  "Jazz": {
-    "dropped": 6,
-    "today": 2,
-    "last_seen": "2026-08-14",
-    "example": "Takehiro Chiba, Junichi Sato, Kazuaki Yokoyama & Lyn Inaizumi — Hero's Jazz: Project R.E.D. x Super Sentai Side"
-  },
-  "Anime": {
-    "dropped": 6,
-    "today": 2,
-    "last_seen": "2026-08-14",
-    "example": "Yoshino Nanjo — Tui no kyoukaisen"
-  },
-  "Música Mexicana": {
-    "dropped": 6,
-    "today": 6,
-    "last_seen": "2026-08-14",
-    "example": "Edgardo Nuñez — Renacer"
-  },
   "Soundtrack": {
-    "dropped": 5,
+    "dropped": 6,
     "today": 1,
-    "last_seen": "2026-08-14",
+    "last_seen": "2026-08-15",
     "example": "Shugo Tokumaru — Chiikawa the Movie: The Secret of Mermaid Island (Original Motion Picture Soundtrack)"
   },
-  "Electronic": {
-    "dropped": 5,
-    "today": 4,
-    "last_seen": "2026-08-14",
-    "example": "CHO CO PA CO CHO CO QUIN QUIN — Synthetic海岸"
+  "Country": {
+    "dropped": 6,
+    "today": 3,
+    "last_seen": "2026-08-15",
+    "example": "Ashley Cooke — ashley cooke"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -71,17 +83,17 @@
     "last_seen": "2026-08-03",
     "example": "Microhm & Imaabs — Latencia"
   },
-  "Rock": {
+  "Metal": {
     "dropped": 4,
     "today": 2,
-    "last_seen": "2026-08-14",
-    "example": "Girl Tones — Pretty Face"
+    "last_seen": "2026-08-15",
+    "example": "Wage War — Sweet Dreams"
   },
-  "Country": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-08-14",
-    "example": "Ashley Cooke — ashley cooke"
+  "House": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-08-15",
+    "example": "Francis Harris, Frank & Tony & DJ Sprinkles — You Can Always Leave / Companion (Remastered) [feat. Gry Bagøien]"
   },
   "Americana": {
     "dropped": 3,
@@ -107,11 +119,11 @@
     "last_seen": "2026-08-10",
     "example": "Levelz UP — Sound of Unity"
   },
-  "Metal": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-08-14",
-    "example": "Wage War — Sweet Dreams"
+  "Rock y Alternativo": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-08-15",
+    "example": "Dillom — LA NUEVA VIOLENCIA"
   },
   "Techno": {
     "dropped": 2,
@@ -137,29 +149,47 @@
     "last_seen": "2026-08-07",
     "example": "soul of NEKO Recommended Jazz Music for Work & Study, Buzz BGM Lab: A Research Studio for Mastering Work, Sleep, Focus, and Relaxation & Deep Sleep Music — Relaxing Café Jazz Work BGM With City Pop & Lo-Fi to Improve Focus and Productivity for Work and Study"
   },
-  "Jungle/Drum'n'bass": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-08-10",
-    "example": "Kid Drama — Machines and Other Things"
-  },
   "African Dancehall": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-08-13",
     "example": "LOVIXX — Don't tell your dreams (Afrobeat)"
   },
-  "Rock y Alternativo": {
+  "Christian": {
     "dropped": 2,
     "today": 1,
-    "last_seen": "2026-08-14",
-    "example": "Dillom — LA NUEVA VIOLENCIA"
+    "last_seen": "2026-08-15",
+    "example": "Stephen Stanley — Ain't On Me"
   },
-  "House": {
+  "Música tropical": {
     "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-08-14",
-    "example": "Kimo Sounds — Leave it Behind"
+    "today": 1,
+    "last_seen": "2026-08-15",
+    "example": "Briella — Tinikijima"
+  },
+  "Soul": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-15",
+    "example": "MALIA — Live In Studio"
+  },
+  "Classical Crossover": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-15",
+    "example": "Jon Batiste — Black Mozart"
+  },
+  "Indie Rock": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-15",
+    "example": "Ada Lea — the end is a wave"
+  },
+  "Jungle/Drum'n'bass": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-15",
+    "example": "Djrum — I Wander"
   },
   "Afro House": {
     "dropped": 1,
@@ -178,18 +208,6 @@
     "today": 1,
     "last_seen": "2026-08-10",
     "example": "Angel Ahz & Allah Thérèse — The Soul Mixes (Réédition)"
-  },
-  "Christian": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-14",
-    "example": "Stephen Stanley — Ain't On Me"
-  },
-  "Música tropical": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-14",
-    "example": "Briella — Tinikijima"
   },
   "Trance": {
     "dropped": 1,
@@ -242,8 +260,8 @@
   "Shows": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-10",
-    "example": "Various Artists — 天赐的声音第七季 第9期 (Live)"
+    "last_seen": "2026-08-15",
+    "example": "Various Artists — 天赐的声音第七季 第10期 (Live)"
   },
   "Kayokyoku": {
     "dropped": 1,
@@ -287,12 +305,6 @@
     "last_seen": "2026-08-13",
     "example": "Soledad & Nati Pastorutti — Si Acaso Regresaras (Casa Sole)"
   },
-  "Soul": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-14",
-    "example": "MALIA — Live In Studio"
-  },
   "Hard Rock": {
     "dropped": 1,
     "today": 1,
@@ -305,16 +317,40 @@
     "last_seen": "2026-08-14",
     "example": "Phùng Khánh Linh — GIỮA MỘT VẠN NGƯỜI (MỞ RỘNG)"
   },
-  "Classical Crossover": {
+  "Latin Jazz": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-14",
-    "example": "Jon Batiste — Black Mozart"
+    "last_seen": "2026-08-15",
+    "example": "Slowey and the Boats — Slowey After Dark"
   },
-  "Indie Rock": {
+  "Funk": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-14",
-    "example": "Ada Lea — the end is a wave"
+    "last_seen": "2026-08-15",
+    "example": "André Cymone — The Resurrection of Funk"
+  },
+  "Neo-Soul": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-15",
+    "example": "The Rumble — Ain't No Dying (feat. Big Chief Joseph Boudreaux Jr.)"
+  },
+  "Breakbeat": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-15",
+    "example": "BEYOND BORDERs — Miku-Maxxing (feat. Hatsune Miku, Grimes & SatapanP)"
+  },
+  "C-Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-15",
+    "example": "Uni-Girls — 第一次心動"
+  },
+  "T-Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-15",
+    "example": "Phuwin — Black Card"
   }
 }
