@@ -1,27 +1,51 @@
 {
   "Alternative": {
-    "dropped": 26,
-    "today": 10,
-    "last_seen": "2026-08-15",
-    "example": "MASS OF THE FERMENTING DREGS — Iwaou"
+    "dropped": 33,
+    "today": 7,
+    "last_seen": "2026-08-16",
+    "example": "Phoebe Bridgers — Lost Weekend"
   },
   "Música Mexicana": {
-    "dropped": 14,
-    "today": 8,
-    "last_seen": "2026-08-15",
+    "dropped": 23,
+    "today": 9,
+    "last_seen": "2026-08-16",
     "example": "Edgardo Nuñez — Renacer"
   },
   "Afro-Beat": {
-    "dropped": 13,
-    "today": 3,
-    "last_seen": "2026-08-15",
+    "dropped": 14,
+    "today": 1,
+    "last_seen": "2026-08-16",
     "example": "Chillmaster Music — Nhova The Album"
   },
   "Anime": {
+    "dropped": 10,
+    "today": 2,
+    "last_seen": "2026-08-16",
+    "example": "RYUSEITAI & ENSEMBLE STARS!! — 流星隊「BREAK THE NORM」あんさんぶるスターズ!! ESアイドルソング season7"
+  },
+  "Country": {
+    "dropped": 10,
+    "today": 4,
+    "last_seen": "2026-08-16",
+    "example": "Dusty Rivers — My Mother Was An Angel"
+  },
+  "Rock": {
+    "dropped": 9,
+    "today": 2,
+    "last_seen": "2026-08-16",
+    "example": "Girl Tones — Pretty Face"
+  },
+  "Electronic": {
+    "dropped": 8,
+    "today": 1,
+    "last_seen": "2026-08-16",
+    "example": "Eli & Fur — Ceremony (Feat. Tailor)"
+  },
+  "Soundtrack": {
     "dropped": 8,
     "today": 2,
-    "last_seen": "2026-08-15",
-    "example": "Kenji Kawai — 『機動警察パトレイバー EZY』オリジナルサウンドトラック Vol.1"
+    "last_seen": "2026-08-16",
+    "example": "Shugo Tokumaru — Chiikawa the Movie: The Secret of Mermaid Island (Original Motion Picture Soundtrack)"
   },
   "Worldwide": {
     "dropped": 7,
@@ -35,35 +59,23 @@
     "last_seen": "2026-08-15",
     "example": "DOMi & JD BECK — YOU ASKED!"
   },
-  "Electronic": {
-    "dropped": 7,
-    "today": 2,
-    "last_seen": "2026-08-15",
-    "example": "King Gizzard & The Lizard Wizard — Alien Metal"
-  },
-  "Rock": {
-    "dropped": 7,
-    "today": 3,
-    "last_seen": "2026-08-15",
-    "example": "THE PREDATORS — オリバー"
-  },
   "Chinese Rock": {
     "dropped": 6,
     "today": 1,
     "last_seen": "2026-08-03",
     "example": "無常樂 — 成人禮"
   },
-  "Soundtrack": {
+  "Metal": {
     "dropped": 6,
-    "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "Shugo Tokumaru — Chiikawa the Movie: The Secret of Mermaid Island (Original Motion Picture Soundtrack)"
+    "today": 2,
+    "last_seen": "2026-08-16",
+    "example": "Wage War — Sweet Dreams"
   },
-  "Country": {
+  "House": {
     "dropped": 6,
-    "today": 3,
-    "last_seen": "2026-08-15",
-    "example": "Ashley Cooke — ashley cooke"
+    "today": 2,
+    "last_seen": "2026-08-16",
+    "example": "Various Artists — Chill & Deep House 2026 (Vol. 2)"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -82,18 +94,6 @@
     "today": 1,
     "last_seen": "2026-08-03",
     "example": "Microhm & Imaabs — Latencia"
-  },
-  "Metal": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-08-15",
-    "example": "Wage War — Sweet Dreams"
-  },
-  "House": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-08-15",
-    "example": "Francis Harris, Frank & Tony & DJ Sprinkles — You Can Always Leave / Companion (Remastered) [feat. Gry Bagøien]"
   },
   "Americana": {
     "dropped": 3,
@@ -125,17 +125,35 @@
     "last_seen": "2026-08-15",
     "example": "Dillom — LA NUEVA VIOLENCIA"
   },
+  "Christian": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-08-16",
+    "example": "Stephen Stanley — Ain't On Me"
+  },
+  "Música tropical": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-08-16",
+    "example": "Briella — Tinikijima"
+  },
+  "Classical Crossover": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-08-16",
+    "example": "Jon Batiste — Black Mozart"
+  },
+  "Shows": {
+    "dropped": 3,
+    "today": 2,
+    "last_seen": "2026-08-16",
+    "example": "Various Artists — 天赐的声音第七季 第10期 (Live)"
+  },
   "Techno": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-08-01",
     "example": "Strauss — Hammer of Dawn"
-  },
-  "Reggae": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-01",
-    "example": "EL NAOYA — Kiwami"
   },
   "Contemporary Latin": {
     "dropped": 2,
@@ -155,35 +173,41 @@
     "last_seen": "2026-08-13",
     "example": "LOVIXX — Don't tell your dreams (Afrobeat)"
   },
-  "Christian": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "Stephen Stanley — Ain't On Me"
-  },
-  "Música tropical": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "Briella — Tinikijima"
-  },
   "Soul": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-08-15",
     "example": "MALIA — Live In Studio"
   },
-  "Classical Crossover": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "Jon Batiste — Black Mozart"
-  },
   "Indie Rock": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-08-15",
     "example": "Ada Lea — the end is a wave"
+  },
+  "Funk": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-16",
+    "example": "André Cymone — The Resurrection of Funk"
+  },
+  "C-Pop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-16",
+    "example": "Uni-Girls — 第一次心動"
+  },
+  "T-Pop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-16",
+    "example": "Phuwin — Black Card"
+  },
+  "Reggae": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-16",
+    "example": "de~ku — MUSIC SUPPLEMENT8"
   },
   "Jungle/Drum'n'bass": {
     "dropped": 1,
@@ -194,8 +218,8 @@
   "Afro House": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-14",
-    "example": "Monique Bingham & Black Coffee — DEEP IN THE BOTTOM (Of Africa) [The Remixes Pt 2.]"
+    "last_seen": "2026-08-16",
+    "example": "Emmanuel Jal, SALIMA CHICA, Octávio Cabuata & Dj Free ( AO ) — Zonga"
   },
   "Modern Dancehall": {
     "dropped": 1,
@@ -218,8 +242,8 @@
   "Hip-Hop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-10",
-    "example": "FattMack — Mr. Did It By Hisself 3"
+    "last_seen": "2026-08-16",
+    "example": "Brytiago — Estoy Pa' Ti"
   },
   "Alternative Folk": {
     "dropped": 1,
@@ -256,12 +280,6 @@
     "today": 1,
     "last_seen": "2026-08-10",
     "example": "Mick Man — Stellenbosch Drive"
-  },
-  "Shows": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "Various Artists — 天赐的声音第七季 第10期 (Live)"
   },
   "Kayokyoku": {
     "dropped": 1,
@@ -323,12 +341,6 @@
     "last_seen": "2026-08-15",
     "example": "Slowey and the Boats — Slowey After Dark"
   },
-  "Funk": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "André Cymone — The Resurrection of Funk"
-  },
   "Neo-Soul": {
     "dropped": 1,
     "today": 1,
@@ -341,16 +353,10 @@
     "last_seen": "2026-08-15",
     "example": "BEYOND BORDERs — Miku-Maxxing (feat. Hatsune Miku, Grimes & SatapanP)"
   },
-  "C-Pop": {
+  "Goth Rock": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "Uni-Girls — 第一次心動"
-  },
-  "T-Pop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "Phuwin — Black Card"
+    "last_seen": "2026-08-16",
+    "example": "Trágico Ballet — Crucificame (Gothic Pop)"
   }
 }
