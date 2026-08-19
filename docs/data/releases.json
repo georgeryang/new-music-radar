@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1787045437901,
+  "fetched_at": 1787133614191,
   "releases": [
     {
       "title": ".com",
@@ -54,68 +54,42 @@
       "via_artist_id": 1651595986
     },
     {
-      "title": "Dreamers",
-      "artist": "3SKM",
-      "artist_id": 1733781443,
-      "type": "song",
-      "release_date": "2026-08-16",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/57/d3/de/57d3dee4-dd51-67e1-2998-b3be40d10416/4580789776526.png/400x400bb.webp",
+      "title": "Sukish (Special Edition)",
+      "artist": "AKB48",
+      "artist_id": 292706922,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/31/ce/37/31ce37f2-4b48-bc90-69eb-be51a5219adf/26UMGIM97645.rgb.jpg/400x400bb.webp",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/dreamers-single/6788315265?uo=4",
+      "link": "https://music.apple.com/us/album/sukish-special-edition-ep/6795034897?uo=4",
       "sources": [
         "country:jp"
       ]
     },
     {
-      "title": "80s Night Fever Archives, Vol. 1",
-      "artist": "80s Night Fever.",
-      "artist_id": 1895285426,
+      "title": "私雨に夏の灯を知る",
+      "artist": "Atarayo",
+      "artist_id": 1558407178,
       "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5e/48/1c/5e481cf0-295d-c479-c700-9647382d3b1f/ANTCD-A0000020608.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E7%A7%81%E9%9B%A8%E3%81%AB%E5%A4%8F%E3%81%AE%E7%81%AF%E3%82%92%E7%9F%A5%E3%82%8B/6793854735?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "BedHead",
+      "artist": "Balu Brigada",
+      "artist_id": 1171521321,
+      "type": "song",
       "release_date": "2026-08-18",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7c/95/b6/7c95b6bc-3652-c7a6-19e1-ed1374c0ac71/cover.jpg/400x400bb.webp",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ea/52/b5/ea52b592-c4be-6eba-6ab9-9f1168b1f1fd/1200214525897.jpg/400x400bb.webp",
       "genre": "Pop",
-      "link": "https://music.apple.com/us/album/80s-night-fever-archives-vol-1/6802284293?uo=4",
+      "link": "https://music.apple.com/us/album/bedhead-single/6789464332?uo=4",
       "sources": [
-        "country:hk"
-      ]
-    },
-    {
-      "title": "〜↑↑ -KARAAGE-",
-      "artist": "Akagi Wen",
-      "artist_id": 6793539732,
-      "type": "song",
-      "release_date": "2026-08-15",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/bd/a9/30/bda9308f-482d-6f69-e94a-f7927b7a2975/4580789778261.png/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/karaage-single/6793540546?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Here With Me",
-      "artist": "ALEXANDER N COOPER",
-      "artist_id": 6801741658,
-      "type": "album",
-      "release_date": "2026-08-15",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/03/08/6e/03086e09-6ec6-1764-d341-bd9202874bcf/artwork.jpg/400x400bb.webp",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/here-with-me/6801784425?uo=4",
-      "sources": [
-        "genre:R&B/Soul"
-      ]
-    },
-    {
-      "title": "As You Wish",
-      "artist": "Barbatos (Va: Masayuki Harada) & Obey Me!",
-      "artist_id": 1610050750,
-      "type": "song",
-      "release_date": "2026-08-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f9/74/50/f9745053-32a5-2d58-f31a-2c7b8b6ca9e2/4550759246786_cover.png/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/as-you-wish-single/6798081212?uo=4",
-      "sources": [
-        "genre:J-Pop"
+        "playlist:New Music Daily"
       ]
     },
     {
@@ -128,8 +102,7 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/boom-boom-boom-single/6798156093?uo=4",
       "sources": [
-        "genre:J-Pop",
-        "country:tw"
+        "genre:J-Pop"
       ]
     },
     {
@@ -146,29 +119,181 @@
       ]
     },
     {
-      "title": "Tsuyoku Hakanai Monotachi from Okinawa",
-      "artist": "Cocco",
-      "artist_id": 259534359,
+      "title": "Quedate",
+      "artist": "DJ LILTAIMY",
+      "artist_id": 1837781277,
       "type": "song",
-      "release_date": "2026-08-15",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/64/c3/33/64c3333a-73b8-ea78-26c6-85a3066531c9/PA00224112_2_251475_jacket.jpg/400x400bb.webp",
+      "release_date": "2026-08-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/68/bd/86/68bd86a1-66cf-0bf2-236a-8c869fa78fe5/artwork.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/quedate-single/6802197874?uo=4",
+      "sources": [
+        "country:co"
+      ]
+    },
+    {
+      "title": "#Melozoma",
+      "artist": "hololive 5th Generation",
+      "artist_id": 1692693098,
+      "type": "song",
+      "release_date": "2026-08-18",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/14/14/45/141445a9-ecd6-3801-cf11-1454a4c6a12b/4580883407364_art.jpg/400x400bb.webp",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/tsuyoku-hakanai-monotachi-from-okinawa-single/6797793275?uo=4",
+      "link": "https://music.apple.com/us/album/melozoma-single/6796236337?uo=4",
+      "sources": [
+        "genre:J-Pop",
+        "country:jp"
+      ]
+    },
+    {
+      "title": "PINKY. ni narouyo! 2026",
+      "artist": "IMP.",
+      "artist_id": 1701117672,
+      "type": "song",
+      "release_date": "2026-08-18",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/47/b7/3d/47b73d91-fbb9-e6e1-f1b2-ec1df8703015/4570199893968.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/pinky-ni-narouyo-2026-single/6796691595?uo=4",
       "sources": [
         "country:jp"
       ]
     },
     {
-      "title": "Take A Chance",
-      "artist": "Jason Lee",
-      "artist_id": 1382892715,
+      "title": "鬼事 / Fiction Love (Special Edition)",
+      "artist": "Kento Nakajima",
+      "artist_id": 1774548481,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/db/be/33/dbbe33c7-da9c-1ab5-a647-9c4c3f49cc68/4547366842975.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E9%AC%BC%E4%BA%8B-fiction-love-special-edition-ep/6795931634?uo=4",
+      "sources": [
+        "country:hk",
+        "country:jp",
+        "country:mx",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "PINK BEARS",
+      "artist": "Koresawa",
+      "artist_id": 985165843,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d4/97/22/d4972234-6f81-1bf6-16fb-23ba43696cde/COKM-46668.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/pink-bears/6789383577?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "SÒLO LAS MÁS 2 (VOL.2)",
+      "artist": "La Más Draga",
+      "artist_id": 1407480146,
+      "type": "album",
+      "release_date": "2026-08-18",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7b/0b/ce/7b0bce9d-725b-b720-47f8-b4109c8c4bd4/881453664014_cover.jpg/400x400bb.webp",
+      "genre": "Pop Latino",
+      "link": "https://music.apple.com/us/album/s%C3%B2lo-las-m%C3%A1s-2-vol-2/6802490554?uo=4",
+      "sources": [
+        "country:mx"
+      ]
+    },
+    {
+      "title": "J-POP REMAKE Vol.3",
+      "artist": "LEE SUHYUN",
+      "artist_id": 1299101341,
       "type": "song",
-      "release_date": "2026-08-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c0/80/d1/c080d141-d84b-7de1-545e-2cb41fc18ae2/888272186390_Cover.jpg/400x400bb.webp",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/take-a-chance-single/6800676291?uo=4",
+      "release_date": "2026-08-18",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0a/71/89/0a7189ad-04d2-f9a5-8246-61c1921d8c71/cover_KM0025073_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/j-pop-remake-vol-3-single/6801084592?uo=4",
+      "sources": [
+        "genre:K-Pop"
+      ]
+    },
+    {
+      "title": "Travelogue I",
+      "artist": "Midnight Grand Orchestra",
+      "artist_id": 1615949186,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ba/0b/cc/ba0bccf6-1562-e7d2-de72-e8f6c8dadda7/TFDS-01403.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/travelogue-i-ep/6795860812?uo=4",
+      "sources": [
+        "genre:J-Pop",
+        "country:jp",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "Made of Glass",
+      "artist": "milet",
+      "artist_id": 880638079,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/49/eb/59/49eb5902-68a1-08cf-10ce-6f5673ff2e46/4547366841664.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/made-of-glass/6793972638?uo=4",
+      "sources": [
+        "genre:J-Pop",
+        "country:hk",
+        "country:jp",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "Momoiro Christmas 2025 ODYSSEY (Live at Saitama Super Arena 2025.12.20)",
+      "artist": "Momoiro Clover Z",
+      "artist_id": 448294481,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5e/e5/3d/5ee53dc1-1b92-1635-9a23-81e3383fe1cd/NOPA-8909.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/momoiro-christmas-2025-odyssey-live-at-saitama-super/6794282186?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Momoiro Christmas 2025 ODYSSEY (Live at Saitama Super Arena 2025.12.21)",
+      "artist": "Momoiro Clover Z",
+      "artist_id": 448294481,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5c/a2/50/5ca2500f-1472-0c73-a792-4341faf8448f/NOPA-8911.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/momoiro-christmas-2025-odyssey-live-at-saitama-super/6794318148?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "人類愛情學",
+      "artist": "Panther Chan",
+      "artist_id": 1236241034,
+      "type": "song",
+      "release_date": "2026-08-18",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/13/11/a4/1311a434-308c-1008-4c8a-e6ff05b51010/1200214737023.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E4%BA%BA%E9%A1%9E%E6%84%9B%E6%83%85%E5%AD%B8-single/6801029370?uo=4",
       "sources": [
         "country:hk"
+      ]
+    },
+    {
+      "title": "Bet It Up",
+      "artist": "PHABO & OMGKenny",
+      "artist_id": 1055798110,
+      "type": "song",
+      "release_date": "2026-08-18",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f7/dd/55/f7dd552b-771c-9280-a726-4bb78c44d36e/artwork.jpg/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/bet-it-up-single/6799824781?uo=4",
+      "sources": [
+        "genre:R&B/Soul"
       ]
     },
     {
@@ -185,6 +310,19 @@
       ]
     },
     {
+      "title": "Dejavu (feat. AIRI SUZUKI)",
+      "artist": "SOTA HANAMURA",
+      "artist_id": 1870268050,
+      "type": "song",
+      "release_date": "2026-08-18",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/55/c2/4b/55c24b03-6514-5575-d3bf-e114708a161f/ANTCD-A0000020455.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/dejavu-feat-airi-suzuki-single/6790608695?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "THUNDERBIRD - From THE FIRST TAKE",
       "artist": "T.M.Revolution",
       "artist_id": 634213603,
@@ -194,7 +332,32 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/thunderbird-from-the-first-take-single/6799905525?uo=4",
       "sources": [
-        "country:hk",
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Eureka",
+      "artist": "Takeshi Kiuchi",
+      "artist_id": 348884935,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b7/2e/12/b72e12a9-818f-eb11-cd3d-6c4ee210343b/4550759665877_cover.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/eureka-ep/6801949998?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Who am I?",
+      "artist": "Takuya Sugimoto",
+      "artist_id": 1504822089,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/34/40/04/34400434-7e24-1e89-bfcb-3ed6ce6a76f4/4093409.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/who-am-i/6799865108?uo=4",
+      "sources": [
         "country:jp"
       ]
     },
@@ -215,6 +378,32 @@
       ]
     },
     {
+      "title": "Monstercat Instinct Selections 03",
+      "artist": "Various Artists",
+      "artist_id": 581578189,
+      "type": "album",
+      "release_date": "2026-08-17",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/72/3d/fd/723dfdca-7b9e-d5ec-4d74-036c67537c93/742779563712.png/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/monstercat-instinct-selections-03-ep/6783487097?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
+      "title": "逆風之意",
+      "artist": "Yan Ting",
+      "artist_id": 963124109,
+      "type": "song",
+      "release_date": "2026-08-18",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/12/c4/60/12c46062-5a69-7c9c-d37a-9f53e3debbf5/26UM1IM04206.rgb.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E9%80%86%E9%A2%A8%E4%B9%8B%E6%84%8F-single/6800294302?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
       "title": "Hvracan",
       "artist": "YOVNGCHIMI, Dei V & DJ Khaled",
       "artist_id": 1558257759,
@@ -228,19 +417,6 @@
       ]
     },
     {
-      "title": "Sincerely",
-      "artist": "Yuzuki Choco",
-      "artist_id": 1583765157,
-      "type": "song",
-      "release_date": "2026-08-15",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/59/de/9d/59de9db7-d013-5ae4-a975-6b2d93c2efb5/4580883408293_art.png/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/sincerely-single/6798171137?uo=4",
-      "sources": [
-        "genre:J-Pop"
-      ]
-    },
-    {
       "title": "Boom! Boom! Tropica Vacation",
       "artist": "大空スバル, 不知火フレア, 白銀ノエル, 角巻わため, 音乃瀬奏",
       "artist_id": 331122,
@@ -250,7 +426,7 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/boom-boom-tropica-vacation-single/6801700419?uo=4",
       "sources": [
-        "country:jp"
+        "genre:J-Pop"
       ]
     }
   ],
