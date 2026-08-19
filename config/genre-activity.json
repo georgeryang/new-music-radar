@@ -1,21 +1,21 @@
 {
   "Alternative": {
-    "dropped": 41,
-    "today": 1,
-    "last_seen": "2026-08-18",
-    "example": "skuzland — GiRL AMERiCA"
+    "dropped": 44,
+    "today": 3,
+    "last_seen": "2026-08-19",
+    "example": "OFFICE DESTRUCTION GIRL — Ep1"
   },
   "Música Mexicana": {
-    "dropped": 34,
-    "today": 3,
-    "last_seen": "2026-08-18",
+    "dropped": 35,
+    "today": 1,
+    "last_seen": "2026-08-19",
     "example": "Carín León & Ke personajes — Qué Andas Haciendo"
   },
-  "Afro-Beat": {
-    "dropped": 14,
-    "today": 1,
-    "last_seen": "2026-08-16",
-    "example": "Chillmaster Music — Nhova The Album"
+  "Rock": {
+    "dropped": 16,
+    "today": 4,
+    "last_seen": "2026-08-19",
+    "example": "BURNOUT SYNDROMES — ハイキュー!! × BOS - 主題歌たちの宴 -"
   },
   "Country": {
     "dropped": 13,
@@ -23,16 +23,10 @@
     "last_seen": "2026-08-17",
     "example": "Ashley Cooke — ashley cooke"
   },
-  "Rock": {
-    "dropped": 12,
-    "today": 1,
-    "last_seen": "2026-08-18",
-    "example": "T.M.Revolution — WHITE BREATH - From THE FIRST TAKE"
-  },
   "House": {
-    "dropped": 11,
+    "dropped": 13,
     "today": 2,
-    "last_seen": "2026-08-18",
+    "last_seen": "2026-08-19",
     "example": "Cheetah Mobile — Rolling Sky Vol.7 · Time To Memory"
   },
   "Electronic": {
@@ -41,29 +35,11 @@
     "last_seen": "2026-08-17",
     "example": "Eli & Fur — Ceremony (Feat. Tailor)"
   },
-  "Soundtrack": {
-    "dropped": 8,
-    "today": 2,
-    "last_seen": "2026-08-16",
-    "example": "Shugo Tokumaru — Chiikawa the Movie: The Secret of Mermaid Island (Original Motion Picture Soundtrack)"
-  },
   "Metal": {
     "dropped": 8,
     "today": 2,
     "last_seen": "2026-08-17",
     "example": "Wage War — Sweet Dreams"
-  },
-  "Worldwide": {
-    "dropped": 7,
-    "today": 1,
-    "last_seen": "2026-08-06",
-    "example": "Chantel 姚焯菲Yumi 鍾柔美Windy 詹天文 — S.H.E.R.O. (劇集《夫妻的博弈》片尾曲)"
-  },
-  "Jazz": {
-    "dropped": 7,
-    "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "DOMi & JD BECK — YOU ASKED!"
   },
   "Chinese Rock": {
     "dropped": 6,
@@ -113,6 +89,12 @@
     "last_seen": "2026-08-17",
     "example": "Jon Batiste — Black Mozart"
   },
+  "Soundtrack": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-08-19",
+    "example": "Kenji Ito — Romancing SaGa Re;univerSe ORIGINAL SOUNDTRACK VOL.4"
+  },
   "Americana": {
     "dropped": 3,
     "today": 1,
@@ -148,6 +130,18 @@
     "today": 2,
     "last_seen": "2026-08-17",
     "example": "Man Paulo — I Go The Shine"
+  },
+  "Anime": {
+    "dropped": 3,
+    "today": 2,
+    "last_seen": "2026-08-19",
+    "example": "ClariS — ヒトコト"
+  },
+  "Jazz": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-08-19",
+    "example": "jizue — orbis"
   },
   "Techno": {
     "dropped": 2,
@@ -197,17 +191,29 @@
     "last_seen": "2026-08-16",
     "example": "Phuwin — Black Card"
   },
-  "Anime": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-18",
-    "example": "Hatsuboshi Gakuen — \"listen... I Have to Say It.\""
-  },
   "Afro-Pop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-19",
+    "example": "Gird Music — EPSTL (Hebrews)"
+  },
+  "Samba": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-19",
+    "example": "Amitai Kurtz Samba Project — But He Was Born in BRAZIL"
+  },
+  "Afro-Beat": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-18",
-    "example": "Gird Music — EPSTL (Hebrews)"
+    "last_seen": "2026-08-19",
+    "example": "Mr_B_Hype — MAISHA"
+  },
+  "Worldwide": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-19",
+    "example": "CIIU — Closer To 'You'"
   },
   "Reggae": {
     "dropped": 1,
@@ -358,11 +364,5 @@
     "today": 1,
     "last_seen": "2026-08-16",
     "example": "Trágico Ballet — Crucificame (Gothic Pop)"
-  },
-  "Samba": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-18",
-    "example": "Amitai Kurtz Samba Project — But He Was Born in BRAZIL"
   }
 }
