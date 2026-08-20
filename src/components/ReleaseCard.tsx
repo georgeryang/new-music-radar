@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { formatUpcoming } from '@/lib/utils'
+import { appleMusicAppLink, formatUpcoming } from '@/lib/utils'
 import type { Release } from '@/lib/types'
 
 function TypeIcon({ type }: { type: Release['type'] }) {
@@ -83,8 +83,11 @@ export function ReleaseCard({
     </div>
   )
 
-  return release.link ? (
-    <a href={release.link} target="_blank" rel="noopener noreferrer" className="block rounded-lg">
+  const href = appleMusicAppLink(release.link)
+
+  // No target="_blank": music:// hands off to the app in place, so the new tab would stay empty.
+  return href ? (
+    <a href={href} className="block rounded-lg">
       {card}
     </a>
   ) : (

@@ -66,12 +66,14 @@ const isPinnedArtistList = (v) =>
   Array.isArray(v) && v.every((e) => e && isName(e.name) && Number.isInteger(e.id))
 const isStringList = (v) => Array.isArray(v) && v.every(isName)
 // Playlists are {name, url}; the fetch scrapes exactly these pages, so enforce it.
+// Interpolated into the client below, so this is the only definition: a looser
+// test there would add a chip and then fail Save with an "invalid list shape"
+// that names no entry. The capture group is the slug the client titles from.
+const PLAYLIST_URL_RE = /^https:\/\/music\.apple\.com\/[a-z]{2}\/playlist\/([^/]+)\/pl\./
 const isPlaylistList = (v) =>
   Array.isArray(v) &&
   v.every(
-    (e) =>
-      e && isName(e.name) && typeof e.url === 'string' &&
-      /^https:\/\/music\.apple\.com\/[a-z]{2}\/playlist\/[^/]+\/pl\./.test(e.url)
+    (e) => e && isName(e.name) && typeof e.url === 'string' && PLAYLIST_URL_RE.test(e.url)
   )
 // Countries are bare storefront codes; only verified-map codes accepted (the
 // fetcher builds chart URLs from these). hasOwn so "constructor" can't validate.
@@ -466,10 +468,9 @@ function streamingOnlyNote() {
   return span
 }
 
-// https://music.apple.com/us/playlist/<slug>/pl.<id> — display name from slug.
-// The same shape isPlaylistList enforces on save: a looser test here would add a
-// chip and then fail Save with an "invalid list shape" that names no entry.
-const PLAYLIST_RE = /^https:\\/\\/music\\.apple\\.com\\/[a-z]{2}\\/playlist\\/([^/]+)\\/pl\\./
+// Interpolated from the server's PLAYLIST_URL_RE, the one definition of the
+// shape Save enforces. Display name comes from the slug capture group.
+const PLAYLIST_RE = /${PLAYLIST_URL_RE.source}/
 function parsePlaylist(u) {
   const m = PLAYLIST_RE.exec(u)
   if (!m) return null
@@ -964,16 +965,19 @@ async function poll() {
       // Classify from what update.sh actually logs. ERROR and WARNING mean
       // different things (a failed source vs a failed deploy) and neither is a
       // clean success; "fetch did not run" published nothing at all.
-      const published = st.log.some((l) => /Published|No changes/.test(l))
+      const published = st.log.some((l) => /Published|No changes|HELD:/.test(l))
       const neverRan = st.log.some((l) => /ERROR: fetch did not run/.test(l))
       const failed = st.log.some((l) => /ERROR:/.test(l))
       const warned = st.log.some((l) => /WARNING:/.test(l))
+      const held = st.log.some((l) => /HELD:/.test(l))
       if (neverRan || !published) {
         setBanner('bad', 'The update could not run, so nothing was published. Check config/preferences.json, then ~/Library/Logs/new-music-radar.log.')
       } else if (failed) {
         setBanner('warn', 'Refresh finished, but a source failed. Everything else was published; check ~/Library/Logs/new-music-radar.log.')
       } else if (warned) {
         setBanner('warn', 'New data was published, but the site deploy did not confirm. The page may show old data until the next update. See ~/Library/Logs/new-music-radar.log.')
+      } else if (held) {
+        setBanner('warn', 'Nothing was published: there was no new data, and local commits touching other files are held back. Push them yourself if they are meant to go live.')
       } else {
         setBanner('ok', 'Refresh complete. The site shows the new data within a minute.')
       }

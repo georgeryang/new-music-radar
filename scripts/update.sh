@@ -36,7 +36,7 @@ if [ "${1:-}" = "--if-stale" ]; then
     # Fail open (a missed night costs more than an extra fetch), but name the real
     # cause: the "predates the slot" line below would otherwise repeat every tick
     # while the probe stayed broken. First line only, or a stack trace floods the log.
-    log "WARNING: staleness probe failed, refreshing anyway ($(printf '%s' "${STALE:-no output}" | head -1))"
+    log "NOTE: staleness probe failed, refreshing anyway ($(printf '%s' "${STALE:-no output}" | head -1))"
     STALE=1
   fi
   if [ "$STALE" != "1" ]; then
@@ -142,7 +142,7 @@ if git diff --quiet docs/data config && [ -z "$(git ls-files --others --exclude-
     log "Published"
     verify_deploy
   elif [ "$UNPUSHED" -gt 0 ]; then
-    log "No changes. $UNPUSHED unpushed commit(s) touch files outside docs/data and config, so they are left alone — push them yourself if they are meant to go live"
+    log "HELD: no new data, and $UNPUSHED unpushed commit(s) touch files outside docs/data and config, so they are left alone — push them yourself if they are meant to go live"
   else
     log "No changes — nothing to publish"
   fi

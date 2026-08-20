@@ -31,3 +31,12 @@ export function formatUpcoming(releaseDate: string, fetchedAt: number): { label:
   const d = new Date(releaseDate + 'T00:00:00')
   return { label: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), soon: false }
 }
+
+const APPLE_HOST = /^https:\/\/(?:music|itunes)\.apple\.com\//
+
+// The https web player's "Open in Music" hand-off offers to install iTunes on
+// iPadOS; music:// reaches the app directly. Host set mirrors appleLink in
+// scripts/fetch-releases.mjs, which drops links that don't match.
+export function appleMusicAppLink(link?: string): string | undefined {
+  return link && APPLE_HOST.test(link) ? link.replace(APPLE_HOST, 'music://music.apple.com/') : undefined
+}

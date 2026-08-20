@@ -2,12 +2,8 @@
 // Grade every source the preferences editor exposes, and suggest replacements.
 // Read-only: it never edits config, it prints a report for a person to act on.
 //
-// Two rules this report is built around, printed with the recommendations at the
-// end and explained in skills/audit-radar-sources/SKILL.md:
-//
-//   1. QUIET IS NOT DEAD — a feed with 0 entries is broken, a feed with 68 and
-//      nothing recent is healthy and slow.
-//   2. ABSENCE IS NOT ZERO — see sourceWindow in shared.mjs.
+// The two rules it is built around are printed with the recommendations at the
+// end; skills/audit-radar-sources/SKILL.md and sourceWindow in shared.mjs own them.
 //
 // Every feed URL, parser and pacer comes from apple-api.mjs, so this grades the
 // feeds the pipeline reads rather than a copy that can drift.
@@ -24,6 +20,7 @@ import {
 } from './apple-api.mjs'
 import {
   BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, LOOKUP_CHUNK, PACED_CALL_S,
+  WINDOW_DAYS,
   PREFS_PATH, REFRESH_LOG, REFRESH_PIDFILE, SOURCE_ACTIVITY_PATH, SOURCE_CHIP_DAYS,
   SOURCE_THIN_DAYS, daysSince, feedTypesOf, sourceTag, sourceWindow, windowIndices,
   withinDays,
@@ -38,6 +35,11 @@ if (unknown) die(`unknown argument '${unknown}' (${USAGE})`)
 const DISCOVER = !argv.includes('--no-discover')
 const AS_JSON = argv.includes('--json')
 const say = (...a) => { if (!AS_JSON) console.log(...a) }
+// Failure notices go through warn, not say: say is a no-op under --json, which
+// otherwise hands a consumer a complete-looking report with every unmeasured
+// source silently missing.
+const warnings = []
+const warn = (m) => { warnings.push(m.trim()); say(m) }
 
 // A fetch competing with a refresh would fight it for the same rate limit and
 // read its half-written output. prefs-server owns this pidfile, so this catches
@@ -140,7 +142,7 @@ async function probeRss(feeds) {
       const id = rssAlbumId(e, ft)
       if (!id || !withinDays(d, OVERLAP_DAYS)) continue
       idSet.add(String(id))
-      if (withinDays(d, FRESH_DAYS)) fresh++
+      if (withinDays(d, WINDOW_DAYS)) fresh++
     }
     await sleep(RSS_GAP_MS)
   }
@@ -194,7 +196,7 @@ const artistRows = []
       // hit the cap, which would silently undercount exactly the busiest ones
       const d = await itunesJSON(artistAlbumsUrl(batch.map((a) => a.id), 200))
       results = d.results ?? []
-    } catch (e) { say(`  batch ${i / BATCH_SIZE + 1} failed (${errDetail(e)}) — those artists are unrated below`); continue }
+    } catch (e) { warn(`  batch ${i / BATCH_SIZE + 1} failed (${errDetail(e)}) — those artists are unrated below`); continue }
     const { groups: per, orphans } = groupArtistLookup(results)
     // The fetcher exits 2 on this; here it only skews a row, but dropping it
     // silently would undercount exactly the artists being graded.
@@ -253,7 +255,7 @@ try {
     if (real && real !== f.tag) rec('FIX', `genre feed ${f.genreId}`, `tagged "${f.tag}" but Apple calls id ${f.genreId} "${real}"`)
   }
   say(`  names checked against Apple's live tree: ${GENRE_OPTIONS.length} picker, ${followedGenres.length} followed`)
-} catch (e) { say(`  genre tree unavailable (${e.message}) — name checks skipped this run`) }
+} catch (e) { warn(`  genre tree unavailable (${e.message}) — name checks skipped this run`) }
 
 {
   const cold = followedGenres.filter((g) => !Object.keys(admitted).some((k) => k.toLowerCase() === g.toLowerCase()))
@@ -282,8 +284,6 @@ try {
 // Overlap is computed from these sets, so redundancy is answerable on day one —
 // history only tells you about yield, and takes a fortnight to say anything.
 const OVERLAP_DAYS = 14
-// Window the per-source cost estimate prices: only day-of arrivals cost a lookup.
-const FRESH_DAYS = 3
 // Redundancy needs a real sample. A storefront with one recent release whose single
 // id happens to appear elsewhere is QUIET, not redundant. Below this, say so and move on.
 const MIN_REDUNDANCY_SAMPLE = 5
@@ -307,7 +307,7 @@ say(
   progress('US most-played chart')
   const l = await mtLiveness(US_CHART_URL)
   const idSet = new Set((l.results ?? []).filter((e) => withinDays(e.releaseDate, OVERLAP_DAYS)).map((e) => normId(e.id)).filter(Boolean))
-  const fresh = (l.results ?? []).filter((e) => withinDays(e.releaseDate, FRESH_DAYS)).length
+  const fresh = (l.results ?? []).filter((e) => withinDays(e.releaseDate, WINDOW_DAYS)).length
   rows.push({ kind: 'chart', tag: sourceTag('chart', 'us'), label: 'US most-played chart', live: l, idSet, cost: costS(fresh) })
 }
 for (const f of GENRE_FEEDS) {
@@ -331,7 +331,7 @@ for (const sf of countries) {
       const id = albumIdFromTrackUrl(e.url)
       if (!id || !withinDays(e.releaseDate, OVERLAP_DAYS)) continue
       idSet.add(String(id))
-      if (withinDays(e.releaseDate, FRESH_DAYS)) fresh++
+      if (withinDays(e.releaseDate, WINDOW_DAYS)) fresh++
     }
   } else { ok = false; err = mp.err }
   rows.push({
@@ -512,7 +512,7 @@ if (DISCOVER) {
     }
   }
   if (tooQuiet.length) say(`\n  ${tooQuiet.length} storefront(s) with nothing unique but under ${MIN_REDUNDANCY_SAMPLE} recent releases: ${tooQuiet.map((s) => s.sf).join(', ')} — too quiet to call redundant`)
-  if (unknown.length) say(`\n  ${unknown.length} storefront(s) unmeasured this run (probe failed or empty): ${unknown.map((s) => s.sf).join(', ')} — unknown, not redundant`)
+  if (unknown.length) warn(`\n  ${unknown.length} storefront(s) unmeasured this run (probe failed or empty): ${unknown.map((s) => s.sf).join(', ')} — unknown, not redundant`)
   out.sections.candidateCountries = sfScores.map(({ ids, addIds, ...r }) => r)
 
   // candidate playlists, discovered from Apple's own search for your genres
@@ -538,7 +538,7 @@ if (DISCOVER) {
     perGenre.set(g, mine)
     await sleep(200)
   }
-  if (searchFailed.length) say(`\n  ${searchFailed.length} genre search(es) failed, so their candidates are unmeasured: ${searchFailed.join(', ')}`)
+  if (searchFailed.length) warn(`\n  ${searchFailed.length} genre search(es) failed, so their candidates are unmeasured: ${searchFailed.join(', ')}`)
   // Bounded on purpose, and said out loud: scoring each one costs paced lookups.
   // Round-robin across genres rather than taking the first N found — searching
   // genres in order and slicing meant every candidate came from the first genre.
@@ -568,7 +568,7 @@ if (DISCOVER) {
       scrapeFailed.push(name)
     }
   }
-  if (scrapeFailed.length) say(`  ${scrapeFailed.length} shortlisted playlist(s) could not be read, so they are unscored: ${scrapeFailed.join(', ')}`)
+  if (scrapeFailed.length) warn(`  ${scrapeFailed.length} shortlisted playlist(s) could not be read, so they are unscored: ${scrapeFailed.join(', ')}`)
   await lookup(candPages.flatMap((p) => p.ids))
   const plScores = []
   for (const { url, name, ids } of candPages) {
@@ -633,4 +633,4 @@ say(
 )
 if (THIN) say(`\n  Only ${historyDays} day(s) of history so far. The 7d/30d columns will mean much\n  more after a couple of weeks of nightly runs.`)
 
-if (AS_JSON) console.log(JSON.stringify(out, null, 2))
+if (AS_JSON) console.log(JSON.stringify({ ...out, warnings }, null, 2))

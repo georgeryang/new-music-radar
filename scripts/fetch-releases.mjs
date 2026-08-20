@@ -45,7 +45,7 @@ const isUpcoming = (releaseDate) => daysSince(releaseDate) < 0
 // EP/mini-album wording → album; else 1 track → song, more → album.
 function classify(name, trackCount) {
   if (/-\s*single\s*$/i.test(name)) return 'song'
-  if (/-\s*ep\s*$|mini album|\bEP\b/i.test(name)) return 'album'
+  if (/mini album|\bEP\b/i.test(name)) return 'album'
   if (trackCount === 1) return 'song'
   return 'album'
 }
@@ -237,8 +237,7 @@ const albumEntryToRelease = (e, tag) => ({
 // ---------- country charts (per-storefront discovery) ----------
 
 // Each followed country adds its most-played Top 100 (marketingtools) and
-// purchase charts (legacy RSS) to the scan. Codes outside STOREFRONTS (the
-// editor's verified set) are skipped loudly, not fetched blind.
+// purchase charts (legacy RSS) to the scan.
 const COUNTRY_CODES = [...new Set((PREFS.discovery?.countries ?? []).map((c) => String(c).toLowerCase()))].filter((c) => {
   // hasOwn, not truthiness: an inherited key ("constructor") is unknown too
   if (Object.hasOwn(STOREFRONTS, c)) return true
@@ -268,9 +267,8 @@ async function countryPurchaseFeed(sf, feedType) {
 
 // ---------- editorial playlists (scraped web player pages) ----------
 
-// The scrape itself is in apple-api.mjs (the audit reads the same pages). The page
-// fetch is unpaced and overlaps the artist sweep, and failures must be loud
-// (exit 2).
+// The page fetch is unpaced and overlaps the artist sweep, and failures must be
+// loud (exit 2).
 const playlistAlbumIds = async (pl) => ({ pl, ...(await scrapePlaylistAlbumIds(pl.url)) })
 
 // ---------- pipeline ----------
@@ -319,8 +317,6 @@ const playlistPagesP = Promise.allSettled(
   )
 )
 // Tasks (not bare promises) so failures can be retried by re-calling run().
-// most-played takes the marketingtools lane; legacy feeds continue the genre
-// feeds' stagger. All overlap the sweep.
 const COUNTRY_TASKS = COUNTRY_CODES.flatMap((sf) => [
   { sf, kind: 'most-played', stagger: 0, run: () => countryMostPlayed(sf) },
   // empty where Apple runs no purchase store, so not fetched every night for nothing
@@ -435,10 +431,10 @@ if (skippedChart.length)
   )
 
 // lookupCollections dedups and digit-filters its own input
+let chartHits = []
 if (candidates.length) {
   try {
-    // hits land in collectionCache; cards read them from there below
-    await lookupCollections(candidates.map((x) => x.e.id))
+    chartHits = await lookupCollections(candidates.map((x) => x.e.id))
   } catch (e) {
     // degraded publish (feed-only genre/type) still counts as a failed source
     anyFailed = true
@@ -447,21 +443,24 @@ if (candidates.length) {
   }
 }
 
-// Lookup-backed like every other source: the catalog record wins, and the
-// window is re-checked against ITS date so a card can't show a date outside
-// the window. Feed and catalog agree on title/artist/date/artwork in practice
-// (0 differences across a 50-entry chart, 2026-07-29); the feed's own genre is
-// still the fallback when the catalog has none.
+// Lookup-backed like every other source: the catalog record wins and the window
+// is re-checked against ITS date, so a card can't show a date outside the window.
+// Iterate the return value, not the cache by feed id: lookupCollections keeps a
+// collection Apple sends back under a REPLACEMENT id, which a cache read keyed on
+// the requested id misses, silently downgrading the card to feed data.
+const chartCandidate = new Map(candidates.map((c) => [String(c.e.id), c]))
+const chartReturned = new Set(chartHits.map((a) => String(a.collectionId)))
+for (const hit of chartHits) {
+  if (!hit.releaseDate || !inWindow(hit.releaseDate)) continue
+  const c = chartCandidate.get(String(hit.collectionId))
+  const r = fromCollection(hit)
+  if (!r.genre) r.genre = c?.feedGenre
+  if (!r.link) r.link = appleLink(c?.e.url)
+  r.sources = [CHART_SOURCE]
+  releases.push(r)
+}
 for (const { e, feedGenre } of candidates) {
-  const hit = collectionCache.get(String(e.id))
-  if (hit) {
-    if (!hit.releaseDate || !inWindow(hit.releaseDate)) continue
-    const r = fromCollection(hit)
-    if (!r.genre) r.genre = feedGenre
-    if (!r.link) r.link = appleLink(e.url)
-    r.sources = [CHART_SOURCE]
-    releases.push(r)
-  } else {
+  if (!chartReturned.has(String(e.id))) {
     releases.push({ ...chartEntryToRelease(e, feedGenre), sources: [CHART_SOURCE] })
   }
 }
