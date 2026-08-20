@@ -1,6 +1,21 @@
 {
-  "fetched_at": 1787133614191,
+  "fetched_at": 1787218012522,
   "releases": [
+    {
+      "title": "3!4!",
+      "artist": "AtHeart",
+      "artist_id": 1811647421,
+      "type": "song",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/88/46/47/88464755-ed58-4592-7ebd-7ec45e364dc9/823375341239_Cover.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/3-4-single/6795893544?uo=4",
+      "followed": true,
+      "via_artist_id": 1811647421,
+      "sources": [
+        "genre:K-Pop"
+      ]
+    },
     {
       "title": ".com",
       "artist": "Effie & Eurohead",
@@ -35,11 +50,7 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/your-lips-feat-wendy-single/6796357182?uo=4",
       "followed": true,
-      "via_artist_id": 840523045,
-      "sources": [
-        "genre:K-Pop",
-        "country:tw"
-      ]
+      "via_artist_id": 840523045
     },
     {
       "title": "<World Wild Women>",
@@ -52,6 +63,19 @@
       "link": "https://music.apple.com/us/album/world-wild-women-single/6800363331?uo=4",
       "followed": true,
       "via_artist_id": 1651595986
+    },
+    {
+      "title": "Let's Cypher (feat. Zeebra)",
+      "artist": "AkasakaCypher",
+      "artist_id": 1718214091,
+      "type": "song",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ba/c8/90/bac8903e-1721-19a7-aa85-dc9caf384db8/3000jkt_Lets_Cypher.jpg/400x400bb.webp",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/lets-cypher-feat-zeebra-single/6797770076?uo=4",
+      "sources": [
+        "country:jp"
+      ]
     },
     {
       "title": "Sukish (Special Edition)",
@@ -67,16 +91,16 @@
       ]
     },
     {
-      "title": "私雨に夏の灯を知る",
-      "artist": "Atarayo",
-      "artist_id": 1558407178,
-      "type": "album",
+      "title": "終於要唱失戀歌 (T.T)",
+      "artist": "ANSONBEAN",
+      "artist_id": 1559517921,
+      "type": "song",
       "release_date": "2026-08-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5e/48/1c/5e481cf0-295d-c479-c700-9647382d3b1f/ANTCD-A0000020608.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E7%A7%81%E9%9B%A8%E3%81%AB%E5%A4%8F%E3%81%AE%E7%81%AF%E3%82%92%E7%9F%A5%E3%82%8B/6793854735?uo=4",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c8/9f/fd/c89ffd01-7ab3-a226-d8af-7faccfe60ee3/885288218916.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E7%B5%82%E6%96%BC%E8%A6%81%E5%94%B1%E5%A4%B1%E6%88%80%E6%AD%8C-t-t-single/6798920756?uo=4",
       "sources": [
-        "country:jp"
+        "country:hk"
       ]
     },
     {
@@ -93,6 +117,24 @@
       ]
     },
     {
+      "title": "BiiiG",
+      "artist": "BIGBANG",
+      "artist_id": 318754656,
+      "type": "song",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c5/d9/3a/c5d93ab5-12ac-3800-c13d-e57b819b6d89/8809519881443_cover.png/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/biiig-single/6801365249?uo=4",
+      "sources": [
+        "genre:K-Pop",
+        "country:ar",
+        "country:hk",
+        "country:kr",
+        "country:mx",
+        "country:tw"
+      ]
+    },
+    {
       "title": "Boom Boom Boom",
       "artist": "BOYNEXTDOOR",
       "artist_id": 1687612559,
@@ -106,40 +148,53 @@
       ]
     },
     {
-      "title": "大盛りハッピー",
-      "artist": "Cho Tokimeki Sendenbu",
-      "artist_id": 1512380754,
+      "title": "Gentlewoman",
+      "artist": "Cleo Sol",
+      "artist_id": 459710289,
+      "type": "album",
+      "release_date": "2026-08-20",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/42/4b/08/424b084b-8779-45f7-7cad-602926bbdb82/859743823069_cover.jpg/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/gentlewoman/6799813734?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
+      "title": "Running Wheel",
+      "artist": "Creepy Nuts",
+      "artist_id": 678140651,
       "type": "song",
-      "release_date": "2026-08-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/84/c6/37/84c63779-1e7f-b6a3-6f09-79f80b35cde0/ANTCD-A0000020780.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E5%A4%A7%E7%9B%9B%E3%82%8A%E3%83%8F%E3%83%83%E3%83%94%E3%83%BC-single/6797712188?uo=4",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f8/a4/88/f8a48807-811a-7cac-e8ff-cc3b970f7bf9/4547366842968.jpg/400x400bb.webp",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/running-wheel-single/6799031694?uo=4",
       "sources": [
         "country:jp"
       ]
     },
     {
-      "title": "Quedate",
-      "artist": "DJ LILTAIMY",
-      "artist_id": 1837781277,
+      "title": "Chasing the Horizon",
+      "artist": "Cyber Outlaw Blues",
+      "artist_id": 6802473202,
       "type": "song",
-      "release_date": "2026-08-16",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/68/bd/86/68bd86a1-66cf-0bf2-236a-8c869fa78fe5/artwork.jpg/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/quedate-single/6802197874?uo=4",
+      "release_date": "2026-08-17",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/14/56/31/145631e9-8d30-f4f8-241e-7dab97e2943b/artwork.jpg/400x400bb.webp",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/chasing-the-horizon-single/6802616548?uo=4",
       "sources": [
-        "country:co"
+        "genre:Hip-Hop/Rap"
       ]
     },
     {
-      "title": "#Melozoma",
-      "artist": "hololive 5th Generation",
-      "artist_id": 1692693098,
+      "title": "magic summer",
+      "artist": "FLOW GLOW",
+      "artist_id": 1778558415,
       "type": "song",
-      "release_date": "2026-08-18",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/14/14/45/141445a9-ecd6-3801-cf11-1454a4c6a12b/4580883407364_art.jpg/400x400bb.webp",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ba/03/2b/ba032b67-c005-f14e-084f-e1c082d2ca9d/4580883414348_art.png/400x400bb.webp",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/melozoma-single/6796236337?uo=4",
+      "link": "https://music.apple.com/us/album/magic-summer-single/6802193784?uo=4",
       "sources": [
         "genre:J-Pop",
         "country:jp"
@@ -159,6 +214,32 @@
       ]
     },
     {
+      "title": "Drive the Jack-Pot",
+      "artist": "Jack-Pot",
+      "artist_id": 1844790798,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e3/9a/43/e39a4380-52e3-4cb9-d576-64ded424d222/885288000146.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/drive-the-jack-pot/6795378003?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "ありがとう ～やなせなな セレクションズ～",
+      "artist": "Kazz Nishikiori",
+      "artist_id": 1592026490,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e4/5e/f0/e45ef021-34c1-4424-da3f-9bd9da1e097a/4526180761570.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E3%81%82%E3%82%8A%E3%81%8C%E3%81%A8%E3%81%86-%E3%82%84%E3%81%AA%E3%81%9B%E3%81%AA%E3%81%AA-%E3%82%BB%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%BA-ep/6797839080?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "鬼事 / Fiction Love (Special Edition)",
       "artist": "Kento Nakajima",
       "artist_id": 1774548481,
@@ -170,7 +251,6 @@
       "sources": [
         "country:hk",
         "country:jp",
-        "country:mx",
         "country:tw"
       ]
     },
@@ -201,16 +281,30 @@
       ]
     },
     {
-      "title": "J-POP REMAKE Vol.3",
-      "artist": "LEE SUHYUN",
-      "artist_id": 1299101341,
+      "title": "CHERRY COKE",
+      "artist": "Little Glee Monster",
+      "artist_id": 839998091,
       "type": "song",
-      "release_date": "2026-08-18",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0a/71/89/0a7189ad-04d2-f9a5-8246-61c1921d8c71/cover_KM0025073_1.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/j-pop-remake-vol-3-single/6801084592?uo=4",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bc/0b/03/bc0b03e4-dc24-b81d-9ba8-809e84e7507f/4547366843743.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/cherry-coke-single/6796219189?uo=4",
       "sources": [
-        "genre:K-Pop"
+        "country:jp"
+      ]
+    },
+    {
+      "title": "至少相擁沒錯",
+      "artist": "MC Cheung Tinfu",
+      "artist_id": 1532003825,
+      "type": "song",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/cc/27/49/cc274977-21ec-e288-e5c5-989bfaeb05e3/1200214810849.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E8%87%B3%E5%B0%91%E7%9B%B8%E6%93%81%E6%B2%92%E9%8C%AF-single/6800595230?uo=4",
+      "sources": [
+        "country:hk",
+        "playlist:The A-List Cantopop"
       ]
     },
     {
@@ -224,6 +318,7 @@
       "link": "https://music.apple.com/us/album/travelogue-i-ep/6795860812?uo=4",
       "sources": [
         "genre:J-Pop",
+        "country:hk",
         "country:jp",
         "country:tw"
       ]
@@ -242,6 +337,24 @@
         "country:hk",
         "country:jp",
         "country:tw"
+      ]
+    },
+    {
+      "title": "Right..?",
+      "artist": "MJ",
+      "artist_id": 1434657706,
+      "type": "song",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/44/fa/25/44fa254a-f445-4dcc-7fe5-70471ba03eb8/cover_KM0025050_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/right-single/6799016620?uo=4",
+      "sources": [
+        "genre:K-Pop",
+        "country:ar",
+        "country:co",
+        "country:hk",
+        "country:jp",
+        "country:mx"
       ]
     },
     {
@@ -271,6 +384,35 @@
       ]
     },
     {
+      "title": "面 : Unknown Atlas",
+      "artist": "ONEWE",
+      "artist_id": 1437510372,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/06/79/8a/06798ab7-06c3-c27d-7d43-daa5f1b39fe8/cover_KM0025086_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/%E9%9D%A2-unknown-atlas/6801494441?uo=4",
+      "sources": [
+        "genre:K-Pop",
+        "country:co",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "Our Birthday",
+      "artist": "OURBIRTHDAY",
+      "artist_id": 6783251556,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8a/d5/1e/8ad51e66-7e8c-a05d-1325-38cb30706fb6/8809928957210_Cover.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/our-birthday-ep/6793887430?uo=4",
+      "sources": [
+        "genre:K-Pop",
+        "country:tw"
+      ]
+    },
+    {
       "title": "人類愛情學",
       "artist": "Panther Chan",
       "artist_id": 1236241034,
@@ -280,7 +422,8 @@
       "genre": "Cantopop/HK-Pop",
       "link": "https://music.apple.com/us/album/%E4%BA%BA%E9%A1%9E%E6%84%9B%E6%83%85%E5%AD%B8-single/6801029370?uo=4",
       "sources": [
-        "country:hk"
+        "country:hk",
+        "playlist:The A-List Cantopop"
       ]
     },
     {
@@ -297,6 +440,19 @@
       ]
     },
     {
+      "title": "Pool Season",
+      "artist": "Pool Season",
+      "artist_id": 6792546932,
+      "type": "album",
+      "release_date": "2026-08-18",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/06/cf/c7/06cfc77a-dfc5-db59-9e09-a8a9bcb67fe8/artwork.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/pool-season/6792572907?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
       "title": "一杯",
       "artist": "RubberBand",
       "artist_id": 192603026,
@@ -310,40 +466,53 @@
       ]
     },
     {
-      "title": "Dejavu (feat. AIRI SUZUKI)",
-      "artist": "SOTA HANAMURA",
-      "artist_id": 1870268050,
-      "type": "song",
-      "release_date": "2026-08-18",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/55/c2/4b/55c24b03-6514-5575-d3bf-e114708a161f/ANTCD-A0000020455.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/dejavu-feat-airi-suzuki-single/6790608695?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "THUNDERBIRD - From THE FIRST TAKE",
-      "artist": "T.M.Revolution",
-      "artist_id": 634213603,
-      "type": "song",
-      "release_date": "2026-08-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6e/05/97/6e0597d8-5014-d9ba-31ca-6ea73a980643/4547366845266.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/thunderbird-from-the-first-take-single/6799905525?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Eureka",
-      "artist": "Takeshi Kiuchi",
-      "artist_id": 348884935,
+      "title": "Big Cat",
+      "artist": "Sabre",
+      "artist_id": 1276056278,
       "type": "album",
       "release_date": "2026-08-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b7/2e/12/b72e12a9-818f-eb11-cd3d-6c4ee210343b/4550759665877_cover.jpg/400x400bb.webp",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/16/1d/bd/161dbdd7-2646-fbc0-b01b-979b94590667/8721555762503.png/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/big-cat-ep/6786682077?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
+      "title": "Nothing",
+      "artist": "Shane",
+      "artist_id": 1572242646,
+      "type": "song",
+      "release_date": "2026-08-18",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d8/06/bc/d806bc48-0b66-a4d4-80e1-5ee29d652c71/8800388636516_cover.jpg/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/nothing-single/6799878516?uo=4",
+      "sources": [
+        "country:kr"
+      ]
+    },
+    {
+      "title": "ブルーリグレット",
+      "artist": "stb & Nea",
+      "artist_id": 1487300414,
+      "type": "album",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/54/6b/77/546b7778-80c6-4da6-fe6e-6a8cf21c234d/4180358.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/%E3%83%96%E3%83%AB%E3%83%BC%E3%83%AA%E3%82%B0%E3%83%AC%E3%83%83%E3%83%88/6802785371?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Umm",
+      "artist": "sumika",
+      "artist_id": 586120102,
+      "type": "song",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/50/0b/e5/500be57b-1def-1d9a-c102-c3823bc2722b/4547366842951.jpg/400x400bb.webp",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/eureka-ep/6801949998?uo=4",
+      "link": "https://music.apple.com/us/album/umm-single/6796218991?uo=4",
       "sources": [
         "country:jp"
       ]
@@ -362,6 +531,32 @@
       ]
     },
     {
+      "title": "White Summer Unboxing",
+      "artist": "Terence Lam",
+      "artist_id": 1052638496,
+      "type": "album",
+      "release_date": "2026-08-20",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/68/fa/83/68fa837b-0128-58a2-ada4-3ba589ca44ec/754213536527.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/white-summer-unboxing/6802736861?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
+      "title": "VOICE",
+      "artist": "THE ORAL CIGARETTES",
+      "artist_id": 684141729,
+      "type": "song",
+      "release_date": "2026-08-19",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8a/cd/cf/8acdcf86-4aa3-267e-9d89-e708e99902d5/28286.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/voice-single/6793416447?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "Setsuna Hanabi",
       "artist": "TOMORROW X TOGETHER",
       "artist_id": 1454642552,
@@ -372,7 +567,6 @@
       "link": "https://music.apple.com/us/album/setsuna-hanabi-ep/6791120690?uo=4",
       "sources": [
         "genre:K-Pop",
-        "country:hk",
         "country:jp",
         "country:tw"
       ]
@@ -414,19 +608,6 @@
       "link": "https://music.apple.com/us/album/hvracan-single/6801897546?uo=4",
       "sources": [
         "playlist:Nuevo Nuevo"
-      ]
-    },
-    {
-      "title": "Boom! Boom! Tropica Vacation",
-      "artist": "大空スバル, 不知火フレア, 白銀ノエル, 角巻わため, 音乃瀬奏",
-      "artist_id": 331122,
-      "type": "song",
-      "release_date": "2026-08-17",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b6/e4/48/b6e44853-031a-ad8e-a6fe-6205e60a119b/4580883409078_art.png/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/boom-boom-tropica-vacation-single/6801700419?uo=4",
-      "sources": [
-        "genre:J-Pop"
       ]
     }
   ],

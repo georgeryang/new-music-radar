@@ -1,9 +1,9 @@
 {
   "Alternative": {
-    "dropped": 44,
+    "dropped": 47,
     "today": 3,
-    "last_seen": "2026-08-19",
-    "example": "OFFICE DESTRUCTION GIRL — Ep1"
+    "last_seen": "2026-08-20",
+    "example": "HYUKOH — Godspeed!"
   },
   "Música Mexicana": {
     "dropped": 35,
@@ -12,9 +12,9 @@
     "example": "Carín León & Ke personajes — Qué Andas Haciendo"
   },
   "Rock": {
-    "dropped": 16,
-    "today": 4,
-    "last_seen": "2026-08-19",
+    "dropped": 19,
+    "today": 3,
+    "last_seen": "2026-08-20",
     "example": "BURNOUT SYNDROMES — ハイキュー!! × BOS - 主題歌たちの宴 -"
   },
   "Country": {
@@ -53,6 +53,12 @@
     "last_seen": "2026-08-18",
     "example": "Various Artists — 国乐无双 第12期 (Live)"
   },
+  "Anime": {
+    "dropped": 6,
+    "today": 3,
+    "last_seen": "2026-08-20",
+    "example": "ClariS — ヒトコト"
+  },
   "Tai-Pop": {
     "dropped": 4,
     "today": 1,
@@ -90,9 +96,9 @@
     "example": "Jon Batiste — Black Mozart"
   },
   "Soundtrack": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-08-19",
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-08-20",
     "example": "Kenji Ito — Romancing SaGa Re;univerSe ORIGINAL SOUNDTRACK VOL.4"
   },
   "Americana": {
@@ -131,16 +137,10 @@
     "last_seen": "2026-08-17",
     "example": "Man Paulo — I Go The Shine"
   },
-  "Anime": {
-    "dropped": 3,
-    "today": 2,
-    "last_seen": "2026-08-19",
-    "example": "ClariS — ヒトコト"
-  },
   "Jazz": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-08-19",
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-08-20",
     "example": "jizue — orbis"
   },
   "Techno": {
@@ -203,17 +203,17 @@
     "last_seen": "2026-08-19",
     "example": "Amitai Kurtz Samba Project — But He Was Born in BRAZIL"
   },
+  "Worldwide": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-20",
+    "example": "CIIU — Closer To 'You'"
+  },
   "Afro-Beat": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-08-19",
     "example": "Mr_B_Hype — MAISHA"
-  },
-  "Worldwide": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-19",
-    "example": "CIIU — Closer To 'You'"
   },
   "Reggae": {
     "dropped": 1,
@@ -248,8 +248,8 @@
   "Hip-Hop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-16",
-    "example": "Brytiago — Estoy Pa' Ti"
+    "last_seen": "2026-08-20",
+    "example": "Blo — KARA"
   },
   "Alternative Folk": {
     "dropped": 1,
@@ -344,8 +344,8 @@
   "Latin Jazz": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "Slowey and the Boats — Slowey After Dark"
+    "last_seen": "2026-08-20",
+    "example": "Christian Valdés — Impulsos"
   },
   "Neo-Soul": {
     "dropped": 1,
@@ -356,13 +356,19 @@
   "Breakbeat": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "BEYOND BORDERs — Miku-Maxxing (feat. Hatsune Miku, Grimes & SatapanP)"
+    "last_seen": "2026-08-20",
+    "example": "Stefanie Bennett — This Can't Be It"
   },
   "Goth Rock": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-08-16",
     "example": "Trágico Ballet — Crucificame (Gothic Pop)"
+  },
+  "Fusion": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-20",
+    "example": "Yosuke Shimonaka — SHIMONAKA"
   }
 }
