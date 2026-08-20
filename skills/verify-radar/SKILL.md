@@ -37,7 +37,7 @@ not the outcome, which only proves it for the browser you ran.
 ## Site (docs/ build)
 
 - `npx vite preview --port <port>` serves the built `docs/` at the correct `/new-music-radar/` base. It binds IPv6 localhost, so drive it via `http://localhost:<port>/`; `127.0.0.1` gets ECONNREFUSED (dev server also works: `npm run dev`; a vite plugin maps `/data/*.json` to `docs/data/`).
-- Drive with Playwright (chromium headless-shell). Useful assertions: tab labels `#tab-new` / `#tab-upcoming`, cards `#release-panel > a`, no duplicate visible card texts, links match `https://music.apple.com/us/`, artwork `*.mzstatic.com`, console messages (one `ERR_CONNECTION_REFUSED` for `127.0.0.1:4747/api/ping` is expected and by design — the site pings the local editor to decide whether to show the gear link; React dup-key warnings would also land here), ArrowLeft/ArrowRight cycles tabs.
+- Drive with Playwright (chromium headless-shell). Useful assertions: tab labels `#tab-new` / `#tab-upcoming`, cards `#release-panel > a`, no duplicate visible card texts, links match `music://music.apple.com/us/` and carry no `target`, artwork `*.mzstatic.com`, console messages (one `ERR_CONNECTION_REFUSED` for `127.0.0.1:4747/api/ping` is expected and by design — the site pings the local editor to decide whether to show the gear link; React dup-key warnings would also land here), ArrowLeft/ArrowRight cycles tabs.
 - Remember: `src/` changes need `npm run build` and the regenerated `docs/` bundle committed, or the live site keeps the old JS.
 - `src/index.css` `@source`-includes `scripts/prefs-server.mjs`, so editor class changes also need a rebuild.
 
