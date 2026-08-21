@@ -1,45 +1,27 @@
 {
   "Alternative": {
-    "dropped": 47,
-    "today": 3,
-    "last_seen": "2026-08-20",
-    "example": "HYUKOH — Godspeed!"
-  },
-  "Música Mexicana": {
-    "dropped": 35,
-    "today": 1,
-    "last_seen": "2026-08-19",
-    "example": "Carín León & Ke personajes — Qué Andas Haciendo"
+    "dropped": 58,
+    "today": 11,
+    "last_seen": "2026-08-21",
+    "example": "Nightly — BASEBALL IN AMERICA"
   },
   "Rock": {
-    "dropped": 19,
-    "today": 3,
-    "last_seen": "2026-08-20",
-    "example": "BURNOUT SYNDROMES — ハイキュー!! × BOS - 主題歌たちの宴 -"
+    "dropped": 30,
+    "today": 11,
+    "last_seen": "2026-08-21",
+    "example": "Kim Jae Joong — THE WAVE"
   },
-  "Country": {
-    "dropped": 13,
-    "today": 3,
-    "last_seen": "2026-08-17",
-    "example": "Ashley Cooke — ashley cooke"
-  },
-  "House": {
-    "dropped": 13,
-    "today": 2,
-    "last_seen": "2026-08-19",
-    "example": "Cheetah Mobile — Rolling Sky Vol.7 · Time To Memory"
-  },
-  "Electronic": {
-    "dropped": 9,
+  "Anime": {
+    "dropped": 7,
     "today": 1,
-    "last_seen": "2026-08-17",
-    "example": "Eli & Fur — Ceremony (Feat. Tailor)"
+    "last_seen": "2026-08-21",
+    "example": "Hatsuboshi Gakuen — Schoosical Trip (Mao Arimura, Lilja Katsuragi, Ume Hanami, Rinami Himesaki Version)"
   },
-  "Metal": {
-    "dropped": 8,
-    "today": 2,
-    "last_seen": "2026-08-17",
-    "example": "Wage War — Sweet Dreams"
+  "Música Mexicana": {
+    "dropped": 6,
+    "today": 6,
+    "last_seen": "2026-08-21",
+    "example": "Pepe Aguilar, Leonardo Aguilar & Ángela Aguilar — Los Aguilar Sinfónico Desde El Hollywood Bowl (Live)"
   },
   "Chinese Rock": {
     "dropped": 6,
@@ -53,17 +35,17 @@
     "last_seen": "2026-08-18",
     "example": "Various Artists — 国乐无双 第12期 (Live)"
   },
-  "Anime": {
+  "Soundtrack": {
     "dropped": 6,
-    "today": 3,
-    "last_seen": "2026-08-20",
-    "example": "ClariS — ヒトコト"
+    "today": 2,
+    "last_seen": "2026-08-21",
+    "example": "Kenji Ito — Romancing SaGa Re;univerSe ORIGINAL SOUNDTRACK VOL.4"
   },
-  "Tai-Pop": {
+  "Country": {
     "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-02",
-    "example": "Kuljelje — 出外人"
+    "today": 4,
+    "last_seen": "2026-08-21",
+    "example": "STELLA LEFTY — Long Way Home"
   },
   "Spoken Word": {
     "dropped": 4,
@@ -83,41 +65,17 @@
     "last_seen": "2026-08-17",
     "example": "Stephen Stanley — Ain't On Me"
   },
-  "Música tropical": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-17",
-    "example": "Briella — Tinikijima"
-  },
   "Classical Crossover": {
     "dropped": 4,
     "today": 1,
     "last_seen": "2026-08-17",
     "example": "Jon Batiste — Black Mozart"
   },
-  "Soundtrack": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-20",
-    "example": "Kenji Ito — Romancing SaGa Re;univerSe ORIGINAL SOUNDTRACK VOL.4"
-  },
-  "Americana": {
+  "House": {
     "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-02",
-    "example": "Abigail Rose & Weston Hunter — Betty's in the Band"
-  },
-  "Folk": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-02",
-    "example": "Baby Bugs & Black Polish — Rabies"
-  },
-  "Rap": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-07",
-    "example": "Nino Paid — Somewhere Over The Rainbow"
+    "today": 3,
+    "last_seen": "2026-08-21",
+    "example": "Bhekzin Bafana & GODeepunderground — We Are the Future"
   },
   "Rock y Alternativo": {
     "dropped": 3,
@@ -142,6 +100,24 @@
     "today": 1,
     "last_seen": "2026-08-20",
     "example": "jizue — orbis"
+  },
+  "Electronic": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-08-21",
+    "example": "nimino — Eat Me Better"
+  },
+  "Metal": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-08-21",
+    "example": "The Night Eternal — Cold Velvet"
+  },
+  "Música tropical": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-08-21",
+    "example": "Christian Alicea — TROPiKETE"
   },
   "Techno": {
     "dropped": 2,
@@ -173,12 +149,6 @@
     "last_seen": "2026-08-15",
     "example": "MALIA — Live In Studio"
   },
-  "Indie Rock": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "Ada Lea — the end is a wave"
-  },
   "C-Pop": {
     "dropped": 2,
     "today": 1,
@@ -209,6 +179,48 @@
     "last_seen": "2026-08-20",
     "example": "CIIU — Closer To 'You'"
   },
+  "Latin Jazz": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-21",
+    "example": "Christian Valdés — Impulsos"
+  },
+  "Breakbeat": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-21",
+    "example": "Stefanie Bennett — This Can't Be It"
+  },
+  "Tai-Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-21",
+    "example": "Feng Fei Fei — 家後"
+  },
+  "Americana": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-21",
+    "example": "Presley Haile — still enough"
+  },
+  "Folk": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-21",
+    "example": "Anna Graves — America's Greatest Burnout"
+  },
+  "Rap": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-21",
+    "example": "Polo G — OMG"
+  },
+  "Indie Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-21",
+    "example": "Over The Top — 如夢石"
+  },
   "Afro-Beat": {
     "dropped": 1,
     "today": 1,
@@ -218,8 +230,8 @@
   "Reggae": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-16",
-    "example": "de~ku — MUSIC SUPPLEMENT8"
+    "last_seen": "2026-08-21",
+    "example": "DESTIN CONRAD — ROADRUNNER"
   },
   "Jungle/Drum'n'bass": {
     "dropped": 1,
@@ -230,8 +242,8 @@
   "Modern Dancehall": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-10",
-    "example": "Spice & La Joaqui — Miss World Body"
+    "last_seen": "2026-08-21",
+    "example": "Mr Eazi, Cham & Dre Skull — Hide Your Love"
   },
   "Afro Soul": {
     "dropped": 1,
@@ -332,32 +344,20 @@
   "Hard Rock": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-14",
-    "example": "Nestor — Live at Gothenburg Film Studios"
+    "last_seen": "2026-08-21",
+    "example": "DOWN — Blood Oath"
   },
   "Indie Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-14",
-    "example": "Phùng Khánh Linh — GIỮA MỘT VẠN NGƯỜI (MỞ RỘNG)"
-  },
-  "Latin Jazz": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-20",
-    "example": "Christian Valdés — Impulsos"
+    "last_seen": "2026-08-21",
+    "example": "Tiger La Flor — HOLLYWOODLAND"
   },
   "Neo-Soul": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-08-15",
     "example": "The Rumble — Ain't No Dying (feat. Big Chief Joseph Boudreaux Jr.)"
-  },
-  "Breakbeat": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-20",
-    "example": "Stefanie Bennett — This Can't Be It"
   },
   "Goth Rock": {
     "dropped": 1,
@@ -370,5 +370,23 @@
     "today": 1,
     "last_seen": "2026-08-20",
     "example": "Yosuke Shimonaka — SHIMONAKA"
+  },
+  "Chinese Hip-Hop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-21",
+    "example": "FRαNKIE & SAVAGE.M — 七夕我孤枝"
+  },
+  "Chinese Alt": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-21",
+    "example": "ZENBØ & 南西 Neci — Destined"
+  },
+  "Traditional Country": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-21",
+    "example": "Zach Top — Good Girls & Cowgirls"
   }
 }
