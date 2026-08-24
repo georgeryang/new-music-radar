@@ -1,33 +1,15 @@
 {
   "Alternative": {
-    "dropped": 66,
-    "today": 8,
-    "last_seen": "2026-08-22",
+    "dropped": 6,
+    "today": 6,
+    "last_seen": "2026-08-24",
     "example": "Brandon Flowers — THRASHER"
   },
   "Rock": {
-    "dropped": 41,
-    "today": 11,
-    "last_seen": "2026-08-22",
-    "example": "Kim Jae Joong — THE WAVE"
-  },
-  "Música Mexicana": {
-    "dropped": 13,
-    "today": 7,
-    "last_seen": "2026-08-22",
-    "example": "Pepe Aguilar, Leonardo Aguilar & Ángela Aguilar — Los Aguilar Sinfónico Desde El Hollywood Bowl (Live)"
-  },
-  "Anime": {
-    "dropped": 10,
-    "today": 3,
-    "last_seen": "2026-08-22",
-    "example": "Hatsuboshi Gakuen & Mao Arimura — L’espoir"
-  },
-  "Country": {
-    "dropped": 8,
-    "today": 4,
-    "last_seen": "2026-08-22",
-    "example": "STELLA LEFTY — Long Way Home"
+    "dropped": 6,
+    "today": 6,
+    "last_seen": "2026-08-24",
+    "example": "ぽんすけ — Nocturne Doll's IV - No Return to Today"
   },
   "Chinese Rock": {
     "dropped": 6,
@@ -35,23 +17,17 @@
     "last_seen": "2026-08-03",
     "example": "無常樂 — 成人禮"
   },
-  "Shows": {
-    "dropped": 6,
-    "today": 1,
-    "last_seen": "2026-08-18",
-    "example": "Various Artists — 国乐无双 第12期 (Live)"
+  "Música Mexicana": {
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-08-24",
+    "example": "Fey — Latido del Amor"
   },
-  "Soundtrack": {
-    "dropped": 6,
-    "today": 2,
-    "last_seen": "2026-08-21",
-    "example": "Kenji Ito — Romancing SaGa Re;univerSe ORIGINAL SOUNDTRACK VOL.4"
-  },
-  "House": {
-    "dropped": 6,
-    "today": 3,
-    "last_seen": "2026-08-22",
-    "example": "Various Artists — John Digweed - Live At Twilo2"
+  "Country": {
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-08-24",
+    "example": "STELLA LEFTY — Long Way Home"
   },
   "Spoken Word": {
     "dropped": 4,
@@ -83,11 +59,11 @@
     "last_seen": "2026-08-22",
     "example": "nimino — Eat Me Better"
   },
-  "Música tropical": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-08-22",
-    "example": "Rubén Blades — País Portatil (feat. Roberto Delgado & Orquesta)"
+  "Anime": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-08-24",
+    "example": "Hatsuboshi Gakuen & Rinami Himesaki — Traces of the Night Sky"
   },
   "Rock y Alternativo": {
     "dropped": 3,
@@ -119,17 +95,11 @@
     "last_seen": "2026-08-22",
     "example": "Christian Valdés — Impulsos"
   },
-  "Indie Pop": {
-    "dropped": 3,
-    "today": 2,
-    "last_seen": "2026-08-22",
-    "example": "Luci Le — Niña Flor"
-  },
-  "Afro House": {
+  "House": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-08-22",
-    "example": "Various Artists — Terra Station"
+    "last_seen": "2026-08-24",
+    "example": "Various Artists — John Digweed - Live At Twilo2"
   },
   "Techno": {
     "dropped": 2,
@@ -203,41 +173,11 @@
     "last_seen": "2026-08-22",
     "example": "Feng Fei Fei — 家後"
   },
-  "Americana": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-22",
-    "example": "Presley Haile — still enough"
-  },
-  "Folk": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-22",
-    "example": "Anna Graves — America's Greatest Burnout"
-  },
-  "Rap": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-22",
-    "example": "Polo G — OMG"
-  },
   "Indie Rock": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-08-22",
     "example": "Over The Top — 如夢石"
-  },
-  "Reggae": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-22",
-    "example": "DESTIN CONRAD — ROADRUNNER"
-  },
-  "Modern Dancehall": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-22",
-    "example": "Mr Eazi, Cham & Dre Skull — Hide Your Love"
   },
   "Hard Rock": {
     "dropped": 2,
@@ -245,16 +185,76 @@
     "last_seen": "2026-08-22",
     "example": "DOWN — Blood Oath"
   },
-  "Chinese Hip-Hop": {
-    "dropped": 2,
+  "Shows": {
+    "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-22",
-    "example": "FRαNKIE & SAVAGE.M — 七夕我孤枝"
+    "last_seen": "2026-08-24",
+    "example": "Various Artists — 天赐的声音第七季 第11期 (Live)"
+  },
+  "Soundtrack": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-24",
+    "example": "LEVEL NINE — At Last III (Goddess of Victory: NIKKE Original Soundtrack)"
+  },
+  "Música tropical": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-24",
+    "example": "Rubén Blades — País Portatil (feat. Roberto Delgado & Orquesta)"
+  },
+  "Indie Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-24",
+    "example": "Tiger La Flor — HOLLYWOODLAND"
+  },
+  "Afro House": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-24",
+    "example": "Various Artists — Terra Station"
+  },
+  "Americana": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-24",
+    "example": "Presley Haile — still enough"
+  },
+  "Folk": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-24",
+    "example": "Anna Graves — America's Greatest Burnout"
+  },
+  "Rap": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-24",
+    "example": "Polo G — OMG"
+  },
+  "Reggae": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-24",
+    "example": "DESTIN CONRAD — ROADRUNNER"
+  },
+  "Modern Dancehall": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-24",
+    "example": "Mr Eazi, Cham & Dre Skull — Hide Your Love"
+  },
+  "Chinese Hip-Hop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-24",
+    "example": "J. WALK — 澎大海"
   },
   "Traditional Country": {
-    "dropped": 2,
+    "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-22",
+    "last_seen": "2026-08-24",
     "example": "Zach Top — Good Girls & Cowgirls"
   },
   "Afro-Beat": {
@@ -266,20 +266,20 @@
   "Jungle/Drum'n'bass": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-22",
-    "example": "Hobzee — Things Are Different Now"
+    "last_seen": "2026-08-24",
+    "example": "Various Artists — Drum & Bass Horizons, Vol. 15"
   },
   "Afro Soul": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-22",
+    "last_seen": "2026-08-24",
     "example": "Flavia Tash — The Storm Couldnt Kill Me"
   },
   "Trance": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-10",
-    "example": "Armin van Buuren — A State of Trance Anthems (Remixes)"
+    "last_seen": "2026-08-24",
+    "example": "Gareth Emery & Maria Lynn — We'll Be OK"
   },
   "Hip-Hop": {
     "dropped": 1,
@@ -344,8 +344,8 @@
   "Classical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-10",
-    "example": "Bruce Liu — Lunaris"
+    "last_seen": "2026-08-24",
+    "example": "Anthony Hopkins, Philharmonia Orchestra & Gustavo Dudamel — Life is a Dream"
   },
   "Europe": {
     "dropped": 1,
