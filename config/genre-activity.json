@@ -1,15 +1,15 @@
 {
+  "Rock": {
+    "dropped": 8,
+    "today": 2,
+    "last_seen": "2026-08-25",
+    "example": "Bachikanshikokni_aisaretai — しあわせの定義"
+  },
   "Alternative": {
     "dropped": 6,
     "today": 6,
     "last_seen": "2026-08-24",
     "example": "Brandon Flowers — THRASHER"
-  },
-  "Rock": {
-    "dropped": 6,
-    "today": 6,
-    "last_seen": "2026-08-24",
-    "example": "ぽんすけ — Nocturne Doll's IV - No Return to Today"
   },
   "Chinese Rock": {
     "dropped": 6,
@@ -60,9 +60,9 @@
     "example": "nimino — Eat Me Better"
   },
   "Anime": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-08-24",
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-08-25",
     "example": "Hatsuboshi Gakuen & Rinami Himesaki — Traces of the Night Sky"
   },
   "Rock y Alternativo": {
@@ -76,12 +76,6 @@
     "today": 1,
     "last_seen": "2026-08-17",
     "example": "André Cymone — The Resurrection of Funk"
-  },
-  "Jazz": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-20",
-    "example": "jizue — orbis"
   },
   "Metal": {
     "dropped": 3,
@@ -115,9 +109,9 @@
   },
   "Instrumental": {
     "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-07",
-    "example": "soul of NEKO Recommended Jazz Music for Work & Study, Buzz BGM Lab: A Research Studio for Mastering Work, Sleep, Focus, and Relaxation & Deep Sleep Music — Relaxing Café Jazz Work BGM With City Pop & Lo-Fi to Improve Focus and Productivity for Work and Study"
+    "today": 2,
+    "last_seen": "2026-08-25",
+    "example": "Lofi Jazz Terrace — Playlists to Listen to Late At Night - Night Drives, Chill Beats, LoFi Beats"
   },
   "African Dancehall": {
     "dropped": 2,
@@ -185,17 +179,29 @@
     "last_seen": "2026-08-22",
     "example": "DOWN — Blood Oath"
   },
+  "Soundtrack": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-25",
+    "example": "GYE0M & HEN — Spooky in Love, Pt. 9 (Original Soundtrack)"
+  },
+  "Chinese Hip-Hop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-25",
+    "example": "J. WALK — 澎大海"
+  },
+  "Jazz": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-25",
+    "example": "Buzz BGM Lab: A Research Studio for Mastering Work, Sleep, Focus, and Relaxation, soul of NEKO Recommended Jazz Music for Work & Study & Deep Sleep Music — Night Jazz Café BGM With Relaxed Bossa Nova, City Pop & Lo-Fi for Deep Focused Work and Study"
+  },
   "Shows": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-08-24",
     "example": "Various Artists — 天赐的声音第七季 第11期 (Live)"
-  },
-  "Soundtrack": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "LEVEL NINE — At Last III (Goddess of Victory: NIKKE Original Soundtrack)"
   },
   "Música tropical": {
     "dropped": 1,
@@ -244,12 +250,6 @@
     "today": 1,
     "last_seen": "2026-08-24",
     "example": "Mr Eazi, Cham & Dre Skull — Hide Your Love"
-  },
-  "Chinese Hip-Hop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "J. WALK — 澎大海"
   },
   "Traditional Country": {
     "dropped": 1,
@@ -400,5 +400,11 @@
     "today": 1,
     "last_seen": "2026-08-22",
     "example": "The Soul of Wind — Fuurin in the Breeze"
+  },
+  "Holiday": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-25",
+    "example": "Deep Sleep Music & soul of NEKO Recommended Jazz Music for Work & Study — Refreshing Morning Jazz Café Work BGM With Bossa Nova, City Pop & Lo-Fi for Productive Work and Study"
   }
 }
