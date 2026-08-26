@@ -5,12 +5,6 @@
     "last_seen": "2026-08-25",
     "example": "Bachikanshikokni_aisaretai — しあわせの定義"
   },
-  "Alternative": {
-    "dropped": 6,
-    "today": 6,
-    "last_seen": "2026-08-24",
-    "example": "Brandon Flowers — THRASHER"
-  },
   "Chinese Rock": {
     "dropped": 6,
     "today": 1,
@@ -76,12 +70,6 @@
     "today": 1,
     "last_seen": "2026-08-17",
     "example": "André Cymone — The Resurrection of Funk"
-  },
-  "Metal": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-22",
-    "example": "Cult of Luna — A Way Back"
   },
   "Latin Jazz": {
     "dropped": 3,
@@ -191,6 +179,18 @@
     "last_seen": "2026-08-25",
     "example": "J. WALK — 澎大海"
   },
+  "Alternative": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-26",
+    "example": "tiziano — CARDIAGO!"
+  },
+  "Metal": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-26",
+    "example": "Jupiter — The Pantheon ~Age of Heroes~"
+  },
   "Jazz": {
     "dropped": 1,
     "today": 1,
@@ -230,8 +230,8 @@
   "Folk": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "Anna Graves — America's Greatest Burnout"
+    "last_seen": "2026-08-26",
+    "example": "Sammi Heaney — Guilty"
   },
   "Rap": {
     "dropped": 1,
@@ -260,8 +260,8 @@
   "Afro-Beat": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-19",
-    "example": "Mr_B_Hype — MAISHA"
+    "last_seen": "2026-08-26",
+    "example": "Pantera Negra — PANTERA NEGRA (SALMOS 69)"
   },
   "Jungle/Drum'n'bass": {
     "dropped": 1,

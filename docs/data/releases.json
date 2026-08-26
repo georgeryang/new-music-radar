@@ -1,6 +1,78 @@
 {
-  "fetched_at": 1787650888974,
+  "fetched_at": 1787740664602,
   "releases": [
+    {
+      "title": "Perfume Nuevo (feat. Big Mind Beats & SHEILUV)",
+      "artist": "Carlos uzi, Sebastian Marly & VALKA",
+      "artist_id": 1258600584,
+      "type": "song",
+      "release_date": "2026-08-24",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/17/68/54/176854a5-1d27-cb11-b996-27e5bd14ee5d/0.jpg/400x400bb.webp",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/perfume-nuevo-feat-big-mind-beats-sheiluv-single/6804776636?uo=4",
+      "followed": true,
+      "via_artist_id": 995314327
+    },
+    {
+      "title": "知更鳥之死",
+      "artist": "Dena",
+      "artist_id": 1358923376,
+      "type": "song",
+      "release_date": "2026-08-25",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/37/8b/cb/378bcb65-4bab-46cd-c57a-37f5de66ee1f/1200214888589.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E7%9F%A5%E6%9B%B4%E9%B3%A5%E4%B9%8B%E6%AD%BB-single/6802959285?uo=4",
+      "followed": true,
+      "via_artist_id": 1358923376
+    },
+    {
+      "title": "Baby (feat. IFE)",
+      "artist": "Kaneee",
+      "artist_id": 1688223782,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6c/96/fc/6c96fc6e-bbc5-3fe3-243f-eba5d237af0f/4550759578856_cover.png/400x400bb.webp",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/baby-feat-ife-single/6800992499?uo=4",
+      "followed": true,
+      "via_artist_id": 1526614631
+    },
+    {
+      "title": "Desire (feat. Mary Ann Alexander)",
+      "artist": "OX7GEN",
+      "artist_id": 955722228,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b9/05/88/b9058843-3ac1-a61f-34b7-aa40c492d835/467301.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/desire-feat-mary-ann-alexander-single/6788384997?uo=4",
+      "followed": true,
+      "via_artist_id": 1538462645
+    },
+    {
+      "title": "コニファー",
+      "artist": "Regallily",
+      "artist_id": 1361500740,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/10/87/fb/1087fb9c-8745-884b-066f-cbf69501e738/4547366845532.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E3%82%B3%E3%83%8B%E3%83%95%E3%82%A1%E3%83%BC-ep/6802134855?uo=4",
+      "followed": true,
+      "via_artist_id": 1361500740
+    },
+    {
+      "title": "TWICE BEST ALBUM \"#BEST 2015-2025\" -Japanese ver.-",
+      "artist": "TWICE",
+      "artist_id": 1203816887,
+      "type": "album",
+      "release_date": "2026-08-25",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d4/25/63/d4256363-1db3-8798-504b-17a90e7d463b/1200214831288.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/twice-best-album-best-2015-2025-japanese-ver/6803033398?uo=4",
+      "followed": true,
+      "via_artist_id": 1203816887
+    },
     {
       "title": "螺旋 - RASEN - Acoustic Ver. -",
       "artist": "9Lana",
@@ -12,10 +84,7 @@
       "link": "https://music.apple.com/us/album/%E8%9E%BA%E6%97%8B-rasen-acoustic-ver-single/6796579285?uo=4",
       "sources": [
         "genre:J-Pop",
-        "country:hk",
-        "country:jp",
-        "country:mx",
-        "country:tw"
+        "country:hk"
       ]
     },
     {
@@ -32,6 +101,19 @@
       ]
     },
     {
+      "title": "SKSKZAZA",
+      "artist": "COLLAR",
+      "artist_id": 1604311077,
+      "type": "song",
+      "release_date": "2026-08-25",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/31/f4/c7/31f4c73f-eb40-900a-bbb8-e3772699d10f/301627920642.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/skskzaza-single/6802995328?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
       "title": "GREENGREEN_playextended",
       "artist": "CORTIS",
       "artist_id": 1831651635,
@@ -41,9 +123,33 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/greengreen-playextended/6801189433?uo=4",
       "sources": [
-        "genre:K-Pop",
-        "country:kr",
-        "country:tw"
+        "genre:K-Pop"
+      ]
+    },
+    {
+      "title": "Mi Amor Eres Tú (Baby It's You The Spanish Remix)",
+      "artist": "E’Dee",
+      "artist_id": 418936853,
+      "type": "album",
+      "release_date": "2026-08-25",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/17/3b/24/173b24c6-9136-26dd-1c12-ae950d207afc/885000217425.png/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/mi-amor-eres-t%C3%BA-baby-its-you-the-spanish-remix-ep/6797709173?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
+      "title": "THE SIN : BLISS (Live Edition)",
+      "artist": "ENHYPEN",
+      "artist_id": 1541011620,
+      "type": "album",
+      "release_date": "2026-08-25",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b9/62/d3/b962d37e-4a45-11a3-8df1-ff9646532fde/823375384519_Cover.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/the-sin-bliss-live-edition/6803210262?uo=4",
+      "sources": [
+        "genre:K-Pop"
       ]
     },
     {
@@ -69,8 +175,7 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/the-sin-bliss-jay-ver/6803799762?uo=4",
       "sources": [
-        "genre:K-Pop",
-        "country:mx"
+        "genre:K-Pop"
       ]
     },
     {
@@ -110,8 +215,7 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/the-sin-bliss-sunghoon-ver/6803801121?uo=4",
       "sources": [
-        "genre:K-Pop",
-        "country:hk"
+        "genre:K-Pop"
       ]
     },
     {
@@ -141,6 +245,19 @@
       ]
     },
     {
+      "title": "No Fear",
+      "artist": "HANBIN",
+      "artist_id": 6801482171,
+      "type": "song",
+      "release_date": "2026-08-24",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/57/cd/75/57cd757d-ff3f-d0cb-58bf-65a88554bd3c/cover_KM0025071_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/no-fear-single/6802484081?uo=4",
+      "sources": [
+        "genre:K-Pop"
+      ]
+    },
+    {
       "title": "It's Ū",
       "artist": "Ian Chan",
       "artist_id": 1666288520,
@@ -155,29 +272,43 @@
       ]
     },
     {
-      "title": "你不该权衡利弊 (R&B) 微醺版",
-      "artist": "KAI川",
-      "artist_id": 6799626007,
-      "type": "song",
-      "release_date": "2026-08-22",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a1/ad/fd/a1adfd3e-c697-f122-d6ca-6005c5b582bd/artwork.jpg/400x400bb.webp",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/%E4%BD%A0%E4%B8%8D%E8%AF%A5%E6%9D%83%E8%A1%A1%E5%88%A9%E5%BC%8A-r-b-%E5%BE%AE%E9%86%BA%E7%89%88-single/6804315975?uo=4",
+      "title": "all = one",
+      "artist": "Kairi Yagi",
+      "artist_id": 1569322201,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4d/dd/14/4ddd1403-f1f3-c283-4653-9a719fa80783/4547366845518.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/all-one-ep/6801506162?uo=4",
       "sources": [
         "country:hk"
       ]
     },
     {
-      "title": "Canciones Sin Tiempo (Deluxe Edition)",
-      "artist": "Lucía Méndez",
-      "artist_id": 1858269501,
+      "title": "Power of Love",
+      "artist": "Kana Nishino",
+      "artist_id": 410542403,
       "type": "album",
-      "release_date": "2026-08-24",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a4/fb/0b/a4fb0b89-9b95-9f6c-7d4d-c29275da7c8d/823000988082.png/400x400bb.webp",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/canciones-sin-tiempo-deluxe-edition/6796484526?uo=4",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d9/23/19/d92319f1-a1b8-e8f6-ec5a-43f05902df26/4547366842579.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/power-of-love-ep/6794000380?uo=4",
       "sources": [
-        "country:mx"
+        "genre:J-Pop"
+      ]
+    },
+    {
+      "title": "31",
+      "artist": "Leo Ieiri",
+      "artist_id": 485238266,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/bc/55/44/bc554404-00e1-0246-b645-e6897606161e/VICL-66165.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/31/6790278325?uo=4",
+      "sources": [
+        "genre:J-Pop",
+        "country:hk"
       ]
     },
     {
@@ -192,8 +323,7 @@
       "sources": [
         "genre:K-Pop",
         "country:ar",
-        "country:co",
-        "country:mx"
+        "country:co"
       ]
     },
     {
@@ -207,8 +337,7 @@
       "link": "https://music.apple.com/us/album/saucin-ep/6795351595?uo=4",
       "sources": [
         "genre:K-Pop",
-        "country:hk",
-        "country:tw"
+        "country:hk"
       ]
     },
     {
@@ -223,9 +352,6 @@
       "sources": [
         "genre:Pop",
         "country:ar",
-        "country:co",
-        "country:hk",
-        "country:mx",
         "playlist:New Music Daily"
       ]
     },
@@ -243,6 +369,46 @@
       ]
     },
     {
+      "title": "ドカンリボルバー2.66",
+      "artist": "RECITALS",
+      "artist_id": 1441611998,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/4a/bc/1b/4abc1b81-a5bd-4022-0464-ba3ebd819ed4/bigup14544150.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E3%83%89%E3%82%AB%E3%83%B3%E3%83%AA%E3%83%9C%E3%83%AB%E3%83%90%E3%83%BC2-66/6799848823?uo=4",
+      "sources": [
+        "genre:J-Pop"
+      ]
+    },
+    {
+      "title": "Baby Love (Regina's Remixes)",
+      "artist": "Regina Richards",
+      "artist_id": 1773023294,
+      "type": "album",
+      "release_date": "2026-08-25",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/29/09/10/290910ce-5ad0-ba57-3208-8146d351eb68/859744593855_cover.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/baby-love-reginas-remixes-ep/6803782639?uo=4",
+      "sources": [
+        "genre:Pop"
+      ]
+    },
+    {
+      "title": "Sunburst",
+      "artist": "RIIZE",
+      "artist_id": 1702435257,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/dd/02/c0/dd02c0fd-d781-2c61-b77b-6e90148fcc6c/26UMGIM95279.rgb.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/sunburst-single/6794234139?uo=4",
+      "sources": [
+        "genre:K-Pop",
+        "country:ar"
+      ]
+    },
+    {
       "title": "AMENITY",
       "artist": "Snow Man",
       "artist_id": 1772019148,
@@ -253,22 +419,20 @@
       "link": "https://music.apple.com/us/album/amenity/6802879262?uo=4",
       "sources": [
         "genre:J-Pop",
-        "country:jp",
-        "country:hk",
-        "country:tw"
+        "country:hk"
       ]
     },
     {
-      "title": "Takara",
-      "artist": "TAKARA",
-      "artist_id": 6796765975,
+      "title": "HIKAWADAI NIKKI",
+      "artist": "the band apart",
+      "artist_id": 337049414,
       "type": "album",
-      "release_date": "2026-08-24",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a0/8e/83/a08e8388-3a5c-94cb-d53c-9d88b9dc8cb5/26UMGIM94621.rgb.jpg/400x400bb.webp",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/takara-ep/6799799709?uo=4",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/95/21/31/952131be-c9c6-00ff-d921-9129bffc1c36/4522197168050.png/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/hikawadai-nikki/6789623780?uo=4",
       "sources": [
-        "country:jp"
+        "genre:J-Pop"
       ]
     },
     {
@@ -282,36 +446,20 @@
       "link": "https://music.apple.com/us/album/tune-play-ep/6795782851?uo=4",
       "sources": [
         "genre:K-Pop",
-        "country:kr",
-        "country:hk",
-        "country:tw"
+        "country:hk"
       ]
     },
     {
-      "title": "バブル - Bubble",
-      "artist": "TUKI.",
-      "artist_id": 1706278800,
-      "type": "song",
-      "release_date": "2026-08-23",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8f/33/b2/8f33b2d5-0e0d-aa68-62fd-a477de3f2a83/4547366842661.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E3%83%90%E3%83%96%E3%83%AB-bubble-single/6797391581?uo=4",
+      "title": "披荆斩棘2026 (第2期 Live)",
+      "artist": "Various Artists",
+      "artist_id": 618703099,
+      "type": "album",
+      "release_date": "2026-08-25",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f8/0c/f5/f80cf557-1984-ed4b-5c99-da6d53ae82fa/cover.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E6%8A%AB%E8%8D%86%E6%96%A9%E6%A3%982026-%E7%AC%AC2%E6%9C%9F-live/6804734024?uo=4",
       "sources": [
-        "country:jp",
-        "country:tw"
-      ]
-    },
-    {
-      "title": "XAOSX",
-      "artist": "XAOSX",
-      "artist_id": 6794288676,
-      "type": "song",
-      "release_date": "2026-08-24",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b7/7c/43/b77c43b6-274c-950a-5c98-612a2f8a8d77/4573623342827.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/xaosx-single/6794288675?uo=4",
-      "sources": [
-        "country:jp"
+        "genre:Mandopop"
       ]
     },
     {
@@ -325,25 +473,11 @@
       "link": "https://music.apple.com/us/album/%E4%BB%8E%E8%BF%99%E9%87%8C%E9%97%AA%E8%80%80-here-we-shine-%E7%AC%AC48%E5%B1%8A%E4%B8%96%E7%95%8C%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B-%E6%8E%A8%E5%B9%BF%E6%9B%B2-single/6804206853?uo=4",
       "sources": [
         "genre:Mandopop",
-        "country:hk",
-        "country:jp",
-        "country:tw"
+        "country:hk"
       ]
     }
   ],
   "upcoming": [
-    {
-      "title": "Baby (feat. IFE)",
-      "artist": "Kaneee",
-      "artist_id": 1688223782,
-      "type": "song",
-      "release_date": "2026-08-26",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6c/96/fc/6c96fc6e-bbc5-3fe3-243f-eba5d237af0f/4550759578856_cover.png/400x400bb.webp",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/baby-feat-ife-single/6800992499?uo=4",
-      "followed": true,
-      "via_artist_id": 1526614631
-    },
     {
       "title": "HANDLE WITH CARE",
       "artist": "izna",
@@ -391,6 +525,18 @@
       "link": "https://music.apple.com/us/album/popstar/6789739137?uo=4",
       "followed": true,
       "via_artist_id": 464835513
+    },
+    {
+      "title": "PRESS PLAY",
+      "artist": "LISA",
+      "artist_id": 1583908668,
+      "type": "album",
+      "release_date": "2026-10-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1d/de/67/1dde6726-f217-b447-46cd-94d5f9621797/196874712696.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/press-play/6804002989?uo=4",
+      "followed": true,
+      "via_artist_id": 1583908668
     },
     {
       "title": "In Endless Awe & Agony",
