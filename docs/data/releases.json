@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1787740664602,
+  "fetched_at": 1787825819741,
   "releases": [
     {
       "title": "Perfume Nuevo (feat. Big Mind Beats & SHEILUV)",
@@ -24,6 +24,18 @@
       "link": "https://music.apple.com/us/album/%E7%9F%A5%E6%9B%B4%E9%B3%A5%E4%B9%8B%E6%AD%BB-single/6802959285?uo=4",
       "followed": true,
       "via_artist_id": 1358923376
+    },
+    {
+      "title": "Things We Dream : Vol.3",
+      "artist": "HITGS",
+      "artist_id": 1810382713,
+      "type": "song",
+      "release_date": "2026-08-27",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/21/36/b8/2136b812-dee1-0efe-86e8-b2522bba2a76/cover_KM0025110_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/things-we-dream-vol-3-single/6803299523?uo=4",
+      "followed": true,
+      "via_artist_id": 1810382713
     },
     {
       "title": "Baby (feat. IFE)",
@@ -71,20 +83,23 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/twice-best-album-best-2015-2025-japanese-ver/6803033398?uo=4",
       "followed": true,
-      "via_artist_id": 1203816887
+      "via_artist_id": 1203816887,
+      "sources": [
+        "country:hk"
+      ]
     },
     {
-      "title": "螺旋 - RASEN - Acoustic Ver. -",
-      "artist": "9Lana",
-      "artist_id": 1721402990,
-      "type": "song",
-      "release_date": "2026-08-23",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ce/07/ee/ce07ee25-a532-a2af-3105-c7b1b8fba812/4547366844702.jpg/400x400bb.webp",
+      "title": "恋、はじめました。",
+      "artist": "=LOVE",
+      "artist_id": 1273762750,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7a/d0/9b/7ad09b8f-35f8-07ce-1448-9fc10aaa4eac/4547366845785.jpg/400x400bb.webp",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E8%9E%BA%E6%97%8B-rasen-acoustic-ver-single/6796579285?uo=4",
+      "link": "https://music.apple.com/us/album/%E6%81%8B-%E3%81%AF%E3%81%98%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F-ep/6803028230?uo=4",
       "sources": [
-        "genre:J-Pop",
-        "country:hk"
+        "country:jp",
+        "country:tw"
       ]
     },
     {
@@ -110,33 +125,8 @@
       "genre": "Cantopop/HK-Pop",
       "link": "https://music.apple.com/us/album/skskzaza-single/6802995328?uo=4",
       "sources": [
+        "genre:Cantopop/HK-Pop",
         "country:hk"
-      ]
-    },
-    {
-      "title": "GREENGREEN_playextended",
-      "artist": "CORTIS",
-      "artist_id": 1831651635,
-      "type": "album",
-      "release_date": "2026-08-23",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/99/db/df/99dbdf86-b7f8-86ce-e8da-4ddd845f1bdc/823375359456_Cover.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/greengreen-playextended/6801189433?uo=4",
-      "sources": [
-        "genre:K-Pop"
-      ]
-    },
-    {
-      "title": "Mi Amor Eres Tú (Baby It's You The Spanish Remix)",
-      "artist": "E’Dee",
-      "artist_id": 418936853,
-      "type": "album",
-      "release_date": "2026-08-25",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/17/3b/24/173b24c6-9136-26dd-1c12-ae950d207afc/885000217425.png/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/mi-amor-eres-t%C3%BA-baby-its-you-the-spanish-remix-ep/6797709173?uo=4",
-      "sources": [
-        "genre:Dance"
       ]
     },
     {
@@ -149,7 +139,9 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/the-sin-bliss-live-edition/6803210262?uo=4",
       "sources": [
-        "genre:K-Pop"
+        "genre:K-Pop",
+        "country:mx",
+        "country:tw"
       ]
     },
     {
@@ -175,7 +167,8 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/the-sin-bliss-jay-ver/6803799762?uo=4",
       "sources": [
-        "genre:K-Pop"
+        "genre:K-Pop",
+        "country:mx"
       ]
     },
     {
@@ -188,8 +181,7 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/the-sin-bliss-jungwon-ver/6803798975?uo=4",
       "sources": [
-        "genre:K-Pop",
-        "country:ar"
+        "genre:K-Pop"
       ]
     },
     {
@@ -232,6 +224,60 @@
       ]
     },
     {
+      "title": "Bloody Paradise (English Ver.)",
+      "artist": "ENHYPEN & Luísa Sonza",
+      "artist_id": 1541011620,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/5f/61/48/5f614875-a66d-c4c2-1737-cd6ce42654ee/823375394006_Cover.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/bloody-paradise-english-ver-single/6804583619?uo=4",
+      "sources": [
+        "genre:K-Pop",
+        "country:ar",
+        "country:co"
+      ]
+    },
+    {
+      "title": "BRAZE",
+      "artist": "ENJIN",
+      "artist_id": 1542360748,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b4/32/d7/b432d72c-5a43-b832-9224-e4fc0bd67797/26UMGIM96467.rgb.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/braze-ep/6801457906?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Salama",
+      "artist": "FirstKlaz",
+      "artist_id": 1481194734,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2d/2c/9c/2d2c9c20-be59-95b6-de81-23fbc538a676/1200214893569.jpg/400x400bb.webp",
+      "genre": "Afrobeats",
+      "link": "https://music.apple.com/us/album/salama-single/6802788706?uo=4",
+      "sources": [
+        "genre:African"
+      ]
+    },
+    {
+      "title": "Polkapalooza Special Edition, Vol. 1",
+      "artist": "Grupo Alamo",
+      "artist_id": 263714755,
+      "type": "album",
+      "release_date": "2026-08-24",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/cc/49/4a/cc494a3f-1497-8df3-b576-f4b709bf490a/885000352157.png/400x400bb.webp",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/polkapalooza-special-edition-vol-1-ep/6803964505?uo=4",
+      "sources": [
+        "genre:Latin"
+      ]
+    },
+    {
       "title": "I found me",
       "artist": "Hakos Baelz",
       "artist_id": 1611742083,
@@ -245,30 +291,42 @@
       ]
     },
     {
-      "title": "No Fear",
-      "artist": "HANBIN",
-      "artist_id": 6801482171,
+      "title": "Watcha Gatcha!!!!!!!!",
+      "artist": "hololive 5th Generation & Secret Society holoX",
+      "artist_id": 1692693098,
       "type": "song",
-      "release_date": "2026-08-24",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/57/cd/75/57cd757d-ff3f-d0cb-58bf-65a88554bd3c/cover_KM0025071_1.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/no-fear-single/6802484081?uo=4",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7b/fe/ad/7bfead18-c4fa-791c-6847-f11546350307/4580883408248_art.png/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/watcha-gatcha-single/6798165296?uo=4",
       "sources": [
-        "genre:K-Pop"
+        "country:jp"
       ]
     },
     {
-      "title": "It's Ū",
-      "artist": "Ian Chan",
-      "artist_id": 1666288520,
-      "type": "song",
-      "release_date": "2026-08-23",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3e/2c/b7/3e2cb705-bb4b-2b0e-f03a-6c9644448ebe/301627920635.jpg/400x400bb.webp",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/its-%C5%AB-single/6803795145?uo=4",
+      "title": "さよならララ",
+      "artist": "Ikimonogakari",
+      "artist_id": 550412714,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/61/ff/c3/61ffc3df-056d-afc3-de1e-b3b7619d8845/4547366845754.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E3%81%95%E3%82%88%E3%81%AA%E3%82%89%E3%83%A9%E3%83%A9-ep/6801112559?uo=4",
       "sources": [
-        "country:hk",
-        "playlist:The A-List Cantopop"
+        "genre:J-Pop"
+      ]
+    },
+    {
+      "title": "アイドルライフメガパック",
+      "artist": "iLiFE!",
+      "artist_id": 1578837625,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/39/ab/10/39ab1037-2d02-2d84-b3ca-0482debc43a1/4573696130451.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E3%82%A2%E3%82%A4%E3%83%89%E3%83%AB%E3%83%A9%E3%82%A4%E3%83%95%E3%83%A1%E3%82%AC%E3%83%91%E3%83%83%E3%82%AF/6802937865?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -281,7 +339,8 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/all-one-ep/6801506162?uo=4",
       "sources": [
-        "country:hk"
+        "country:hk",
+        "country:jp"
       ]
     },
     {
@@ -294,7 +353,34 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/power-of-love-ep/6794000380?uo=4",
       "sources": [
-        "genre:J-Pop"
+        "genre:J-Pop",
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Utakata",
+      "artist": "Ko Shibasaki",
+      "artist_id": 74495298,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/83/50/bb/8350bb59-5535-69c7-cc30-6e0ee6e91605/26UMGIM83144.rgb.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/utakata-single/6799076128?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "LOVE is All Around",
+      "artist": "Kotaro Oshio",
+      "artist_id": 296561734,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/86/92/d1/8692d165-7147-25e0-2bfd-20c712f54fd9/4547366846089.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/love-is-all-around/6801112996?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -308,7 +394,34 @@
       "link": "https://music.apple.com/us/album/31/6790278325?uo=4",
       "sources": [
         "genre:J-Pop",
-        "country:hk"
+        "country:jp",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "MU-GA-MU-CHU",
+      "artist": "Momoiro Clover Z & NIKO NIKO TAN TAN",
+      "artist_id": 448294481,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/be/92/56/be92565a-3408-65f6-a168-16297eeccc7c/NOPA-8977.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/mu-ga-mu-chu-single/6798510999?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "LOOK AT ME NOW!",
+      "artist": "n.SSign",
+      "artist_id": 1641028567,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a6/63/ea/a663ea87-31bd-f59b-a292-66dc747c2a1b/VEATP-45852.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/look-at-me-now-single/6797428175?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -337,7 +450,21 @@
       "link": "https://music.apple.com/us/album/saucin-ep/6795351595?uo=4",
       "sources": [
         "genre:K-Pop",
-        "country:hk"
+        "country:hk",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "仮歌Ⅲ",
+      "artist": "Oishi Masayoshi",
+      "artist_id": 908870855,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/86/2f/fd/862ffdaf-07ec-c0c1-2e96-996ae423de0a/28349.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E4%BB%AE%E6%AD%8C/6798918105?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -351,21 +478,9 @@
       "link": "https://music.apple.com/us/album/serena-joy-single/6803283190?uo=4",
       "sources": [
         "genre:Pop",
-        "country:ar",
+        "country:hk",
+        "country:mx",
         "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Way 2 U",
-      "artist": "Ouro Kronii",
-      "artist_id": 1606077643,
-      "type": "album",
-      "release_date": "2026-08-23",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f2/9b/c0/f29bc0dd-a497-9d29-23ec-d53ff5014ccc/4580883393469_art.png/400x400bb.webp",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/way-2-u-ep/6802936977?uo=4",
-      "sources": [
-        "genre:Pop"
       ]
     },
     {
@@ -378,7 +493,8 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/%E3%83%89%E3%82%AB%E3%83%B3%E3%83%AA%E3%83%9C%E3%83%AB%E3%83%90%E3%83%BC2-66/6799848823?uo=4",
       "sources": [
-        "genre:J-Pop"
+        "genre:J-Pop",
+        "country:jp"
       ]
     },
     {
@@ -405,7 +521,77 @@
       "link": "https://music.apple.com/us/album/sunburst-single/6794234139?uo=4",
       "sources": [
         "genre:K-Pop",
-        "country:ar"
+        "country:ar",
+        "country:jp",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "Only by Chasing the Wind",
+      "artist": "Robin, HOYO-MiX & Chevy",
+      "artist_id": 1744861538,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6a/70/cd/6a70cdfc-f899-4aa0-4970-a205c31a8bb3/cover.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/only-by-chasing-the-wind-single/6803833399?uo=4",
+      "sources": [
+        "genre:Pop"
+      ]
+    },
+    {
+      "title": "白日夢之旅",
+      "artist": "ROVER",
+      "artist_id": 1732962462,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/df/7b/f9/df7bf96c-73cb-eec4-21b6-84a0e18b5e4b/301627920666.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E7%99%BD%E6%97%A5%E5%A4%A2%E4%B9%8B%E6%97%85-single/6805004086?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
+      "title": "TENACITY",
+      "artist": "SF9",
+      "artist_id": 1161961912,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c3/35/02/c33502d2-1134-613b-323d-216e0aa946a7/cover_KM0025102_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/tenacity/6803808180?uo=4",
+      "sources": [
+        "genre:K-Pop",
+        "country:hk",
+        "country:jp",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "スーパーブルー",
+      "artist": "Shiritsu Ebisu Chugaku",
+      "artist_id": 573956537,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2d/ae/20/2dae20ef-dbeb-5b1b-2813-e9430865f600/4547366846126.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC%E3%83%96%E3%83%AB%E3%83%BC-single/6801112613?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Un solo corazón",
+      "artist": "Siam & Jose Gaviria",
+      "artist_id": 259743344,
+      "type": "song",
+      "release_date": "2026-08-24",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a5/0b/63/a50b63c4-2222-2d15-8178-5dc411bdd67a/885288381238.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/un-solo-coraz%C3%B3n-single/6804044190?uo=4",
+      "sources": [
+        "country:co"
       ]
     },
     {
@@ -419,7 +605,48 @@
       "link": "https://music.apple.com/us/album/amenity/6802879262?uo=4",
       "sources": [
         "genre:J-Pop",
+        "country:hk",
+        "country:jp",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "Body & Soul (Badly in Love Remix by TeddyLoid)",
+      "artist": "SPEED",
+      "artist_id": 295647185,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/15/07/ee/1507ee01-47da-f4e1-d80e-2db34df6794f/TFDS-01386.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/body-soul-badly-in-love-remix-by-teddyloid-single/6797429014?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Tokyo (2026 Remastering)",
+      "artist": "Sunny Day Service",
+      "artist_id": 548184495,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/53/1e/46/531e4679-3ca4-4fdf-941b-7d82783ffab8/15794500.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/tokyo-2026-remastering/6797420311?uo=4",
+      "sources": [
         "country:hk"
+      ]
+    },
+    {
+      "title": "Takara",
+      "artist": "TAKARA",
+      "artist_id": 6796765975,
+      "type": "album",
+      "release_date": "2026-08-24",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a0/8e/83/a08e8388-3a5c-94cb-d53c-9d88b9dc8cb5/26UMGIM94621.rgb.jpg/400x400bb.webp",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/takara-ep/6799799709?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -432,7 +659,47 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/hikawadai-nikki/6789623780?uo=4",
       "sources": [
+        "genre:J-Pop",
+        "country:jp"
+      ]
+    },
+    {
+      "title": "THE&II",
+      "artist": "THE&",
+      "artist_id": 1749346153,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/13/28/a6/1328a6cb-e7e9-a063-dbdb-a490ec06b76f/26UM1IM03033.rgb.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/the-ii/6803422476?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "FOMO",
+      "artist": "Tokyo Manaka",
+      "artist_id": 1740506830,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b7/31/c3/b731c3f3-ae88-2669-d9fe-63d07267ac4a/4525853868592.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/fomo-single/6800298749?uo=4",
+      "sources": [
         "genre:J-Pop"
+      ]
+    },
+    {
+      "title": "Sweet Enough",
+      "artist": "Tr33 & Edan Lui",
+      "artist_id": 1772203349,
+      "type": "song",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/97/0e/d1/970ed11d-b21f-7c2a-3e27-67217100b6b6/849578017238.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/sweet-enough-single/6802235399?uo=4",
+      "sources": [
+        "country:hk"
       ]
     },
     {
@@ -446,20 +713,8 @@
       "link": "https://music.apple.com/us/album/tune-play-ep/6795782851?uo=4",
       "sources": [
         "genre:K-Pop",
-        "country:hk"
-      ]
-    },
-    {
-      "title": "披荆斩棘2026 (第2期 Live)",
-      "artist": "Various Artists",
-      "artist_id": 618703099,
-      "type": "album",
-      "release_date": "2026-08-25",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f8/0c/f5/f80cf557-1984-ed4b-5c99-da6d53ae82fa/cover.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E6%8A%AB%E8%8D%86%E6%96%A9%E6%A3%982026-%E7%AC%AC2%E6%9C%9F-live/6804734024?uo=4",
-      "sources": [
-        "genre:Mandopop"
+        "country:kr",
+        "country:tw"
       ]
     },
     {
@@ -473,7 +728,21 @@
       "link": "https://music.apple.com/us/album/%E4%BB%8E%E8%BF%99%E9%87%8C%E9%97%AA%E8%80%80-here-we-shine-%E7%AC%AC48%E5%B1%8A%E4%B8%96%E7%95%8C%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B-%E6%8E%A8%E5%B9%BF%E6%9B%B2-single/6804206853?uo=4",
       "sources": [
         "genre:Mandopop",
-        "country:hk"
+        "country:hk",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "☆SUPER☆STAR☆",
+      "artist": "YUYA TEGOSHI",
+      "artist_id": 461602299,
+      "type": "album",
+      "release_date": "2026-08-26",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0c/1b/4a/0c1b4a7f-034a-dfcf-6db0-54081beb1bb8/DISA-0976_000_0000_A11_001.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/super-star/6795389509?uo=4",
+      "sources": [
+        "country:jp"
       ]
     }
   ],

@@ -1,15 +1,21 @@
 {
-  "Rock": {
-    "dropped": 8,
-    "today": 2,
-    "last_seen": "2026-08-25",
-    "example": "Bachikanshikokni_aisaretai — しあわせの定義"
+  "Anime": {
+    "dropped": 14,
+    "today": 14,
+    "last_seen": "2026-08-27",
+    "example": "ReoNa — Lv.1 職業:人間 (Special Edition)"
   },
   "Chinese Rock": {
     "dropped": 6,
     "today": 1,
     "last_seen": "2026-08-03",
     "example": "無常樂 — 成人禮"
+  },
+  "Rock": {
+    "dropped": 5,
+    "today": 5,
+    "last_seen": "2026-08-27",
+    "example": "Motoki Ohmori — Gray"
   },
   "Música Mexicana": {
     "dropped": 4,
@@ -53,12 +59,6 @@
     "last_seen": "2026-08-22",
     "example": "nimino — Eat Me Better"
   },
-  "Anime": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-25",
-    "example": "Hatsuboshi Gakuen & Rinami Himesaki — Traces of the Night Sky"
-  },
   "Rock y Alternativo": {
     "dropped": 3,
     "today": 1,
@@ -76,6 +76,18 @@
     "today": 1,
     "last_seen": "2026-08-22",
     "example": "Christian Valdés — Impulsos"
+  },
+  "Soundtrack": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-08-27",
+    "example": "Various Artists — Spooky in Love (Original Soundtrack)"
+  },
+  "Metal": {
+    "dropped": 3,
+    "today": 2,
+    "last_seen": "2026-08-27",
+    "example": "Ghost — 2 Big To Rig (Original Motion Picture Soundtrack / Live)"
   },
   "House": {
     "dropped": 2,
@@ -125,12 +137,6 @@
     "last_seen": "2026-08-16",
     "example": "Phuwin — Black Card"
   },
-  "Afro-Pop": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-19",
-    "example": "Gird Music — EPSTL (Hebrews)"
-  },
   "Samba": {
     "dropped": 2,
     "today": 1,
@@ -149,12 +155,6 @@
     "last_seen": "2026-08-21",
     "example": "Stefanie Bennett — This Can't Be It"
   },
-  "Tai-Pop": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-22",
-    "example": "Feng Fei Fei — 家後"
-  },
   "Indie Rock": {
     "dropped": 2,
     "today": 1,
@@ -167,29 +167,41 @@
     "last_seen": "2026-08-22",
     "example": "DOWN — Blood Oath"
   },
-  "Soundtrack": {
+  "Alternative": {
     "dropped": 2,
     "today": 1,
-    "last_seen": "2026-08-25",
-    "example": "GYE0M & HEN — Spooky in Love, Pt. 9 (Original Soundtrack)"
+    "last_seen": "2026-08-27",
+    "example": "Seiko Oomori — BABY! PINK! MUSIC!"
+  },
+  "Folk": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-27",
+    "example": "Sammi Heaney — Guilty"
+  },
+  "Afro-Beat": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-27",
+    "example": "Pantera Negra — PANTERA NEGRA (SALMOS 69)"
+  },
+  "Afro-Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-27",
+    "example": "Millionaire Muses — Return To Yourself"
+  },
+  "Tai-Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-27",
+    "example": "Caotun Boyz — 按呢敢閣有意義"
   },
   "Chinese Hip-Hop": {
-    "dropped": 2,
+    "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-25",
+    "last_seen": "2026-08-27",
     "example": "J. WALK — 澎大海"
-  },
-  "Alternative": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-26",
-    "example": "tiziano — CARDIAGO!"
-  },
-  "Metal": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-26",
-    "example": "Jupiter — The Pantheon ~Age of Heroes~"
   },
   "Jazz": {
     "dropped": 1,
@@ -227,12 +239,6 @@
     "last_seen": "2026-08-24",
     "example": "Presley Haile — still enough"
   },
-  "Folk": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-26",
-    "example": "Sammi Heaney — Guilty"
-  },
   "Rap": {
     "dropped": 1,
     "today": 1,
@@ -256,12 +262,6 @@
     "today": 1,
     "last_seen": "2026-08-24",
     "example": "Zach Top — Good Girls & Cowgirls"
-  },
-  "Afro-Beat": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-26",
-    "example": "Pantera Negra — PANTERA NEGRA (SALMOS 69)"
   },
   "Jungle/Drum'n'bass": {
     "dropped": 1,
