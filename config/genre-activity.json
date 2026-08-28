@@ -1,9 +1,39 @@
 {
   "Anime": {
-    "dropped": 14,
+    "dropped": 19,
+    "today": 5,
+    "last_seen": "2026-08-28",
+    "example": "fripSide — infinite Resonance 4"
+  },
+  "Alternative": {
+    "dropped": 16,
     "today": 14,
-    "last_seen": "2026-08-27",
-    "example": "ReoNa — Lv.1 職業:人間 (Special Edition)"
+    "last_seen": "2026-08-28",
+    "example": "Alabama Shakes — I Must Be Dreaming"
+  },
+  "Rock": {
+    "dropped": 13,
+    "today": 8,
+    "last_seen": "2026-08-28",
+    "example": "WINTER — Speed of Summer"
+  },
+  "Música Mexicana": {
+    "dropped": 8,
+    "today": 8,
+    "last_seen": "2026-08-28",
+    "example": "La Arrolladora Banda el Limón de René Camacho — Si Las Miradas Mataran (Deluxe)"
+  },
+  "Metal": {
+    "dropped": 8,
+    "today": 5,
+    "last_seen": "2026-08-28",
+    "example": "Mastodon — Marrow Deep"
+  },
+  "Soundtrack": {
+    "dropped": 7,
+    "today": 4,
+    "last_seen": "2026-08-28",
+    "example": "Various Artists — Disney Twisted-Wonderland Character Song Collection"
   },
   "Chinese Rock": {
     "dropped": 6,
@@ -11,23 +41,11 @@
     "last_seen": "2026-08-03",
     "example": "無常樂 — 成人禮"
   },
-  "Rock": {
-    "dropped": 5,
-    "today": 5,
-    "last_seen": "2026-08-27",
-    "example": "Motoki Ohmori — Gray"
-  },
-  "Música Mexicana": {
-    "dropped": 4,
-    "today": 4,
-    "last_seen": "2026-08-24",
-    "example": "Fey — Latido del Amor"
-  },
   "Country": {
     "dropped": 4,
     "today": 4,
-    "last_seen": "2026-08-24",
-    "example": "STELLA LEFTY — Long Way Home"
+    "last_seen": "2026-08-28",
+    "example": "Carly Pearce — Honest Woman"
   },
   "Spoken Word": {
     "dropped": 4,
@@ -41,23 +59,23 @@
     "last_seen": "2026-08-03",
     "example": "Microhm & Imaabs — Latencia"
   },
-  "Christian": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-17",
-    "example": "Stephen Stanley — Ain't On Me"
-  },
   "Classical Crossover": {
     "dropped": 4,
     "today": 1,
     "last_seen": "2026-08-17",
     "example": "Jon Batiste — Black Mozart"
   },
-  "Electronic": {
+  "Afro-Beat": {
     "dropped": 4,
     "today": 2,
-    "last_seen": "2026-08-22",
-    "example": "nimino — Eat Me Better"
+    "last_seen": "2026-08-28",
+    "example": "Pantera Negra — PANTERA NEGRA (SALMOS 69)"
+  },
+  "Christian": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-08-28",
+    "example": "Brandon Lake — How Good God Is"
   },
   "Rock y Alternativo": {
     "dropped": 3,
@@ -77,23 +95,11 @@
     "last_seen": "2026-08-22",
     "example": "Christian Valdés — Impulsos"
   },
-  "Soundtrack": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-08-27",
-    "example": "Various Artists — Spooky in Love (Original Soundtrack)"
-  },
-  "Metal": {
-    "dropped": 3,
-    "today": 2,
-    "last_seen": "2026-08-27",
-    "example": "Ghost — 2 Big To Rig (Original Motion Picture Soundtrack / Live)"
-  },
   "House": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-08-24",
-    "example": "Various Artists — John Digweed - Live At Twilo2"
+    "last_seen": "2026-08-28",
+    "example": "Genyee — Peace"
   },
   "Techno": {
     "dropped": 2,
@@ -149,12 +155,6 @@
     "last_seen": "2026-08-20",
     "example": "CIIU — Closer To 'You'"
   },
-  "Breakbeat": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-21",
-    "example": "Stefanie Bennett — This Can't Be It"
-  },
   "Indie Rock": {
     "dropped": 2,
     "today": 1,
@@ -167,41 +167,41 @@
     "last_seen": "2026-08-22",
     "example": "DOWN — Blood Oath"
   },
-  "Alternative": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-27",
-    "example": "Seiko Oomori — BABY! PINK! MUSIC!"
-  },
   "Folk": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-08-27",
     "example": "Sammi Heaney — Guilty"
   },
-  "Afro-Beat": {
+  "Afro-Pop": {
     "dropped": 2,
     "today": 1,
-    "last_seen": "2026-08-27",
-    "example": "Pantera Negra — PANTERA NEGRA (SALMOS 69)"
-  },
-  "Afro-Pop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-27",
+    "last_seen": "2026-08-28",
     "example": "Millionaire Muses — Return To Yourself"
   },
   "Tai-Pop": {
-    "dropped": 1,
+    "dropped": 2,
     "today": 1,
-    "last_seen": "2026-08-27",
+    "last_seen": "2026-08-28",
     "example": "Caotun Boyz — 按呢敢閣有意義"
   },
   "Chinese Hip-Hop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-28",
+    "example": "Hooka & 鸥钟 — POP MAN (泡泡男士)"
+  },
+  "Electronic": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-27",
-    "example": "J. WALK — 澎大海"
+    "last_seen": "2026-08-28",
+    "example": "Soft Cell & J.G. Thirlwell — Ghost Rider (JG Thirlwell Remixes)"
+  },
+  "Breakbeat": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-28",
+    "example": "CHRIS STASSY & Marz Fay — U know me"
   },
   "Jazz": {
     "dropped": 1,
@@ -218,8 +218,8 @@
   "Música tropical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "Rubén Blades — País Portatil (feat. Roberto Delgado & Orquesta)"
+    "last_seen": "2026-08-28",
+    "example": "Luciano Pereyra, Un Poco de Ruido & Pinky SD — Ahora Las Bailamos"
   },
   "Indie Pop": {
     "dropped": 1,
@@ -242,8 +242,8 @@
   "Rap": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "Polo G — OMG"
+    "last_seen": "2026-08-28",
+    "example": "Rod Wave — Don't Look Down"
   },
   "Reggae": {
     "dropped": 1,
@@ -278,20 +278,20 @@
   "Trance": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "Gareth Emery & Maria Lynn — We'll Be OK"
+    "last_seen": "2026-08-28",
+    "example": "Tsuyoshi Suzuki & DJ YAGI — Kamui"
   },
   "Hip-Hop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-20",
-    "example": "Blo — KARA"
+    "last_seen": "2026-08-28",
+    "example": "Maiya The Don — Outside Again"
   },
   "Alternative Folk": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-07-30",
-    "example": "pada — 拆"
+    "last_seen": "2026-08-28",
+    "example": "Dust Bowl Faeries — Oh Dread!"
   },
   "South Africa": {
     "dropped": 1,
@@ -406,5 +406,29 @@
     "today": 1,
     "last_seen": "2026-08-25",
     "example": "Deep Sleep Music & soul of NEKO Recommended Jazz Music for Work & Study — Refreshing Morning Jazz Café Work BGM With Bossa Nova, City Pop & Lo-Fi for Productive Work and Study"
+  },
+  "Gospel": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-28",
+    "example": "Cory Henry — Devotion (feat. The Apostle Voices)"
+  },
+  "Pop/Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-28",
+    "example": "Bryan Adams — The Ballad Of Terry Fox"
+  },
+  "Bluegrass": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-28",
+    "example": "Billy Strings — So Much For Goodbyes"
+  },
+  "Crossover Jazz": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-28",
+    "example": "Gretchen Parlato — The Wise Ones"
   }
 }
