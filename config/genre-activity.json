@@ -1,39 +1,45 @@
 {
-  "Anime": {
-    "dropped": 19,
-    "today": 5,
-    "last_seen": "2026-08-28",
-    "example": "fripSide — infinite Resonance 4"
-  },
   "Alternative": {
-    "dropped": 16,
+    "dropped": 30,
     "today": 14,
-    "last_seen": "2026-08-28",
-    "example": "Alabama Shakes — I Must Be Dreaming"
+    "last_seen": "2026-08-29",
+    "example": "Mike D — Thank You"
+  },
+  "Anime": {
+    "dropped": 27,
+    "today": 8,
+    "last_seen": "2026-08-29",
+    "example": "ReoNa — Lv.1 職業:人間 (Special Edition)"
   },
   "Rock": {
-    "dropped": 13,
+    "dropped": 21,
     "today": 8,
-    "last_seen": "2026-08-28",
+    "last_seen": "2026-08-29",
     "example": "WINTER — Speed of Summer"
   },
   "Música Mexicana": {
-    "dropped": 8,
-    "today": 8,
-    "last_seen": "2026-08-28",
-    "example": "La Arrolladora Banda el Limón de René Camacho — Si Las Miradas Mataran (Deluxe)"
+    "dropped": 17,
+    "today": 9,
+    "last_seen": "2026-08-29",
+    "example": "Natanael Cano — Natanael Cano, Vol.1"
   },
   "Metal": {
-    "dropped": 8,
-    "today": 5,
-    "last_seen": "2026-08-28",
+    "dropped": 11,
+    "today": 3,
+    "last_seen": "2026-08-29",
     "example": "Mastodon — Marrow Deep"
   },
   "Soundtrack": {
-    "dropped": 7,
+    "dropped": 11,
     "today": 4,
-    "last_seen": "2026-08-28",
-    "example": "Various Artists — Disney Twisted-Wonderland Character Song Collection"
+    "last_seen": "2026-08-29",
+    "example": "WILLIAM JAKRAPATR & Est Supha — Red Flag (เพลงประกอบซีรีส์ \"You Maniac เดี๋ยวจะรักซะให้บ้า\")"
+  },
+  "Country": {
+    "dropped": 8,
+    "today": 4,
+    "last_seen": "2026-08-29",
+    "example": "Marshmello & Cameron Whitcomb — Hollow"
   },
   "Chinese Rock": {
     "dropped": 6,
@@ -41,11 +47,17 @@
     "last_seen": "2026-08-03",
     "example": "無常樂 — 成人禮"
   },
-  "Country": {
-    "dropped": 4,
-    "today": 4,
-    "last_seen": "2026-08-28",
-    "example": "Carly Pearce — Honest Woman"
+  "Afro-Beat": {
+    "dropped": 6,
+    "today": 2,
+    "last_seen": "2026-08-29",
+    "example": "Walter Wani — Palm Wine & Butterflies"
+  },
+  "Christian": {
+    "dropped": 6,
+    "today": 3,
+    "last_seen": "2026-08-29",
+    "example": "Brandon Lake — How Good God Is"
   },
   "Spoken Word": {
     "dropped": 4,
@@ -65,17 +77,11 @@
     "last_seen": "2026-08-17",
     "example": "Jon Batiste — Black Mozart"
   },
-  "Afro-Beat": {
+  "Afro-Pop": {
     "dropped": 4,
     "today": 2,
-    "last_seen": "2026-08-28",
-    "example": "Pantera Negra — PANTERA NEGRA (SALMOS 69)"
-  },
-  "Christian": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-08-28",
-    "example": "Brandon Lake — How Good God Is"
+    "last_seen": "2026-08-29",
+    "example": "Millionaire Muses — Return To Yourself"
   },
   "Rock y Alternativo": {
     "dropped": 3,
@@ -96,10 +102,22 @@
     "example": "Christian Valdés — Impulsos"
   },
   "House": {
-    "dropped": 2,
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-08-29",
+    "example": "BLEND — End Of August"
+  },
+  "Tai-Pop": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-08-29",
+    "example": "Caotun Boyz — 按呢敢閣有意義"
+  },
+  "Pop/Rock": {
+    "dropped": 3,
     "today": 2,
-    "last_seen": "2026-08-28",
-    "example": "Genyee — Peace"
+    "last_seen": "2026-08-29",
+    "example": "Sister Hazel — Bootleg: Live From The Windjammer"
   },
   "Techno": {
     "dropped": 2,
@@ -161,29 +179,11 @@
     "last_seen": "2026-08-22",
     "example": "Over The Top — 如夢石"
   },
-  "Hard Rock": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-22",
-    "example": "DOWN — Blood Oath"
-  },
   "Folk": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-08-27",
     "example": "Sammi Heaney — Guilty"
-  },
-  "Afro-Pop": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-28",
-    "example": "Millionaire Muses — Return To Yourself"
-  },
-  "Tai-Pop": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-28",
-    "example": "Caotun Boyz — 按呢敢閣有意義"
   },
   "Chinese Hip-Hop": {
     "dropped": 2,
@@ -191,17 +191,59 @@
     "last_seen": "2026-08-28",
     "example": "Hooka & 鸥钟 — POP MAN (泡泡男士)"
   },
+  "Breakbeat": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-29",
+    "example": "CHRIS STASSY & Marz Fay — U know me"
+  },
+  "Música tropical": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-29",
+    "example": "Luciano Pereyra, Un Poco de Ruido & Pinky SD — Ahora Las Bailamos"
+  },
+  "Rap": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-29",
+    "example": "Rod Wave — Don't Look Down"
+  },
+  "Trance": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-29",
+    "example": "Armin van Buuren — A State of Trance, Ibiza 2026 (DJ Mix) [Mixed by Armin van Buuren]"
+  },
+  "Hip-Hop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-29",
+    "example": "Maiya The Don — Outside Again"
+  },
+  "Bluegrass": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-29",
+    "example": "Billy Strings — So Much For Goodbyes"
+  },
+  "Crossover Jazz": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-08-29",
+    "example": "Gretchen Parlato — The Wise Ones"
+  },
+  "Hard Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-08-29",
+    "example": "Ladrones — Arriba La L"
+  },
   "Electronic": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-08-28",
     "example": "Soft Cell & J.G. Thirlwell — Ghost Rider (JG Thirlwell Remixes)"
-  },
-  "Breakbeat": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-28",
-    "example": "CHRIS STASSY & Marz Fay — U know me"
   },
   "Jazz": {
     "dropped": 1,
@@ -215,12 +257,6 @@
     "last_seen": "2026-08-24",
     "example": "Various Artists — 天赐的声音第七季 第11期 (Live)"
   },
-  "Música tropical": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-28",
-    "example": "Luciano Pereyra, Un Poco de Ruido & Pinky SD — Ahora Las Bailamos"
-  },
   "Indie Pop": {
     "dropped": 1,
     "today": 1,
@@ -230,20 +266,14 @@
   "Afro House": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "Various Artists — Terra Station"
+    "last_seen": "2026-08-29",
+    "example": "Sneja — THIRTEEN YEARS OF SNEJA REMIXED - GIORGIO BASSETTI REMIXES"
   },
   "Americana": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-08-24",
     "example": "Presley Haile — still enough"
-  },
-  "Rap": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-28",
-    "example": "Rod Wave — Don't Look Down"
   },
   "Reggae": {
     "dropped": 1,
@@ -266,26 +296,14 @@
   "Jungle/Drum'n'bass": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "Various Artists — Drum & Bass Horizons, Vol. 15"
+    "last_seen": "2026-08-29",
+    "example": "Everything But the Girl — Run A Red Light (Logistics Remix)"
   },
   "Afro Soul": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-08-24",
     "example": "Flavia Tash — The Storm Couldnt Kill Me"
-  },
-  "Trance": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-28",
-    "example": "Tsuyoshi Suzuki & DJ YAGI — Kamui"
-  },
-  "Hip-Hop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-28",
-    "example": "Maiya The Don — Outside Again"
   },
   "Alternative Folk": {
     "dropped": 1,
@@ -302,14 +320,14 @@
   "Afro-fusion": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-07-31",
-    "example": "Rikila — Dunlop"
+    "last_seen": "2026-08-29",
+    "example": "Muyeez — All Hail Muyeez"
   },
   "African": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-17",
-    "example": "Leonardis — Echoes of the Savannah"
+    "last_seen": "2026-08-29",
+    "example": "The Scorpios — Lemon Barah"
   },
   "Contemporary R&B": {
     "dropped": 1,
@@ -344,8 +362,8 @@
   "Classical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "Anthony Hopkins, Philharmonia Orchestra & Gustavo Dudamel — Life is a Dream"
+    "last_seen": "2026-08-29",
+    "example": "María Dueñas, Simón Bolívar Symphony Orchestra of Venezuela & Gustavo Dudamel — Homage to Heifetz"
   },
   "Europe": {
     "dropped": 1,
@@ -412,23 +430,5 @@
     "today": 1,
     "last_seen": "2026-08-28",
     "example": "Cory Henry — Devotion (feat. The Apostle Voices)"
-  },
-  "Pop/Rock": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-28",
-    "example": "Bryan Adams — The Ballad Of Terry Fox"
-  },
-  "Bluegrass": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-28",
-    "example": "Billy Strings — So Much For Goodbyes"
-  },
-  "Crossover Jazz": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-28",
-    "example": "Gretchen Parlato — The Wise Ones"
   }
 }
