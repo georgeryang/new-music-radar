@@ -12,10 +12,10 @@
     "example": "FictionJunction — 彼方"
   },
   "Música Mexicana": {
-    "dropped": 31,
-    "today": 5,
-    "last_seen": "2026-08-31",
-    "example": "Natanael Cano — Natanael Cano, Vol.1"
+    "dropped": 32,
+    "today": 1,
+    "last_seen": "2026-09-01",
+    "example": "El Padrinito Toys & Clemente y su Elexion Privada — Supersnake"
   },
   "Rock": {
     "dropped": 29,
@@ -29,6 +29,12 @@
     "last_seen": "2026-08-31",
     "example": "Mastodon — Marrow Deep"
   },
+  "Afro-Pop": {
+    "dropped": 14,
+    "today": 2,
+    "last_seen": "2026-09-01",
+    "example": "Dj Night Affair — It's too late"
+  },
   "Soundtrack": {
     "dropped": 13,
     "today": 2,
@@ -40,12 +46,6 @@
     "today": 1,
     "last_seen": "2026-08-31",
     "example": "Lauren Alaina — Stages"
-  },
-  "Afro-Pop": {
-    "dropped": 12,
-    "today": 4,
-    "last_seen": "2026-08-31",
-    "example": "Rayhans — Heavensent"
   },
   "Afro-Beat": {
     "dropped": 10,
@@ -203,12 +203,6 @@
     "last_seen": "2026-08-16",
     "example": "Uni-Girls — 第一次心動"
   },
-  "T-Pop": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-16",
-    "example": "Phuwin — Black Card"
-  },
   "Samba": {
     "dropped": 2,
     "today": 1,
@@ -244,6 +238,12 @@
     "today": 1,
     "last_seen": "2026-08-29",
     "example": "Armin van Buuren — A State of Trance, Ibiza 2026 (DJ Mix) [Mixed by Armin van Buuren]"
+  },
+  "T-Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-01",
+    "example": "GEMINI — ไม่มีวัน (Fragile)"
   },
   "Hard Rock": {
     "dropped": 1,
@@ -322,12 +322,6 @@
     "today": 1,
     "last_seen": "2026-08-29",
     "example": "The Scorpios — Lemon Barah"
-  },
-  "Contemporary R&B": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-02",
-    "example": "Terrance Darnell Howell — Vulnerable II Grace & Conflict (feat. Shelah)"
   },
   "Amapiano": {
     "dropped": 1,
