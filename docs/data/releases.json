@@ -1,6 +1,50 @@
 {
-  "fetched_at": 1788257976074,
+  "fetched_at": 1788341895198,
   "releases": [
+    {
+      "title": "México",
+      "artist": "CHUNG HA",
+      "artist_id": 1148527055,
+      "type": "song",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/97/20/a1/9720a169-d78d-ba67-a9d9-b8a6a35beaee/cover_KM0025063_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/me-xico-single/6804621870?uo=4",
+      "followed": true,
+      "via_artist_id": 1148527055,
+      "sources": [
+        "genre:K-Pop",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "Instinto Animal Eim Sessions",
+      "artist": "DehryEIM & Lenexx",
+      "artist_id": 1790740020,
+      "type": "song",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/bc/9d/10/bc9d10ec-af89-f4a2-0fe2-a5aef8e9b2ab/2504.jpg/400x400bb.webp",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/instinto-animal-eim-sessions-single/6799994741?uo=4",
+      "followed": true,
+      "via_artist_id": 1704359435
+    },
+    {
+      "title": "HANDLE WITH CARE",
+      "artist": "izna",
+      "artist_id": 1779409310,
+      "type": "album",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9a/1f/e2/9a1fe20a-c00b-dc2e-17fd-10b175d2b6e4/4547366843736.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/handle-with-care-ep/6795909372?uo=4",
+      "followed": true,
+      "via_artist_id": 1779409310,
+      "sources": [
+        "genre:K-Pop",
+        "country:jp"
+      ]
+    },
     {
       "title": "DNA",
       "artist": "tripleS",
@@ -11,44 +55,74 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/dna-single/6803078543?uo=4",
       "followed": true,
-      "via_artist_id": 1651595986
+      "via_artist_id": 1651595986,
+      "sources": [
+        "genre:K-Pop"
+      ]
     },
     {
-      "title": "Mavora",
-      "artist": "VALKA & DJ DAXSHADOW",
-      "artist_id": 995314327,
+      "title": "HEAT",
+      "artist": "82MAJOR",
+      "artist_id": 1710474482,
       "type": "album",
-      "release_date": "2026-08-29",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6d/e8/54/6de85442-bbc1-127f-81f0-475ea9149995/881453531965_cover.jpg/400x400bb.webp",
-      "genre": "House",
-      "link": "https://music.apple.com/us/album/mavora/6800148398?uo=4",
-      "followed": true,
-      "via_artist_id": 995314327
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f7/02/84/f70284b7-deea-2532-1fbf-dda6d1fe06af/cover_KM0025085_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/heat-ep/6804536776?uo=4",
+      "sources": [
+        "genre:K-Pop"
+      ]
     },
     {
-      "title": "湖說狐雪",
-      "artist": "alan",
-      "artist_id": 16269481,
+      "title": "删了一百遍",
+      "artist": "A-Lin",
+      "artist_id": 370412270,
       "type": "song",
-      "release_date": "2026-08-31",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3b/d3/7c/3bd37c18-f22b-23a6-8bb1-5c4b027616ad/4711499354821.jpg/400x400bb.webp",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6c/30/d0/6c30d02f-11d3-ec49-6b2f-297a06d1ab31/4896043201810.jpg/400x400bb.webp",
       "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E6%B9%96%E8%AA%AA%E7%8B%90%E9%9B%AA-single/6806240622?uo=4",
+      "link": "https://music.apple.com/us/album/%E5%88%A0%E4%BA%86%E4%B8%80%E7%99%BE%E9%81%8D-single/6806380217?uo=4",
       "sources": [
         "genre:Mandopop"
       ]
     },
     {
-      "title": "For Once I’ll Say It Out Loud",
-      "artist": "Allie Sherlock",
-      "artist_id": 1314464325,
-      "type": "album",
-      "release_date": "2026-08-29",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6d/11/5e/6d115ea5-aab5-4576-159e-1ffccbf4eef5/6361.jpg/400x400bb.webp",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/for-once-ill-say-it-out-loud-ep/6802030862?uo=4",
+      "title": "Nostalgia",
+      "artist": "BIG Naughty",
+      "artist_id": 1478391105,
+      "type": "song",
+      "release_date": "2026-08-31",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d9/e1/62/d9e162a7-7125-6cd0-2df5-a4a3c909c285/cover_KM0025140_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/nostalgia-single/6805367597?uo=4",
       "sources": [
-        "country:ar"
+        "country:kr"
+      ]
+    },
+    {
+      "title": "初級成人禮",
+      "artist": "COLLAR",
+      "artist_id": 1604311077,
+      "type": "song",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e9/e1/dc/e9e1dcd9-909a-1ca0-f403-a64dda4fb27b/301627920680.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E5%88%9D%E7%B4%9A%E6%88%90%E4%BA%BA%E7%A6%AE-single/6806163720?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
+      "title": "I know I don't know",
+      "artist": "Daichi Miura",
+      "artist_id": 285078601,
+      "type": "album",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/56/16/cd/5616cd66-4a1b-cec3-c282-d1353fc0c97f/ticket.hxucsmai.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/i-know-i-dont-know-ep/6797345516?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -65,29 +139,59 @@
       ]
     },
     {
-      "title": "Mi cafecito",
-      "artist": "DJYAMO",
-      "artist_id": 1859495334,
-      "type": "song",
-      "release_date": "2026-08-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3a/24/f5/3a24f5cb-6370-30ea-3652-b919d7afb1f4/artwork.jpg/400x400bb.webp",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/mi-cafecito-single/6806596822?uo=4",
+      "title": "DEEN The Best DX Ⅱ ～Basic to Respect～",
+      "artist": "DEEN",
+      "artist_id": 282763357,
+      "type": "album",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/65/68/2a/65682ab3-62f6-ce09-0407-67bbff9e4368/4547366848137.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/deen-the-best-dx-basic-to-respect/6803400715?uo=4",
       "sources": [
-        "genre:Latin"
+        "country:jp"
       ]
     },
     {
-      "title": "Ichizutte Trend♡",
-      "artist": "FUWAMOCO",
-      "artist_id": 1760329766,
-      "type": "song",
-      "release_date": "2026-08-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/33/16/7e/33167ec5-49f1-9efd-794c-b6f1c4f71553/4580883413945_art.png/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/ichizutte-trend-single/6801520329?uo=4",
+      "title": "Moonlight",
+      "artist": "Eric Luttrell",
+      "artist_id": 408612230,
+      "type": "album",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/78/4d/b8/784db8b6-8d31-6ecb-a1ce-9044c5c0c512/5039061268796.png/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/moonlight/6798351373?uo=4",
       "sources": [
-        "genre:J-Pop"
+        "genre:Dance"
+      ]
+    },
+    {
+      "title": "Slow It Down",
+      "artist": "Felix",
+      "artist_id": 1590816479,
+      "type": "song",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/22/ca/a6/22caa683-c25a-e194-acc5-99d296f8657e/8809928956787_Cover.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/slow-it-down-single/6801185004?uo=4",
+      "sources": [
+        "genre:K-Pop",
+        "country:co",
+        "country:hk",
+        "country:mx",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "LAzarus",
+      "artist": "GENKI IWAHASHI",
+      "artist_id": 1597084033,
+      "type": "album",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d8/97/2d/d8972ddc-09b7-f6f0-c668-28b0cf6aa1e4/cover.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/lazarus/6799349752?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -101,12 +205,54 @@
       "link": "https://music.apple.com/us/album/skibidi-single/6803731727?uo=4",
       "sources": [
         "genre:K-Pop",
-        "country:co",
-        "country:hk"
+        "country:hk",
+        "country:jp",
+        "country:kr",
+        "country:mx",
+        "country:tw"
       ]
     },
     {
-      "title": "GUM & DROP",
+      "title": "反転する六音",
+      "artist": "hantensururokuon",
+      "artist_id": 6803826126,
+      "type": "song",
+      "release_date": "2026-08-31",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bc/1b/f0/bc1bf0fb-edcf-4591-07ba-42d99aa58041/ANTCD-75545.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E5%8F%8D%E8%BB%A2%E3%81%99%E3%82%8B%E5%85%AD%E9%9F%B3-single/6803826125?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "イチャイチャ虫",
+      "artist": "Hinatazaka46",
+      "artist_id": 1456116642,
+      "type": "song",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/51/e1/b4/51e1b4b6-b09a-f250-f2a4-232589449f33/4547366846188.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E3%82%A4%E3%83%81%E3%83%A3%E3%82%A4%E3%83%81%E3%83%A3%E8%99%AB-single/6801485187?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Follow the Wind",
+      "artist": "Hiroyuki Takami",
+      "artist_id": 570068751,
+      "type": "song",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5d/dc/12/5ddc126c-f81f-a1c3-53ab-5d6d73b6275b/4550759840694_cover.png/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/follow-the-wind-single/6803840686?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "GUM&DROP",
       "artist": "Hoshimachi Suisei",
       "artist_id": 1503670948,
       "type": "song",
@@ -115,7 +261,21 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/gum-drop-single/6800641659?uo=4",
       "sources": [
-        "genre:J-Pop"
+        "genre:J-Pop",
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Trick or Repeat",
+      "artist": "HYPNOSISMIC -D.R.B- (Division All Stars)",
+      "artist_id": 1297889686,
+      "type": "album",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0f/92/04/0f920468-adc3-2a45-68fa-f0769aeac20b/NOPA-9022.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/trick-or-repeat/6803722487?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -128,7 +288,21 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/i-still-remember-single/6805431903?uo=4",
       "sources": [
-        "country:hk"
+        "country:hk",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "One More Tonight",
+      "artist": "Jasmin",
+      "artist_id": 1599525082,
+      "type": "album",
+      "release_date": "2026-08-30",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/33/f4/de/33f4de10-bdc7-5457-4e61-66b22fbf9be7/885000288968.png/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/one-more-tonight-ep/6801582821?uo=4",
+      "sources": [
+        "genre:Dance"
       ]
     },
     {
@@ -145,42 +319,56 @@
       ]
     },
     {
-      "title": "All Night",
-      "artist": "Juan Rosario jr",
-      "artist_id": 1805486779,
+      "title": "夏蝉",
+      "artist": "JUJU",
+      "artist_id": 3821489,
       "type": "album",
-      "release_date": "2026-08-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9a/54/d4/9a54d406-bb8b-ce0b-619a-5c0e0fa65238/artwork.jpg/400x400bb.webp",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/all-night/6806920163?uo=4",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ed/9d/d2/ed9dd2aa-b450-5b5c-ec29-126fb3e0134b/4547366847604.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E5%A4%8F%E8%9D%89-ep/6802150916?uo=4",
       "sources": [
-        "genre:Latin"
+        "country:jp",
+        "country:tw"
       ]
     },
     {
-      "title": "Today I Celebrate",
-      "artist": "Juan Rosario jr",
-      "artist_id": 1805486779,
-      "type": "album",
-      "release_date": "2026-08-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d7/f1/8c/d7f18cd9-f1ee-65a6-a0a5-bc218b594e51/artwork.jpg/400x400bb.webp",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/today-i-celebrate/6806921107?uo=4",
+      "title": "不下床",
+      "artist": "Juno Mak & Panther Chan",
+      "artist_id": 720628741,
+      "type": "song",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e1/72/4b/e1724b4c-cdd5-4708-65a2-35882f46d480/367457941929.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E4%B8%8D%E4%B8%8B%E5%BA%8A-single/6804604971?uo=4",
       "sources": [
-        "genre:Latin"
+        "country:hk"
       ]
     },
     {
-      "title": "When The Tables Turned",
-      "artist": "Juan Rosario jr",
-      "artist_id": 1805486779,
+      "title": "孔雀",
+      "artist": "Kei Sugawara",
+      "artist_id": 1535892481,
       "type": "album",
-      "release_date": "2026-08-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d4/0a/1b/d40a1bf0-cec2-2617-b9e0-9dcc4db7e66f/artwork.jpg/400x400bb.webp",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/when-the-tables-turned/6806890634?uo=4",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/33/42/52/334252ac-69ee-4869-7680-35af1abba9e3/4547366847857.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E5%AD%94%E9%9B%80/6803469668?uo=4",
       "sources": [
-        "genre:Latin"
+        "genre:J-Pop"
+      ]
+    },
+    {
+      "title": "magic number",
+      "artist": "Kent Ito",
+      "artist_id": 1643811115,
+      "type": "song",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8b/c6/e0/8bc6e028-fa76-beab-8f89-f4dcabc5c5eb/28330.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/magic-number-single/6797775902?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -194,7 +382,9 @@
       "link": "https://music.apple.com/us/album/so-honey-ep/6797407951?uo=4",
       "sources": [
         "genre:J-Pop",
-        "country:hk"
+        "country:hk",
+        "country:jp",
+        "country:tw"
       ]
     },
     {
@@ -211,6 +401,32 @@
       ]
     },
     {
+      "title": "Soy de México",
+      "artist": "Mariachi México Lindo",
+      "artist_id": 400214787,
+      "type": "album",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/72/7d/f0/727df0e7-78b8-02f1-4b04-ad2638de4d34/artwork.jpg/400x400bb.webp",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/soy-de-m%C3%A9xico/6805351030?uo=4",
+      "sources": [
+        "genre:Latin"
+      ]
+    },
+    {
+      "title": "Kiss in Front of the Mirror",
+      "artist": "Minato Fuwa",
+      "artist_id": 1554415172,
+      "type": "song",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/33/87/09/3387095a-a569-273c-f035-e078955be194/4550759798056_cover.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/kiss-in-front-of-the-mirror-single/6803130128?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "BRO!",
       "artist": "MIRROR",
       "artist_id": 1441939457,
@@ -219,6 +435,58 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/18/17/3e/18173eff-8b62-bdc0-3369-80dc5f29840f/301627920673.jpg/400x400bb.webp",
       "genre": "Cantopop/HK-Pop",
       "link": "https://music.apple.com/us/album/bro-single/6806198363?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
+      "title": "Frequency",
+      "artist": "MONKEY MAJIK",
+      "artist_id": 93093570,
+      "type": "album",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b6/d3/90/b6d39036-1b0b-6285-15a6-fb589a86d4f7/ANTCD-A0000020733.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/frequency/6797376651?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "蚊螆",
+      "artist": "moon tang",
+      "artist_id": 1524793344,
+      "type": "song",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ca/21/75/ca21750b-8e4b-1157-09b4-a66bf4a46a2a/1200214908690.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/%E8%9A%8A%E8%9E%86-single/6805407712?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
+      "title": "Here Comes the CHADCast",
+      "artist": "Mori Calliope, IRyS & Hakos Baelz",
+      "artist_id": 1536368549,
+      "type": "song",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d6/e0/50/d6e05036-fe13-454f-e7f9-4056df9c0aa3/4580883416953_art.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/here-comes-the-chadcast-single/6805720646?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Beautiful Love",
+      "artist": "Natalie Imbruglia",
+      "artist_id": 397997,
+      "type": "album",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0d/95/5b/0d955b33-0770-b4bc-0e4b-a5e0249592f3/5053760158141_cover.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/beautiful-love-ep/6800738363?uo=4",
       "sources": [
         "country:hk"
       ]
@@ -237,16 +505,29 @@
       ]
     },
     {
-      "title": "iCONiC",
-      "artist": "ReGLOSS, Otonose Kanade & Ichijou Ririka",
-      "artist_id": 1705846194,
-      "type": "song",
-      "release_date": "2026-08-29",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/90/f7/bc/90f7bc6b-61c9-cefb-fabc-d9a4e2a097b8/4580883414003_art.png/400x400bb.webp",
+      "title": "Memorabilia",
+      "artist": "Omoinotake",
+      "artist_id": 1185371943,
+      "type": "album",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b3/d9/19/b3d9195b-641a-b9d2-9527-62f502a4dc87/4547366842722.jpg/400x400bb.webp",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/iconic-single/6802938144?uo=4",
+      "link": "https://music.apple.com/us/album/memorabilia/6795752569?uo=4",
       "sources": [
-        "genre:J-Pop"
+        "country:jp"
+      ]
+    },
+    {
+      "title": "OWN",
+      "artist": "Riho Sayashi",
+      "artist_id": 1584859401,
+      "type": "album",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f4/35/50/f43550a3-5765-f424-5892-3e63a6c3e03d/ANTCD-A0000020592.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/own-ep/6791906906?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -259,7 +540,8 @@
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/good-grief-commentary-version/6805136299?uo=4",
       "sources": [
-        "genre:Pop"
+        "genre:Pop",
+        "country:mx"
       ]
     },
     {
@@ -272,8 +554,33 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/cage-end-single/6802136334?uo=4",
       "sources": [
-        "genre:J-Pop",
-        "country:hk"
+        "country:jp"
+      ]
+    },
+    {
+      "title": "私立恵比寿中学「新春大学芸会2026 -SEIJIN CHUGAKUSEI GT-」",
+      "artist": "Shiritsu Ebisu Chugaku",
+      "artist_id": 573956537,
+      "type": "album",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0c/af/1e/0caf1e26-32a9-af0d-fde1-209c6d01a6e2/4547366848601.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E7%A7%81%E7%AB%8B%E6%81%B5%E6%AF%94%E5%AF%BF%E4%B8%AD%E5%AD%A6-%E6%96%B0%E6%98%A5%E5%A4%A7%E5%AD%A6%E8%8A%B8%E4%BC%9A2026-seijin-chugakusei-gt/6803402352?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "STORIES of SID",
+      "artist": "Sid",
+      "artist_id": 80566114,
+      "type": "album",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/32/0b/43/320b4345-891d-3bdc-4f14-115f41fe5732/4547366850673.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/stories-of-sid/6806091003?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -289,36 +596,80 @@
         "genre:K-Pop",
         "country:ar",
         "country:co",
-        "country:hk"
+        "country:hk",
+        "country:mx",
+        "country:tw"
       ]
     },
     {
-      "title": "The Man, The Boy and Him",
-      "artist": "Yan Ting",
-      "artist_id": 963124109,
+      "title": "INPUT⇄OUTPUT",
+      "artist": "Tomohiro Kamiyama",
+      "artist_id": 6783397484,
       "type": "album",
-      "release_date": "2026-08-30",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/15/51/df/1551df52-712a-e601-ba2c-bb1ff25e0a63/26UM1IM03045.rgb.jpg/400x400bb.webp",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/the-man-the-boy-and-him/6805033126?uo=4",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7b/c2/b0/7bc2b093-9df3-0eb7-b341-0fc88c2cad26/4517331101635.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/input-output/6791017310?uo=4",
       "sources": [
-        "country:hk"
+        "country:jp"
+      ]
+    },
+    {
+      "title": "仮面ライダーゼッツ SONG BEST",
+      "artist": "Various Artists",
+      "artist_id": 4035426,
+      "type": "album",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/7a/50/3a/7a503a07-c32d-5403-bca3-bc32351017b9/ANTCD-A0000020788.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E4%BB%AE%E9%9D%A2%E3%83%A9%E3%82%A4%E3%83%80%E3%83%BC%E3%82%BC%E3%83%83%E3%83%84-song-best/6803400045?uo=4",
+      "sources": [
+        "genre:J-Pop"
+      ]
+    },
+    {
+      "title": "After Midnight Club Remix",
+      "artist": "WeAreNoxen",
+      "artist_id": 1890821390,
+      "type": "album",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ed/f7/cd/edf7cd50-4038-c045-11df-8b22cfc8f9f5/artwork.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/after-midnight-club-remix/6806429705?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
+      "title": "Home (The Seasons : Sung Si-kyung's Ear Candy)",
+      "artist": "YEONJUN",
+      "artist_id": 1492229490,
+      "type": "song",
+      "release_date": "2026-09-01",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a3/4d/f3/a34df3df-40ba-3245-b131-38a81034981c/888272187489_Cover.jpg/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/home-the-seasons-sung-si-kyungs-ear-candy-single/6806190252?uo=4",
+      "sources": [
+        "country:hk",
+        "country:jp",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "Traveling Heart",
+      "artist": "Yukino Nakajima",
+      "artist_id": 379021797,
+      "type": "album",
+      "release_date": "2026-09-02",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/50/8d/80/508d802e-9e8a-dc8a-8a63-f8dee6078a64/4547366846119.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/traveling-heart/6801091520?uo=4",
+      "sources": [
+        "country:jp"
       ]
     }
   ],
   "upcoming": [
-    {
-      "title": "HANDLE WITH CARE",
-      "artist": "izna",
-      "artist_id": 1779409310,
-      "type": "album",
-      "release_date": "2026-09-02",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9a/1f/e2/9a1fe20a-c00b-dc2e-17fd-10b175d2b6e4/4547366843736.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/handle-with-care-ep/6795909372?uo=4",
-      "followed": true,
-      "via_artist_id": 1779409310
-    },
     {
       "title": "Pylon",
       "artist": "beabadoobee",
