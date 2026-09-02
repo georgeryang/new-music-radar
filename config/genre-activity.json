@@ -1,27 +1,9 @@
 {
-  "Alternative": {
-    "dropped": 44,
-    "today": 2,
-    "last_seen": "2026-08-31",
-    "example": "zerobansen to yoakemae — Demachiyanagi Irony"
-  },
-  "Anime": {
-    "dropped": 32,
-    "today": 2,
-    "last_seen": "2026-08-31",
-    "example": "FictionJunction — 彼方"
-  },
   "Música Mexicana": {
     "dropped": 32,
     "today": 1,
     "last_seen": "2026-09-01",
     "example": "El Padrinito Toys & Clemente y su Elexion Privada — Supersnake"
-  },
-  "Rock": {
-    "dropped": 29,
-    "today": 1,
-    "last_seen": "2026-08-31",
-    "example": "MAN WITH A MISSION — ONE"
   },
   "Metal": {
     "dropped": 15,
@@ -35,23 +17,11 @@
     "last_seen": "2026-09-01",
     "example": "Dj Night Affair — It's too late"
   },
-  "Soundtrack": {
-    "dropped": 13,
-    "today": 2,
-    "last_seen": "2026-08-30",
-    "example": "Lam1Hey — 《大死撐日》Soundtrack"
-  },
   "Country": {
     "dropped": 13,
     "today": 1,
     "last_seen": "2026-08-31",
     "example": "Lauren Alaina — Stages"
-  },
-  "Afro-Beat": {
-    "dropped": 10,
-    "today": 2,
-    "last_seen": "2026-08-31",
-    "example": "Walter Wani — Palm Wine & Butterflies"
   },
   "Christian": {
     "dropped": 9,
@@ -59,29 +29,17 @@
     "last_seen": "2026-08-30",
     "example": "Brandon Lake — How Good God Is"
   },
-  "House": {
-    "dropped": 7,
-    "today": 2,
-    "last_seen": "2026-08-31",
-    "example": "Various Artists — Afro Beats Summer Mix"
+  "Anime": {
+    "dropped": 5,
+    "today": 5,
+    "last_seen": "2026-09-02",
+    "example": "Re:vale — NAVIGATOR:"
   },
-  "Chinese Rock": {
-    "dropped": 6,
-    "today": 1,
-    "last_seen": "2026-08-03",
-    "example": "無常樂 — 成人禮"
-  },
-  "Spoken Word": {
+  "Rock": {
     "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-03",
-    "example": "Tom Waits — The Fly"
-  },
-  "Garage": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-03",
-    "example": "Microhm & Imaabs — Latencia"
+    "today": 4,
+    "last_seen": "2026-09-02",
+    "example": "Ivy to Fraudulent Game — Re Recording Works"
   },
   "Classical Crossover": {
     "dropped": 4,
@@ -124,6 +82,12 @@
     "today": 2,
     "last_seen": "2026-08-31",
     "example": "Théotime Langlois de Swarte & William Christie — Le Violon de Rameau"
+  },
+  "Afro-Beat": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-09-02",
+    "example": "DJ 2EFFECTS — Party Time 2026 Amapiano & Afrobeat Mix"
   },
   "Rock y Alternativo": {
     "dropped": 3,
@@ -172,6 +136,18 @@
     "today": 1,
     "last_seen": "2026-08-31",
     "example": "Muyeez — All Hail Muyeez"
+  },
+  "Alternative": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-02",
+    "example": "Geloomy — MENU"
+  },
+  "House": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-02",
+    "example": "Karl Casey — White Bat 64"
   },
   "Contemporary Latin": {
     "dropped": 2,
@@ -240,10 +216,16 @@
     "example": "Armin van Buuren — A State of Trance, Ibiza 2026 (DJ Mix) [Mixed by Armin van Buuren]"
   },
   "T-Pop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-02",
+    "example": "GEMINI — ไม่มีวัน (Fragile)"
+  },
+  "Soundtrack": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-01",
-    "example": "GEMINI — ไม่มีวัน (Fragile)"
+    "last_seen": "2026-09-02",
+    "example": "haruka nakamura — Until the T-shirt Dries Original Soundtrack"
   },
   "Hard Rock": {
     "dropped": 1,
@@ -422,7 +404,7 @@
   "Video Game": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-31",
+    "last_seen": "2026-09-02",
     "example": "Shiori Sasaki, ATLUS Sound Team & ATLUS GAME MUSIC — Prime Time Golden Hour Show (Soundtrack)"
   }
 }
