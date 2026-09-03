@@ -137,6 +137,12 @@
     "last_seen": "2026-08-31",
     "example": "Muyeez — All Hail Muyeez"
   },
+  "African": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-09-03",
+    "example": "DJ 2EFFECTS — Party Time 2026 Amapiano & Afrobeat Mix"
+  },
   "Alternative": {
     "dropped": 2,
     "today": 2,
@@ -298,12 +304,6 @@
     "today": 1,
     "last_seen": "2026-08-28",
     "example": "Dust Bowl Faeries — Oh Dread!"
-  },
-  "African": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-29",
-    "example": "The Scorpios — Lemon Barah"
   },
   "Amapiano": {
     "dropped": 1,
