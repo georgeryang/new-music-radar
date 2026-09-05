@@ -17,17 +17,17 @@
     "last_seen": "2026-09-04",
     "example": "The Cranberries — Live At The London Astoria II, 1994"
   },
+  "Música Mexicana": {
+    "dropped": 9,
+    "today": 2,
+    "last_seen": "2026-09-05",
+    "example": "Carín Flow — Me hago el fuerte"
+  },
   "Alternative": {
     "dropped": 8,
     "today": 8,
     "last_seen": "2026-09-04",
     "example": "Spangle Call Lilli Line — lull"
-  },
-  "Música Mexicana": {
-    "dropped": 7,
-    "today": 7,
-    "last_seen": "2026-09-04",
-    "example": "Marca MP — El Gallo Celoso"
   },
   "Metal": {
     "dropped": 5,
@@ -77,17 +77,23 @@
     "last_seen": "2026-08-31",
     "example": "Théotime Langlois de Swarte & William Christie — Le Violon de Rameau"
   },
+  "Afro-Beat": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-09-05",
+    "example": "DJ 2EFFECTS — Party Time 2026 Amapiano & Afrobeat Mix"
+  },
+  "House": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-09-05",
+    "example": "Rhode & Brown — Multitudes"
+  },
   "Anime": {
     "dropped": 3,
     "today": 3,
     "last_seen": "2026-09-04",
     "example": "FictionJunction — 彼方"
-  },
-  "Afro-Beat": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-09-04",
-    "example": "DJ 2EFFECTS — Party Time 2026 Amapiano & Afrobeat Mix"
   },
   "Funk": {
     "dropped": 3,
@@ -143,12 +149,6 @@
     "last_seen": "2026-09-04",
     "example": "haruka nakamura — Until the T-shirt Dries Original Soundtrack"
   },
-  "House": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-09-04",
-    "example": "Roger Bonner — Alchemy"
-  },
   "African Dancehall": {
     "dropped": 2,
     "today": 1,
@@ -197,17 +197,23 @@
     "last_seen": "2026-09-04",
     "example": "Shay Lia & KAYTRANADA — So Good"
   },
+  "Rock y Alternativo": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-05",
+    "example": "José Madero — Querido…"
+  },
+  "Techno": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-05",
+    "example": "Amelie Lens — AURA"
+  },
   "Música tropical": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-09-04",
     "example": "Michael Stuart — Ya Lo Sé"
-  },
-  "Rock y Alternativo": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-04",
-    "example": "José Madero — Querido…"
   },
   "Instrumental": {
     "dropped": 1,
@@ -248,8 +254,8 @@
   "Shows": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "Various Artists — 天赐的声音第七季 第11期 (Live)"
+    "last_seen": "2026-09-05",
+    "example": "Various Artists — 天赐的声音第七季 第12期 (Live)"
   },
   "Indie Pop": {
     "dropped": 1,
@@ -302,8 +308,8 @@
   "Amapiano": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-10",
-    "example": "Mick Man — Stellenbosch Drive"
+    "last_seen": "2026-09-05",
+    "example": "Gaba Cannal — uYena, Pt.1"
   },
   "Death Metal/Black Metal": {
     "dropped": 1,
@@ -389,10 +395,10 @@
     "last_seen": "2026-09-02",
     "example": "Shiori Sasaki, ATLUS Sound Team & ATLUS GAME MUSIC — Prime Time Golden Hour Show (Soundtrack)"
   },
-  "Techno": {
+  "Big Band": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-04",
-    "example": "Amelie Lens — AURA"
+    "last_seen": "2026-09-05",
+    "example": "DOOMFLOW23 — Amor a Distancia"
   }
 }
