@@ -1,9 +1,9 @@
 {
-  "Afro-Pop": {
-    "dropped": 14,
-    "today": 2,
-    "last_seen": "2026-09-01",
-    "example": "Dj Night Affair — It's too late"
+  "Música Mexicana": {
+    "dropped": 17,
+    "today": 8,
+    "last_seen": "2026-09-06",
+    "example": "Victor Cibrian — LAS QUE SUENAN EN MI TROCA"
   },
   "Christian": {
     "dropped": 9,
@@ -11,34 +11,40 @@
     "last_seen": "2026-08-30",
     "example": "Brandon Lake — How Good God Is"
   },
-  "Rock": {
-    "dropped": 9,
-    "today": 9,
-    "last_seen": "2026-09-04",
-    "example": "The Cranberries — Live At The London Astoria II, 1994"
-  },
-  "Música Mexicana": {
-    "dropped": 9,
-    "today": 2,
-    "last_seen": "2026-09-05",
-    "example": "Carín Flow — Me hago el fuerte"
-  },
   "Alternative": {
-    "dropped": 8,
-    "today": 8,
-    "last_seen": "2026-09-04",
-    "example": "Spangle Call Lilli Line — lull"
-  },
-  "Metal": {
     "dropped": 5,
     "today": 5,
-    "last_seen": "2026-09-04",
+    "last_seen": "2026-09-06",
+    "example": "Medium Build — King of Having Fun"
+  },
+  "Afro-Beat": {
+    "dropped": 5,
+    "today": 1,
+    "last_seen": "2026-09-06",
+    "example": "Premium Emf — Big"
+  },
+  "House": {
+    "dropped": 5,
+    "today": 1,
+    "last_seen": "2026-09-06",
+    "example": "Hot Since 82 — Obsessions"
+  },
+  "Rock": {
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-09-06",
+    "example": "Odin Rising — BONE & STEEL"
+  },
+  "Metal": {
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-09-06",
     "example": "Accept — Teutonic Titans 1976-2026"
   },
   "Country": {
     "dropped": 4,
     "today": 4,
-    "last_seen": "2026-09-04",
+    "last_seen": "2026-09-06",
     "example": "Kane Brown — Boots (feat. Shania Twain)"
   },
   "Classical Crossover": {
@@ -76,24 +82,6 @@
     "today": 2,
     "last_seen": "2026-08-31",
     "example": "Théotime Langlois de Swarte & William Christie — Le Violon de Rameau"
-  },
-  "Afro-Beat": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-09-05",
-    "example": "DJ 2EFFECTS — Party Time 2026 Amapiano & Afrobeat Mix"
-  },
-  "House": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-09-05",
-    "example": "Rhode & Brown — Multitudes"
-  },
-  "Anime": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-09-04",
-    "example": "FictionJunction — 彼方"
   },
   "Funk": {
     "dropped": 3,
@@ -143,11 +131,17 @@
     "last_seen": "2026-09-03",
     "example": "DJ 2EFFECTS — Party Time 2026 Amapiano & Afrobeat Mix"
   },
-  "Soundtrack": {
+  "Rock y Alternativo": {
     "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-09-04",
-    "example": "haruka nakamura — Until the T-shirt Dries Original Soundtrack"
+    "today": 1,
+    "last_seen": "2026-09-06",
+    "example": "José Madero — Querido…"
+  },
+  "Techno": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-09-06",
+    "example": "Amelie Lens — AURA"
   },
   "African Dancehall": {
     "dropped": 2,
@@ -191,28 +185,40 @@
     "last_seen": "2026-08-29",
     "example": "Armin van Buuren — A State of Trance, Ibiza 2026 (DJ Mix) [Mixed by Armin van Buuren]"
   },
+  "Amapiano": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-06",
+    "example": "Gaba Cannal — uYena, Pt.1"
+  },
+  "Afro-Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-06",
+    "example": "Jeeloo — Pou Ou"
+  },
+  "Anime": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-06",
+    "example": "Hatsuboshi Gakuen — Schoosical Trip (Saki Hanami, Temari Tsukimura, Kotone Fujita, Tsubame Amaya, Hiro Shinosawa Version)"
+  },
+  "Soundtrack": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-06",
+    "example": "Michael Kramer, Roberto Prado & Adam Dib — LEGO Star Wars: The Mandalorian (Original Soundtrack)"
+  },
   "Electronic": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-09-04",
-    "example": "Shay Lia & KAYTRANADA — So Good"
-  },
-  "Rock y Alternativo": {
-    "dropped": 2,
+    "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-05",
-    "example": "José Madero — Querido…"
-  },
-  "Techno": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-05",
-    "example": "Amelie Lens — AURA"
+    "last_seen": "2026-09-06",
+    "example": "DJ HEARTSTRING & Sam Gellaitry — So Many Things To Say"
   },
   "Música tropical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-04",
+    "last_seen": "2026-09-06",
     "example": "Michael Stuart — Ya Lo Sé"
   },
   "Instrumental": {
@@ -224,7 +230,7 @@
   "Indie Rock": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-04",
+    "last_seen": "2026-09-06",
     "example": "Sharp Pins — Mod Mayday 23"
   },
   "Folk": {
@@ -236,7 +242,7 @@
   "T-Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-04",
+    "last_seen": "2026-09-06",
     "example": "Emi Thasorn — เพลงรักที่ยังไม่ลืม (Glitch)"
   },
   "Hard Rock": {
@@ -304,12 +310,6 @@
     "today": 1,
     "last_seen": "2026-08-28",
     "example": "Dust Bowl Faeries — Oh Dread!"
-  },
-  "Amapiano": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-05",
-    "example": "Gaba Cannal — uYena, Pt.1"
   },
   "Death Metal/Black Metal": {
     "dropped": 1,
@@ -400,5 +400,11 @@
     "today": 1,
     "last_seen": "2026-09-05",
     "example": "DOOMFLOW23 — Amor a Distancia"
+  },
+  "Praise & Worship": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-06",
+    "example": "Praise and Harmony — Family of God"
   }
 }
