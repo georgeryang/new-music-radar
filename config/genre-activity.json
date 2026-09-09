@@ -6,10 +6,16 @@
     "example": "Los Primos Del Este & Oscar Ortiz — Qué Show"
   },
   "Anime": {
-    "dropped": 13,
-    "today": 7,
-    "last_seen": "2026-09-08",
-    "example": "Hatsuboshi Gakuen & Hiro Shinosawa — Me"
+    "dropped": 21,
+    "today": 8,
+    "last_seen": "2026-09-09",
+    "example": "岩崎太整・小西 遼・YUKI KANESAKA — THE GHOST IN THE SHELL Original Soundtrack"
+  },
+  "Rock": {
+    "dropped": 14,
+    "today": 6,
+    "last_seen": "2026-09-09",
+    "example": "Kazuyoshi Saito — Nichijo Days"
   },
   "Alternative": {
     "dropped": 11,
@@ -29,12 +35,6 @@
     "last_seen": "2026-09-07",
     "example": "Kane Brown — Boots (feat. Shania Twain)"
   },
-  "Rock": {
-    "dropped": 8,
-    "today": 1,
-    "last_seen": "2026-09-08",
-    "example": "Rockon Social Club — Aki (Cover)"
-  },
   "House": {
     "dropped": 7,
     "today": 2,
@@ -47,17 +47,23 @@
     "last_seen": "2026-09-07",
     "example": "Accept — Teutonic Titans 1976-2026"
   },
+  "Soundtrack": {
+    "dropped": 7,
+    "today": 2,
+    "last_seen": "2026-09-09",
+    "example": "Shin Kono & Sayaka Aoki — Smoking Behind the Supermarket with You Original Soundtrack"
+  },
   "Afro-Beat": {
     "dropped": 6,
     "today": 1,
     "last_seen": "2026-09-07",
     "example": "Dee Curlz — Make Yuh Mine"
   },
-  "Soundtrack": {
+  "Indie Rock": {
     "dropped": 5,
-    "today": 1,
-    "last_seen": "2026-09-08",
-    "example": "Allen Ren — 深渊(《深渊无间》影视剧破晓主题曲)"
+    "today": 2,
+    "last_seen": "2026-09-09",
+    "example": "陳靜琳 — 哪天的形狀(One day, I)"
   },
   "Classical Crossover": {
     "dropped": 4,
@@ -89,12 +95,6 @@
     "last_seen": "2026-08-31",
     "example": "CZARFACE & Frankie Pulitzer — Czarface Meets Frankie Pulitzer"
   },
-  "Classical": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-08-31",
-    "example": "Théotime Langlois de Swarte & William Christie — Le Violon de Rameau"
-  },
   "Rock y Alternativo": {
     "dropped": 4,
     "today": 1,
@@ -106,12 +106,6 @@
     "today": 1,
     "last_seen": "2026-09-07",
     "example": "Amelie Lens — AURA"
-  },
-  "Funk": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-17",
-    "example": "André Cymone — The Resurrection of Funk"
   },
   "Latin Jazz": {
     "dropped": 3,
@@ -173,12 +167,6 @@
     "last_seen": "2026-09-08",
     "example": "Jeeloo — Pou Ou"
   },
-  "Indie Rock": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-09-08",
-    "example": "STAFF! — 倒下一头猪"
-  },
   "African Dancehall": {
     "dropped": 2,
     "today": 1,
@@ -232,6 +220,18 @@
     "today": 1,
     "last_seen": "2026-09-07",
     "example": "Praise and Harmony — Family of God"
+  },
+  "Classical": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-09",
+    "example": "Zoorasian Wood Winds — もくごの旅行鞄〜ミュージカル&シネマ・ファンタジー〜"
+  },
+  "Funk": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-09",
+    "example": "Lp Opie — Funk from Above"
   },
   "Instrumental": {
     "dropped": 1,
@@ -322,18 +322,6 @@
     "today": 1,
     "last_seen": "2026-09-04",
     "example": "Behemoth — I, Scvlptor"
-  },
-  "Europe": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-10",
-    "example": "Jorge Rojas — Acústico"
-  },
-  "Electronica": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-10",
-    "example": "Nikki Nair — The Sick Dimension"
   },
   "Raíces": {
     "dropped": 1,
