@@ -1,27 +1,21 @@
 {
-  "Música Mexicana": {
-    "dropped": 23,
-    "today": 1,
-    "last_seen": "2026-09-08",
-    "example": "Los Primos Del Este & Oscar Ortiz — Qué Show"
-  },
   "Anime": {
-    "dropped": 21,
-    "today": 8,
-    "last_seen": "2026-09-09",
+    "dropped": 28,
+    "today": 7,
+    "last_seen": "2026-09-10",
     "example": "岩崎太整・小西 遼・YUKI KANESAKA — THE GHOST IN THE SHELL Original Soundtrack"
   },
   "Rock": {
-    "dropped": 14,
+    "dropped": 20,
     "today": 6,
-    "last_seen": "2026-09-09",
+    "last_seen": "2026-09-10",
     "example": "Kazuyoshi Saito — Nichijo Days"
   },
-  "Alternative": {
-    "dropped": 11,
-    "today": 1,
-    "last_seen": "2026-09-08",
-    "example": "Nsqk — Hombre De Bien"
+  "Soundtrack": {
+    "dropped": 10,
+    "today": 3,
+    "last_seen": "2026-09-10",
+    "example": "Metal Scar Radio — Dreamscape of Wind and Snow (Original Soundtrack)"
   },
   "Christian": {
     "dropped": 9,
@@ -47,23 +41,17 @@
     "last_seen": "2026-09-07",
     "example": "Accept — Teutonic Titans 1976-2026"
   },
-  "Soundtrack": {
+  "Indie Rock": {
     "dropped": 7,
     "today": 2,
-    "last_seen": "2026-09-09",
-    "example": "Shin Kono & Sayaka Aoki — Smoking Behind the Supermarket with You Original Soundtrack"
+    "last_seen": "2026-09-10",
+    "example": "陳靜琳 — 哪天的形狀(One day, I)"
   },
   "Afro-Beat": {
     "dropped": 6,
     "today": 1,
     "last_seen": "2026-09-07",
     "example": "Dee Curlz — Make Yuh Mine"
-  },
-  "Indie Rock": {
-    "dropped": 5,
-    "today": 2,
-    "last_seen": "2026-09-09",
-    "example": "陳靜琳 — 哪天的形狀(One day, I)"
   },
   "Classical Crossover": {
     "dropped": 4,
@@ -209,17 +197,29 @@
     "last_seen": "2026-08-29",
     "example": "Armin van Buuren — A State of Trance, Ibiza 2026 (DJ Mix) [Mixed by Armin van Buuren]"
   },
-  "Electronic": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-07",
-    "example": "DJ HEARTSTRING & Sam Gellaitry — So Many Things To Say"
-  },
   "Praise & Worship": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-09-07",
     "example": "Praise and Harmony — Family of God"
+  },
+  "Música Mexicana": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-10",
+    "example": "Camila Fernández — Una Raya Más Al Tigre"
+  },
+  "Alternative": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-10",
+    "example": "The War on Drugs — Who's That"
+  },
+  "Electronic": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-10",
+    "example": "LAUSBUB — society | lazy"
   },
   "Classical": {
     "dropped": 1,
@@ -242,8 +242,8 @@
   "Folk": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-04",
-    "example": "Hans Williams — True Feeling"
+    "last_seen": "2026-09-10",
+    "example": "Nordic Viking Music — NORTHBORN Songs of a Higher Dawn"
   },
   "T-Pop": {
     "dropped": 1,

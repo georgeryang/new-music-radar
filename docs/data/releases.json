@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1788946237788,
+  "fetched_at": 1789032635793,
   "releases": [
     {
       "title": "Otoha",
@@ -35,7 +35,23 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/moonride-single/6807315056?uo=4",
       "followed": true,
-      "via_artist_id": 1793698498
+      "via_artist_id": 1793698498,
+      "sources": [
+        "genre:K-Pop",
+        "country:kr"
+      ]
+    },
+    {
+      "title": "Unknown Planet",
+      "artist": "IU",
+      "artist_id": 409076743,
+      "type": "song",
+      "release_date": "2026-09-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0f/42/d4/0f42d4ec-e05e-afa2-225a-fa27bb65127b/cover_KM0025182_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/unknown-planet-single/6808583617?uo=4",
+      "followed": true,
+      "via_artist_id": 409076743
     },
     {
       "title": "Platinum Fubu",
@@ -61,8 +77,23 @@
       "sources": [
         "genre:K-Pop",
         "country:ar",
-        "country:hk",
+        "country:co",
         "country:mx",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "螺旋 - RASEN",
+      "artist": "9Lana",
+      "artist_id": 1721402990,
+      "type": "album",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/79/05/43/79054347-882a-07e2-1e6f-aa80bb76bebc/4547366850079.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E8%9E%BA%E6%97%8B-rasen-ep/6805381112?uo=4",
+      "sources": [
+        "genre:J-Pop",
+        "country:hk",
         "country:tw"
       ]
     },
@@ -106,6 +137,7 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/aimyon-b-side-collection-album/6797516678?uo=4",
       "sources": [
+        "country:hk",
         "country:jp"
       ]
     },
@@ -119,7 +151,21 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/aimyon-best-album-chase-the-lips/6798303682?uo=4",
       "sources": [
+        "country:hk",
         "country:jp"
+      ]
+    },
+    {
+      "title": "That’s All!",
+      "artist": "Ashley Lin",
+      "artist_id": 1451316018,
+      "type": "song",
+      "release_date": "2026-09-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b6/03/a5/b603a5cb-ac07-a504-80e3-4f73a6e15915/37182599978.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/thats-all-single/6807656130?uo=4",
+      "sources": [
+        "playlist:New in C-Pop"
       ]
     },
     {
@@ -158,6 +204,8 @@
       "genre": "Pop Latino",
       "link": "https://music.apple.com/us/album/para-cuando-sean-mayores/6805150378?uo=4",
       "sources": [
+        "genre:Latin",
+        "country:co",
         "playlist:New Music Daily",
         "playlist:Nuevo Nuevo"
       ]
@@ -190,6 +238,20 @@
       ]
     },
     {
+      "title": "Dear You",
+      "artist": "Cosmos People",
+      "artist_id": 369125109,
+      "type": "album",
+      "release_date": "2026-09-10",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/34/19/24/341924e0-f299-1aa2-2d65-b9201bf0c823/3000.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/dear-you/6809423955?uo=4",
+      "sources": [
+        "country:jp",
+        "country:tw"
+      ]
+    },
+    {
       "title": "DOPAMINE - The 4th Mini Album",
       "artist": "D.O.",
       "artist_id": 1364148883,
@@ -204,8 +266,36 @@
         "country:co",
         "country:hk",
         "country:jp",
+        "country:kr",
         "country:mx",
         "country:tw"
+      ]
+    },
+    {
+      "title": "When In Rome",
+      "artist": "Dove Cameron",
+      "artist_id": 599822740,
+      "type": "song",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ad/c0/c1/adc0c1de-fb96-4b3d-0c0a-f13abd3067c9/196874742556.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/when-in-rome-single/6807934646?uo=4",
+      "sources": [
+        "genre:Pop",
+        "country:ar"
+      ]
+    },
+    {
+      "title": "to love and to lose",
+      "artist": "Dylan",
+      "artist_id": 2519053,
+      "type": "song",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/77/80/9e/77809e64-cdcb-6b28-c1ed-df168b9b7ce2/26UM1IM14236.rgb.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/to-love-and-to-lose-single/6808579348?uo=4",
+      "sources": [
+        "genre:Pop"
       ]
     },
     {
@@ -219,8 +309,20 @@
       "link": "https://music.apple.com/us/album/death-of-me/6798545915?uo=4",
       "sources": [
         "genre:K-Pop",
-        "country:co",
         "country:tw"
+      ]
+    },
+    {
+      "title": "一番星",
+      "artist": "EXILE TAKAHIRO",
+      "artist_id": 285671872,
+      "type": "song",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/73/99/94/739994a1-a6a9-9f58-846f-f4cee5a6688f/ANTCD-A0000020686.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E4%B8%80%E7%95%AA%E6%98%9F-single/6797364350?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -265,6 +367,47 @@
       ]
     },
     {
+      "title": "The Second Wave : MOMENTUM",
+      "artist": "hrtz.wav",
+      "artist_id": 1889116013,
+      "type": "album",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1f/c3/17/1fc3179e-8b99-6d03-2869-396fa2b13119/cover_KM0025171_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/the-second-wave-momentum-ep/6808169765?uo=4",
+      "sources": [
+        "country:ar",
+        "country:hk",
+        "country:jp"
+      ]
+    },
+    {
+      "title": "When the sun goes down : Midnight",
+      "artist": "IN A MINUTE",
+      "artist_id": 1800616674,
+      "type": "album",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/94/bd/64/94bd6460-3a55-f190-c3ff-ff766786d257/8800370426460.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/when-the-sun-goes-down-midnight/6806967459?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
+      "title": "Broken",
+      "artist": "Inui Toko",
+      "artist_id": 1484418975,
+      "type": "song",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2d/d4/59/2dd4593c-810e-670c-e666-71a1ede943cc/26UM1IM06685.rgb.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/broken-single/6806235817?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "帽子反戴 (feat. 吳克群)",
       "artist": "JinxZhou",
       "artist_id": 1450887047,
@@ -278,15 +421,16 @@
       ]
     },
     {
-      "title": "BLUE SIGNAL",
-      "artist": "KAF",
-      "artist_id": 1503255391,
+      "title": "IGNITE",
+      "artist": "JO1",
+      "artist_id": 1500272115,
       "type": "song",
-      "release_date": "2026-09-07",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/35/a3/f4/35a3f4c3-0628-6bde-6cbe-832b1afe41a4/ANTCD-A0000020727.jpg/400x400bb.webp",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8e/97/88/8e97883f-a1c7-4ac8-3982-de71a9988f2c/4582109079195.jpg/400x400bb.webp",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/blue-signal-single/6797345820?uo=4",
+      "link": "https://music.apple.com/us/album/ignite-single/6797375185?uo=4",
       "sources": [
+        "genre:J-Pop",
         "country:jp"
       ]
     },
@@ -318,16 +462,16 @@
       ]
     },
     {
-      "title": "Sa 9",
-      "artist": "Les Jumeaux",
-      "artist_id": 1766554986,
-      "type": "album",
-      "release_date": "2026-09-06",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/96/a8/8d/96a88d8e-dcd1-0e5a-3a69-fa272aee1505/artwork.jpg/400x400bb.webp",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/sa-9/6806458307?uo=4",
+      "title": "Amayadorinodoukei",
+      "artist": "Lia",
+      "artist_id": 1218079285,
+      "type": "song",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4d/70/72/4d7072f7-8b34-120e-9dca-b919099c52f2/PA00225729_0_252669_jacket.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/amayadorinodoukei-single/6806157157?uo=4",
       "sources": [
-        "genre:Latin"
+        "country:jp"
       ]
     },
     {
@@ -336,7 +480,7 @@
       "artist_id": 1495289940,
       "type": "album",
       "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/95/d9/59/95d95937-8e69-5288-62bb-20886e8d4414/cover_KM0025149_1.jpg/400x400bb.webp",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5d/dd/59/5ddd5939-3b3d-7c3b-3a05-671cc22f8969/8804775412349.jpg/400x400bb.webp",
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/im-hero-10/6806907313?uo=4",
       "sources": [
@@ -344,29 +488,16 @@
       ]
     },
     {
-      "title": "心室",
-      "artist": "Ma Jiaqi",
-      "artist_id": 1383307631,
-      "type": "album",
-      "release_date": "2026-09-07",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ec/54/03/ec5403e0-02de-955e-2669-591b69db2a4e/26UM1IM12880.rgb.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E5%BF%83%E5%AE%A4-ep/6807640463?uo=4",
-      "sources": [
-        "country:tw"
-      ]
-    },
-    {
-      "title": "\"Choice\" by magora",
-      "artist": "magora",
-      "artist_id": 1579285735,
-      "type": "album",
+      "title": "Close My Eyes (feat. SACHA)",
+      "artist": "Marshmello & ILLENIUM",
+      "artist_id": 980795202,
+      "type": "song",
       "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/06/04/e9/0604e94d-7253-09df-ff7c-bf4687c67870/4500000029507.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/choice-by-magora-ep/6805369493?uo=4",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d2/e4/d1/d2e4d14c-a58f-3da5-1573-2fe11796406d/823375409892_Cover.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/close-my-eyes-feat-sacha-single/6807267719?uo=4",
       "sources": [
-        "country:jp"
+        "genre:Dance"
       ]
     },
     {
@@ -408,6 +539,7 @@
       "link": "https://music.apple.com/us/album/%E3%81%AF%E3%81%98%E3%82%81%E3%81%A6%E3%81%AE%E4%B8%AD%E5%B3%B6%E7%BE%8E%E5%98%89/6808603743?uo=4",
       "sources": [
         "country:jp",
+        "country:mx",
         "country:tw"
       ]
     },
@@ -430,6 +562,19 @@
       ]
     },
     {
+      "title": "孤独なハーモニー",
+      "artist": "Nobuteru Maeda & Luna Nakagawa",
+      "artist_id": 183000873,
+      "type": "song",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/cc/5a/94/cc5a948b-b73f-8e3b-6e40-22d30ea73f49/4547366849943.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E5%AD%A4%E7%8B%AC%E3%81%AA%E3%83%8F%E3%83%BC%E3%83%A2%E3%83%8B%E3%83%BC-single/6805380323?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "賽壬",
       "artist": "PAULYBLEE",
       "artist_id": 1568501521,
@@ -443,16 +588,16 @@
       ]
     },
     {
-      "title": "Tears at KTV (feat. 王霏霏, 孟佳 & 徐梦洁)",
-      "artist": "Pets Tseng",
-      "artist_id": 596933364,
+      "title": "Supermarket Love",
+      "artist": "ponytailmama",
+      "artist_id": 6785891135,
       "type": "song",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e8/2a/b1/e82ab1f4-ebb2-e4a8-bb91-727693fffb37/4711280336708.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/tears-at-ktv-feat-%E7%8E%8B%E9%9C%8F%E9%9C%8F-%E5%AD%9F%E4%BD%B3-%E5%BE%90%E6%A2%A6%E6%B4%81-single/6807363242?uo=4",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/0a/b6/20/0ab620c4-c71f-6d98-036c-ee755aabe54a/4988061934877_cover.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/supermarket-love-single/6805426279?uo=4",
       "sources": [
-        "genre:Mandopop"
+        "genre:J-Pop"
       ]
     },
     {
@@ -465,8 +610,7 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/%E6%9E%9C%E5%AE%9F/6801103152?uo=4",
       "sources": [
-        "country:jp",
-        "country:tw"
+        "country:jp"
       ]
     },
     {
@@ -492,7 +636,37 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/%E3%81%82%E3%81%9F%E3%81%BE%E3%81%94/6805745934?uo=4",
       "sources": [
+        "genre:J-Pop",
+        "country:hk",
         "country:jp"
+      ]
+    },
+    {
+      "title": "LTL",
+      "artist": "ShowMinorSavage & SALU",
+      "artist_id": 1670107881,
+      "type": "song",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/03/11/b6/0311b683-82c8-9971-4e26-e1f7cf1893eb/ANTCD-75547.jpg/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/ltl-single/6804650807?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "笨蛋",
+      "artist": "Silence Wang & Ashin Chen",
+      "artist_id": 657686835,
+      "type": "song",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/67/a5/6f/67a56fa0-300f-3c7b-b593-4987170dbd8b/3.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E7%AC%A8%E8%9B%8B-single/6809424380?uo=4",
+      "sources": [
+        "genre:Mandopop",
+        "country:hk",
+        "country:tw"
       ]
     },
     {
@@ -505,6 +679,7 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/%E3%81%9F%E3%82%81%E6%81%AF%E6%9C%AA%E6%9D%A5-special-edition-ep/6802940861?uo=4",
       "sources": [
+        "country:hk",
         "country:jp"
       ]
     },
@@ -549,19 +724,6 @@
       ]
     },
     {
-      "title": "One Shot TV size (『仮面ライダーマイス』主題歌)",
-      "artist": "THE RAMPAGE from EXILE TRIBE",
-      "artist_id": 1193836423,
-      "type": "song",
-      "release_date": "2026-09-06",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8e/3b/03/8e3b0391-d1fc-4c57-9821-e65f43803bab/ANTCD-A0000020971.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/one-shot-tv-size-%E4%BB%AE%E9%9D%A2%E3%83%A9%E3%82%A4%E3%83%80%E3%83%BC%E3%83%9E%E3%82%A4%E3%82%B9-%E4%B8%BB%E9%A1%8C%E6%AD%8C-single/6805351216?uo=4",
-      "sources": [
-        "genre:J-Pop"
-      ]
-    },
-    {
       "title": "九月里",
       "artist": "THE SUPERVC",
       "artist_id": 387337029,
@@ -588,6 +750,19 @@
       ]
     },
     {
+      "title": "披荆斩棘2026 (第3期 Live)",
+      "artist": "Various Artists",
+      "artist_id": 618703099,
+      "type": "album",
+      "release_date": "2026-09-08",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/07/b9/00/07b90001-b9b8-e39e-8907-06261f8b15e4/cover.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E6%8A%AB%E8%8D%86%E6%96%A9%E6%A3%982026-%E7%AC%AC3%E6%9C%9F-live/6810045880?uo=4",
+      "sources": [
+        "genre:Mandopop"
+      ]
+    },
+    {
       "title": "CONFETTI",
       "artist": "VERIVERY",
       "artist_id": 1436821750,
@@ -597,20 +772,8 @@
       "genre": "Dance",
       "link": "https://music.apple.com/us/album/confetti-ep/6807337106?uo=4",
       "sources": [
-        "genre:Dance"
-      ]
-    },
-    {
-      "title": "思念若是一首诗",
-      "artist": "Vinida Weng",
-      "artist_id": 1185461302,
-      "type": "song",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/06/46/dc/0646dc12-eb4b-6345-d6a4-42169ec5832a/4896043215848.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E6%80%9D%E5%BF%B5%E8%8B%A5%E6%98%AF%E4%B8%80%E9%A6%96%E8%AF%97-single/6808334496?uo=4",
-      "sources": [
-        "genre:Mandopop"
+        "genre:Dance",
+        "country:tw"
       ]
     },
     {
@@ -623,7 +786,21 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/curve/6804537370?uo=4",
       "sources": [
+        "genre:J-Pop",
         "country:jp"
+      ]
+    },
+    {
+      "title": "GOODIES",
+      "artist": "Y:SY",
+      "artist_id": 1852644641,
+      "type": "album",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c6/ad/bb/c6adbb90-6160-63ef-7b52-f8f227783a32/888272187977_Cover.jpg/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/goodies-ep/6809339352?uo=4",
+      "sources": [
+        "genre:R&B/Soul"
       ]
     },
     {
@@ -637,6 +814,19 @@
       "link": "https://music.apple.com/us/album/%E3%83%A9%E3%83%A0%E3%83%8D-ep/6805854021?uo=4",
       "sources": [
         "country:jp"
+      ]
+    },
+    {
+      "title": "Yoyou Narino",
+      "artist": "Yoyou",
+      "artist_id": 1528661288,
+      "type": "album",
+      "release_date": "2026-09-09",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e0/51/59/e0515922-0c12-5866-6316-bae5c52f8385/4550760332157_cover.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/yoyou-narino/6809365729?uo=4",
+      "sources": [
+        "genre:J-Pop"
       ]
     },
     {
