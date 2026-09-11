@@ -1,21 +1,33 @@
 {
   "Anime": {
-    "dropped": 28,
-    "today": 7,
-    "last_seen": "2026-09-10",
+    "dropped": 33,
+    "today": 5,
+    "last_seen": "2026-09-11",
     "example": "岩崎太整・小西 遼・YUKI KANESAKA — THE GHOST IN THE SHELL Original Soundtrack"
   },
   "Rock": {
-    "dropped": 20,
-    "today": 6,
-    "last_seen": "2026-09-10",
-    "example": "Kazuyoshi Saito — Nichijo Days"
+    "dropped": 24,
+    "today": 4,
+    "last_seen": "2026-09-11",
+    "example": "Peter Gabriel — Looking for the Happy (Dark-Side Mix)"
+  },
+  "Alternative": {
+    "dropped": 17,
+    "today": 16,
+    "last_seen": "2026-09-11",
+    "example": "Bloc Party — Anatomy Of A Brief Romance"
   },
   "Soundtrack": {
+    "dropped": 12,
+    "today": 2,
+    "last_seen": "2026-09-11",
+    "example": "Metal Scar Radio — Dreamscape of Wind and Snow (Original Soundtrack)"
+  },
+  "Indie Rock": {
     "dropped": 10,
     "today": 3,
-    "last_seen": "2026-09-10",
-    "example": "Metal Scar Radio — Dreamscape of Wind and Snow (Original Soundtrack)"
+    "last_seen": "2026-09-11",
+    "example": "陳靜琳 — 哪天的形狀(One day, I)"
   },
   "Christian": {
     "dropped": 9,
@@ -23,41 +35,17 @@
     "last_seen": "2026-08-30",
     "example": "Brandon Lake — How Good God Is"
   },
-  "Country": {
-    "dropped": 8,
-    "today": 4,
-    "last_seen": "2026-09-07",
-    "example": "Kane Brown — Boots (feat. Shania Twain)"
-  },
-  "House": {
-    "dropped": 7,
-    "today": 2,
-    "last_seen": "2026-09-07",
-    "example": "Hot Since 82 — Obsessions"
-  },
-  "Metal": {
-    "dropped": 7,
-    "today": 3,
-    "last_seen": "2026-09-07",
-    "example": "Accept — Teutonic Titans 1976-2026"
-  },
-  "Indie Rock": {
-    "dropped": 7,
-    "today": 2,
-    "last_seen": "2026-09-10",
-    "example": "陳靜琳 — 哪天的形狀(One day, I)"
+  "Música Mexicana": {
+    "dropped": 9,
+    "today": 8,
+    "last_seen": "2026-09-11",
+    "example": "Banda MS de Sergio Lizárraga — 10 de 10"
   },
   "Afro-Beat": {
     "dropped": 6,
     "today": 1,
     "last_seen": "2026-09-07",
     "example": "Dee Curlz — Make Yuh Mine"
-  },
-  "Classical Crossover": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-17",
-    "example": "Jon Batiste — Black Mozart"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -70,18 +58,6 @@
     "today": 1,
     "last_seen": "2026-08-30",
     "example": "Bryan Adams — The Ballad Of Terry Fox"
-  },
-  "Rap": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-31",
-    "example": "Rod Wave — Don't Look Down"
-  },
-  "Hip-Hop": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-31",
-    "example": "CZARFACE & Frankie Pulitzer — Czarface Meets Frankie Pulitzer"
   },
   "Rock y Alternativo": {
     "dropped": 4,
@@ -106,12 +82,6 @@
     "today": 1,
     "last_seen": "2026-08-30",
     "example": "CHRIS STASSY & Marz Fay — U know me"
-  },
-  "Bluegrass": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-30",
-    "example": "Billy Strings — So Much For Goodbyes"
   },
   "Crossover Jazz": {
     "dropped": 3,
@@ -143,29 +113,47 @@
     "last_seen": "2026-09-07",
     "example": "Gaba Cannal — uYena, Pt.1"
   },
-  "Música tropical": {
+  "Electronic": {
     "dropped": 3,
     "today": 2,
-    "last_seen": "2026-09-07",
-    "example": "Skool 77 — Cumbia Enmascarada (Cumbia)"
+    "last_seen": "2026-09-11",
+    "example": "Bonobo — Distance in Static"
   },
-  "Afro-Pop": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-09-08",
-    "example": "Jeeloo — Pou Ou"
+  "Country": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-11",
+    "example": "Darius Rucker — I Believe"
+  },
+  "House": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-11",
+    "example": "Cloonee — Get Up And Dance"
+  },
+  "Metal": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-11",
+    "example": "Slipknot — Arsenal"
+  },
+  "Rap": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-11",
+    "example": "Rich The Kid & Gunna — Too Bad"
+  },
+  "Hip-Hop": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-11",
+    "example": "Tsu Surf — REAL INSIDE COLD OUTSIDE"
   },
   "African Dancehall": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-08-13",
     "example": "LOVIXX — Don't tell your dreams (Afrobeat)"
-  },
-  "Soul": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "MALIA — Live In Studio"
   },
   "C-Pop": {
     "dropped": 2,
@@ -203,29 +191,53 @@
     "last_seen": "2026-09-07",
     "example": "Praise and Harmony — Family of God"
   },
-  "Música Mexicana": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-10",
-    "example": "Camila Fernández — Una Raya Más Al Tigre"
+  "Hard Rock": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-11",
+    "example": "Green Lung — Necropolitan"
   },
-  "Alternative": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-10",
-    "example": "The War on Drugs — Who's That"
+  "Video Game": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-11",
+    "example": "Shiori Sasaki, ATLUS Sound Team & ATLUS GAME MUSIC — Reach out to the Truth -Revival- (Soundtrack)"
   },
-  "Electronic": {
+  "Classical Crossover": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-10",
-    "example": "LAUSBUB — society | lazy"
+    "last_seen": "2026-09-11",
+    "example": "Max Richter — Now We Can Sing"
+  },
+  "Bluegrass": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-11",
+    "example": "Dolly Parton & The First Ladies of Bluegrass — Bound to Ride"
+  },
+  "Música tropical": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-11",
+    "example": "Luis Vazquez — Un Segundo"
+  },
+  "Afro-Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-11",
+    "example": "Imael Angel — Into The Night"
+  },
+  "Soul": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-11",
+    "example": "Valerie June — Brighter Blue"
   },
   "Classical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-09",
-    "example": "Zoorasian Wood Winds — もくごの旅行鞄〜ミュージカル&シネマ・ファンタジー〜"
+    "last_seen": "2026-09-11",
+    "example": "Isobel Waller-Bridge — Last Seen (Apple Original Series Soundtrack)"
   },
   "Funk": {
     "dropped": 1,
@@ -251,12 +263,6 @@
     "last_seen": "2026-09-06",
     "example": "Emi Thasorn — เพลงรักที่ยังไม่ลืม (Glitch)"
   },
-  "Hard Rock": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-29",
-    "example": "Ladrones — Arriba La L"
-  },
   "Jazz": {
     "dropped": 1,
     "today": 1,
@@ -272,8 +278,8 @@
   "Indie Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "Tiger La Flor — HOLLYWOODLAND"
+    "last_seen": "2026-09-11",
+    "example": "Nell Mescal — Hers"
   },
   "Americana": {
     "dropped": 1,
@@ -320,8 +326,8 @@
   "Death Metal/Black Metal": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-04",
-    "example": "Behemoth — I, Scvlptor"
+    "last_seen": "2026-09-11",
+    "example": "Whispered — Honorbound"
   },
   "Raíces": {
     "dropped": 1,
@@ -382,12 +388,6 @@
     "today": 1,
     "last_seen": "2026-08-30",
     "example": "Skynny Rogers — Ain't My Fault"
-  },
-  "Video Game": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-02",
-    "example": "Shiori Sasaki, ATLUS Sound Team & ATLUS GAME MUSIC — Prime Time Golden Hour Show (Soundtrack)"
   },
   "Big Band": {
     "dropped": 1,
