@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type MouseEvent } from 'react'
 import { appleMusicAppLink, formatUpcoming } from '@/lib/utils'
 import type { Release } from '@/lib/types'
 
@@ -84,14 +84,22 @@ export function ReleaseCard({
   )
 
   const href = appleMusicAppLink(release.link)
+  if (!href) return card
 
-  // No target="_blank": music:// hands off to the app in place, so the new tab would stay empty.
-  return href ? (
-    <a href={href} className="block rounded-lg">
+  // Safari kicks a cross-site link activation out of a pinned tab into a new tab,
+  // and music:// counts as cross-site: that tab hands off to the app, closes, and
+  // Safari lands elsewhere. Script navigation is not a link activation. The href
+  // stays for long-press, copy link and assistive tech.
+  const openInMusic = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+    e.preventDefault()
+    window.location.assign(href)
+  }
+
+  return (
+    <a href={href} onClick={openInMusic} className="block rounded-lg">
       {card}
     </a>
-  ) : (
-    card
   )
 }
 
