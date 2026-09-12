@@ -1,10 +1,4 @@
 {
-  "Anime": {
-    "dropped": 33,
-    "today": 5,
-    "last_seen": "2026-09-11",
-    "example": "岩崎太整・小西 遼・YUKI KANESAKA — THE GHOST IN THE SHELL Original Soundtrack"
-  },
   "Rock": {
     "dropped": 24,
     "today": 4,
@@ -12,22 +6,16 @@
     "example": "Peter Gabriel — Looking for the Happy (Dark-Side Mix)"
   },
   "Alternative": {
-    "dropped": 17,
-    "today": 16,
-    "last_seen": "2026-09-11",
-    "example": "Bloc Party — Anatomy Of A Brief Romance"
-  },
-  "Soundtrack": {
     "dropped": 12,
-    "today": 2,
-    "last_seen": "2026-09-11",
-    "example": "Metal Scar Radio — Dreamscape of Wind and Snow (Original Soundtrack)"
+    "today": 12,
+    "last_seen": "2026-09-12",
+    "example": "Helena Gao — gao dan dan"
   },
-  "Indie Rock": {
+  "Música Mexicana": {
     "dropped": 10,
-    "today": 3,
-    "last_seen": "2026-09-11",
-    "example": "陳靜琳 — 哪天的形狀(One day, I)"
+    "today": 10,
+    "last_seen": "2026-09-12",
+    "example": "Camila Fernández — Una Raya Más Al Tigre"
   },
   "Christian": {
     "dropped": 9,
@@ -35,17 +23,11 @@
     "last_seen": "2026-08-30",
     "example": "Brandon Lake — How Good God Is"
   },
-  "Música Mexicana": {
-    "dropped": 9,
-    "today": 8,
-    "last_seen": "2026-09-11",
-    "example": "Banda MS de Sergio Lizárraga — 10 de 10"
-  },
-  "Afro-Beat": {
-    "dropped": 6,
-    "today": 1,
-    "last_seen": "2026-09-07",
-    "example": "Dee Curlz — Make Yuh Mine"
+  "Soundtrack": {
+    "dropped": 5,
+    "today": 5,
+    "last_seen": "2026-09-12",
+    "example": "def rebel — WWE: Fuego (AAA)"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -71,6 +53,18 @@
     "last_seen": "2026-09-07",
     "example": "Amelie Lens — AURA"
   },
+  "Anime": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-09-12",
+    "example": "matsudaakito — 『最終楽章 響け!ユーフォニアム』後編オリジナルサウンドトラック「Sound Will Join」"
+  },
+  "Afro-Beat": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-09-12",
+    "example": "Yemi Alade — It's Yemi Alade"
+  },
   "Latin Jazz": {
     "dropped": 3,
     "today": 1,
@@ -88,12 +82,6 @@
     "today": 1,
     "last_seen": "2026-08-30",
     "example": "Gretchen Parlato — The Wise Ones"
-  },
-  "Afro House": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-31",
-    "example": "Sneja — THIRTEEN YEARS OF SNEJA REMIXED - GIORGIO BASSETTI REMIXES"
   },
   "Afro-fusion": {
     "dropped": 3,
@@ -115,9 +103,9 @@
   },
   "Electronic": {
     "dropped": 3,
-    "today": 2,
-    "last_seen": "2026-09-11",
-    "example": "Bonobo — Distance in Static"
+    "today": 3,
+    "last_seen": "2026-09-12",
+    "example": "The Black Dog — Psychick Youth"
   },
   "Country": {
     "dropped": 2,
@@ -128,32 +116,14 @@
   "House": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-09-11",
-    "example": "Cloonee — Get Up And Dance"
-  },
-  "Metal": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-09-11",
-    "example": "Slipknot — Arsenal"
-  },
-  "Rap": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-09-11",
-    "example": "Rich The Kid & Gunna — Too Bad"
+    "last_seen": "2026-09-12",
+    "example": "Various Artists — Top50 House Music 2026"
   },
   "Hip-Hop": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-09-11",
+    "last_seen": "2026-09-12",
     "example": "Tsu Surf — REAL INSIDE COLD OUTSIDE"
-  },
-  "African Dancehall": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-13",
-    "example": "LOVIXX — Don't tell your dreams (Afrobeat)"
   },
   "C-Pop": {
     "dropped": 2,
@@ -191,17 +161,41 @@
     "last_seen": "2026-09-07",
     "example": "Praise and Harmony — Family of God"
   },
-  "Hard Rock": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-09-11",
-    "example": "Green Lung — Necropolitan"
-  },
   "Video Game": {
     "dropped": 2,
     "today": 2,
     "last_seen": "2026-09-11",
     "example": "Shiori Sasaki, ATLUS Sound Team & ATLUS GAME MUSIC — Reach out to the Truth -Revival- (Soundtrack)"
+  },
+  "Indie Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-12",
+    "example": "The Tubs — Hard Life"
+  },
+  "Afro House": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-12",
+    "example": "DJ MidTempo & Tahoe Studios — Cheza Kidogo"
+  },
+  "Metal": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-12",
+    "example": "throatcut. — NO KINGS."
+  },
+  "Rap": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-12",
+    "example": "Rich The Kid & Gunna — Too Bad"
+  },
+  "Hard Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-12",
+    "example": "Green Lung — Necropolitan"
   },
   "Classical Crossover": {
     "dropped": 1,
@@ -218,19 +212,19 @@
   "Música tropical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-11",
+    "last_seen": "2026-09-12",
     "example": "Luis Vazquez — Un Segundo"
   },
   "Afro-Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-11",
-    "example": "Imael Angel — Into The Night"
+    "last_seen": "2026-09-12",
+    "example": "Ibibio Sound Machine — Chopping Mountain"
   },
   "Soul": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-11",
+    "last_seen": "2026-09-12",
     "example": "Valerie June — Brighter Blue"
   },
   "Classical": {
@@ -278,7 +272,7 @@
   "Indie Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-11",
+    "last_seen": "2026-09-12",
     "example": "Nell Mescal — Hers"
   },
   "Americana": {
@@ -328,12 +322,6 @@
     "today": 1,
     "last_seen": "2026-09-11",
     "example": "Whispered — Honorbound"
-  },
-  "Raíces": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-13",
-    "example": "Soledad & Nati Pastorutti — Si Acaso Regresaras (Casa Sole)"
   },
   "Neo-Soul": {
     "dropped": 1,

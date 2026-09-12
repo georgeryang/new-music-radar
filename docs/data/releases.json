@@ -1,46 +1,6 @@
 {
-  "fetched_at": 1789119040056,
+  "fetched_at": 1789255239898,
   "releases": [
-    {
-      "title": "Otoha",
-      "artist": "5Leaf",
-      "artist_id": 1707492969,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d6/d2/52/d6d2525a-31f0-2b78-7027-27407c246191/4550759922284_cover.jpg/400x400bb.webp",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/otoha-single/6804870418?uo=4",
-      "followed": true,
-      "via_artist_id": 1707492969
-    },
-    {
-      "title": "petal – the complete live album",
-      "artist": "Ariana Grande",
-      "artist_id": 412778295,
-      "type": "album",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c1/0b/78/c10b784a-3a23-6dd3-d68d-929cf7ef7856/26UM1IM14714.rgb.jpg/400x400bb.webp",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/petal-the-complete-live-album/6808818398?uo=4",
-      "followed": true,
-      "via_artist_id": 412778295
-    },
-    {
-      "title": "Moonride",
-      "artist": "Hearts2Hearts",
-      "artist_id": 1793698498,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/28/81/dc/2881dcb9-7d24-dad1-7a03-cb3c3e23193b/888735956782.png/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/moonride-single/6807315056?uo=4",
-      "followed": true,
-      "via_artist_id": 1793698498,
-      "sources": [
-        "genre:K-Pop",
-        "country:kr"
-      ]
-    },
     {
       "title": "Unknown Planet",
       "artist": "IU",
@@ -61,6 +21,48 @@
       ]
     },
     {
+      "title": "Made My Night (Karaoke ver.)",
+      "artist": "LE SSERAFIM",
+      "artist_id": 1616740364,
+      "type": "song",
+      "release_date": "2026-09-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a1/ba/d2/a1bad28d-2cb2-764b-7d87-d891390e77d6/823375407102_Cover.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/made-my-night-karaoke-ver-single/6810395893?uo=4",
+      "followed": true,
+      "via_artist_id": 1616740364,
+      "sources": [
+        "genre:K-Pop"
+      ]
+    },
+    {
+      "title": "Made My Night (Remixes Cover ver.)",
+      "artist": "LE SSERAFIM",
+      "artist_id": 1616740364,
+      "type": "song",
+      "release_date": "2026-09-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/37/14/2a/37142a0d-96a1-22d0-6e6c-9dabf53797f2/823375407096_Cover.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/made-my-night-remixes-cover-ver-single/6810483861?uo=4",
+      "followed": true,
+      "via_artist_id": 1616740364,
+      "sources": [
+        "genre:K-Pop"
+      ]
+    },
+    {
+      "title": "Made My Night (Remixes)",
+      "artist": "LE SSERAFIM",
+      "artist_id": 1616740364,
+      "type": "album",
+      "release_date": "2026-09-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/60/b4/bb/60b4bbbf-1dd4-d47e-6314-2bc9e0778a5b/823375407089_Cover.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/made-my-night-remixes-ep/6810393870?uo=4",
+      "followed": true,
+      "via_artist_id": 1616740364
+    },
+    {
       "title": "Made My Night",
       "artist": "LE SSERAFIM",
       "artist_id": 1616740364,
@@ -70,19 +72,14 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/made-my-night-single/6808545628?uo=4",
       "followed": true,
-      "via_artist_id": 1616740364
-    },
-    {
-      "title": "Platinum Fubu",
-      "artist": "Mez & UMI",
-      "artist_id": 1454545344,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/50/02/50/500250c5-8ce6-c099-12aa-0210c682106a/885288319842.jpg/400x400bb.webp",
-      "genre": "Hip-Hop",
-      "link": "https://music.apple.com/us/album/platinum-fubu-single/6802776666?uo=4",
-      "followed": true,
-      "via_artist_id": 1252286426
+      "via_artist_id": 1616740364,
+      "sources": [
+        "genre:K-Pop",
+        "country:hk",
+        "country:mx",
+        "country:tw",
+        "playlist:New Music Daily"
+      ]
     },
     {
       "title": "speaker freaker the long song",
@@ -97,88 +94,16 @@
       "via_artist_id": 1809786661
     },
     {
-      "title": "Mark on Me",
-      "artist": "&TEAM",
-      "artist_id": 1654437478,
-      "type": "album",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/94/d2/90/94d2905f-8fbd-64c9-1933-ae05938bf89b/823375307167_Cover.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/mark-on-me-ep/6802917476?uo=4",
+      "title": "Ikizama",
+      "artist": "AK-69",
+      "artist_id": 73443814,
+      "type": "song",
+      "release_date": "2026-09-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/47/90/ea/4790ea0d-850b-e453-68c3-1188b78d7bae/4550759950713_cover.jpg/400x400bb.webp",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/ikizama-single/6805072592?uo=4",
       "sources": [
-        "genre:K-Pop",
-        "country:ar",
-        "country:co",
-        "country:tw",
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "螺旋 - RASEN",
-      "artist": "9Lana",
-      "artist_id": 1721402990,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/79/05/43/79054347-882a-07e2-1e6f-aa80bb76bebc/4547366850079.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E8%9E%BA%E6%97%8B-rasen-ep/6805381112?uo=4",
-      "sources": [
-        "genre:J-Pop",
-        "country:hk"
-      ]
-    },
-    {
-      "title": "AIMYON B-SIDE COLLECTION ALBUM",
-      "artist": "Aimyon",
-      "artist_id": 1165017710,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2b/e6/d5/2be6d56d-7b26-87a6-272b-620f7fa5b3ef/1200214726270.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/aimyon-b-side-collection-album/6797516678?uo=4",
-      "sources": [
-        "country:hk",
         "country:jp"
-      ]
-    },
-    {
-      "title": "AIMYON BEST ALBUM - Chase the Lips! -",
-      "artist": "Aimyon",
-      "artist_id": 1165017710,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c4/e8/e4/c4e8e416-edcd-9783-ecba-046d550f454e/1200214726096.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/aimyon-best-album-chase-the-lips/6798303682?uo=4",
-      "sources": [
-        "country:hk",
-        "country:jp"
-      ]
-    },
-    {
-      "title": "刻骨銘心 譚詠麟流行傳世自選集[不變篇]",
-      "artist": "Alan Tam",
-      "artist_id": 320148563,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0c/da/d0/0cdad0a1-a030-6890-6bc8-c9b9308e2fb2/26UMGIM99355.rgb.jpg/400x400bb.webp",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E5%88%BB%E9%AA%A8%E9%8A%98%E5%BF%83-%E8%AD%9A%E8%A9%A0%E9%BA%9F%E6%B5%81%E8%A1%8C%E5%82%B3%E4%B8%96%E8%87%AA%E9%81%B8%E9%9B%86-%E4%B8%8D%E8%AE%8A%E7%AF%87/6808113363?uo=4",
-      "sources": [
-        "country:hk"
-      ]
-    },
-    {
-      "title": "刻骨銘心 譚詠麟流行傳世自選集[感激篇]",
-      "artist": "Alan Tam",
-      "artist_id": 320148563,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c3/69/4c/c3694c49-aa6d-d426-277e-42003aa7844c/26UMGIM99351.rgb.jpg/400x400bb.webp",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E5%88%BB%E9%AA%A8%E9%8A%98%E5%BF%83-%E8%AD%9A%E8%A9%A0%E9%BA%9F%E6%B5%81%E8%A1%8C%E5%82%B3%E4%B8%96%E8%87%AA%E9%81%B8%E9%9B%86-%E6%84%9F%E6%BF%80%E7%AF%87/6808108473?uo=4",
-      "sources": [
-        "country:hk"
       ]
     },
     {
@@ -217,8 +142,22 @@
       "genre": "Cantopop/HK-Pop",
       "link": "https://music.apple.com/us/album/%E5%82%B7%E5%BF%83%E8%90%AC%E9%87%8C%E9%80%9A-single/6809715479?uo=4",
       "sources": [
+        "genre:Cantopop/HK-Pop",
         "country:hk",
         "playlist:The A-List Cantopop"
+      ]
+    },
+    {
+      "title": "Flow Tide",
+      "artist": "Artefakt",
+      "artist_id": 288163743,
+      "type": "album",
+      "release_date": "2026-09-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/47/0e/c1/470ec1e9-c5cf-8ac7-03e4-e4eb97d26cd9/6154318714785.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/flow-tide/6801224489?uo=4",
+      "sources": [
+        "genre:Dance"
       ]
     },
     {
@@ -248,20 +187,6 @@
       ]
     },
     {
-      "title": "20 Lights - The Collection -",
-      "artist": "Ayaka",
-      "artist_id": 121061666,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/86/73/71/86737188-f839-70a0-c93f-ca8703555311/ANTCD-A0000020536.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/20-lights-the-collection/6799790450?uo=4",
-      "sources": [
-        "country:hk",
-        "country:jp"
-      ]
-    },
-    {
       "title": "BLAST",
       "artist": "BALLISTIK BOYZ",
       "artist_id": 1458858934,
@@ -271,7 +196,6 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/blast-ep/6797432118?uo=4",
       "sources": [
-        "country:hk",
         "country:jp"
       ]
     },
@@ -289,6 +213,19 @@
       ]
     },
     {
+      "title": "Piece of Apple Pie (feat. Hatsune Miku, 鏡音リン, 鏡音レン, Megurine Luka, MEIKO, KAITO, Mai & Chugoku Usagi)",
+      "artist": "Bungaku Miyamori",
+      "artist_id": 1604734024,
+      "type": "album",
+      "release_date": "2026-09-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b7/42/db/b742dbfc-be3e-7d5f-bb10-f571ec01e395/4511820-61850.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/piece-of-apple-pie-feat-hatsune-miku-%E9%8F%A1%E9%9F%B3%E3%83%AA%E3%83%B3-%E9%8F%A1%E9%9F%B3%E3%83%AC%E3%83%B3/6807308630?uo=4",
+      "sources": [
+        "genre:J-Pop"
+      ]
+    },
+    {
       "title": "Para lxs dos",
       "artist": "Cachirula, LOOJAN, Viglezz & Fantawy",
       "artist_id": 1533347288,
@@ -302,45 +239,16 @@
       ]
     },
     {
-      "title": "Para Cuando Sean Mayores",
-      "artist": "Camilo",
-      "artist_id": 1457386767,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5d/8d/ac/5d8dac18-ff61-feed-320c-b538f94e95cb/196874719695.jpg/400x400bb.webp",
-      "genre": "Pop Latino",
-      "link": "https://music.apple.com/us/album/para-cuando-sean-mayores/6805150378?uo=4",
-      "sources": [
-        "genre:Latin",
-        "country:co",
-        "playlist:New Music Daily",
-        "playlist:Nuevo Nuevo"
-      ]
-    },
-    {
-      "title": "La Hora Azul",
-      "artist": "Cardellino",
-      "artist_id": 366594216,
-      "type": "album",
-      "release_date": "2026-09-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/31/dd/fd/31ddfdef-14c6-fef2-38a3-399f23cb6dfb/885288536218.jpg/400x400bb.webp",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/la-hora-azul/6809523520?uo=4",
-      "sources": [
-        "country:mx"
-      ]
-    },
-    {
-      "title": "Translucent",
-      "artist": "Caspa",
-      "artist_id": 925673908,
+      "title": "Spanish Guitar Memories",
+      "artist": "Carlos Velacruz",
+      "artist_id": 1840526644,
       "type": "album",
       "release_date": "2026-09-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/67/61/76/676176fe-c49d-e2e4-0b93-eb094c8fc98d/cover.jpg/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/translucent/6806324952?uo=4",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/fd/25/a9/fd25a95f-cdf5-7df8-9473-ee1a297b6aad/artwork.jpg/400x400bb.webp",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/spanish-guitar-memories/6804482014?uo=4",
       "sources": [
-        "genre:Dance"
+        "genre:Latin"
       ]
     },
     {
@@ -366,20 +274,33 @@
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/one-life-single/6807203409?uo=4",
       "sources": [
+        "genre:Pop",
         "playlist:New Music Daily"
       ]
     },
     {
-      "title": "(almost) perfect girl",
+      "title": "PERSONA",
+      "artist": "COLLAR",
+      "artist_id": 1604311077,
+      "type": "album",
+      "release_date": "2026-09-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ef/d1/41/efd141a1-5eb2-8d4a-7774-8a7f405e7ae0/4897004798516.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/persona/6809306010?uo=4",
+      "sources": [
+        "country:hk"
+      ]
+    },
+    {
+      "title": "流浪足印",
       "artist": "COLLAR",
       "artist_id": 1604311077,
       "type": "song",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/de/a7/b7/dea7b75c-303c-a4a2-a28b-7b908993fbc0/301627920741.jpg/400x400bb.webp",
+      "release_date": "2026-09-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ec/79/6d/ec796ded-ce1e-0a48-ac87-b1367fe47c68/301627920758.jpg/400x400bb.webp",
       "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/almost-perfect-girl-single/6809305808?uo=4",
+      "link": "https://music.apple.com/us/album/%E6%B5%81%E6%B5%AA%E8%B6%B3%E5%8D%B0-single/6809305863?uo=4",
       "sources": [
-        "genre:Cantopop/HK-Pop",
         "country:hk"
       ]
     },
@@ -393,26 +314,7 @@
       "genre": "Mandopop",
       "link": "https://music.apple.com/us/album/dear-you/6809423955?uo=4",
       "sources": [
-        "country:tw"
-      ]
-    },
-    {
-      "title": "DOPAMINE - The 4th Mini Album",
-      "artist": "D.O.",
-      "artist_id": 1364148883,
-      "type": "album",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a8/15/c1/a815c10b-f685-c245-aed1-aaf6505e5403/191953574820.jpg/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/dopamine-the-4th-mini-album-ep/6807359386?uo=4",
-      "sources": [
-        "genre:K-Pop",
-        "country:ar",
-        "country:co",
         "country:hk",
-        "country:jp",
-        "country:kr",
-        "country:mx",
         "country:tw"
       ]
     },
@@ -444,45 +346,6 @@
       ]
     },
     {
-      "title": "When In Rome",
-      "artist": "Dove Cameron",
-      "artist_id": 599822740,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ad/c0/c1/adc0c1de-fb96-4b3d-0c0a-f13abd3067c9/196874742556.jpg/400x400bb.webp",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/when-in-rome-single/6807934646?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "to love and to lose",
-      "artist": "Dylan",
-      "artist_id": 2519053,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/77/80/9e/77809e64-cdcb-6b28-c1ed-df168b9b7ce2/26UM1IM14236.rgb.jpg/400x400bb.webp",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/to-love-and-to-lose-single/6808579348?uo=4",
-      "sources": [
-        "genre:Pop"
-      ]
-    },
-    {
-      "title": "FUNNY GAMES",
-      "artist": "Eem Triplin",
-      "artist_id": 1348832122,
-      "type": "song",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e6/b7/65/e6b76555-ea7a-129b-f134-6e1524a3dcbb/196874655924.jpg/400x400bb.webp",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/funny-games-single/6804774421?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
       "title": "BIGGER THAN THE DEVIL",
       "artist": "EST Gee",
       "artist_id": 1387365020,
@@ -492,110 +355,32 @@
       "genre": "Hip-Hop/Rap",
       "link": "https://music.apple.com/us/album/bigger-than-the-devil/6804125384?uo=4",
       "sources": [
+        "chart:us",
         "playlist:New Music Daily"
       ]
     },
     {
-      "title": "一番星",
-      "artist": "EXILE TAKAHIRO",
-      "artist_id": 285671872,
+      "title": "PINK NI NATTYAE",
+      "artist": "Hakui Koyori",
+      "artist_id": 1629813568,
       "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/73/99/94/739994a1-a6a9-9f58-846f-f4cee5a6688f/ANTCD-A0000020686.jpg/400x400bb.webp",
+      "release_date": "2026-09-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/78/03/ca/7803caac-0567-ceec-7de9-919f0819be1c/4580883417981_art.png/400x400bb.webp",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E4%B8%80%E7%95%AA%E6%98%9F-single/6797364350?uo=4",
+      "link": "https://music.apple.com/us/album/pink-ni-nattyae-single/6810566228?uo=4",
       "sources": [
         "country:jp"
       ]
     },
     {
-      "title": "YOUTH ERROR Japan Edition (Selected Version)",
-      "artist": "FLARE U",
-      "artist_id": 1896549739,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f8/63/c1/f863c1da-f9e2-ef6c-ee94-91dad323899c/1200214939168.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/youth-error-japan-edition-selected-version-ep/6805408222?uo=4",
-      "sources": [
-        "country:tw"
-      ]
-    },
-    {
-      "title": "BRB (from Forgotten Island)",
-      "artist": "H.E.R. & Liza Soberano",
-      "artist_id": 123049323,
-      "type": "song",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/0e/06/d4/0e06d437-ab71-96ab-ba28-bd6189e8562f/985.jpg/400x400bb.webp",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/brb-from-forgotten-island-single/6803227471?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "世界が変わる時",
-      "artist": "Haku.",
-      "artist_id": 1558485873,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/12/30/68/12306823-9e16-f47d-af22-b9e8897bf9be/4517331101789.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E4%B8%96%E7%95%8C%E3%81%8C%E5%A4%89%E3%82%8F%E3%82%8B%E6%99%82/6801157591?uo=4",
-      "sources": [
-        "genre:J-Pop",
-        "country:jp"
-      ]
-    },
-    {
-      "title": "風にキンモクセイ",
-      "artist": "Hinatazaka46",
-      "artist_id": 1456116642,
-      "type": "song",
-      "release_date": "2026-09-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/aa/89/9b/aa899b61-d211-76f7-8a05-af6fd339c06b/4547366850680.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E9%A2%A8%E3%81%AB%E3%82%AD%E3%83%B3%E3%83%A2%E3%82%AF%E3%82%BB%E3%82%A4-single/6805380263?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "The Second Wave : MOMENTUM",
-      "artist": "hrtz.wav",
-      "artist_id": 1889116013,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/1f/c3/17/1fc3179e-8b99-6d03-2869-396fa2b13119/cover_KM0025171_1.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/the-second-wave-momentum-ep/6808169765?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Pienso En Ti",
+      "title": "Pienso solo en ti",
       "artist": "Immasoul",
       "artist_id": 1116452694,
       "type": "song",
       "release_date": "2026-09-11",
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c0/2e/47/c02e47ca-acfb-4d17-39b2-30afe788c0e6/199316745689_cover.jpg/400x400bb.webp",
       "genre": "Latin",
-      "link": "https://music.apple.com/us/album/pienso-en-ti-single/6804853302?uo=4",
-      "sources": [
-        "playlist:Nuevo Nuevo"
-      ]
-    },
-    {
-      "title": "ICE",
-      "artist": "Jere Klein, Justin Quiles & Adan La Amenaza",
-      "artist_id": 1539048077,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9f/23/b9/9f23b9f3-7aa9-dab3-205e-c665f75677e4/885288411317.jpg/400x400bb.webp",
-      "genre": "Urbano latino",
-      "link": "https://music.apple.com/us/album/ice-single/6805581067?uo=4",
+      "link": "https://music.apple.com/us/album/pienso-solo-en-ti-single/6804853302?uo=4",
       "sources": [
         "playlist:Nuevo Nuevo"
       ]
@@ -624,20 +409,8 @@
       "link": "https://music.apple.com/us/album/westside-whimsy/6810715695?uo=4",
       "sources": [
         "chart:us",
+        "genre:R&B/Soul",
         "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "IGNITE",
-      "artist": "JO1",
-      "artist_id": 1500272115,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8e/97/88/8e97883f-a1c7-4ac8-3982-de71a9988f2c/4582109079195.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/ignite-single/6797375185?uo=4",
-      "sources": [
-        "country:jp"
       ]
     },
     {
@@ -654,16 +427,16 @@
       ]
     },
     {
-      "title": "霓梦 (Neon Dream)",
-      "artist": "Kao Supassara",
-      "artist_id": 1895695276,
+      "title": "Raden no Tabiplan",
+      "artist": "Juufuutei Raden",
+      "artist_id": 1722891723,
       "type": "song",
-      "release_date": "2026-09-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b9/1e/6d/b91e6d6b-3cb0-c0fc-547b-bd5ea1e72947/4896043284226.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E9%9C%93%E6%A2%A6-neon-dream-single/6810214540?uo=4",
+      "release_date": "2026-09-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/38/fb/a4/38fba452-418f-fb54-c160-f826e5d756db/4580883417714_art.png/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/raden-no-tabiplan-single/6809747721?uo=4",
       "sources": [
-        "country:tw"
+        "country:jp"
       ]
     },
     {
@@ -680,16 +453,16 @@
       ]
     },
     {
-      "title": "World Killer",
-      "artist": "KIRA:MINA",
-      "artist_id": 6809434789,
-      "type": "album",
+      "title": "Ghost (feat. ROSU)",
+      "artist": "Kodokulove",
+      "artist_id": 1588701443,
+      "type": "song",
       "release_date": "2026-09-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/00/a1/a8/00a1a8df-a8fe-877d-f516-d77927fce65a/4550760334878_cover.jpg/400x400bb.webp",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3e/cc/af/3eccaf2c-2157-25ea-6dac-d1eca2353b75/4550760396562_cover.png/400x400bb.webp",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/world-killer-ep/6809443706?uo=4",
+      "link": "https://music.apple.com/us/album/ghost-feat-rosu-single/6810105557?uo=4",
       "sources": [
-        "country:jp"
+        "genre:J-Pop"
       ]
     },
     {
@@ -716,73 +489,21 @@
       "genre": "Mandopop",
       "link": "https://music.apple.com/us/album/%E6%B4%BB%E8%91%97%E7%9A%84%E5%89%AF%E4%BD%9C%E7%94%A8/6805003523?uo=4",
       "sources": [
+        "country:tw",
         "playlist:New in C-Pop"
       ]
     },
     {
-      "title": "MISMATCH",
-      "artist": "LEE JISOO",
-      "artist_id": 6804579936,
-      "type": "song",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/87/03/0e/87030e69-c416-ca20-7dc8-619f5835a146/4547366848298.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/mismatch-single/6804959494?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "8",
-      "artist": "Lenny Tavárez",
-      "artist_id": 950466227,
+      "title": "ETERNAL",
+      "artist": "Leslie Cheung",
+      "artist_id": 41759136,
       "type": "album",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9c/19/91/9c1991c4-a275-5986-998a-7ee268bd9782/5059449421520.png/400x400bb.webp",
-      "genre": "Urbano latino",
-      "link": "https://music.apple.com/us/album/8/6799146916?uo=4",
+      "release_date": "2026-09-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/00/70/e2/0070e263-ad99-3297-3c20-aedc52e61c80/1200220078233.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/eternal/6810668508?uo=4",
       "sources": [
-        "playlist:New Music Daily",
-        "playlist:Nuevo Nuevo"
-      ]
-    },
-    {
-      "title": "Amayadorinodoukei",
-      "artist": "Lia",
-      "artist_id": 1218079285,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/4d/70/72/4d7072f7-8b34-120e-9dca-b919099c52f2/PA00225729_0_252669_jacket.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/amayadorinodoukei-single/6806157157?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "IM HERO 10",
-      "artist": "Lim Young Woong",
-      "artist_id": 1495289940,
-      "type": "album",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5d/dd/59/5ddd5939-3b3d-7c3b-3a05-671cc22f8969/8804775412349.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/im-hero-10/6806907313?uo=4",
-      "sources": [
-        "genre:K-Pop"
-      ]
-    },
-    {
-      "title": "Super Power II Pack",
-      "artist": "Limoblaze",
-      "artist_id": 993035016,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/fe/f5/3c/fef53c34-728a-de6c-bfab-ad2ef0116b2b/129623.jpg/400x400bb.webp",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/super-power-ii-pack-single/6807112064?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
+        "country:hk"
       ]
     },
     {
@@ -808,64 +529,20 @@
       "genre": "Pop",
       "link": "https://music.apple.com/us/album/my-friend-single/6806221471?uo=4",
       "sources": [
-        "country:ar",
-        "country:co",
-        "country:jp"
+        "country:ar"
       ]
     },
     {
-      "title": "Close My Eyes (feat. SACHA)",
-      "artist": "Marshmello & ILLENIUM",
-      "artist_id": 980795202,
+      "title": "Mil Años Luz",
+      "artist": "Matisse",
+      "artist_id": 1015156503,
       "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d2/e4/d1/d2e4d14c-a58f-3da5-1573-2fe11796406d/823375409892_Cover.jpg/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/close-my-eyes-feat-sacha-single/6807267719?uo=4",
-      "sources": [
-        "genre:Dance",
-        "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "Supernova",
-      "artist": "Masaharu Fukuyama",
-      "artist_id": 120889904,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2f/1c/e6/2f1ce670-4594-84ed-95a6-556318050e03/26UM1IM10481.rgb.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/supernova/6808205768?uo=4",
-      "sources": [
-        "country:jp",
-        "country:tw"
-      ]
-    },
-    {
-      "title": "嗚呼、素晴らしき日常",
-      "artist": "Masayoshi Ooishi",
-      "artist_id": 1545519812,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ec/48/76/ec4876eb-5334-4a8c-e598-7d0c19525c40/4517331101949.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E5%97%9A%E5%91%BC-%E7%B4%A0%E6%99%B4%E3%82%89%E3%81%97%E3%81%8D%E6%97%A5%E5%B8%B8-ep/6805852584?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "MCND 7th Mini Album [Devil Youth Club]",
-      "artist": "MCND",
-      "artist_id": 1493379489,
-      "type": "album",
       "release_date": "2026-09-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6c/09/d4/6c09d4e2-740b-1426-b62c-3124ade92e04/196874743676.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/mcnd-7th-mini-album-devil-youth-club-ep/6808075577?uo=4",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/72/37/59/723759fb-f2dc-0b74-7d89-d0c350c5c54f/196874720349.jpg/400x400bb.webp",
+      "genre": "Pop Latino",
+      "link": "https://music.apple.com/us/album/mil-a%C3%B1os-luz-single/6805946395?uo=4",
       "sources": [
-        "genre:K-Pop",
-        "country:tw"
+        "country:mx"
       ]
     },
     {
@@ -882,42 +559,16 @@
       ]
     },
     {
-      "title": "Half Asleep",
-      "artist": "Meyo",
-      "artist_id": 1491203149,
-      "type": "album",
+      "title": "WOAH",
+      "artist": "NAV & Young Thug",
+      "artist_id": 1200089113,
+      "type": "song",
       "release_date": "2026-09-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/41/6e/86/416e869f-ccda-d3ec-feed-debf5b28aa3d/5cc4d158-fc07-4979-b757-4cf3fd85ac92.jpg/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/half-asleep-ep/6807087528?uo=4",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e9/5c/53/e95c53cb-7ec4-d772-ab68-5f869cae775b/26UM1IM14497.rgb.jpg/400x400bb.webp",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/woah-single/6810441846?uo=4",
       "sources": [
-        "genre:Dance"
-      ]
-    },
-    {
-      "title": "はじめての中島美嘉",
-      "artist": "Mika Nakashima",
-      "artist_id": 292677928,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d6/a0/98/d6a0987b-733e-731a-9740-635e3441c901/4547366850123.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E3%81%AF%E3%81%98%E3%82%81%E3%81%A6%E3%81%AE%E4%B8%AD%E5%B3%B6%E7%BE%8E%E5%98%89/6808603743?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "LOG IN: ERROR",
-      "artist": "NewKin",
-      "artist_id": 6807321280,
-      "type": "album",
-      "release_date": "2026-09-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a5/0b/cd/a50bcdd5-1930-cb87-5c0c-a7bd6d0d47da/8800370426613.jpg/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/log-in-error-ep/6807339180?uo=4",
-      "sources": [
-        "genre:Dance"
+        "playlist:New Music Daily"
       ]
     },
     {
@@ -947,16 +598,15 @@
       ]
     },
     {
-      "title": "KAKERA -Unmei no Piece-",
-      "artist": "ONEW",
-      "artist_id": 555635570,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9d/40/24/9d4024ed-22ff-9d54-85b4-33378693c43a/VEATP-45874.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/kakera-unmei-no-piece-single/6804535074?uo=4",
+      "title": "Old Days",
+      "artist": "Noll film",
+      "artist_id": 6809640968,
+      "type": "album",
+      "release_date": "2026-09-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d5/00/6d/d5006d5f-0833-f59d-510b-47d6d49b596b/4550760353817_cover.png/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/old-days-ep/6809655429?uo=4",
       "sources": [
-        "country:hk",
         "country:jp"
       ]
     },
@@ -971,61 +621,48 @@
       "link": "https://music.apple.com/us/album/oiran-demon-single/6809425238?uo=4",
       "sources": [
         "genre:J-Pop",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "Coward",
+      "artist": "PENTAGON",
+      "artist_id": 1346387122,
+      "type": "song",
+      "release_date": "2026-09-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ef/80/53/ef805384-255f-7dd7-c8fd-f9d8702ea6c6/885288291384.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/coward-single/6803792434?uo=4",
+      "sources": [
+        "genre:K-Pop",
+        "country:mx"
+      ]
+    },
+    {
+      "title": "說分手的人也會難過 (影集《接招吧!製作人》單元曲)",
+      "artist": "Pets Tseng",
+      "artist_id": 596933364,
+      "type": "song",
+      "release_date": "2026-09-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/45/0d/ef/450def8b-ccf9-6391-3192-b3f211fc8d09/26UM1IM12717.rgb.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E8%AA%AA%E5%88%86%E6%89%8B%E7%9A%84%E4%BA%BA%E4%B9%9F%E6%9C%83%E9%9B%A3%E9%81%8E-%E5%BD%B1%E9%9B%86-%E6%8E%A5%E6%8B%9B%E5%90%A7-%E8%A3%BD%E4%BD%9C%E4%BA%BA-%E5%96%AE%E5%85%83%E6%9B%B2-single/6808595902?uo=4",
+      "sources": [
         "country:hk",
         "country:tw"
       ]
     },
     {
-      "title": "Endless Blue",
-      "artist": "Pavolia Reine",
-      "artist_id": 1584796439,
-      "type": "song",
-      "release_date": "2026-09-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f2/d6/08/f2d60836-252c-86fd-f161-cd8da77f9085/4580883416977_art.png/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/endless-blue-single/6805719627?uo=4",
-      "sources": [
-        "genre:J-Pop"
-      ]
-    },
-    {
-      "title": "Tears at KTV (feat. 王霏霏, 孟佳 & 徐梦洁)",
-      "artist": "Pets Tseng",
-      "artist_id": 596933364,
-      "type": "song",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e8/2a/b1/e82ab1f4-ebb2-e4a8-bb91-727693fffb37/4711280336708.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/tears-at-ktv-feat-%E7%8E%8B%E9%9C%8F%E9%9C%8F-%E5%AD%9F%E4%BD%B3-%E5%BE%90%E6%A2%A6%E6%B4%81-single/6807363242?uo=4",
-      "sources": [
-        "genre:Mandopop"
-      ]
-    },
-    {
-      "title": "果実",
-      "artist": "Porno Graffitti",
-      "artist_id": 546978158,
+      "title": "Slopes",
+      "artist": "Polar Inc. & Hannah Ray",
+      "artist_id": 1444930597,
       "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/32/cb/aa/32cbaa40-6974-fb94-f0a6-25a0c723cdb7/4547366845877.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E6%9E%9C%E5%AE%9F/6801103152?uo=4",
+      "release_date": "2026-09-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/22/8f/c6/228fc6b4-c5a4-b6b2-993b-336314cc0471/612891199956.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/slopes-ep/6803268027?uo=4",
       "sources": [
-        "genre:J-Pop",
-        "country:jp"
-      ]
-    },
-    {
-      "title": "Suffocating Slowly",
-      "artist": "Quail P",
-      "artist_id": 1447409001,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f9/13/81/f913814a-b09e-ba6f-bae1-cfcb1cc825bb/196874726419.jpg/400x400bb.webp",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/suffocating-slowly-single/6807956816?uo=4",
-      "sources": [
-        "playlist:New Music Daily"
+        "genre:Dance"
       ]
     },
     {
@@ -1038,23 +675,21 @@
       "genre": "Afrobeats",
       "link": "https://music.apple.com/us/album/oh-no-single/6805176799?uo=4",
       "sources": [
+        "genre:African",
         "playlist:New Music Daily"
       ]
     },
     {
-      "title": "ReVivo",
-      "artist": "Ricky Martin",
-      "artist_id": 217142,
+      "title": "The World Is Yours",
+      "artist": "Rio Da Yung Og",
+      "artist_id": 1463776488,
       "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ee/f0/ef/eef0ef74-83c1-2c39-7c2a-c9d20f621f88/196874160213.jpg/400x400bb.webp",
-      "genre": "Pop Latino",
-      "link": "https://music.apple.com/us/album/revivo-ep/6807484063?uo=4",
+      "release_date": "2026-09-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/52/eb/2e/52eb2e4c-a109-7ba6-7a64-b3c2d161e265/199316733983_cover.jpg/400x400bb.webp",
+      "genre": "Hip-Hop/Rap",
+      "link": "https://music.apple.com/us/album/the-world-is-yours/6800923392?uo=4",
       "sources": [
-        "genre:Latin",
-        "country:mx",
-        "playlist:New Music Daily",
-        "playlist:Nuevo Nuevo"
+        "chart:us"
       ]
     },
     {
@@ -1085,19 +720,6 @@
       ]
     },
     {
-      "title": "Dirty Dirty Disco",
-      "artist": "Rogue Traders & Dannii Minogue",
-      "artist_id": 82039135,
-      "type": "song",
-      "release_date": "2026-09-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/dd/fc/ab/ddfcab67-040f-0c9c-2835-d76d3901f268/991048788213.png/400x400bb.webp",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/dirty-dirty-disco-single/6803971462?uo=4",
-      "sources": [
-        "genre:Pop"
-      ]
-    },
-    {
       "title": "LA SAPIÓ",
       "artist": "Ryan Castro",
       "artist_id": 1263552447,
@@ -1107,23 +729,22 @@
       "genre": "Urbano latino",
       "link": "https://music.apple.com/us/album/la-sapi%C3%B3-single/6808308679?uo=4",
       "sources": [
+        "country:co",
         "playlist:New Music Daily",
         "playlist:Nuevo Nuevo"
       ]
     },
     {
-      "title": "あたまご",
-      "artist": "Ryokuoushoku Shakai",
-      "artist_id": 747734869,
+      "title": "Ryu Sujeong 4th EP [ALL THE COLORS I AM]",
+      "artist": "Ryu Sujeong",
+      "artist_id": 994621581,
       "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/60/f8/c0/60f8c038-1070-c32c-9ed3-70bac117d14a/4547366849974.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E3%81%82%E3%81%9F%E3%81%BE%E3%81%94/6805745934?uo=4",
+      "release_date": "2026-09-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/78/66/b3/7866b36d-902c-db88-26b4-b0858771ffa3/8800388639814_cover.jpg/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/ryu-sujeong-4th-ep-all-the-colors-i-am-ep/6808605968?uo=4",
       "sources": [
-        "genre:J-Pop",
-        "country:hk",
-        "country:jp"
+        "genre:R&B/Soul"
       ]
     },
     {
@@ -1141,15 +762,17 @@
       ]
     },
     {
-      "title": "LTL",
-      "artist": "ShowMinorSavage & SALU",
-      "artist_id": 1670107881,
+      "title": "ばっか / まだらびより",
+      "artist": "Shota Yasuda",
+      "artist_id": 669804916,
       "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/03/11/b6/0311b683-82c8-9971-4e26-e1f7cf1893eb/ANTCD-75547.jpg/400x400bb.webp",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/ltl-single/6804650807?uo=4",
+      "release_date": "2026-09-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/df/b9/99/dfb9996d-bc29-c36d-d67d-e577e0485295/4517331101970.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E3%81%B0%E3%81%A3%E3%81%8B-%E3%81%BE%E3%81%A0%E3%82%89%E3%81%B3%E3%82%88%E3%82%8A-single/6807078061?uo=4",
       "sources": [
+        "genre:J-Pop",
+        "country:hk",
         "country:jp"
       ]
     },
@@ -1164,34 +787,6 @@
       "link": "https://music.apple.com/us/album/pair-of-dice-single/6800154766?uo=4",
       "sources": [
         "playlist:New Music Daily"
-      ]
-    },
-    {
-      "title": "笨蛋",
-      "artist": "Silence Wang & Ashin Chen",
-      "artist_id": 657686835,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/67/a5/6f/67a56fa0-300f-3c7b-b593-4987170dbd8b/3.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E7%AC%A8%E8%9B%8B-single/6809424380?uo=4",
-      "sources": [
-        "genre:Mandopop",
-        "country:hk",
-        "country:tw"
-      ]
-    },
-    {
-      "title": "ため息未来 (Special Edition)",
-      "artist": "SKE48",
-      "artist_id": 449588039,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f3/22/4c/f3224cb2-a3b9-e620-2ab7-b11a2734a65a/ANTCD-A0000020885.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E3%81%9F%E3%82%81%E6%81%AF%E6%9C%AA%E6%9D%A5-special-edition-ep/6802940861?uo=4",
-      "sources": [
-        "country:jp"
       ]
     },
     {
@@ -1231,60 +826,35 @@
       "link": "https://music.apple.com/us/album/november-11th-single/6804531602?uo=4",
       "sources": [
         "genre:K-Pop",
-        "country:hk",
         "country:tw"
       ]
     },
     {
-      "title": "LOVE HATE",
-      "artist": "Suda Keina",
-      "artist_id": 1335502214,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e0/9f/36/e09f365d-d490-84bc-670e-002b2182d94f/ANTCD-A0000020809.jpg/400x400bb.webp",
+      "title": "Go Wild",
+      "artist": "Todoroki Hajime",
+      "artist_id": 1722891977,
+      "type": "song",
+      "release_date": "2026-09-11",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9e/28/0d/9e280d8c-36b7-38b3-45bf-e1558fb75ee2/4580883418049_art.png/400x400bb.webp",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/love-hate/6799848454?uo=4",
+      "link": "https://music.apple.com/us/album/go-wild-single/6810140565?uo=4",
       "sources": [
+        "genre:J-Pop",
+        "country:hk",
         "country:jp"
       ]
     },
     {
-      "title": "九月里",
-      "artist": "THE SUPERVC",
-      "artist_id": 387337029,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e3/f1/18/e3f1189c-da6a-455d-7b65-1af074a0b6f6/4896043214933.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E4%B9%9D%E6%9C%88%E9%87%8C-single/6808336893?uo=4",
-      "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "Sky Land, Star Land",
-      "artist": "UNIS",
-      "artist_id": 1736907509,
-      "type": "song",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/71/64/e4/7164e434-a661-dcfb-54d1-57f1e73a3fc9/cover_KM0025170_1.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/sky-land-star-land-single/6808103329?uo=4",
-      "sources": [
-        "genre:K-Pop"
-      ]
-    },
-    {
-      "title": "披荆斩棘2026 (第3期 Live)",
+      "title": "Musical Elisabeth Original Soundtrack (2026)",
       "artist": "Various Artists",
-      "artist_id": 618703099,
+      "artist_id": 79722579,
       "type": "album",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/07/b9/00/07b90001-b9b8-e39e-8907-06261f8b15e4/cover.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E6%8A%AB%E8%8D%86%E6%96%A9%E6%A3%982026-%E7%AC%AC3%E6%9C%9F-live/6810045880?uo=4",
+      "release_date": "2026-09-12",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/56/a7/a2/56a7a2e2-2588-916f-6130-ddcd2d6ab0da/cover_KM0025178_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/musical-elisabeth-original-soundtrack-2026-ep/6809640004?uo=4",
       "sources": [
-        "genre:Mandopop"
+        "country:jp"
       ]
     },
     {
@@ -1297,34 +867,8 @@
       "genre": "Mandopop",
       "link": "https://music.apple.com/us/album/stay-where-it-burns/6781236243?uo=4",
       "sources": [
+        "country:hk",
         "country:tw"
-      ]
-    },
-    {
-      "title": "CURVE",
-      "artist": "WILD BLUE",
-      "artist_id": 1764354734,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/40/4f/fa/404ffac7-a803-5bcf-2dcb-65ed5e294b06/VICL-66169.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/curve/6804537370?uo=4",
-      "sources": [
-        "genre:J-Pop",
-        "country:jp"
-      ]
-    },
-    {
-      "title": "GOODIES",
-      "artist": "Y:SY",
-      "artist_id": 1852644641,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c6/ad/bb/c6adbb90-6160-63ef-7b52-f8f227783a32/888272187977_Cover.jpg/400x400bb.webp",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/goodies-ep/6809339352?uo=4",
-      "sources": [
-        "genre:R&B/Soul"
       ]
     },
     {
@@ -1341,107 +885,16 @@
       ]
     },
     {
-      "title": "Yoyou Narino",
-      "artist": "Yoyou",
-      "artist_id": 1528661288,
-      "type": "album",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e0/51/59/e0515922-0c12-5866-6316-bae5c52f8385/4550760332157_cover.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/yoyou-narino/6809365729?uo=4",
-      "sources": [
-        "genre:J-Pop"
-      ]
-    },
-    {
-      "title": "Uta-Kata Senritsushu Vol.2 -Utauri No Shoujo-",
-      "artist": "Yui Ishikawa",
-      "artist_id": 895001141,
-      "type": "album",
-      "release_date": "2026-09-11",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/cd/c3/20/cdc32029-e928-5535-1e2f-16cfb45d2f77/PA00225012_0_253074_jacket.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/uta-kata-senritsushu-vol-2-utauri-no-shoujo/6806116921?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
-      "title": "瓊花寶典 (李雨寰 Remix)",
-      "artist": "Zhao Lin",
-      "artist_id": 1738195534,
+      "title": "莫负春光",
+      "artist": "王艺涛 & 叶莲娜",
+      "artist_id": 1482764549,
       "type": "album",
       "release_date": "2026-09-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d6/68/c5/d668c516-64a3-a59f-d582-779200705d89/193017213829.jpg/400x400bb.webp",
-      "genre": "Dance",
-      "link": "https://music.apple.com/us/album/%E7%93%8A%E8%8A%B1%E5%AF%B6%E5%85%B8-%E6%9D%8E%E9%9B%A8%E5%AF%B0-remix/6810152471?uo=4",
-      "sources": [
-        "country:tw"
-      ]
-    },
-    {
-      "title": "Como te olvido",
-      "artist": "Zion Hwang",
-      "artist_id": 1624195166,
-      "type": "song",
-      "release_date": "2026-09-10",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2a/86/50/2a8650a4-bd4a-8562-6b0e-d1f71f3c9d92/5064089321901_cover.jpg/400x400bb.webp",
-      "genre": "Pop Latino",
-      "link": "https://music.apple.com/us/album/como-te-olvido-single/6809234977?uo=4",
-      "sources": [
-        "country:co"
-      ]
-    },
-    {
-      "title": "慢一点",
-      "artist": "卜凡",
-      "artist_id": 6808133998,
-      "type": "song",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7a/f6/cc/7af6cc4b-ab4f-c7ef-496b-d3b9ac31cc63/6936738142887.jpg/400x400bb.webp",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c6/2d/15/c62d1559-fe52-f45e-3112-e5c51545a8ae/885288532746.jpg/400x400bb.webp",
       "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E6%85%A2%E4%B8%80%E7%82%B9-single/6808169839?uo=4",
+      "link": "https://music.apple.com/us/album/%E8%8E%AB%E8%B4%9F%E6%98%A5%E5%85%89/6809662157?uo=4",
       "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "預備起",
-      "artist": "小鼠",
-      "artist_id": 1743360561,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ad/9a/ec/ad9aec6e-9c82-5da0-6504-3dec92b9d610/cover.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E9%A0%90%E5%82%99%E8%B5%B7-single/6805737685?uo=4",
-      "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "O-Town",
-      "artist": "林允丞",
-      "artist_id": 1450789562,
-      "type": "song",
-      "release_date": "2026-09-09",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/68/54/b3/6854b343-7165-2099-de85-6d96b6b62b53/1111.jpg/400x400bb.webp",
-      "genre": "Pop",
-      "link": "https://music.apple.com/us/album/o-town-single/6808533465?uo=4",
-      "sources": [
-        "playlist:New in C-Pop"
-      ]
-    },
-    {
-      "title": "花說",
-      "artist": "黄博",
-      "artist_id": 1820849431,
-      "type": "song",
-      "release_date": "2026-09-08",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/36/f4/1a/36f41a7e-877c-70e0-7cc9-587e97c8f0ce/885288431353.jpg/400x400bb.webp",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E8%8A%B1%E8%AA%AA-single/6806961998?uo=4",
-      "sources": [
-        "genre:Cantopop/HK-Pop"
+        "country:hk"
       ]
     }
   ],
