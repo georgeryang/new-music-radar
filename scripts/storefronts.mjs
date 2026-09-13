@@ -42,11 +42,8 @@ export const STOREFRONTS = {
 }
 
 // Apple runs no iTunes purchase store here, so topalbums/topsongs are permanently
-// empty — kr returns 0 and 4 entries, the newest released 2008-10-21. Skipping
-// those two feeds is a capability fact, not a dormancy guess: kr's most-played
-// streaming chart is one of the healthiest in the map and is still scanned.
+// empty — kr returns 0 and 4 entries, the newest released 2008-10-21.
 export const STREAMING_ONLY = new Set(['kr'])
 
-// Which purchase charts a storefront can contribute. A fact about the storefront,
-// so the fetcher and the audit ask rather than each testing STREAMING_ONLY.
+// Which purchase charts a storefront can contribute.
 export const purchaseFeedsOf = (sf) => (STREAMING_ONLY.has(sf) ? [] : PURCHASE_FEED_TYPES)

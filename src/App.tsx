@@ -48,8 +48,6 @@ export default function App() {
       .catch(() => {
         // one written message, never the raw rejection: an HTML error page
         // makes r.json() reject with "Unexpected token '<'"
-        // names no single cause: this also fires offline, on a DNS failure and
-        // on the 15s timeout, where blaming the update would be wrong
         if (!cancelled) setError('Could not load releases. Check your connection, or the nightly update may not have run yet.')
       })
     return () => {
@@ -96,7 +94,7 @@ export default function App() {
         >
           {formatRelativeTime(data?.fetched_at ?? null)}
           {prefsUp && (
-            <a href={PREFS_URL} target="_blank" rel="noopener noreferrer" title="Edit preferences" aria-label="Edit preferences" className="-m-2 p-2 hover:text-foreground">
+            <a href={PREFS_URL} target="_blank" rel="noopener noreferrer" title="Edit preferences" aria-label="Edit preferences" className="-m-3 p-3 hover:text-foreground">
               ⚙
             </a>
           )}
@@ -130,7 +128,7 @@ export default function App() {
                 aria-controls="release-panel"
                 tabIndex={activeKey === t.key ? 0 : -1}
                 onClick={() => setTab(t.key)}
-                className={`rounded-md px-3 py-1.5 font-medium sm:py-1 ${
+                className={`rounded-md px-3 py-2 font-medium ${
                   activeKey === t.key ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >

@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url'
 import { join, normalize } from 'node:path'
 import { GENRE_OPTIONS } from './genre-options.mjs'
 import { STOREFRONTS, STREAMING_ONLY } from './storefronts.mjs'
-import { ACTIVITY_PATH, DATA_PATH, GENRE_FEEDS, PREFS_PATH, REFRESH_LOG, REFRESH_PIDFILE, SOURCE_ACTIVITY_PATH, SOURCE_CHIP_DAYS, SOURCE_THIN_DAYS, UA, WINDOW_DAYS, feedTypesOf, sourceTag, sourceWindow, windowIndices } from './shared.mjs'
+import { ACTIVITY_PATH, DATA_PATH, GENRE_FEEDS, PREFS_PATH, REFRESH_LOG, REFRESH_PIDFILE, SOURCE_ACTIVITY_PATH, SOURCE_CHIP_DAYS, SOURCE_THIN_DAYS, UA, WINDOW_DAYS, feedTypesOf, sourceTag, sourceWindow, windowIndices, writeFileAtomic } from './shared.mjs'
 
 const PORT = 4747
 const REPO_DIR = fileURLToPath(new URL('..', import.meta.url))
@@ -76,7 +76,7 @@ const isPlaylistList = (v) =>
     (e) => e && isName(e.name) && typeof e.url === 'string' && PLAYLIST_URL_RE.test(e.url)
   )
 // Countries are bare storefront codes; only verified-map codes accepted (the
-// fetcher builds chart URLs from these). hasOwn so "constructor" can't validate.
+// fetcher builds chart URLs from these).
 const isCountryList = (v) =>
   Array.isArray(v) && v.every((c) => typeof c === 'string' && Object.hasOwn(STOREFRONTS, c))
 
@@ -97,9 +97,15 @@ function refreshPid() {
   }
 }
 
+// Byte offset where the run we started begins. update.sh appends to a log
+// every run shares, with no per-run delimiter, so a tail can otherwise show the
+// previous run's outcome lines and the banner classifies the wrong run.
+let refreshLogStart = null
+
 function startRefresh() {
   if (refreshPid()) return false
   const fd = openSync(REFRESH_LOG, 'a')
+  refreshLogStart = fstatSync(fd).size
   const child = spawn('bash', ['scripts/update.sh'], {
     cwd: REPO_DIR,
     detached: true,
@@ -117,12 +123,15 @@ function startRefresh() {
 // 8KB comfortably holds the lines the page shows (the longest observed line is
 // under 400 chars).
 const TAIL_BYTES = 8192
-function logTail(lines) {
+// since: never read before this byte, so a caller classifying an outcome cannot
+// see an earlier run. null falls back to a plain tail, which is what a refresh
+// launchd started, or one predating this server, has to be read as.
+function logTail(lines, since = null) {
   let fd
   try {
     fd = openSync(REFRESH_LOG, 'r')
     const { size } = fstatSync(fd)
-    const start = Math.max(0, size - TAIL_BYTES)
+    const start = Math.max(since ?? 0, size - TAIL_BYTES, 0)
     const buf = Buffer.alloc(size - start)
     // use the byte count actually read: update.sh truncates this log in place,
     // so a poll landing mid-truncation would otherwise render the unwritten
@@ -131,7 +140,7 @@ function logTail(lines) {
     const all = buf.subarray(0, n).toString('utf8').split('\n').filter(Boolean)
     // drop the first entry when we started mid-file: it is a partial line, and
     // slicing mid-character would leave a mojibake fragment
-    if (start > 0) all.shift()
+    if (start > 0 && start !== since) all.shift()
     return all.slice(-lines)
   } catch {
     // a sentinel, not []: an empty array renders as a blank progress box with
@@ -287,7 +296,7 @@ const server = http.createServer(async (req, res) => {
       p.artists = { ...p.artists, followed: incoming.artists.followed, blocked: incoming.artists.blocked }
       p.genres = { ...p.genres, followed: incoming.genres.followed }
       p.discovery = { ...p.discovery, countries: incoming.discovery.countries, playlists: incoming.discovery.playlists }
-      writeFileSync(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
+      writeFileAtomic(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
       json(res, 200, { ok: true })
     } else if (req.method === 'GET' && url.pathname === '/api/artist-search') {
       const q = (url.searchParams.get('q') ?? '').slice(0, 100).trim()
@@ -322,7 +331,7 @@ const server = http.createServer(async (req, res) => {
     } else if (req.method === 'POST' && url.pathname === '/api/refresh') {
       json(res, startRefresh() ? 200 : 409, { running: true })
     } else if (req.method === 'GET' && url.pathname === '/api/status') {
-      json(res, 200, { running: !!refreshPid(), log: logTail(10) })
+      json(res, 200, { running: !!refreshPid(), log: logTail(10, refreshLogStart) })
     } else if (req.method === 'POST' && url.pathname === '/api/quit') {
       json(res, 200, { ok: true })
       setTimeout(() => process.exit(0), 100)
@@ -452,8 +461,7 @@ const SECTIONS = [
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
 // country entries are bare codes; the display name comes from the server's
-// verified code→name map. hasOwn so an inherited key ("constructor") doesn't
-// resolve to junk.
+// verified code→name map.
 const displayOf = (s, e) =>
   s.kind === 'country' && Object.hasOwn(countryNames, e) ? countryNames[e] : nameOf(e)
 
@@ -797,7 +805,14 @@ function wireArtist(s, input, results, pick) {
       let found
       try {
         const res = await fetch('/api/artist-search?q=' + encodeURIComponent(q))
-        if (!res.ok) throw new Error('search failed')
+        if (!res.ok) {
+          // a reachable server that refused carries Apple's reason; the catch
+          // below is for a dead one, and its advice is wrong for this case
+          const body = await res.json().catch(() => ({}))
+          results.hidden = true
+          setFieldError(s.key, body.error || 'Artist search failed (HTTP ' + res.status + ').')
+          return
+        }
         found = (await res.json()).results
         if (!Array.isArray(found)) throw new Error('search failed')
       } catch {
@@ -916,8 +931,7 @@ $('log-hide').onclick = () => {
   logDismissed = true
   $('log-wrap').hidden = true
 }
-// Semantic status colors; only the error state uses brand red. Full literals
-// per state — Tailwind scans this file as text.
+// Semantic status colors; only the error state uses brand red.
 const BANNER_BASE = 'fixed inset-x-0 bottom-14 px-4 py-[9px] text-center text-[13px]'
 const BANNER = {
   running: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-100',
@@ -962,22 +976,28 @@ async function poll() {
       $('log').scrollTop = $('log').scrollHeight
       setBanner('running', 'Refreshing. Usually about two minutes, longer if the site deploy needs a retry. Live progress above; safe to close this page, the refresh continues in the background.')
     } else if (wasRunning) {
-      // Classify from what update.sh actually logs. ERROR and WARNING mean
-      // different things (a failed source vs a failed deploy) and neither is a
-      // clean success; "fetch did not run" published nothing at all.
-      const published = st.log.some((l) => /Published|No changes|HELD:/.test(l))
+      // Classify from what update.sh actually logs. Each of its six strings
+      // means one specific thing, so each gets its own branch: collapsing two
+      // reports an outcome the run did not have.
+      const publishedNew = st.log.some((l) => /Published/.test(l))
+      const noChanges = st.log.some((l) => /No changes/.test(l))
+      const held = st.log.some((l) => /HELD:/.test(l))
       const neverRan = st.log.some((l) => /ERROR: fetch did not run/.test(l))
       const failed = st.log.some((l) => /ERROR:/.test(l))
       const warned = st.log.some((l) => /WARNING:/.test(l))
-      const held = st.log.some((l) => /HELD:/.test(l))
-      if (neverRan || !published) {
+      const finished = publishedNew || noChanges || held
+      if (neverRan) {
         setBanner('bad', 'The update could not run, so nothing was published. Check config/preferences.json, then ~/Library/Logs/new-music-radar.log.')
+      } else if (!finished) {
+        setBanner('bad', 'The refresh stopped before it finished, so nothing was published. See ~/Library/Logs/new-music-radar.log for what stopped it.')
       } else if (failed) {
         setBanner('warn', 'Refresh finished, but a source failed. Everything else was published; check ~/Library/Logs/new-music-radar.log.')
       } else if (warned) {
         setBanner('warn', 'New data was published, but the site deploy did not confirm. The page may show old data until the next update. See ~/Library/Logs/new-music-radar.log.')
       } else if (held) {
         setBanner('warn', 'Nothing was published: there was no new data, and local commits touching other files are held back. Push them yourself if they are meant to go live.')
+      } else if (noChanges) {
+        setBanner('ok', 'Refresh complete. Nothing new was found, so the site is unchanged.')
       } else {
         setBanner('ok', 'Refresh complete. The site shows the new data within a minute.')
       }
@@ -1005,9 +1025,13 @@ async function save() {
     const r = await fetch('/api/prefs', { method: 'POST', body: JSON.stringify(prefs) })
     if (r.ok) { dirty = false; $('save').disabled = true; setStatus('Saved.', false, true); return true }
     const body = await r.json().catch(() => ({}))
+    // #status alone is a truncated 12px line in the footer, far from the chips
+    // the user was editing, so an unsaved edit looks exactly like a saved one.
+    setBanner('bad', 'Your changes were not saved: ' + (body.error ?? 'HTTP ' + r.status))
     setStatus('Save failed: ' + (body.error ?? 'HTTP ' + r.status), true, true)
     return false
   } catch {
+    setBanner('bad', OFFLINE)
     setStatus(OFFLINE, true, true)
     return false
   }
@@ -1086,9 +1110,7 @@ fetch('/api/prefs').then(async (r) => {
   applyPrefs(p)
   poll()
 }).catch((err) => {
-  // A hand-edited preferences.json that no longer parses is the case this
-  // editor exists to recover from, so it must not render as a blank page. Build
-  // with DOM nodes, not innerHTML: the message carries the parser's text.
+  // Build with DOM nodes, not innerHTML: the message carries the parser's text.
   const box = document.createElement('div')
   // role=alert: inserted after first paint, so nothing else announces it and the
   // footer line alone never names the file

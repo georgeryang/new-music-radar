@@ -37,9 +37,10 @@ Double-click `prefs.command` to open the editor in your browser.
   their chips say "streaming only".
 - **Discovery playlists:** paste a music.apple.com playlist address to scan it.
 - **Save** applies at tonight's update; **Save & Refresh** runs now and
-  publishes to the public site (about two minutes). Green means all good;
-  amber means it published but something needs a look (a source failed, or
-  the site deploy did not confirm); red means nothing published.
+  publishes to the public site (about two minutes). Green means it finished
+  cleanly, new releases or not; amber means it finished with something to
+  look at (a source failed, the deploy did not confirm, or held-back local
+  commits stopped the publish); red means nothing published.
 
 Age tags flag followed artists with no recent releases (amber past 18
 months, red past 3 years). Nothing is removed automatically.

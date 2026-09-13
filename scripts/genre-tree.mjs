@@ -1,7 +1,6 @@
-// Apple's live genre tree, shared by check-genre-coverage.mjs and
-// audit-sources.mjs. Both need the same two things: proof that a configured
-// genre name still exists, and the umbrella/leaf relationships that say which
-// unfollowed genres are worth following.
+// Apple's live genre tree: proof that a configured genre name still exists, and
+// the umbrella/leaf relationships that say which unfollowed genres are worth
+// following.
 
 import { UA } from './shared.mjs'
 

@@ -7,11 +7,9 @@
 // (KR lists CHUU as 츄), splitting the dedup key. Foreign-only releases appear
 // once they propagate to the US catalog (usually within hours).
 //
-// Five sources, each labelled at its own section below. Every discovery card
-// records which one found it, in `sources`, for the editor's audit; sweep cards
-// carry `followed` and `via_artist_id` instead.
+// Five sources, each labelled at its own section below.
 
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync } from 'node:fs'
 import { STOREFRONTS, purchaseFeedsOf } from './storefronts.mjs'
 import { cardKeyOf, keyOf, releaseOrder, upcomingOrder } from './card-key.mjs'
 import {
@@ -19,7 +17,7 @@ import {
   countryPurchaseUrl, errDetail, genreFeedUrl, getJSON, groupArtistLookup, itunesJSON,
   lookupUrl, marketingToolsJSON, normId, rssAlbumId, scrapePlaylistAlbumIds, sleep, throttleCount, usLink,
 } from './apple-api.mjs'
-import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, daysSince, feedTypesOf, notOlderThan, sourceTag, withinDays } from './shared.mjs'
+import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, daysSince, feedTypesOf, notOlderThan, sourceTag, withinDays, writeFileAtomic } from './shared.mjs'
 
 const PREFS = JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
@@ -34,10 +32,7 @@ const TODAY = new Date().toISOString().slice(0, 10)
 const inWindow = (releaseDate) => withinDays(releaseDate, WINDOW_DAYS)
 
 // Announced pre-orders: anything still future-dated at fetch time, the exact
-// complement of inWindow's lower bound so the two sets stay disjoint. This
-// boundary is the ONLY New/Upcoming split — the app renders both lists as
-// written; a pre-order moves to releases[] when a fetch finds its date passed,
-// never client-side.
+// complement of inWindow's lower bound so the two sets stay disjoint.
 const isUpcoming = (releaseDate) => daysSince(releaseDate) < 0
 
 // song (a single) vs album (EPs, mini albums, larger). Apple's "- Single"
@@ -389,7 +384,7 @@ const sweepIds = new Set(sweepArtists.map((a) => a.id))
 artistActivity = Object.fromEntries(
   Object.entries(artistActivity).filter(([id, d]) => sweepIds.has(Number(id)) && d <= TODAY)
 )
-writeFileSync(ACTIVITY_PATH, JSON.stringify(artistActivity, null, 2) + '\n')
+writeFileAtomic(ACTIVITY_PATH, JSON.stringify(artistActivity, null, 2) + '\n')
 log(`${followedCount} releases (pre-dedup) via ${sweepArtists.length} followed artists in ${batches.length} batches`)
 // a failed batch is up to BATCH_SIZE artists silently skipped — flag the run (exit 2)
 if (failedBatches.length > 0) anyFailed = true
@@ -596,7 +591,6 @@ if (countryIdSources.size) {
       if (!returned.has(id)) droppedBySf.set(sf, (droppedBySf.get(sf) ?? 0) + 1)
     }
     for (const [sf, count] of droppedBySf) log(`sf=${sf} dropped ${count} not in US catalog`)
-    // sources tags feed the editor's per-source audit chips; the app ignores them
     const found = hits
       .filter((a) => a.releaseDate && inWindow(a.releaseDate))
       .map((a) => {
@@ -700,7 +694,10 @@ const before = out.length
 // drops stay individual (rare, worth seeing what the block list caught)
 const genreDrops = new Map()
 out = out.filter((r) => {
-  if (isArtistBlocked(r)) return logDrop(r, 'artist blocked')
+  if (isArtistBlocked(r)) {
+    log(`dropped: ${r.artist} — ${r.title} (artist blocked)`)
+    return false
+  }
   if (r.followed) return true
   if (isGenreFollowed(r.genre)) return true
   const g = r.genre ?? 'none'
@@ -709,10 +706,6 @@ out = out.filter((r) => {
   genreDrops.set(g, d)
   return false
 })
-function logDrop(r, why) {
-  log(`dropped: ${r.artist} — ${r.title} (${why})`)
-  return false
-}
 if (before !== out.length)
   log(
     `${before - out.length} releases filtered out` +
@@ -824,7 +817,7 @@ log(`${upcoming.length} upcoming pre-orders`)
 out.sort(releaseOrder)
 
 mkdirSync(new URL('.', DATA_PATH), { recursive: true })
-writeFileSync(DATA_PATH, JSON.stringify({ fetched_at: Date.now(), releases: out, upcoming }, null, 2))
+writeFileAtomic(DATA_PATH, JSON.stringify({ fetched_at: Date.now(), releases: out, upcoming }, null, 2) + '\n')
 log(`wrote ${out.length} releases + ${upcoming.length} upcoming`)
 
 // Rolling tally of what the genre filter cost, for `npm run check-genres`.
@@ -854,7 +847,7 @@ try {
       .filter(([g, d]) => !isGenreFollowed(g) && daysSince(d.last_seen) <= GENRE_MEMORY_DAYS)
       .sort((a, b) => b[1].dropped - a[1].dropped)
   )
-  writeFileSync(GENRE_ACTIVITY_PATH, JSON.stringify(tally, null, 2) + '\n')
+  writeFileAtomic(GENRE_ACTIVITY_PATH, JSON.stringify(tally, null, 2) + '\n')
 } catch (e) {
   log(`could not update genre-activity.json: ${errDetail(e)}`)
 }
@@ -923,7 +916,7 @@ try {
     .sort()
     .map((k) => ` ${JSON.stringify(k)}: ${JSON.stringify(hist.sources[k])}`)
     .join(',\n')
-  writeFileSync(SOURCE_ACTIVITY_PATH, `{\n"days": ${JSON.stringify(hist.days)},\n"sources": {\n${rows}\n}\n}\n`)
+  writeFileAtomic(SOURCE_ACTIVITY_PATH, `{\n"days": ${JSON.stringify(hist.days)},\n"sources": {\n${rows}\n}\n}\n`)
 } catch (e) {
   log(`could not update source-activity.json: ${errDetail(e)}`)
 }

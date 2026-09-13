@@ -1,3 +1,5 @@
+import { renameSync, writeFileSync } from 'node:fs'
+
 // Values the fetcher, the prefs editor and the source audit must agree on. All
 // three read the same files and speak the sources wire format, so a copy in each
 // script drifts silently (a renamed tag makes every editor chip read 0, with no
@@ -51,15 +53,21 @@ export const LOOKUP_CHUNK = 200
 // Mean gap the iTunes pacer holds between calls, for the audit's cost estimates.
 export const PACED_CALL_S = 3.25
 
+// Every file below is live state a later run reads back, so a crash or a
+// bootout mid-write must leave the previous copy rather than a truncated one:
+// writeFileSync overwrites in place, rename within a directory is atomic.
+export function writeFileAtomic(target, data) {
+  const tmp = target instanceof URL ? new URL(target.href + '.tmp') : target + '.tmp'
+  writeFileSync(tmp, data)
+  renameSync(tmp, target)
+}
+
 export const PREFS_PATH = new URL('../config/preferences.json', import.meta.url)
 export const DATA_PATH = new URL('../docs/data/releases.json', import.meta.url)
 export const ACTIVITY_PATH = new URL('../config/artist-activity.json', import.meta.url)
 export const GENRE_ACTIVITY_PATH = new URL('../config/genre-activity.json', import.meta.url)
 export const SOURCE_ACTIVITY_PATH = new URL('../config/source-activity.json', import.meta.url)
 
-// "Save & Refresh" spawns update.sh DETACHED into launchd's log, with a pidfile,
-// so quitting the editor can't kill a running refresh. The audit reads both: it
-// refuses to run against a half-written file, and counts block hits in the log.
 // Not /tmp (world-writable — another user could plant a pidfile and block refreshes).
 export const REFRESH_LOG = `${process.env.HOME}/Library/Logs/new-music-radar.log`
 export const REFRESH_PIDFILE = `${process.env.HOME}/Library/Logs/new-music-radar-refresh.pid`
@@ -70,8 +78,6 @@ export const sourceTag = (kind, key) => `${kind}:${key}`
 
 // ---------- source-activity.json readers ----------
 
-// Indices into hist.days that fall inside an N-day window. Hoisted out of
-// sourceWindow so a caller scoring every source walks the date array once.
 export const windowIndices = (hist, days) => {
   const idx = []
   ;(hist.days ?? []).forEach((d, i) => { if (withinDays(d, days)) idx.push(i) })
@@ -121,9 +127,7 @@ export const GENRE_FEEDS = [
   { genreId: 1203, tag: 'African' },
   { genreId: 1253, tag: 'Mandopop' },
   // Dance and Singer/Songwriter are the only followed genres Apple files at top
-  // level with no umbrella above them, so nothing else reaches either. Dance is
-  // here because it has admitted 20 releases; Singer/Songwriter's 2 does not pay
-  // for the two requests.
+  // level with no umbrella above them, so nothing else reaches either.
   { genreId: 17, tag: 'Dance' },
   // topalbums for these two is abandoned: 1251's newest is months old, 18's
   // returns 6 entries with nothing since April.

@@ -4,9 +4,7 @@
 //
 // The two rules it is built around are printed with the recommendations at the
 // end; skills/audit-radar-sources/SKILL.md and sourceWindow in shared.mjs own them.
-//
-// Every feed URL, parser and pacer comes from apple-api.mjs, so this grades the
-// feeds the pipeline reads rather than a copy that can drift.
+
 
 import { readFileSync } from 'node:fs'
 import { STOREFRONTS, STREAMING_ONLY, purchaseFeedsOf } from './storefronts.mjs'
@@ -82,8 +80,7 @@ for (const r of FEED.releases ?? []) if (!r.followed && r.genre) admitted[r.genr
 
 // ---------- history windows ----------
 
-// Index sets hoisted: sourceWindow is called twice per source, so re-walking the
-// date array each time repeats one projection across every source.
+// Index sets for the two windows every source is scored against.
 const IDX7 = windowIndices(HIST, 7)
 const IDX30 = windowIndices(HIST, SOURCE_CHIP_DAYS)
 // consecutive measured days with zero yield, most recent first; nulls skipped
@@ -157,14 +154,17 @@ async function lookup(ids) {
     try {
       const d = await itunesJSON(lookupUrl(want.slice(i, i + LOOKUP_CHUNK)))
       for (const r of (d.results ?? []).filter((x) => x.wrapperType === 'collection')) lookupCache.set(String(r.collectionId), r)
-    } catch { /* a miss degrades one row, never the report */ }
+    } catch (e) {
+      // Not silent: an empty chunk makes every source that wanted those ids
+      // score zero density, and the verdict chain then reads a throttled lookup
+      // as a stale list and recommends replacing a healthy one.
+      warn(`lookup chunk failed, ${want.slice(i, i + LOOKUP_CHUNK).length} ids unmeasured: ${errDetail(e)}`)
+    }
   }
   return uniq.map((i) => lookupCache.get(i)).filter(Boolean)
 }
 
-// Estimated paced-lookup seconds this source costs per run. Sources pool their ids
-// into shared chunks, so this is a fair share rather than an exact bill; for
-// playlists it is close to exact.
+// Estimated paced-lookup seconds this source costs per run.
 const costS = (ids) => (ids / LOOKUP_CHUNK) * PACED_CALL_S
 
 const out = { generated: new Date().toISOString(), historyDays, sections: {}, recommend: [] }
@@ -204,7 +204,6 @@ const artistRows = []
     for (const a of batch) {
       const hit = per.get(a.id)
       if (!hit) { artistRows.push({ ...a, dead: true }); continue }
-      // one accumulating pass: 7d ⊂ 30d ⊂ 365d, and each withinDays parses a date
       const past = hit.albums.map((x) => x.releaseDate).filter((d) => d && daysSince(d) >= 0).sort()
       let d7 = 0, d30 = 0, d365 = 0
       for (const d of past) {
@@ -289,9 +288,8 @@ const OVERLAP_DAYS = 14
 const MIN_REDUNDANCY_SAMPLE = 5
 const rows = []
 
-// Measuring is minutes of paced calls before the first row can be printed, so
-// name each source as it goes. stderr, so --json's stdout stays one parseable
-// dump and a redirect keeps only the report.
+// stderr, so --json's stdout stays one parseable dump and a redirect keeps only
+// the report.
 const progress = (m) => process.stderr.write(`  … ${m}\n`)
 
 say('\n=== SOURCES ===')
@@ -369,8 +367,7 @@ for (const { pl, ids, err } of plPages) {
 // count as cover — otherwise a source that merely failed to load would make its
 // neighbours look redundant, which is how a probe failure turns into bad advice.
 const measured = rows.filter((r) => r.live.ok)
-// One pass over every id, so a row's uniqueness reads off a shared tally rather
-// than rebuilding the union of all other sources per row.
+// How many measured sources carry each id, so a row's uniqueness reads off it.
 const carriers = new Map()
 for (const r of measured) for (const i of r.idSet) carriers.set(i, (carriers.get(i) ?? 0) + 1)
 for (const r of rows) {

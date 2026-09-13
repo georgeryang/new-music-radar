@@ -1,6 +1,4 @@
-// Apple's rate limits and wire formats, in one place. The fetcher and the source
-// audit hit the same hosts and parse the same feeds, and a second hand-rolled copy
-// is how you get 503s, or an audit that grades a feed the pipeline never reads.
+// Apple's rate limits and wire formats, in one place.
 //
 // State is module-level, so pacing does not coordinate across processes; not
 // running an audit during a refresh is a convention, not a lock.
@@ -93,8 +91,7 @@ export function marketingToolsJSON(url) {
 
 // ---------- endpoints ----------
 
-// Every URL the pipeline reads, so the audit grades the same feeds production
-// fetches: a changed limit or path can't diverge between the two.
+// Every URL the pipeline reads.
 export const US_CHART_URL = `https://${MARKETING_HOST}/api/v2/us/music/most-played/50/albums.json`
 export const countryMostPlayedUrl = (sf) =>
   `https://${MARKETING_HOST}/api/v2/${sf}/music/most-played/100/songs.json`

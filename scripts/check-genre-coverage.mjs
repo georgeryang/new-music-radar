@@ -1,13 +1,7 @@
 #!/usr/bin/env node
-// Two checks against Apple's live genre tree:
-//
-// 1. Every curated and followed genre name still EXISTS. Apple renames genres
-//    (Regional Mexicano became Música Mexicana in mid-2026), and because there
-//    is no mapping layer a renamed name matches nothing, silently. Exit 1.
-// 2. Which unfollowed genres discovery has been DROPPING (from the rolling
-//    streak the fetcher tallies into config/genre-activity.json). Apple labels
-//    releases with both umbrella and leaf names, so following "Hip-Hop/Rap"
-//    does not catch a release labelled "Rap". Advisory, never fails.
+// Two checks against Apple's live genre tree. There is no mapping layer, so a
+// genre Apple renames matches nothing and drops silently: that check exits 1.
+// The dropped-genre report is advisory and never fails.
 //
 // Run after editing GENRE_OPTIONS or genres.followed, and occasionally to see
 // what the follow list is missing.

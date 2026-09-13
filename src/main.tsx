@@ -15,7 +15,7 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean
   render() {
     if (!this.state.failed) return this.props.children
     return (
-      <p role="alert" className="p-6 text-sm text-muted-foreground">
+      <p role="alert" className="p-6 text-sm text-destructive">
         Something went wrong showing today's releases. Reload the page, or wait for tonight's update.
       </p>
     )
