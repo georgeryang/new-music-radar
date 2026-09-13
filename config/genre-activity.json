@@ -8,20 +8,20 @@
   "Alternative": {
     "dropped": 12,
     "today": 12,
-    "last_seen": "2026-09-12",
-    "example": "Helena Gao — gao dan dan"
-  },
-  "Música Mexicana": {
-    "dropped": 10,
-    "today": 10,
-    "last_seen": "2026-09-12",
-    "example": "Camila Fernández — Una Raya Más Al Tigre"
+    "last_seen": "2026-09-13",
+    "example": "Bleachers — Caught Myself Believing"
   },
   "Christian": {
     "dropped": 9,
     "today": 3,
     "last_seen": "2026-08-30",
     "example": "Brandon Lake — How Good God Is"
+  },
+  "Música Mexicana": {
+    "dropped": 6,
+    "today": 6,
+    "last_seen": "2026-09-13",
+    "example": "Tito Double P — ENTRE TU Y YO"
   },
   "Soundtrack": {
     "dropped": 5,
@@ -52,6 +52,12 @@
     "today": 1,
     "last_seen": "2026-09-07",
     "example": "Amelie Lens — AURA"
+  },
+  "African": {
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-09-13",
+    "example": "Ibibio Sound Machine — Chopping Mountain"
   },
   "Anime": {
     "dropped": 3,
@@ -89,12 +95,6 @@
     "last_seen": "2026-08-31",
     "example": "Muyeez — All Hail Muyeez"
   },
-  "African": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-09-03",
-    "example": "DJ 2EFFECTS — Party Time 2026 Amapiano & Afrobeat Mix"
-  },
   "Amapiano": {
     "dropped": 3,
     "today": 1,
@@ -102,10 +102,10 @@
     "example": "Gaba Cannal — uYena, Pt.1"
   },
   "Electronic": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-09-12",
-    "example": "The Black Dog — Psychick Youth"
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-13",
+    "example": "Bonobo — Distance in Static"
   },
   "Country": {
     "dropped": 2,
@@ -113,16 +113,10 @@
     "last_seen": "2026-09-11",
     "example": "Darius Rucker — I Believe"
   },
-  "House": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-09-12",
-    "example": "Various Artists — Top50 House Music 2026"
-  },
   "Hip-Hop": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-09-12",
+    "last_seen": "2026-09-13",
     "example": "Tsu Surf — REAL INSIDE COLD OUTSIDE"
   },
   "C-Pop": {
@@ -167,10 +161,16 @@
     "last_seen": "2026-09-11",
     "example": "Shiori Sasaki, ATLUS Sound Team & ATLUS GAME MUSIC — Reach out to the Truth -Revival- (Soundtrack)"
   },
+  "House": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-13",
+    "example": "Kaskade, Bobby Harvey & Sam Harper — Satisfy You"
+  },
   "Indie Rock": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-12",
+    "last_seen": "2026-09-13",
     "example": "The Tubs — Hard Life"
   },
   "Afro House": {
@@ -182,19 +182,19 @@
   "Metal": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-12",
+    "last_seen": "2026-09-13",
     "example": "throatcut. — NO KINGS."
   },
   "Rap": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-12",
+    "last_seen": "2026-09-13",
     "example": "Rich The Kid & Gunna — Too Bad"
   },
   "Hard Rock": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-12",
+    "last_seen": "2026-09-13",
     "example": "Green Lung — Necropolitan"
   },
   "Classical Crossover": {
@@ -212,7 +212,7 @@
   "Música tropical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-12",
+    "last_seen": "2026-09-13",
     "example": "Luis Vazquez — Un Segundo"
   },
   "Afro-Pop": {
@@ -224,7 +224,7 @@
   "Soul": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-12",
+    "last_seen": "2026-09-13",
     "example": "Valerie June — Brighter Blue"
   },
   "Classical": {
@@ -272,7 +272,7 @@
   "Indie Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-12",
+    "last_seen": "2026-09-13",
     "example": "Nell Mescal — Hers"
   },
   "Americana": {
