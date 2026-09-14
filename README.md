@@ -66,7 +66,7 @@ works from any device.
    them record the folder they run from; the last asks for your password):
 
 ```
-sed -e "s|/Users/georgeyang/dev/new-music-radar|$PWD|g" -e "s|/Users/georgeyang|$HOME|g" launchd/com.georgeryang.new-music-radar.plist > ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist
+sed -e "s|/Users/georgeyang/dev/gry/new-music-radar|$PWD|g" -e "s|/Users/georgeyang|$HOME|g" launchd/com.georgeryang.new-music-radar.plist > ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist
 launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist
 ( crontab -l 2>/dev/null | grep -v 'new-music-radar/.*watchdog.sh'; echo "*/5 * * * * $PWD/launchd/watchdog.sh" ) | crontab -
 sudo pmset repeat wakeorpoweron MTWRFSU 05:30:00

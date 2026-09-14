@@ -17,7 +17,7 @@
     <string>/usr/bin/caffeinate</string>
     <string>-sim</string>
     <string>/bin/bash</string>
-    <string>/Users/georgeyang/dev/new-music-radar/scripts/update.sh</string>
+    <string>/Users/georgeyang/dev/gry/new-music-radar/scripts/update.sh</string>
     <string>--if-stale</string>
   </array>
   <!-- 10-minute tick. launchd fires a missed tick once when the Mac wakes
