@@ -6,9 +6,9 @@
     "example": "Peter Gabriel — Looking for the Happy (Dark-Side Mix)"
   },
   "Alternative": {
-    "dropped": 12,
-    "today": 12,
-    "last_seen": "2026-09-13",
+    "dropped": 19,
+    "today": 7,
+    "last_seen": "2026-09-14",
     "example": "Bleachers — Caught Myself Believing"
   },
   "Christian": {
@@ -18,16 +18,10 @@
     "example": "Brandon Lake — How Good God Is"
   },
   "Música Mexicana": {
-    "dropped": 6,
-    "today": 6,
-    "last_seen": "2026-09-13",
-    "example": "Tito Double P — ENTRE TU Y YO"
-  },
-  "Soundtrack": {
-    "dropped": 5,
-    "today": 5,
-    "last_seen": "2026-09-12",
-    "example": "def rebel — WWE: Fuego (AAA)"
+    "dropped": 9,
+    "today": 3,
+    "last_seen": "2026-09-14",
+    "example": "Banda MS de Sergio Lizárraga — 10 de 10"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -62,14 +56,8 @@
   "Anime": {
     "dropped": 3,
     "today": 3,
-    "last_seen": "2026-09-12",
+    "last_seen": "2026-09-14",
     "example": "matsudaakito — 『最終楽章 響け!ユーフォニアム』後編オリジナルサウンドトラック「Sound Will Join」"
-  },
-  "Afro-Beat": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-09-12",
-    "example": "Yemi Alade — It's Yemi Alade"
   },
   "Latin Jazz": {
     "dropped": 3,
@@ -102,10 +90,16 @@
     "example": "Gaba Cannal — uYena, Pt.1"
   },
   "Electronic": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-09-14",
+    "example": "Bonobo — Distance in Static"
+  },
+  "Afro-Beat": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-09-13",
-    "example": "Bonobo — Distance in Static"
+    "last_seen": "2026-09-14",
+    "example": "Various Artists — Nigeria 80"
   },
   "Country": {
     "dropped": 2,
@@ -162,40 +156,64 @@
     "example": "Shiori Sasaki, ATLUS Sound Team & ATLUS GAME MUSIC — Reach out to the Truth -Revival- (Soundtrack)"
   },
   "House": {
-    "dropped": 1,
+    "dropped": 2,
     "today": 1,
-    "last_seen": "2026-09-13",
+    "last_seen": "2026-09-14",
     "example": "Kaskade, Bobby Harvey & Sam Harper — Satisfy You"
   },
   "Indie Rock": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-14",
+    "example": "The Tubs — Hard Life"
+  },
+  "Metal": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-14",
+    "example": "throatcut. — NO KINGS."
+  },
+  "Rap": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-14",
+    "example": "Rich The Kid & Gunna — Too Bad"
+  },
+  "Hard Rock": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-14",
+    "example": "Green Lung — Necropolitan"
+  },
+  "Música tropical": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-14",
+    "example": "Luis Vazquez — Un Segundo"
+  },
+  "Soul": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-14",
+    "example": "Valerie June — Brighter Blue"
+  },
+  "Indie Pop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-14",
+    "example": "Nell Mescal — Hers"
+  },
+  "Soundtrack": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-13",
-    "example": "The Tubs — Hard Life"
+    "last_seen": "2026-09-14",
+    "example": "Yuzuru Jinma — Original Soundtrack of the Movie \"Hotspring Shark Attack 2 : Great Kyushu Showdown\""
   },
   "Afro House": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-09-12",
     "example": "DJ MidTempo & Tahoe Studios — Cheza Kidogo"
-  },
-  "Metal": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-13",
-    "example": "throatcut. — NO KINGS."
-  },
-  "Rap": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-13",
-    "example": "Rich The Kid & Gunna — Too Bad"
-  },
-  "Hard Rock": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-13",
-    "example": "Green Lung — Necropolitan"
   },
   "Classical Crossover": {
     "dropped": 1,
@@ -209,29 +227,17 @@
     "last_seen": "2026-09-11",
     "example": "Dolly Parton & The First Ladies of Bluegrass — Bound to Ride"
   },
-  "Música tropical": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-13",
-    "example": "Luis Vazquez — Un Segundo"
-  },
   "Afro-Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-12",
+    "last_seen": "2026-09-14",
     "example": "Ibibio Sound Machine — Chopping Mountain"
-  },
-  "Soul": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-13",
-    "example": "Valerie June — Brighter Blue"
   },
   "Classical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-11",
-    "example": "Isobel Waller-Bridge — Last Seen (Apple Original Series Soundtrack)"
+    "last_seen": "2026-09-14",
+    "example": "Jonathan Stockhammer, Emmanuel Pahud & Dresdner Philharmonie — Ceremony"
   },
   "Funk": {
     "dropped": 1,
@@ -254,8 +260,8 @@
   "T-Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-06",
-    "example": "Emi Thasorn — เพลงรักที่ยังไม่ลืม (Glitch)"
+    "last_seen": "2026-09-14",
+    "example": "Bonnie Pattraphus — จะรักให้จำ (Your One)"
   },
   "Jazz": {
     "dropped": 1,
@@ -268,12 +274,6 @@
     "today": 1,
     "last_seen": "2026-09-05",
     "example": "Various Artists — 天赐的声音第七季 第12期 (Live)"
-  },
-  "Indie Pop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-13",
-    "example": "Nell Mescal — Hers"
   },
   "Americana": {
     "dropped": 1,
@@ -322,12 +322,6 @@
     "today": 1,
     "last_seen": "2026-09-11",
     "example": "Whispered — Honorbound"
-  },
-  "Neo-Soul": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-15",
-    "example": "The Rumble — Ain't No Dying (feat. Big Chief Joseph Boudreaux Jr.)"
   },
   "Goth Rock": {
     "dropped": 1,
