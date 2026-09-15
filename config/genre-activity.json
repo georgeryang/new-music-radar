@@ -1,15 +1,15 @@
 {
-  "Rock": {
-    "dropped": 24,
-    "today": 4,
-    "last_seen": "2026-09-11",
-    "example": "Peter Gabriel — Looking for the Happy (Dark-Side Mix)"
-  },
   "Alternative": {
-    "dropped": 19,
-    "today": 7,
-    "last_seen": "2026-09-14",
-    "example": "Bleachers — Caught Myself Believing"
+    "dropped": 21,
+    "today": 2,
+    "last_seen": "2026-09-15",
+    "example": "SISISI BAND — IN THE AFTERMATH"
+  },
+  "Música Mexicana": {
+    "dropped": 10,
+    "today": 1,
+    "last_seen": "2026-09-15",
+    "example": "Vicente Fernández — Tributo al Rey Con Banda (Grandes Duetos), Vol. 2"
   },
   "Christian": {
     "dropped": 9,
@@ -17,11 +17,17 @@
     "last_seen": "2026-08-30",
     "example": "Brandon Lake — How Good God Is"
   },
-  "Música Mexicana": {
-    "dropped": 9,
-    "today": 3,
-    "last_seen": "2026-09-14",
-    "example": "Banda MS de Sergio Lizárraga — 10 de 10"
+  "Anime": {
+    "dropped": 5,
+    "today": 2,
+    "last_seen": "2026-09-15",
+    "example": "Ave Mujica — A Song Of Romance (from EP \"神の名を\")"
+  },
+  "Soundtrack": {
+    "dropped": 5,
+    "today": 4,
+    "last_seen": "2026-09-15",
+    "example": "SEVEN TAN — 花开满篱院 (《兰香如故》电视剧亲情曲)"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -52,12 +58,6 @@
     "today": 4,
     "last_seen": "2026-09-13",
     "example": "Ibibio Sound Machine — Chopping Mountain"
-  },
-  "Anime": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-09-14",
-    "example": "matsudaakito — 『最終楽章 響け!ユーフォニアム』後編オリジナルサウンドトラック「Sound Will Join」"
   },
   "Latin Jazz": {
     "dropped": 3,
@@ -95,6 +95,18 @@
     "last_seen": "2026-09-14",
     "example": "Bonobo — Distance in Static"
   },
+  "House": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-09-15",
+    "example": "Dream Relic — Time is a Limited Allowance"
+  },
+  "Rock": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-15",
+    "example": "Rockon Social Club — Rokkuyo Shizukani Nagareyo ~ Crossin' Heart~ (Cover)"
+  },
   "Afro-Beat": {
     "dropped": 2,
     "today": 2,
@@ -112,12 +124,6 @@
     "today": 2,
     "last_seen": "2026-09-13",
     "example": "Tsu Surf — REAL INSIDE COLD OUTSIDE"
-  },
-  "C-Pop": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-16",
-    "example": "Uni-Girls — 第一次心動"
   },
   "Samba": {
     "dropped": 2,
@@ -148,18 +154,6 @@
     "today": 1,
     "last_seen": "2026-09-07",
     "example": "Praise and Harmony — Family of God"
-  },
-  "Video Game": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-09-11",
-    "example": "Shiori Sasaki, ATLUS Sound Team & ATLUS GAME MUSIC — Reach out to the Truth -Revival- (Soundtrack)"
-  },
-  "House": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-14",
-    "example": "Kaskade, Bobby Harvey & Sam Harper — Satisfy You"
   },
   "Indie Rock": {
     "dropped": 2,
@@ -203,11 +197,23 @@
     "last_seen": "2026-09-14",
     "example": "Nell Mescal — Hers"
   },
-  "Soundtrack": {
+  "Afro-Pop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-15",
+    "example": "Millionaire Muses — While I Rest"
+  },
+  "T-Pop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-15",
+    "example": "Bonnie Pattraphus — จะรักให้จำ (Your One)"
+  },
+  "Video Game": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-14",
-    "example": "Yuzuru Jinma — Original Soundtrack of the Movie \"Hotspring Shark Attack 2 : Great Kyushu Showdown\""
+    "last_seen": "2026-09-15",
+    "example": "Capcom Sound Team — Onimusha: Way of the Sword Original Sound Track"
   },
   "Afro House": {
     "dropped": 1,
@@ -226,12 +232,6 @@
     "today": 1,
     "last_seen": "2026-09-11",
     "example": "Dolly Parton & The First Ladies of Bluegrass — Bound to Ride"
-  },
-  "Afro-Pop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-14",
-    "example": "Ibibio Sound Machine — Chopping Mountain"
   },
   "Classical": {
     "dropped": 1,
@@ -256,12 +256,6 @@
     "today": 1,
     "last_seen": "2026-09-10",
     "example": "Nordic Viking Music — NORTHBORN Songs of a Higher Dawn"
-  },
-  "T-Pop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-14",
-    "example": "Bonnie Pattraphus — จะรักให้จำ (Your One)"
   },
   "Jazz": {
     "dropped": 1,
@@ -322,12 +316,6 @@
     "today": 1,
     "last_seen": "2026-09-11",
     "example": "Whispered — Honorbound"
-  },
-  "Goth Rock": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-16",
-    "example": "Trágico Ballet — Crucificame (Gothic Pop)"
   },
   "Fusion": {
     "dropped": 1,
