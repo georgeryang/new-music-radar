@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1789464638492,
+  "fetched_at": 1789551036319,
   "releases": [
     {
       "title": "SYNK : COMPLaeXITY - 2026 Special Digital Single",
@@ -14,7 +14,6 @@
       "via_artist_id": 1540251304,
       "sources": [
         "genre:K-Pop",
-        "country:co",
         "country:hk",
         "country:jp",
         "country:tw"
@@ -117,42 +116,6 @@
       "via_artist_id": 1616740364
     },
     {
-      "title": "Made My Night (Karaoke ver.)",
-      "artist": "LE SSERAFIM",
-      "artist_id": 1616740364,
-      "type": "song",
-      "release_date": "2026-09-12",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a1/ba/d2/a1bad28d-2cb2-764b-7d87-d891390e77d6/823375407102_Cover.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/made-my-night-karaoke-ver-single/6810395893?uo=4",
-      "followed": true,
-      "via_artist_id": 1616740364
-    },
-    {
-      "title": "Made My Night (Remixes Cover ver.)",
-      "artist": "LE SSERAFIM",
-      "artist_id": 1616740364,
-      "type": "song",
-      "release_date": "2026-09-12",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/37/14/2a/37142a0d-96a1-22d0-6e6c-9dabf53797f2/823375407096_Cover.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/made-my-night-remixes-cover-ver-single/6810483861?uo=4",
-      "followed": true,
-      "via_artist_id": 1616740364
-    },
-    {
-      "title": "Made My Night (Remixes)",
-      "artist": "LE SSERAFIM",
-      "artist_id": 1616740364,
-      "type": "album",
-      "release_date": "2026-09-12",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/60/b4/bb/60b4bbbf-1dd4-d47e-6314-2bc9e0778a5b/823375407089_Cover.jpg/400x400bb.webp",
-      "genre": "K-Pop",
-      "link": "https://music.apple.com/us/album/made-my-night-remixes-ep/6810393870?uo=4",
-      "followed": true,
-      "via_artist_id": 1616740364
-    },
-    {
       "title": "Made My Night",
       "artist": "LE SSERAFIM & EJAE",
       "artist_id": 1616740364,
@@ -168,16 +131,112 @@
       ]
     },
     {
-      "title": "Bubble",
-      "artist": "9you",
-      "artist_id": 1684631872,
-      "type": "album",
+      "title": "patience (feat. GANGGA)",
+      "artist": "Moon Sujin",
+      "artist_id": 1440461416,
+      "type": "song",
       "release_date": "2026-09-15",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ba/59/86/ba59865b-5379-964b-ee7c-c780a1d636f0/4550760507661_cover.png/400x400bb.webp",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e4/ae/c3/e4aec397-c0d3-5f2a-c88e-fbd9dba29b07/1200220077427.jpg/400x400bb.webp",
       "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/bubble/6811498532?uo=4",
+      "link": "https://music.apple.com/us/album/patience-feat-gangga-single/6809671809?uo=4",
+      "followed": true,
+      "via_artist_id": 1440461416
+    },
+    {
+      "title": "雨终曲",
+      "artist": "YUQI",
+      "artist_id": 1566541268,
+      "type": "song",
+      "release_date": "2026-09-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/68/19/d7/6819d70c-a24d-7d30-668f-24fa0beb95bd/4896043290456.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E9%9B%A8%E7%BB%88%E6%9B%B2-single/6810913538?uo=4",
+      "followed": true,
+      "via_artist_id": 1566541268,
+      "sources": [
+        "genre:Mandopop",
+        "country:hk",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "GAME",
+      "artist": "3House",
+      "artist_id": 1404109866,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/90/fb/01/90fb01ea-3869-3c8b-5a3e-75f2366a04b5/4580789783364.png/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/game-ep/6802532048?uo=4",
       "sources": [
         "country:jp"
+      ]
+    },
+    {
+      "title": "Syunkasyuto",
+      "artist": "After the Rain",
+      "artist_id": 130046317,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c7/7f/99/c77f99f4-daff-4ca7-89bd-aed2373c1045/26UM1IM03605.rgb.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/syunkasyuto/6809353129?uo=4",
+      "sources": [
+        "country:hk",
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Orbiting",
+      "artist": "Alex Cortiz",
+      "artist_id": 71710788,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/bd/38/cc/bd38cc97-5ffa-e031-694b-adfc44bb94df/artwork.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/orbiting/6802128116?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
+      "title": "自尊歌",
+      "artist": "Alfred Hui",
+      "artist_id": 638813363,
+      "type": "song",
+      "release_date": "2026-09-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1e/3c/bc/1e3cbca1-5d83-0376-a5dd-c5219a8d2723/764488303434.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E8%87%AA%E5%B0%8A%E6%AD%8C-single/6810141940?uo=4",
+      "sources": [
+        "country:hk",
+        "playlist:The A-List Cantopop"
+      ]
+    },
+    {
+      "title": "女字旁",
+      "artist": "Babymonster An",
+      "artist_id": 1552659993,
+      "type": "song",
+      "release_date": "2026-09-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d3/9a/65/d39a6574-1984-7c54-9178-1cbb5ab8af60/4896010791009.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E5%A5%B3%E5%AD%97%E6%97%81-single/6811007522?uo=4",
+      "sources": [
+        "genre:Mandopop"
+      ]
+    },
+    {
+      "title": "偶像包袱",
+      "artist": "Bestards",
+      "artist_id": 1418058079,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3a/42/3c/3a423ced-215d-188d-096c-f7f5207be2f4/cover.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E5%81%B6%E5%83%8F%E5%8C%85%E8%A2%B1/6807777572?uo=4",
+      "sources": [
+        "country:tw"
       ]
     },
     {
@@ -194,29 +253,55 @@
       ]
     },
     {
-      "title": "Candytape2",
-      "artist": "Candyshop",
-      "artist_id": 6811341714,
-      "type": "album",
-      "release_date": "2026-09-12",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8d/c3/75/8dc37523-14b6-5dc0-2aaf-a26aca689cc2/cover.jpg/400x400bb.webp",
-      "genre": "Hip-Hop/Rap",
-      "link": "https://music.apple.com/us/album/candytape2/6809477017?uo=4",
+      "title": "若有运气",
+      "artist": "Cecilia Cheung",
+      "artist_id": 296279759,
+      "type": "song",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b7/74/ad/b774ad27-a46a-93d4-14fd-6b2a26ceb89f/1200220105106.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E8%8B%A5%E6%9C%89%E8%BF%90%E6%B0%94-single/6811009146?uo=4",
       "sources": [
         "playlist:New in C-Pop"
       ]
     },
     {
-      "title": "Mi Bigote Huele A Ti",
-      "artist": "El Desgraciao De La Bachata 2.0",
-      "artist_id": 6778957592,
+      "title": "nani?",
+      "artist": "Crazy Ken Band",
+      "artist_id": 74461746,
       "type": "album",
-      "release_date": "2026-09-14",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ab/eb/83/abeb83c5-bbb5-1bf0-0733-ba9a687990df/artwork.jpg/400x400bb.webp",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/mi-bigote-huele-a-ti/6811687852?uo=4",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6c/b7/a5/6cb7a5d2-e61f-c20b-6cfc-f6f1da7a9278/26UMGIM97743.rgb.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/nani/6802588238?uo=4",
       "sources": [
-        "genre:Latin"
+        "country:jp"
+      ]
+    },
+    {
+      "title": "True Colors (40th Anniversary Expanded Edition)",
+      "artist": "Cyndi Lauper",
+      "artist_id": 59291142,
+      "type": "album",
+      "release_date": "2026-09-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e1/91/83/e1918381-270f-dde1-bd1c-da3ef9946dc5/196874698914.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/true-colors-40th-anniversary-expanded-edition/6810957153?uo=4",
+      "sources": [
+        "genre:Pop"
+      ]
+    },
+    {
+      "title": "TRIGENECICA",
+      "artist": "ENVii GABRIELLA",
+      "artist_id": 1315546440,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/af/36/46/af3646cb-59fb-e6d9-7cea-ef8eb112bb94/NOPA-8323.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/trigenecica/6807666002?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -228,6 +313,19 @@
       "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/57/0d/7b/570d7b8d-f305-53f0-2a60-a80627e117f6/26UM1IM06252.rgb.jpg/400x400bb.webp",
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/because-you-know-me-as-if-you-know-everything-about-me/6806960014?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Mind Plus",
+      "artist": "HY",
+      "artist_id": 217001398,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e4/a0/e1/e4a0e118-14d2-a188-6139-c5b732ad61b5/26UM1IM07155.rgb.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/mind-plus/6804572215?uo=4",
       "sources": [
         "country:jp"
       ]
@@ -246,6 +344,33 @@
       ]
     },
     {
+      "title": "SIRAHA",
+      "artist": "INUWASI",
+      "artist_id": 1541333230,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/74/84/53/7484535c-a90c-1fdd-6780-a2bddd53ffab/4540774650262.png/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/siraha-ep/6803463494?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "人間缺憾美 (風之擁抱) (feat. Serrini)",
+      "artist": "Jay Fung",
+      "artist_id": 566806262,
+      "type": "song",
+      "release_date": "2026-09-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d8/6d/ea/d86deaac-89c0-76e0-74df-3cc9ea53a569/1200220051342.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E4%BA%BA%E9%96%93%E7%BC%BA%E6%86%BE%E7%BE%8E-%E9%A2%A8%E4%B9%8B%E6%93%81%E6%8A%B1-feat-serrini-single/6809393024?uo=4",
+      "sources": [
+        "country:hk",
+        "playlist:The A-List Cantopop"
+      ]
+    },
+    {
       "title": "THAT'S HOW WE MOVE",
       "artist": "KALAI 家麗",
       "artist_id": 1618624587,
@@ -260,31 +385,109 @@
       ]
     },
     {
-      "title": "DRIVE",
-      "artist": "KIM JI WOONG",
-      "artist_id": 1819881333,
-      "type": "song",
-      "release_date": "2026-09-14",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b5/e1/73/b5e17358-8d27-0824-e535-6ad31ee39f9e/888272188462_Cover.jpg/400x400bb.webp",
-      "genre": "R&B/Soul",
-      "link": "https://music.apple.com/us/album/drive-single/6810933504?uo=4",
+      "title": "SMASH BOX",
+      "artist": "Kazuki Kato",
+      "artist_id": 260254755,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8f/cc/28/8fcc28c7-8fda-e704-6eea-1bfddc899092/cover.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/smash-box-ep/6803067070?uo=4",
       "sources": [
-        "country:co",
-        "country:tw"
+        "country:jp"
       ]
     },
     {
-      "title": "ETERNAL",
-      "artist": "Leslie Cheung",
-      "artist_id": 41759136,
+      "title": "SWEAT -JAPANESE EP-",
+      "artist": "KISS OF LIFE",
+      "artist_id": 1694672936,
       "type": "album",
-      "release_date": "2026-09-12",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/00/70/e2/0070e263-ad99-3297-3c20-aedc52e61c80/1200220078233.jpg/400x400bb.webp",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/eternal/6810668508?uo=4",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b8/5a/c3/b85ac3fb-fa06-58b1-1b3b-c57df74b0ef5/COCP-42741.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/sweat-japanese-ep-ep/6806894698?uo=4",
       "sources": [
-        "genre:Cantopop/HK-Pop",
+        "genre:K-Pop"
+      ]
+    },
+    {
+      "title": "Yeeha",
+      "artist": "LAYA",
+      "artist_id": 1457563752,
+      "type": "song",
+      "release_date": "2026-09-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/df/e0/19/dfe0192f-f266-5aa7-ac99-76759b4d97a8/859745405928_cover.jpg/400x400bb.webp",
+      "genre": "R&B/Soul",
+      "link": "https://music.apple.com/us/album/yeeha-single/6807743367?uo=4",
+      "sources": [
+        "genre:R&B/Soul"
+      ]
+    },
+    {
+      "title": "Lee;Make (Fragmenta Amoris)",
+      "artist": "LEECHANGSUB",
+      "artist_id": 1229953085,
+      "type": "album",
+      "release_date": "2026-09-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/70/51/da/7051da06-15bd-ca62-4a50-e4ac3e011c83/cover_KM0025091_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/lee-make-fragmenta-amoris-ep/6808059652?uo=4",
+      "sources": [
+        "genre:K-Pop",
+        "country:jp"
+      ]
+    },
+    {
+      "title": "BREATH",
+      "artist": "Little Glee Monster",
+      "artist_id": 839998091,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c0/48/1e/c0481e60-faf7-b9fc-cfa6-701285b45b76/4547366851298.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/breath/6807716551?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "LOVE ENG!NE",
+      "artist": "M!LK",
+      "artist_id": 1356706755,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d0/c1/3e/d0c13e26-39b8-76b3-8ba5-b4412872260f/VEATP-45880.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/love-eng-ne/6803798492?uo=4",
+      "sources": [
+        "country:hk",
+        "country:jp"
+      ]
+    },
+    {
+      "title": "運命さがし EP",
+      "artist": "Macaroni Empitsu",
+      "artist_id": 956011835,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/df/cb/48/dfcb486d-4109-e643-6299-694336036dda/4094482.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E9%81%8B%E5%91%BD%E3%81%95%E3%81%8C%E3%81%97-ep/6799944399?uo=4",
+      "sources": [
         "country:hk"
+      ]
+    },
+    {
+      "title": "back shot",
+      "artist": "Masanori Otoda",
+      "artist_id": 1581369050,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a3/9a/f1/a39af19b-4bfe-3c9f-27ae-914d96d0e48d/4547366851694.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/back-shot/6810554941?uo=4",
+      "sources": [
+        "genre:J-Pop"
       ]
     },
     {
@@ -302,6 +505,19 @@
       ]
     },
     {
+      "title": "With U",
+      "artist": "MW:MEU",
+      "artist_id": 1889063065,
+      "type": "album",
+      "release_date": "2026-09-15",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/66/72/dd/6672dd0f-21ab-38f6-26e4-1188edcd7a69/8800388639692_cover.png/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/with-u-ep/6809365077?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
       "title": "BLACK OUT MISSION",
       "artist": "Naniwa Danshi",
       "artist_id": 1758080234,
@@ -311,9 +527,7 @@
       "genre": "J-Pop",
       "link": "https://music.apple.com/us/album/black-out-mission-single/6803023216?uo=4",
       "sources": [
-        "country:hk",
-        "country:jp",
-        "country:tw"
+        "country:jp"
       ]
     },
     {
@@ -330,16 +544,16 @@
       ]
     },
     {
-      "title": "Candle Night",
-      "artist": "Raphael (VA: Kazuhisa Kiriyama) & Obey Me!",
-      "artist_id": 6810509257,
+      "title": "大楷人生",
+      "artist": "PER SE",
+      "artist_id": 1815233392,
       "type": "song",
-      "release_date": "2026-09-14",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/63/b9/f9/63b9f980-ae07-f959-b2ed-81343971b898/4550760418820_cover.png/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/candle-night-single/6810509013?uo=4",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/85/1a/bb/851abbd0-1237-bfb2-4eb1-97f212b078d5/196874751213.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E5%A4%A7%E6%A5%B7%E4%BA%BA%E7%94%9F-single/6808255884?uo=4",
       "sources": [
-        "genre:J-Pop"
+        "country:hk"
       ]
     },
     {
@@ -353,9 +567,21 @@
       "link": "https://music.apple.com/us/album/cheetah-ep/6809756790?uo=4",
       "sources": [
         "genre:K-Pop",
-        "country:hk",
         "country:jp",
         "country:tw"
+      ]
+    },
+    {
+      "title": "abnormal life hack",
+      "artist": "RETRORIRON",
+      "artist_id": 1517023528,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/98/3d/b4/983db40f-f074-ecdf-61b3-2cb24abfe37f/26UMGIM98158.rgb.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/abnormal-life-hack-ep/6807341040?uo=4",
+      "sources": [
+        "country:jp"
       ]
     },
     {
@@ -372,6 +598,19 @@
       ]
     },
     {
+      "title": "Side By Side",
+      "artist": "ROX66",
+      "artist_id": 6807256090,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5a/d0/88/5ad08897-1a1a-be73-ad8e-7307ad19f928/4540399327037_cover.png/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/side-by-side-ep/6807279772?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "Puromonsterscramble Party",
       "artist": "Sanrio Puroland",
       "artist_id": 1651744654,
@@ -385,14 +624,27 @@
       ]
     },
     {
-      "title": "Voice Drama The Beginning #07 Otona",
-      "artist": "Yuzuki Choco",
-      "artist_id": 1583765157,
-      "type": "album",
+      "title": "Over Drive",
+      "artist": "TEAM KAWAII LAB.",
+      "artist_id": 1858812688,
+      "type": "song",
       "release_date": "2026-09-15",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/25/9a/16/259a1695-3ad0-7035-d5cb-b1f396f9ee4d/4580883417721_art.png/400x400bb.webp",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f2/d1/54/f2d1547f-0169-31ae-27eb-c147c6b31b9d/885288511109.jpg/400x400bb.webp",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/voice-drama-the-beginning-07-otona-ep/6809752078?uo=4",
+      "link": "https://music.apple.com/us/album/over-drive-single/6809712088?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "ミュージカル『マリーゴールド』 (Live)",
+      "artist": "TRUMP series",
+      "artist_id": 1882660854,
+      "type": "album",
+      "release_date": "2026-09-16",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/07/c1/00/07c1009b-223b-73dd-f9f5-4c5c0ded1415/28582.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%B8%E3%82%AB%E3%83%AB-%E3%83%9E%E3%83%AA%E3%83%BC%E3%82%B4%E3%83%BC%E3%83%AB%E3%83%89-live/6805734791?uo=4",
       "sources": [
         "country:jp"
       ]

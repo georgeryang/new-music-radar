@@ -1,15 +1,27 @@
 {
   "Alternative": {
-    "dropped": 21,
+    "dropped": 23,
     "today": 2,
-    "last_seen": "2026-09-15",
-    "example": "SISISI BAND — IN THE AFTERMATH"
+    "last_seen": "2026-09-16",
+    "example": "Chilli Beans. — HONESTY"
+  },
+  "Anime": {
+    "dropped": 12,
+    "today": 7,
+    "last_seen": "2026-09-16",
+    "example": "Team.Sol — THE IDOLM@STER SHINY COLORS HOPEFUL FE@THERS -Sol-"
   },
   "Música Mexicana": {
-    "dropped": 10,
+    "dropped": 11,
     "today": 1,
-    "last_seen": "2026-09-15",
+    "last_seen": "2026-09-16",
     "example": "Vicente Fernández — Tributo al Rey Con Banda (Grandes Duetos), Vol. 2"
+  },
+  "Soundtrack": {
+    "dropped": 10,
+    "today": 5,
+    "last_seen": "2026-09-16",
+    "example": "Masayoshi Soken — TRAIL TO THE HEAVENS: FINAL FANTASY XIV Original Soundtrack (78 Track Version)"
   },
   "Christian": {
     "dropped": 9,
@@ -17,17 +29,11 @@
     "last_seen": "2026-08-30",
     "example": "Brandon Lake — How Good God Is"
   },
-  "Anime": {
-    "dropped": 5,
-    "today": 2,
-    "last_seen": "2026-09-15",
-    "example": "Ave Mujica — A Song Of Romance (from EP \"神の名を\")"
-  },
-  "Soundtrack": {
-    "dropped": 5,
-    "today": 4,
-    "last_seen": "2026-09-15",
-    "example": "SEVEN TAN — 花开满篱院 (《兰香如故》电视剧亲情曲)"
+  "Rock": {
+    "dropped": 7,
+    "today": 5,
+    "last_seen": "2026-09-16",
+    "example": "Tamio Okuda — MTRYツアー2026“春 Ooh La La”@ 昭和女子大学 人見記念講堂"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -58,6 +64,12 @@
     "today": 4,
     "last_seen": "2026-09-13",
     "example": "Ibibio Sound Machine — Chopping Mountain"
+  },
+  "House": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-09-16",
+    "example": "Dream Relic — Time is a Limited Allowance"
   },
   "Latin Jazz": {
     "dropped": 3,
@@ -95,23 +107,11 @@
     "last_seen": "2026-09-14",
     "example": "Bonobo — Distance in Static"
   },
-  "House": {
+  "T-Pop": {
     "dropped": 3,
     "today": 1,
-    "last_seen": "2026-09-15",
-    "example": "Dream Relic — Time is a Limited Allowance"
-  },
-  "Rock": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-09-15",
-    "example": "Rockon Social Club — Rokkuyo Shizukani Nagareyo ~ Crossin' Heart~ (Cover)"
-  },
-  "Afro-Beat": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-09-14",
-    "example": "Various Artists — Nigeria 80"
+    "last_seen": "2026-09-16",
+    "example": "LYKN — หน้าไหว้หลังหลอก (Oh My Gosh)"
   },
   "Country": {
     "dropped": 2,
@@ -149,12 +149,6 @@
     "last_seen": "2026-08-29",
     "example": "Armin van Buuren — A State of Trance, Ibiza 2026 (DJ Mix) [Mixed by Armin van Buuren]"
   },
-  "Praise & Worship": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-07",
-    "example": "Praise and Harmony — Family of God"
-  },
   "Indie Rock": {
     "dropped": 2,
     "today": 1,
@@ -166,12 +160,6 @@
     "today": 1,
     "last_seen": "2026-09-14",
     "example": "throatcut. — NO KINGS."
-  },
-  "Rap": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-14",
-    "example": "Rich The Kid & Gunna — Too Bad"
   },
   "Hard Rock": {
     "dropped": 2,
@@ -203,11 +191,23 @@
     "last_seen": "2026-09-15",
     "example": "Millionaire Muses — While I Rest"
   },
-  "T-Pop": {
-    "dropped": 2,
+  "Afro-Beat": {
+    "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-15",
-    "example": "Bonnie Pattraphus — จะรักให้จำ (Your One)"
+    "last_seen": "2026-09-16",
+    "example": "Camixer bierber — Chifuniro Cha Atate"
+  },
+  "Praise & Worship": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-16",
+    "example": "Joshua Band — 轉眼仰望"
+  },
+  "Rap": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-16",
+    "example": "SKAI ISYOURGOD & Project Pat — Waijiaoguan"
   },
   "Video Game": {
     "dropped": 1,
@@ -236,8 +236,8 @@
   "Classical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-14",
-    "example": "Jonathan Stockhammer, Emmanuel Pahud & Dresdner Philharmonie — Ceremony"
+    "last_seen": "2026-09-16",
+    "example": "Tokyo Philharmonic Orchestra, THE IDOLM@STER Series & Bandai Namco Game Music — The Idolm@ster 20th Anniversary Orchestra Concert Symphony of Brilliant Stars Concert Album"
   },
   "Funk": {
     "dropped": 1,
@@ -248,8 +248,8 @@
   "Instrumental": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-04",
-    "example": "Lofi Jazz Terrace — Nighttime Cafe Lo-Fi Music for Focused Work and Relaxation."
+    "last_seen": "2026-09-16",
+    "example": "俞冰, DingXiaoKui, 李诗琪 & 天童 — 界"
   },
   "Folk": {
     "dropped": 1,
@@ -364,5 +364,11 @@
     "today": 1,
     "last_seen": "2026-09-05",
     "example": "DOOMFLOW23 — Amor a Distancia"
+  },
+  "New Age": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-16",
+    "example": "Super Piano 64, GameChops & Unplugged — Zelda & Sleep: Ocarina of Time"
   }
 }
