@@ -1,32 +1,32 @@
 {
   "Alternative": {
-    "dropped": 25,
-    "today": 2,
-    "last_seen": "2026-09-17",
-    "example": "Chilli Beans. — HONESTY"
+    "dropped": 40,
+    "today": 15,
+    "last_seen": "2026-09-18",
+    "example": "Blood Red Shoes — Stay Lonely"
   },
   "Anime": {
-    "dropped": 21,
-    "today": 9,
-    "last_seen": "2026-09-17",
-    "example": "Team.Stella — THE IDOLM@STER SHINY COLORS HOPEFUL FE@THERS -Stella-"
+    "dropped": 29,
+    "today": 8,
+    "last_seen": "2026-09-18",
+    "example": "Team.Sol — THE IDOLM@STER SHINY COLORS HOPEFUL FE@THERS -Sol-"
   },
   "Soundtrack": {
-    "dropped": 16,
-    "today": 6,
-    "last_seen": "2026-09-17",
+    "dropped": 24,
+    "today": 8,
+    "last_seen": "2026-09-18",
     "example": "Masayoshi Soken — TRAIL TO THE HEAVENS: FINAL FANTASY XIV Original Soundtrack (78 Track Version)"
   },
   "Música Mexicana": {
-    "dropped": 12,
-    "today": 1,
-    "last_seen": "2026-09-17",
+    "dropped": 19,
+    "today": 7,
+    "last_seen": "2026-09-18",
     "example": "Vicente Fernández — Tributo al Rey Con Banda (Grandes Duetos), Vol. 2"
   },
   "Rock": {
-    "dropped": 11,
-    "today": 4,
-    "last_seen": "2026-09-17",
+    "dropped": 17,
+    "today": 6,
+    "last_seen": "2026-09-18",
     "example": "Tamio Okuda — MTRYツアー2026“春 Ooh La La”@ 昭和女子大学 人見記念講堂"
   },
   "Christian": {
@@ -34,6 +34,12 @@
     "today": 3,
     "last_seen": "2026-08-30",
     "example": "Brandon Lake — How Good God Is"
+  },
+  "Country": {
+    "dropped": 6,
+    "today": 6,
+    "last_seen": "2026-09-18",
+    "example": "Luke Bryan — Signs"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -53,24 +59,6 @@
     "last_seen": "2026-09-07",
     "example": "José Madero — Querido…"
   },
-  "Techno": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-09-07",
-    "example": "Amelie Lens — AURA"
-  },
-  "African": {
-    "dropped": 4,
-    "today": 4,
-    "last_seen": "2026-09-13",
-    "example": "Ibibio Sound Machine — Chopping Mountain"
-  },
-  "House": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-09-16",
-    "example": "Dream Relic — Time is a Limited Allowance"
-  },
   "Latin Jazz": {
     "dropped": 3,
     "today": 1,
@@ -83,23 +71,11 @@
     "last_seen": "2026-08-30",
     "example": "CHRIS STASSY & Marz Fay — U know me"
   },
-  "Crossover Jazz": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-30",
-    "example": "Gretchen Parlato — The Wise Ones"
-  },
   "Afro-fusion": {
     "dropped": 3,
     "today": 1,
     "last_seen": "2026-08-31",
     "example": "Muyeez — All Hail Muyeez"
-  },
-  "Electronic": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-09-14",
-    "example": "Bonobo — Distance in Static"
   },
   "T-Pop": {
     "dropped": 3,
@@ -107,23 +83,29 @@
     "last_seen": "2026-09-16",
     "example": "LYKN — หน้าไหว้หลังหลอก (Oh My Gosh)"
   },
-  "Country": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-09-11",
-    "example": "Darius Rucker — I Believe"
-  },
-  "Hip-Hop": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-09-13",
-    "example": "Tsu Surf — REAL INSIDE COLD OUTSIDE"
-  },
-  "Samba": {
-    "dropped": 2,
+  "Rap": {
+    "dropped": 3,
     "today": 1,
-    "last_seen": "2026-08-19",
-    "example": "Amitai Kurtz Samba Project — But He Was Born in BRAZIL"
+    "last_seen": "2026-09-18",
+    "example": "SKAI ISYOURGOD & Project Pat — Waijiaoguan"
+  },
+  "Classical": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-09-18",
+    "example": "Tokyo Philharmonic Orchestra, THE IDOLM@STER Series & Bandai Namco Game Music — The Idolm@ster 20th Anniversary Orchestra Concert Symphony of Brilliant Stars Concert Album"
+  },
+  "African": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-18",
+    "example": "Seyi Vibez — SWAGUU"
+  },
+  "House": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-18",
+    "example": "MAISON VALAR — HOW DID WE GET HERE EP"
   },
   "Worldwide": {
     "dropped": 2,
@@ -151,9 +133,9 @@
   },
   "Metal": {
     "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-14",
-    "example": "throatcut. — NO KINGS."
+    "today": 2,
+    "last_seen": "2026-09-18",
+    "example": "Trivium — Dead Inside Of Me"
   },
   "Hard Rock": {
     "dropped": 2,
@@ -163,21 +145,15 @@
   },
   "Música tropical": {
     "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-14",
-    "example": "Luis Vazquez — Un Segundo"
-  },
-  "Soul": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-14",
-    "example": "Valerie June — Brighter Blue"
+    "today": 2,
+    "last_seen": "2026-09-18",
+    "example": "Elvis Crespo & Beéle — Pa' Bailar"
   },
   "Indie Pop": {
     "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-14",
-    "example": "Nell Mescal — Hers"
+    "today": 2,
+    "last_seen": "2026-09-18",
+    "example": "Yico Tseng — 她机器"
   },
   "Afro-Pop": {
     "dropped": 2,
@@ -197,35 +173,53 @@
     "last_seen": "2026-09-17",
     "example": "Joshua Band — 轉眼仰望"
   },
-  "Rap": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-17",
-    "example": "SKAI ISYOURGOD & Project Pat — Waijiaoguan"
-  },
-  "Classical": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-17",
-    "example": "Tokyo Philharmonic Orchestra, THE IDOLM@STER Series & Bandai Namco Game Music — The Idolm@ster 20th Anniversary Orchestra Concert Symphony of Brilliant Stars Concert Album"
-  },
   "Amapiano": {
-    "dropped": 1,
+    "dropped": 2,
     "today": 1,
-    "last_seen": "2026-09-17",
+    "last_seen": "2026-09-18",
     "example": "Baby S.O.N — Heartbreak & Logdrums"
   },
   "Video Game": {
-    "dropped": 1,
+    "dropped": 2,
     "today": 1,
-    "last_seen": "2026-09-17",
-    "example": "Capcom Sound Team — Onimusha: Way of the Sword Original Sound Track"
+    "last_seen": "2026-09-18",
+    "example": "Wuthering Waves — Ode to Hsin and Moon(Original Game Soundtrack)"
   },
   "Afro House": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-18",
+    "example": "Ochok, Damon Sharpe & Gan — Take Me Back to Bali (feat. Jacob Aaron)"
+  },
+  "Techno": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-17",
-    "example": "Ben Cooper & Mellowdy — Señorita"
+    "last_seen": "2026-09-18",
+    "example": "FJAAK — FJAAK 015"
+  },
+  "Crossover Jazz": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-18",
+    "example": "PYRAMID — PYRAMID 6"
+  },
+  "Electronic": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-18",
+    "example": "Anna Lunoe — Do It"
+  },
+  "Hip-Hop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-18",
+    "example": "Yeat — COCOON"
+  },
+  "Soul": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-18",
+    "example": "Thee Sinseers & Joey Quiñones — Love Stories"
   },
   "Classical Crossover": {
     "dropped": 1,
@@ -254,8 +248,8 @@
   "Folk": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-10",
-    "example": "Nordic Viking Music — NORTHBORN Songs of a Higher Dawn"
+    "last_seen": "2026-09-18",
+    "example": "Aaron Rowe — Forever Now"
   },
   "Jazz": {
     "dropped": 1,
@@ -284,8 +278,8 @@
   "Modern Dancehall": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "Mr Eazi, Cham & Dre Skull — Hide Your Love"
+    "last_seen": "2026-09-18",
+    "example": "Gangsta, Jory Boy & Red Fox — Que Se Reporten"
   },
   "Traditional Country": {
     "dropped": 1,
@@ -370,5 +364,11 @@
     "today": 1,
     "last_seen": "2026-09-16",
     "example": "Super Piano 64, GameChops & Unplugged — Zelda & Sleep: Ocarina of Time"
+  },
+  "Ambient": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-18",
+    "example": "Alva Noto & Ryuichi Sakamoto — 12 Conversations"
   }
 }
