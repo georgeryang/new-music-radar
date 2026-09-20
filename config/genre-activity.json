@@ -1,39 +1,45 @@
 {
   "Alternative": {
-    "dropped": 53,
-    "today": 13,
-    "last_seen": "2026-09-19",
-    "example": "Beck — Ride Lonesome"
+    "dropped": 65,
+    "today": 12,
+    "last_seen": "2026-09-20",
+    "example": "Echo & The Bunnymen — Apples For Isaac"
   },
   "Anime": {
-    "dropped": 39,
-    "today": 10,
-    "last_seen": "2026-09-19",
-    "example": "Team.Luna — THE IDOLM@STER SHINY COLORS HOPEFUL FE@THERS -Luna-"
+    "dropped": 41,
+    "today": 2,
+    "last_seen": "2026-09-20",
+    "example": "TRIGGER — Night Bloom"
   },
   "Soundtrack": {
-    "dropped": 29,
-    "today": 5,
-    "last_seen": "2026-09-19",
-    "example": "Masayoshi Soken — TRAIL TO THE HEAVENS: FINAL FANTASY XIV Original Soundtrack (78 Track Version)"
+    "dropped": 35,
+    "today": 6,
+    "last_seen": "2026-09-20",
+    "example": "Hays Holladay & Ryan Holladay — Resident Evil (Original Motion Picture Soundtrack)"
   },
   "Música Mexicana": {
-    "dropped": 26,
-    "today": 7,
-    "last_seen": "2026-09-19",
-    "example": "La Explosiva Banda de Maza — Canciones Caras"
+    "dropped": 32,
+    "today": 6,
+    "last_seen": "2026-09-20",
+    "example": "Lupita Infante & Chiquis — Con Una, Dos o Tres"
   },
   "Rock": {
-    "dropped": 24,
-    "today": 7,
-    "last_seen": "2026-09-19",
-    "example": "G-FREAK FACTORY — 灯-TOMOSHIBI-"
+    "dropped": 28,
+    "today": 4,
+    "last_seen": "2026-09-20",
+    "example": "MAN WITH A MISSION — The Animals"
   },
   "Country": {
-    "dropped": 11,
+    "dropped": 16,
     "today": 5,
-    "last_seen": "2026-09-19",
+    "last_seen": "2026-09-20",
     "example": "Riley Green — That's Just Me"
+  },
+  "House": {
+    "dropped": 11,
+    "today": 4,
+    "last_seen": "2026-09-20",
+    "example": "Ayla Nereo & Diamonde — REIMAGINATION"
   },
   "Christian": {
     "dropped": 9,
@@ -41,35 +47,47 @@
     "last_seen": "2026-08-30",
     "example": "Brandon Lake — How Good God Is"
   },
-  "House": {
-    "dropped": 7,
-    "today": 5,
-    "last_seen": "2026-09-19",
-    "example": "DRAMA — DRAMA club: 5:55 in Chicago (Vol. 1)"
+  "African": {
+    "dropped": 8,
+    "today": 3,
+    "last_seen": "2026-09-20",
+    "example": "Baka Beyond — Sing the World Awake"
   },
   "Metal": {
-    "dropped": 6,
-    "today": 4,
-    "last_seen": "2026-09-19",
-    "example": "Valkyrie's Fire — Out of Darkness"
+    "dropped": 7,
+    "today": 1,
+    "last_seen": "2026-09-20",
+    "example": "Anthrax — Cursum Perficio"
   },
   "Rap": {
-    "dropped": 5,
-    "today": 2,
-    "last_seen": "2026-09-19",
+    "dropped": 6,
+    "today": 1,
+    "last_seen": "2026-09-20",
     "example": "Brea Miles — THA LIGHT"
   },
   "Classical": {
-    "dropped": 5,
-    "today": 2,
-    "last_seen": "2026-09-19",
+    "dropped": 6,
+    "today": 1,
+    "last_seen": "2026-09-20",
     "example": "Tokyo Philharmonic Orchestra, PROJECT ACES & Bandai Namco Game Music — ACE COMBAT/ S the Symphony 30th Anniversary Concert Album"
   },
-  "African": {
-    "dropped": 5,
+  "Música tropical": {
+    "dropped": 6,
+    "today": 2,
+    "last_seen": "2026-09-20",
+    "example": "Elvis Crespo & Beéle — Pa' Bailar"
+  },
+  "Afro House": {
+    "dropped": 6,
     "today": 3,
-    "last_seen": "2026-09-19",
-    "example": "Seyi Vibez — SWAGUU"
+    "last_seen": "2026-09-20",
+    "example": "Gumz — Pulse of Afro"
+  },
+  "Indie Pop": {
+    "dropped": 5,
+    "today": 1,
+    "last_seen": "2026-09-20",
+    "example": "Sleepy WiFi & Misi Ke — 星期幾"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -89,17 +107,17 @@
     "last_seen": "2026-09-07",
     "example": "José Madero — Querido…"
   },
-  "Música tropical": {
+  "Video Game": {
     "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-09-19",
-    "example": "Elvis Crespo & Beéle — Pa' Bailar"
+    "today": 1,
+    "last_seen": "2026-09-20",
+    "example": "Wuthering Waves — Ode to Hsin and Moon(Original Game Soundtrack)"
   },
-  "Indie Pop": {
+  "Afro-Beat": {
     "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-09-19",
-    "example": "Yico Tseng — 她机器"
+    "today": 3,
+    "last_seen": "2026-09-20",
+    "example": "Jembaa Groove — Be a Lover"
   },
   "Latin Jazz": {
     "dropped": 3,
@@ -131,17 +149,47 @@
     "last_seen": "2026-09-19",
     "example": "Baby S.O.N — Heartbreak & Logdrums"
   },
-  "Video Game": {
+  "Crossover Jazz": {
     "dropped": 3,
     "today": 1,
-    "last_seen": "2026-09-19",
-    "example": "Wuthering Waves — Ode to Hsin and Moon(Original Game Soundtrack)"
+    "last_seen": "2026-09-20",
+    "example": "PYRAMID — PYRAMID 6"
   },
-  "Afro House": {
+  "Electronic": {
     "dropped": 3,
     "today": 1,
-    "last_seen": "2026-09-19",
-    "example": "Ochok, Damon Sharpe & Gan — Take Me Back to Bali (feat. Jacob Aaron)"
+    "last_seen": "2026-09-20",
+    "example": "Anna Lunoe — Do It"
+  },
+  "Hip-Hop": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-09-20",
+    "example": "Yeat — COCOON"
+  },
+  "Soul": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-09-20",
+    "example": "Thee Sinseers & Joey Quiñones — Love Stories"
+  },
+  "Folk": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-09-20",
+    "example": "Aaron Rowe — Forever Now"
+  },
+  "Modern Dancehall": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-09-20",
+    "example": "Gangsta, Jory Boy & Red Fox — Que Se Reporten"
+  },
+  "Ambient": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-09-20",
+    "example": "Alva Noto & Ryuichi Sakamoto — 12 Conversations"
   },
   "Chinese Hip-Hop": {
     "dropped": 2,
@@ -157,9 +205,9 @@
   },
   "Afro-Pop": {
     "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-15",
-    "example": "Millionaire Muses — While I Rest"
+    "today": 2,
+    "last_seen": "2026-09-20",
+    "example": "Jun Lin Mitchell — My First Love"
   },
   "Praise & Worship": {
     "dropped": 2,
@@ -167,65 +215,23 @@
     "last_seen": "2026-09-17",
     "example": "Joshua Band — 轉眼仰望"
   },
-  "Crossover Jazz": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-19",
-    "example": "PYRAMID — PYRAMID 6"
-  },
-  "Electronic": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-19",
-    "example": "Anna Lunoe — Do It"
-  },
-  "Hip-Hop": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-19",
-    "example": "Yeat — COCOON"
-  },
-  "Soul": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-19",
-    "example": "Thee Sinseers & Joey Quiñones — Love Stories"
-  },
-  "Folk": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-19",
-    "example": "Aaron Rowe — Forever Now"
-  },
-  "Modern Dancehall": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-19",
-    "example": "Gangsta, Jory Boy & Red Fox — Que Se Reporten"
-  },
-  "Ambient": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-19",
-    "example": "Alva Noto & Ryuichi Sakamoto — 12 Conversations"
-  },
   "Trance": {
-    "dropped": 1,
+    "dropped": 2,
     "today": 1,
-    "last_seen": "2026-09-19",
+    "last_seen": "2026-09-20",
     "example": "Darude — Sandstorm (Storm 25 Mix)"
+  },
+  "Electronica": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-20",
+    "example": "Smtve — Touch Me Tonight"
   },
   "Hard Rock": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-09-19",
     "example": "Uncle Acid & The Deadbeats — Shapes Of Midnight"
-  },
-  "Afro-Beat": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-19",
-    "example": "Jembaa Groove — Be a Lover"
   },
   "Techno": {
     "dropped": 1,
@@ -311,12 +317,6 @@
     "last_seen": "2026-09-11",
     "example": "Whispered — Honorbound"
   },
-  "Chinese Alt": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-21",
-    "example": "ZENBØ & 南西 Neci — Destined"
-  },
   "Baladas y Boleros": {
     "dropped": 1,
     "today": 1,
@@ -358,11 +358,5 @@
     "today": 1,
     "last_seen": "2026-09-16",
     "example": "Super Piano 64, GameChops & Unplugged — Zelda & Sleep: Ocarina of Time"
-  },
-  "Electronica": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-19",
-    "example": "Smtve — Touch Me Tonight"
   }
 }
