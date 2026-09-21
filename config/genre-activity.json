@@ -1,45 +1,51 @@
 {
   "Alternative": {
-    "dropped": 65,
-    "today": 12,
-    "last_seen": "2026-09-20",
+    "dropped": 76,
+    "today": 11,
+    "last_seen": "2026-09-21",
     "example": "Echo & The Bunnymen — Apples For Isaac"
   },
   "Anime": {
-    "dropped": 41,
-    "today": 2,
-    "last_seen": "2026-09-20",
-    "example": "TRIGGER — Night Bloom"
+    "dropped": 45,
+    "today": 4,
+    "last_seen": "2026-09-21",
+    "example": "Hasu no Sora Jogakuin School Idol Club — おいでよ!石川大観光Ⅱ"
   },
   "Soundtrack": {
-    "dropped": 35,
-    "today": 6,
-    "last_seen": "2026-09-20",
-    "example": "Hays Holladay & Ryan Holladay — Resident Evil (Original Motion Picture Soundtrack)"
+    "dropped": 40,
+    "today": 5,
+    "last_seen": "2026-09-21",
+    "example": "AHOF — Focus On You (From \"Operation: True Love\")"
   },
   "Música Mexicana": {
-    "dropped": 32,
-    "today": 6,
-    "last_seen": "2026-09-20",
-    "example": "Lupita Infante & Chiquis — Con Una, Dos o Tres"
+    "dropped": 34,
+    "today": 2,
+    "last_seen": "2026-09-21",
+    "example": "LOS DOS DE TAMAULIPAS — Sin Ti"
   },
   "Rock": {
-    "dropped": 28,
-    "today": 4,
-    "last_seen": "2026-09-20",
-    "example": "MAN WITH A MISSION — The Animals"
+    "dropped": 33,
+    "today": 5,
+    "last_seen": "2026-09-21",
+    "example": "Cellmates — B.O.G.S"
   },
   "Country": {
-    "dropped": 16,
+    "dropped": 21,
     "today": 5,
-    "last_seen": "2026-09-20",
+    "last_seen": "2026-09-21",
     "example": "Riley Green — That's Just Me"
   },
   "House": {
+    "dropped": 13,
+    "today": 2,
+    "last_seen": "2026-09-21",
+    "example": "fka boursin — From Space Between"
+  },
+  "African": {
     "dropped": 11,
-    "today": 4,
-    "last_seen": "2026-09-20",
-    "example": "Ayla Nereo & Diamonde — REIMAGINATION"
+    "today": 3,
+    "last_seen": "2026-09-21",
+    "example": "Baka Beyond — Sing the World Awake"
   },
   "Christian": {
     "dropped": 9,
@@ -47,17 +53,23 @@
     "last_seen": "2026-08-30",
     "example": "Brandon Lake — How Good God Is"
   },
-  "African": {
-    "dropped": 8,
-    "today": 3,
-    "last_seen": "2026-09-20",
-    "example": "Baka Beyond — Sing the World Awake"
-  },
   "Metal": {
+    "dropped": 8,
+    "today": 1,
+    "last_seen": "2026-09-21",
+    "example": "Anthrax — Cursum Perficio"
+  },
+  "Afro House": {
+    "dropped": 8,
+    "today": 2,
+    "last_seen": "2026-09-21",
+    "example": "Gumz — Pulse of Afro"
+  },
+  "Classical": {
     "dropped": 7,
     "today": 1,
-    "last_seen": "2026-09-20",
-    "example": "Anthrax — Cursum Perficio"
+    "last_seen": "2026-09-21",
+    "example": "Tokyo Philharmonic Orchestra, PROJECT ACES & Bandai Namco Game Music — ACE COMBAT/ S the Symphony 30th Anniversary Concert Album"
   },
   "Rap": {
     "dropped": 6,
@@ -65,29 +77,29 @@
     "last_seen": "2026-09-20",
     "example": "Brea Miles — THA LIGHT"
   },
-  "Classical": {
-    "dropped": 6,
-    "today": 1,
-    "last_seen": "2026-09-20",
-    "example": "Tokyo Philharmonic Orchestra, PROJECT ACES & Bandai Namco Game Music — ACE COMBAT/ S the Symphony 30th Anniversary Concert Album"
-  },
   "Música tropical": {
     "dropped": 6,
     "today": 2,
     "last_seen": "2026-09-20",
     "example": "Elvis Crespo & Beéle — Pa' Bailar"
   },
-  "Afro House": {
-    "dropped": 6,
-    "today": 3,
-    "last_seen": "2026-09-20",
-    "example": "Gumz — Pulse of Afro"
-  },
   "Indie Pop": {
+    "dropped": 6,
+    "today": 1,
+    "last_seen": "2026-09-21",
+    "example": "Sleepy WiFi & Misi Ke — 星期幾"
+  },
+  "Afro-Beat": {
+    "dropped": 6,
+    "today": 2,
+    "last_seen": "2026-09-21",
+    "example": "Jembaa Groove — Be a Lover"
+  },
+  "Video Game": {
     "dropped": 5,
     "today": 1,
-    "last_seen": "2026-09-20",
-    "example": "Sleepy WiFi & Misi Ke — 星期幾"
+    "last_seen": "2026-09-21",
+    "example": "ATLUS GAME MUSIC & Syouji Meguro — Revelations: Persona (Original Soundtrack)"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -107,23 +119,41 @@
     "last_seen": "2026-09-07",
     "example": "José Madero — Querido…"
   },
-  "Video Game": {
+  "Crossover Jazz": {
     "dropped": 4,
     "today": 1,
-    "last_seen": "2026-09-20",
-    "example": "Wuthering Waves — Ode to Hsin and Moon(Original Game Soundtrack)"
+    "last_seen": "2026-09-21",
+    "example": "PYRAMID — PYRAMID 6"
   },
-  "Afro-Beat": {
+  "Electronic": {
     "dropped": 4,
-    "today": 3,
-    "last_seen": "2026-09-20",
-    "example": "Jembaa Groove — Be a Lover"
-  },
-  "Latin Jazz": {
-    "dropped": 3,
     "today": 1,
-    "last_seen": "2026-08-22",
-    "example": "Christian Valdés — Impulsos"
+    "last_seen": "2026-09-21",
+    "example": "Anna Lunoe — Do It"
+  },
+  "Hip-Hop": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-09-21",
+    "example": "Yeat — COCOON"
+  },
+  "Soul": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-09-21",
+    "example": "Thee Sinseers & Joey Quiñones — Love Stories"
+  },
+  "Folk": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-09-21",
+    "example": "Aaron Rowe — Forever Now"
+  },
+  "Afro-Pop": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-09-21",
+    "example": "Jun Lin Mitchell — My First Love"
   },
   "Breakbeat": {
     "dropped": 3,
@@ -149,36 +179,6 @@
     "last_seen": "2026-09-19",
     "example": "Baby S.O.N — Heartbreak & Logdrums"
   },
-  "Crossover Jazz": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-09-20",
-    "example": "PYRAMID — PYRAMID 6"
-  },
-  "Electronic": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-09-20",
-    "example": "Anna Lunoe — Do It"
-  },
-  "Hip-Hop": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-09-20",
-    "example": "Yeat — COCOON"
-  },
-  "Soul": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-09-20",
-    "example": "Thee Sinseers & Joey Quiñones — Love Stories"
-  },
-  "Folk": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-09-20",
-    "example": "Aaron Rowe — Forever Now"
-  },
   "Modern Dancehall": {
     "dropped": 3,
     "today": 1,
@@ -190,6 +190,12 @@
     "today": 1,
     "last_seen": "2026-09-20",
     "example": "Alva Noto & Ryuichi Sakamoto — 12 Conversations"
+  },
+  "Trance": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-09-21",
+    "example": "Darude — Sandstorm (Storm 25 Mix)"
   },
   "Chinese Hip-Hop": {
     "dropped": 2,
@@ -203,23 +209,11 @@
     "last_seen": "2026-09-14",
     "example": "The Tubs — Hard Life"
   },
-  "Afro-Pop": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-09-20",
-    "example": "Jun Lin Mitchell — My First Love"
-  },
   "Praise & Worship": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-09-17",
     "example": "Joshua Band — 轉眼仰望"
-  },
-  "Trance": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-20",
-    "example": "Darude — Sandstorm (Storm 25 Mix)"
   },
   "Electronica": {
     "dropped": 2,
@@ -316,18 +310,6 @@
     "today": 1,
     "last_seen": "2026-09-11",
     "example": "Whispered — Honorbound"
-  },
-  "Baladas y Boleros": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-22",
-    "example": "Grupo Bryndis — Ayer y Hoy II: Si Tú Supieras / Esta Triste Soledad / Cuánto Estoy Sufriendo / Por Qué Me Enamoré de Ti"
-  },
-  "Easy Listening": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-22",
-    "example": "The Soul of Wind — Fuurin in the Breeze"
   },
   "Holiday": {
     "dropped": 1,
