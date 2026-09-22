@@ -6,28 +6,28 @@
     "example": "Echo & The Bunnymen — Apples For Isaac"
   },
   "Anime": {
-    "dropped": 45,
-    "today": 4,
-    "last_seen": "2026-09-21",
-    "example": "Hasu no Sora Jogakuin School Idol Club — おいでよ!石川大観光Ⅱ"
+    "dropped": 54,
+    "today": 9,
+    "last_seen": "2026-09-22",
+    "example": "IKIZULIVE! — Tale of Primavera"
   },
   "Soundtrack": {
-    "dropped": 40,
-    "today": 5,
-    "last_seen": "2026-09-21",
+    "dropped": 44,
+    "today": 4,
+    "last_seen": "2026-09-22",
     "example": "AHOF — Focus On You (From \"Operation: True Love\")"
   },
-  "Música Mexicana": {
-    "dropped": 34,
-    "today": 2,
-    "last_seen": "2026-09-21",
-    "example": "LOS DOS DE TAMAULIPAS — Sin Ti"
-  },
   "Rock": {
-    "dropped": 33,
-    "today": 5,
-    "last_seen": "2026-09-21",
-    "example": "Cellmates — B.O.G.S"
+    "dropped": 37,
+    "today": 4,
+    "last_seen": "2026-09-22",
+    "example": "LUNEDI — ANEW"
+  },
+  "Música Mexicana": {
+    "dropped": 35,
+    "today": 1,
+    "last_seen": "2026-09-22",
+    "example": "Chuyin — IA"
   },
   "Country": {
     "dropped": 21,
@@ -47,12 +47,6 @@
     "last_seen": "2026-09-21",
     "example": "Baka Beyond — Sing the World Awake"
   },
-  "Christian": {
-    "dropped": 9,
-    "today": 3,
-    "last_seen": "2026-08-30",
-    "example": "Brandon Lake — How Good God Is"
-  },
   "Metal": {
     "dropped": 8,
     "today": 1,
@@ -66,9 +60,9 @@
     "example": "Gumz — Pulse of Afro"
   },
   "Classical": {
-    "dropped": 7,
+    "dropped": 8,
     "today": 1,
-    "last_seen": "2026-09-21",
+    "last_seen": "2026-09-22",
     "example": "Tokyo Philharmonic Orchestra, PROJECT ACES & Bandai Namco Game Music — ACE COMBAT/ S the Symphony 30th Anniversary Concert Album"
   },
   "Rap": {
@@ -96,10 +90,16 @@
     "example": "Jembaa Groove — Be a Lover"
   },
   "Video Game": {
-    "dropped": 5,
+    "dropped": 6,
     "today": 1,
-    "last_seen": "2026-09-21",
+    "last_seen": "2026-09-22",
     "example": "ATLUS GAME MUSIC & Syouji Meguro — Revelations: Persona (Original Soundtrack)"
+  },
+  "Afro-Pop": {
+    "dropped": 6,
+    "today": 2,
+    "last_seen": "2026-09-22",
+    "example": "Phantom Boy — DESALOJO AL CORAZON"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -148,12 +148,6 @@
     "today": 1,
     "last_seen": "2026-09-21",
     "example": "Aaron Rowe — Forever Now"
-  },
-  "Afro-Pop": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-09-21",
-    "example": "Jun Lin Mitchell — My First Love"
   },
   "Breakbeat": {
     "dropped": 3,
@@ -221,6 +215,12 @@
     "last_seen": "2026-09-20",
     "example": "Smtve — Touch Me Tonight"
   },
+  "Christian": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-22",
+    "example": "Glenda Rodríguez — Las Bodas del Cordero"
+  },
   "Hard Rock": {
     "dropped": 1,
     "today": 1,
@@ -254,8 +254,8 @@
   "Instrumental": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-16",
-    "example": "俞冰, DingXiaoKui, 李诗琪 & 天童 — 界"
+    "last_seen": "2026-09-22",
+    "example": "Healing music Recommended healing BGM — Melodies That Relieve Fatigue Even With Short Sleep; Soothe Your Tired Brain and Body; Stress Relief With Deep Sleep Background Music."
   },
   "Jazz": {
     "dropped": 1,
