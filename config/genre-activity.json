@@ -6,21 +6,21 @@
     "example": "Echo & The Bunnymen — Apples For Isaac"
   },
   "Anime": {
-    "dropped": 54,
-    "today": 9,
-    "last_seen": "2026-09-22",
-    "example": "IKIZULIVE! — Tale of Primavera"
+    "dropped": 60,
+    "today": 6,
+    "last_seen": "2026-09-23",
+    "example": "Hasu no Sora Jogakuin School Idol Club — おいでよ!石川大観光Ⅱ"
   },
   "Soundtrack": {
-    "dropped": 44,
+    "dropped": 48,
     "today": 4,
-    "last_seen": "2026-09-22",
+    "last_seen": "2026-09-23",
     "example": "AHOF — Focus On You (From \"Operation: True Love\")"
   },
   "Rock": {
-    "dropped": 37,
-    "today": 4,
-    "last_seen": "2026-09-22",
+    "dropped": 42,
+    "today": 5,
+    "last_seen": "2026-09-23",
     "example": "LUNEDI — ANEW"
   },
   "Música Mexicana": {
@@ -28,12 +28,6 @@
     "today": 1,
     "last_seen": "2026-09-22",
     "example": "Chuyin — IA"
-  },
-  "Country": {
-    "dropped": 21,
-    "today": 5,
-    "last_seen": "2026-09-21",
-    "example": "Riley Green — That's Just Me"
   },
   "House": {
     "dropped": 13,
@@ -65,6 +59,18 @@
     "last_seen": "2026-09-22",
     "example": "Tokyo Philharmonic Orchestra, PROJECT ACES & Bandai Namco Game Music — ACE COMBAT/ S the Symphony 30th Anniversary Concert Album"
   },
+  "Video Game": {
+    "dropped": 7,
+    "today": 1,
+    "last_seen": "2026-09-23",
+    "example": "ATLUS GAME MUSIC & Syouji Meguro — Revelations: Persona (Original Soundtrack)"
+  },
+  "Afro-Pop": {
+    "dropped": 7,
+    "today": 1,
+    "last_seen": "2026-09-23",
+    "example": "Phantom Boy — DESALOJO AL CORAZON"
+  },
   "Rap": {
     "dropped": 6,
     "today": 1,
@@ -88,18 +94,6 @@
     "today": 2,
     "last_seen": "2026-09-21",
     "example": "Jembaa Groove — Be a Lover"
-  },
-  "Video Game": {
-    "dropped": 6,
-    "today": 1,
-    "last_seen": "2026-09-22",
-    "example": "ATLUS GAME MUSIC & Syouji Meguro — Revelations: Persona (Original Soundtrack)"
-  },
-  "Afro-Pop": {
-    "dropped": 6,
-    "today": 2,
-    "last_seen": "2026-09-22",
-    "example": "Phantom Boy — DESALOJO AL CORAZON"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -191,12 +185,6 @@
     "last_seen": "2026-09-21",
     "example": "Darude — Sandstorm (Storm 25 Mix)"
   },
-  "Chinese Hip-Hop": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-08-28",
-    "example": "Hooka & 鸥钟 — POP MAN (泡泡男士)"
-  },
   "Indie Rock": {
     "dropped": 2,
     "today": 1,
@@ -214,6 +202,24 @@
     "today": 1,
     "last_seen": "2026-09-20",
     "example": "Smtve — Touch Me Tonight"
+  },
+  "Instrumental": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-23",
+    "example": "Healing music Recommended healing BGM — Melodies That Relieve Fatigue Even With Short Sleep; Soothe Your Tired Brain and Body; Stress Relief With Deep Sleep Background Music."
+  },
+  "Country": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-23",
+    "example": "Luke Bryan — Signs (iTunes Bonus Track Exclusive)"
+  },
+  "Chinese Hip-Hop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-23",
+    "example": "FRαNKIE & SAVAGE.M — 直南"
   },
   "Christian": {
     "dropped": 1,
@@ -251,12 +257,6 @@
     "last_seen": "2026-09-09",
     "example": "Lp Opie — Funk from Above"
   },
-  "Instrumental": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-22",
-    "example": "Healing music Recommended healing BGM — Melodies That Relieve Fatigue Even With Short Sleep; Soothe Your Tired Brain and Body; Stress Relief With Deep Sleep Background Music."
-  },
   "Jazz": {
     "dropped": 1,
     "today": 1,
@@ -269,35 +269,11 @@
     "last_seen": "2026-09-05",
     "example": "Various Artists — 天赐的声音第七季 第12期 (Live)"
   },
-  "Americana": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "Presley Haile — still enough"
-  },
-  "Reggae": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "DESTIN CONRAD — ROADRUNNER"
-  },
-  "Traditional Country": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "Zach Top — Good Girls & Cowgirls"
-  },
   "Jungle/Drum'n'bass": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-08-29",
     "example": "Everything But the Girl — Run A Red Light (Logistics Remix)"
-  },
-  "Afro Soul": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-24",
-    "example": "Flavia Tash — The Storm Couldnt Kill Me"
   },
   "Alternative Folk": {
     "dropped": 1,

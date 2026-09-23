@@ -1,21 +1,17 @@
 {
-  "fetched_at": 1790076159195,
+  "fetched_at": 1790155746611,
   "releases": [
     {
-      "title": "¡COOL GIRL!",
-      "artist": "Delilah",
-      "artist_id": 1725539312,
-      "type": "song",
-      "release_date": "2026-09-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ad/6a/ce/ad6ace1f-ca21-50f1-d139-52514aabcb5c/823375438335_Cover.jpg/400x400bb.webp",
-      "genre": "Pop Latino",
-      "link": "https://music.apple.com/us/album/cool-girl-single/6811080519?uo=4",
+      "title": "ScreaM Rookies 2 : Whiplash (Remixes)",
+      "artist": "aespa",
+      "artist_id": 1540251304,
+      "type": "album",
+      "release_date": "2026-09-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7f/3f/46/7f3f465d-2c10-a1e2-b401-c9648485505e/888735957055_Cover.jpg/400x400bb.webp",
+      "genre": "Electronic",
+      "link": "https://music.apple.com/us/album/scream-rookies-2-whiplash-remixes-ep/6813198456?uo=4",
       "followed": true,
-      "via_artist_id": 1725539312,
-      "sources": [
-        "playlist:New Music Daily",
-        "playlist:Nuevo Nuevo"
-      ]
+      "via_artist_id": 1540251304
     },
     {
       "title": "Swingin’ Magic",
@@ -45,6 +41,20 @@
       "via_artist_id": 1398281724
     },
     {
+      "title": "Good Boy (Japanese ver.)",
+      "artist": "&TEAM",
+      "artist_id": 1654437478,
+      "type": "song",
+      "release_date": "2026-09-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/38/02/e9/3802e9fa-033f-a793-ee36-711a92f01df5/26UM1IM12091.rgb.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/good-boy-japanese-ver-single/6812993887?uo=4",
+      "sources": [
+        "genre:J-Pop",
+        "country:jp"
+      ]
+    },
+    {
       "title": "LA LA SONG",
       "artist": "Alton 王智德",
       "artist_id": 1751442859,
@@ -71,6 +81,45 @@
       ]
     },
     {
+      "title": "Hanaumui",
+      "artist": "Cocco",
+      "artist_id": 259534359,
+      "type": "album",
+      "release_date": "2026-09-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b4/6e/97/b46e972f-5038-92c3-4fc7-8801abdb38ff/PA00226645_2_253441_jacket.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/hanaumui/6808475442?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "After",
+      "artist": "Conep & Young Miko",
+      "artist_id": 1113307374,
+      "type": "song",
+      "release_date": "2026-09-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/df/8b/45/df8b4525-16cf-691e-ad6a-92ae914e14d4/199316761030_cover.jpg/400x400bb.webp",
+      "genre": "Latin",
+      "link": "https://music.apple.com/us/album/after-single/6807226107?uo=4",
+      "sources": [
+        "playlist:Nuevo Nuevo"
+      ]
+    },
+    {
+      "title": "YOKAI",
+      "artist": "Dannie May",
+      "artist_id": 1465679822,
+      "type": "album",
+      "release_date": "2026-09-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/9a/4b/e3/9a4be304-8051-3397-d757-899c7b2ad28a/ANTCD-A0000020934.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/yokai-ep/6804544888?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
       "title": "2018.12.25",
       "artist": "Def",
       "artist_id": 835396559,
@@ -80,21 +129,7 @@
       "genre": "R&B/Soul",
       "link": "https://music.apple.com/us/album/2018-12-25/6812259209?uo=4",
       "sources": [
-        "country:co",
-        "country:tw"
-      ]
-    },
-    {
-      "title": "一个人的温度",
-      "artist": "DJ Tie Zhu",
-      "artist_id": 1677118348,
-      "type": "album",
-      "release_date": "2026-09-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/cd/c8/2d/cdc82df8-9fb4-149f-8de5-fa7ef91da6ca/4896010805706.jpg/400x400bb.webp",
-      "genre": "Mandopop",
-      "link": "https://music.apple.com/us/album/%E4%B8%80%E4%B8%AA%E4%BA%BA%E7%9A%84%E6%B8%A9%E5%BA%A6-ep/6813050008?uo=4",
-      "sources": [
-        "genre:Mandopop"
+        "country:co"
       ]
     },
     {
@@ -108,19 +143,6 @@
       "link": "https://music.apple.com/us/album/trance-edm-banger-vol-14-dissolving-identity-floor/6814125720?uo=4",
       "sources": [
         "genre:J-Pop"
-      ]
-    },
-    {
-      "title": "劇場見",
-      "artist": "Edmond Tong",
-      "artist_id": 657309776,
-      "type": "song",
-      "release_date": "2026-09-21",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/cc/c7/26/ccc72687-0e01-f4c3-7b2a-a8ec1d8062ce/301627920789.jpg/400x400bb.webp",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E5%8A%87%E5%A0%B4%E8%A6%8B-single/6813014276?uo=4",
-      "sources": [
-        "country:hk"
       ]
     },
     {
@@ -163,16 +185,16 @@
       ]
     },
     {
-      "title": "Tattoo",
-      "artist": "Fabio Capri",
-      "artist_id": 1694023349,
-      "type": "song",
-      "release_date": "2026-09-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a2/56/7c/a2567ccd-39bd-20d5-0311-ab1a4d33f81d/823375431060_Cover.jpg/400x400bb.webp",
-      "genre": "Pop Latino",
-      "link": "https://music.apple.com/us/album/tattoo-single/6809969568?uo=4",
+      "title": "Nexus",
+      "artist": "Fade Room",
+      "artist_id": 1835895098,
+      "type": "album",
+      "release_date": "2026-09-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/de/c0/30/dec030a2-adc5-1783-648e-9bfeae90c683/4550760704121_cover.png/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/nexus-ep/6813752625?uo=4",
       "sources": [
-        "playlist:Nuevo Nuevo"
+        "country:jp"
       ]
     },
     {
@@ -189,29 +211,31 @@
       ]
     },
     {
-      "title": "Specialdisc",
-      "artist": "GakuenSaiGakuen",
-      "artist_id": 6813746763,
-      "type": "album",
-      "release_date": "2026-09-20",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/67/cf/99/67cf9990-e714-2132-cde7-6200de211efc/4550760709768_cover.png/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/specialdisc/6813784229?uo=4",
+      "title": "和我散步牽手deep talk(可以嗎?XD)",
+      "artist": "Freeeboyzzzz & sica",
+      "artist_id": 6813012093,
+      "type": "song",
+      "release_date": "2026-09-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c6/07/d0/c607d0a2-e243-9a03-aa41-b80bcc7bed78/301627920895.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/%E5%92%8C%E6%88%91%E6%95%A3%E6%AD%A5%E7%89%BD%E6%89%8Bdeep-talk-%E5%8F%AF%E4%BB%A5%E5%97%8E-xd-single/6813014308?uo=4",
       "sources": [
-        "country:jp"
+        "country:hk"
       ]
     },
     {
-      "title": "有些人",
-      "artist": "Gigi Cheung",
-      "artist_id": 1563221184,
-      "type": "song",
-      "release_date": "2026-09-21",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/99/a1/94/99a19431-adc9-8707-1e8f-5dcf3854120c/1200220057740.jpg/400x400bb.webp",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E6%9C%89%E4%BA%9B%E4%BA%BA-single/6811832969?uo=4",
+      "title": "溫柔的存在",
+      "artist": "Gigi Leung",
+      "artist_id": 137938636,
+      "type": "album",
+      "release_date": "2026-09-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/69/f4/04/69f404d2-ac5b-a169-6522-6fad5a562487/6931082355143.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E6%BA%AB%E6%9F%94%E7%9A%84%E5%AD%98%E5%9C%A8/6807723920?uo=4",
       "sources": [
-        "country:hk"
+        "country:hk",
+        "playlist:New in C-Pop",
+        "playlist:The A-List Cantopop"
       ]
     },
     {
@@ -225,9 +249,7 @@
       "link": "https://music.apple.com/us/album/thank-you-single/6810476243?uo=4",
       "sources": [
         "genre:K-Pop",
-        "country:co",
         "country:hk",
-        "country:tw",
         "playlist:New in C-Pop",
         "playlist:New Music Daily"
       ]
@@ -246,6 +268,20 @@
       ]
     },
     {
+      "title": "I Played Me Like A Fool",
+      "artist": "Jeremy Lee",
+      "artist_id": 1751673421,
+      "type": "song",
+      "release_date": "2026-09-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/32/42/bc/3242bce4-1350-9d67-fcee-9a0bbd8b1170/301627920826.jpg/400x400bb.webp",
+      "genre": "Cantopop/HK-Pop",
+      "link": "https://music.apple.com/us/album/i-played-me-like-a-fool-single/6814391543?uo=4",
+      "sources": [
+        "genre:Cantopop/HK-Pop",
+        "country:hk"
+      ]
+    },
+    {
       "title": "陽光普照",
       "artist": "Joey Yung",
       "artist_id": 370528896,
@@ -255,34 +291,79 @@
       "genre": "Cantopop/HK-Pop",
       "link": "https://music.apple.com/us/album/%E9%99%BD%E5%85%89%E6%99%AE%E7%85%A7-single/6813529287?uo=4",
       "sources": [
+        "genre:Cantopop/HK-Pop",
         "country:hk"
       ]
     },
     {
-      "title": "朝にならないで",
-      "artist": "Luna Nakagawa",
-      "artist_id": 6803295901,
+      "title": "Baby Come Home",
+      "artist": "JOSHUA & WeiBird",
+      "artist_id": 1677389793,
       "type": "song",
-      "release_date": "2026-09-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/72/0a/1c/720a1c4e-61bc-4252-92e0-f5e0b9818b9e/4547366852226.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/%E6%9C%9D%E3%81%AB%E3%81%AA%E3%82%89%E3%81%AA%E3%81%84%E3%81%A7-single/6807714142?uo=4",
+      "release_date": "2026-09-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5c/3b/47/5c3b4798-b8a0-2086-2c1a-4dcbf882a608/823375420699_Cover.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/baby-come-home-single/6810477744?uo=4",
       "sources": [
-        "genre:J-Pop",
+        "genre:K-Pop",
+        "country:hk",
+        "country:tw"
+      ]
+    },
+    {
+      "title": "Another Chance",
+      "artist": "Kimo Sounds",
+      "artist_id": 6771058528,
+      "type": "song",
+      "release_date": "2026-09-21",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/8f/aa/31/8faa3132-e6fb-640b-7d08-f8e7fd0dd48c/612891255775.jpg/400x400bb.webp",
+      "genre": "Dance",
+      "link": "https://music.apple.com/us/album/another-chance-single/6814600288?uo=4",
+      "sources": [
+        "genre:Dance"
+      ]
+    },
+    {
+      "title": "Toumeiya",
+      "artist": "Kotoha",
+      "artist_id": 1467609331,
+      "type": "album",
+      "release_date": "2026-09-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/61/94/5f/61945f7e-0d4a-fb12-25b6-0d042e90b7cf/4550760625983_cover.png/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/toumeiya/6812689123?uo=4",
+      "sources": [
         "country:jp"
       ]
     },
     {
-      "title": "Stardust Capsule",
-      "artist": "Ninomae Ina’nis",
-      "artist_id": 1557415278,
-      "type": "song",
-      "release_date": "2026-09-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/42/1f/39/421f3944-6ba9-a993-b359-c8914b439146/4580883418148_art.png/400x400bb.webp",
+      "title": "Re:idol",
+      "artist": "LIGHTSUM",
+      "artist_id": 1570093242,
+      "type": "album",
+      "release_date": "2026-09-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a3/8d/36/a38d36b9-e11b-a411-d222-85afb9b9cf0f/1200220045419.jpg/400x400bb.webp",
       "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/stardust-capsule-single/6810937168?uo=4",
+      "link": "https://music.apple.com/us/album/re-idol-ep/6808323815?uo=4",
       "sources": [
-        "genre:J-Pop"
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Bass Persuades (A Cappella Edition)",
+      "artist": "Miley Cyrus",
+      "artist_id": 137057909,
+      "type": "album",
+      "release_date": "2026-09-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ef/b3/c5/efb3c517-b5c6-f5fb-7276-107348cadbb7/075679556011.jpg/400x400bb.webp",
+      "genre": "Pop",
+      "link": "https://music.apple.com/us/album/bass-persuades-a-cappella-edition/6814930244?uo=4",
+      "sources": [
+        "genre:Pop",
+        "country:ar",
+        "country:co",
+        "country:hk",
+        "country:mx"
       ]
     },
     {
@@ -299,19 +380,6 @@
       ]
     },
     {
-      "title": "Segunda Cita",
-      "artist": "Piso 21, Micro TDH & Gangsta",
-      "artist_id": 403121923,
-      "type": "song",
-      "release_date": "2026-09-19",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/02/f4/ac/02f4acda-0b4e-058c-a827-ad35a3e9b1be/823375414605_Cover.jpg/400x400bb.webp",
-      "genre": "Latin",
-      "link": "https://music.apple.com/us/album/segunda-cita-single/6808044180?uo=4",
-      "sources": [
-        "playlist:Nuevo Nuevo"
-      ]
-    },
-    {
       "title": "Special Single 'Dreamer & Picaresque'",
       "artist": "QWER",
       "artist_id": 1711739664,
@@ -321,9 +389,21 @@
       "genre": "K-Pop",
       "link": "https://music.apple.com/us/album/special-single-dreamer-picaresque-single/6812659507?uo=4",
       "sources": [
-        "genre:K-Pop",
         "country:hk",
         "country:tw"
+      ]
+    },
+    {
+      "title": "芥兰",
+      "artist": "Rainie Yang",
+      "artist_id": 299846702,
+      "type": "song",
+      "release_date": "2026-09-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/2a/95/b5/2a95b52a-750b-90d0-0fcc-d79d3cfc3ca5/4896043472043.jpg/400x400bb.webp",
+      "genre": "Mandopop",
+      "link": "https://music.apple.com/us/album/%E8%8A%A5%E5%85%B0-single/6813364228?uo=4",
+      "sources": [
+        "genre:Mandopop"
       ]
     },
     {
@@ -337,6 +417,59 @@
       "link": "https://music.apple.com/us/album/blossom-sinfonia-single/6812636773?uo=4",
       "sources": [
         "country:jp"
+      ]
+    },
+    {
+      "title": "ANTI AFTER SCHOOL",
+      "artist": "shallm",
+      "artist_id": 1671932915,
+      "type": "album",
+      "release_date": "2026-09-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/96/bc/f7/96bcf7b3-291a-fa02-98a5-37c4c656e041/26UM1IM12678.rgb.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/anti-after-school-ep/6810934295?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "WISHES",
+      "artist": "STARGLOW",
+      "artist_id": 1838696637,
+      "type": "song",
+      "release_date": "2026-09-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b7/75/58/b7755874-54c1-b1ee-a7dc-2890abecd8f3/ANTCD-A0000020870.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/wishes-single/6806928830?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "REBLOOM",
+      "artist": "unFinale Tokyo",
+      "artist_id": 6808990187,
+      "type": "album",
+      "release_date": "2026-09-23",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/49/00/16/490016ac-8a3c-c67d-7654-7420db1bd9c2/bigup14572223.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/rebloom-ep/6809685320?uo=4",
+      "sources": [
+        "country:jp"
+      ]
+    },
+    {
+      "title": "Monster",
+      "artist": "WE GO-6",
+      "artist_id": 6813427785,
+      "type": "song",
+      "release_date": "2026-09-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/dd/8d/bc/dd8dbcf7-f8ff-f37f-b482-4462389d2fc7/FrontCoverImage_1.jpg/400x400bb.webp",
+      "genre": "K-Pop",
+      "link": "https://music.apple.com/us/album/monster-single/6813434622?uo=4",
+      "sources": [
+        "country:hk",
+        "country:tw"
       ]
     },
     {
@@ -354,19 +487,6 @@
       ]
     },
     {
-      "title": "Peek Side",
-      "artist": "XAOSX",
-      "artist_id": 6794288676,
-      "type": "song",
-      "release_date": "2026-09-21",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/71/01/26/710126d5-1642-2fa7-dcca-e44ca38b36a8/4573623343343.jpg/400x400bb.webp",
-      "genre": "J-Pop",
-      "link": "https://music.apple.com/us/album/peek-side-single/6805328114?uo=4",
-      "sources": [
-        "country:jp"
-      ]
-    },
-    {
       "title": "Estando Aquí",
       "artist": "yuri",
       "artist_id": 567836,
@@ -380,14 +500,14 @@
       ]
     },
     {
-      "title": "停留在雨天 (劇集《百花殺》片尾曲)",
-      "artist": "許雲妮",
-      "artist_id": 6812981556,
+      "title": "迷宮Maker!",
+      "artist": "夜瑠☆エピファニー",
+      "artist_id": 6778245410,
       "type": "song",
-      "release_date": "2026-09-21",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c2/92/82/c292822c-04e5-87d8-9825-4beed13c8384/885288603552.jpg/400x400bb.webp",
-      "genre": "Cantopop/HK-Pop",
-      "link": "https://music.apple.com/us/album/%E5%81%9C%E7%95%99%E5%9C%A8%E9%9B%A8%E5%A4%A9-%E5%8A%87%E9%9B%86-%E7%99%BE%E8%8A%B1%E6%AE%BA-%E7%89%87%E5%B0%BE%E6%9B%B2-single/6812981554?uo=4",
+      "release_date": "2026-09-22",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/33/7e/7e/337e7e52-c3b2-ab72-6217-eb43c8db43db/859746719338_cover.jpg/400x400bb.webp",
+      "genre": "J-Pop",
+      "link": "https://music.apple.com/us/album/%E8%BF%B7%E5%AE%AEmaker-single/6813888394?uo=4",
       "sources": [
         "country:hk"
       ]
@@ -412,7 +532,7 @@
       "artist_id": 1595612235,
       "type": "song",
       "release_date": "2026-10-01",
-      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9d/11/88/9d1188cd-5463-4905-1cb1-2efda96eab6b/2af8c6d0-1eb8-4df0-8c8c-a68388fe88e8.jpg/400x400bb.webp",
+      "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/42/81/10/428110e5-830d-338d-c88a-36efb9852726/d93b3b6b-1a64-4d4c-9b8c-c8805b01cd4a.jpg/400x400bb.webp",
       "genre": "Afrobeats",
       "link": "https://music.apple.com/us/album/que-novedad-single/6812061017?uo=4",
       "followed": true,
