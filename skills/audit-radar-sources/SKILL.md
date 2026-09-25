@@ -75,7 +75,7 @@ looks newly dead, re-run before believing it.
   for what they would add. Zero additive means the option can never be worth picking,
   and it is recommended for removal from `STOREFRONTS` — but only when its probe
   succeeded and returned entries.
-- The audit refuses to run while a Save & Refresh started from the editor is
+- The audit refuses to run while a Save & refresh started from the editor is
   going, since they would fight over the same rate limit. The launchd nightly run
   writes no pidfile, so an overlap with that one is not detected: check the clock
   rather than relying on the guard.

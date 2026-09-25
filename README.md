@@ -7,7 +7,7 @@ updated every evening. Tap anything to open it in Apple Music.
 **The site:** https://georgeryang.github.io/new-music-radar/
 (works on any phone, tablet, or computer, so bookmark it)
 
-## Everyday use
+## Everyday Use
 
 Open the site and browse the grid. What the icons mean:
 
@@ -23,7 +23,7 @@ releases stay for a few days; chart and playlist finds keep 1. Cards come
 from your followed artists plus a daily scan of Apple's charts, new-music
 playlists, and your followed countries, filtered to your genres.
 
-## The preferences editor
+## The Preferences Editor
 
 Double-click `prefs.command` to open the editor in your browser.
 
@@ -31,12 +31,12 @@ Double-click `prefs.command` to open the editor in your browser.
   list Apple returns; that pins the pick by Apple ID, for follows and blocks
   alike, so a typed name alone won't match.
 - **Genres:** pick from the curated list, or type any exact Apple genre name.
-- **Additional countries:** extra storefronts scanned on top of the US ones.
+- **Additional Countries:** extra storefronts scanned on top of the US ones.
   Each adds that country's Top 100 and, where Apple runs a purchase store,
   its purchase charts too. A few storefronts have no purchase store, and
   their chips say "streaming only".
-- **Discovery playlists:** paste a music.apple.com playlist address to scan it.
-- **Save** applies at tonight's update; **Save & Refresh** runs now and
+- **Discovery Playlists:** paste a music.apple.com playlist address to scan it.
+- **Save** applies at tonight's update; **Save & refresh** runs now and
   publishes to the public site (about two minutes). Green means it finished
   cleanly, new releases or not; amber means it finished with something to
   look at (a source failed, the deploy did not confirm, or held-back local
@@ -45,7 +45,7 @@ Double-click `prefs.command` to open the editor in your browser.
 Age tags flag followed artists with no recent releases (amber past 18
 months, red past 3 years). Nothing is removed automatically.
 
-## Setting up on a new computer
+## Setting Up on a New Computer
 
 This is only for the computer that runs the nightly update; the site itself
 works from any device.
@@ -86,11 +86,11 @@ crontab -l 2>/dev/null | grep -v 'new-music-radar/.*watchdog.sh' | crontab -
 sudo pmset repeat cancel
 ```
 
-## If something looks wrong
+## If Something Looks Wrong
 
 - **Site looks out of date?** The updating Mac was probably asleep or offline;
   it catches up when it wakes. To force it now, open `prefs.command` and press
-  **Save & Refresh**.
+  **Save & refresh**.
 - **Want to see what happened?** The log at `~/Library/Logs/new-music-radar.log`
   says what was fetched or failed, in plain words. If it has no recent entries
   at all, the scheduler itself never ran: check
@@ -106,10 +106,10 @@ It is static files, so the only logs are the ones any host keeps: GitHub Pages
 sees the IP address of whoever opens the page, and Apple's CDN sees it too
 because the cover art loads from there. The page also pings `127.0.0.1:4747` on
 load, only to learn whether the preferences editor is running on your own
-machine so it can show the ⚙ link. That ping returns an empty response; every
+machine so it can show the gear button. That ping returns an empty response; every
 other request to the editor is refused unless it comes from your machine.
 
-## For developers
+## For Developers
 
 - **Data flow:** `config/preferences.json` -> `scripts/fetch-releases.mjs` ->
   `docs/data/releases.json` -> pushed by `scripts/update.sh` -> GitHub Pages

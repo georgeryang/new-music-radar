@@ -1,4 +1,4 @@
-// Apple Music storefront codes for "Additional countries": discovery.countries
+// Apple Music storefront codes for "Additional Countries": discovery.countries
 // entries must come from this map, and the editor uses it for display names
 // and its picker. Covers the P1–P3 tiers plus same-language storefronts.
 //

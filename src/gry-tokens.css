@@ -1,0 +1,269 @@
+/* Vendored from ~/dev/gry/gry-design-system/skills/gry-design-system/tokens.css. Re-copy, don't edit. */
+/* GENERATED from tokens.json. Do not edit.
+   Run: node build.mjs */
+:root {
+  color-scheme: light dark;
+  --color-brand-50: #FDF9FA;
+  --color-brand-100: #F9EAEE;
+  --color-brand-200: #F0CBD5;
+  --color-brand-300: #E7AEBC;
+  --color-brand-400: #DD8EA2;
+  --color-brand-500: #D26A84;
+  --color-brand-600: #C64062;
+  --color-brand-700: #B3264A;
+  --color-brand-800: #901F3C;
+  --color-brand-900: #6C172C;
+  --color-brand-950: #4C101E;
+  --color-gray-0: #FFFFFF;
+  --color-gray-50: #FDF9F9;
+  --color-gray-100: #F1EDED;
+  --color-gray-200: #D8D4D4;
+  --color-gray-300: #C0BCBC;
+  --color-gray-400: #A8A4A4;
+  --color-gray-500: #8E8A8A;
+  --color-gray-600: #747070;
+  --color-gray-700: #625E5E;
+  --color-gray-800: #4F4B4B;
+  --color-gray-900: #363232;
+  --color-gray-950: #252121;
+  --color-gray-1000: #151111;
+  --color-success-100: #DCF0E6;
+  --color-success-200: #A3E0C4;
+  --color-success-500: #278663;
+  --color-success-700: #0A5A3F;
+  --color-success-800: #064E3B;
+  --color-success-900: #12291E;
+  --color-warning-100: #FAEFD8;
+  --color-warning-200: #F0CE96;
+  --color-warning-500: #A06D08;
+  --color-warning-700: #6B4400;
+  --color-warning-800: #5C3A00;
+  --color-warning-900: #2B2007;
+
+  --color-surface-page: var(--color-gray-50);
+  --color-surface-raised: var(--color-gray-0);
+  --color-surface-sunken: var(--color-gray-100);
+  --color-surface-brand: var(--color-brand-100);
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-800);
+  --color-text-muted: var(--color-gray-700);
+  --color-text-brand: var(--color-brand-800);
+  --color-text-on-brand: var(--color-gray-0);
+  --color-border-subtle: var(--color-gray-200);
+  --color-border-strong: var(--color-gray-600);
+  --color-action-primary-bg: var(--color-brand-800);
+  --color-action-primary-fg: var(--color-gray-0);
+  --color-action-secondary-fg: var(--color-brand-800);
+  --color-action-secondary-border: var(--color-brand-800);
+  --color-focus-ring: var(--color-brand-800);
+  --color-status-success-surface: var(--color-success-100);
+  --color-status-success-border: var(--color-success-500);
+  --color-status-success-text: var(--color-success-800);
+  --color-status-success-solid: var(--color-success-700);
+  --color-status-success-on-solid: var(--color-gray-0);
+  --color-status-warning-surface: var(--color-warning-100);
+  --color-status-warning-border: var(--color-warning-500);
+  --color-status-warning-text: var(--color-warning-800);
+  --color-status-warning-solid: var(--color-warning-700);
+  --color-status-warning-on-solid: var(--color-gray-0);
+
+  --font-family-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Noto Sans SC', 'Noto Sans CJK SC', 'Source Han Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-family-sans-hant: 'Plus Jakarta Sans', 'Noto Sans TC', 'Noto Sans CJK TC', 'Source Han Sans TC', 'PingFang TC', 'Microsoft JhengHei', ui-sans-serif, system-ui, sans-serif;
+  --font-family-sans-hans: 'Plus Jakarta Sans', 'Noto Sans SC', 'Noto Sans CJK SC', 'Source Han Sans SC', 'PingFang SC', 'Microsoft YaHei', ui-sans-serif, system-ui, sans-serif;
+  --font-family-mono: 'Azeret Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-numeric-tabular: tabular-nums;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+  --font-size-4xl: 3rem;
+  --font-size-5xl: 4rem;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-line-height-tight: 1.15;
+  --font-line-height-snug: 1.35;
+  --font-line-height-normal: 1.6;
+  --font-line-height-relaxed: 1.75;
+  --font-letter-spacing-tight: -0.02em;
+  --font-letter-spacing-normal: 0em;
+  --font-letter-spacing-wide: 0.06em;
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --radius-none: 0;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+  --border-width-hairline: 1px;
+  --border-width-thick: 2px;
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.10);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.12);
+  --layout-measure: 68ch;
+  --layout-container: 72rem;
+}
+
+/* Follow the OS, unless a theme has been forced to light. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-surface-page: var(--color-gray-1000);
+    --color-surface-raised: var(--color-gray-950);
+    --color-surface-sunken: var(--color-gray-900);
+    --color-surface-brand: var(--color-brand-950);
+    --color-text-primary: var(--color-gray-50);
+    --color-text-secondary: var(--color-gray-100);
+    --color-text-muted: var(--color-gray-200);
+    --color-text-brand: var(--color-brand-200);
+    --color-text-on-brand: var(--color-brand-900);
+    --color-border-subtle: var(--color-gray-900);
+    --color-border-strong: var(--color-gray-400);
+    --color-action-primary-bg: var(--color-brand-200);
+    --color-action-primary-fg: var(--color-brand-900);
+    --color-action-secondary-fg: var(--color-brand-200);
+    --color-action-secondary-border: var(--color-brand-200);
+    --color-focus-ring: var(--color-brand-200);
+    --color-status-success-surface: var(--color-success-900);
+    --color-status-success-border: var(--color-success-500);
+    --color-status-success-text: var(--color-success-200);
+    --color-status-success-solid: var(--color-success-200);
+    --color-status-success-on-solid: var(--color-success-900);
+    --color-status-warning-surface: var(--color-warning-900);
+    --color-status-warning-border: var(--color-warning-500);
+    --color-status-warning-text: var(--color-warning-200);
+    --color-status-warning-solid: var(--color-warning-200);
+    --color-status-warning-on-solid: var(--color-warning-900);
+  }
+}
+
+/* Unqualified so a subtree can be themed independently, which is what lets
+   the preview render both modes on one page. */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-surface-page: var(--color-gray-1000);
+  --color-surface-raised: var(--color-gray-950);
+  --color-surface-sunken: var(--color-gray-900);
+  --color-surface-brand: var(--color-brand-950);
+  --color-text-primary: var(--color-gray-50);
+  --color-text-secondary: var(--color-gray-100);
+  --color-text-muted: var(--color-gray-200);
+  --color-text-brand: var(--color-brand-200);
+  --color-text-on-brand: var(--color-brand-900);
+  --color-border-subtle: var(--color-gray-900);
+  --color-border-strong: var(--color-gray-400);
+  --color-action-primary-bg: var(--color-brand-200);
+  --color-action-primary-fg: var(--color-brand-900);
+  --color-action-secondary-fg: var(--color-brand-200);
+  --color-action-secondary-border: var(--color-brand-200);
+  --color-focus-ring: var(--color-brand-200);
+  --color-status-success-surface: var(--color-success-900);
+  --color-status-success-border: var(--color-success-500);
+  --color-status-success-text: var(--color-success-200);
+  --color-status-success-solid: var(--color-success-200);
+  --color-status-success-on-solid: var(--color-success-900);
+  --color-status-warning-surface: var(--color-warning-900);
+  --color-status-warning-border: var(--color-warning-500);
+  --color-status-warning-text: var(--color-warning-200);
+  --color-status-warning-solid: var(--color-warning-200);
+  --color-status-warning-on-solid: var(--color-warning-900);
+}
+[data-theme="light"] {
+  color-scheme: light;
+  --color-surface-page: var(--color-gray-50);
+  --color-surface-raised: var(--color-gray-0);
+  --color-surface-sunken: var(--color-gray-100);
+  --color-surface-brand: var(--color-brand-100);
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-800);
+  --color-text-muted: var(--color-gray-700);
+  --color-text-brand: var(--color-brand-800);
+  --color-text-on-brand: var(--color-gray-0);
+  --color-border-subtle: var(--color-gray-200);
+  --color-border-strong: var(--color-gray-600);
+  --color-action-primary-bg: var(--color-brand-800);
+  --color-action-primary-fg: var(--color-gray-0);
+  --color-action-secondary-fg: var(--color-brand-800);
+  --color-action-secondary-border: var(--color-brand-800);
+  --color-focus-ring: var(--color-brand-800);
+  --color-status-success-surface: var(--color-success-100);
+  --color-status-success-border: var(--color-success-500);
+  --color-status-success-text: var(--color-success-800);
+  --color-status-success-solid: var(--color-success-700);
+  --color-status-success-on-solid: var(--color-gray-0);
+  --color-status-warning-surface: var(--color-warning-100);
+  --color-status-warning-border: var(--color-warning-500);
+  --color-status-warning-text: var(--color-warning-800);
+  --color-status-warning-solid: var(--color-warning-700);
+  --color-status-warning-on-solid: var(--color-gray-0);
+}
+
+/* Hant comes second so it wins for zh-TW and the rest. The outermost zh element re-sets
+   font-family because a descendant inherits the resolved family, not the variable; :where
+   keeps it at zero specificity so code and pre still win. */
+:lang(zh) {
+  --font-family-sans: var(--font-family-sans-hans);
+  font-synthesis-style: none;
+}
+:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK), :lang(zh-MO) {
+  --font-family-sans: var(--font-family-sans-hant);
+}
+:where(:lang(zh):not(:lang(zh) *)) {
+  font-family: var(--font-family-sans);
+}
+:where(:is(:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK), :lang(zh-MO)):not(:is(:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK), :lang(zh-MO)) *)) {
+  font-family: var(--font-family-sans);
+}
+:where(:lang(zh):not(:is(:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK), :lang(zh-MO))):is(:is(:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK), :lang(zh-MO)) *)) {
+  font-family: var(--font-family-sans);
+}
+
+/* Last, and at the dark media rule's specificity, so paper is light whatever the screen was. */
+@media print {
+  :root:not([data-theme="light"]),
+  [data-theme="dark"] {
+    color-scheme: light;
+    --color-surface-page: var(--color-gray-50);
+    --color-surface-raised: var(--color-gray-0);
+    --color-surface-sunken: var(--color-gray-100);
+    --color-surface-brand: var(--color-brand-100);
+    --color-text-primary: var(--color-gray-900);
+    --color-text-secondary: var(--color-gray-800);
+    --color-text-muted: var(--color-gray-700);
+    --color-text-brand: var(--color-brand-800);
+    --color-text-on-brand: var(--color-gray-0);
+    --color-border-subtle: var(--color-gray-200);
+    --color-border-strong: var(--color-gray-600);
+    --color-action-primary-bg: var(--color-brand-800);
+    --color-action-primary-fg: var(--color-gray-0);
+    --color-action-secondary-fg: var(--color-brand-800);
+    --color-action-secondary-border: var(--color-brand-800);
+    --color-focus-ring: var(--color-brand-800);
+    --color-status-success-surface: var(--color-success-100);
+    --color-status-success-border: var(--color-success-500);
+    --color-status-success-text: var(--color-success-800);
+    --color-status-success-solid: var(--color-success-700);
+    --color-status-success-on-solid: var(--color-gray-0);
+    --color-status-warning-surface: var(--color-warning-100);
+    --color-status-warning-border: var(--color-warning-500);
+    --color-status-warning-text: var(--color-warning-800);
+    --color-status-warning-solid: var(--color-warning-700);
+    --color-status-warning-on-solid: var(--color-gray-0);
+  }
+}

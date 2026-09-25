@@ -41,7 +41,7 @@ const warn = (m) => { warnings.push(m.trim()); say(m) }
 
 // A fetch competing with a refresh would fight it for the same rate limit and
 // read its half-written output. prefs-server owns this pidfile, so this catches
-// an editor Save & Refresh; update.sh writes none, so the launchd nightly run is
+// an editor Save & refresh; update.sh writes none, so the launchd nightly run is
 // NOT caught here. EPERM means the pid was recycled (prefs-server clears it on
 // that reading), so it is not a live refresh.
 try {

@@ -44,7 +44,7 @@ not the outcome, which only proves it for the browser you ran.
 ## Preferences editor (scripts/prefs-server.mjs)
 
 - `node scripts/prefs-server.mjs` then drive `http://127.0.0.1:4747/`. It also serves the built site at `/new-music-radar/`, which is the easiest way to test the site against a deliberately broken `docs/data`.
-- Back up `config/preferences.json`, `config/artist-activity.json`, `config/source-activity.json` and `docs/data/releases.json` to the scratchpad first and diff shasums after: Save writes preferences.json for real. NEVER click **Save & Refresh** — it spawns `update.sh`, which publishes.
+- Back up `config/preferences.json`, `config/artist-activity.json`, `config/source-activity.json` and `docs/data/releases.json` to the scratchpad first and diff shasums after: Save writes preferences.json for real. NEVER click **Save & refresh** — it spawns `update.sh`, which publishes.
 - The failure paths are the ones worth asserting, because each one used to fail silently: move `docs/data/releases.json` aside (chip counts hide instead of reading 0), write invalid JSON to `preferences.json` (error block naming the file, not a blank page), and `POST /api/quit` then wait ~11s for the next poll (offline banner).
 - Dropdown rows are reachable by Tab and ArrowDown; hiding keys on focus leaving the wrapper, so a test must blur before re-focusing an input or `.focus()` fires no event and the dropdown never opens.
 

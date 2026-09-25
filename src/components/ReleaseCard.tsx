@@ -56,7 +56,7 @@ export function ReleaseCard({
           </div>
         )}
       </div>
-      <p className="line-clamp-2 text-[13px] leading-snug font-semibold sm:text-xs">{release.title}</p>
+      <p className="line-clamp-2 text-xs leading-snug font-semibold">{release.title}</p>
       <p className="truncate text-xs text-muted-foreground">
         {release.followed && (
           <>
@@ -68,13 +68,14 @@ export function ReleaseCard({
         )}
         {release.artist}
       </p>
+      {/* Pills are 11px on purpose, below gry-design-system's 12px floor: they are secondary metadata. */}
       <div className="mt-1 flex flex-wrap items-center gap-1 text-muted-foreground">
         <TypeIcon type={release.type} />
         {release.genre && (
           // break-words, not truncate: a long unbreakable token ("Cantopop/
           // HK-Pop") must stay inside the card, but truncating hid the rest
           // from touch users, where the title tooltip never fires
-          <span className="max-w-full rounded-full border border-border px-1.5 py-px text-[10px] font-medium break-words">
+          <span className="max-w-full rounded-full border border-border px-1.5 py-px text-[11px] break-words">
             {release.genre}
           </span>
         )}
@@ -113,8 +114,8 @@ function UpcomingBadge({ date, fetchedAt }: { date: string; fetchedAt: number })
   return (
     <span
       title={`Pre-order, releases ${full}`}
-      className={`rounded-full px-1.5 py-px text-[10px] ${
-        soon ? 'bg-primary font-bold text-primary-foreground' : 'border border-border font-medium'
+      className={`rounded-full px-1.5 py-px text-[11px] ${
+        soon ? 'bg-primary text-primary-foreground' : 'border border-border'
       }`}
     >
       {label}
