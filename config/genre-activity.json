@@ -1,33 +1,21 @@
 {
-  "Alternative": {
-    "dropped": 76,
-    "today": 11,
-    "last_seen": "2026-09-21",
-    "example": "Echo & The Bunnymen — Apples For Isaac"
-  },
   "Anime": {
-    "dropped": 66,
-    "today": 6,
-    "last_seen": "2026-09-24",
-    "example": "Hasu no Sora Jogakuin School Idol Club — おいでよ!石川大観光Ⅱ"
+    "dropped": 70,
+    "today": 4,
+    "last_seen": "2026-09-25",
+    "example": "Hatsuboshi Gakuen & Sena Juo — Roar"
   },
   "Soundtrack": {
-    "dropped": 50,
-    "today": 2,
-    "last_seen": "2026-09-24",
-    "example": "Catch! Teenieping & PLAVE — Jewel Catch! Teenieping Pt. 1 (Original Soundtrack)"
+    "dropped": 53,
+    "today": 3,
+    "last_seen": "2026-09-25",
+    "example": "Various Artists — Atelier Resleriana (Original Soundtrack Vol.2)"
   },
   "Rock": {
-    "dropped": 47,
-    "today": 5,
-    "last_seen": "2026-09-24",
+    "dropped": 51,
+    "today": 4,
+    "last_seen": "2026-09-25",
     "example": "Losalios — Where the Birds Cross Planets"
-  },
-  "Música Mexicana": {
-    "dropped": 35,
-    "today": 1,
-    "last_seen": "2026-09-22",
-    "example": "Chuyin — IA"
   },
   "African": {
     "dropped": 11,
@@ -35,23 +23,23 @@
     "last_seen": "2026-09-21",
     "example": "Baka Beyond — Sing the World Awake"
   },
-  "Metal": {
+  "Alternative": {
+    "dropped": 10,
+    "today": 10,
+    "last_seen": "2026-09-25",
+    "example": "Wendy Wander — The House Of"
+  },
+  "Música Mexicana": {
     "dropped": 8,
-    "today": 1,
-    "last_seen": "2026-09-21",
-    "example": "Anthrax — Cursum Perficio"
+    "today": 8,
+    "last_seen": "2026-09-25",
+    "example": "Los Gemelos De Sinaloa — The Gemeliza"
   },
   "Afro House": {
     "dropped": 8,
     "today": 2,
     "last_seen": "2026-09-21",
     "example": "Gumz — Pulse of Afro"
-  },
-  "Classical": {
-    "dropped": 8,
-    "today": 1,
-    "last_seen": "2026-09-22",
-    "example": "Tokyo Philharmonic Orchestra, PROJECT ACES & Bandai Namco Game Music — ACE COMBAT/ S the Symphony 30th Anniversary Concert Album"
   },
   "Afro-Pop": {
     "dropped": 8,
@@ -71,35 +59,23 @@
     "last_seen": "2026-09-20",
     "example": "Brea Miles — THA LIGHT"
   },
-  "Música tropical": {
-    "dropped": 6,
-    "today": 2,
-    "last_seen": "2026-09-20",
-    "example": "Elvis Crespo & Beéle — Pa' Bailar"
-  },
   "Indie Pop": {
     "dropped": 6,
     "today": 1,
     "last_seen": "2026-09-21",
     "example": "Sleepy WiFi & Misi Ke — 星期幾"
   },
-  "Afro-Beat": {
-    "dropped": 6,
-    "today": 2,
-    "last_seen": "2026-09-21",
-    "example": "Jembaa Groove — Be a Lover"
+  "Electronic": {
+    "dropped": 5,
+    "today": 4,
+    "last_seen": "2026-09-25",
+    "example": "Towa Tei — ZAMBIENT"
   },
   "Tai-Pop": {
     "dropped": 4,
     "today": 1,
     "last_seen": "2026-08-30",
     "example": "Caotun Boyz — 按呢敢閣有意義"
-  },
-  "Pop/Rock": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-08-30",
-    "example": "Bryan Adams — The Ballad Of Terry Fox"
   },
   "Rock y Alternativo": {
     "dropped": 4,
@@ -113,23 +89,23 @@
     "last_seen": "2026-09-21",
     "example": "PYRAMID — PYRAMID 6"
   },
-  "Hip-Hop": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-09-21",
-    "example": "Yeat — COCOON"
-  },
   "Soul": {
     "dropped": 4,
     "today": 1,
     "last_seen": "2026-09-21",
     "example": "Thee Sinseers & Joey Quiñones — Love Stories"
   },
-  "Folk": {
+  "Country": {
     "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-09-21",
-    "example": "Aaron Rowe — Forever Now"
+    "today": 4,
+    "last_seen": "2026-09-25",
+    "example": "Corey Kent — Heartland Rock and Roll"
+  },
+  "Metal": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-09-25",
+    "example": "Lacrimas Profundere — Lay Me Down O Silent Fear"
   },
   "Breakbeat": {
     "dropped": 3,
@@ -155,12 +131,6 @@
     "last_seen": "2026-09-19",
     "example": "Baby S.O.N — Heartbreak & Logdrums"
   },
-  "Modern Dancehall": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-09-20",
-    "example": "Gangsta, Jory Boy & Red Fox — Que Se Reporten"
-  },
   "Ambient": {
     "dropped": 3,
     "today": 1,
@@ -172,6 +142,18 @@
     "today": 1,
     "last_seen": "2026-09-21",
     "example": "Darude — Sandstorm (Storm 25 Mix)"
+  },
+  "Chinese Hip-Hop": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-09-25",
+    "example": "FRαNKIE & SAVAGE.M — 直南"
+  },
+  "Afro-Beat": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-25",
+    "example": "DeepBlend — Stay In My Dreams"
   },
   "Indie Rock": {
     "dropped": 2,
@@ -185,59 +167,83 @@
     "last_seen": "2026-09-17",
     "example": "Joshua Band — 轉眼仰望"
   },
-  "Electronica": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-20",
-    "example": "Smtve — Touch Me Tonight"
-  },
   "Instrumental": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-09-23",
     "example": "Healing music Recommended healing BGM — Melodies That Relieve Fatigue Even With Short Sleep; Soothe Your Tired Brain and Body; Stress Relief With Deep Sleep Background Music."
   },
-  "Chinese Hip-Hop": {
+  "House": {
     "dropped": 2,
     "today": 1,
-    "last_seen": "2026-09-24",
-    "example": "FRαNKIE & SAVAGE.M — 直南"
+    "last_seen": "2026-09-25",
+    "example": "Sam Feldt & ÁSDÍS — Need That Love"
   },
-  "House": {
+  "Techno": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-25",
+    "example": "Charlotte de Witte — The Resistance"
+  },
+  "Downtempo": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-25",
+    "example": "Enli — Angel Eyes"
+  },
+  "Classical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-24",
-    "example": "Benetti House Bar — Smoked Old Fashioned Nights | Late Night Deep House 2026 | Whiskey After Hours"
+    "last_seen": "2026-09-25",
+    "example": "HIMARI, Berlin Philharmonic & Sebastian Weigle — Debut"
   },
-  "Electronic": {
+  "Música tropical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-24",
-    "example": "BOURYOKUTEKINIKAWAII — Bouryokutekinikawaii 2nd Compilation Album Disc.1"
+    "last_seen": "2026-09-25",
+    "example": "Maeso — Tq a Mi Lado"
   },
-  "Country": {
+  "Pop/Rock": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-23",
-    "example": "Luke Bryan — Signs (iTunes Bonus Track Exclusive)"
+    "last_seen": "2026-09-25",
+    "example": "The Calling — Before The World Turns To Dust"
+  },
+  "Hip-Hop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-25",
+    "example": "Dee Mula — Ain’t Going for Nun"
+  },
+  "Folk": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-25",
+    "example": "Joy Oladokun — Hope Is A Heavy Thing"
+  },
+  "Modern Dancehall": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-25",
+    "example": "Shenseea — Vulnerability"
+  },
+  "Electronica": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-25",
+    "example": "Bicep, Soarr, Clark & Saskia — Air / Lemonder / Viper"
   },
   "Christian": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-22",
-    "example": "Glenda Rodríguez — Las Bodas del Cordero"
+    "last_seen": "2026-09-25",
+    "example": "gio. & Dell Mac — PROMISE LAND"
   },
   "Hard Rock": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-19",
-    "example": "Uncle Acid & The Deadbeats — Shapes Of Midnight"
-  },
-  "Techno": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-24",
-    "example": "Charlotte de Witte — The Resistance"
+    "last_seen": "2026-09-25",
+    "example": "Europe — Come This Madness"
   },
   "Classical Crossover": {
     "dropped": 1,
@@ -284,8 +290,8 @@
   "Death Metal/Black Metal": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-11",
-    "example": "Whispered — Honorbound"
+    "last_seen": "2026-09-25",
+    "example": "Crypta — A Portrait of Decay"
   },
   "Gospel": {
     "dropped": 1,
@@ -317,10 +323,46 @@
     "last_seen": "2026-09-24",
     "example": "Wendy's — Songs to Listen to in a Wendy’s Parking Lot"
   },
-  "Downtempo": {
+  "Children's Music": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-24",
-    "example": "Enli — Angel Eyes"
+    "last_seen": "2026-09-25",
+    "example": "Ms. Rachel — I'm So Happy"
+  },
+  "Goth Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-25",
+    "example": "Rosetta Stone — Executing Nostalgia"
+  },
+  "Reggae": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-25",
+    "example": "Micro — After the Waves"
+  },
+  "Worldwide": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-25",
+    "example": "Hermanos Gutiérrez — Los Ojos Del Cóndor"
+  },
+  "Original Score": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-25",
+    "example": "Jared Michael Fry — Heart Of The Beast (Music From The Motion Picture)"
+  },
+  "Vocal Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-25",
+    "example": "曲俐颖 — I Have A Friend"
+  },
+  "Christian Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-25",
+    "example": "Zoe Levert — GIRL DAD"
   }
 }
