@@ -6,8 +6,6 @@
 // Apple-only, US storefront only: other storefronts localize artist names
 // (KR lists CHUU as 츄), splitting the dedup key. Foreign-only releases appear
 // once they propagate to the US catalog (usually within hours).
-//
-// Five sources, each labelled at its own section below.
 
 import { mkdirSync, readFileSync } from 'node:fs'
 import { STOREFRONTS, purchaseFeedsOf } from './storefronts.mjs'
@@ -35,9 +33,8 @@ const inWindow = (releaseDate) => withinDays(releaseDate, WINDOW_DAYS)
 // complement of inWindow's lower bound so the two sets stay disjoint.
 const isUpcoming = (releaseDate) => daysSince(releaseDate) < 0
 
-// song (a single) vs album (EPs, mini albums, larger). Apple's "- Single"
-// wins over track count (kpop singles often carry an instrumental B-side);
-// EP/mini-album wording → album; else 1 track → song, more → album.
+// Apple's "- Single" wins over track count: kpop singles often carry an
+// instrumental B-side.
 function classify(name, trackCount) {
   if (/-\s*single\s*$/i.test(name)) return 'song'
   if (/mini album|\bEP\b/i.test(name)) return 'album'
@@ -284,8 +281,7 @@ const chartP = fetchChart()
 // written. (The other starters are allSettled and can't reject.)
 chartP.catch(() => {})
 // Genre feeds and country purchase feeds share the itunes host, so they draw from
-// one running slot counter. A per-list formula (gi * 2 + fi) would collide or gap,
-// because an entry does not always contribute exactly two requests.
+// one running slot counter.
 let itunesSlot = 0
 const nextStagger = () => itunesSlot++ * 250
 
@@ -763,7 +759,7 @@ for (const r of upcomingRaw) {
 // missing this run, so their previous in-window releases and pre-orders carry
 // over rather than vanish. Entries whose artist swept SUCCESSFULLY but no
 // longer returned drop (canceled/pulled); a date change re-lands under the
-// same key so the fresh copy wins. Followed artists only.
+// same key so the fresh copy wins.
 if (failedBatches.length > 0) {
   // Attribution by the id whose sweep produced the entry — via_artist_id for a
   // collab, the credited id otherwise. An entry with no id can't be verified:
@@ -835,7 +831,7 @@ try {
     if (g === 'none') continue // no genre at all isn't a follow candidate
     // Counts restart once a genre goes quiet for a day, so the number reads as
     // the current streak rather than a lifetime total that can only ever grow.
-    // `today` is carried so a second run the same day (Save & Refresh) replaces
+    // `today` is carried so a second run the same day (Save & refresh) replaces
     // today's contribution instead of doubling it.
     const prev = tally[g]
     const recent = prev && daysSince(prev.last_seen) <= 1.5
@@ -863,7 +859,7 @@ try {
     if (Array.isArray(parsed?.days) && parsed.sources && typeof parsed.sources === 'object') hist = parsed
   } catch {} // absent on a first run; a corrupt one restarts the history
 
-  // a second run the same day (Save & Refresh) replaces today rather than appending
+  // a second run the same day (Save & refresh) replaces today rather than appending
   if (hist.days.at(-1) === TODAY) {
     hist.days.pop()
     for (const col of Object.values(hist.sources)) col.pop()

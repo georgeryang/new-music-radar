@@ -25,8 +25,8 @@ const DOCS_DIR = fileURLToPath(new URL('../docs/', import.meta.url))
 // a startsWith check); the static handler re-checks realpaths against this.
 const DOCS_REAL = realpathSync(DOCS_DIR) + '/'
 const SITE_PATH = '/new-music-radar/'
-// 127.0.0.1 everywhere the URL is handed out (prefs.command, the app's ⚙
-// link, this): one spelling, and it matches the bind address exactly.
+// 127.0.0.1 everywhere the URL is handed out (prefs.command, the app's gear
+// button, this): one spelling, and it matches the bind address exactly.
 const SITE_URL = `http://127.0.0.1:${PORT}${SITE_PATH}`
 
 // The editor shares the app's built stylesheet (@source in src/index.css
@@ -117,11 +117,8 @@ function startRefresh() {
   return true
 }
 
-// Tail only. The page polls this every 2s during a refresh and every 10s while
-// idle, for as long as it stays open, and update.sh lets the shared log reach
-// 1MB before trimming — reading the whole file per poll scales with the log.
-// 8KB comfortably holds the lines the page shows (the longest observed line is
-// under 400 chars).
+// Tail only: update.sh lets the log reach 1MB. 8KB holds the lines the page
+// shows (the longest observed line is under 400 chars).
 const TAIL_BYTES = 8192
 // since: never read before this byte, so a caller classifying an outcome cannot
 // see an earlier run. null falls back to a plain tail, which is what a refresh
@@ -187,7 +184,7 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://127.0.0.1:${PORT}`)
   try {
     if (req.method === 'GET' && url.pathname === '/api/ping') {
-      // The deployed site pings this to decide whether to show its ⚙ link —
+      // The deployed site pings this to decide whether to show its gear button —
       // the only cross-origin endpoint; exposes nothing.
       res.writeHead(204, { 'Access-Control-Allow-Origin': '*' })
       return res.end()
@@ -206,7 +203,6 @@ const server = http.createServer(async (req, res) => {
       res.end(PAGE.replace('<!--CSS-->', href ? `<link rel="stylesheet" href="${href}">` : ''))
     } else if (req.method === 'GET' && url.pathname === '/api/prefs') {
       const p = readPrefs()
-      // Per-genre and per-source yield of the latest fetch, for the chip markers.
       // Only non-followed releases count, for the reason fetch-releases.mjs gives
       // where it writes the tally. sourceCounts is keyed by sourceTag's output.
       const genreCounts = {}
@@ -381,27 +377,27 @@ const PAGE = /* html */ `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>New Music Radar preferences</title>
+<title>New Music Radar Preferences</title>
 <!--CSS-->
 </head>
 <body class="mx-auto max-w-[680px] px-4 pt-6 pb-24">
-<header class="mb-1 flex items-baseline justify-between"><h1 class="text-lg font-bold">Preferences</h1><a href="${SITE_URL}" id="site-link" target="_blank" rel="noopener noreferrer" class="text-[13px] text-muted-foreground hover:text-foreground">Open radar →</a></header>
+<header class="mb-1 flex items-baseline justify-between"><h1 class="text-lg font-bold tracking-tight">Preferences</h1><a href="${SITE_URL}" id="site-link" target="_blank" rel="noopener noreferrer" class="text-sm text-muted-foreground hover:text-foreground">Open radar →</a></header>
 <!-- header outside main: it is a banner landmark only while it is not a
      descendant of main -->
 <main>
-<p class="mb-[18px] text-[12.5px] text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; Refresh applies them right away and publishes to the public site (about two minutes). Genre chips count the last ${WINDOW_DAYS} days, so they run higher than New, which shows 24 hours. Country, playlist and feed chips count ${SOURCE_CHIP_DAYS} measured days, as only-here/shared/total.</p>
+<p class="mb-[18px] text-sm text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; refresh applies them right away and publishes to the public site (about two minutes). Genre chips count the last ${WINDOW_DAYS} days, so they run higher than New, which shows 24 hours. Country, playlist and feed chips count ${SOURCE_CHIP_DAYS} measured days, as only-here/shared/total.</p>
 <div id="sections"></div>
 <div id="log-wrap" hidden class="fixed bottom-[92px] left-1/2 z-10 w-[min(640px,calc(100%-32px))] -translate-x-1/2">
-  <button id="log-hide" class="absolute top-0.5 right-1 inline-flex size-6 cursor-pointer items-center justify-center text-[15px] leading-none text-muted-foreground hover:text-foreground" title="Hide the progress log (the refresh keeps running)" aria-label="Hide progress log">×</button>
-  <pre id="log" class="max-h-[180px] overflow-y-auto rounded-lg border border-border bg-muted px-3 py-2.5 pr-8 font-mono text-[11px] leading-[1.5] whitespace-pre-wrap wrap-break-word"></pre>
+  <button id="log-hide" class="absolute top-0.5 right-1 inline-flex size-6 cursor-pointer items-center justify-center text-base leading-none text-muted-foreground hover:text-foreground" title="Hide the progress log (the refresh keeps running)" aria-label="Hide progress log">×</button>
+  <pre id="log" class="max-h-[180px] overflow-y-auto rounded-lg border border-border bg-muted px-3 py-2.5 pr-8 font-mono text-xs leading-[1.5] whitespace-pre-wrap wrap-break-word"></pre>
 </div>
 <div id="banner" hidden role="status"></div>
 </main>
-<footer class="fixed inset-x-0 bottom-0 flex items-center justify-center gap-2 border-t border-border bg-background px-4 py-2.5">
+<footer class="fixed inset-x-0 bottom-0 flex items-center justify-center gap-2 border-t border-border bg-surface-raised px-4 py-2.5">
   <span id="status" role="status" class="mr-auto max-w-[50%] text-xs leading-snug text-muted-foreground"></span>
-  <button id="quit" class="cursor-pointer rounded-lg border border-border bg-transparent px-4 py-[7px] text-[13px]">Quit</button>
-  <button id="save" disabled class="cursor-pointer rounded-lg border border-border bg-transparent px-4 py-[7px] text-[13px] disabled:cursor-default disabled:opacity-45">Save</button>
-  <button id="refresh" class="cursor-pointer rounded-lg border border-primary bg-primary px-4 py-[7px] text-[13px] text-primary-foreground disabled:cursor-default disabled:opacity-45">Save &amp; Refresh</button>
+  <button id="quit" class="cursor-pointer rounded-md border border-border-strong bg-transparent px-4 py-[7px] text-sm">Quit</button>
+  <button id="refresh" class="cursor-pointer whitespace-nowrap rounded-md border border-action-secondary-border bg-transparent px-4 py-[7px] text-sm text-action-secondary-fg disabled:cursor-default disabled:opacity-45">Save &amp; refresh</button>
+  <button id="save" disabled class="cursor-pointer rounded-md border border-primary bg-primary px-4 py-[7px] text-sm text-primary-foreground disabled:cursor-default disabled:opacity-45">Save</button>
 </footer>
 <script>
 let prefs, activity = {}, genreOptions = [], genreCounts = {}, sourceCounts = {}, countryNames = {}, dirty = false
@@ -420,18 +416,17 @@ const TAG_PLAYLIST = '${sourceTag('playlist', '')}'
 const nameOf = (e) => (typeof e === 'string' ? e : e.name)
 const OFFLINE = 'Editor not responding. Reopen prefs.command.'
 // Full literals, not composed strings — Tailwind scans this file as text.
-// These shades clear AA at 11px on bg-muted where amber-700 and the red
-// primary fall just short.
-const AMBER = 'text-[11px] text-amber-800 dark:text-amber-400'
-const MUTED = 'text-[11px] text-muted-foreground'
-// average month; the dormancy hints are approximate by nature
+const AMBER = 'text-xs tabular-nums text-warning-text'
+const MUTED = 'text-xs tabular-nums text-muted-foreground'
+const STALE = 'text-xs tabular-nums text-accent-foreground'
+// average month
 const MONTH_MS = 2629746000
 // Set when a message came from a user action, so the 10s poll won't overwrite
 // it with the ambient log tail. Cleared by the next action.
 let statusHeld = false
 // truncate, not wrap: the footer is fixed at bottom-0 and the banner and log sit
 // at hardcoded offsets above it, so a status line long enough to wrap covers them.
-const STATUS_BASE = 'mr-auto max-w-[50%] truncate text-xs leading-snug'
+const STATUS_BASE = 'mr-auto max-w-[50%] truncate text-xs leading-snug tabular-nums'
 function setStatus(text, isError, hold) {
   statusHeld = !!hold
   const el = $('status')
@@ -453,11 +448,11 @@ const clearFieldError = (key) => setFieldError(key, '')
 // kind drives the placeholder AND the wiring, so adding a picker is one entry
 // here plus one PICKERS row, not three parallel edits.
 const SECTIONS = [
-  { key: 'artists.followed', label: 'Followed artists', sub: 'pinned first ★, fetched by Apple ID, bypass filters', kind: 'artist' },
-  { key: 'artists.blocked', label: 'Blocked artists', sub: 'never shown (matched by Apple ID)', kind: 'artist' },
-  { key: 'genres.followed', label: 'Followed genres', sub: 'discovery only surfaces these (followed artists always show)', kind: 'genre' },
-  { key: 'discovery.countries', label: 'Additional countries', sub: 'each country\\'s Top 100, plus its purchase charts where Apple runs a store', kind: 'country' },
-  { key: 'discovery.playlists', label: 'Discovery playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', kind: 'playlist' },
+  { key: 'artists.followed', label: 'Followed Artists', sub: 'pinned first ★, fetched by Apple ID, bypass filters', kind: 'artist' },
+  { key: 'artists.blocked', label: 'Blocked Artists', sub: 'never shown (matched by Apple ID)', kind: 'artist' },
+  { key: 'genres.followed', label: 'Followed Genres', sub: 'discovery only surfaces these (followed artists always show)', kind: 'genre' },
+  { key: 'discovery.countries', label: 'Additional Countries', sub: 'each country\\'s Top 100, plus its purchase charts where Apple runs a store', kind: 'country' },
+  { key: 'discovery.playlists', label: 'Discovery Playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', kind: 'playlist' },
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
 // country entries are bare codes; the display name comes from the server's
@@ -494,10 +489,10 @@ function resultRow(results, label, note, onPick, extra) {
   const nm = document.createElement('span')
   nm.textContent = label
   b.appendChild(nm)
-  b.className = 'flex min-w-0 flex-1 cursor-pointer items-center gap-2.5 px-2.5 py-[7px] text-left text-[13px] hover:bg-muted focus-visible:bg-muted'
+  b.className = 'flex min-w-0 flex-1 cursor-pointer items-center gap-2.5 px-2.5 py-[7px] text-left text-sm hover:bg-muted focus-visible:bg-muted'
   if (note) {
     const n = document.createElement('span')
-    n.className = 'ml-auto whitespace-nowrap text-[11.5px] text-muted-foreground'
+    n.className = 'ml-auto whitespace-nowrap text-xs text-muted-foreground'
     n.textContent = note
     b.appendChild(n)
   }
@@ -513,7 +508,7 @@ function resultRow(results, label, note, onPick, extra) {
 // something you can choose, and a hidden dropdown reads as "no matches" instead.
 function noteRow(results, text) {
   const d = document.createElement('div')
-  d.className = 'px-2.5 py-[7px] text-[13px] text-muted-foreground'
+  d.className = 'px-2.5 py-[7px] text-sm text-muted-foreground'
   d.textContent = text
   results.replaceChildren(d)
   results.hidden = false
@@ -577,10 +572,10 @@ function renderFixed() {
   // outside it or the panel snaps shut mid-edit.
   d.ontoggle = () => { fixedOpen = d.open }
   const sum = document.createElement('summary')
-  sum.className = 'cursor-pointer text-[12.5px] text-muted-foreground hover:text-foreground'
+  sum.className = 'cursor-pointer text-sm text-muted-foreground hover:text-foreground'
   sum.textContent = 'Always scanned · ' + alwaysScanned.length + ' · US charts and genre feeds, fixed in code'
   const list = document.createElement('ul')
-  list.className = 'mt-2 ml-4 text-[12.5px] leading-[1.5] text-muted-foreground'
+  list.className = 'mt-2 ml-4 text-sm leading-[1.5] text-muted-foreground'
   for (const e of alwaysScanned) {
     const li = document.createElement('li')
     li.appendChild(document.createTextNode(e.label + ' (' + e.sub + ') '))
@@ -598,8 +593,8 @@ function renderAll() {
   // idle poll overwrites with the log tail every 10s.
   if (!countsAvailable) {
     const warn = document.createElement('p')
-    warn.className = 'mb-2 text-[12.5px] text-amber-800 dark:text-amber-400'
-    warn.textContent = 'Could not read the latest results, so the genre chip counts are hidden. Press Save & Refresh to rebuild them.'
+    warn.className = 'mb-2 text-sm text-warning-text'
+    warn.textContent = 'Could not read the latest results, so the genre chip counts are hidden. Press Save & refresh to rebuild them.'
     root.appendChild(warn)
   }
   for (const s of SECTIONS) {
@@ -609,16 +604,16 @@ function renderAll() {
       displayOf(s, a).toLowerCase().localeCompare(displayOf(s, b).toLowerCase())
     )
     const h = document.createElement('h2')
-    h.className = 'mt-[18px] mb-2 text-[13px] font-bold'
+    h.className = 'mt-[18px] mb-2 text-sm font-bold'
     h.textContent = s.label + ' '
     const small = document.createElement('small')
-    small.className = 'font-normal text-muted-foreground'
+    small.className = 'text-xs font-normal text-muted-foreground tabular-nums'
     small.textContent = '· ' + getList(s.key).length + ' · ' + s.sub
     h.appendChild(small)
     if (s.key === 'artists.followed') {
       const sort = document.createElement('button')
-      sort.className = 'ml-2 cursor-pointer p-0 text-[11px] text-muted-foreground underline hover:text-foreground'
-      sort.textContent = dormancySort ? 'sort: oldest release' : 'sort: A-Z'
+      sort.className = 'ml-2 min-h-6 cursor-pointer p-0 text-xs text-muted-foreground underline hover:text-foreground'
+      sort.textContent = dormancySort ? 'Sort: oldest release' : 'Sort: A-Z'
       sort.title = 'Toggle display order (the saved file stays alphabetical)'
       sort.setAttribute('aria-pressed', String(dormancySort))
       sort.id = 'sort-followed'
@@ -642,11 +637,11 @@ function renderAll() {
     chips.className = 'mb-2 flex flex-wrap gap-1.5'
     for (const entry of entries) {
       const chip = document.createElement('span')
-      chip.className = 'inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-[3px] text-[13px]'
+      chip.className = 'inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-[3px] text-sm'
       chip.appendChild(document.createTextNode(displayOf(s, entry)))
       if (s.kind === 'country') {
         const code = document.createElement('span')
-        code.className = 'text-[11px] text-muted-foreground'
+        code.className = 'text-xs text-muted-foreground'
         code.textContent = '· ' + entry
         chip.appendChild(code)
         if (streamingOnly.has(entry)) chip.appendChild(streamingOnlyNote())
@@ -665,7 +660,7 @@ function renderAll() {
       if (last && Date.now() - Date.parse(last) > 18 * MONTH_MS) {
         const months = Math.round((Date.now() - Date.parse(last)) / MONTH_MS)
         const ago = document.createElement('span')
-        ago.className = months >= 36 ? 'text-[11px] text-accent-foreground' : AMBER
+        ago.className = months >= 36 ? STALE : AMBER
         // round, not floor — floor showed a 3.9y gap as "3y"
         ago.textContent = '· ' + (months >= 24 ? Math.round(months / 12) + 'y' : months + 'mo')
         ago.title = 'Last release ' + last
@@ -674,7 +669,7 @@ function renderAll() {
       const x = document.createElement('button')
       // size-6 for a 24x24 target on the only destructive control here; the
       // negative margins spend the chip's own padding rather than widening it.
-      x.className = 'inline-flex size-6 cursor-pointer items-center justify-center -my-1 -mr-1.5 text-[13px] leading-none text-muted-foreground hover:text-destructive'
+      x.className = 'inline-flex size-6 cursor-pointer items-center justify-center -my-1 -mr-1.5 text-sm leading-none text-muted-foreground hover:text-destructive'
       x.textContent = '×'
       x.title = 'Remove'
       x.setAttribute('aria-label', 'Remove ' + displayOf(s, entry))
@@ -753,7 +748,7 @@ function makeAdder(s) {
   wrap.className = 'relative flex gap-1.5'
   const input = document.createElement('input')
   input.id = 'add-' + s.key
-  input.className = 'flex-1 rounded-lg border border-border bg-transparent px-2.5 py-1.5 text-[13px]'
+  input.className = 'flex-1 rounded-md border border-border-strong bg-transparent px-2.5 py-1.5 text-sm'
   // placeholders disappear on typing — give the field a persistent name
   input.setAttribute('aria-label', 'Add to ' + s.label)
   // Left set permanently: a description pointing at a hidden element is out of
@@ -762,7 +757,7 @@ function makeAdder(s) {
   const picker = PICKERS[s.kind]
   input.placeholder = picker.placeholder
   const results = document.createElement('div')
-  results.className = 'absolute inset-x-0 top-[34px] z-10 max-h-60 overflow-x-hidden overflow-y-auto rounded-lg border border-border bg-background shadow-[0_8px_24px_rgba(0,0,0,.12)]'
+  results.className = 'absolute inset-x-0 top-[34px] z-10 max-h-60 overflow-x-hidden overflow-y-auto rounded-lg border border-border bg-background shadow-md'
   results.hidden = true
   const err = document.createElement('p')
   err.id = 'err-' + s.key
@@ -771,7 +766,7 @@ function makeAdder(s) {
   // Above the input, not below: the dropdown is absolutely positioned over the
   // space under it, and every one of these messages points AT that list, so it
   // has to stay readable while the list is open.
-  err.className = 'mb-1 text-[11.5px] text-destructive'
+  err.className = 'mb-1 text-xs text-destructive'
   // No clear here: a successful add re-renders the adder, and the reject path
   // inside addTo sets a message this would wipe.
   const pick = (item) => { addTo(s.key, item); input.value = ''; results.hidden = true }
@@ -931,15 +926,13 @@ $('log-hide').onclick = () => {
   logDismissed = true
   $('log-wrap').hidden = true
 }
-// Semantic status colors; only the error state uses brand red.
-const BANNER_BASE = 'fixed inset-x-0 bottom-14 px-4 py-[9px] text-center text-[13px]'
+// The banner is fixed over the chips, so every state needs an opaque surface.
+const BANNER_BASE = 'fixed inset-x-0 bottom-14 px-4 py-[9px] text-center text-sm'
 const BANNER = {
-  running: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-100',
-  ok: 'bg-green-100 text-green-900 dark:bg-green-950 dark:text-green-100',
-  warn: 'bg-orange-100 text-orange-900 dark:bg-orange-950 dark:text-orange-100',
-  // primary, not accent: the dark accent is 28%-alpha and this strip floats
-  // over the chips, so an error banner must be opaque
-  bad: 'bg-primary text-primary-foreground',
+  running: 'bg-foreground text-background',
+  ok: 'bg-success-surface text-success-text',
+  warn: 'bg-warning-surface text-warning-text',
+  bad: 'border-y border-accent-foreground bg-accent text-accent-foreground',
 }
 function setBanner(cls, text) {
   const b = $('banner')
@@ -965,7 +958,7 @@ async function poll() {
   if (st) {
     if (offline) { offline = false; setBanner(null); setStatus('') } // recovered
     $('refresh').disabled = st.running
-    $('refresh').textContent = st.running ? 'Refreshing…' : 'Save & Refresh'
+    $('refresh').textContent = st.running ? 'Refreshing…' : 'Save & refresh'
     // The log tail is ambient information, so it must never overwrite something
     // the user needs to read. A message from an action holds until they act again.
     if (!statusHeld) setStatus(st.running ? '' : (st.log.at(-1) ?? ''))
@@ -1119,7 +1112,7 @@ fetch('/api/prefs').then(async (r) => {
   const p1 = document.createElement('p')
   p1.textContent = 'Could not load preferences. Check that config/preferences.json is valid JSON, then reload this page.'
   const p2 = document.createElement('p')
-  p2.className = 'mt-2 font-mono text-[12px] break-words'
+  p2.className = 'mt-2 font-mono text-xs break-words'
   p2.textContent = String(err && err.message ? err.message : err)
   box.append(p1, p2)
   $('sections').replaceChildren(box)

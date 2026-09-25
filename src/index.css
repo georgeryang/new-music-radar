@@ -1,12 +1,13 @@
 @import "tailwindcss";
+@import "./gry-tokens.css";
 
 /* The editor (HTML in prefs-server) uses the same utility classes; scanning it
    here folds them into this stylesheet, which the editor links from docs/assets/. */
 @source "../scripts/prefs-server.mjs";
 
-/* Plus Jakarta Sans — self-hosted variable font. Vite rebases these /fonts/
+/* Vite rebases these /fonts/
    URLs under the base path. The latin-ext face only downloads when a name
-   needs one of its glyphs; ★ and ⚙ are outside both ranges (system fallback). */
+   needs one of its glyphs; ★ is outside both ranges (system fallback). */
 @font-face {
   font-family: 'Plus Jakarta Sans';
   font-style: normal;
@@ -28,59 +29,31 @@
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-/* "Red · soft" theme: red accents on an off-white canvas; dark mode follows
-   the OS (no in-app toggle). muted-foreground #6b6b6b is the lightest gray
-   that clears AA on both the #fafafa canvas and the #ededed muted surface. */
-:root {
-  --radius: 0.625rem;
-  --background: #fafafa;
-  --foreground: #0a0a0a;
-  --muted: #ededed;
-  --muted-foreground: #6b6b6b;
-  --primary: #b3264a;
-  --primary-foreground: #ffffff;
-  --accent: #f9eaee;
-  --accent-foreground: #b3264a;
-  --destructive: #b3264a;
-  --border: #e3e3e3;
-  --ring: #b3264a;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* #121212 softens halation from bright artwork. primary-foreground is
-       dark-on-red: white on #e06287 is 3.4:1, failing at the badge size. */
-    --background: #121212;
-    --foreground: #fafafa;
-    --muted: #2a2a2a;
-    --muted-foreground: #a3a3a3;
-    --primary: #e06287;
-    --primary-foreground: #310d18;
-    --accent: rgba(179, 38, 74, 0.28);
-    --accent-foreground: #eb8aa6;
-    --destructive: #e06287;
-    --border: rgba(255, 255, 255, 0.1);
-    --ring: #e06287;
-  }
-}
-
-@theme {
-  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system,
-    'Segoe UI', sans-serif;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --radius-lg: var(--radius);
+  --font-sans: var(--font-family-sans);
+  --color-background: var(--color-surface-page);
+  --color-foreground: var(--color-text-primary);
+  --color-muted: var(--color-surface-sunken);
+  --color-muted-foreground: var(--color-text-muted);
+  --color-primary: var(--color-action-primary-bg);
+  --color-primary-foreground: var(--color-action-primary-fg);
+  --color-accent: var(--color-surface-brand);
+  --color-accent-foreground: var(--color-text-brand);
+  --color-destructive: var(--color-text-brand);
+  --color-border: var(--color-border-subtle);
+  /* Not no-ops: x: var(x) registers a vendored token as a utility, and without
+     --shadow-md Tailwind would inline its own default. */
+  --color-border-strong: var(--color-border-strong);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-action-secondary-fg: var(--color-action-secondary-fg);
+  --color-action-secondary-border: var(--color-action-secondary-border);
+  --color-success-surface: var(--color-status-success-surface);
+  --color-success-text: var(--color-status-success-text);
+  --color-warning-surface: var(--color-status-warning-surface);
+  --color-warning-text: var(--color-status-warning-text);
+  --shadow-md: var(--shadow-md);
+  --tracking-tight: var(--font-letter-spacing-tight);
+  --font-mono: var(--font-family-mono);
 }
 
 @layer base {
@@ -95,8 +68,8 @@
   }
   /* :focus-visible, not :focus — mouse clicks must not draw the ring. */
   :focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
+    outline: var(--border-width-thick) solid var(--color-focus-ring);
+    outline-offset: var(--border-width-thick);
   }
   /* A forced palette flattens every background, so the tab's bg-accent and the
      skeleton's bg-muted both vanish. Underline, not outline, or the selected
@@ -104,7 +77,7 @@
   @media (forced-colors: active) {
     [role='tab'][aria-selected='true'] {
       text-decoration: underline;
-      text-underline-offset: 3px;
+      text-underline-offset: 3px; /* gry-lint: allow */
     }
     [aria-busy='true'] > div {
       border: 1px solid CanvasText;
@@ -112,7 +85,7 @@
   }
   /* Preflight's placeholder (~3.3:1) fails AA; the muted token passes in both modes. */
   ::placeholder {
-    color: var(--muted-foreground);
+    color: var(--color-text-muted);
   }
   body {
     @apply bg-background text-foreground;
