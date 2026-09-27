@@ -1,39 +1,15 @@
 {
-  "Anime": {
-    "dropped": 70,
-    "today": 4,
-    "last_seen": "2026-09-25",
-    "example": "Hatsuboshi Gakuen & Sena Juo — Roar"
-  },
-  "Soundtrack": {
-    "dropped": 54,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "Ari Balouzian — Primetime (Original Soundtrack)"
-  },
-  "Rock": {
-    "dropped": 53,
-    "today": 2,
-    "last_seen": "2026-09-26",
-    "example": "Cruzando El Charco — Desactivar el Drama"
-  },
-  "Alternative": {
-    "dropped": 18,
-    "today": 8,
-    "last_seen": "2026-09-26",
-    "example": "Jane Remover — Beauty Sleep"
-  },
-  "Música Mexicana": {
-    "dropped": 17,
-    "today": 9,
-    "last_seen": "2026-09-26",
-    "example": "Julión Álvarez y su Norteño Banda — Ranchero de Corazón"
-  },
   "African": {
     "dropped": 11,
     "today": 3,
     "last_seen": "2026-09-21",
     "example": "Baka Beyond — Sing the World Awake"
+  },
+  "Música Mexicana": {
+    "dropped": 8,
+    "today": 8,
+    "last_seen": "2026-09-27",
+    "example": "Julión Álvarez y su Norteño Banda — Ranchero de Corazón"
   },
   "Afro House": {
     "dropped": 8,
@@ -41,17 +17,11 @@
     "last_seen": "2026-09-21",
     "example": "Gumz — Pulse of Afro"
   },
-  "Electronic": {
-    "dropped": 8,
-    "today": 3,
-    "last_seen": "2026-09-26",
-    "example": "Akini Jing — oolong (feat. GALI)"
-  },
-  "Country": {
-    "dropped": 8,
-    "today": 4,
-    "last_seen": "2026-09-26",
-    "example": "Corey Kent — Heartland Rock and Roll"
+  "Alternative": {
+    "dropped": 7,
+    "today": 7,
+    "last_seen": "2026-09-27",
+    "example": "Keo — Put A Smile On For Me"
   },
   "Video Game": {
     "dropped": 7,
@@ -59,23 +29,23 @@
     "last_seen": "2026-09-23",
     "example": "ATLUS GAME MUSIC & Syouji Meguro — Revelations: Persona (Original Soundtrack)"
   },
+  "Electronic": {
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-09-27",
+    "example": "Towa Tei — ZAMBIENT"
+  },
+  "Country": {
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-09-27",
+    "example": "Corey Kent — Heartland Rock and Roll"
+  },
   "House": {
-    "dropped": 7,
-    "today": 5,
-    "last_seen": "2026-09-26",
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-09-27",
     "example": "Joe Goddard — You"
-  },
-  "Rap": {
-    "dropped": 6,
-    "today": 1,
-    "last_seen": "2026-09-20",
-    "example": "Brea Miles — THA LIGHT"
-  },
-  "Indie Pop": {
-    "dropped": 6,
-    "today": 1,
-    "last_seen": "2026-09-21",
-    "example": "Sleepy WiFi & Misi Ke — 星期幾"
   },
   "Tai-Pop": {
     "dropped": 4,
@@ -95,23 +65,11 @@
     "last_seen": "2026-09-21",
     "example": "Thee Sinseers & Joey Quiñones — Love Stories"
   },
-  "Metal": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "DragonForce — Hunger of the Beast"
-  },
   "Chinese Hip-Hop": {
     "dropped": 4,
     "today": 1,
     "last_seen": "2026-09-26",
     "example": "FRαNKIE & SAVAGE.M — 直南"
-  },
-  "Afro-Beat": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-09-26",
-    "example": "Dusty Rivers — Still Dancing"
   },
   "Breakbeat": {
     "dropped": 3,
@@ -143,22 +101,22 @@
     "last_seen": "2026-09-21",
     "example": "Darude — Sandstorm (Storm 25 Mix)"
   },
-  "Techno": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "Charlotte de Witte — The Resistance"
+  "Anime": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-27",
+    "example": "Hatsuboshi Gakuen & Sena Juo — Roar"
   },
-  "Downtempo": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "Enli — Angel Eyes"
+  "Rock": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-27",
+    "example": "Cruzando El Charco — Desactivar el Drama"
   },
   "Electronica": {
-    "dropped": 3,
+    "dropped": 2,
     "today": 2,
-    "last_seen": "2026-09-26",
+    "last_seen": "2026-09-27",
     "example": "JUNHEE — DEEP DIVE"
   },
   "Indie Rock": {
@@ -179,82 +137,124 @@
     "last_seen": "2026-09-23",
     "example": "Healing music Recommended healing BGM — Melodies That Relieve Fatigue Even With Short Sleep; Soothe Your Tired Brain and Body; Stress Relief With Deep Sleep Background Music."
   },
-  "Música tropical": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "Maeso — Tq a Mi Lado"
-  },
-  "Pop/Rock": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "The Calling — Before The World Turns To Dust"
-  },
-  "Hip-Hop": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "Dee Mula — Ain’t Going for Nun"
-  },
-  "Folk": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "Joy Oladokun — Hope Is A Heavy Thing"
-  },
-  "Modern Dancehall": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "Shenseea — Vulnerability"
-  },
-  "Christian": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "gio. & Dell Mac — PROMISE LAND"
-  },
-  "Hard Rock": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "Europe — Come This Madness"
-  },
-  "Death Metal/Black Metal": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "Crypta — A Portrait of Decay"
-  },
-  "Children's Music": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "Ms. Rachel — I'm So Happy"
-  },
-  "Worldwide": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "Hermanos Gutiérrez — Los Ojos Del Cóndor"
-  },
   "Vocal Pop": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-09-26",
     "example": "曲俐颖 — I Have A Friend"
   },
-  "Christian Pop": {
-    "dropped": 2,
+  "Soundtrack": {
+    "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-26",
+    "last_seen": "2026-09-27",
+    "example": "Ari Balouzian — Primetime (Original Soundtrack)"
+  },
+  "Rap": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "Odetto — C'EST BLEU L'AMOUR"
+  },
+  "Indie Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "SONNIE 桑尼 — 桑心男孩俱樂部"
+  },
+  "Metal": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "DragonForce — Hunger of the Beast"
+  },
+  "Afro-Beat": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "Dusty Rivers — Still Dancing"
+  },
+  "Techno": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "Charlotte de Witte — The Resistance"
+  },
+  "Downtempo": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "Enli — Angel Eyes"
+  },
+  "Música tropical": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "Maeso — Tq a Mi Lado"
+  },
+  "Pop/Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "The Calling — Before The World Turns To Dust"
+  },
+  "Hip-Hop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "Dee Mula — Ain’t Going for Nun"
+  },
+  "Folk": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "Joy Oladokun — Hope Is A Heavy Thing"
+  },
+  "Modern Dancehall": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "Shenseea — Vulnerability"
+  },
+  "Christian": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "gio. & Dell Mac — PROMISE LAND"
+  },
+  "Hard Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "Europe — Come This Madness"
+  },
+  "Death Metal/Black Metal": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "Crypta — A Portrait of Decay"
+  },
+  "Children's Music": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "Ms. Rachel — I'm So Happy"
+  },
+  "Worldwide": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
+    "example": "Hermanos Gutiérrez — Los Ojos Del Cóndor"
+  },
+  "Christian Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-27",
     "example": "Zoe Levert — GIRL DAD"
   },
   "Afro-Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-26",
+    "last_seen": "2026-09-27",
     "example": "Phantom Boy — NO ME ODIES"
   },
   "Rock y Alternativo": {
@@ -266,13 +266,13 @@
   "Amapiano": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-26",
+    "last_seen": "2026-09-27",
     "example": "Jnr SA & Kabza De Small — The Remix EP"
   },
   "Classical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-25",
+    "last_seen": "2026-09-27",
     "example": "HIMARI, Berlin Philharmonic & Sebastian Weigle — Debut"
   },
   "Classical Crossover": {
@@ -311,18 +311,6 @@
     "last_seen": "2026-08-29",
     "example": "Everything But the Girl — Run A Red Light (Logistics Remix)"
   },
-  "Alternative Folk": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-28",
-    "example": "Dust Bowl Faeries — Oh Dread!"
-  },
-  "Gospel": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-28",
-    "example": "Cory Henry — Devotion (feat. The Apostle Voices)"
-  },
   "Alternative Rap": {
     "dropped": 1,
     "today": 1,
@@ -356,7 +344,7 @@
   "Reggae": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-25",
+    "last_seen": "2026-09-27",
     "example": "Micro — After the Waves"
   },
   "Original Score": {
