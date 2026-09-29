@@ -1,1 +1,5 @@
 allow: git@github.com
+allow: token: owner.token
+allow: token = randomUUID
+allow: TOKEN: lock.token
+allow: TOKEN: owner.token
