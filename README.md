@@ -53,7 +53,7 @@ works from any device.
 1. Install `node`, `git`, and `gh`.
 2. Clone the repo anywhere, to a path without spaces or special characters:
    `git clone git@github.com:georgeryang/new-music-radar.git`, then
-   `npm install`. If you edit the project with Claude Code, also run
+   `npm install`. If you edit the project with Codex or Claude Code, also run
    `npm run setup-skills` (see below).
 3. Run `gh auth login`, which lets the update verify its Pages deploy (skip
    `gh` and it skips that check, so a deploy flake goes unnoticed). Then make
@@ -138,11 +138,13 @@ other request to the editor is refused unless it comes from your machine.
   surfaces instead of staying invisible. The three chip windows are spelled out
   on the editor page itself, and are deliberately different, so chip counts
   routinely exceed what's on the page.
-- **Claude Code Skills:** `skills/` is version controlled with the code it
-  describes; `npm run setup-skills` links it into `.claude/skills/`, which is
-  gitignored because it also holds per-machine settings. The links are local
-  state, so a fresh clone needs that one command. Skills load only in this
-  folder. **audit-radar-sources** runs the source audit and explains how to read
+- **Agent Skills:** `skills/` is version controlled with the code it
+  describes; `npm run setup-skills` links it into `.agents/skills/` for Codex
+  and `.claude/skills/` for Claude Code. The generated links are gitignored
+  and stay local to this repo, so run setup after cloning. Setup preserves
+  unrelated entries and stops if a skill name collides with one. If Codex
+  does not show the skills after setup, restart it in this repo.
+  **audit-radar-sources** runs the source audit and explains how to read
   it; **verify-radar** covers testing the fetcher, the site and the editor.
 - **Source Audit:** `npm run audit-sources` grades every source the editor
   shows and suggests what to drop, replace or add. It reads
@@ -163,9 +165,12 @@ editor server and client scripts, and `npm run build` to check TypeScript and
 replace the built site. The build prepares replacement files before removing
 old assets and leaves release data intact.
 
-Run `npm run test:browser` after building to check editor interactions and the
-site. See `skills/verify-radar/SKILL.md` for Playwright setup. These checks use
-temporary data and mocked requests. They do not publish.
+Run `npm ci`, then `npm run test:browser:install` to install the pinned
+Playwright dependency and its matching Chromium. Run `npm run test:browser`
+after building to check editor interactions and the site. These checks use
+temporary data and mocked requests. They do not publish. To keep tracked assets
+untouched during verification, build and test in a disposable repo copy.
+See `skills/verify-radar/SKILL.md` for checks by change type and isolation rules.
 
 Automatic updates keep results locally if unrelated commits are waiting to be
 pushed or upstream history cannot be checked. The editor explains when publishing

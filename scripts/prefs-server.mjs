@@ -21,10 +21,7 @@ const DOCS_REAL = realpathSync(DOCS_DIR) + '/'
 const SITE_PATH = '/new-music-radar/'
 const SITE_URL = `http://127.0.0.1:${PORT}${SITE_PATH}`
 
-// The editor shares the app's built stylesheet (@source in src/index.css
-// folds this file's classes into that build). The hash changes per build, so
-// resolve it per request — a mid-session rebuild must not leave a stale
-// <link>. The build keeps at most one .css in docs/assets.
+// Resolve the hashed stylesheet per request because builds replace its filename.
 const ASSETS_DIR = fileURLToPath(new URL('../docs/assets/', import.meta.url))
 function cssHref() {
   try {
@@ -43,9 +40,6 @@ const readActivity = () => {
   try {
     return JSON.parse(readFileSync(ACTIVITY_PATH, 'utf8'))
   } catch (e) {
-    // absent before the first fetch is normal; unreadable drops every dormancy
-    // hint, and a missing age reads as "recently active" — say so rather than
-    // silently advising against pruning
     if (e.code !== 'ENOENT') console.error(`could not read artist-activity.json (${e.message}) — dormancy hints unavailable`)
     return {}
   }
@@ -55,10 +49,6 @@ const isName = (s) => typeof s === 'string' && s.trim().length > 0 && s.length <
 const isPinnedArtistList = (v) =>
   Array.isArray(v) && v.every((e) => e && isName(e.name) && Number.isSafeInteger(e.id) && e.id > 0)
 const isStringList = (v) => Array.isArray(v) && v.every(isName)
-// Playlists are {name, url}; the fetch scrapes exactly these pages, so enforce it.
-// Interpolated into the client below, so this is the only definition: a looser
-// test there would add a chip and then fail Save with an "invalid list shape"
-// that names no entry. The capture group is the slug the client titles from.
 const PLAYLIST_URL_RE = /^https:\/\/music\.apple\.com\/[a-z]{2}\/playlist\/([^/]+)\/pl\./
 const isPlaylistList = (v) =>
   Array.isArray(v) &&
@@ -121,9 +111,7 @@ function logTail(lines, since = null) {
     const { size } = fstatSync(fd)
     const start = Math.max(since !== null && since <= size ? since : 0, size - TAIL_BYTES, 0)
     const buf = Buffer.alloc(size - start)
-    // use the byte count actually read: update.sh truncates this log in place,
-    // so a poll landing mid-truncation would otherwise render the unwritten
-    // remainder of the buffer as NUL padding on the last line
+    // update.sh can truncate the log between stat and read; decode only the bytes read.
     const n = readSync(fd, buf, 0, buf.length, start)
     const all = buf.subarray(0, n).toString('utf8').split('\n').filter(Boolean)
     // drop the first entry when we started mid-file: it is a partial line, and
@@ -131,8 +119,6 @@ function logTail(lines, since = null) {
     if (start > 0 && start !== since) all.shift()
     return all.slice(-lines)
   } catch {
-    // a sentinel, not []: an empty array renders as a blank progress box with
-    // no hint that the log itself is the problem
     return ['(progress log unavailable)']
   } finally {
     if (fd !== undefined) closeSync(fd)
@@ -196,8 +182,6 @@ export const server = http.createServer(async (req, res) => {
     } else if (req.method === 'GET' && url.pathname === '/api/prefs') {
       const p = readPrefs()
       const genreCounts = {}
-      // An unreadable data file must report null, never zeros (see sourceWindow
-      // in shared.mjs).
       let countsAvailable = true
       try {
         for (const r of JSON.parse(readFileSync(DATA_PATH, 'utf8')).releases ?? []) {
@@ -219,8 +203,6 @@ export const server = http.createServer(async (req, res) => {
         const idx = windowIndices(h, SOURCE_CHIP_DAYS)
         for (const tag of Object.keys(h.sources ?? {})) sourceCounts[tag] = sourceWindow(h, tag, idx)
       } catch (e) {
-        // Absent before the first fetch is normal. Unreadable after months of
-        // nightly writes would present as "still collecting", so say it out loud.
         if (e.code !== 'ENOENT') console.error(`could not read source-activity.json (${e.message}) — chips say "collecting"`)
       }
       json(res, 200, {
@@ -232,8 +214,6 @@ export const server = http.createServer(async (req, res) => {
         playlists: p.discovery?.playlists ?? [],
         countries: p.discovery?.countries ?? [],
         activity: readActivity(),
-        // localeCompare: accented names ("Música Mexicana") sort after "z" in
-        // code-point order
         genreOptions: [...GENRE_OPTIONS].sort((a, b) => a.localeCompare(b)),
         genreCounts,
         sourceCounts,
@@ -251,9 +231,7 @@ export const server = http.createServer(async (req, res) => {
         ],
       })
     } else if (req.method === 'POST' && url.pathname === '/api/prefs') {
-      // Buffers, not string concat: a multibyte name straddling a chunk boundary
-      // decodes to U+FFFD on both sides, and the result is written straight to
-      // preferences.json. CJK artist names make that a real corruption path.
+      // Decode after joining buffers: a UTF-8 character can straddle request chunks.
       const chunks = []
       let size = 0
       for await (const chunk of req) {
@@ -323,10 +301,7 @@ export const server = http.createServer(async (req, res) => {
           return json(res, 403, { error: 'forbidden' })
         }
         const body = readFileSync(file)
-        // assets/ only: it carries a content hash, so it can be cached hard.
-        // fonts/ is re-copied under a stable name by every build, so pinning it
-        // for a year would strand a replaced subset in the browser; docs/data
-        // changes after every fetch and index.html points at the current bundle.
+        // Only assets/ has content hashes; fonts keep stable names across builds.
         const hashed = /^assets\//.test(normalize(rel))
         res.writeHead(200, {
           ...SECURITY_HEADERS,
@@ -342,8 +317,6 @@ export const server = http.createServer(async (req, res) => {
     }
   } catch (e) {
     if (e instanceof BusyError) return json(res, 409, { error: e.message })
-    // Also to the terminal prefs.command opened: the browser gets one line, and
-    // a parse failure in preferences.json is worth a stack somewhere.
     console.error(`${req.method} ${url.pathname} failed:`, e)
     json(res, 500, { error: e.message })
   }
@@ -395,8 +368,6 @@ const MUTED = 'text-xs tabular-nums text-muted-foreground'
 const STALE = 'text-xs tabular-nums text-accent-foreground'
 // average month
 const MONTH_MS = 2629746000
-// Set when a message came from a user action, so the 10s poll won't overwrite
-// it with the ambient log tail. Cleared by the next action.
 let statusHeld = false
 const STATUS_BASE = 'w-full min-w-0 break-words text-xs leading-snug tabular-nums'
 function setStatus(text, isError, hold) {
@@ -428,9 +399,6 @@ const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
 const displayOf = (s, e) =>
   s.kind === 'country' && Object.hasOwn(countryNames, e) ? countryNames[e] : nameOf(e)
 
-// Apple runs no purchase store in a few storefronts, so "Top 100 and purchase
-// charts" is only true for most of them. Say which ones, rather than quietly
-// scanning a different feed set behind an identical-looking chip.
 function streamingOnlyNote() {
   const span = document.createElement('span')
   span.className = MUTED
@@ -446,10 +414,7 @@ function parsePlaylist(u) {
   return { name: m[1].replace(/-/g, ' ').replace(/\\b\\w/g, (c) => c.toUpperCase()), url: u }
 }
 
-// one dropdown row, same shape for artists, playlists, and genres. The optional
-// trailing element (the artist picker's ↗ link) sits BESIDE the button, never inside it:
-// interactive content nested in a button is invalid, and screen readers
-// flatten it into the button's name instead of exposing a link.
+// Keep the optional link beside the button; nested interactive elements are invalid.
 function resultRow(results, label, note, onPick, extra) {
   const b = document.createElement('button')
   const nm = document.createElement('span')
@@ -470,8 +435,6 @@ function resultRow(results, label, note, onPick, extra) {
   results.appendChild(row)
 }
 
-// A non-pickable dropdown row: "Searching…" and "no matches" must not look like
-// something you can choose, and a hidden dropdown reads as "no matches" instead.
 function noteRow(results, text) {
   const d = document.createElement('div')
   d.className = 'px-2.5 py-[7px] text-sm text-muted-foreground'
@@ -480,8 +443,6 @@ function noteRow(results, text) {
   results.hidden = false
 }
 
-// Clearing the held status too: "Saved." pins itself against the idle poll, and
-// without this it stays on screen contradicting the re-enabled Save button.
 function markDirty() { editRevision++; dirty = true; $('save').disabled = false; statusHeld = false }
 
 function genreCount(name) {
@@ -499,8 +460,6 @@ const CHIP_DAYS = ${SOURCE_CHIP_DAYS}
 function sourceCount(tag) {
   const c = sourceCounts[tag]
   const span = document.createElement('span')
-  // Per source, not per file: a country added to months-old history has only its
-  // own measured nights behind it.
   if (!c || c.measured < THIN_DAYS) {
     span.className = MUTED
     span.textContent = '· collecting'
@@ -525,8 +484,6 @@ function renderFixed() {
   const d = document.createElement('details')
   d.className = 'mt-[18px]'
   d.open = fixedOpen
-  // renderAll rebuilds this node on every edit, so the open state has to live
-  // outside it or the panel snaps shut mid-edit.
   d.ontoggle = () => { fixedOpen = d.open }
   const sum = document.createElement('summary')
   sum.className = 'cursor-pointer text-sm text-muted-foreground hover:text-foreground'
@@ -546,8 +503,6 @@ function renderFixed() {
 function renderAll() {
   const root = $('sections')
   root.replaceChildren()
-  // A standing condition, so it lives here rather than in #status, which the
-  // idle poll overwrites with the log tail every 10s.
   if (!countsAvailable) {
     const warn = document.createElement('p')
     warn.className = 'mb-2 text-sm text-warning-text'
@@ -555,8 +510,6 @@ function renderAll() {
     root.appendChild(warn)
   }
   for (const s of SECTIONS) {
-    // Alphabetical, in-place (so Save writes this order). Safe: the fetcher
-    // only does membership checks, never depends on list order.
     getList(s.key).sort((a, b) =>
       displayOf(s, a).toLowerCase().localeCompare(displayOf(s, b).toLowerCase())
     )
@@ -577,7 +530,7 @@ function renderAll() {
       sort.onclick = () => {
         dormancySort = !dormancySort
         renderAll()
-        $('sort-followed')?.focus() // renderAll replaced this very button
+        $('sort-followed')?.focus()
       }
       h.appendChild(sort)
     }
@@ -619,15 +572,14 @@ function renderAll() {
         chip.appendChild(ago)
       }
       const x = document.createElement('button')
-      // size-6 for a 24x24 target on the only destructive control here; the
-      // negative margins spend the chip's own padding rather than widening it.
+      // size-6 provides a 24x24 target for the destructive control.
       x.className = 'inline-flex size-6 cursor-pointer items-center justify-center -my-1 -mr-1.5 text-sm leading-none text-muted-foreground hover:text-destructive'
       x.textContent = '×'
       x.title = 'Remove'
       x.setAttribute('aria-label', 'Remove ' + displayOf(s, entry))
       x.onclick = () => {
         const l = getList(s.key); l.splice(l.indexOf(entry), 1); markDirty(); renderAll()
-        $('add-' + s.key)?.focus() // renderAll replaced every node; don't strand focus on <body>
+        $('add-' + s.key)?.focus()
       }
       chip.appendChild(x)
       chips.appendChild(chip)
@@ -643,8 +595,6 @@ function addTo(key, item) {
   if (!name) return
   const section = SECTIONS.find((s) => s.key === key)
   const displayName = section ? displayOf(section, typeof item === 'string' ? name : item) : name
-  // Identity is the Apple ID where there is one: two artists can share a name,
-  // and re-adding a same-named artist is the documented fix for a wrong pick.
   const dupe = item.id != null
     ? list.some((e) => e.id === item.id)
     : list.some((e) => nameOf(e).toLowerCase() === name.toLowerCase())
@@ -654,14 +604,10 @@ function addTo(key, item) {
   }
   list.push(typeof item === 'string' ? name : { ...item, name })
   markDirty(); renderAll()
-  // renderAll rebuilds the inputs, so keyboard focus has to be put back
   $('add-' + key)?.focus()
 }
 
-// Dropdown keyboard + focus, shared by all four pickers. Hiding keys on focus
-// leaving the WRAPPER, not on input blur: blur fires before focus reaches a
-// row, so a blur-hide leaves the rows unreachable by Tab or arrow — and the
-// ID-required sections refuse Enter, so that is their only way to add anything.
+// Hide on focus leaving the wrapper: input blur fires before focus reaches a row.
 function wireDropdown(wrap, input, results, onDismiss) {
   const dismiss = () => { results.hidden = true; onDismiss?.() }
   const rows = () => [...results.querySelectorAll('button')]
@@ -678,10 +624,8 @@ function wireDropdown(wrap, input, results, onDismiss) {
     else if (e.key === 'ArrowUp') { e.preventDefault(); focusRow(rows().indexOf(document.activeElement) - 1) }
     else if (e.key === 'Escape') { e.preventDefault(); dismiss(); input.focus() }
   })
-  // Safari and Firefox on macOS do not focus a <button> on mousedown, so
-  // without this the focusout below fires with a null relatedTarget and hides
-  // the list before mouseup — the row's click never lands. prefs.command opens
-  // the DEFAULT browser, so that is the common case, not the edge case.
+  // Safari and Firefox on macOS do not focus buttons on mousedown; prevent
+  // focusout from hiding the list before the row's click lands.
   results.addEventListener('mousedown', (e) => e.preventDefault())
   wrap.addEventListener('focusout', (e) => {
     if (!wrap.contains(e.relatedTarget)) dismiss()
@@ -701,7 +645,6 @@ function makeAdder(s) {
   const input = document.createElement('input')
   input.id = 'add-' + s.key
   input.className = 'min-w-0 flex-1 rounded-md border border-border-strong bg-transparent px-2.5 py-1.5 text-sm'
-  // placeholders disappear on typing — give the field a persistent name
   input.setAttribute('aria-label', 'Add to ' + s.label)
   // Left set permanently: a description pointing at a hidden element is out of
   // the accessibility tree, so it needs no toggling alongside err.hidden.
@@ -715,9 +658,7 @@ function makeAdder(s) {
   err.id = 'err-' + s.key
   err.hidden = true
   err.setAttribute('role', 'alert')
-  // Above the input, not below: the dropdown is absolutely positioned over the
-  // space under it, and every one of these messages points AT that list, so it
-  // has to stay readable while the list is open.
+  // Keep errors above the input so the absolute dropdown cannot cover them.
   err.className = 'mb-1 text-xs text-destructive'
   // No clear here: a successful add re-renders the adder, and the reject path
   // inside addTo sets a message this would wipe.
@@ -727,8 +668,6 @@ function makeAdder(s) {
   input.addEventListener('input', () => clearFieldError(s.key))
   wireDropdown(wrap, input, results, onDismiss)
   wrap.append(input, results)
-  // err goes outside wrap: wrap is the flex row and the positioning context for
-  // the absolute results list.
   const col = document.createElement('div')
   col.append(err, wrap)
   return col
@@ -739,7 +678,6 @@ function wireArtist(s, input, results, pick) {
   let generation = 0
   input.onkeydown = (e) => {
     if (e.key !== 'Enter') return
-    // free-text entries have no Apple ID — the fetcher can't sweep them
     setFieldError(s.key, 'Pick an artist from the search list, then press Down to reach it. Entries are pinned by Apple ID.')
   }
   input.oninput = () => {
@@ -759,8 +697,6 @@ function wireArtist(s, input, results, pick) {
         const res = await fetch('/api/artist-search?q=' + encodeURIComponent(q), { signal: AbortSignal.any([controller.signal, AbortSignal.timeout(30_000)]) })
         if (!fresh()) return
         if (!res.ok) {
-          // a reachable server that refused carries Apple's reason; the catch
-          // below is for a dead one, and its advice is wrong for this case
           const body = await res.json().catch(() => ({}))
           if (!fresh()) return
           results.hidden = true
@@ -771,8 +707,6 @@ function wireArtist(s, input, results, pick) {
         if (!Array.isArray(found)) throw new Error('search failed')
       } catch {
         if (!fresh() || controller?.signal.aborted) return
-        // this runs inside a timer, so an unreported throw here is invisible:
-        // the box would simply never produce suggestions
         results.hidden = true
         setFieldError(s.key, 'Artist search unavailable. The editor may have stopped; reopen prefs.command.')
         return
@@ -803,17 +737,13 @@ function wireArtist(s, input, results, pick) {
   return () => { clearTimeout(timer); controller?.abort(); generation++ }
 }
 
-// a valid URL shows one result row with the derived name, so the chip text is
-// visible before adding. No raw-text onchange fallback: the mid-edit re-render
-// would fire it with the URL still in the box and add a second, URL-named chip.
+// An onchange fallback would add a second, URL-named chip during a re-render.
 function wirePlaylist(s, input, results, pick) {
   const taken = (pl) => getList(s.key).some((e) => e.url === pl.url)
   input.onkeydown = (e) => {
     if (e.key !== 'Enter') return
     const pl = parsePlaylist(input.value.trim())
     if (!pl) { setFieldError(s.key, 'Not an Apple Music playlist URL.'); return }
-    // addTo owns duplicate rejection for every section; taken() stays only to
-    // label the row below, where it warns before the click rather than after.
     pick(pl)
   }
   input.oninput = () => {
@@ -920,8 +850,6 @@ async function poll() {
     if (offline) { offline = false; setBanner(null); setStatus('') }
     $('refresh').disabled = st.busy || st.running || refreshStarting
     $('refresh').textContent = st.running ? 'Refreshing…' : 'Save & refresh'
-    // The log tail is ambient information, so it must never overwrite something
-    // the user needs to read. A message from an action holds until they act again.
     if (!statusHeld) setStatus(st.running ? '' : (st.log.at(-1) ?? ''))
     if (st.running && !wasRunning) logDismissed = false
     $('log-wrap').hidden = !st.running || logDismissed
@@ -947,7 +875,7 @@ async function poll() {
       } else if (held) {
         setBanner('warn', 'Nothing was published: there was no new data, and local commits touching other files are held back. Push them yourself if they are meant to go live.')
       } else if (failed) {
-        setBanner('warn', 'Refresh finished, but a source failed. ' + (publishedNew ? 'Available results were published.' : 'Nothing new was published.') + ' Check ~/Library/Logs/new-music-radar.log.')
+        setBanner('warn', 'Refresh finished, but a source failed. ' + (publishedNew ? 'Available results were published.' : 'Nothing new was published.') + (warned ? ' The site deploy did not confirm, so the page may still show old data.' : '') + ' Check ~/Library/Logs/new-music-radar.log.')
       } else if (warned) {
         setBanner('warn', 'New data was published, but the site deploy did not confirm. The page may show old data until the next update. See ~/Library/Logs/new-music-radar.log.')
       } else if (noChanges) {
@@ -955,18 +883,15 @@ async function poll() {
       } else {
         setBanner('ok', 'Refresh complete. The site shows the new data within a minute.')
       }
-      reloadPrefs() // chip counts and dormancy hints are stale after a fetch
+      reloadPrefs()
     }
     wasRunning = st.running
   } else if (!offline) {
-    // without this a dead server looks exactly like an idle healthy one
     offline = true
     // Banner only: both it and #status are role="status", so writing the same
     // sentence to each in one tick has assistive tech read it twice.
     setBanner('bad', OFFLINE)
   }
-  // Nothing to show while the tab is hidden, and this loop otherwise runs for
-  // as long as the page stays open. visibilitychange restarts it.
   if (document.hidden && !st?.running) return
   pollTimer = setTimeout(poll, st?.running ? 2000 : 10000)
 }
@@ -1039,7 +964,7 @@ $('quit').onclick = async () => {
   // onbeforeunload can't guard this: quitting is a fetch plus an innerHTML
   // swap, not a navigation, so that handler never fires here.
   if (dirty && !confirm('You have unsaved changes. Quit without saving them?')) return
-  dirty = false // confirmed: don't let onbeforeunload ask a second time
+  dirty = false
   stopped = true
   pollController?.abort()
   clearTimeout(pollTimer) // the page is about to lose its status elements
@@ -1066,13 +991,8 @@ function applyPrefs(p) {
   renderAll()
 }
 
-// Skipped while dirty: re-rendering from disk would throw away edits the user
-// has not saved.
 function reloadPrefs() {
   if (dirty) return
-  // A re-render rebuilds every input, so refreshing under an active field would
-  // swallow a half-typed name, its open dropdown and any error mid-keystroke.
-  // The dirty flag doesn't cover this: typing sets nothing until an add lands.
   if ($('sections')?.contains(document.activeElement)) return
   const revision = editRevision
   fetch('/api/prefs', { signal: AbortSignal.timeout(15_000) })
@@ -1095,8 +1015,7 @@ fetch('/api/prefs', { signal: AbortSignal.timeout(15_000) }).then(async (r) => {
 }).catch((err) => {
   // Build with DOM nodes, not innerHTML: the message carries the parser's text.
   const box = document.createElement('div')
-  // role=alert: inserted after first paint, so nothing else announces it and the
-  // footer line alone never names the file
+  // Announce this error inserted after first paint.
   box.setAttribute('role', 'alert')
   box.className = 'py-4 text-sm text-destructive'
   const p1 = document.createElement('p')
@@ -1107,14 +1026,12 @@ fetch('/api/prefs', { signal: AbortSignal.timeout(15_000) }).then(async (r) => {
   box.append(p1, p2)
   $('sections').replaceChildren(box)
   setStatus('Preferences did not load.', true, true)
-  poll() // still detect the server dying while the page sits in this state
+  poll()
 })
 </script>
 </body>
 </html>`
 
-// Double-clicking prefs.command twice is the everyday case: the browser lands
-// on the editor already running, so the second process has only noise to add.
 server.on('error', (e) => {
   if (e.code === 'EADDRINUSE') {
     console.log(`The editor is already running at http://127.0.0.1:${PORT}`)

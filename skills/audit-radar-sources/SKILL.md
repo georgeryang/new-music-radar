@@ -5,7 +5,7 @@ description: Audit configured music discovery sources and recommend additions, r
 
 # Audit Radar Sources
 
-`npm run audit-sources` reads live Apple sources and local history. Present recommendations; do not change preferences unless asked. `--no-discover` skips candidate discovery; `--json` returns structured output. Pass flags after npm's `--`. The shared operation lock excludes scheduled/editor refreshes and direct fetches.
+For configured-source reviews, run `npm run audit-sources -- --no-discover`. Use the full `npm run audit-sources` when asked to find new sources or replacements. Both read live Apple sources and local history. Present recommendations; do not change preferences unless asked. `--json` returns structured output; pass flags after npm's `--`. The shared operation lock excludes scheduled/editor refreshes and direct fetches.
 
 ## Read the Report
 

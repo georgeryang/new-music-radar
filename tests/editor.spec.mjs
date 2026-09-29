@@ -1,22 +1,22 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readdirSync, existsSync, readFileSync } from 'node:fs'
-import { homedir } from 'node:os'
+import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { pathToFileURL } from 'node:url'
 import { PAGE } from '../scripts/prefs-server.mjs'
 import { repo } from './helpers.mjs'
 
-const npx = join(homedir(), '.npm/_npx')
-const modulePath = process.env.PLAYWRIGHT_MODULE ?? readdirSync(npx)
-  .map((dir) => join(npx, dir, 'node_modules/playwright/index.mjs')).find(existsSync)
-if (!modulePath) throw new Error('Install Playwright in a scratch directory or set PLAYWRIGHT_MODULE.')
-const { chromium } = await import(pathToFileURL(modulePath))
-const cache = join(homedir(), 'Library/Caches/ms-playwright')
-const executablePath = process.env.PLAYWRIGHT_EXECUTABLE ?? readdirSync(cache)
-  .filter((name) => name.startsWith('chromium_headless_shell-')).sort().reverse()
-  .map((name) => join(cache, name, 'chrome-headless-shell-mac-arm64/chrome-headless-shell')).find(existsSync)
-const browser = await chromium.launch({ executablePath, headless: true })
+const { chromium } = await import('playwright').catch((error) => {
+  if (error.code === 'ERR_MODULE_NOT_FOUND' && error.message.includes("'playwright'")) {
+    throw new Error('Playwright is missing. Run npm ci, then npm run test:browser:install.', { cause: error })
+  }
+  throw error
+})
+const browser = await chromium.launch({ headless: true }).catch((error) => {
+  if (error.message.includes("Executable doesn't exist at")) {
+    throw new Error('Chromium is missing. Run npm run test:browser:install.', { cause: error })
+  }
+  throw error
+})
 test.after(() => browser.close())
 const prefs = () => ({ artists: { followed: [], blocked: [] }, genres: { followed: ['Pop'] }, countries: [], playlists: [], genreOptions: ['Pop', 'Rock'], countryNames: { us: 'United States' }, countsAvailable: true })
 const deferred = () => { let resolve; const promise = new Promise((r) => { resolve = r }); return { promise, resolve } }
@@ -131,9 +131,13 @@ test('network save failure preserves edits and explains how to retry', async (t)
   assert.equal(await page.getByRole('button', { name: 'Save', exact: true }).isEnabled(), true)
 })
 
-for (const [outcome, message] of [['No changes', 'Nothing new was published.'], ['Published', 'Available results were published.']]) {
-  test('source failure reports whether results were published: ' + outcome, async (t) => {
-    const page = await editor(t, { status: (route) => json(route, { running: false, busy: false, log: ['ERROR: fetch failed for at least one source', outcome] }) })
+for (const [outcomes, message] of [
+  [['No changes'], 'Nothing new was published.'],
+  [['Published'], 'Available results were published.'],
+  [['Published', 'WARNING: Pages deploy not finished'], 'Available results were published. The site deploy did not confirm, so the page may still show old data.'],
+]) {
+  test('source failure reports publication and deployment: ' + outcomes.join('; '), async (t) => {
+    const page = await editor(t, { status: (route) => json(route, { running: false, busy: false, log: ['ERROR: fetch failed for at least one source', ...outcomes] }) })
     await page.evaluate(async () => {
       while (polling) await new Promise(requestAnimationFrame)
       wasRunning = true
