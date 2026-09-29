@@ -4,7 +4,7 @@ A personal website that shows new songs and albums from artists, genres, and
 countries you care about (K-Pop, Latin, Thailand's Top 100, and more),
 updated every evening. Tap anything to open it in Apple Music.
 
-**The site:** https://georgeryang.github.io/new-music-radar/
+**The Site:** https://georgeryang.github.io/new-music-radar/
 (works on any phone, tablet, or computer, so bookmark it)
 
 ## Everyday Use
@@ -88,14 +88,14 @@ sudo pmset repeat cancel
 
 ## If Something Looks Wrong
 
-- **Site looks out of date?** The updating Mac was probably asleep or offline;
+- **Site Looks Out of Date?** The updating Mac was probably asleep or offline;
   it catches up when it wakes. To force it now, open `prefs.command` and press
   **Save & refresh**.
-- **Want to see what happened?** The log at `~/Library/Logs/new-music-radar.log`
-  says what was fetched or failed, in plain words. If it has no recent entries
-  recently, the scheduler itself never ran: check
+- **Want to See What Happened?** The log at `~/Library/Logs/new-music-radar.log`
+  says what was fetched or failed, in plain words. If it has no recent entries,
+  the scheduler itself never ran: check
   `~/Library/Logs/new-music-radar-watchdog.log`.
-- **An artist's releases look wrong?** You may have picked a same-named artist.
+- **An Artist's Releases Look Wrong?** You may have picked a same-named artist.
   Remove and re-add them via the search list (the **↗** link shows whose page
   you're pinning).
 

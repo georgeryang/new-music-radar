@@ -27,8 +27,6 @@ export function ReleaseCard({
 }: {
   release: Release
   upcoming?: boolean
-  // required: defaulting it to 0 would silently date every upcoming badge from
-  // 1970 rather than fail to compile
   fetchedAt: number
   eager?: boolean
 }) {

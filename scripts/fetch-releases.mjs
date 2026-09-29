@@ -26,8 +26,6 @@ const TODAY = new Date().toISOString().slice(0, 10)
 
 const inWindow = (releaseDate) => withinDays(releaseDate, WINDOW_DAYS)
 
-// Announced pre-orders: anything still future-dated at fetch time, the exact
-// complement of inWindow's lower bound so the two sets stay disjoint.
 const isUpcoming = (releaseDate) => daysSince(releaseDate) < 0
 
 // Apple's "- Single" wins over track count: kpop singles often carry an
@@ -181,14 +179,11 @@ const chartEntryToRelease = (e, feedGenre) => ({
 // (resolved later), so every card is exactly one Apple collection.
 async function genreFeed(feedType, genreId) {
   const data = await getJSON(genreFeedUrl(feedType, genreId))
-  return (data.feed?.entry ?? []).filter(
+  return asList(data.feed?.entry).filter(
     (e) => e['im:releaseDate']?.label && inWindow(e['im:releaseDate'].label)
   )
 }
 
-// Fallback card from feed data alone — only when the shared lookup fails, so
-// an outage doesn't cost the day-of finds. genre is the feed's own Apple name,
-// the best stand-in when the catalog label is unreachable.
 const albumEntryToRelease = (e, tag) => ({
   title: displayTitle(e['im:name'].label),
   artist: e['im:artist'].label,
@@ -283,9 +278,6 @@ const COUNTRY_TASKS = COUNTRY_CODES.flatMap((sf) => [
 ])
 const countryFeedsP = Promise.allSettled(COUNTRY_TASKS.map((t) => sleep(t.stagger).then(t.run)))
 
-// 1. Followed artists — the guaranteed layer. Every entry needs an Apple ID
-// (the picker adds one); name-only entries are ambiguous (three "Sabrina"s
-// exist) and skipped loudly.
 const sweepArtists = FOLLOWED_ENTRIES.filter((e) => {
   if (e?.id) return true
   log(`"${e?.name ?? e}" has no Apple artist ID — re-add it via the prefs editor picker; skipped`)
@@ -296,8 +288,6 @@ const batches = []
 for (let i = 0; i < sweepArtists.length; i += BATCH_SIZE) batches.push(sweepArtists.slice(i, i + BATCH_SIZE))
 let followedCount = 0
 let failedBatches = []
-// batchReleases throws only at its lookup await (before pushing anything), so
-// a failed batch can be re-run without double-counting releases or pre-orders.
 async function sweepBatch(n, batch) {
   const found = await batchReleases(batch.map((a) => a.id))
   followedCount += found.length
@@ -363,8 +353,6 @@ const skippedChart = []
 for (const e of chart) {
   if (!e.releaseDate || !inWindow(e.releaseDate)) continue
   const feedGenre = (e.genres ?? []).map((g) => g.name).find((n) => n && n !== 'Music') ?? null
-  // keep a followed artist's chart hit for lookup even when its feed genre
-  // isn't followed — matched by id (the feed serializes artistId as a string)
   if (
     feedGenre &&
     !isGenreFollowed(feedGenre) &&
@@ -385,15 +373,12 @@ if (candidates.length) {
   try {
     chartHits = await lookupCollections(candidates.map((x) => x.e.id))
   } catch (e) {
-    // degraded publish (feed-only genre/type) still counts as a failed source
     anyFailed = true
     failedSources.add(CHART_SOURCE)
     log(`chart enrichment lookup failed — falling back to feed data: ${errDetail(e)}`)
   }
 }
 
-// Lookup-backed like every other source: the catalog record wins and the window
-// is re-checked against ITS date, so a card can't show a date outside the window.
 // Iterate the return value, not the cache by feed id: lookupCollections keeps a
 // collection Apple sends back under a REPLACEMENT id, which a cache read keyed on
 // the requested id misses, silently downgrading the card to feed data.
@@ -414,12 +399,8 @@ for (const { e, feedGenre } of candidates) {
   }
 }
 
-// 3. Genre purchase charts — day-of releases in followed genres. Both feed
-// types reduce to collection ids resolved through the shared lookup, so cards
-// carry Apple's verbatim genre (feed membership picks where we look, not the
-// genre). Album entries keep raw feed data as a lookup-failure fallback.
-const genreFeedIds = new Map() // collection id → feed name (first feed wins)
-const feedAlbumFallback = new Map() // collection id → raw topalbums entry
+const genreFeedIds = new Map()
+const feedAlbumFallback = new Map()
 for (const settled of await genreFeedsP) {
   if (settled.status === 'rejected') {
     anyFailed = true
@@ -474,7 +455,7 @@ if (genreFeedIds.size) {
 }
 
 const usChartIds = new Set(chart.map((e) => normId(e.id)).filter(Boolean))
-const countryIdSources = new Map() // collection id → Set of storefronts that surfaced it
+const countryIdSources = new Map()
 let usChartSubtracted = 0
 const ingestCountryFeed = ({ sf, kind }, ids) => {
   if (!ids.length) return
@@ -488,8 +469,6 @@ const ingestCountryFeed = ({ sf, kind }, ids) => {
     }
     const sfs = countryIdSources.get(id)
     if (sfs) {
-      // every surfacing storefront gets credit — first-wins would undercount
-      // later-listed countries in the editor's audit
       sfs.add(sf)
     } else {
       countryIdSources.set(id, new Set([sf]))
@@ -532,7 +511,6 @@ if (countryIdSources.size) {
     const returned = new Set(hits.map((a) => String(a.collectionId)))
     const droppedBySf = new Map()
     for (const [id, sfs] of countryIdSources) {
-      // attribute drops to the first surfacer only — one log line per miss
       const sf = sfs.values().next().value
       if (!returned.has(id)) droppedBySf.set(sf, (droppedBySf.get(sf) ?? 0) + 1)
     }
@@ -600,21 +578,13 @@ for (const r of releases) {
   if (r.artist_id && sweepIds.has(r.artist_id)) r.followed = true
 }
 
-// Back-fill a duplicate's fields into the copy already kept. First-seen may be
-// the sparse one (a joint-credit listing without artwork/link), so every field
-// a later copy fills in has to survive the collapse.
 function mergeInto(prev, r) {
   if (r.release_date < prev.release_date) prev.release_date = r.release_date
   if (!prev.artwork && r.artwork) prev.artwork = r.artwork
   if (!prev.link && r.link) prev.link = r.link
-  // carryover matches on artist_id, so a sparse copy must not cost the entry its id
   if (!prev.artist_id && r.artist_id) prev.artist_id = r.artist_id
-  // same for provenance: the chart copy of a release has none, the sweep copy does
   if (!prev.via_artist_id && r.via_artist_id) prev.via_artist_id = r.via_artist_id
-  // a null-genre copy landing first mustn't cost the release its genre (the
-  // filter would drop it as "genre not followed")
   if (!prev.genre && r.genre) prev.genre = r.genre
-  // union so an album on two sources credits both in the editor's audit
   if (r.sources?.length) prev.sources = [...new Set([...(prev.sources ?? []), ...r.sources])]
   prev.followed = prev.followed || r.followed
 }
@@ -633,8 +603,6 @@ for (const r of releases) {
 let out = [...byKey.values()]
 
 const before = out.length
-// genre drops are the bulk (dozens per run) — one summary line; blocked-artist
-// drops stay individual (rare, worth seeing what the block list caught)
 const genreDrops = new Map()
 out = out.filter((r) => {
   if (isArtistBlocked(r)) {
@@ -731,7 +699,6 @@ if (failedBatches.length > 0) {
       // disjointness filter below is the backstop
       upcomingByKey.set(k, r)
     } else {
-      // now, unless a discovery source already fetched it fresh
       if (outKeys.has(k)) continue
       outKeys.add(k)
       out.push(r)
@@ -753,8 +720,6 @@ out.sort(releaseOrder)
 mkdirSync(new URL('.', DATA_PATH), { recursive: true })
 writeFileAtomic(DATA_PATH, serializeFeed({ fetched_at: Date.now(), releases: out, upcoming }))
 log(`wrote ${out.length} releases + ${upcoming.length} upcoming`)
-// Rolling tally of what the genre filter cost, for `npm run check-genres`.
-//
 // This block and the source tally below run LAST and never fatally: both are
 // advisory side files, so a problem writing one must not cost the run its
 // published data.
@@ -797,8 +762,6 @@ try {
     for (const col of Object.values(hist.sources)) col.pop()
   }
 
-  // followed artists bypass every filter, so their releases say nothing about
-  // whether a source earns its keep — same rule the editor's chips already use
   const tally = new Map()
   for (const r of out) {
     if (r.followed) continue

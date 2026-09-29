@@ -1,18 +1,11 @@
-// Apple's rate limits and wire formats, in one place.
-//
-
 import { UA } from './shared.mjs'
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
 const MARKETING_HOST = 'rss.marketingtools.apple.com'
 
-// Apple returns an artist-albums lookup GROUPED: one `artist` record per requested
-// id, then that artist's collections. Walking in order is what attributes a
-// joint-entity collab to the member who was followed; filtering to collections
-// first would discard the separators that carry it. The grouping is undocumented,
-// so orphans are counted rather than dropped and each caller picks its own
-// reaction.
+// Apple's undocumented artist separators attribute collaborations to the followed
+// member. Filtering to collections first loses that provenance.
 export function groupArtistLookup(results) {
   const groups = new Map()
   let via = null
@@ -54,11 +47,8 @@ export async function getJSON(url) {
   return res.json()
 }
 
-// iTunes Search/Lookup is unofficially rate-limited (~20/min). Every Search or
-// Lookup call waits out the gap since the previous one (with jitter) rather than
-// sleeping a fixed pause after, so processing time counts toward the gap and a
-// loop's last call leaves no dangling sleep. The legacy RSS paths share this host
-// but are not limited, so they use getJSON and their callers stagger them.
+// iTunes Search/Lookup is unofficially rate-limited (~20/min); legacy RSS on the
+// same host is exempt and uses getJSON.
 let lastItunesCall = 0
 let itunesGate = Promise.resolve()
 export function itunesJSON(url) {
@@ -71,11 +61,7 @@ export function itunesJSON(url) {
   return turn.then(() => getJSON(url))
 }
 
-// marketingtools (most-played feeds) throttles faster: a burst of ~20 gets
-// 503s after the first handful (seen 2026-07-19); ~1 req/s passes. These
-// callers all start at once (unlike itunesJSON's sequential awaits), so a
-// bare gap check wouldn't hold them — the gate chain hands out start slots
-// 1s apart while the fetches overlap.
+// Marketingtools bursts return 503s; starts spaced at least 1s apart pass.
 let lastChartCall = 0
 let chartGate = Promise.resolve()
 export function marketingToolsJSON(url) {
@@ -88,7 +74,6 @@ export function marketingToolsJSON(url) {
   return myTurn.then(() => getJSON(url))
 }
 
-// ---------- endpoints ----------
 
 export const US_CHART_URL = `https://${MARKETING_HOST}/api/v2/us/music/most-played/50/albums.json`
 export const countryMostPlayedUrl = (sf) =>
@@ -101,7 +86,6 @@ export const lookupUrl = (ids) => `https://itunes.apple.com/lookup?id=${ids.join
 export const artistAlbumsUrl = (ids, limit) =>
   `https://itunes.apple.com/lookup?id=${ids.join(',')}&entity=album&country=us&limit=${limit}&sort=recent`
 
-// ---------- feed wire formats ----------
 
 // Normalize any storefront path to /us/ — defense in depth (sources already
 // query the US catalog) and the pin that keeps a scrape on the US page.
@@ -124,7 +108,6 @@ export const normId = (raw) => {
   return s === 'NaN' ? null : s
 }
 
-// ---------- scraped web player pages ----------
 
 // full browser UA: the web player only embeds the JSON for browsers
 const BROWSER_UA =
@@ -140,7 +123,6 @@ export const scrapeHTML = async (url) => {
   return res.text()
 }
 
-// The web player embeds the track list as JSON with parent-album IDs.
 export async function scrapePlaylistAlbumIds(url) {
   const html = await scrapeHTML(url)
   const m = html.match(/<script type="application\/json" id="serialized-server-data">(.*?)<\/script>/s)

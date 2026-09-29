@@ -12,7 +12,7 @@ For configured-source reviews, run `npm run audit-sources -- --no-discover`. Use
 Live columns work immediately:
 
 - `14d`: recent collection IDs found by this source.
-- `uniq`: IDs no other configured source found. This is the removal metric; zero with nonzero `14d` means redundancy.
+- `uniq`: IDs no other configured source found. Zero signals overlap; removal advice preserves coverage across the remaining sources.
 - `most shared with`: source covering the largest share, with a checkable percentage.
 - `liveness`: distinguish an empty feed from one carrying older releases.
 - `cost`: estimated paced-lookup seconds. Compare with unique contribution, not total volume.
@@ -32,7 +32,7 @@ Historical columns require measured history:
 - `REPLACE` measures low freshness density over 30 days. An intentionally broad A-List chart may score low; this is a judgment call. `REMOVE` with zero `uniq` is stronger evidence.
 - Storefront picker pruning requires a successful probe with entries and zero additive contribution.
 - Sole-source counts before 2026-07-30 understate sharing: US chart and genre feeds were not tagged then.
-- Never guess Apple genre IDs. The audit checks the live tree; `genre-tree.mjs` records the known mismatch.
+- Never guess Apple genre IDs. The audit checks the live tree.
 
 ## Apply Authorized Changes
 

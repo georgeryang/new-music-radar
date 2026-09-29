@@ -4,8 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
 import fs from 'node:fs'
 
-// docs/data/*.json is written only by scripts/fetch-releases.mjs, never by builds —
-// so the dev server has to be taught where to find it.
+// docs/data/*.json is written only by scripts/fetch-releases.mjs, never by builds.
 function serveDataInDev(): Plugin {
   return {
     name: 'serve-data-in-dev',

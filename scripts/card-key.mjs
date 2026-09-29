@@ -1,6 +1,3 @@
-// Canonical card identity + ordering. The fetcher dedups with keyOf; the app
-// keys its React cards with the same key.
-
 const EDITION_RE =
   /\s*[-–(\[]\s*(the\s+\d+\w*\s+(mini\s+)?album|ep|single|deluxe( edition| version)?|standard( edition)?|explicit|extended|remaster(ed)?( \d{4})?|alternate cover[^)\]]*)\s*[)\]]?\s*$/i
 

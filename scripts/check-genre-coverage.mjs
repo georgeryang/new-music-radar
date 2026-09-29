@@ -1,18 +1,10 @@
 #!/usr/bin/env node
-// Two checks against Apple's live genre tree. There is no mapping layer, so a
-// genre Apple renames matches nothing and drops silently: that check exits 1.
-// The dropped-genre report is advisory and never fails.
-//
-// Run after editing GENRE_OPTIONS or genres.followed, and occasionally to see
-// what the follow list is missing.
 
 import { readFileSync } from 'node:fs'
 import { GENRE_OPTIONS } from './genre-options.mjs'
 import { fetchGenreTree, overFollowed, underFollowed } from './genre-tree.mjs'
 import { GENRE_ACTIVITY_PATH, GENRE_MEMORY_DAYS, PREFS_PATH } from './shared.mjs'
 
-// This prints a report for a person, so its own failures get a sentence rather
-// than a stack trace over an npm banner.
 const die = (msg) => { console.error(msg); process.exit(1) }
 
 let followed
@@ -30,12 +22,12 @@ try {
   die(e.message)
 }
 
-// ---------- 1. names still exist ----------
 
 let misses = 0
+const genreNames = new Set([...ancestors.keys()].map((name) => name.toLowerCase()))
 const checkExists = (names, label) => {
   for (const name of names) {
-    if (ancestors.has(name)) continue
+    if (genreNames.has(name.toLowerCase())) continue
     console.error(`"${name}" (${label}) is not in Apple's genre tree — renamed? update GENRE_OPTIONS and genres.followed`)
     misses++
   }
@@ -43,12 +35,9 @@ const checkExists = (names, label) => {
 checkExists(GENRE_OPTIONS, 'curated picker')
 checkExists(followed, 'followed')
 
-// Note it, but keep going: the coverage report below is the part worth reading,
-// and one renamed name should not hide it. Exit code is set at the very end.
 if (misses) console.error(`\n${misses} missing genre name(s) — fix those first.\n`)
 else console.log(`Names OK: all ${GENRE_OPTIONS.length} curated and ${followed.length} followed names exist in Apple's tree.`)
 
-// ---------- 2. what the follow list is missing ----------
 
 let activity = {}
 try {
@@ -64,7 +53,6 @@ if (!entries.length) {
   process.exit(misses ? 1 : 0)
 }
 
-// see genre-tree.mjs for why only the "under" direction is a signal
 const under = (g) => underFollowed(ancestors, followedSet, g)
 const over = (g) => overFollowed(ancestors, followed, g)
 

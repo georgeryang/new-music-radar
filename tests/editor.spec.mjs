@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readdirSync, readFileSync } from 'node:fs'
+import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { PAGE } from '../scripts/prefs-server.mjs'
 import { repo } from './helpers.mjs'
@@ -22,7 +22,7 @@ const prefs = () => ({ artists: { followed: [], blocked: [] }, genres: { followe
 const deferred = () => { let resolve; const promise = new Promise((r) => { resolve = r }); return { promise, resolve } }
 const json = (route, body) => route.fulfill({ contentType: 'application/json', body: JSON.stringify(body) })
 
-async function editor(t, handlers = {}) {
+async function editor(t, handlers = {}, ready = true) {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } })
   t.after(() => context.close())
   const page = await context.newPage()
@@ -49,12 +49,15 @@ async function editor(t, handlers = {}) {
     return route.abort()
   })
   await page.goto('http://127.0.0.1:4747/')
-  await page.locator('[id="add-genres.followed"]').waitFor()
+  if (ready) await page.locator('[id="add-genres.followed"]').waitFor()
   return page
 }
 async function addGenre(page, name) {
   const input = page.locator('[id="add-genres.followed"]')
   await input.fill(name); await input.press('Enter')
+}
+function ignoreSearchCancellation(page) {
+  return page.evaluate(() => { const original = window.fetch; window.fetch = (url, options) => original(url, String(url).includes('artist-search') ? {} : options) })
 }
 
 test('Save & refresh preserves edits made during its save and does not refresh', async (t) => {
@@ -89,8 +92,7 @@ test('late search responses cannot overwrite newer suggestions', async (t) => {
     await json(route, { results: [{ id: q === 'Old' ? 1 : 2, name: q + ' Artist', genre: 'Pop' }] })
     if (q === 'Old') completed.resolve()
   } })
-  // Simulate a transport that finishes despite cancellation, exercising the generation check.
-  await page.evaluate(() => { const original = window.fetch; window.fetch = (url, options) => original(url, String(url).includes('artist-search') ? {} : options) })
+  await ignoreSearchCancellation(page)
   const input = page.locator('[id="add-artists.followed"]')
   await input.fill('Old'); await first.promise
   await input.fill('New')
@@ -111,7 +113,7 @@ for (const dismissal of ['Escape', 'blur']) {
       await json(route, { results: [{ id: 1, name: 'Late Artist' }] })
       completed.resolve()
     } })
-    await page.evaluate(() => { const original = window.fetch; window.fetch = (url, options) => original(url, String(url).includes('artist-search') ? {} : options) })
+    await ignoreSearchCancellation(page)
     const input = page.locator('[id="add-artists.followed"]')
     await input.fill('Late'); await entered.promise
     if (dismissal === 'Escape') await input.press('Escape')
@@ -183,8 +185,26 @@ test('visibility changes do not overlap status requests; quit stops polling', as
   await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')))
 })
 
+for (const failure of [false, true]) test('quit ignores a late initial preferences response, failure: ' + failure, async (t) => {
+  const entered = deferred(), release = deferred()
+  const page = await editor(t, { prefs: async (route) => {
+    entered.resolve(); await release.promise
+    if (failure) return route.fulfill({ status: 500, contentType: 'application/json', body: JSON.stringify({ error: 'fixture failure' }) })
+    return json(route, prefs())
+  } }, false)
+  await entered.promise
+  await page.getByRole('button', { name: 'Quit', exact: true }).click()
+  await page.getByText('Server stopped. You can close this tab.').waitFor()
+  const response = page.waitForResponse((r) => r.url().endsWith('/api/prefs'))
+  release.resolve()
+  await (await response).finished()
+  await page.evaluate(() => new Promise(requestAnimationFrame))
+  assert.equal(await page.getByText('Server stopped. You can close this tab.').count(), 1)
+})
+
 test('footer and error text fit narrow layouts and reserve content space', async (t) => {
-  const page = await editor(t)
+  const longName = 'A'.repeat(190)
+  const page = await editor(t, { prefs: (route) => json(route, { ...prefs(), artists: { followed: [{ id: 1, name: longName }], blocked: [] } }) })
   for (const colorScheme of ['light', 'dark']) {
     await page.emulateMedia({ colorScheme })
     await page.setViewportSize({ width: 320, height: 640 })
@@ -193,6 +213,8 @@ test('footer and error text fit narrow layouts and reserve content space', async
     const layout = await page.evaluate(() => ({ width: document.documentElement.scrollWidth, viewport: innerWidth, padding: parseFloat(getComputedStyle(document.body).paddingBottom), dock: document.getElementById('editor-dock').getBoundingClientRect().height }))
     assert.ok(layout.width <= layout.viewport, JSON.stringify(layout))
     assert.ok(layout.padding >= layout.dock)
+    const remove = await page.getByRole('button', { name: 'Remove ' + longName, exact: true }).boundingBox()
+    assert.ok(remove.width >= 24 && remove.x + remove.width <= layout.viewport)
   }
   await page.evaluate(() => { document.documentElement.style.fontSize = '' })
   await page.screenshot({ path: '/private/tmp/radar-editor-dark.png', fullPage: true })
@@ -204,8 +226,9 @@ test('built site keeps valid cards, warns on malformed entries, and supports tab
   const page = await context.newPage()
   const errors = []
   page.on('pageerror', (e) => errors.push(e.message))
-  const feed = JSON.parse(readFileSync(join(repo, 'docs/data/releases.json')))
-  feed.releases.push(null)
+  const fetched_at = Date.UTC(2026, 8, 29, 12)
+  const card = { title: 'New Release', artist: 'Fixture Artist', type: 'album', release_date: '2026-09-29', artwork: '', genre: 'Pop', link: 'https://music.apple.com/us/album/fixture/123', followed: true }
+  const feed = { fetched_at, releases: [card, null], upcoming: [{ ...card, title: 'Upcoming Release', release_date: '2026-10-01' }] }
   await page.route('**/*', async (route) => {
     const url = new URL(route.request().url())
     if (url.pathname.endsWith('/data/releases.json')) return json(route, feed)
@@ -220,10 +243,9 @@ test('built site keeps valid cards, warns on malformed entries, and supports tab
   await page.getByText('Some releases could not be displayed', { exact: false }).waitFor()
   assert.ok(await page.locator('#release-panel > a').count() > 0)
   for (const href of await page.locator('#release-panel > a').evaluateAll((els) => els.map((el) => el.getAttribute('href')))) assert.match(href, /^music:\/\/music.apple.com\/us\//)
-  if (await page.locator('#tab-upcoming').count()) {
-    await page.locator('#tab-new').focus(); await page.keyboard.press('ArrowRight')
-    assert.equal(await page.locator('#tab-upcoming').getAttribute('aria-selected'), 'true')
-  }
+  await page.locator('#tab-new').focus(); await page.keyboard.press('ArrowRight')
+  assert.equal(await page.locator('#tab-upcoming').getAttribute('aria-selected'), 'true')
+  assert.equal(await page.getByText('Upcoming Release', { exact: true }).count(), 1)
   feed.releases = [null]
   feed.upcoming = []
   await page.reload()

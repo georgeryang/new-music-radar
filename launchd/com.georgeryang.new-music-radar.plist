@@ -48,8 +48,6 @@
     <key>PATH</key>
     <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
   </dict>
-  <!-- Runs at every login/boot; the --if-stale guard makes it a no-op unless
-       the data is stale (e.g. the Mac was powered off past a tick). -->
   <key>RunAtLoad</key>
   <true/>
 </dict>

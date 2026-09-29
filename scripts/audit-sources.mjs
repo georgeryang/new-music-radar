@@ -36,8 +36,6 @@ const warn = (m) => { warnings.push(m.trim()); say(m) }
 
 holdRunLock('audit')
 
-// A missing file is a real "not yet"; a corrupt one is not. Falling back silently
-// would report "0 day(s) of history" or "admitted: none" with no cause (rule 2).
 const fileLabel = (p) => decodeURIComponent(String(p)).split('/').slice(-2).join('/')
 const read = (p, fallback) => {
   try { return JSON.parse(readFileSync(p, 'utf8')) } catch (e) {
@@ -83,8 +81,6 @@ const lastYield = (tag) => {
 const historyDays = HIST.days.length
 const THIN = historyDays < SOURCE_THIN_DAYS
 
-// Liveness is deliberately separate from yield: entries answers "is this feed
-// alive at all", newest answers "does it carry anything recent".
 async function rssLiveness(url) {
   try {
     const d = await getJSON(url)
@@ -123,18 +119,19 @@ async function probeRss(feeds) {
 }
 
 const lookupCache = new Map()
+const lookupFailures = new Set()
 async function lookup(ids) {
   const uniq = [...new Set(ids.map(String))]
   const want = uniq.filter((i) => /^\d+$/.test(i) && !lookupCache.has(i))
   for (let i = 0; i < want.length; i += LOOKUP_CHUNK) {
+    const chunk = want.slice(i, i + LOOKUP_CHUNK)
     try {
-      const d = await itunesJSON(lookupUrl(want.slice(i, i + LOOKUP_CHUNK)))
+      const d = await itunesJSON(lookupUrl(chunk))
       for (const r of (d.results ?? []).filter((x) => x.wrapperType === 'collection')) lookupCache.set(String(r.collectionId), r)
+      for (const id of chunk) { lookupFailures.delete(id); if (!lookupCache.has(id)) lookupCache.set(id, null) }
     } catch (e) {
-      // Not silent: an empty chunk makes every source that wanted those ids
-      // score zero density, and the verdict chain then reads a throttled lookup
-      // as a stale list and recommends replacing a healthy one.
-      warn(`lookup chunk failed, ${want.slice(i, i + LOOKUP_CHUNK).length} ids unmeasured: ${errDetail(e)}`)
+      for (const id of chunk) lookupFailures.add(id)
+      warn(`lookup chunk failed, ${chunk.length} ids unmeasured: ${errDetail(e)}`)
     }
   }
   return uniq.map((i) => lookupCache.get(i)).filter(Boolean)
@@ -171,9 +168,7 @@ const artistRows = []
       results = d.results ?? []
     } catch (e) { warn(`  batch ${i / BATCH_SIZE + 1} failed (${errDetail(e)}) — those artists are unrated below`); continue }
     const { groups: per, orphans } = groupArtistLookup(results)
-    // The fetcher exits 2 on this; here it only skews a row, but dropping it
-    // silently would undercount exactly the artists being graded.
-    if (orphans) say(`  ${orphans} collections arrived before any artist record — lookup grouping changed?`)
+    if (orphans) { warn(`  ${orphans} collections arrived before any artist record — lookup grouping changed; this batch is unrated`); continue }
     for (const a of batch) {
       const hit = per.get(a.id)
       if (!hit) { artistRows.push({ ...a, dead: true }); continue }
@@ -216,8 +211,9 @@ try {
   const tree = await fetchGenreTree()
   ancestors = tree.ancestors
   byId = genreNamesById(tree.music)
-  for (const [names, label] of [[GENRE_OPTIONS, 'picker'], [followedGenres, 'followed']]) {
-    for (const n of names) if (!ancestors.has(n)) rec('FIX', `genre "${n}" (${label})`, 'no longer exists in Apple\'s tree — renamed, and exact matching means it now matches nothing')
+  const names = new Set([...ancestors.keys()].map((name) => name.toLowerCase()))
+  for (const [configured, label] of [[GENRE_OPTIONS, 'picker'], [followedGenres, 'followed']]) {
+    for (const n of configured) if (!names.has(n.toLowerCase())) rec('FIX', `genre "${n}" (${label})`, 'no longer exists in Apple\'s tree — renamed, and exact matching means it now matches nothing')
   }
   for (const f of GENRE_FEEDS) {
     const real = byId.get(String(f.genreId))
@@ -313,6 +309,10 @@ for (const { pl, ids, err } of plPages) {
   const tag = sourceTag('playlist', pl.name)
   if (err) { rows.push({ kind: 'playlist', tag, label: pl.name, live: { ok: false, err }, idSet: new Set(), cost: 0 }); continue }
   const hits = await lookup(ids)
+  if (ids.some((id) => lookupFailures.has(String(id)))) {
+    rows.push({ kind: 'playlist', tag, label: pl.name, live: { ok: false, err: 'album lookups failed' }, idSet: new Set(), cost: costS(ids.length) })
+    continue
+  }
   const fresh30 = hits.filter((a) => withinDays(a.releaseDate, 30)).length
   const newest = hits.map((a) => a.releaseDate).filter((d) => d && daysSince(d) >= 0).sort().at(-1)?.slice(0, 10) ?? null
   rows.push({
@@ -362,18 +362,23 @@ for (const r of rows) {
 say('  14d/uniq are live overlap and work today; 7d/30d/u30 need ~2 weeks of history.')
 out.sections.sources = rows.map(({ idSet, ...r }) => ({ ...r, liveIds: idSet.size }))
 
+const replacements = new Set(measured.filter((r) => r.kind === 'playlist' && r.density != null && r.density < 0.2 && r.live.entries > 20))
+const retained = new Set(measured.filter((r) => !replacements.has(r)))
 for (const r of rows) {
   if (!r.live.ok) { rec('CHECK', r.label, `liveness probe failed (${r.live.err}) — unknown, not dead; re-run before concluding anything`, 'thin'); continue }
+  const coveredElsewhere = [...r.idSet].every((id) => [...retained].some((other) => other !== r && other.idSet.has(id)))
   if (r.live.entries === 0) {
     rec('REMOVE', r.label, 'the feed returns no entries at all — structurally dead, not merely quiet')
-  } else if (r.idSet.size >= MIN_REDUNDANCY_SAMPLE && r.liveUnique === 0) {
-    rec('REMOVE', r.label, `all ${r.idSet.size} of its releases in ${OVERLAP_DAYS}d are carried by other sources` + (r.near ? ` (${Math.round(r.near.frac * 100)}% by ${r.near.label} alone)` : '') + ' — redundant')
-  } else if (r.idSet.size > 0 && r.liveUnique === 0) {
+    retained.delete(r)
+  } else if (r.idSet.size >= MIN_REDUNDANCY_SAMPLE && coveredElsewhere) {
+    rec('REMOVE', r.label, `all ${r.idSet.size} of its releases in ${OVERLAP_DAYS}d are carried by retained sources — redundant`)
+    retained.delete(r)
+  } else if (r.idSet.size > 0 && coveredElsewhere) {
     rec('CHECK', r.label, `nothing unique in ${OVERLAP_DAYS}d, but only ${r.idSet.size} release(s) to judge on` + (r.near ? ` (covered by ${r.near.label})` : '') + ' — too quiet to call redundant', 'thin')
-  } else if (r.kind === 'playlist' && r.density != null && r.density < 0.2 && r.live.entries > 20) {
+  } else if (replacements.has(r)) {
     rec('REPLACE', r.label, `only ${Math.round(r.density * 100)}% of its albums came out in the last 30 days — a stale list, not a new-release list`)
   } else if (historyDays >= 14 && r.w30.measured >= 10 && r.w30.surfaced === 0) {
-    rec('REMOVE', r.label, `nothing across ${r.w30.measured} measured days, though the feed is alive (newest ${r.live.newest})`)
+    rec('CHECK', r.label, `nothing across ${r.w30.measured} measured days, though the feed is alive (newest ${r.live.newest})`, 'thin')
   } else if (r.w30.surfaced === 0 && historyDays < 14) {
     rec('CHECK', r.label, 'no yield yet, but history is too short to judge', 'thin')
   }
@@ -398,10 +403,14 @@ for (const r of rows) {
 
 if (DISCOVER) {
   say('\n=== CANDIDATES ===')
-  // The comparison set is EVERYTHING already configured — countries, playlists,
-  // genre feeds and the US chart. Comparing only against other countries' purchase
-  // charts overstates every candidate, because a release the pipeline already finds
-  // via a playlist would still count as "new".
+  const coverageComplete = rows.every((r) => r.live.ok)
+  out.coverageComplete = coverageComplete
+  if (!coverageComplete) warn('  Configured source probes were incomplete; additive counts are provisional.')
+  const recommendAddition = (target, why) => rec(
+    coverageComplete ? 'ADD' : 'CHECK', target,
+    why + (coverageComplete ? '' : '. Existing source coverage is incomplete; recheck before adding.'),
+    coverageComplete ? 'firm' : 'thin',
+  )
   const covered = new Set(carriers.keys())
   const coverOf = (ids) => {
     let best = null
@@ -434,17 +443,19 @@ if (DISCOVER) {
     for (const g of gs) mix[g] = (mix[g] ?? 0) + 1
     s.mix = Object.entries(mix).sort((a, b) => b[1] - a[1])
     s.skew = gs.length ? gs.filter((g) => heavy.has(g)).length / gs.length : 0
+    s.lookupFailed = s.addIds.some((id) => lookupFailures.has(String(id)))
   }
 
-  say(`  storefronts you do NOT scan, ranked by what they would add over everything already configured (${OVERLAP_DAYS}d):`)
+  say(`  storefronts you do NOT scan, ranked by what they would add over measured sources (${OVERLAP_DAYS}d):`)
   for (const s of shortSf) {
     const mixTxt = s.mix?.length ? s.mix.slice(0, 3).map(([g, n]) => `${g} ${n}`).join(', ') : 'genres unresolved'
     say(`    ${pad(s.name, 18)}${lpad(s.recent, 4)} recent${lpad(s.additive, 5)} additive   ${mixTxt}${s.skew > 0.6 ? '   [deepens existing skew]' : ''}`)
   }
   for (const s of shortSf) {
     if (s.additive < 8) continue
+    if (s.lookupFailed) { rec('CHECK', `country ${s.name} (${s.sf})`, 'album lookups failed, so the genre mix is unmeasured', 'thin'); continue }
     if (s.skew > 0.6) { rec('CHECK', `country ${s.name} (${s.sf})`, `${s.additive} additive in ${OVERLAP_DAYS}d, but ${Math.round(s.skew * 100)}% of it is genres already dominating the page — volume without balance`, 'thin'); continue }
-    rec('ADD', `country ${s.name} (${s.sf})`, `${s.additive} releases in ${OVERLAP_DAYS}d that nothing already configured surfaced` + (s.mix?.length ? ` (${s.mix.slice(0, 2).map(([g, n]) => `${g} ${n}`).join(', ')})` : ''))
+    recommendAddition(`country ${s.name} (${s.sf})`, `${s.additive} releases in ${OVERLAP_DAYS}d absent from measured sources` + (s.mix?.length ? ` (${s.mix.slice(0, 2).map(([g, n]) => `${g} ${n}`).join(', ')})` : ''))
   }
 
   const alive = sfScores.filter((s) => s.ok && s.entries > 0)
@@ -480,13 +491,12 @@ if (DISCOVER) {
         mine.push(url)
       }
     } catch {
-      searchFailed.push(g) // a failed search is not "this genre has no playlists"
+      searchFailed.push(g)
     }
     perGenre.set(g, mine)
     await sleep(200)
   }
   if (searchFailed.length) warn(`\n  ${searchFailed.length} genre search(es) failed, so their candidates are unmeasured: ${searchFailed.join(', ')}`)
-  // Round-robin keeps the limited sample from favoring the first genre.
   const CAP = 12
   const shortlist = []
   for (let round = 0; shortlist.length < CAP; round++) {
@@ -507,7 +517,7 @@ if (DISCOVER) {
     try {
       const ids = (await scrapePlaylistAlbumIds(url)).albumIds
       if (ids.length) candPages.push({ url, name, ids })
-      else scrapeFailed.push(name) // reachable but no ids parsed: shape changed
+      else scrapeFailed.push(name)
     } catch {
       scrapeFailed.push(name)
     }
@@ -517,6 +527,7 @@ if (DISCOVER) {
   const plScores = []
   for (const { url, name, ids } of candPages) {
     const hits = await lookup(ids)
+    if (ids.some((id) => lookupFailures.has(String(id)))) { warn(`  ${name}: album lookups failed, so this candidate is unscored`); continue }
     if (!hits.length) continue
     const d30 = hits.filter((a) => withinDays(a.releaseDate, 30)).length
     const recent = hits.filter((a) => withinDays(a.releaseDate, OVERLAP_DAYS)).map((a) => String(a.collectionId))
@@ -535,24 +546,24 @@ if (DISCOVER) {
       rec('CHECK', `playlist "${p.name}"`, `${p.additive} additive and ${Math.round(p.density * 100)}% fresh, but ${Math.round(p.skew * 100)}% of what it adds is genres already dominating the page — ${p.url}`, 'thin')
       continue
     }
-    rec('ADD', `playlist "${p.name}"`, `${p.additive} of its ${p.recent} recent releases are new to you, ${Math.round(p.density * 100)}% of the list is from the last 30 days — ${p.url}`)
+    recommendAddition(`playlist "${p.name}"`, `${p.additive} of its ${p.recent} recent releases are absent from measured sources, ${Math.round(p.density * 100)}% of the list is from the last 30 days — ${p.url}`)
   }
   out.sections.candidatePlaylists = plScores
 
   if (byId && ancestors) {
-    const scanned = new Map(GENRE_FEEDS.map((f) => [f.tag, f.genreId]))
-    const missing = followedGenres.filter((g) => !scanned.has(g))
+    const scanned = new Map(GENRE_FEEDS.map((f) => [f.tag.toLowerCase(), f.genreId]))
+    const missing = followedGenres.filter((g) => !scanned.has(g.toLowerCase()))
     const idFor = new Map([...byId.entries()].map(([id, n]) => [n.toLowerCase(), id]))
     say('\n  followed genres with no dedicated US feed:')
     for (const g of missing) {
       const id = idFor.get(g.toLowerCase())
       if (!id) { say(`    ${pad(g, 20)} no id in Apple's tree`); continue }
-      const parentTag = (ancestors.get(g) ?? []).find((a) => scanned.has(a))
+      const parentTag = (ancestors.get(byId.get(id)) ?? []).find((a) => scanned.has(a.toLowerCase()))
       const p = await probeRss([{ url: genreFeedUrl('topsongs', id), ft: 'topsongs' }])
       if (!p.ok || p.entries <= 20) { say(`    ${pad(g, 20)} id ${pad(id, 8)} feed thin or dead`); continue }
       const addl = [...p.idSet].filter((i) => !covered.has(i)).length
       say(`    ${pad(g, 20)} id ${pad(id, 8)} ${lpad(p.entries, 3)} entries  newest ${p.newest}  ${lpad(p.idSet.size, 2)} ids/${OVERLAP_DAYS}d  ${addl} additive${parentTag ? `   (parent ${parentTag} already scanned)` : '   (no parent scanned)'}`)
-      if (addl >= 3) rec('ADD', `genre feed ${id} (${g})`, `${addl} of its ${p.idSet.size} recent releases are new to you${parentTag ? `, despite ${parentTag} already being scanned` : ' and no parent feed covers it'}`)
+      if (addl >= 3) recommendAddition(`genre feed ${id} (${g})`, `${addl} of its ${p.idSet.size} recent releases are absent from measured sources${parentTag ? `, despite ${parentTag} already being scanned` : ' and no parent feed covers it'}`)
       else if (parentTag) say(`      not recommended: ${parentTag} already carries all but ${addl}`)
     }
   }

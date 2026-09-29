@@ -29,7 +29,7 @@ exec /usr/bin/git "$@"
   writeFileSync(join(root, 'scripts/fetch-releases.mjs'), `import {writeFileSync} from 'node:fs';
 if (process.env.NEW_DATA !== '0') writeFileSync('docs/data/releases.json', '{"test":true}');
 process.exit(Number(process.env.FETCH_STATUS ?? 0));`)
-  return { root, update: (env = {}) => run(root, 'bash', ['scripts/update.sh'], { PATH: join(root, 'bin') + ':' + process.env.PATH, ...env }) }
+  return { root, update: (env = {}, args = []) => run(root, 'bash', ['scripts/update.sh', ...args], { PATH: join(root, 'bin') + ':' + process.env.PATH, ...env }) }
 }
 
 for (const newData of ['1', '0']) test('publishing holds unrelated history, new data ' + newData, (t) => {
@@ -169,4 +169,91 @@ test('kernel lock recovers after abrupt owner termination; audit respects active
   child.kill('SIGKILL'); await once(child, 'exit')
   const recovered = run(root, process.execPath, ['--input-type=module', '-e', "import {holdRunLock} from './scripts/run-lock.mjs'; holdRunLock('fetch')"])
   assert.equal(recovered.status, 0, recovered.stderr)
+})
+
+test('scheduled refresh repairs invalid timestamps and skips a fresh valid feed', (t) => {
+  const { root, update } = publishFixture(t)
+  for (const [fetched_at, stale] of [[undefined, true], [null, true], ['invalid', true], [-1, true], [Number.MAX_SAFE_INTEGER, true], [Date.now(), false]]) {
+    writeFileSync(join(root, 'docs/data/releases.json'), JSON.stringify({ fetched_at }))
+    const result = update({}, ['--if-stale'])
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(result.stdout.includes('Fetching new releases'), stale)
+  }
+})
+
+for (const source of ['genre singleton', 'chart duplicate']) test('discovery preserves valid genres from ' + source, (t) => {
+  const root = fixture(t)
+  const date = new Date().toISOString().slice(0, 10)
+  writeFileSync(join(root, 'config/preferences.json'), JSON.stringify({ artists: { followed: [], blocked: [] }, genres: { followed: ['Pop'] }, discovery: { countries: [], playlists: [] } }))
+  writeFileSync(join(root, 'offline.mjs'), `const timer=globalThis.setTimeout;globalThis.setTimeout=(fn,ms,...args)=>timer(fn,Math.min(ms,1),...args);
+const collection={wrapperType:'collection',collectionId:101,collectionName:'Fixture',artistName:'Artist',artistId:10,releaseDate:'${date}',primaryGenreName:'Pop',trackCount:2};
+globalThis.fetch=async(url)=>new Response(JSON.stringify(url.includes('/lookup?')
+  ? {results:'${source}'==='chart duplicate'?[{...collection,primaryGenreName:null},{...collection,collectionId:102}]:[collection]}
+  : {feed:'${source}'==='genre singleton'&&url.includes('/topalbums/genre=14/') ? {entry:{id:{attributes:{'im:id':'101'}},'im:releaseDate':{label:'${date}'}}} : '${source}'==='chart duplicate'&&url.includes('/most-played/50/albums')?{results:[{id:'101',releaseDate:'${date}',genres:[]}]}:{entry:[],results:[]}}));`)
+  const result = run(root, process.execPath, ['--import', './offline.mjs', 'scripts/fetch-releases.mjs'])
+  assert.equal(result.status, 0, result.stdout + result.stderr)
+  const feed = JSON.parse(readFileSync(join(root, 'docs/data/releases.json')))
+  assert.deepEqual(feed.releases.map((r) => r.title), ['Fixture'])
+  assert.equal(feed.releases[0].genre, 'Pop')
+  const history = JSON.parse(readFileSync(join(root, 'config/source-activity.json')))
+  assert.equal(history.sources[source === 'genre singleton' ? 'genre:Pop' : 'chart:us'].at(-1)[0], 1)
+})
+
+for (const lookup of ['failed', 'recovered', 'late recovery', 'replacement', 'success']) test('audit keeps incomplete evidence and combined removal advice safe: ' + lookup, (t) => {
+  const root = fixture(t)
+  const playlists = ['First', 'Second'].map((name) => ({ name, url: 'https://music.apple.com/us/playlist/' + name.toLowerCase() + '/pl.fixture' }))
+  writeFileSync(join(root, 'config/preferences.json'), JSON.stringify({ artists: { followed: [{ id: 7, name: 'Unrated' }], blocked: [] }, genres: { followed: ['pOp'] }, discovery: { countries: [], playlists } }))
+  writeFileSync(join(root, 'docs/data/releases.json'), JSON.stringify({ releases: [] }))
+  const days = Array.from({ length: 14 }, (_, i) => new Date(Date.now() - (13 - i) * 86400e3).toISOString().slice(0, 10))
+  writeFileSync(join(root, 'config/source-activity.json'), JSON.stringify({ days, sources: Object.fromEntries(playlists.map((p) => ['playlist:' + p.name, days.map(() => [0, 0])])) }))
+  writeFileSync(join(root, 'offline.mjs'), `import { GENRE_OPTIONS } from './scripts/genre-options.mjs';
+const timer=globalThis.setTimeout;globalThis.setTimeout=(fn,ms,...args)=>timer(fn,Math.min(ms,1),...args);
+let lookups=0;
+globalThis.fetch=async(url)=>{
+  let body;
+  if(url.includes('/ws/genres')) body={'34':{name:'Music',subgenres:Object.fromEntries(GENRE_OPTIONS.map((name,i)=>[i+100,{name}]))}};
+  else if(url.includes('/search?')) return new Response('https://music.apple.com/us/playlist/candidate/pl.candidate');
+  else if(url.includes('/playlist/')) return new Response('<script type="application/json" id="serialized-server-data">'+JSON.stringify(Array.from({length:'${lookup}'==='replacement'&&url.includes('/second/')?26:21},(_,i)=>({artistName:'Artist',contentDescriptor:{identifiers:{storeAdamID:String(i+1000)}}})))+'</script>');
+  else if(url.includes('/rss/topalbums/')&&!url.includes('/genre=')) body={feed:{entry:Array.from({length:8},(_,i)=>({id:{attributes:{'im:id':String(i+2000)}},'im:releaseDate':{label:new Date().toISOString()}}))}};
+  else if(url.includes('entity=album')) body={results:[{wrapperType:'collection',collectionId:9}]};
+  else if(url.includes('/lookup?')) {
+    lookups++;
+    if('${lookup}'==='failed'||('${lookup}'==='recovered'&&lookups===1)||('${lookup}'==='late recovery'&&lookups<=3))throw new Error('fixture lookup outage');
+    body={results:new URL(url).searchParams.get('id').split(',').map((id,i)=>({wrapperType:'collection',collectionId:Number(id),releaseDate:new Date(Date.now()-(i<5||'${lookup}'==='late recovery'?0:60)*86400e3).toISOString(),primaryGenreName:'Pop'}))};
+  } else body={feed:{entry:[],results:[]}};
+  return new Response(JSON.stringify(body));
+};`)
+  const result = run(root, process.execPath, ['--import', './offline.mjs', 'scripts/audit-sources.mjs', '--json', ...(['failed', 'late recovery'].includes(lookup) ? [] : ['--no-discover'])])
+  assert.equal(result.status, 0, result.stderr)
+  const report = JSON.parse(result.stdout)
+  assert.deepEqual(report.sections.artists, [])
+  assert.ok(report.warnings.some((w) => w.includes('this batch is unrated')))
+  assert.equal(report.recommend.some((r) => r.target.includes('Unrated') || r.target === 'genre "pOp" (followed)'), false)
+  const rows = report.sections.sources.filter((r) => r.kind === 'playlist')
+  const advice = report.recommend.filter((r) => ['First', 'Second'].includes(r.target))
+  assert.equal(rows.length, 2)
+  assert.equal(advice.length, 2)
+  if (['failed', 'late recovery'].includes(lookup)) {
+    assert.ok(rows.every((r) => !r.live.ok && r.density == null))
+    assert.ok(advice.every((r) => r.action === 'CHECK'))
+    assert.equal(report.coverageComplete, false)
+    assert.ok(report.warnings.some((w) => w.includes('additive counts are provisional')))
+    if (lookup === 'failed') {
+      assert.ok(report.sections.candidateCountries.some((r) => r.lookupFailed))
+      assert.deepEqual(report.sections.candidatePlaylists, [])
+    } else {
+      assert.equal(report.sections.candidatePlaylists.length, 1)
+      assert.ok(report.recommend.some((r) => r.action === 'CHECK' && r.target === 'playlist "Candidate"' && r.why.includes('coverage is incomplete')))
+    }
+    assert.equal(report.recommend.some((r) => r.action === 'ADD' && /^(country|playlist) /.test(r.target)), false)
+  } else {
+    assert.ok(rows.every((r) => r.live.ok && r.liveIds === 5))
+    assert.equal(advice.filter((r) => r.action === 'REMOVE').length, 1)
+    assert.ok(advice.some((r) => r.action === 'CHECK'))
+    if (lookup === 'replacement') assert.equal(advice.find((r) => r.action === 'REMOVE').target, 'Second')
+  }
+  if (lookup === 'success') {
+    const genres = run(root, process.execPath, ['--import', './offline.mjs', 'scripts/check-genre-coverage.mjs'])
+    assert.equal(genres.status, 0, genres.stdout + genres.stderr)
+  }
 })

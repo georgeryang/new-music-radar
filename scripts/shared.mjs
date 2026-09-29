@@ -14,9 +14,7 @@ export const SOURCE_THIN_DAYS = 7
 
 export const UA = 'new-music-radar/1.0'
 
-// Every window rule is phrased in days since a date — one definition so the
-// tolerances can't drift apart. The grace absorbs the timezone spread between
-// Apple's dates and ours; the lower bound excludes pre-orders.
+// Half a day absorbs the timezone spread between Apple's dates and ours.
 const GRACE_DAYS = 0.5
 export const daysSince = (date) => (Date.now() - Date.parse(date)) / 86400e3
 export const withinDays = (date, days) => {
@@ -53,7 +51,6 @@ export const ACTIVITY_PATH = new URL('../config/artist-activity.json', import.me
 export const GENRE_ACTIVITY_PATH = new URL('../config/genre-activity.json', import.meta.url)
 export const SOURCE_ACTIVITY_PATH = new URL('../config/source-activity.json', import.meta.url)
 
-// Not /tmp (world-writable — another user could plant a pidfile and block refreshes).
 export const REFRESH_LOG = `${process.env.HOME}/Library/Logs/new-music-radar.log`
 
 export const sourceTag = (kind, key) => `${kind}:${key}`
@@ -96,8 +93,6 @@ export const GENRE_FEEDS = [
   { genreId: 27, tag: 'J-Pop' },
   { genreId: 1203, tag: 'African' },
   { genreId: 1253, tag: 'Mandopop' },
-  // Dance and Singer/Songwriter are the only followed genres Apple files at top
-  // level with no umbrella above them, so nothing else reaches either.
   { genreId: 17, tag: 'Dance' },
   // topalbums for these two is abandoned: 1251's newest is months old, 18's
   // returns 6 entries with nothing since April.

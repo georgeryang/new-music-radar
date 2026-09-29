@@ -31,7 +31,7 @@ if [ "${1:-}" = "--if-stale" ]; then
     if (slot > kstNow) slot -= DAY;
     let fetchedAt = 0;
     try { fetchedAt = JSON.parse(readFileSync(DATA_PATH, "utf8")).fetched_at } catch {}
-    process.stdout.write(fetchedAt < slot - KST ? "1" : "0");
+    process.stdout.write(!Number.isFinite(fetchedAt) || fetchedAt <= 0 || fetchedAt > Date.now() || fetchedAt < slot - KST ? "1" : "0");
   ' 2>&1)"
   if [ "$STALE" != "0" ] && [ "$STALE" != "1" ]; then
     # Fail open (a missed night costs more than an extra fetch), but name the real

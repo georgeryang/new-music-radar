@@ -546,8 +546,11 @@ function renderAll() {
     chips.className = 'mb-2 flex flex-wrap gap-1.5'
     for (const entry of entries) {
       const chip = document.createElement('span')
-      chip.className = 'inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-[3px] text-sm'
-      chip.appendChild(document.createTextNode(displayOf(s, entry)))
+      chip.className = 'inline-flex max-w-full items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-[3px] text-sm'
+      const label = document.createElement('span')
+      label.className = 'min-w-0 [overflow-wrap:anywhere]'
+      label.textContent = displayOf(s, entry)
+      chip.appendChild(label)
       if (s.kind === 'country') {
         const code = document.createElement('span')
         code.className = 'text-xs text-muted-foreground'
@@ -573,7 +576,7 @@ function renderAll() {
       }
       const x = document.createElement('button')
       // size-6 provides a 24x24 target for the destructive control.
-      x.className = 'inline-flex size-6 cursor-pointer items-center justify-center -my-1 -mr-1.5 text-sm leading-none text-muted-foreground hover:text-destructive'
+      x.className = 'inline-flex size-6 shrink-0 cursor-pointer items-center justify-center -my-1 -mr-1.5 text-sm leading-none text-muted-foreground hover:text-destructive'
       x.textContent = '×'
       x.title = 'Remove'
       x.setAttribute('aria-label', 'Remove ' + displayOf(s, entry))
@@ -1010,12 +1013,13 @@ fetch('/api/prefs', { signal: AbortSignal.timeout(15_000) }).then(async (r) => {
   if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || 'HTTP ' + r.status)
   return r.json()
 }).then((p) => {
+  if (stopped) return
   applyPrefs(p)
   poll()
 }).catch((err) => {
+  if (stopped) return
   // Build with DOM nodes, not innerHTML: the message carries the parser's text.
   const box = document.createElement('div')
-  // Announce this error inserted after first paint.
   box.setAttribute('role', 'alert')
   box.className = 'py-4 text-sm text-destructive'
   const p1 = document.createElement('p')
