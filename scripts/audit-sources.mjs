@@ -1,11 +1,6 @@
 #!/usr/bin/env node
-// Grade every source the preferences editor exposes, and suggest replacements.
-// Read-only: it never edits config, it prints a report for a person to act on.
-//
-// The two rules it is built around are printed with the recommendations at the
-// end; skills/audit-radar-sources/SKILL.md and sourceWindow in shared.mjs own them.
 
-
+import { holdRunLock } from './run-lock.mjs'
 import { readFileSync } from 'node:fs'
 import { STOREFRONTS, STREAMING_ONLY, purchaseFeedsOf } from './storefronts.mjs'
 import { GENRE_OPTIONS } from './genre-options.mjs'
@@ -19,7 +14,7 @@ import {
 import {
   BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, LOOKUP_CHUNK, PACED_CALL_S,
   WINDOW_DAYS,
-  PREFS_PATH, REFRESH_LOG, REFRESH_PIDFILE, SOURCE_ACTIVITY_PATH, SOURCE_CHIP_DAYS,
+  PREFS_PATH, REFRESH_LOG, SOURCE_ACTIVITY_PATH, SOURCE_CHIP_DAYS,
   SOURCE_THIN_DAYS, daysSince, feedTypesOf, sourceTag, sourceWindow, windowIndices,
   withinDays,
 } from './shared.mjs'
@@ -39,15 +34,7 @@ const say = (...a) => { if (!AS_JSON) console.log(...a) }
 const warnings = []
 const warn = (m) => { warnings.push(m.trim()); say(m) }
 
-// A fetch competing with a refresh would fight it for the same rate limit and
-// read its half-written output. prefs-server owns this pidfile, so this catches
-// an editor Save & refresh; update.sh writes none, so the launchd nightly run is
-// NOT caught here. EPERM means the pid was recycled (prefs-server clears it on
-// that reading), so it is not a live refresh.
-try {
-  const pid = Number(readFileSync(REFRESH_PIDFILE, 'utf8').trim())
-  if (pid) { process.kill(pid, 0); die(`A refresh is running (pid ${pid}). Let it finish, then run this again.`) }
-} catch {}
+holdRunLock('audit')
 
 // A missing file is a real "not yet"; a corrupt one is not. Falling back silently
 // would report "0 day(s) of history" or "admitted: none" with no cause (rule 2).
@@ -73,17 +60,11 @@ const followedSet = new Set(followedGenres.map((g) => g.toLowerCase()))
 const countries = PREFS.discovery?.countries ?? []
 const playlists = PREFS.discovery?.playlists ?? []
 
-// What the current file admitted through discovery; followed artists excluded for
-// the reason fetch-releases.mjs gives where it writes the tally.
 const admitted = {}
 for (const r of FEED.releases ?? []) if (!r.followed && r.genre) admitted[r.genre] = (admitted[r.genre] ?? 0) + 1
 
-// ---------- history windows ----------
-
-// Index sets for the two windows every source is scored against.
 const IDX7 = windowIndices(HIST, 7)
 const IDX30 = windowIndices(HIST, SOURCE_CHIP_DAYS)
-// consecutive measured days with zero yield, most recent first; nulls skipped
 function zeroStreak(tag) {
   const col = HIST.sources[tag] ?? []
   let n = 0
@@ -101,8 +82,6 @@ const lastYield = (tag) => {
 }
 const historyDays = HIST.days.length
 const THIN = historyDays < SOURCE_THIN_DAYS
-
-// ---------- live probes ----------
 
 // Liveness is deliberately separate from yield: entries answers "is this feed
 // alive at all", newest answers "does it carry anything recent".
@@ -123,9 +102,6 @@ async function mtLiveness(url) {
   } catch (e) { return { ok: false, err: errDetail(e) } }
 }
 
-// A source's purchase feeds rolled into one set of numbers. Every RSS probe in the
-// report goes through this, so the day thresholds cannot differ between the
-// configured rows and the candidates.
 async function probeRss(feeds) {
   const idSet = new Set()
   let entries = 0, newest = null, fresh = 0, ok = true, err = null
@@ -164,7 +140,6 @@ async function lookup(ids) {
   return uniq.map((i) => lookupCache.get(i)).filter(Boolean)
 }
 
-// Estimated paced-lookup seconds this source costs per run.
 const costS = (ids) => (ids / LOOKUP_CHUNK) * PACED_CALL_S
 
 const out = { generated: new Date().toISOString(), historyDays, sections: {}, recommend: [] }
@@ -173,8 +148,6 @@ const rec = (action, target, why, confidence = 'firm') => out.recommend.push({ a
 say(`Source audit — ${historyDays} day(s) of recorded history` + (THIN ? '  (THIN: windows below lean on live probes)' : ''))
 if (DISCOVER) say('Discovery on; this takes a few minutes. --no-discover for the fast pass.\n')
 else say('')
-
-// ---------- artists ----------
 
 say('=== FOLLOWED ARTISTS ===')
 const artists = (PREFS.artists?.followed ?? []).filter((a) => a?.id)
@@ -237,8 +210,6 @@ const artistRows = []
   out.sections.artists = artistRows
 }
 
-// ---------- genres ----------
-
 say('\n=== FOLLOWED GENRES ===')
 let ancestors = null, byId = null
 try {
@@ -248,7 +219,6 @@ try {
   for (const [names, label] of [[GENRE_OPTIONS, 'picker'], [followedGenres, 'followed']]) {
     for (const n of names) if (!ancestors.has(n)) rec('FIX', `genre "${n}" (${label})`, 'no longer exists in Apple\'s tree — renamed, and exact matching means it now matches nothing')
   }
-  // a GENRE_FEEDS id whose tag disagrees with Apple's own name for it
   for (const f of GENRE_FEEDS) {
     const real = byId.get(String(f.genreId))
     if (real && real !== f.tag) rec('FIX', `genre feed ${f.genreId}`, `tagged "${f.tag}" but Apple calls id ${f.genreId} "${real}"`)
@@ -260,7 +230,6 @@ try {
   const cold = followedGenres.filter((g) => !Object.keys(admitted).some((k) => k.toLowerCase() === g.toLowerCase()))
   say(`  admitted in the current file: ${Object.entries(admitted).sort((a, b) => b[1] - a[1]).map(([g, n]) => `${g} ${n}`).join(', ') || 'none'}`)
   if (cold.length) say(`  no releases in the current file: ${cold.join(', ')}  (one day's data — not a prune signal)`)
-  // leaf genres the filter is costing you, the check-genres logic
   if (ancestors) {
     const leaves = [], unrelated = []
     for (const [g, d] of Object.entries(GENRE_ACT)) {
@@ -277,11 +246,6 @@ try {
   out.sections.genres = { admitted, cold }
 }
 
-// ---------- configured sources ----------
-
-// Every source keeps the set of collection ids it carried in the last 14 days.
-// Overlap is computed from these sets, so redundancy is answerable on day one —
-// history only tells you about yield, and takes a fortnight to say anything.
 const OVERLAP_DAYS = 14
 // Redundancy needs a real sample. A storefront with one recent release whose single
 // id happens to appear elsewhere is QUIET, not redundant. Below this, say so and move on.
@@ -338,9 +302,6 @@ for (const sf of countries) {
     live: { ok, entries, newest, err }, idSet, cost: costS(fresh),
   })
 }
-// Scraped first, then ONE pooled lookup: a per-playlist call each burned a paced
-// slot on a partial chunk, where the union of every list fills whole ones. The
-// per-playlist calls below then resolve from cache, keeping their own rows.
 const plPages = []
 for (const pl of playlists) {
   progress(`playlist ${pl.name}`)
@@ -367,7 +328,6 @@ for (const { pl, ids, err } of plPages) {
 // count as cover — otherwise a source that merely failed to load would make its
 // neighbours look redundant, which is how a probe failure turns into bad advice.
 const measured = rows.filter((r) => r.live.ok)
-// How many measured sources carry each id, so a row's uniqueness reads off it.
 const carriers = new Map()
 for (const r of measured) for (const i of r.idSet) carriers.set(i, (carriers.get(i) ?? 0) + 1)
 for (const r of rows) {
@@ -402,8 +362,6 @@ for (const r of rows) {
 say('  14d/uniq are live overlap and work today; 7d/30d/u30 need ~2 weeks of history.')
 out.sections.sources = rows.map(({ idSet, ...r }) => ({ ...r, liveIds: idSet.size }))
 
-// Verdicts. Redundancy is judged live; yield waits for history. The two are never
-// mixed, because a source can be non-redundant and still not worth its cost.
 for (const r of rows) {
   if (!r.live.ok) { rec('CHECK', r.label, `liveness probe failed (${r.live.err}) — unknown, not dead; re-run before concluding anything`, 'thin'); continue }
   if (r.live.entries === 0) {
@@ -421,8 +379,6 @@ for (const r of rows) {
   }
 }
 
-// ---------- blocked ----------
-
 {
   const blocked = PREFS.artists?.blocked ?? []
   let fired = null // null, not 0: an unreadable log has measured nothing
@@ -439,8 +395,6 @@ for (const r of rows) {
   say(`\n=== BLOCKED ARTISTS ===\n  ${blocked.length} blocked, ${firing}. Blocks are a pure filter and cost no fetch time, so a quiet one is not waste.`)
   out.sections.blocked = { count: blocked.length, fired }
 }
-
-// ---------- candidates ----------
 
 if (DISCOVER) {
   say('\n=== CANDIDATES ===')
@@ -468,7 +422,6 @@ if (DISCOVER) {
     sfScores.push({ sf, name: STOREFRONTS[sf], ok: p.ok, entries: p.entries, recent: p.idSet.size, additive: additive.length, ids: p.idSet, addIds: additive })
   }
 
-  // Genre mix of what a candidate would ADD, against what the file already carries.
   const heavy = new Set(Object.entries(admitted).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([g]) => g))
   const ranked = sfScores.filter((s) => s.ok).sort((a, b) => b.additive - a.additive)
   const TOP = 6
@@ -494,8 +447,6 @@ if (DISCOVER) {
     rec('ADD', `country ${s.name} (${s.sf})`, `${s.additive} releases in ${OVERLAP_DAYS}d that nothing already configured surfaced` + (s.mix?.length ? ` (${s.mix.slice(0, 2).map(([g, n]) => `${g} ${n}`).join(', ')})` : ''))
   }
 
-  // Picker pruning, the other half of the same measurement: an option that would
-  // add nothing can never be worth choosing. Same ok-and-non-empty gate as measured.
   const alive = sfScores.filter((s) => s.ok && s.entries > 0)
   const deadWeight = alive.filter((s) => s.recent >= MIN_REDUNDANCY_SAMPLE && s.additive === 0)
   const tooQuiet = alive.filter((s) => s.recent > 0 && s.recent < MIN_REDUNDANCY_SAMPLE && s.additive === 0)
@@ -512,7 +463,6 @@ if (DISCOVER) {
   if (unknown.length) warn(`\n  ${unknown.length} storefront(s) unmeasured this run (probe failed or empty): ${unknown.map((s) => s.sf).join(', ')} — unknown, not redundant`)
   out.sections.candidateCountries = sfScores.map(({ ids, addIds, ...r }) => r)
 
-  // candidate playlists, discovered from Apple's own search for your genres
   const configuredUrls = new Set(playlists.map((p) => p.url))
   const SKIP = /essentials|set-list|hits-\d|karaoke|love-songs|throwback|best-of|rewind|videos|top-100|top-25/
   const perGenre = new Map()
@@ -536,9 +486,7 @@ if (DISCOVER) {
     await sleep(200)
   }
   if (searchFailed.length) warn(`\n  ${searchFailed.length} genre search(es) failed, so their candidates are unmeasured: ${searchFailed.join(', ')}`)
-  // Bounded on purpose, and said out loud: scoring each one costs paced lookups.
-  // Round-robin across genres rather than taking the first N found — searching
-  // genres in order and slicing meant every candidate came from the first genre.
+  // Round-robin keeps the limited sample from favoring the first genre.
   const CAP = 12
   const shortlist = []
   for (let round = 0; shortlist.length < CAP; round++) {
@@ -553,7 +501,6 @@ if (DISCOVER) {
     if (!added) break
   }
   say(`\n  candidate playlists: ${found.size} found, scoring ${shortlist.length}${found.size > CAP ? ` (capped at ${CAP}; the rest are unscored)` : ''}`)
-  // Same pooling as the configured playlists: scrape all, then one lookup.
   const candPages = []
   const scrapeFailed = []
   for (const [url, name] of shortlist) {
@@ -582,8 +529,6 @@ if (DISCOVER) {
   for (const p of plScores) {
     say(`    ${pad(p.name.slice(0, 24), 26)}${lpad(p.albums, 4)} albums  ${lpad(Math.round(p.density * 100) + '%', 5)} fresh(30d)${lpad(p.additive, 5)} additive  ${p.cost.toFixed(1)}s`)
   }
-  // Same gate as everything else, storefronts included: freshness alone is not
-  // enough, and volume that only deepens the dominant genres is not an improvement.
   for (const p of plScores.slice(0, 3)) {
     if (!(p.density > 0.4 && p.additive >= 3)) continue
     if (p.skew > 0.6) {
@@ -594,8 +539,6 @@ if (DISCOVER) {
   }
   out.sections.candidatePlaylists = plScores
 
-  // followed genres with no US feed pointed at them, checked against the parent
-  // that IS scanned — a leaf under a scanned umbrella typically adds ~1 a fortnight
   if (byId && ancestors) {
     const scanned = new Map(GENRE_FEEDS.map((f) => [f.tag, f.genreId]))
     const missing = followedGenres.filter((g) => !scanned.has(g))
@@ -614,8 +557,6 @@ if (DISCOVER) {
     }
   }
 }
-
-// ---------- recommendations ----------
 
 say('\n=== RECOMMENDATIONS ===')
 if (!out.recommend.length) say('  Nothing to change.')

@@ -1,32 +1,24 @@
 #!/usr/bin/env node
-// Local preferences editor for config/preferences.json (the file that drives
-// the nightly fetch). Zero deps; launched by prefs.command.
-//
-// Loopback-only, with the Host/Origin gate enforced at the routes below. Writes
-// exactly one hardcoded path, preserving keys the UI doesn't manage (_comment).
-// The Apple Music artist search is proxied so the browser never talks to a third
-// party. Also serves the built site from docs/ at /new-music-radar/ ("Open radar").
 
 import http from 'node:http'
-import { closeSync, fstatSync, openSync, readFileSync, readSync, readdirSync, realpathSync, unlinkSync, writeFileSync } from 'node:fs'
-import { spawn } from 'node:child_process'
+import { closeSync, fstatSync, openSync, readFileSync, readSync, readdirSync, realpathSync } from 'node:fs'
+import { fork } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { join, normalize } from 'node:path'
 import { GENRE_OPTIONS } from './genre-options.mjs'
 import { STOREFRONTS, STREAMING_ONLY } from './storefronts.mjs'
-import { ACTIVITY_PATH, DATA_PATH, GENRE_FEEDS, PREFS_PATH, REFRESH_LOG, REFRESH_PIDFILE, SOURCE_ACTIVITY_PATH, SOURCE_CHIP_DAYS, SOURCE_THIN_DAYS, UA, WINDOW_DAYS, feedTypesOf, sourceTag, sourceWindow, windowIndices, writeFileAtomic } from './shared.mjs'
+import { ACTIVITY_PATH, DATA_PATH, GENRE_FEEDS, PREFS_PATH, REFRESH_LOG, SOURCE_ACTIVITY_PATH, SOURCE_CHIP_DAYS, SOURCE_THIN_DAYS, WINDOW_DAYS, feedTypesOf, sourceTag, sourceWindow, windowIndices, writeFileAtomic } from './shared.mjs'
+
+import { acquireRunLock, BusyError, runOwner } from './run-lock.mjs'
+import { itunesJSON } from './apple-api.mjs'
 
 const PORT = 4747
 const REPO_DIR = fileURLToPath(new URL('..', import.meta.url))
-// "Open radar" serves docs/ from this server, so the local copy shows fresh
-// data the moment a refresh writes it, without waiting for the Pages deploy.
 const DOCS_DIR = fileURLToPath(new URL('../docs/', import.meta.url))
 // Symlink-resolved prefix (trailing / so a sibling like docs-evil/ can't pass
 // a startsWith check); the static handler re-checks realpaths against this.
 const DOCS_REAL = realpathSync(DOCS_DIR) + '/'
 const SITE_PATH = '/new-music-radar/'
-// 127.0.0.1 everywhere the URL is handed out (prefs.command, the app's gear
-// button, this): one spelling, and it matches the bind address exactly.
 const SITE_URL = `http://127.0.0.1:${PORT}${SITE_PATH}`
 
 // The editor shares the app's built stylesheet (@source in src/index.css
@@ -47,8 +39,6 @@ function cssHref() {
 
 const readPrefs = () => JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
-// Newest US release date per artist id, written by the nightly fetch —
-// drives the dormancy hints on followed-artist chips.
 const readActivity = () => {
   try {
     return JSON.parse(readFileSync(ACTIVITY_PATH, 'utf8'))
@@ -63,7 +53,7 @@ const readActivity = () => {
 
 const isName = (s) => typeof s === 'string' && s.trim().length > 0 && s.length < 200
 const isPinnedArtistList = (v) =>
-  Array.isArray(v) && v.every((e) => e && isName(e.name) && Number.isInteger(e.id))
+  Array.isArray(v) && v.every((e) => e && isName(e.name) && Number.isSafeInteger(e.id) && e.id > 0)
 const isStringList = (v) => Array.isArray(v) && v.every(isName)
 // Playlists are {name, url}; the fetch scrapes exactly these pages, so enforce it.
 // Interpolated into the client below, so this is the only definition: a looser
@@ -75,46 +65,47 @@ const isPlaylistList = (v) =>
   v.every(
     (e) => e && isName(e.name) && typeof e.url === 'string' && PLAYLIST_URL_RE.test(e.url)
   )
-// Countries are bare storefront codes; only verified-map codes accepted (the
-// fetcher builds chart URLs from these).
 const isCountryList = (v) =>
   Array.isArray(v) && v.every((c) => typeof c === 'string' && Object.hasOwn(STOREFRONTS, c))
 
-function refreshPid() {
-  let pid
-  try {
-    pid = parseInt(readFileSync(REFRESH_PIDFILE, 'utf8'), 10)
-    process.kill(pid, 0) // liveness probe, no signal sent
-    return pid
-  } catch (e) {
-    // Clear a pidfile whose process is gone. Without this a crashed refresh
-    // leaves the button disabled with no way out of the UI; ESRCH means the
-    // pid is dead, EPERM means it was recycled by another user's process.
-    if (pid !== undefined && (e.code === 'ESRCH' || e.code === 'EPERM')) {
-      try { unlinkSync(REFRESH_PIDFILE) } catch {}
-    }
-    return null
-  }
-}
-
-// Byte offset where the run we started begins. update.sh appends to a log
-// every run shares, with no per-run delimiter, so a tail can otherwise show the
-// previous run's outcome lines and the banner classifies the wrong run.
 let refreshLogStart = null
 
-function startRefresh() {
-  if (refreshPid()) return false
+async function startRefresh() {
+  if (runOwner()) return false
   const fd = openSync(REFRESH_LOG, 'a')
   refreshLogStart = fstatSync(fd).size
-  const child = spawn('bash', ['scripts/update.sh'], {
-    cwd: REPO_DIR,
-    detached: true,
-    stdio: ['ignore', fd, fd],
-  })
-  writeFileSync(REFRESH_PIDFILE, String(child.pid))
-  child.unref()
-  closeSync(fd)
-  return true
+  try {
+    const child = fork(new URL('./run-lock.mjs', import.meta.url), ['refresh', 'bash', 'scripts/update.sh'], {
+      cwd: REPO_DIR,
+      execArgv: [],
+      detached: true,
+      stdio: ['ignore', fd, fd, 'ipc'],
+    })
+    return await new Promise((resolve, reject) => {
+      child.once('error', reject)
+      child.once('exit', () => resolve(false))
+      child.once('message', () => {
+        child.disconnect()
+        child.unref()
+        resolve(true)
+      })
+    })
+  } finally { closeSync(fd) }
+}
+
+const searchCache = new Map()
+async function searchArtists(q) {
+  const cached = searchCache.get(q)
+  if (cached && cached.until > Date.now()) return cached.promise
+  const urlId = q.match(/^https:\/\/music\.apple\.com\/[a-z]{2}\/artist\/[^/]+\/(\d+)/)?.[1]
+  const id = urlId ?? (/^\d+$/.test(q) ? q : null)
+  const promise = itunesJSON(id
+    ? `https://itunes.apple.com/lookup?id=${id}&country=US`
+    : `https://itunes.apple.com/search?term=${encodeURIComponent(q)}&entity=musicArtist&country=US&limit=6`)
+  searchCache.set(q, { promise, until: Date.now() + 60_000 })
+  if (searchCache.size > 50) searchCache.delete(searchCache.keys().next().value)
+  promise.catch(() => { if (searchCache.get(q)?.promise === promise) searchCache.delete(q) })
+  return promise
 }
 
 // Tail only: update.sh lets the log reach 1MB. 8KB holds the lines the page
@@ -128,7 +119,7 @@ function logTail(lines, since = null) {
   try {
     fd = openSync(REFRESH_LOG, 'r')
     const { size } = fstatSync(fd)
-    const start = Math.max(since ?? 0, size - TAIL_BYTES, 0)
+    const start = Math.max(since !== null && since <= size ? since : 0, size - TAIL_BYTES, 0)
     const buf = Buffer.alloc(size - start)
     // use the byte count actually read: update.sh truncates this log in place,
     // so a poll landing mid-truncation would otherwise render the unwritten
@@ -180,8 +171,11 @@ const mimeOf = (file) => {
 const HOSTS = new Set([`127.0.0.1:${PORT}`, `localhost:${PORT}`])
 const ORIGINS = new Set([`http://127.0.0.1:${PORT}`, `http://localhost:${PORT}`])
 
-const server = http.createServer(async (req, res) => {
-  const url = new URL(req.url, `http://127.0.0.1:${PORT}`)
+export const server = http.createServer(async (req, res) => {
+  let url
+  try { url = new URL(req.url, `http://127.0.0.1:${PORT}`) } catch {
+    return json(res, 400, { error: 'invalid URL' })
+  }
   try {
     if (req.method === 'GET' && url.pathname === '/api/ping') {
       // The deployed site pings this to decide whether to show its gear button —
@@ -197,14 +191,10 @@ const server = http.createServer(async (req, res) => {
     }
     if (req.method === 'GET' && url.pathname === '/') {
       res.writeHead(200, { ...SECURITY_HEADERS, 'Content-Type': 'text/html; charset=utf-8' })
-      // No built CSS = unstyled but fully functional (every control is
-      // semantic HTML); only happens in a broken clone.
       const href = cssHref()
       res.end(PAGE.replace('<!--CSS-->', href ? `<link rel="stylesheet" href="${href}">` : ''))
     } else if (req.method === 'GET' && url.pathname === '/api/prefs') {
       const p = readPrefs()
-      // Only non-followed releases count, for the reason fetch-releases.mjs gives
-      // where it writes the tally. sourceCounts is keyed by sourceTag's output.
       const genreCounts = {}
       // An unreadable data file must report null, never zeros (see sourceWindow
       // in shared.mjs).
@@ -221,8 +211,6 @@ const server = http.createServer(async (req, res) => {
         countsAvailable = false
       }
 
-      // Source yield over a window, from the fetcher's rolling tally rather than
-      // the latest file. sourceWindow (shared with the audit) skips failed days.
       const sourceCounts = {}
       let historyDays = 0
       try {
@@ -253,8 +241,6 @@ const server = http.createServer(async (req, res) => {
         historyDays,
         countryNames: STOREFRONTS,
         streamingOnly: [...STREAMING_ONLY],
-        // the always-scanned sources, so the editor can audit them like the
-        // editable lists. Order matches the fetcher's.
         alwaysScanned: [
           { label: 'US most-played chart', tag: sourceTag('chart', 'us'), sub: 'albums' },
           ...GENRE_FEEDS.map((f) => ({
@@ -288,30 +274,19 @@ const server = http.createServer(async (req, res) => {
         !isPlaylistList(incoming?.discovery?.playlists) ||
         !isCountryList(incoming?.discovery?.countries)
       ) return json(res, 400, { error: 'invalid list shape' })
-      const p = readPrefs() // preserve _comment, anything else
-      p.artists = { ...p.artists, followed: incoming.artists.followed, blocked: incoming.artists.blocked }
-      p.genres = { ...p.genres, followed: incoming.genres.followed }
-      p.discovery = { ...p.discovery, countries: incoming.discovery.countries, playlists: incoming.discovery.playlists }
-      writeFileAtomic(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
+      const lock = acquireRunLock('preferences')
+      try {
+        const p = readPrefs()
+        p.artists = { ...p.artists, followed: incoming.artists.followed, blocked: incoming.artists.blocked }
+        p.genres = { ...p.genres, followed: incoming.genres.followed }
+        p.discovery = { ...p.discovery, countries: incoming.discovery.countries, playlists: incoming.discovery.playlists }
+        writeFileAtomic(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
+      } finally { lock.release() }
       json(res, 200, { ok: true })
     } else if (req.method === 'GET' && url.pathname === '/api/artist-search') {
       const q = (url.searchParams.get('q') ?? '').slice(0, 100).trim()
       if (q.length < 2) return json(res, 200, { results: [] })
-      // Same catalog the fetcher queries, so the picked ID is what the nightly
-      // lookup uses. An all-digits query or pasted artist URL resolves by ID
-      // (search?term= would read either as a name and find nothing).
-      const urlId = q.match(/^https:\/\/music\.apple\.com\/[a-z]{2}\/artist\/[^/]+\/(\d+)/)?.[1]
-      const id = urlId ?? (/^\d+$/.test(q) ? q : null)
-      // Same 30s abort the fetcher uses: a stalled iTunes connection would
-      // otherwise hang this request, and the editor's dropdown with it.
-      const upstream = await fetch(
-        id
-          ? `https://itunes.apple.com/lookup?id=${id}&country=US`
-          : `https://itunes.apple.com/search?term=${encodeURIComponent(q)}&entity=musicArtist&country=US&limit=6`,
-        { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(30_000) }
-      )
-      if (!upstream.ok) throw new Error(`iTunes search failed (HTTP ${upstream.status})`)
-      const data = await upstream.json()
+      const data = await searchArtists(q)
       json(res, 200, {
         // wrapperType filter: a lookup id for a song/album would otherwise
         // return as a picker entry credited to its artist
@@ -325,9 +300,12 @@ const server = http.createServer(async (req, res) => {
         })),
       })
     } else if (req.method === 'POST' && url.pathname === '/api/refresh') {
-      json(res, startRefresh() ? 200 : 409, { running: true })
+      json(res, await startRefresh() ? 200 : 409, { running: true })
     } else if (req.method === 'GET' && url.pathname === '/api/status') {
-      json(res, 200, { running: !!refreshPid(), log: logTail(10, refreshLogStart) })
+      const owner = runOwner()
+      const running = owner?.kind === 'refresh'
+      if (running) refreshLogStart = owner.logStart
+      json(res, 200, { running, busy: !!owner, log: logTail(10, refreshLogStart) })
     } else if (req.method === 'POST' && url.pathname === '/api/quit') {
       json(res, 200, { ok: true })
       setTimeout(() => process.exit(0), 100)
@@ -363,6 +341,7 @@ const server = http.createServer(async (req, res) => {
       json(res, 404, { error: 'not found' })
     }
   } catch (e) {
+    if (e instanceof BusyError) return json(res, 409, { error: e.message })
     // Also to the terminal prefs.command opened: the browser gets one line, and
     // a parse failure in preferences.json is worth a stack somewhere.
     console.error(`${req.method} ${url.pathname} failed:`, e)
@@ -370,9 +349,7 @@ const server = http.createServer(async (req, res) => {
   }
 })
 
-// ---------- the page ----------
-
-const PAGE = /* html */ `<!doctype html>
+export const PAGE = /* html */ `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -380,39 +357,36 @@ const PAGE = /* html */ `<!doctype html>
 <title>New Music Radar Preferences</title>
 <!--CSS-->
 </head>
-<body class="mx-auto max-w-[680px] px-4 pt-6 pb-24">
-<header class="mb-1 flex items-baseline justify-between"><h1 class="text-lg font-bold tracking-tight">Preferences</h1><a href="${SITE_URL}" id="site-link" target="_blank" rel="noopener noreferrer" class="text-sm text-muted-foreground hover:text-foreground">Open radar →</a></header>
+<body class="mx-auto max-w-[680px] break-words px-4 pt-6 pb-24">
+<header class="mb-1 flex flex-wrap items-baseline justify-between gap-2"><h1 class="text-lg font-bold tracking-tight">Preferences</h1><a href="${SITE_URL}" id="site-link" target="_blank" rel="noopener noreferrer" class="text-sm text-muted-foreground hover:text-foreground">Open radar →</a></header>
 <!-- header outside main: it is a banner landmark only while it is not a
      descendant of main -->
 <main>
 <p class="mb-[18px] text-sm text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; refresh applies them right away and publishes to the public site (about two minutes). Genre chips count the last ${WINDOW_DAYS} days, so they run higher than New, which shows 24 hours. Country, playlist and feed chips count ${SOURCE_CHIP_DAYS} measured days, as only-here/shared/total.</p>
 <div id="sections"></div>
-<div id="log-wrap" hidden class="fixed bottom-[92px] left-1/2 z-10 w-[min(640px,calc(100%-32px))] -translate-x-1/2">
+</main>
+<div id="editor-dock" class="fixed inset-x-0 bottom-0 z-10">
+<div id="log-wrap" hidden class="relative mx-auto w-[min(640px,calc(100%-32px))]">
   <button id="log-hide" class="absolute top-0.5 right-1 inline-flex size-6 cursor-pointer items-center justify-center text-base leading-none text-muted-foreground hover:text-foreground" title="Hide the progress log (the refresh keeps running)" aria-label="Hide progress log">×</button>
   <pre id="log" class="max-h-[180px] overflow-y-auto rounded-lg border border-border bg-muted px-3 py-2.5 pr-8 font-mono text-xs leading-[1.5] whitespace-pre-wrap wrap-break-word"></pre>
 </div>
 <div id="banner" hidden role="status"></div>
-</main>
-<footer class="fixed inset-x-0 bottom-0 flex items-center justify-center gap-2 border-t border-border bg-surface-raised px-4 py-2.5">
+<footer class="flex flex-wrap items-center justify-center gap-2 border-t border-border bg-surface-raised px-4 py-2.5">
   <span id="status" role="status" class="mr-auto max-w-[50%] text-xs leading-snug text-muted-foreground"></span>
   <button id="quit" class="cursor-pointer rounded-md border border-border-strong bg-transparent px-4 py-[7px] text-sm">Quit</button>
-  <button id="refresh" class="cursor-pointer whitespace-nowrap rounded-md border border-action-secondary-border bg-transparent px-4 py-[7px] text-sm text-action-secondary-fg disabled:cursor-default disabled:opacity-45">Save &amp; refresh</button>
+  <button id="refresh" class="max-w-full cursor-pointer rounded-md border border-action-secondary-border bg-transparent px-4 py-[7px] text-sm text-action-secondary-fg disabled:cursor-default disabled:opacity-45">Save &amp; refresh</button>
   <button id="save" disabled class="cursor-pointer rounded-md border border-primary bg-primary px-4 py-[7px] text-sm text-primary-foreground disabled:cursor-default disabled:opacity-45">Save</button>
 </footer>
+</div>
 <script>
+let editRevision = 0, saving = null, refreshStarting = false, stopped = false
 let prefs, activity = {}, genreOptions = [], genreCounts = {}, sourceCounts = {}, countryNames = {}, dirty = false
 let countsAvailable = true
 let streamingOnly = new Set(), alwaysScanned = [], historyDays = 0
-// display-only sort for the followed section: false = A-Z, true = oldest
-// release first (dormant prune candidates cluster at the top)
 let dormancySort = false
 const $ = (id) => document.getElementById(id)
-// Interpolated from shared.mjs's sourceTag so the wire format has exactly one
-// definition; hardcoding it here is what would make every chip read 0 in silence.
 const TAG_COUNTRY = '${sourceTag('country', '')}'
 const TAG_PLAYLIST = '${sourceTag('playlist', '')}'
-// artist entries are {name, id} (picker-pinned; the server rejects anything
-// else); genres are plain strings; playlists are {name, url}
 const nameOf = (e) => (typeof e === 'string' ? e : e.name)
 const OFFLINE = 'Editor not responding. Reopen prefs.command.'
 // Full literals, not composed strings — Tailwind scans this file as text.
@@ -424,9 +398,7 @@ const MONTH_MS = 2629746000
 // Set when a message came from a user action, so the 10s poll won't overwrite
 // it with the ambient log tail. Cleared by the next action.
 let statusHeld = false
-// truncate, not wrap: the footer is fixed at bottom-0 and the banner and log sit
-// at hardcoded offsets above it, so a status line long enough to wrap covers them.
-const STATUS_BASE = 'mr-auto max-w-[50%] truncate text-xs leading-snug tabular-nums'
+const STATUS_BASE = 'w-full min-w-0 break-words text-xs leading-snug tabular-nums'
 function setStatus(text, isError, hold) {
   statusHeld = !!hold
   const el = $('status')
@@ -445,8 +417,6 @@ function setFieldError(key, text) {
   $('add-' + key)?.setAttribute('aria-invalid', text ? 'true' : 'false')
 }
 const clearFieldError = (key) => setFieldError(key, '')
-// kind drives the placeholder AND the wiring, so adding a picker is one entry
-// here plus one PICKERS row, not three parallel edits.
 const SECTIONS = [
   { key: 'artists.followed', label: 'Followed Artists', sub: 'pinned first ★, fetched by Apple ID, bypass filters', kind: 'artist' },
   { key: 'artists.blocked', label: 'Blocked Artists', sub: 'never shown (matched by Apple ID)', kind: 'artist' },
@@ -455,8 +425,6 @@ const SECTIONS = [
   { key: 'discovery.playlists', label: 'Discovery Playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', kind: 'playlist' },
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
-// country entries are bare codes; the display name comes from the server's
-// verified code→name map.
 const displayOf = (s, e) =>
   s.kind === 'country' && Object.hasOwn(countryNames, e) ? countryNames[e] : nameOf(e)
 
@@ -471,8 +439,6 @@ function streamingOnlyNote() {
   return span
 }
 
-// Interpolated from the server's PLAYLIST_URL_RE, the one definition of the
-// shape Save enforces. Display name comes from the slug capture group.
 const PLAYLIST_RE = /${PLAYLIST_URL_RE.source}/
 function parsePlaylist(u) {
   const m = PLAYLIST_RE.exec(u)
@@ -516,10 +482,8 @@ function noteRow(results, text) {
 
 // Clearing the held status too: "Saved." pins itself against the idle poll, and
 // without this it stays on screen contradicting the re-enabled Save button.
-function markDirty() { dirty = true; $('save').disabled = false; statusHeld = false }
+function markDirty() { editRevision++; dirty = true; $('save').disabled = false; statusHeld = false }
 
-// Genre yield marker: releases admitted via this genre (followed artists
-// excluded). Amber 0 = prune candidate.
 function genreCount(name) {
   if (!countsAvailable) return null
   const n = genreCounts[name.toLowerCase()] ?? 0
@@ -530,9 +494,6 @@ function genreCount(name) {
   return span
 }
 
-// Source yield marker (countries, playlists, always-scanned feeds):
-// unique/duplicate/total releases over the window. Unique = only this source
-// surfaced it, which is what pruning would actually cost you.
 const THIN_DAYS = ${SOURCE_THIN_DAYS}
 const CHIP_DAYS = ${SOURCE_CHIP_DAYS}
 function sourceCount(tag) {
@@ -559,10 +520,6 @@ function sourceCount(tag) {
   return span
 }
 
-// The always-scanned feeds are code constants, not a control: nothing to add,
-// remove or pick. A closed footnote keeps their yield one click from the country
-// and playlist chips it gets compared against, without one more pill per fixed
-// feed that looks exactly as editable as the ones above it.
 let fixedOpen = false
 function renderFixed() {
   const d = document.createElement('details')
@@ -624,7 +581,6 @@ function renderAll() {
       }
       h.appendChild(sort)
     }
-    // dormancy sort works on a copy, so the toggle never changes file order
     let entries = getList(s.key)
     if (s.key === 'artists.followed' && dormancySort) {
       entries = [...entries].sort((a, b) => {
@@ -653,15 +609,11 @@ function renderAll() {
         if (c) chip.appendChild(c)
       }
       if (typeof entry !== 'string') chip.title = entry.url ?? 'Apple Music artist #' + entry.id
-      // Dormancy hint: an artist with no release in 18+ months is a prune
-      // candidate. Mostly curation: the sweep batches BATCH_SIZE artists per
-      // paced call, so cost only moves when a removal crosses a batch boundary.
       const last = s.key === 'artists.followed' && entry.id ? activity[entry.id] : null
       if (last && Date.now() - Date.parse(last) > 18 * MONTH_MS) {
         const months = Math.round((Date.now() - Date.parse(last)) / MONTH_MS)
         const ago = document.createElement('span')
         ago.className = months >= 36 ? STALE : AMBER
-        // round, not floor — floor showed a 3.9y gap as "3y"
         ago.textContent = '· ' + (months >= 24 ? Math.round(months / 12) + 'y' : months + 'mo')
         ago.title = 'Last release ' + last
         chip.appendChild(ago)
@@ -710,7 +662,8 @@ function addTo(key, item) {
 // leaving the WRAPPER, not on input blur: blur fires before focus reaches a
 // row, so a blur-hide leaves the rows unreachable by Tab or arrow — and the
 // ID-required sections refuse Enter, so that is their only way to add anything.
-function wireDropdown(wrap, input, results) {
+function wireDropdown(wrap, input, results, onDismiss) {
+  const dismiss = () => { results.hidden = true; onDismiss?.() }
   const rows = () => [...results.querySelectorAll('button')]
   const focusRow = (i) => {
     const r = rows()
@@ -718,12 +671,12 @@ function wireDropdown(wrap, input, results) {
   }
   input.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowDown' && !results.hidden) { e.preventDefault(); focusRow(0) }
-    else if (e.key === 'Escape') results.hidden = true
+    else if (e.key === 'Escape') dismiss()
   })
   results.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowDown') { e.preventDefault(); focusRow(rows().indexOf(document.activeElement) + 1) }
     else if (e.key === 'ArrowUp') { e.preventDefault(); focusRow(rows().indexOf(document.activeElement) - 1) }
-    else if (e.key === 'Escape') { e.preventDefault(); results.hidden = true; input.focus() }
+    else if (e.key === 'Escape') { e.preventDefault(); dismiss(); input.focus() }
   })
   // Safari and Firefox on macOS do not focus a <button> on mousedown, so
   // without this the focusout below fires with a null relatedTarget and hides
@@ -731,11 +684,10 @@ function wireDropdown(wrap, input, results) {
   // the DEFAULT browser, so that is the common case, not the edge case.
   results.addEventListener('mousedown', (e) => e.preventDefault())
   wrap.addEventListener('focusout', (e) => {
-    if (!wrap.contains(e.relatedTarget)) results.hidden = true
+    if (!wrap.contains(e.relatedTarget)) dismiss()
   })
 }
 
-// Shared input + dropdown shell; one wireX per picker kind supplies the rows.
 const PICKERS = {
   artist: { placeholder: 'Add artist (name, Apple ID, or artist page URL, then pick from the list)…', wire: wireArtist },
   playlist: { placeholder: 'Add playlist (paste an Apple Music playlist URL, then pick from the list)…', wire: wirePlaylist },
@@ -748,7 +700,7 @@ function makeAdder(s) {
   wrap.className = 'relative flex gap-1.5'
   const input = document.createElement('input')
   input.id = 'add-' + s.key
-  input.className = 'flex-1 rounded-md border border-border-strong bg-transparent px-2.5 py-1.5 text-sm'
+  input.className = 'min-w-0 flex-1 rounded-md border border-border-strong bg-transparent px-2.5 py-1.5 text-sm'
   // placeholders disappear on typing — give the field a persistent name
   input.setAttribute('aria-label', 'Add to ' + s.label)
   // Left set permanently: a description pointing at a hidden element is out of
@@ -770,10 +722,10 @@ function makeAdder(s) {
   // No clear here: a successful add re-renders the adder, and the reject path
   // inside addTo sets a message this would wipe.
   const pick = (item) => { addTo(s.key, item); input.value = ''; results.hidden = true }
-  picker.wire(s, input, results, pick)
+  const onDismiss = picker.wire(s, input, results, pick)
   // addEventListener, not input.oninput: every wireX assigns that property.
   input.addEventListener('input', () => clearFieldError(s.key))
-  wireDropdown(wrap, input, results)
+  wireDropdown(wrap, input, results, onDismiss)
   wrap.append(input, results)
   // err goes outside wrap: wrap is the flex row and the positioning context for
   // the absolute results list.
@@ -783,7 +735,8 @@ function makeAdder(s) {
 }
 
 function wireArtist(s, input, results, pick) {
-  let timer
+  let timer, controller
+  let generation = 0
   input.onkeydown = (e) => {
     if (e.key !== 'Enter') return
     // free-text entries have no Apple ID — the fetcher can't sweep them
@@ -791,6 +744,9 @@ function wireArtist(s, input, results, pick) {
   }
   input.oninput = () => {
     clearTimeout(timer)
+    controller?.abort()
+    const current = ++generation
+    const fresh = () => current === generation && input.isConnected
     const q = input.value
     if (q.trim().length < 2) { results.hidden = true; return }
     // 500ms of debounce plus a request round trip, and this dropdown is the only
@@ -799,11 +755,14 @@ function wireArtist(s, input, results, pick) {
     timer = setTimeout(async () => { // 500ms: iTunes Search is ~20 req/min
       let found
       try {
-        const res = await fetch('/api/artist-search?q=' + encodeURIComponent(q))
+        controller = new AbortController()
+        const res = await fetch('/api/artist-search?q=' + encodeURIComponent(q), { signal: AbortSignal.any([controller.signal, AbortSignal.timeout(30_000)]) })
+        if (!fresh()) return
         if (!res.ok) {
           // a reachable server that refused carries Apple's reason; the catch
           // below is for a dead one, and its advice is wrong for this case
           const body = await res.json().catch(() => ({}))
+          if (!fresh()) return
           results.hidden = true
           setFieldError(s.key, body.error || 'Artist search failed (HTTP ' + res.status + ').')
           return
@@ -811,18 +770,19 @@ function wireArtist(s, input, results, pick) {
         found = (await res.json()).results
         if (!Array.isArray(found)) throw new Error('search failed')
       } catch {
+        if (!fresh() || controller?.signal.aborted) return
         // this runs inside a timer, so an unreported throw here is invisible:
         // the box would simply never produce suggestions
         results.hidden = true
         setFieldError(s.key, 'Artist search unavailable. The editor may have stopped; reopen prefs.command.')
         return
       }
+      if (!fresh()) return
       if (!found.length) { noteRow(results, 'No artists found'); return }
       results.replaceChildren()
       for (const a of found) {
         let verify
         if (a.url) {
-          // verify the identity on its Apple Music page before adding
           verify = document.createElement('a')
           // Padded to clear 24x24 (measured 26.6x32): it sits flush against the
           // pick button, so WCAG 2.5.8's spacing exception does not cover it and
@@ -840,6 +800,7 @@ function wireArtist(s, input, results, pick) {
       results.hidden = false
     }, 500)
   }
+  return () => { clearTimeout(timer); controller?.abort(); generation++ }
 }
 
 // a valid URL shows one result row with the derived name, so the chip text is
@@ -865,8 +826,6 @@ function wirePlaylist(s, input, results, pick) {
   }
 }
 
-// focus lists every storefront not yet followed, typing filters by name or
-// code; add only from the list (codes are verified server-side).
 function wireCountry(s, input, results, pick) {
   input.onkeydown = (e) => {
     if (e.key !== 'Enter') return
@@ -890,8 +849,6 @@ function wireCountry(s, input, results, pick) {
   input.onfocus = show
 }
 
-// focus lists the curated options, typing filters, Enter takes exact free text
-// (any Apple genre name is followable).
 function wireGenre(s, input, results, pick) {
   input.onkeydown = (e) => {
     if (e.key !== 'Enter') return
@@ -904,7 +861,6 @@ function wireGenre(s, input, results, pick) {
     const have = new Set(getList(s.key).map((g) => nameOf(g).toLowerCase()))
     const opts = genreOptions.filter((g) => !have.has(g.toLowerCase()) && g.toLowerCase().includes(typed))
     for (const g of opts) resultRow(results, g, '', () => pick(g))
-    // nothing matches: offer the exact text explicitly (what Enter does)
     if (!opts.length && typed && !have.has(typed)) {
       resultRow(results, 'Follow exact text "' + input.value.trim() + '"', 'exact Apple genre match', () => pick(input.value))
       results.hidden = false
@@ -917,17 +873,15 @@ function wireGenre(s, input, results, pick) {
 }
 
 let wasRunning = false
-let pollTimer
+let pollTimer, pollController
+let polling = false
 let offline = false
-// The floating progress log covers the lower chips while a refresh runs; the
-// × hides it for THIS refresh only (flag resets when the next one starts).
 let logDismissed = false
 $('log-hide').onclick = () => {
   logDismissed = true
   $('log-wrap').hidden = true
 }
-// The banner is fixed over the chips, so every state needs an opaque surface.
-const BANNER_BASE = 'fixed inset-x-0 bottom-14 px-4 py-[9px] text-center text-sm'
+const BANNER_BASE = 'px-4 py-[9px] text-center text-sm'
 const BANNER = {
   running: 'bg-foreground text-background',
   ok: 'bg-success-surface text-success-text',
@@ -954,41 +908,48 @@ function setBanner(cls, text) {
 }
 
 async function poll() {
-  const st = await fetch('/api/status').then((r) => r.json()).catch(() => null)
+  clearTimeout(pollTimer)
+  if (polling || stopped) return
+  polling = true
+  pollController = new AbortController()
+  const st = await fetch('/api/status', { signal: AbortSignal.any([pollController.signal, AbortSignal.timeout(10_000)]) })
+    .then((r) => r.ok ? r.json() : null).catch(() => null)
+  polling = false
+  if (stopped) return
   if (st) {
-    if (offline) { offline = false; setBanner(null); setStatus('') } // recovered
-    $('refresh').disabled = st.running
+    if (offline) { offline = false; setBanner(null); setStatus('') }
+    $('refresh').disabled = st.busy || st.running || refreshStarting
     $('refresh').textContent = st.running ? 'Refreshing…' : 'Save & refresh'
     // The log tail is ambient information, so it must never overwrite something
     // the user needs to read. A message from an action holds until they act again.
     if (!statusHeld) setStatus(st.running ? '' : (st.log.at(-1) ?? ''))
-    if (st.running && !wasRunning) logDismissed = false // new refresh, show again
+    if (st.running && !wasRunning) logDismissed = false
     $('log-wrap').hidden = !st.running || logDismissed
     if (st.running) {
       $('log').textContent = st.log.join('\\n')
       $('log').scrollTop = $('log').scrollHeight
       setBanner('running', 'Refreshing. Usually about two minutes, longer if the site deploy needs a retry. Live progress above; safe to close this page, the refresh continues in the background.')
     } else if (wasRunning) {
-      // Classify from what update.sh actually logs. Each of its six strings
-      // means one specific thing, so each gets its own branch: collapsing two
-      // reports an outcome the run did not have.
       const publishedNew = st.log.some((l) => /Published/.test(l))
       const noChanges = st.log.some((l) => /No changes/.test(l))
       const held = st.log.some((l) => /HELD:/.test(l))
       const neverRan = st.log.some((l) => /ERROR: fetch did not run/.test(l))
       const failed = st.log.some((l) => /ERROR:/.test(l))
       const warned = st.log.some((l) => /WARNING:/.test(l))
-      const finished = publishedNew || noChanges || held
+      const unpublished = st.log.some((l) => /UNPUBLISHED:/.test(l))
+      const finished = publishedNew || noChanges || held || unpublished
       if (neverRan) {
         setBanner('bad', 'The update could not run, so nothing was published. Check config/preferences.json, then ~/Library/Logs/new-music-radar.log.')
       } else if (!finished) {
         setBanner('bad', 'The refresh stopped before it finished, so nothing was published. See ~/Library/Logs/new-music-radar.log for what stopped it.')
-      } else if (failed) {
-        setBanner('warn', 'Refresh finished, but a source failed. Everything else was published; check ~/Library/Logs/new-music-radar.log.')
-      } else if (warned) {
-        setBanner('warn', 'New data was published, but the site deploy did not confirm. The page may show old data until the next update. See ~/Library/Logs/new-music-radar.log.')
+      } else if (unpublished) {
+        setBanner('warn', 'The results were kept locally. Publishing stopped because local commits or upstream history need attention.')
       } else if (held) {
         setBanner('warn', 'Nothing was published: there was no new data, and local commits touching other files are held back. Push them yourself if they are meant to go live.')
+      } else if (failed) {
+        setBanner('warn', 'Refresh finished, but a source failed. ' + (publishedNew ? 'Available results were published.' : 'Nothing new was published.') + ' Check ~/Library/Logs/new-music-radar.log.')
+      } else if (warned) {
+        setBanner('warn', 'New data was published, but the site deploy did not confirm. The page may show old data until the next update. See ~/Library/Logs/new-music-radar.log.')
       } else if (noChanges) {
         setBanner('ok', 'Refresh complete. Nothing new was found, so the site is unchanged.')
       } else {
@@ -1013,51 +974,74 @@ document.addEventListener('visibilitychange', () => {
   if (!document.hidden) { clearTimeout(pollTimer); poll() }
 })
 
-async function save() {
-  try {
-    const r = await fetch('/api/prefs', { method: 'POST', body: JSON.stringify(prefs) })
-    if (r.ok) { dirty = false; $('save').disabled = true; setStatus('Saved.', false, true); return true }
-    const body = await r.json().catch(() => ({}))
-    // #status alone is a truncated 12px line in the footer, far from the chips
-    // the user was editing, so an unsaved edit looks exactly like a saved one.
-    setBanner('bad', 'Your changes were not saved: ' + (body.error ?? 'HTTP ' + r.status))
-    setStatus('Save failed: ' + (body.error ?? 'HTTP ' + r.status), true, true)
-    return false
-  } catch {
-    setBanner('bad', OFFLINE)
-    setStatus(OFFLINE, true, true)
-    return false
-  }
+function save() {
+  if (saving) return saving
+  const revision = editRevision
+  const snapshot = JSON.stringify(prefs)
+  saving = (async () => {
+    try {
+      const r = await fetch('/api/prefs', { method: 'POST', body: snapshot, signal: AbortSignal.timeout(15_000) })
+      if (!r.ok) {
+        const body = await r.json().catch(() => ({}))
+        throw new Error(body.error ?? 'HTTP ' + r.status)
+      }
+      if (stopped) return false
+      if (revision !== editRevision) {
+        setStatus('Newer changes are still unsaved. Save again before refreshing.', true, true)
+        return false
+      }
+      dirty = false
+      $('save').disabled = true
+      setBanner(null)
+      setStatus('Saved.', false, true)
+      return true
+    } catch (e) {
+      if (stopped) return false
+      const message = e instanceof TypeError || e.name === 'TimeoutError' || e.name === 'AbortError'
+        ? 'The editor did not confirm the save. Keep this tab open, reopen prefs.command, then try Save again. Your edits are still here.'
+        : 'Your changes were not saved. ' + e.message
+      setBanner('bad', message)
+      setStatus('Save failed.', true, true)
+      return false
+    } finally { saving = null }
+  })()
+  return saving
 }
 $('save').onclick = save
 $('refresh').onclick = async () => {
-  if (dirty && !(await save())) return
-  setBanner('running', 'Starting refresh…')
+  if (refreshStarting) return
+  refreshStarting = true
   try {
-    const r = await fetch('/api/refresh', { method: 'POST' })
-    // 409 = a detached refresh from an earlier click is still going
-    if (r.status === 409) { setStatus('A refresh is already running.', false, true) }
-    else if (!r.ok) {
-      // a reachable server that refused is a different problem from a dead one
+    if (dirty && !(await save())) return
+    if (stopped) return
+    setBanner('running', 'Starting refresh')
+    const r = await fetch('/api/refresh', { method: 'POST', signal: AbortSignal.timeout(15_000) })
+    if (stopped) return
+    if (r.status === 409) {
+      setBanner('warn', 'Another operation is running. Wait for it to finish, then try again.')
+      return
+    }
+    if (!r.ok) {
       const body = await r.json().catch(() => ({}))
+      if (stopped) return
       setBanner('bad', 'Could not start the refresh.')
       setStatus('Could not start the refresh: ' + (body.error || 'HTTP ' + r.status), true, true)
       return
     }
+    wasRunning = true
+    logDismissed = false
+    poll()
   } catch {
-    setBanner('bad', OFFLINE)
-    return
-  }
-  wasRunning = true
-  logDismissed = false // this click preempts poll's false→true transition
-  clearTimeout(pollTimer) // restart the single poll chain, don't fork a second one
-  poll()
+    if (!stopped) setBanner('bad', OFFLINE)
+  } finally { refreshStarting = false }
 }
 $('quit').onclick = async () => {
   // onbeforeunload can't guard this: quitting is a fetch plus an innerHTML
   // swap, not a navigation, so that handler never fires here.
   if (dirty && !confirm('You have unsaved changes. Quit without saving them?')) return
   dirty = false // confirmed: don't let onbeforeunload ask a second time
+  stopped = true
+  pollController?.abort()
   clearTimeout(pollTimer) // the page is about to lose its status elements
   try {
     await fetch('/api/quit', { method: 'POST' })
@@ -1090,13 +1074,19 @@ function reloadPrefs() {
   // swallow a half-typed name, its open dropdown and any error mid-keystroke.
   // The dirty flag doesn't cover this: typing sets nothing until an add lands.
   if ($('sections')?.contains(document.activeElement)) return
-  fetch('/api/prefs')
+  const revision = editRevision
+  fetch('/api/prefs', { signal: AbortSignal.timeout(15_000) })
     .then((r) => (r.ok ? r.json() : null))
-    .then((p) => { if (p && !dirty) applyPrefs(p) })
+    .then((p) => { if (p && !stopped && !dirty && revision === editRevision && !$('sections')?.contains(document.activeElement)) applyPrefs(p) })
     .catch(() => {})
 }
 
-fetch('/api/prefs').then(async (r) => {
+new ResizeObserver(() => {
+  if (stopped) return
+  document.body.style.paddingBottom = ($('editor-dock').getBoundingClientRect().height + 24) + 'px'
+}).observe($('editor-dock'))
+
+fetch('/api/prefs', { signal: AbortSignal.timeout(15_000) }).then(async (r) => {
   if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || 'HTTP ' + r.status)
   return r.json()
 }).then((p) => {
@@ -1134,6 +1124,6 @@ server.on('error', (e) => {
   process.exit(1)
 })
 
-server.listen(PORT, '127.0.0.1', () => {
+if (process.argv[1] === fileURLToPath(import.meta.url)) server.listen(PORT, '127.0.0.1', () => {
   console.log(`Preferences editor: http://127.0.0.1:${PORT}`)
 })

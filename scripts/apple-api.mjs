@@ -1,7 +1,5 @@
 // Apple's rate limits and wire formats, in one place.
 //
-// State is module-level, so pacing does not coordinate across processes; not
-// running an audit during a refresh is a convention, not a lock.
 
 import { UA } from './shared.mjs'
 
@@ -43,9 +41,6 @@ function checkOk(res, url) {
   throw Object.assign(new Error(`HTTP ${res.status} ${url}`), { throttled })
 }
 
-// timeouts surface as TimeoutError, undici network errors carry a cause code — both
-// matter when diagnosing a failure from the log alone, so every source's failure path
-// reports through this.
 export const errDetail = (e) => {
   const tag = e.throttled ? 'throttled' : e.cause?.code || (e.name === 'TimeoutError' ? 'timeout' : null)
   return tag ? `${e.message} [${tag}]` : e.message
@@ -65,11 +60,15 @@ export async function getJSON(url) {
 // loop's last call leaves no dangling sleep. The legacy RSS paths share this host
 // but are not limited, so they use getJSON and their callers stagger them.
 let lastItunesCall = 0
-export async function itunesJSON(url) {
-  const wait = lastItunesCall + 2500 + Math.random() * 1500 - Date.now()
-  if (wait > 0) await sleep(wait)
-  lastItunesCall = Date.now()
-  return getJSON(url)
+let itunesGate = Promise.resolve()
+export function itunesJSON(url) {
+  const turn = itunesGate.then(async () => {
+    const wait = lastItunesCall + 2500 + Math.random() * 1500 - Date.now()
+    if (wait > 0) await sleep(wait)
+    lastItunesCall = Date.now()
+  })
+  itunesGate = turn.catch(() => {})
+  return turn.then(() => getJSON(url))
 }
 
 // marketingtools (most-played feeds) throttles faster: a burst of ~20 gets
@@ -91,7 +90,6 @@ export function marketingToolsJSON(url) {
 
 // ---------- endpoints ----------
 
-// Every URL the pipeline reads.
 export const US_CHART_URL = `https://${MARKETING_HOST}/api/v2/us/music/most-played/50/albums.json`
 export const countryMostPlayedUrl = (sf) =>
   `https://${MARKETING_HOST}/api/v2/${sf}/music/most-played/100/songs.json`
@@ -142,10 +140,7 @@ export const scrapeHTML = async (url) => {
   return res.text()
 }
 
-// Playlists are the only day-of, all-genre surface Apple exposes without an API
-// token. The web player page embeds the track list as JSON; this parses it to
-// parent-album ids. Scraping is the pipeline's most fragile contract, so it lives
-// here rather than in two callers that would diverge the day the layout changes.
+// The web player embeds the track list as JSON with parent-album IDs.
 export async function scrapePlaylistAlbumIds(url) {
   const html = await scrapeHTML(url)
   const m = html.match(/<script type="application\/json" id="serialized-server-data">(.*?)<\/script>/s)

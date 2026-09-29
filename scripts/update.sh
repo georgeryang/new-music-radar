@@ -1,9 +1,6 @@
 #!/bin/bash
-# Daily fetch + publish, run by launchd (see launchd/com.georgeryang.new-music-radar.plist).
-# Needs no node_modules — just node and git.
 set -uo pipefail
 
-# Repo root from this script's own location, so a machine/path move needs no edit.
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_DIR" || exit 1
 
@@ -13,6 +10,10 @@ log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
 if [ -z "$NODE" ]; then
   log "ERROR: node not found on PATH or under ~/.nvm/versions/node/*/bin — install node, or point scripts/find-node.sh at it"
   exit 1
+fi
+
+if ! "$NODE" scripts/run-lock.mjs --owns-refresh; then
+  exec "$NODE" scripts/run-lock.mjs refresh bash "$0" "$@"
 fi
 
 # --if-stale (from launchd): one fetch per day, anchored to 18:15 KST (Korean
@@ -106,6 +107,7 @@ verify_deploy() {
   log "WARNING: Pages rebuild ended '$STATUS' — site stays stale until tomorrow's run"
 }
 
+"$NODE" scripts/run-lock.mjs --reset-log-start || { log "ERROR: refresh ownership lost"; exit 1; }
 log "Fetching new releases..."
 "$NODE" scripts/fetch-releases.mjs
 FETCH_STATUS=$?
@@ -122,27 +124,32 @@ elif [ "$FETCH_STATUS" -ne 0 ]; then
   exit "$FETCH_STATUS"
 fi
 
-# config/ rides along: preference edits apply from disk at fetch time and get
-# backed up with the nightly data commit — no manual git.
-if git diff --quiet docs/data config && [ -z "$(git ls-files --others --exclude-standard docs/data config)" ]; then
-  # An earlier run may have committed and then failed to push; nothing else
-  # retries that, and later runs see a clean tree and report success while the
-  # live site stays stale.
-  #
-  # Only retry when every unpushed commit is data. Local commits that touch
-  # anything else are someone's work-in-progress held back on purpose, and this
-  # runs unattended at 18:15 with no one to notice it publishing them.
-  # `git log --name-only`, not `git diff`: a diff compares the two endpoints, so a
-  # file added in one unpushed commit and deleted in a later one cancels out and
-  # the whole range gets published.
-  UNPUSHED="$(git rev-list --count @{u}..HEAD 2>/dev/null || echo 0)"
-  if [ "$UNPUSHED" -gt 0 ] && [ -z "$(git log --name-only --pretty=format: @{u}..HEAD -- . ':!docs/data' ':!config')" ]; then
-    log "Unpushed data commits from an earlier run — pushing"
+# Inspect each commit, not only the endpoint diff: reverted code is still history.
+UNPUSHED="$(git rev-list --count @{u}..HEAD 2>/dev/null)" || {
+  log "UNPUBLISHED: could not inspect upstream history; fetched data stays local"
+  exit 1
+}
+OUTSIDE="$(git log --full-history --diff-merges=separate --name-only --pretty=format: @{u}..HEAD -- . ':!docs/data' ':!config')" || {
+  log "UNPUBLISHED: could not inspect unpushed files; fetched data stays local"
+  exit 1
+}
+CHANGED=1
+if git diff --quiet HEAD -- docs/data config && [ -z "$(git ls-files --others --exclude-standard docs/data config)" ]; then
+  CHANGED=0
+fi
+if [ -n "$OUTSIDE" ]; then
+  if [ "$CHANGED" -eq 0 ]; then
+    log "HELD: no new data, and unpushed commits touch files outside docs/data and config"
+  else
+    log "UNPUBLISHED: unpushed commits touch other files; fetched data stays local"
+  fi
+  exit "$FETCH_STATUS"
+fi
+if [ "$CHANGED" -eq 0 ]; then
+  if [ "$UNPUSHED" -gt 0 ]; then
     git push || { log "ERROR: push failed"; exit 1; }
     log "Published"
     verify_deploy
-  elif [ "$UNPUSHED" -gt 0 ]; then
-    log "HELD: no new data, and $UNPUSHED unpushed commit(s) touch files outside docs/data and config, so they are left alone — push them yourself if they are meant to go live"
   else
     log "No changes — nothing to publish"
   fi

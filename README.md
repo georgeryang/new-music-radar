@@ -93,7 +93,7 @@ sudo pmset repeat cancel
   **Save & refresh**.
 - **Want to see what happened?** The log at `~/Library/Logs/new-music-radar.log`
   says what was fetched or failed, in plain words. If it has no recent entries
-  at all, the scheduler itself never ran: check
+  recently, the scheduler itself never ran: check
   `~/Library/Logs/new-music-radar-watchdog.log`.
 - **An artist's releases look wrong?** You may have picked a same-named artist.
   Remove and re-add them via the search list (the **↗** link shows whose page
@@ -111,10 +111,9 @@ other request to the editor is refused unless it comes from your machine.
 
 ## For Developers
 
-- **Data flow:** `config/preferences.json` -> `scripts/fetch-releases.mjs` ->
+- **Data Flow:** `config/preferences.json` -> `scripts/fetch-releases.mjs` ->
   `docs/data/releases.json` -> pushed by `scripts/update.sh` -> GitHub Pages
-  serves `docs/`. The five sources and the US-catalog-lookup rule are listed in
-  the fetcher's own header comment. Every discovery card records which source
+  serves `docs/`. Every discovery card records which source
   found it, and the editor lists all the sources, the fixed ones included, with
   what each has returned over 30 days.
 - **Frontend:** Vite + React + TS + Tailwind in `src/`, built into `docs/`
@@ -126,11 +125,11 @@ other request to the editor is refused unless it comes from your machine.
   reboot. A `pmset` wake at 05:30 and a `StartCalendarInterval` at 05:25 just
   trigger that run; they aren't the anchor. `caffeinate -sim` only holds the
   Mac awake on AC power, so on battery the run finishes across later wakes.
-- **Preferences editor:** `scripts/prefs-server.mjs`, local-only on
+- **Preferences Editor:** `scripts/prefs-server.mjs`, local-only on
   127.0.0.1:4747. Follow, block, and the star all key on Apple ID, never name.
   Also serves the built site at `/new-music-radar/`, for a refresh without a
-  Pages deploy.
-- **Genres and chip counts:** no genre mapping; cards carry Apple's name
+  Pages deploy. Save again after background work finishes; unsaved changes stay in the editor.
+- **Genres and Chip Counts:** no genre mapping; cards carry Apple's name
   verbatim, matched exactly ignoring case. Curated list is `scripts/genre-options.mjs`;
   storefront codes are in `scripts/storefronts.mjs`. `npm run check-genres`
   catches Apple renaming a genre out from under the list, and reports which
@@ -139,20 +138,35 @@ other request to the editor is refused unless it comes from your machine.
   surfaces instead of staying invisible. The three chip windows are spelled out
   on the editor page itself, and are deliberately different, so chip counts
   routinely exceed what's on the page.
-- **Claude Code skills:** `skills/` is version controlled with the code it
+- **Claude Code Skills:** `skills/` is version controlled with the code it
   describes; `npm run setup-skills` links it into `.claude/skills/`, which is
   gitignored because it also holds per-machine settings. The links are local
   state, so a fresh clone needs that one command. Skills load only in this
   folder. **audit-radar-sources** runs the source audit and explains how to read
   it; **verify-radar** covers testing the fetcher, the site and the editor.
-- **Source audit:** `npm run audit-sources` grades every source the editor
+- **Source Audit:** `npm run audit-sources` grades every source the editor
   shows and suggests what to drop, replace or add. It reads
   `config/source-activity.json`, a rolling per-day tally each fetch appends to,
   so the numbers are trends rather than one night, and a day where a source
   failed records nothing rather than a zero, which keeps a passing network
   glitch from looking like a dead feed. `npm run audit-sources -- --no-discover`
   skips the hunt for replacements, which is the slow part. It refuses to
-  run while an editor refresh is going, but cannot see the nightly one.
+  run while another refresh, fetch, build, or source audit is running.
 - **Reliability:** any source failing exits non-zero but still publishes
   partial results; an empty result never overwrites good data. The nightly
   push also verifies its Pages deploy and retries once if it flaked.
+
+## Checking Changes
+
+Run `npm test` for isolated regression checks, `npm run check-editor` for the
+editor server and client scripts, and `npm run build` to check TypeScript and
+replace the built site. The build prepares replacement files before removing
+old assets and leaves release data intact.
+
+Run `npm run test:browser` after building to check editor interactions and the
+site. See `skills/verify-radar/SKILL.md` for Playwright setup. These checks use
+temporary data and mocked requests. They do not publish.
+
+Automatic updates keep results locally if unrelated commits are waiting to be
+pushed or upstream history cannot be checked. The editor explains when publishing
+stops. Resolve the local Git state before trying another update.

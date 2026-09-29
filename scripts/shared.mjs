@@ -1,15 +1,7 @@
-import { renameSync, writeFileSync } from 'node:fs'
+import { renameSync, writeFileSync, rmSync } from 'node:fs'
 
-// Values the fetcher, the prefs editor and the source audit must agree on. All
-// three read the same files and speak the sources wire format, so a copy in each
-// script drifts silently (a renamed tag makes every editor chip read 0, with no
-// error).
-
-// The file holds this many days of releases; the editor's chip counts span it.
 export const WINDOW_DAYS = 3
 
-// A genre-activity entry disappears after this many quiet days. The fetcher
-// prunes on it and check-genres states it in its report.
 export const GENRE_MEMORY_DAYS = 30
 
 // How many days of per-source yield source-activity.json keeps. Long enough for
@@ -17,8 +9,6 @@ export const GENRE_MEMORY_DAYS = 30
 // file committed and pushed nightly stays around 30KB.
 export const SOURCE_MEMORY_DAYS = 180
 
-// Window the editor's source chips and the audit's 30d column both report on,
-// and the history needed before either says a number instead of "collecting".
 export const SOURCE_CHIP_DAYS = 30
 export const SOURCE_THIN_DAYS = 7
 
@@ -34,21 +24,13 @@ export const withinDays = (date, days) => {
   const age = daysSince(date)
   return age <= days + GRACE_DAYS && age >= 0
 }
-// Upper bound alone, for callers carrying future-dated pre-orders forward.
 export const notOlderThan = (date, days) => daysSince(date) <= days + GRACE_DAYS
 
-// Artists per sweep lookup. 30, not 20: `limit` is PER ARTIST, not per batch, so
-// a bigger batch loses nothing (verified 2026-07-30 — the same 60 artists at
-// sizes 20/30/40/50/60 returned identical collection sets, zero orphans). 30
-// halves the paced calls while keeping ~1MB payloads, a 3.3s request well inside
-// the 30s abort, and a failed batch costing 30 artists rather than the sweep.
+// Apple applies `limit` per artist. Batches of 30 keep payloads near 1MB
+// and limit the number of artists affected by one failed request.
 export const BATCH_SIZE = 30
 
-// Collection ids per lookup call. 200, not 100: once the artist sweep is batched
-// these chunks are the run's dominant cost, and each one buys another paced slot.
-// Verified against a real 512-id set 2026-07-30 — 100s and 200s returned identical
-// collections; Apple starts truncating past 200. The audit prices sources in
-// chunks, so it has to agree with the fetcher on the divisor.
+// Apple starts truncating collection lookups past 200 IDs.
 export const LOOKUP_CHUNK = 200
 // Mean gap the iTunes pacer holds between calls, for the audit's cost estimates.
 export const PACED_CALL_S = 3.25
@@ -57,9 +39,12 @@ export const PACED_CALL_S = 3.25
 // bootout mid-write must leave the previous copy rather than a truncated one:
 // writeFileSync overwrites in place, rename within a directory is atomic.
 export function writeFileAtomic(target, data) {
-  const tmp = target instanceof URL ? new URL(target.href + '.tmp') : target + '.tmp'
-  writeFileSync(tmp, data)
-  renameSync(tmp, target)
+  const suffix = '.' + process.pid + '.tmp'
+  const tmp = target instanceof URL ? new URL(target.href + suffix) : target + suffix
+  try {
+    writeFileSync(tmp, data)
+    renameSync(tmp, target)
+  } finally { rmSync(tmp, { force: true }) }
 }
 
 export const PREFS_PATH = new URL('../config/preferences.json', import.meta.url)
@@ -70,13 +55,8 @@ export const SOURCE_ACTIVITY_PATH = new URL('../config/source-activity.json', im
 
 // Not /tmp (world-writable — another user could plant a pidfile and block refreshes).
 export const REFRESH_LOG = `${process.env.HOME}/Library/Logs/new-music-radar.log`
-export const REFRESH_PIDFILE = `${process.env.HOME}/Library/Logs/new-music-radar-refresh.pid`
 
-// Per-release provenance tags, written by the fetcher and read back by the
-// editor's source-yield chips.
 export const sourceTag = (kind, key) => `${kind}:${key}`
-
-// ---------- source-activity.json readers ----------
 
 export const windowIndices = (hist, days) => {
   const idx = []
@@ -105,17 +85,7 @@ export function sourceWindow(hist, tag, idx) {
   return { surfaced, unique, measured, failed, last }
 }
 
-// ---------- always-scanned genre feeds ----------
-
-// iTunes Store *purchase* charts per genre: buying spikes on release day, so drops
-// appear within hours (most-played lags by days). `tag` is the feed's
-// Apple genre name, used verbatim only as the fallback when an entry has no
-// lookup-backed genre; `African` is the one tag not in genres.followed, so its
-// fallback cards drop (accepted). `feeds` narrows a genre to the half that is alive.
-//
-// Lives here, not in the fetcher, because the editor lists these as always-scanned
-// sources and importing fetch-releases.mjs would run the whole pipeline.
-//
+// `tag` is Apple's verbatim fallback genre when a lookup provides none.
 // 1251/1253 sit under Pop (14), NOT under Chinese (1232): 1232 is the traditional
 // branch (Chinese Classical, Opera, Regional Folk) and yields no current releases.
 export const GENRE_FEEDS = [
@@ -134,6 +104,10 @@ export const GENRE_FEEDS = [
   { genreId: 1251, tag: 'Cantopop/HK-Pop', feeds: ['topsongs'] },
   { genreId: 18, tag: 'Hip-Hop/Rap', feeds: ['topsongs'] },
 ]
-// The two legacy-RSS purchase charts, per genre and per storefront alike.
 export const PURCHASE_FEED_TYPES = ['topalbums', 'topsongs']
 export const feedTypesOf = (f) => f.feeds ?? PURCHASE_FEED_TYPES
+
+export function serializeFeed(data) {
+  const records = (rows) => rows.map((row) => JSON.stringify(row)).join(',\n')
+  return `{\n"fetched_at":${data.fetched_at},\n"releases":[\n${records(data.releases)}\n],\n"upcoming":[\n${records(data.upcoming ?? [])}\n]\n}\n`
+}

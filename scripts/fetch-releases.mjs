@@ -1,11 +1,4 @@
 #!/usr/bin/env node
-// Fetch new releases and write docs/data/releases.json. Zero deps; run daily
-// by scripts/update.sh via launchd. Exit 0 = clean, 2 = a source failed
-// (partial data still published).
-//
-// Apple-only, US storefront only: other storefronts localize artist names
-// (KR lists CHUU as 츄), splitting the dedup key. Foreign-only releases appear
-// once they propagate to the US catalog (usually within hours).
 
 import { mkdirSync, readFileSync } from 'node:fs'
 import { STOREFRONTS, purchaseFeedsOf } from './storefronts.mjs'
@@ -15,7 +8,11 @@ import {
   countryPurchaseUrl, errDetail, genreFeedUrl, getJSON, groupArtistLookup, itunesJSON,
   lookupUrl, marketingToolsJSON, normId, rssAlbumId, scrapePlaylistAlbumIds, sleep, throttleCount, usLink,
 } from './apple-api.mjs'
-import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, daysSince, feedTypesOf, notOlderThan, sourceTag, withinDays, writeFileAtomic } from './shared.mjs'
+import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, daysSince, feedTypesOf, notOlderThan, sourceTag, withinDays, writeFileAtomic, serializeFeed } from './shared.mjs'
+
+import { holdRunLock } from './run-lock.mjs'
+
+holdRunLock('fetch')
 
 const PREFS = JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 
@@ -67,11 +64,6 @@ const artUrl = (u) => {
 const appleLink = (u) =>
   u && /^https:\/\/(music|itunes)\.apple\.com\//.test(u) ? usLink(u) : undefined
 
-// One iTunes lookup result (wrapperType "collection") → release card shape.
-// EVERY lookup-backed source funnels through this so the shapes can't drift;
-// the *ToRelease helpers below build from raw feed data and are only reached
-// when a lookup didn't return the id. artist_id drives ID-based blocking and
-// cross-run carryover matching; the app ignores it.
 const fromCollection = (a) => ({
   title: displayTitle(a.collectionName),
   artist: a.artistName,
@@ -86,7 +78,6 @@ const fromCollection = (a) => ({
 const GENRES_FOLLOWED = (PREFS.genres?.followed ?? []).map((s) => s.toLowerCase())
 
 const FOLLOWED_ENTRIES = PREFS.artists?.followed ?? []
-// Blocking is by Apple ID — precise ("Drake" can't catch "Drake Milligan").
 const BLOCKED_IDS = new Set()
 for (const e of PREFS.artists?.blocked ?? []) {
   if (e?.id) BLOCKED_IDS.add(e.id)
@@ -96,28 +87,19 @@ for (const e of PREFS.artists?.blocked ?? []) {
 const isGenreFollowed = (g) => !!g && GENRES_FOLLOWED.includes(g.toLowerCase())
 const isArtistBlocked = (r) => !!r.artist_id && BLOCKED_IDS.has(r.artist_id)
 
-// ---------- followed artists via iTunes ----------
-
 // Both retry passes (sweep batches, country feeds) wait this long: the
 // failures they cover are intermittent connection stalls and marketingtools 503s.
 const RETRY_BACKOFF_MS = 15_000
 
-// Newest US release date per swept artist id — feeds the editor's dormancy
-// hints. Only current-sweep ids are recorded (batch responses also carry
-// collab partners' ids, which would plant stale dates); future dates skipped,
-// file pruned to the followed list on write.
 let artistActivity = {}
 try {
   const parsed = JSON.parse(readFileSync(ACTIVITY_PATH, 'utf8'))
   if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) artistActivity = parsed
   else log('artist-activity.json is not an object — starting a fresh tally')
 } catch (e) {
-  // absent on a first run, which is normal; anything else is worth a line
   if (e.code !== 'ENOENT') log(`could not read artist-activity.json (${errDetail(e)}) — starting a fresh tally`)
 }
 
-// Sweep-found pre-orders, collected across batches → the Upcoming tab (its
-// own mini-pipeline at the end).
 const upcomingRaw = []
 
 async function batchReleases(ids) {
@@ -132,8 +114,6 @@ async function batchReleases(ids) {
     anyFailed = true
     log(`${orphans} collections arrived before any artist record — lookup grouping changed?`)
   }
-  // seed the shared collection cache: a followed artist's release that also
-  // charts or lands on a playlist skips a second lookup
   for (const a of collections) collectionCache.set(String(a.collectionId), a)
   const swept = new Set(ids)
   for (const a of collections) {
@@ -141,7 +121,6 @@ async function batchReleases(ids) {
     if (!swept.has(a.artistId) || !d || d > TODAY) continue
     if (!artistActivity[a.artistId] || d > artistActivity[a.artistId]) artistActivity[a.artistId] = d
   }
-  // provenance rides along for the Upcoming and carryover rules below
   const fromSweep = (a) => ({ ...fromCollection(a), followed: true, via_artist_id: a.via })
   upcomingRaw.push(
     ...collections.filter((a) => a.releaseDate && isUpcoming(a.releaseDate)).map(fromSweep)
@@ -177,8 +156,6 @@ async function lookupCollections(ids) {
   return hits
 }
 
-// ---------- Apple most-played chart (discovery) ----------
-
 async function fetchChart() {
   const data = await marketingToolsJSON(US_CHART_URL)
   return data.feed?.results ?? []
@@ -197,8 +174,6 @@ const chartEntryToRelease = (e, feedGenre) => ({
   genre: feedGenre,
   link: appleLink(e.url),
 })
-
-// ---------- genre charts (iTunes purchase charts — day-of discovery) ----------
 
 // A feed's in-window raw entries. topalbums entries are collections; topsongs
 // entries are TRACKS, so emitting them directly would put one card per track
@@ -226,10 +201,6 @@ const albumEntryToRelease = (e, tag) => ({
   link: appleLink(e.id?.label),
 })
 
-// ---------- country charts (per-storefront discovery) ----------
-
-// Each followed country adds its most-played Top 100 (marketingtools) and
-// purchase charts (legacy RSS) to the scan.
 const COUNTRY_CODES = [...new Set((PREFS.discovery?.countries ?? []).map((c) => String(c).toLowerCase()))].filter((c) => {
   // hasOwn, not truthiness: an inherited key ("constructor") is unknown too
   if (Object.hasOwn(STOREFRONTS, c)) return true
@@ -257,13 +228,7 @@ async function countryPurchaseFeed(sf, feedType) {
   return entries.map((e) => rssAlbumId(e, feedType)).filter(Boolean)
 }
 
-// ---------- editorial playlists (scraped web player pages) ----------
-
-// The page fetch is unpaced and overlaps the artist sweep, and failures must be
-// loud (exit 2).
 const playlistAlbumIds = async (pl) => ({ pl, ...(await scrapePlaylistAlbumIds(pl.url)) })
-
-// ---------- pipeline ----------
 
 let anyFailed = false
 // Source tags whose data is missing or degraded this run; the tally at the end
@@ -293,7 +258,6 @@ const genreFeedsP = Promise.allSettled(
         .then(
           (entries) => ({ tag: f.tag, feedType, entries }),
           (e) => {
-            // tag rides along on the throw so failedSources can name this source
             throw Object.assign(new Error(`${f.tag} ${feedType}: ${errDetail(e)}`), { tag: f.tag })
           }
         )
@@ -307,7 +271,6 @@ const playlistPagesP = Promise.allSettled(
     })
   )
 )
-// Tasks (not bare promises) so failures can be retried by re-calling run().
 const COUNTRY_TASKS = COUNTRY_CODES.flatMap((sf) => [
   { sf, kind: 'most-played', stagger: 0, run: () => countryMostPlayed(sf) },
   // empty where Apple runs no purchase store, so not fetched every night for nothing
@@ -370,8 +333,6 @@ if (failedBatches.length) {
   }
   failedBatches = stillFailed
 }
-// Which artists' data is missing this run, for the Upcoming carryover —
-// matched by swept id (the follow list is id-only).
 const failedSweepIds = new Set(failedBatches.flatMap(({ batch }) => batch.map((a) => a.id)))
 // prune to the followed list: unfollowed artists' entries are frozen (never
 // re-swept) and would resurface stale if re-followed. Future dates dropped too
@@ -382,10 +343,8 @@ artistActivity = Object.fromEntries(
 )
 writeFileAtomic(ACTIVITY_PATH, JSON.stringify(artistActivity, null, 2) + '\n')
 log(`${followedCount} releases (pre-dedup) via ${sweepArtists.length} followed artists in ${batches.length} batches`)
-// a failed batch is up to BATCH_SIZE artists silently skipped — flag the run (exit 2)
 if (failedBatches.length > 0) anyFailed = true
 
-// 2. Chart — in-window entries from the US most-played chart as discovery
 let chart = []
 try {
   chart = await chartP
@@ -421,7 +380,6 @@ if (skippedChart.length)
     `${skippedChart.length} chart lookups skipped (unfollowed genre): ${skippedChart.slice(0, 3).join('; ')}${skippedChart.length > 3 ? '; …' : ''}`
   )
 
-// lookupCollections dedups and digit-filters its own input
 let chartHits = []
 if (candidates.length) {
   try {
@@ -476,9 +434,7 @@ for (const settled of await genreFeedsP) {
     const id = rssAlbumId(e, feedType)
     if (!id || !/^\d+$/.test(id)) continue
     ids++
-    // first feed to claim an id names it; the lookup usually overrides anyway
     if (!genreFeedIds.has(id)) genreFeedIds.set(id, tag)
-    // album entries double as the fallback card if the lookup misses the id
     if (feedType === 'topalbums' && !feedAlbumFallback.has(id)) feedAlbumFallback.set(id, e)
   }
   log(`${tag} ${feedType}: ${entries.length} in-window → ${ids} album ids`)
@@ -517,11 +473,6 @@ if (genreFeedIds.size) {
   }
 }
 
-// 3b. Country charts — date-filtered collection ids from the country feeds.
-// Ids already on the US most-played chart are skipped (covered there; keeps
-// global hits off every country's chart); the rest resolve through one shared
-// US lookup. Ids Apple doesn't return aren't in the US catalog yet — dropped
-// with a per-storefront count, they make a later fetch once they propagate.
 const usChartIds = new Set(chart.map((e) => normId(e.id)).filter(Boolean))
 const countryIdSources = new Map() // collection id → Set of storefronts that surfaced it
 let usChartSubtracted = 0
@@ -547,7 +498,6 @@ const ingestCountryFeed = ({ sf, kind }, ids) => {
   }
   log(`${sf} ${kind}: ${ids.length} in-window → ${fresh} new ids`)
 }
-// One retry pass, like the sweep's.
 const failedCountryFeeds = []
 ;(await countryFeedsP).forEach((settled, i) => {
   if (settled.status === 'rejected') {
@@ -669,8 +619,6 @@ function mergeInto(prev, r) {
   prev.followed = prev.followed || r.followed
 }
 
-// noise + canonical-key dedup (type is in the key: same-titled song + album
-// both survive; duplicates across sources collapse into one card)
 const byKey = new Map()
 for (const r of releases) {
   if (NOISE_RE.test(r.title)) {
@@ -684,7 +632,6 @@ for (const r of releases) {
 }
 let out = [...byKey.values()]
 
-// precedence per CLAUDE.md; the chain below is the whole rule
 const before = out.length
 // genre drops are the bulk (dozens per run) — one summary line; blocked-artist
 // drops stay individual (rare, worth seeing what the block list caught)
@@ -710,8 +657,6 @@ if (before !== out.length)
         : '')
   )
 
-// Previous file — read once, three consumers below (empty-success guard +
-// the two per-entry carryovers).
 let prevFile = {}
 try {
   prevFile = JSON.parse(readFileSync(DATA_PATH, 'utf8'))
@@ -723,6 +668,14 @@ try {
     log(`could not read releases.json (${errDetail(e)}) — carryover and the empty-success guard are unavailable this run`)
   }
 }
+
+const eligibleCarryover = (r) => {
+  if (NOISE_RE.test(r.title) || isArtistBlocked(r)) return false
+  r.followed = sweepIds.has(r.via_artist_id ?? r.artist_id)
+  return r.followed || isGenreFollowed(r.genre)
+}
+prevFile.releases = (prevFile.releases ?? []).filter(eligibleCarryover)
+prevFile.upcoming = (prevFile.upcoming ?? []).filter((r) => eligibleCarryover(r) && r.followed)
 
 // Empty-success guard (an empty success can be a failure in disguise): if we
 // fetched nothing but the previous file has in-window releases, keep those
@@ -741,11 +694,6 @@ if (out.length === 0) {
   }
 }
 
-// Upcoming (pre-orders) — followed artists only, enforced against the id whose
-// discography returned the pre-order, so a collab under a joint entity id
-// qualifies. Same noise/dedup/block rules as the main list, soonest first. An
-// empty list from a clean sweep is normal; entries whose batch failed carry
-// over below so a tracked pre-order never vanishes on a bad night.
 const upcomingByKey = new Map()
 for (const r of upcomingRaw) {
   if (NOISE_RE.test(r.title) || isArtistBlocked(r)) continue
@@ -755,11 +703,6 @@ for (const r of upcomingRaw) {
   if (prev) mergeInto(prev, r)
   else upcomingByKey.set(k, r)
 }
-// Per-entry carryover (both lists): a failed batch means that artist's data is
-// missing this run, so their previous in-window releases and pre-orders carry
-// over rather than vanish. Entries whose artist swept SUCCESSFULLY but no
-// longer returned drop (canceled/pulled); a date change re-lands under the
-// same key so the fresh copy wins.
 if (failedBatches.length > 0) {
   // Attribution by the id whose sweep produced the entry — via_artist_id for a
   // collab, the credited id otherwise. An entry with no id can't be verified:
@@ -768,31 +711,26 @@ if (failedBatches.length > 0) {
     const id = r.via_artist_id ?? r.artist_id
     return id == null || failedSweepIds.has(id)
   }
-  // block list / noise rules may have changed since the entry was written
-  const stillEligible = (r) => !NOISE_RE.test(r.title) && !isArtistBlocked(r)
   const outKeys = new Set(out.map(keyOf))
   for (const r of prevFile.releases ?? []) {
     const k = keyOf(r)
     if (!r.followed || !inWindow(r.release_date) || outKeys.has(k)) continue
-    if (!missingThisRun(r) || !stillEligible(r)) continue
+    if (!missingThisRun(r)) continue
     outKeys.add(k)
     out.push(r)
     log(`carried over (batch failed): ${r.artist} — ${r.title}`)
   }
-  // outKeys now includes carried releases, keeping the two lists disjoint
   for (const r of prevFile.upcoming ?? []) {
     const k = keyOf(r)
     if (!notOlderThan(r.release_date, WINDOW_DAYS)) continue
     if (upcomingByKey.has(k)) continue
-    if (!missingThisRun(r) || !stillEligible(r)) continue
-    r.followed = true
+    if (!missingThisRun(r)) continue
     if (isUpcoming(r.release_date)) {
       // still future — no out check: it may share keyOf with a released
       // edition (deluxe pre-order) but dates differ; the card-level
       // disjointness filter below is the backstop
       upcomingByKey.set(k, r)
     } else {
-      // date passed while the artist's batch was failing — belongs on New
       // now, unless a discovery source already fetched it fresh
       if (outKeys.has(k)) continue
       outKeys.add(k)
@@ -813,9 +751,8 @@ log(`${upcoming.length} upcoming pre-orders`)
 out.sort(releaseOrder)
 
 mkdirSync(new URL('.', DATA_PATH), { recursive: true })
-writeFileAtomic(DATA_PATH, JSON.stringify({ fetched_at: Date.now(), releases: out, upcoming }, null, 2) + '\n')
+writeFileAtomic(DATA_PATH, serializeFeed({ fetched_at: Date.now(), releases: out, upcoming }))
 log(`wrote ${out.length} releases + ${upcoming.length} upcoming`)
-
 // Rolling tally of what the genre filter cost, for `npm run check-genres`.
 //
 // This block and the source tally below run LAST and never fatally: both are
@@ -848,10 +785,6 @@ try {
   log(`could not update genre-activity.json: ${errDetail(e)}`)
 }
 
-// Rolling per-source yield, read by `npm run audit-sources` and the editor's chips.
-// Columnar (one shared date array, parallel per-source arrays) because update.sh
-// commits config/ every night: a date-keyed map would repeat the date once per
-// source per day, and this file is meant to stay small enough to push daily.
 try {
   let hist = { days: [], sources: {} }
   try {
@@ -859,7 +792,6 @@ try {
     if (Array.isArray(parsed?.days) && parsed.sources && typeof parsed.sources === 'object') hist = parsed
   } catch {} // absent on a first run; a corrupt one restarts the history
 
-  // a second run the same day (Save & refresh) replaces today rather than appending
   if (hist.days.at(-1) === TODAY) {
     hist.days.pop()
     for (const col of Object.values(hist.sources)) col.pop()
@@ -888,7 +820,7 @@ try {
   const len = hist.days.length
   for (const tag of new Set([...configured, ...Object.keys(hist.sources)])) {
     const col = (hist.sources[tag] ??= [])
-    while (col.length < len - 1) col.push(null) // a source added later starts blank
+    while (col.length < len - 1) col.push(null)
     const unmeasured = !configured.has(tag) || carriedWholesale || failedSources.has(tag)
     col.push(unmeasured ? null : (tally.get(tag) ?? [0, 0]))
   }
@@ -906,8 +838,6 @@ try {
     if (!configured.has(k) && col.every((d) => d == null)) delete hist.sources[k]
   }
 
-  // one line per source: this file changes every night in a tracked directory, and
-  // a single-line blob would make every commit an unreadable whole-file diff
   const rows = Object.keys(hist.sources)
     .sort()
     .map((k) => ` ${JSON.stringify(k)}: ${JSON.stringify(hist.sources[k])}`)
