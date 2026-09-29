@@ -35,7 +35,7 @@ export default defineConfig({
   build: {
     outDir: 'docs',
     // docs/ doubles as the GitHub Pages root and holds live data — never wipe it.
-    // Stale hashed assets are handled by `rm -rf docs/assets` in the build script.
+    // build-site.mjs installs replacements before pruning obsolete assets.
     emptyOutDir: false,
   },
 })

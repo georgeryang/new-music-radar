@@ -2,6 +2,7 @@ import { useEffect, useState, type KeyboardEvent } from 'react'
 import { ReleaseCard } from '@/components/ReleaseCard'
 import { formatRelativeTime, isFreshAsOf } from '@/lib/utils'
 import { cardKeyOf } from '../scripts/card-key.mjs'
+import { parseFeed } from '@/lib/feed-data'
 import type { FeedData } from '@/lib/types'
 
 const PREFS_URL = 'http://127.0.0.1:4747'
@@ -9,6 +10,7 @@ const PREFS_URL = 'http://127.0.0.1:4747'
 export default function App() {
   const [data, setData] = useState<FeedData | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [rejected, setRejected] = useState(0)
   const [prefsUp, setPrefsUp] = useState(false)
   const [tab, setTab] = useState<'new' | 'upcoming'>('new')
 
@@ -37,11 +39,9 @@ export default function App() {
         if (!r.ok) throw new Error()
         return r.json()
       })
-      .then((d: FeedData) => {
-        // upcoming too — it is filtered below, so a non-array throws mid-render
-        if (!Array.isArray(d?.releases)) throw new Error()
-        if (d.upcoming !== undefined && !Array.isArray(d.upcoming)) throw new Error()
-        if (!cancelled) setData(d)
+      .then((value: unknown) => {
+        const { data, rejected } = parseFeed(value)
+        if (!cancelled) { setData(data); setRejected(rejected) }
       })
       .catch(() => {
         // one written message, never the raw rejection: an HTML error page
@@ -109,6 +109,9 @@ export default function App() {
             </button>
           </p>
         )}
+        {rejected > 0 && <p role="status" className="py-3 text-sm text-warning-text">
+          Some releases could not be displayed because their data is incomplete. Try reloading after the next update.
+        </p>}
         {!data && !error && <LoadingGrid />}
         {data && showBar && (
           <div
@@ -158,7 +161,9 @@ export default function App() {
             </div>
           ) : (
             <p role="status" className="py-3 text-sm text-muted-foreground">
-              {activeKey === 'upcoming'
+              {rejected > 0
+                ? 'No releases can be displayed from this update. Try reloading after the next update.'
+                : activeKey === 'upcoming'
                 ? 'Nothing announced yet.'
                 : 'No new releases right now. Updates every evening.'}
             </p>

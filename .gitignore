@@ -3,3 +3,6 @@ node_modules
 *.local
 .claude/
 *.tmp
+
+.radar-run.lock*
+.radar-build-*

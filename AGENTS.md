@@ -1,36 +1,30 @@
-# new-music-radar — agent steering
+# New Music Radar
 
-Apple-only follow-list release tracker. Local pipeline builds `docs/`, GitHub Pages serves it.
+Apple-only release tracker. A local pipeline writes `docs/`; GitHub Pages serves it.
 
-## Copy conventions
+## Copy
 
-- README and UI copy follow /draft-text mechanics: no em dashes, no buzzwords.
-- Exception, per gry-design-system: titles and headings (page titles, README `##` headings and the bold section names that mirror editor sections, the editor's section headings) use US Title Case. Buttons, labels and body text stay sentence case.
-- Code comments are exempt from /draft-text but keep them concise. Protect the load-bearing "why"; cut restatement of what the code shows.
+Use `/draft-text` mechanics for README and UI copy: plain US English, no em dashes or buzzwords. Titles, headings, and README bold section names use US Title Case; buttons, labels, and body text use sentence case. Comments retain only load-bearing constraints.
 
-## Pipeline invariants
+## Pipeline Invariants
 
-- Local-only, single-writer, push-only pipeline: `fetch-releases.mjs` → `docs/` → Pages, driven by launchd + `update.sh --if-stale`. Do not add a second writer or a server-side build.
-- foreign feeds contribute catalog ids ONLY; every card built from a US lookup. US catalog only.
-- Genres have NO mapping layer. Cards show Apple's verbatim primaryGenreName; the follow filter is an exact case-insensitive match; the picker offers a curated list (`scripts/genre-options.mjs`). Do not reintroduce a genre map.
-- Parent/child genre matching (following `Hip-Hop/Rap` also admitting `Rap`) was proposed and declined 2026-07-29: Apple's tree puts 78 extra names under the current follow list, including `Soft Rock` and `Adult Contemporary` under `Pop`. `npm run check-genres` reports leaf genres that cost releases so they can be followed by name instead.
-- Filter precedence is fixed: block > follow > genre > drop.
-- Follow and block both match by Apple id only (no name matching); both lists are id-required and the prefs picker enforces it.
-- Follow matches on provenance, block on credit. The sweep response is grouped per requested id, so every card records the followed artist whose discography returned it as `via_artist_id`; that is how a collab credited to a joint entity (`george & MINNIE`) is followed. Block sees only the credited id, so a blocked artist's joint-entity collab is not blocked, and one shared with a followed artist shows starred.
-- The pipeline fails loudly (exit 2 + partial publish), never silently. Preserve this; never swallow errors.
-- Absence is not zero: a day a source's fetch failed records `null` in `config/source-activity.json`, never `0`, and every window skips those days. `sourceWindow` in `scripts/shared.mjs` is the definition site. A transient error read as "produced nothing" is what makes a healthy source look prunable, so this belongs here rather than restated per caller.
-- Card hrefs use Apple's `music://` scheme (`appleMusicAppLink` in `src/lib/utils.ts`), not the https URL stored in `link`. The https form lands on the Apple Music web player, whose own "Open in Music" hand-off offers to install iTunes on iPadOS. The rewrite lives in the UI, so `link` stays a canonical https URL and carried-over entries need no re-fetch. Two accepted consequences: a device with no Apple Music app gets a dead card, and a link the rewrite cannot match renders unlinked rather than falling back to the web player.
-- One clock: windows, labels, and the New/Upcoming split all anchor to `fetched_at`. The viewer clock is only for "Updated Xh ago". Do not anchor filtering to the viewer clock.
-- Three count windows are intentional: genre chips tally the fetcher's `WINDOW_DAYS`, source chips (countries, playlists, fixed feeds) tally `SOURCE_CHIP_DAYS` measured days from `source-activity.json`, and the site's New tab trims to 24h. Chip counts exceeding the page is expected, not a bug.
-- Never put a `<meta http-equiv="Content-Security-Policy">` in `index.html`: `@vitejs/plugin-react` injects its Fast Refresh preamble as an inline script, so `script-src 'self'` breaks `npm run dev` while the shipped site looks fine. Inject it build-only (`transformIndexHtml` + `apply: 'build'`) if it is ever wanted.
-- Pages serves this as a *project* site, so the origin root belongs to `georgeryang.github.io` and no response header is ours. `robots.txt`, `/.well-known/*`, a root `favicon.ico`, `Cache-Control`, `nosniff`, `X-Frame-Options` and CSP `frame-ancestors` are all unreachable here; `<meta name="robots">` is the only indexing lever. Unknown paths already return a real 404 from GitHub.
+- One local writer: `fetch-releases.mjs` → `docs/` → Pages, scheduled by launchd through `update.sh --if-stale`. No server-side build or second writer. `run-lock.mjs` coordinates refreshes, direct fetches, audits, builds, and preference saves with macOS `lockf`. Keep the lock inode; only its owner metadata is removed. Nested fetches require the refresh owner's token.
+- Foreign feeds contribute catalog IDs only; cards use US lookups. Never substitute foreign catalog metadata.
+- No genre mapping. Display Apple's verbatim `primaryGenreName`; follow by exact case-insensitive name. The picker uses `scripts/genre-options.mjs`. Parent/child matching was rejected: following Pop would admit Soft Rock and Adult Contemporary. `npm run check-genres` identifies missed names to follow explicitly.
+- Precedence: block > follow > genre > drop. Follow/block require Apple IDs, never names. Follow uses `via_artist_id` (discography provenance); block uses credited `artist_id`. Thus a followed member's joint-entity collaboration is starred, and blocking the member does not block a different joint-credit ID. Reapply current eligibility to carryover too.
+- Fail loudly: source errors exit 2 with partial publish. Failed source days are `null`, never zero. Every count window skips them; `sourceWindow` in `scripts/shared.mjs` owns this rule.
+- Card hrefs use `appleMusicAppLink` in `src/lib/utils.ts`: `music://`, not the stored canonical https link. Apple's web-player handoff offers iTunes installation on iPadOS. Accepted: no installed app means a nonworking link; an unmatched URL renders unlinked, with no web fallback.
+- Filtering, labels, and New/Upcoming anchor to `fetched_at`; viewer time is only for “Updated Xh ago”. Genre chips count `WINDOW_DAYS`; source chips count `SOURCE_CHIP_DAYS` measured days; New trims discovery to 24h. Chip totals exceeding the page are intentional.
+- Never add CSP meta to source `index.html`: it breaks Vite's inline Fast Refresh preamble. Any future CSP must be build-only (`transformIndexHtml`, `apply: 'build'`).
+- Pages is a project site. Origin-root files (`robots.txt`, `/.well-known/*`, root favicon) and response headers are outside our control. Use meta robots for indexing. CSP `frame-ancestors` cannot work in meta; unknown paths already return real 404s.
+- Automatic publication must inspect every unpushed commit, not just the endpoint diff. Unrelated history or inspection failure stops publication. Never use the live updater as a test. Build replacements in staging before replacing the index or pruning generated files; preserve `docs/data`.
 
-## Control panel
+## Preferences Editor
 
-- `config/preferences.json` is the whole control panel (follow/block by Apple ID, exact-name genres, storefront-code countries, playlists).
-- Local editor is `prefs-server.mjs` at `127.0.0.1:4747`.
-- `npm run build` never parses `prefs-server.mjs` as JavaScript — Vite only scans it as text for Tailwind's `@source`. A syntax error there passes the build and ships, so `node --check scripts/prefs-server.mjs` is the only gate. Its page is one big template literal: a backtick anywhere inside it, including in a comment, silently terminates the string.
-- The server builds `PAGE` at import, so restart it after editing the template. A still-running instance serves the old HTML and a browser test will happily pass against it.
-- `node --check` covers the server module, never the client JavaScript inside `PAGE`. To gate that, boot the server, `curl` the page, extract the inline `<script>` and pass it through `new Function()`. That catches a broken client script without a browser.
-- The editor classifies a finished run by grepping `update.sh`'s log for six exact strings: `Published`, `No changes`, `HELD:`, `ERROR: fetch did not run`, `ERROR:`, `WARNING:`. Rewording any of them silently misreports the outcome banner, and nothing on the producing side says so. Each already means one specific thing — `WARNING:` is "the Pages deploy did not confirm", `HELD:` is "no new data and unpushed commits are being left alone" — so a new outcome needs its own prefix rather than reusing one of these.
+- `config/preferences.json` is the control panel: ID-pinned follow/block lists, exact genres, storefront codes, and playlists. The editor binds `127.0.0.1:4747`. Saves during background operations return 409; unsaved edits stay visible.
+- Vite scans `prefs-server.mjs` only as Tailwind text. `npm run check-editor` checks the server and the inline client script; a normal build cannot detect their syntax errors. `PAGE` is a template literal: embedded backticks terminate it. Restart the server after edits because `PAGE` is built at import.
+- Outcome strings are an interface: `Published`, `No changes`, `HELD:`, `ERROR: fetch did not run`, `ERROR:`, and `WARNING:`. Preserve them. `HELD:` means no new data with unrelated unpushed commits; `WARNING:` means deploy verification failed. `UNPUBLISHED:` covers new data held locally or unavailable upstream history. A new outcome needs its own prefix and client classification.
 
+## Verification
+
+`npm test` uses disposable repositories and mocked network/publishing. `npm run test:browser` exercises the editor and built site with intercepted requests. See `skills/verify-radar/SKILL.md` for browser setup and fixture constraints. Never restore test state with `git checkout`, or overwrite live preferences/history to inject failures.

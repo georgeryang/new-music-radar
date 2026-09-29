@@ -3,8 +3,6 @@ import { createRoot } from 'react-dom/client'
 import App from './App'
 import './index.css'
 
-// The loader checks that releases/upcoming are arrays, never the shape of their
-// entries, so one malformed entry throws mid-render and blanks the page.
 class ErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false }
 
