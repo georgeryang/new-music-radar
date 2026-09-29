@@ -5,17 +5,17 @@
     "last_seen": "2026-09-28",
     "example": "Keo — Put A Smile On For Me"
   },
+  "Música Mexicana": {
+    "dropped": 12,
+    "today": 1,
+    "last_seen": "2026-09-29",
+    "example": "Bajo Perfil — De Amor No Se Vive"
+  },
   "African": {
     "dropped": 11,
     "today": 3,
     "last_seen": "2026-09-21",
     "example": "Baka Beyond — Sing the World Awake"
-  },
-  "Música Mexicana": {
-    "dropped": 11,
-    "today": 3,
-    "last_seen": "2026-09-28",
-    "example": "Intocable — Cuando Se Haga De Noche"
   },
   "Afro House": {
     "dropped": 8,
@@ -29,12 +29,6 @@
     "last_seen": "2026-09-28",
     "example": "Corey Kent — Heartland Rock and Roll"
   },
-  "Video Game": {
-    "dropped": 7,
-    "today": 1,
-    "last_seen": "2026-09-23",
-    "example": "ATLUS GAME MUSIC & Syouji Meguro — Revelations: Persona (Original Soundtrack)"
-  },
   "House": {
     "dropped": 7,
     "today": 3,
@@ -47,11 +41,23 @@
     "last_seen": "2026-09-28",
     "example": "Towa Tei — ZAMBIENT"
   },
-  "Tai-Pop": {
-    "dropped": 4,
+  "Rock": {
+    "dropped": 6,
+    "today": 2,
+    "last_seen": "2026-09-29",
+    "example": "Rockon Social Club — Stand Out (Cover)"
+  },
+  "Soundtrack": {
+    "dropped": 6,
+    "today": 3,
+    "last_seen": "2026-09-29",
+    "example": "REI — Dive Into You (Original Soundtrack) Part.1"
+  },
+  "Anime": {
+    "dropped": 5,
     "today": 1,
-    "last_seen": "2026-08-30",
-    "example": "Caotun Boyz — 按呢敢閣有意義"
+    "last_seen": "2026-09-29",
+    "example": "Tsumugi Shiraishi (CV: Saki Minami), Anna Mochizuki (CV: Shiina Natsukawa), Mirai Kasuga (CV: Haruka Yamazaki) & Kana Yabuki (CV: Ibuki Kido) — 一旦愛して♡"
   },
   "Crossover Jazz": {
     "dropped": 4,
@@ -71,29 +77,11 @@
     "last_seen": "2026-09-26",
     "example": "FRαNKIE & SAVAGE.M — 直南"
   },
-  "Anime": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-09-28",
-    "example": "Tsumugi Shiraishi (CV: Saki Minami), Anna Mochizuki (CV: Shiina Natsukawa), Mirai Kasuga (CV: Haruka Yamazaki) & Kana Yabuki (CV: Ibuki Kido) — 一旦愛して♡"
-  },
-  "Rock": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-09-28",
-    "example": "SPYAIR — Take Flight"
-  },
   "Electronica": {
     "dropped": 4,
     "today": 2,
     "last_seen": "2026-09-28",
     "example": "JUNHEE — DEEP DIVE"
-  },
-  "Breakbeat": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-30",
-    "example": "CHRIS STASSY & Marz Fay — U know me"
   },
   "Afro-fusion": {
     "dropped": 3,
@@ -118,12 +106,6 @@
     "today": 1,
     "last_seen": "2026-09-21",
     "example": "Darude — Sandstorm (Storm 25 Mix)"
-  },
-  "Soundtrack": {
-    "dropped": 3,
-    "today": 2,
-    "last_seen": "2026-09-28",
-    "example": "REI — Dive Into You (Original Soundtrack) Part.1"
   },
   "Praise & Worship": {
     "dropped": 2,
@@ -240,10 +222,16 @@
     "example": "Micro — After the Waves"
   },
   "Indie Rock": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-09-29",
+    "example": "Mr. Sea Turtle — 假如春天來臨,"
+  },
+  "Video Game": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "Mr. Sea Turtle — 假如春天來臨,"
+    "last_seen": "2026-09-29",
+    "example": "Wuthering Waves — Hsin's Wish(Original Game Soundtrack)"
   },
   "Metal": {
     "dropped": 1,
@@ -254,8 +242,8 @@
   "Techno": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-27",
-    "example": "Charlotte de Witte — The Resistance"
+    "last_seen": "2026-09-29",
+    "example": "r3-C0RD — PR0C33D"
   },
   "Downtempo": {
     "dropped": 1,
@@ -310,12 +298,6 @@
     "today": 1,
     "last_seen": "2026-09-05",
     "example": "Various Artists — 天赐的声音第七季 第12期 (Live)"
-  },
-  "Alternative Rap": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-08-30",
-    "example": "Skynny Rogers — Ain't My Fault"
   },
   "Big Band": {
     "dropped": 1,
