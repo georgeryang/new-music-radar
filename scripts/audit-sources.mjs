@@ -19,18 +19,16 @@ import {
   withinDays,
 } from './shared.mjs'
 
-const USAGE = 'usage: node scripts/audit-sources.mjs [--no-discover] [--json]'
+const USAGE = 'usage: node scripts/audit-sources.mjs [--discover | --no-discover] [--json]'
 const die = (m) => { console.error(m); process.exit(1) }
 const argv = process.argv.slice(2)
 if (argv.includes('--help') || argv.includes('-h')) { console.log(USAGE); process.exit(0) }
-const unknown = argv.find((a) => a !== '--no-discover' && a !== '--json')
+const unknown = argv.find((a) => !['--discover', '--no-discover', '--json'].includes(a))
 if (unknown) die(`unknown argument '${unknown}' (${USAGE})`)
-const DISCOVER = !argv.includes('--no-discover')
+if (argv.includes('--discover') && argv.includes('--no-discover')) die(`--discover and --no-discover conflict (${USAGE})`)
+const DISCOVER = argv.includes('--discover')
 const AS_JSON = argv.includes('--json')
 const say = (...a) => { if (!AS_JSON) console.log(...a) }
-// Failure notices go through warn, not say: say is a no-op under --json, which
-// otherwise hands a consumer a complete-looking report with every unmeasured
-// source silently missing.
 const warnings = []
 const warn = (m) => { warnings.push(m.trim()); say(m) }
 
@@ -120,21 +118,39 @@ async function probeRss(feeds) {
 
 const lookupCache = new Map()
 const lookupFailures = new Set()
-async function lookup(ids) {
-  const uniq = [...new Set(ids.map(String))]
-  const want = uniq.filter((i) => /^\d+$/.test(i) && !lookupCache.has(i))
-  for (let i = 0; i < want.length; i += LOOKUP_CHUNK) {
-    const chunk = want.slice(i, i + LOOKUP_CHUNK)
-    try {
-      const d = await itunesJSON(lookupUrl(chunk))
-      for (const r of (d.results ?? []).filter((x) => x.wrapperType === 'collection')) lookupCache.set(String(r.collectionId), r)
-      for (const id of chunk) { lookupFailures.delete(id); if (!lookupCache.has(id)) lookupCache.set(id, null) }
-    } catch (e) {
-      for (const id of chunk) lookupFailures.add(id)
-      warn(`lookup chunk failed, ${chunk.length} ids unmeasured: ${errDetail(e)}`)
+async function loadLookups(ids) {
+  const want = [...new Set(ids.map(String))].filter((i) => /^\d+$/.test(i) && !lookupCache.has(i))
+  const load = async (pending) => {
+    for (let i = 0; i < pending.length; i += LOOKUP_CHUNK) {
+      const chunk = pending.slice(i, i + LOOKUP_CHUNK)
+      try {
+        const d = await itunesJSON(lookupUrl(chunk))
+        for (const r of (d.results ?? []).filter((x) => x.wrapperType === 'collection')) lookupCache.set(String(r.collectionId), r)
+        for (const id of chunk) { lookupFailures.delete(id); if (!lookupCache.has(id)) lookupCache.set(id, null) }
+      } catch (e) {
+        for (const id of chunk) lookupFailures.add(id)
+        warn(`lookup chunk failed, ${chunk.length} ids unmeasured: ${errDetail(e)}`)
+      }
     }
   }
-  return uniq.map((i) => lookupCache.get(i)).filter(Boolean)
+  await load(want)
+  await load(want.filter((id) => lookupFailures.has(id)))
+}
+const cachedAlbums = (ids) => [...new Set(ids.map(String))].map((id) => lookupCache.get(id)).filter(Boolean)
+
+async function probeCountry(sf) {
+  const p = await probeRss(purchaseFeedsOf(sf).map((ft) => ({ url: countryPurchaseUrl(sf, ft), ft })))
+  const mp = await mtLiveness(countryMostPlayedUrl(sf))
+  if (!mp.ok) return { ...p, ok: false, err: mp.err }
+  p.entries += mp.entries
+  if (!p.newest || (mp.newest && mp.newest > p.newest)) p.newest = mp.newest
+  for (const e of mp.results ?? []) {
+    const id = albumIdFromTrackUrl(e.url)
+    if (!id || !withinDays(e.releaseDate, OVERLAP_DAYS)) continue
+    p.idSet.add(String(id))
+    if (withinDays(e.releaseDate, WINDOW_DAYS)) p.fresh++
+  }
+  return p
 }
 
 const costS = (ids) => (ids / LOOKUP_CHUNK) * PACED_CALL_S
@@ -143,8 +159,7 @@ const out = { generated: new Date().toISOString(), historyDays, sections: {}, re
 const rec = (action, target, why, confidence = 'firm') => out.recommend.push({ action, target, why, confidence })
 
 say(`Source audit — ${historyDays} day(s) of recorded history` + (THIN ? '  (THIN: windows below lean on live probes)' : ''))
-if (DISCOVER) say('Discovery on; this takes a few minutes. --no-discover for the fast pass.\n')
-else say('')
+say(DISCOVER ? 'Discovery on; this takes a few minutes.\n' : 'Configured sources only. Use --discover to score candidates.\n')
 
 say('=== FOLLOWED ARTISTS ===')
 const artists = (PREFS.artists?.followed ?? []).filter((a) => a?.id)
@@ -243,20 +258,16 @@ try {
 }
 
 const OVERLAP_DAYS = 14
-// Redundancy needs a real sample. A storefront with one recent release whose single
-// id happens to appear elsewhere is QUIET, not redundant. Below this, say so and move on.
 const MIN_REDUNDANCY_SAMPLE = 5
 const rows = []
 
-// stderr, so --json's stdout stays one parseable dump and a redirect keeps only
-// the report.
 const progress = (m) => process.stderr.write(`  … ${m}\n`)
 
 say('\n=== SOURCES ===')
 say(
   `  ${pad('source', 32)}${lpad('7d', 5)}${lpad('30d', 6)}${lpad('u30', 5)}  ` +
   `${lpad('14d', 5)}${lpad('uniq', 6)}  ${pad('most shared with', 22)}${lpad('zero', 5)}${lpad('fail', 5)}  ` +
-  `${pad('liveness', 32)}cost`
+  `${pad('days7/30', 10)}${pad('liveness', 32)}cost`
 )
 
 // always-scanned: US chart + genre feeds. most-played/albums serialises the
@@ -266,7 +277,8 @@ say(
   const l = await mtLiveness(US_CHART_URL)
   const idSet = new Set((l.results ?? []).filter((e) => withinDays(e.releaseDate, OVERLAP_DAYS)).map((e) => normId(e.id)).filter(Boolean))
   const fresh = (l.results ?? []).filter((e) => withinDays(e.releaseDate, WINDOW_DAYS)).length
-  rows.push({ kind: 'chart', tag: sourceTag('chart', 'us'), label: 'US most-played chart', live: l, idSet, cost: costS(fresh) })
+  const { results, ...live } = l
+  rows.push({ kind: 'chart', tag: sourceTag('chart', 'us'), label: 'US most-played chart', live, idSet, cost: costS(fresh) })
 }
 for (const f of GENRE_FEEDS) {
   progress(`genre feed ${f.tag}`)
@@ -279,19 +291,7 @@ for (const f of GENRE_FEEDS) {
 }
 for (const sf of countries) {
   progress(`country ${STOREFRONTS[sf] ?? sf}`)
-  const p = await probeRss(purchaseFeedsOf(sf).map((ft) => ({ url: countryPurchaseUrl(sf, ft), ft })))
-  let { ok, entries, newest, err, idSet, fresh } = p
-  const mp = await mtLiveness(countryMostPlayedUrl(sf))
-  if (mp.ok) {
-    entries += mp.entries
-    if (!newest || (mp.newest && mp.newest > newest)) newest = mp.newest
-    for (const e of mp.results ?? []) {
-      const id = albumIdFromTrackUrl(e.url)
-      if (!id || !withinDays(e.releaseDate, OVERLAP_DAYS)) continue
-      idSet.add(String(id))
-      if (withinDays(e.releaseDate, WINDOW_DAYS)) fresh++
-    }
-  } else { ok = false; err = mp.err }
+  const { ok, entries, newest, err, idSet, fresh } = await probeCountry(sf)
   rows.push({
     kind: 'country', tag: sourceTag('country', sf), label: STOREFRONTS[sf] ?? sf,
     sub: sf + (STREAMING_ONLY.has(sf) ? ' streaming-only' : ''),
@@ -304,11 +304,11 @@ for (const pl of playlists) {
   try { plPages.push({ pl, ids: (await scrapePlaylistAlbumIds(pl.url)).albumIds }) }
   catch (e) { plPages.push({ pl, err: errDetail(e) }) }
 }
-await lookup(plPages.flatMap((p) => p.ids ?? []))
+await loadLookups(plPages.flatMap((p) => p.ids ?? []))
 for (const { pl, ids, err } of plPages) {
   const tag = sourceTag('playlist', pl.name)
   if (err) { rows.push({ kind: 'playlist', tag, label: pl.name, live: { ok: false, err }, idSet: new Set(), cost: 0 }); continue }
-  const hits = await lookup(ids)
+  const hits = cachedAlbums(ids)
   if (ids.some((id) => lookupFailures.has(String(id)))) {
     rows.push({ kind: 'playlist', tag, label: pl.name, live: { ok: false, err: 'album lookups failed' }, idSet: new Set(), cost: costS(ids.length) })
     continue
@@ -324,10 +324,8 @@ for (const { pl, ids, err } of plPages) {
   })
 }
 
-// Live overlap across everything configured. Only sources whose probe SUCCEEDED
-// count as cover — otherwise a source that merely failed to load would make its
-// neighbours look redundant, which is how a probe failure turns into bad advice.
 const measured = rows.filter((r) => r.live.ok)
+out.coverageComplete = rows.every((r) => r.live.ok)
 const carriers = new Map()
 for (const r of measured) for (const i of r.idSet) carriers.set(i, (carriers.get(i) ?? 0) + 1)
 for (const r of rows) {
@@ -353,10 +351,11 @@ for (const r of rows) {
       : `${r.live.entries} entries, newest ${r.live.newest ?? '-'}`
   const nearTxt = r.near ? `${r.near.label.slice(0, 14)} ${Math.round(r.near.frac * 100)}%` : '-'
   const hist = THIN && r.w30.measured === 0 ? '  collecting' : ''
+  const count = (window, key) => window.measured ? window[key] : '-'
   say(
-    `  ${pad(r.label + (r.sub ? ` (${r.sub})` : ''), 32)}${lpad(r.w7.surfaced, 5)}${lpad(r.w30.surfaced, 6)}${lpad(r.w30.unique, 5)}  ` +
+    `  ${pad(r.label + (r.sub ? ` (${r.sub})` : ''), 32)}${lpad(count(r.w7, 'surfaced'), 5)}${lpad(count(r.w30, 'surfaced'), 6)}${lpad(count(r.w30, 'unique'), 5)}  ` +
     `${lpad(r.idSet.size, 5)}${lpad(r.liveUnique, 6)}  ${pad(nearTxt, 22)}${lpad(r.zero || '-', 5)}${lpad(r.w30.failed || '-', 5)}  ` +
-    `${pad(liveTxt, 32)}${r.cost.toFixed(1)}s${hist}`
+    `${pad(r.w7.measured + '/' + r.w30.measured, 10)}${pad(liveTxt, 32)}${r.cost.toFixed(1)}s${hist}`
   )
 }
 say('  14d/uniq are live overlap and work today; 7d/30d/u30 need ~2 weeks of history.')
@@ -379,6 +378,8 @@ for (const r of rows) {
     rec('REPLACE', r.label, `only ${Math.round(r.density * 100)}% of its albums came out in the last 30 days — a stale list, not a new-release list`)
   } else if (historyDays >= 14 && r.w30.measured >= 10 && r.w30.surfaced === 0) {
     rec('CHECK', r.label, `nothing across ${r.w30.measured} measured days, though the feed is alive (newest ${r.live.newest})`, 'thin')
+  } else if (r.w30.measured === 0) {
+    rec('CHECK', r.label, 'no measured history yet', 'thin')
   } else if (r.w30.surfaced === 0 && historyDays < 14) {
     rec('CHECK', r.label, 'no yield yet, but history is too short to judge', 'thin')
   }
@@ -386,7 +387,7 @@ for (const r of rows) {
 
 {
   const blocked = PREFS.artists?.blocked ?? []
-  let fired = null // null, not 0: an unreadable log has measured nothing
+  let fired = null
   let logErr = null
   try {
     const log = readFileSync(REFRESH_LOG, 'utf8')
@@ -403,18 +404,17 @@ for (const r of rows) {
 
 if (DISCOVER) {
   say('\n=== CANDIDATES ===')
-  const coverageComplete = rows.every((r) => r.live.ok)
-  out.coverageComplete = coverageComplete
+  const { coverageComplete } = out
   if (!coverageComplete) warn('  Configured source probes were incomplete; additive counts are provisional.')
   const recommendAddition = (target, why) => rec(
     coverageComplete ? 'ADD' : 'CHECK', target,
     why + (coverageComplete ? '' : '. Existing source coverage is incomplete; recheck before adding.'),
     coverageComplete ? 'firm' : 'thin',
   )
-  const covered = new Set(carriers.keys())
+  const covered = new Set([...retained].flatMap((r) => [...r.idSet]))
   const coverOf = (ids) => {
     let best = null
-    for (const r of measured) {
+    for (const r of retained) {
       const n = [...ids].filter((i) => r.idSet.has(i)).length
       if (n && (!best || n > best.n)) best = { label: r.label, n }
     }
@@ -424,9 +424,7 @@ if (DISCOVER) {
   const unselected = Object.keys(STOREFRONTS).filter((c) => !countries.includes(c))
   const sfScores = []
   for (const sf of unselected) {
-    // purchaseFeedsOf, like the configured rows: probing feeds a storefront cannot
-    // have would grade it on evidence that could never exist.
-    const p = await probeRss(purchaseFeedsOf(sf).map((ft) => ({ url: countryPurchaseUrl(sf, ft), ft })))
+    const p = await probeCountry(sf)
     const additive = [...p.idSet].filter((i) => !covered.has(i))
     sfScores.push({ sf, name: STOREFRONTS[sf], ok: p.ok, entries: p.entries, recent: p.idSet.size, additive: additive.length, ids: p.idSet, addIds: additive })
   }
@@ -435,7 +433,9 @@ if (DISCOVER) {
   const ranked = sfScores.filter((s) => s.ok).sort((a, b) => b.additive - a.additive)
   const TOP = 6
   const shortSf = ranked.slice(0, TOP)
-  const mixHits = await lookup(shortSf.flatMap((s) => s.addIds))
+  const mixIds = shortSf.flatMap((s) => s.addIds)
+  await loadLookups(mixIds)
+  const mixHits = cachedAlbums(mixIds)
   const genreOf = new Map(mixHits.map((a) => [String(a.collectionId), a.primaryGenreName]))
   for (const s of shortSf) {
     const gs = s.addIds.map((i) => genreOf.get(i)).filter(Boolean)
@@ -459,11 +459,11 @@ if (DISCOVER) {
   }
 
   const alive = sfScores.filter((s) => s.ok && s.entries > 0)
-  const deadWeight = alive.filter((s) => s.recent >= MIN_REDUNDANCY_SAMPLE && s.additive === 0)
+  const deadWeight = alive.filter((s) => coverageComplete && s.recent >= MIN_REDUNDANCY_SAMPLE && s.additive === 0)
   const tooQuiet = alive.filter((s) => s.recent > 0 && s.recent < MIN_REDUNDANCY_SAMPLE && s.additive === 0)
   const unknown = sfScores.filter((s) => !s.ok || s.entries === 0)
   if (deadWeight.length) {
-    say('\n  picker options that would add nothing over the current set:')
+    say('\n  picker options that would add nothing over retained sources:')
     for (const s of deadWeight) {
       const by = coverOf(s.ids)
       say(`    ${pad(s.name, 18)}${lpad(s.recent, 4)} recent, 0 additive   covered by ${by?.label ?? 'the current set'}`)
@@ -523,10 +523,10 @@ if (DISCOVER) {
     }
   }
   if (scrapeFailed.length) warn(`  ${scrapeFailed.length} shortlisted playlist(s) could not be read, so they are unscored: ${scrapeFailed.join(', ')}`)
-  await lookup(candPages.flatMap((p) => p.ids))
+  await loadLookups(candPages.flatMap((p) => p.ids))
   const plScores = []
   for (const { url, name, ids } of candPages) {
-    const hits = await lookup(ids)
+    const hits = cachedAlbums(ids)
     if (ids.some((id) => lookupFailures.has(String(id)))) { warn(`  ${name}: album lookups failed, so this candidate is unscored`); continue }
     if (!hits.length) continue
     const d30 = hits.filter((a) => withinDays(a.releaseDate, 30)).length

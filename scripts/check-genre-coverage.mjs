@@ -15,6 +15,14 @@ try {
 }
 const followedSet = new Set(followed.map((g) => g.toLowerCase()))
 
+let activity = null
+try {
+  activity = JSON.parse(readFileSync(GENRE_ACTIVITY_PATH, 'utf8'))
+  if (!activity || typeof activity !== 'object' || Array.isArray(activity)) throw new Error('expected a genre activity object')
+} catch (e) {
+  if (e.code !== 'ENOENT') die(`Could not read config/genre-activity.json (${e.message}). Fix the file, then run this again.`)
+}
+
 let ancestors
 try {
   ;({ ancestors } = await fetchGenreTree())
@@ -39,11 +47,8 @@ if (misses) console.error(`\n${misses} missing genre name(s) — fix those first
 else console.log(`Names OK: all ${GENRE_OPTIONS.length} curated and ${followed.length} followed names exist in Apple's tree.`)
 
 
-let activity = {}
-try {
-  activity = JSON.parse(readFileSync(GENRE_ACTIVITY_PATH, 'utf8'))
-} catch {
-  console.log('\nNo drop history yet (config/genre-activity.json). Run `npm run fetch` first.')
+if (activity === null) {
+  console.log('\nNo drop history yet (config/genre-activity.json). It is recorded by scheduled refreshes.')
   process.exit(misses ? 1 : 0)
 }
 

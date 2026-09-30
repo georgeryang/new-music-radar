@@ -1,7 +1,9 @@
-import test from 'node:test'
+import { test as nodeTest, after } from 'node:test'
 import assert from 'node:assert/strict'
-import { readdirSync } from 'node:fs'
+import { mkdtempSync, readdirSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { build } from 'vite'
 import { PAGE } from '../scripts/prefs-server.mjs'
 import { repo } from './helpers.mjs'
 
@@ -11,13 +13,27 @@ const { chromium } = await import('playwright').catch((error) => {
   }
   throw error
 })
-const browser = await chromium.launch({ headless: true }).catch((error) => {
-  if (error.message.includes("Executable doesn't exist at")) {
-    throw new Error('Chromium is missing. Run npm run test:browser:install.', { cause: error })
-  }
+const test = (name, run) => nodeTest(name, { timeout: 60_000 }, run)
+const site = mkdtempSync(join(tmpdir(), 'radar-browser-'))
+let browser, css
+try {
+  await build({ root: repo, logLevel: 'error', build: { outDir: site, emptyOutDir: true } })
+  css = readdirSync(join(site, 'assets')).find((name) => name.endsWith('.css'))
+  assert.ok(css, 'The browser fixture requires built CSS')
+  browser = await chromium.launch({ headless: true }).catch((error) => {
+    if (error.message.includes("Executable doesn't exist at")) {
+      throw new Error('Chromium is missing. Run npm run test:browser:install.', { cause: error })
+    }
+    throw error
+  })
+} catch (error) {
+  rmSync(site, { recursive: true, force: true })
   throw error
+}
+after(async () => {
+  try { await browser.close() }
+  finally { rmSync(site, { recursive: true, force: true }) }
 })
-test.after(() => browser.close())
 const prefs = () => ({ artists: { followed: [], blocked: [] }, genres: { followed: ['Pop'] }, countries: [], playlists: [], genreOptions: ['Pop', 'Rock'], countryNames: { us: 'United States' }, countsAvailable: true })
 const deferred = () => { let resolve; const promise = new Promise((r) => { resolve = r }); return { promise, resolve } }
 const json = (route, body) => route.fulfill({ contentType: 'application/json', body: JSON.stringify(body) })
@@ -29,7 +45,6 @@ async function editor(t, handlers = {}, ready = true) {
   const errors = []
   page.on('pageerror', (e) => errors.push(e.message))
   t.after(() => assert.deepEqual(errors, []))
-  const css = readdirSync(join(repo, 'docs/assets')).find((name) => name.endsWith('.css'))
   await page.route('**/*', async (route) => {
     const url = new URL(route.request().url())
     const path = url.pathname
@@ -43,7 +58,7 @@ async function editor(t, handlers = {}, ready = true) {
     if (path === '/api/refresh') return handlers.refresh ? handlers.refresh(route) : json(route, { running: true })
     if (path === '/api/quit') return json(route, { ok: true })
     if (path.startsWith('/new-music-radar/assets/') || path.startsWith('/new-music-radar/fonts/')) {
-      const file = join(repo, 'docs', path.slice('/new-music-radar/'.length))
+      const file = join(site, path.slice('/new-music-radar/'.length))
       return route.fulfill({ path: file })
     }
     return route.abort()
@@ -100,6 +115,14 @@ test('late search responses cannot overwrite newer suggestions', async (t) => {
   release.resolve(); await completed.promise
   await page.evaluate(() => new Promise(requestAnimationFrame))
   assert.equal(await page.getByText('Old Artist', { exact: true }).count(), 0)
+  const row = await page.getByRole('button', { name: 'New Artist' }).boundingBox()
+  assert.ok(row)
+  await input.focus()
+  await page.mouse.move(row.x + row.width / 2, row.y + row.height / 2)
+  await page.mouse.down()
+  assert.equal(await input.evaluate((el) => el === document.activeElement), true)
+  await page.mouse.move(0, 0)
+  await page.mouse.up()
   await input.press('ArrowDown')
   await page.keyboard.press('Enter')
   assert.equal(await page.getByRole('button', { name: 'Remove New Artist' }).count(), 1)
@@ -204,7 +227,10 @@ for (const failure of [false, true]) test('quit ignores a late initial preferenc
 
 test('footer and error text fit narrow layouts and reserve content space', async (t) => {
   const longName = 'A'.repeat(190)
-  const page = await editor(t, { prefs: (route) => json(route, { ...prefs(), artists: { followed: [{ id: 1, name: longName }], blocked: [] } }) })
+  const page = await editor(t, { prefs: (route) => json(route, {
+    ...prefs(), artists: { followed: [{ id: 1, name: longName }], blocked: [] },
+    countries: ['kr'], countryNames: { kr: 'Korea' }, streamingOnly: ['kr'],
+  }) })
   for (const colorScheme of ['light', 'dark']) {
     await page.emulateMedia({ colorScheme })
     await page.setViewportSize({ width: 320, height: 640 })
@@ -213,8 +239,23 @@ test('footer and error text fit narrow layouts and reserve content space', async
     const layout = await page.evaluate(() => ({ width: document.documentElement.scrollWidth, viewport: innerWidth, padding: parseFloat(getComputedStyle(document.body).paddingBottom), dock: document.getElementById('editor-dock').getBoundingClientRect().height }))
     assert.ok(layout.width <= layout.viewport, JSON.stringify(layout))
     assert.ok(layout.padding >= layout.dock)
-    const remove = await page.getByRole('button', { name: 'Remove ' + longName, exact: true }).boundingBox()
-    assert.ok(remove.width >= 24 && remove.x + remove.width <= layout.viewport)
+    for (const name of [longName, 'Korea']) {
+      const remove = await page.getByRole('button', { name: 'Remove ' + name, exact: true }).boundingBox()
+      assert.ok(remove.width >= 24 && remove.x + remove.width <= layout.viewport)
+    }
+    assert.ok((await page.getByText('Korea', { exact: true }).boundingBox()).width > 0)
+    await page.getByRole('textbox', { name: 'Add to Followed Genres' }).focus()
+    await page.keyboard.press('Escape')
+    await page.keyboard.press('Tab')
+    const focus = await page.getByRole('button', { name: 'Remove Korea', exact: true }).evaluate((el) => {
+      const box = el.getBoundingClientRect()
+      return {
+        active: el === document.activeElement,
+        aboveDock: box.bottom <= document.getElementById('editor-dock').getBoundingClientRect().top,
+        hit: el.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2)),
+      }
+    })
+    assert.deepEqual(focus, { active: true, aboveDock: true, hit: true })
   }
   await page.evaluate(() => { document.documentElement.style.fontSize = '' })
   await page.screenshot({ path: '/private/tmp/radar-editor-dark.png', fullPage: true })
@@ -235,13 +276,14 @@ test('built site keeps valid cards, warns on malformed entries, and supports tab
     if (url.pathname === '/api/ping') return route.fulfill({ status: 204 })
     if (url.pathname.startsWith('/new-music-radar/')) {
       const path = url.pathname.slice('/new-music-radar/'.length) || 'index.html'
-      return route.fulfill({ path: join(repo, 'docs', path) })
+      return route.fulfill({ path: join(site, path) })
     }
     return route.abort()
   })
   await page.goto('http://127.0.0.1:4747/new-music-radar/')
   await page.getByText('Some releases could not be displayed', { exact: false }).waitFor()
   assert.ok(await page.locator('#release-panel > a').count() > 0)
+  assert.equal(await page.locator('#release-panel > a[target]').count(), 0)
   for (const href of await page.locator('#release-panel > a').evaluateAll((els) => els.map((el) => el.getAttribute('href')))) assert.match(href, /^music:\/\/music.apple.com\/us\//)
   await page.locator('#tab-new').focus(); await page.keyboard.press('ArrowRight')
   assert.equal(await page.locator('#tab-upcoming').getAttribute('aria-selected'), 'true')

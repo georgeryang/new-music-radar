@@ -2,8 +2,7 @@ node_modules
 .DS_Store
 *.local
 .claude/
-.agents/skills/audit-radar-sources
-.agents/skills/verify-radar
+.agents/skills/
 *.tmp
 
 .radar-run.lock*

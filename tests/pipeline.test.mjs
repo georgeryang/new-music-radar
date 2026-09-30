@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync, realpathSync } from 'node:fs'
 import { join } from 'node:path'
 import { once } from 'node:events'
 import { fixture, run, background } from './helpers.mjs'
@@ -223,7 +223,7 @@ globalThis.fetch=async(url)=>{
   } else body={feed:{entry:[],results:[]}};
   return new Response(JSON.stringify(body));
 };`)
-  const result = run(root, process.execPath, ['--import', './offline.mjs', 'scripts/audit-sources.mjs', '--json', ...(['failed', 'late recovery'].includes(lookup) ? [] : ['--no-discover'])])
+  const result = run(root, process.execPath, ['--import', './offline.mjs', 'scripts/audit-sources.mjs', '--json', ...(['failed', 'late recovery'].includes(lookup) ? ['--discover'] : [])])
   assert.equal(result.status, 0, result.stderr)
   const report = JSON.parse(result.stdout)
   assert.deepEqual(report.sections.artists, [])
@@ -247,6 +247,7 @@ globalThis.fetch=async(url)=>{
     }
     assert.equal(report.recommend.some((r) => r.action === 'ADD' && /^(country|playlist) /.test(r.target)), false)
   } else {
+    assert.equal(report.coverageComplete, true)
     assert.ok(rows.every((r) => r.live.ok && r.liveIds === 5))
     assert.equal(advice.filter((r) => r.action === 'REMOVE').length, 1)
     assert.ok(advice.some((r) => r.action === 'CHECK'))
@@ -256,4 +257,215 @@ globalThis.fetch=async(url)=>{
     const genres = run(root, process.execPath, ['--import', './offline.mjs', 'scripts/check-genre-coverage.mjs'])
     assert.equal(genres.status, 0, genres.stdout + genres.stderr)
   }
+})
+
+function auditFixture(t, { countries = [], playlists = [], followed = [], setup = '' } = {}) {
+  const root = fixture(t)
+  writeFileSync(join(root, 'config/preferences.json'), JSON.stringify({ artists: { followed: [], blocked: [] }, genres: { followed }, discovery: { countries, playlists } }))
+  writeFileSync(join(root, 'config/source-activity.json'), '{"days":[],"sources":{}}')
+  writeFileSync(join(root, 'docs/data/releases.json'), '{"releases":[]}')
+  writeFileSync(join(root, 'offline.mjs'), `import {writeFileSync} from 'node:fs';
+import {GENRE_OPTIONS} from './scripts/genre-options.mjs';
+const timer=globalThis.setTimeout;globalThis.setTimeout=(fn,ms,...args)=>timer(fn,Math.min(ms,1),...args);
+const requests=[];process.on('exit',()=>writeFileSync('requests.json',JSON.stringify(requests)));
+const date=new Date().toISOString();
+const album=(id,days=0)=>({wrapperType:'collection',collectionId:id,releaseDate:new Date(Date.now()-days*86400e3).toISOString(),primaryGenreName:'Pop'});
+const song=(id)=>({releaseDate:date,url:'https://music.apple.com/us/album/fixture/'+id+'?i=9'});
+const page=(ids)=>'<script type="application/json" id="serialized-server-data">'+JSON.stringify(ids.map(id=>({artistName:'Artist',contentDescriptor:{identifiers:{storeAdamID:String(id)}}})))+'</script>';
+${setup}
+globalThis.fetch=async(url)=>{
+  requests.push(url);
+  if(url.includes('/ws/genres'))return new Response(JSON.stringify({'34':{name:'Music',subgenres:Object.fromEntries(GENRE_OPTIONS.map((name,i)=>[i+100,{name}]))}}));
+  const result=typeof respond==='function'?respond(url):null;
+  return new Response(typeof result==='string'?result:JSON.stringify(result??{feed:{entry:[],results:[]},results:[]}));
+};`)
+  return {
+    root,
+    audit: (...flags) => run(root, process.execPath, ['--import', './offline.mjs', 'scripts/audit-sources.mjs', ...flags]),
+    requests: () => JSON.parse(readFileSync(join(root, 'requests.json'))),
+  }
+}
+
+test('audit discovery is opt-in and incompatible flags fail before requests', (t) => {
+  const { audit, requests } = auditFixture(t, { countries: ['kr'] })
+  for (const flags of [[], ['--no-discover'], ['--discover']]) {
+    const result = audit('--json', ...flags)
+    assert.equal(result.status, 0, result.stdout + result.stderr)
+    const report = JSON.parse(result.stdout)
+    assert.equal(report.coverageComplete, true)
+    assert.equal('candidateCountries' in report.sections, flags.includes('--discover'))
+    const scannedCountries = requests().filter((url) => url.includes('/most-played/100/songs.json'))
+    assert.equal(scannedCountries.length, flags.includes('--discover') ? 31 : 1)
+    assert.equal(requests().some((url) => url.includes('/kr/rss/')), false)
+  }
+  const incompatible = auditFixture(t)
+  const conflict = incompatible.audit('--discover', '--no-discover')
+  assert.equal(conflict.status, 1)
+  assert.match(conflict.stderr, /conflict/)
+  assert.deepEqual(incompatible.requests(), [])
+  assert.equal(existsSync(join(incompatible.root, '.radar-run.lock')), false)
+})
+
+test('audit pools duplicate playlist IDs and bounds retries independently of source count', (t) => {
+  const playlists = Array.from({ length: 12 }, (_, i) => ({ name: 'List ' + i, url: 'https://music.apple.com/us/playlist/list-' + i + '/pl.fixture' }))
+  const { audit, requests } = auditFixture(t, {
+    playlists,
+    setup: `function respond(url){
+      if(url.includes('/playlist/'))return page([101,101,102]);
+      if(url.includes('/lookup?'))throw new Error('fixture outage');
+    }`,
+  })
+  const result = audit('--json')
+  assert.equal(result.status, 0, result.stdout + result.stderr)
+  const report = JSON.parse(result.stdout)
+  assert.equal(report.coverageComplete, false)
+  assert.equal(report.sections.sources.filter((row) => row.kind === 'playlist' && !row.live.ok).length, playlists.length)
+  const lookups = requests().filter((url) => url.includes('/lookup?'))
+  assert.equal(lookups.length, 2)
+  assert.ok(lookups.every((url) => new URL(url).searchParams.get('id') === '101,102'))
+})
+
+test('audit retries only failed lookup chunks and scores recovered cache entries', (t) => {
+  const { audit, requests } = auditFixture(t, {
+    playlists: [{ name: 'Large', url: 'https://music.apple.com/us/playlist/large/pl.fixture' }],
+    setup: `let outage=true;function respond(url){
+      if(url.includes('/playlist/'))return page(Array.from({length:401},(_,i)=>i+1000));
+      if(url.includes('/lookup?')){
+        const ids=new URL(url).searchParams.get('id').split(',').map(Number);
+        if(ids[0]===1000&&outage){outage=false;throw new Error('fixture outage')}
+        return {results:ids.map(id=>album(id))};
+      }
+    }`,
+  })
+  const result = audit('--json')
+  assert.equal(result.status, 0, result.stdout + result.stderr)
+  const report = JSON.parse(result.stdout)
+  assert.equal(report.coverageComplete, true)
+  assert.equal(report.sections.sources.find((row) => row.kind === 'playlist').liveIds, 401)
+  const chunks = requests().filter((url) => url.includes('/lookup?')).map((url) => new URL(url).searchParams.get('id').split(','))
+  assert.deepEqual(chunks.map((ids) => ids.length), [200, 200, 1, 200])
+  assert.deepEqual(chunks[3], chunks[0])
+})
+
+test('audit reports unmeasured windows separately from measured zero and excludes raw payloads', (t) => {
+  const { root, audit } = auditFixture(t, { setup: `function respond(url){if(url.includes('/most-played/50/albums'))return {feed:{results:[{id:'99',releaseDate:date,privatePayload:'omit'}]}};}` })
+  const result = audit()
+  assert.equal(result.status, 0, result.stdout + result.stderr)
+  assert.match(result.stdout, /days7\/30/)
+  assert.match(result.stdout, /US most-played chart\s+-\s+-\s+-\s+1\s+1/)
+  assert.match(result.stdout, /0\/0/)
+  const date = new Date().toISOString().slice(0, 10)
+  writeFileSync(join(root, 'config/source-activity.json'), JSON.stringify({ days: [date], sources: { 'chart:us': [[0, 0]] } }))
+  const measured = audit()
+  assert.match(measured.stdout, /US most-played chart\s+0\s+0\s+0\s+1\s+1/)
+  assert.match(measured.stdout, /1\/1/)
+  const json = audit('--json')
+  assert.equal(json.status, 0, json.stderr)
+  const report = JSON.parse(json.stdout)
+  assert.equal(report.coverageComplete, true)
+  assert.equal(report.sections.sources[0].w30.measured, 1)
+  assert.equal(report.sections.sources[1].w30.measured, 0)
+  assert.equal('results' in report.sections.sources[0].live, false)
+  assert.equal(json.stdout.includes('privatePayload'), false)
+})
+
+test('candidate country probes include streaming-only Top 100 contributions', (t) => {
+  const { audit, requests } = auditFixture(t, { setup: `function respond(url){
+    if(url.includes('/api/v2/kr/music/most-played/100/songs'))return {feed:{results:Array.from({length:8},(_,i)=>song(i+2000))}};
+    if(url.includes('/lookup?'))return {results:new URL(url).searchParams.get('id').split(',').map(id=>album(Number(id)))};
+  }` })
+  const result = audit('--discover', '--json')
+  assert.equal(result.status, 0, result.stdout + result.stderr)
+  const report = JSON.parse(result.stdout)
+  const country = report.sections.candidateCountries.find((row) => row.sf === 'kr')
+  assert.equal(country.recent, 8)
+  assert.equal(country.additive, 8)
+  assert.ok(report.recommend.some((rec) => rec.action === 'ADD' && rec.target === 'country Korea (kr)'))
+  assert.equal(requests().filter((url) => url.includes('/api/v2/kr/')).length, 1)
+  assert.equal(requests().some((url) => url.includes('/kr/rss/')), false)
+})
+
+for (const coverage of ['replacement only', 'retained', 'incomplete', 'quiet', 'failed candidate']) test('picker removal requires complete retained coverage: ' + coverage, (t) => {
+  const ids = Array.from({ length: 5 }, (_, i) => i + 1000)
+  const { audit } = auditFixture(t, {
+    playlists: [{ name: 'Stale', url: 'https://music.apple.com/us/playlist/stale/pl.fixture' }],
+    setup: `function respond(url){
+      if(url.includes('/playlist/'))return page(Array.from({length:26},(_,i)=>i+1000));
+      if(url.includes('/lookup?'))return {results:new URL(url).searchParams.get('id').split(',').map(id=>album(Number(id),Number(id)<1005?0:60))};
+      if(url.includes('/api/v2/ar/music/most-played/100/songs')){
+        if('${coverage}'==='failed candidate')throw new Error('fixture outage');
+        return {feed:{results:${JSON.stringify(ids)}.slice(0,'${coverage}'==='quiet'?1:5).map(song)}};
+      }
+      if(url.includes('/most-played/50/albums')){
+        if('${coverage}'==='incomplete')throw new Error('fixture outage');
+        if(['retained','quiet','failed candidate'].includes('${coverage}'))return {feed:{results:${JSON.stringify(ids)}.map(id=>({id:String(id),releaseDate:date}))}};
+      }
+    }`,
+  })
+  const result = audit('--discover', '--json')
+  assert.equal(result.status, 0, result.stdout + result.stderr)
+  const report = JSON.parse(result.stdout)
+  assert.ok(report.recommend.some((rec) => ['REMOVE', 'REPLACE'].includes(rec.action) && rec.target === 'Stale'))
+  if (coverage === 'replacement only') assert.ok(report.recommend.some((rec) => rec.action === 'REPLACE' && rec.target === 'Stale'))
+  assert.equal(report.recommend.some((rec) => rec.action === 'REMOVE' && rec.target === 'picker option Argentina (ar)'), coverage === 'retained')
+  const candidate = report.sections.candidateCountries.find((row) => row.sf === 'ar')
+  if (coverage === 'replacement only') assert.equal(candidate.additive, 5)
+  if (coverage === 'incomplete') assert.equal(report.coverageComplete, false)
+  if (coverage === 'failed candidate') assert.equal(candidate.ok, false)
+})
+
+for (const history of ['missing', 'malformed', 'invalid shape', 'unreadable']) test('genre checker identifies ' + history + ' history', (t) => {
+  const { root, requests } = auditFixture(t)
+  const path = join(root, 'config/genre-activity.json')
+  rmSync(path, { force: true })
+  if (history === 'malformed') writeFileSync(path, '{')
+  if (history === 'invalid shape') writeFileSync(path, 'null')
+  if (history === 'unreadable') mkdirSync(path)
+  const result = run(root, process.execPath, ['--import', './offline.mjs', 'scripts/check-genre-coverage.mjs'])
+  assert.equal(result.status, history === 'missing' ? 0 : 1, result.stdout + result.stderr)
+  if (history === 'missing') assert.match(result.stdout, /No drop history yet/)
+  else {
+    assert.match(result.stderr, /Could not read config\/genre-activity.json/)
+    assert.deepEqual(requests(), [])
+  }
+  assert.equal((result.stdout + result.stderr).includes('npm run fetch'), false)
+})
+
+test('fixture children ignore ambient Git redirection and external XDG configuration', async (t) => {
+  const root = fixture(t)
+  const external = fixture(t)
+  git(root, 'init', '-b', 'main')
+  git(external, 'init', '-b', 'main')
+  const externalConfig = join(external, 'xdg/git')
+  const externalHooks = join(external, 'hooks')
+  mkdirSync(externalConfig, { recursive: true })
+  mkdirSync(externalHooks)
+  writeFileSync(join(externalHooks, 'pre-commit'), '#!/bin/sh\ntouch "' + join(external, 'hook-fired') + '"\n', { mode: 0o755 })
+  writeFileSync(join(externalConfig, 'config'), '[core]\nworktree = ' + external + '\nhooksPath = ' + externalHooks + '\n')
+  const inherited = {
+    GIT_DIR: join(external, '.git'), GIT_WORK_TREE: external, GIT_INDEX_FILE: join(external, 'redirected-index'),
+    GIT_CONFIG_GLOBAL: join(externalConfig, 'config'), GIT_CONFIG_COUNT: '1', GIT_CONFIG_KEY_0: 'core.hooksPath', GIT_CONFIG_VALUE_0: externalHooks,
+    XDG_CONFIG_HOME: join(external, 'xdg'),
+  }
+  const previous = Object.fromEntries(Object.keys(inherited).map((key) => [key, process.env[key]]))
+  Object.assign(process.env, inherited)
+  try {
+    assert.equal(git(root, 'rev-parse', '--show-toplevel'), realpathSync(root))
+    assert.equal(run(root, '/usr/bin/git', ['config', '--get', 'core.hooksPath']).status, 1)
+    assert.equal(run(root, '/usr/bin/git', ['config', '--get', 'core.worktree']).status, 1)
+    git(root, '-c', 'user.name=Test', '-c', 'user.email=test@example.com', 'commit', '--allow-empty', '-m', 'isolated')
+    assert.equal(existsSync(join(external, 'hook-fired')), false)
+    assert.equal(run(external, '/usr/bin/git', ['rev-parse', '--verify', 'HEAD']).status, 128)
+    assert.equal(existsSync(join(external, 'redirected-index')), false)
+    const child = await background(t, root, `import {execFileSync} from 'node:child_process';console.log(execFileSync('/usr/bin/git',['rev-parse','--show-toplevel'],{encoding:'utf8'}).trim());setInterval(()=>{},1000)`)
+    assert.equal(child.ready, realpathSync(root))
+    child.kill(); await once(child, 'exit')
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete process.env[key]
+      else process.env[key] = value
+    }
+  }
+  const explicit = run(root, '/usr/bin/git', ['rev-parse', '--show-toplevel'], { GIT_DIR: join(external, '.git'), GIT_WORK_TREE: external })
+  assert.equal(explicit.stdout.trim(), realpathSync(external))
 })

@@ -140,37 +140,32 @@ other request to the editor is refused unless it comes from your machine.
   routinely exceed what's on the page.
 - **Agent Skills:** `skills/` is version controlled with the code it
   describes; `npm run setup-skills` links it into `.agents/skills/` for Codex
-  and `.claude/skills/` for Claude Code. The generated links are gitignored
-  and stay local to this repo, so run setup after cloning. Setup preserves
-  unrelated entries and stops if a skill name collides with one. If Codex
-  does not show the skills after setup, restart it in this repo.
-  **audit-radar-sources** runs the source audit and explains how to read
-  it; **verify-radar** covers testing the fetcher, the site and the editor.
-- **Source Audit:** `npm run audit-sources` grades every source the editor
-  shows and suggests what to drop, replace or add. It reads
-  `config/source-activity.json`, a rolling per-day tally each fetch appends to,
-  so the numbers are trends rather than one night, and a day where a source
-  failed records nothing rather than a zero, which keeps a passing network
-  glitch from looking like a dead feed. `npm run audit-sources -- --no-discover`
-  skips the hunt for replacements, which is the slow part. It refuses to
-  run while another refresh, fetch, build, or source audit is running.
+  and `.claude/skills/` for Claude Code. Run setup after cloning; links are
+  local and gitignored. Setup preserves unrelated entries and rejects
+  collisions or missing sources. Restart Codex if skills do not appear.
+  **audit-radar-sources** covers source reviews; **verify-radar** covers
+  isolated checks for the pipeline, site, editor, and skills.
+- **Source Audit:** `npm run audit-sources` reviews configured sources using
+  live Apple probes and `config/source-activity.json`. Failed days are
+  unmeasured, not zero; the report shows measured days and failed probes.
+  Add `-- --discover` to find additions or replacements. Discovery includes
+  purchase and streaming charts; removal advice preserves retained coverage.
+  Audits refuse to run while a refresh, fetch, build, or audit is active.
 - **Reliability:** any source failing exits non-zero but still publishes
   partial results; an empty result never overwrites good data. The nightly
   push also verifies its Pages deploy and retries once if it flaked.
 
 ## Checking Changes
 
-Run `npm test` for isolated regression checks, `npm run check-editor` for the
-editor server and client scripts, and `npm run build` to check TypeScript and
-replace the built site. The build prepares replacement files before removing
-old assets and leaves release data intact.
+Use [verify-radar](skills/verify-radar/SKILL.md) to choose checks for the change.
+`npm test` runs isolated regressions; `npm run check-editor` parses server and
+client scripts; `npm run check-types` checks TypeScript. `npm run test:browser`
+builds a temporary site and checks interactions with mocked requests. These
+checks leave tracked assets untouched and do not publish. The skill lists
+installation steps only when tools are missing.
 
-Run `npm ci`, then `npm run test:browser:install` to install the pinned
-Playwright dependency and its matching Chromium. Run `npm run test:browser`
-after building to check editor interactions and the site. These checks use
-temporary data and mocked requests. They do not publish. To keep tracked assets
-untouched during verification, build and test in a disposable repo copy.
-See `skills/verify-radar/SKILL.md` for checks by change type and isolation rules.
+`npm run build` updates the production site in `docs/`, preparing replacements
+before removing old assets and preserving release data.
 
 Automatic updates keep results locally if unrelated commits are waiting to be
 pushed or upstream history cannot be checked. The editor explains when publishing

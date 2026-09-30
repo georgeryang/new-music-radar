@@ -9,6 +9,9 @@ fail() {
   exit 1
 }
 
+[ ! -L skills ] || fail "Refusing symlinked source directory: skills"
+[ -d skills ] || fail "Missing skill source directory: skills"
+
 for host in "${hosts[@]}"; do
   for parent in "$host" "$host/skills"; do
     [ ! -L "$parent" ] || fail "Refusing symlinked directory: $parent"

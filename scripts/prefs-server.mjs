@@ -546,7 +546,7 @@ function renderAll() {
     chips.className = 'mb-2 flex flex-wrap gap-1.5'
     for (const entry of entries) {
       const chip = document.createElement('span')
-      chip.className = 'inline-flex max-w-full items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-[3px] text-sm'
+      chip.className = 'inline-flex max-w-full flex-wrap items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-[3px] text-sm'
       const label = document.createElement('span')
       label.className = 'min-w-0 [overflow-wrap:anywhere]'
       label.textContent = displayOf(s, entry)
@@ -1006,7 +1006,9 @@ function reloadPrefs() {
 
 new ResizeObserver(() => {
   if (stopped) return
-  document.body.style.paddingBottom = ($('editor-dock').getBoundingClientRect().height + 24) + 'px'
+  const clearance = $('editor-dock').getBoundingClientRect().height + 24
+  document.body.style.paddingBottom = clearance + 'px'
+  document.documentElement.style.scrollPaddingBottom = clearance + 'px'
 }).observe($('editor-dock'))
 
 fetch('/api/prefs', { signal: AbortSignal.timeout(15_000) }).then(async (r) => {

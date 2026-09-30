@@ -8,14 +8,26 @@ test('genre ancestry accepts case-insensitive followed names', () => {
 })
 
 test('concurrent iTunes requests reserve separate slots after a failure', async (t) => {
+  t.mock.timers.enable({ apis: ['Date', 'setTimeout'], now: 10_000 })
+  t.mock.method(Math, 'random', () => 0)
+  const first = Promise.withResolvers(), second = Promise.withResolvers()
   const starts = []
-  t.mock.method(globalThis, 'fetch', async () => {
-    starts.push(Date.now())
-    if (starts.length === 1) throw new Error('fixture failure')
+  t.mock.method(globalThis, 'fetch', async (url) => {
+    starts.push([url, Date.now()])
+    if (starts.length === 1) { first.resolve(); throw new Error('fixture failure') }
+    if (starts.length === 2) second.resolve()
     return new Response('{}')
   })
-  const results = await Promise.allSettled(['one', 'two', 'three'].map(itunesJSON))
+  const pending = Promise.allSettled(['one', 'two', 'three'].map(itunesJSON))
+  await first.promise
+  t.mock.timers.tick(2499)
+  assert.equal(starts.length, 1)
+  t.mock.timers.tick(1)
+  await second.promise
+  t.mock.timers.tick(2499)
+  assert.equal(starts.length, 2)
+  t.mock.timers.tick(1)
+  const results = await pending
   assert.deepEqual(results.map((r) => r.status), ['rejected', 'fulfilled', 'fulfilled'])
-  assert.ok(starts[1] - starts[0] >= 2450)
-  assert.ok(starts[2] - starts[1] >= 2450)
+  assert.deepEqual(starts, [['one', 10_000], ['two', 12_500], ['three', 15_000]])
 })

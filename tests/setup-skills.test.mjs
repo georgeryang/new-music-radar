@@ -32,6 +32,23 @@ function hostDirs(root) {
   for (const host of hosts) mkdirSync(join(root, host, 'skills'), { recursive: true })
 }
 
+test('canonical skills have matching names, descriptions, and instructions', () => {
+  const names = readdirSync(join(repo, 'skills'), { withFileTypes: true }).filter((entry) => entry.isDirectory()).map((entry) => entry.name)
+  assert.ok(names.length > 0)
+  for (const name of names) {
+    const text = readFileSync(join(repo, 'skills', name, 'SKILL.md'), 'utf8')
+    const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]+)$/)
+    assert.ok(match, `${name}: frontmatter and instructions are required`)
+    assert.match(name, /^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+    assert.ok(name.length <= 64)
+    assert.equal(match[1].match(/^name:\s*(\S+)\s*$/m)?.[1], name)
+    const description = match[1].match(/^description:[ \t]*(\S.*(?:\r?\n[ \t]+\S.*)*)$/m)?.[1]
+    assert.ok(description?.replace(/^[>|][-+]?\s*/, '').trim(), `${name}: description is required`)
+    assert.ok(description.length <= 1024, `${name}: description is too long`)
+    assert.ok(match[2].trim(), `${name}: instructions are required`)
+  }
+})
+
 test('both hosts resolve skills through relative links; repeated setup preserves links', (t) => {
   const root = fixture(t)
   const first = setup(root)
@@ -105,6 +122,24 @@ test('malformed sources stop before creating host directories or pruning links',
   assert.deepEqual(snapshot(root), before)
   assert.equal(existsSync(join(root, '.agents')), false)
 })
+
+for (const source of ['missing', 'symlinked']) {
+  test(`setup refuses a ${source} source directory before pruning links`, (t) => {
+    const root = fixture(t)
+    hostDirs(root)
+    for (const host of hosts) symlinkSync('../../skills/retired', join(root, host, 'skills/retired'))
+    rmSync(join(root, 'skills'), { recursive: true })
+    if (source === 'symlinked') {
+      mkdirSync(join(root, 'elsewhere'))
+      symlinkSync('elsewhere', join(root, 'skills'))
+    }
+    const before = snapshot(root)
+    const result = setup(root)
+    assert.equal(result.status, 1)
+    assert.match(result.stderr, /skill source directory|symlinked source directory/)
+    assert.deepEqual(snapshot(root), before)
+  })
+}
 
 test('empty source set creates no literal glob links and still prunes owned stale links', (t) => {
   const root = fixture(t, [])

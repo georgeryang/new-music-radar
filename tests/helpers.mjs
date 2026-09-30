@@ -12,15 +12,23 @@ export function fixture(t) {
   writeFileSync(join(root, 'package.json'), '{"type":"module"}')
   writeFileSync(join(root, '.gitignore'), '.radar-run.lock*\n*.tmp\nhome/\nbin/\n')
   mkdirSync(join(root, 'home/Library/Logs'), { recursive: true })
+  mkdirSync(join(root, 'home/.config'), { recursive: true })
   t.after(() => rmSync(root, { recursive: true, force: true }))
   return root
 }
+export function childEnv(root, overrides = {}) {
+  return {
+    ...Object.fromEntries(Object.entries(process.env).filter(([name]) => !name.startsWith('GIT_'))),
+    HOME: join(root, 'home'), XDG_CONFIG_HOME: join(root, 'home/.config'),
+    GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', ...overrides,
+  }
+}
 export function run(root, command, args, env = {}) {
-  return spawnSync(command, args, { cwd: root, env: { ...process.env, HOME: join(root, 'home'), ...env }, encoding: 'utf8', timeout: 30_000 })
+  return spawnSync(command, args, { cwd: root, env: childEnv(root, env), encoding: 'utf8', timeout: 30_000 })
 }
 export async function background(t, root, code, env = {}) {
   const child = spawn(process.execPath, ['--input-type=module', '-e', code], {
-    cwd: root, env: { ...process.env, HOME: join(root, 'home'), ...env }, stdio: ['ignore', 'pipe', 'pipe'],
+    cwd: root, env: childEnv(root, env), stdio: ['ignore', 'pipe', 'pipe'],
   })
   let stderr = ''
   child.stderr.on('data', (data) => { stderr += data })
