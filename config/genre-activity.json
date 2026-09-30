@@ -5,6 +5,12 @@
     "last_seen": "2026-09-28",
     "example": "Keo — Put A Smile On For Me"
   },
+  "Anime": {
+    "dropped": 13,
+    "today": 8,
+    "last_seen": "2026-09-30",
+    "example": "名探偵プリキュア! — 『名探偵プリキュア!』後期主題歌シングル【通常盤】"
+  },
   "Música Mexicana": {
     "dropped": 12,
     "today": 1,
@@ -29,35 +35,23 @@
     "last_seen": "2026-09-28",
     "example": "Corey Kent — Heartland Rock and Roll"
   },
-  "House": {
-    "dropped": 7,
-    "today": 3,
-    "last_seen": "2026-09-28",
-    "example": "Louie Vega & Elements of Life — Soar (feat. Lisa Fischer)"
+  "Rock": {
+    "dropped": 8,
+    "today": 2,
+    "last_seen": "2026-09-30",
+    "example": "Mrs. GREEN APPLE — POPS"
+  },
+  "Soundtrack": {
+    "dropped": 8,
+    "today": 2,
+    "last_seen": "2026-09-30",
+    "example": "Yuria Miyazono — Kakuseihunter Omegahorn (Original Soundtrack)"
   },
   "Electronic": {
     "dropped": 6,
     "today": 2,
     "last_seen": "2026-09-28",
     "example": "Towa Tei — ZAMBIENT"
-  },
-  "Rock": {
-    "dropped": 6,
-    "today": 2,
-    "last_seen": "2026-09-29",
-    "example": "Rockon Social Club — Stand Out (Cover)"
-  },
-  "Soundtrack": {
-    "dropped": 6,
-    "today": 3,
-    "last_seen": "2026-09-29",
-    "example": "REI — Dive Into You (Original Soundtrack) Part.1"
-  },
-  "Anime": {
-    "dropped": 5,
-    "today": 1,
-    "last_seen": "2026-09-29",
-    "example": "Tsumugi Shiraishi (CV: Saki Minami), Anna Mochizuki (CV: Shiina Natsukawa), Mirai Kasuga (CV: Haruka Yamazaki) & Kana Yabuki (CV: Ibuki Kido) — 一旦愛して♡"
   },
   "Crossover Jazz": {
     "dropped": 4,
@@ -83,12 +77,6 @@
     "last_seen": "2026-09-28",
     "example": "JUNHEE — DEEP DIVE"
   },
-  "Afro-fusion": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-08-31",
-    "example": "Muyeez — All Hail Muyeez"
-  },
   "T-Pop": {
     "dropped": 3,
     "today": 1,
@@ -106,6 +94,18 @@
     "today": 1,
     "last_seen": "2026-09-21",
     "example": "Darude — Sandstorm (Storm 25 Mix)"
+  },
+  "Indie Rock": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-09-30",
+    "example": "Mr. Sea Turtle — 假如春天來臨,"
+  },
+  "House": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-30",
+    "example": "neuk — Coconaut"
   },
   "Praise & Worship": {
     "dropped": 2,
@@ -197,12 +197,6 @@
     "last_seen": "2026-09-28",
     "example": "Zoe Levert — GIRL DAD"
   },
-  "Afro-Pop": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "Phantom Boy — NO ME ODIES"
-  },
   "Amapiano": {
     "dropped": 2,
     "today": 1,
@@ -221,11 +215,17 @@
     "last_seen": "2026-09-28",
     "example": "Micro — After the Waves"
   },
-  "Indie Rock": {
+  "Kayokyoku": {
     "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-09-30",
+    "example": "Sung Si Kyung — LOVE"
+  },
+  "Afro-Pop": {
+    "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-29",
-    "example": "Mr. Sea Turtle — 假如春天來臨,"
+    "last_seen": "2026-09-30",
+    "example": "Koffi Olomidé — Gabriel"
   },
   "Video Game": {
     "dropped": 1,
@@ -254,8 +254,8 @@
   "Hip-Hop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-27",
-    "example": "Dee Mula — Ain’t Going for Nun"
+    "last_seen": "2026-09-30",
+    "example": "DJ OKAWARI — Fade"
   },
   "Death Metal/Black Metal": {
     "dropped": 1,
@@ -290,8 +290,8 @@
   "Jazz": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-19",
-    "example": "Branford Marsalis Quartet — Dedicated To You"
+    "last_seen": "2026-09-30",
+    "example": "Masayoshi Takanaka — Rainbow Goblins Story Live at Budokan 1981〜Nijidennsetsu 〜 (Live)"
   },
   "Shows": {
     "dropped": 1,
@@ -340,5 +340,11 @@
     "today": 1,
     "last_seen": "2026-09-28",
     "example": "Stryper — Throne Of Thorns"
+  },
+  "Worldbeat": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-09-30",
+    "example": "Various Artists — Las Otras 20 y Más..."
   }
 }
