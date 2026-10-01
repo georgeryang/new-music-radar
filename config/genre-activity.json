@@ -1,27 +1,27 @@
 {
-  "Alternative": {
-    "dropped": 14,
-    "today": 7,
-    "last_seen": "2026-09-28",
-    "example": "Keo — Put A Smile On For Me"
-  },
   "Anime": {
-    "dropped": 13,
-    "today": 8,
-    "last_seen": "2026-09-30",
+    "dropped": 23,
+    "today": 10,
+    "last_seen": "2026-10-01",
     "example": "名探偵プリキュア! — 『名探偵プリキュア!』後期主題歌シングル【通常盤】"
   },
-  "Música Mexicana": {
-    "dropped": 12,
-    "today": 1,
-    "last_seen": "2026-09-29",
-    "example": "Bajo Perfil — De Amor No Se Vive"
+  "Rock": {
+    "dropped": 13,
+    "today": 5,
+    "last_seen": "2026-10-01",
+    "example": "Mrs. GREEN APPLE — POPS"
   },
   "African": {
     "dropped": 11,
     "today": 3,
     "last_seen": "2026-09-21",
     "example": "Baka Beyond — Sing the World Awake"
+  },
+  "Soundtrack": {
+    "dropped": 9,
+    "today": 1,
+    "last_seen": "2026-10-01",
+    "example": "Liu Yu Ning — 有魅(《魅影神捕》影视剧主题曲)"
   },
   "Afro House": {
     "dropped": 8,
@@ -34,18 +34,6 @@
     "today": 4,
     "last_seen": "2026-09-28",
     "example": "Corey Kent — Heartland Rock and Roll"
-  },
-  "Rock": {
-    "dropped": 8,
-    "today": 2,
-    "last_seen": "2026-09-30",
-    "example": "Mrs. GREEN APPLE — POPS"
-  },
-  "Soundtrack": {
-    "dropped": 8,
-    "today": 2,
-    "last_seen": "2026-09-30",
-    "example": "Yuria Miyazono — Kakuseihunter Omegahorn (Original Soundtrack)"
   },
   "Electronic": {
     "dropped": 6,
@@ -77,6 +65,18 @@
     "last_seen": "2026-09-28",
     "example": "JUNHEE — DEEP DIVE"
   },
+  "Indie Rock": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-10-01",
+    "example": "Mr. Sea Turtle — 假如春天來臨,"
+  },
+  "Kayokyoku": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-10-01",
+    "example": "Sung Si Kyung — LOVE"
+  },
   "T-Pop": {
     "dropped": 3,
     "today": 1,
@@ -95,11 +95,11 @@
     "last_seen": "2026-09-21",
     "example": "Darude — Sandstorm (Storm 25 Mix)"
   },
-  "Indie Rock": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-09-30",
-    "example": "Mr. Sea Turtle — 假如春天來臨,"
+  "Alternative": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-10-01",
+    "example": "REiNa — Revive in Color"
   },
   "House": {
     "dropped": 2,
@@ -209,17 +209,35 @@
     "last_seen": "2026-09-28",
     "example": "HIMARI, Berlin Philharmonic & Sebastian Weigle — Debut"
   },
-  "Reggae": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "Micro — After the Waves"
-  },
-  "Kayokyoku": {
+  "Techno": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-09-30",
-    "example": "Sung Si Kyung — LOVE"
+    "last_seen": "2026-10-01",
+    "example": "BONSAI Techno — DEPTH"
+  },
+  "Hip-Hop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-01",
+    "example": "DJ OKAWARI — Fade"
+  },
+  "Jazz": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-01",
+    "example": "Masayoshi Takanaka — Rainbow Goblins Story Live at Budokan 1981〜Nijidennsetsu 〜 (Live)"
+  },
+  "Música Mexicana": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-01",
+    "example": "Alfredo Olivas — Esta Mi Pasión"
+  },
+  "Reggae": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-01",
+    "example": "EL NAOYA — Kanade"
   },
   "Afro-Pop": {
     "dropped": 1,
@@ -230,7 +248,7 @@
   "Video Game": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-29",
+    "last_seen": "2026-10-01",
     "example": "Wuthering Waves — Hsin's Wish(Original Game Soundtrack)"
   },
   "Metal": {
@@ -239,23 +257,11 @@
     "last_seen": "2026-09-27",
     "example": "DragonForce — Hunger of the Beast"
   },
-  "Techno": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-29",
-    "example": "r3-C0RD — PR0C33D"
-  },
   "Downtempo": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-09-27",
     "example": "Enli — Angel Eyes"
-  },
-  "Hip-Hop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-30",
-    "example": "DJ OKAWARI — Fade"
   },
   "Death Metal/Black Metal": {
     "dropped": 1,
@@ -286,12 +292,6 @@
     "today": 1,
     "last_seen": "2026-09-09",
     "example": "Lp Opie — Funk from Above"
-  },
-  "Jazz": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-30",
-    "example": "Masayoshi Takanaka — Rainbow Goblins Story Live at Budokan 1981〜Nijidennsetsu 〜 (Live)"
   },
   "Shows": {
     "dropped": 1,
@@ -346,5 +346,11 @@
     "today": 1,
     "last_seen": "2026-09-30",
     "example": "Various Artists — Las Otras 20 y Más..."
+  },
+  "Folk-Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-01",
+    "example": "L.N Party — 以末日之心度寻常之日"
   }
 }
