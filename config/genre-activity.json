@@ -1,15 +1,15 @@
 {
   "Anime": {
-    "dropped": 23,
-    "today": 10,
-    "last_seen": "2026-10-01",
+    "dropped": 31,
+    "today": 8,
+    "last_seen": "2026-10-02",
     "example": "名探偵プリキュア! — 『名探偵プリキュア!』後期主題歌シングル【通常盤】"
   },
   "Rock": {
-    "dropped": 13,
-    "today": 5,
-    "last_seen": "2026-10-01",
-    "example": "Mrs. GREEN APPLE — POPS"
+    "dropped": 23,
+    "today": 10,
+    "last_seen": "2026-10-02",
+    "example": "TENBLANK — Glass Heart (Selected Edition) [Live]"
   },
   "African": {
     "dropped": 11,
@@ -18,9 +18,9 @@
     "example": "Baka Beyond — Sing the World Awake"
   },
   "Soundtrack": {
-    "dropped": 9,
+    "dropped": 10,
     "today": 1,
-    "last_seen": "2026-10-01",
+    "last_seen": "2026-10-02",
     "example": "Liu Yu Ning — 有魅(《魅影神捕》影视剧主题曲)"
   },
   "Afro House": {
@@ -29,17 +29,41 @@
     "last_seen": "2026-09-21",
     "example": "Gumz — Pulse of Afro"
   },
-  "Country": {
+  "Alternative": {
     "dropped": 8,
-    "today": 4,
-    "last_seen": "2026-09-28",
-    "example": "Corey Kent — Heartland Rock and Roll"
+    "today": 6,
+    "last_seen": "2026-10-02",
+    "example": "101A — Bone 'N' Ash"
+  },
+  "Indie Rock": {
+    "dropped": 7,
+    "today": 3,
+    "last_seen": "2026-10-02",
+    "example": "The Hertz — 呀!!!"
   },
   "Electronic": {
     "dropped": 6,
     "today": 2,
     "last_seen": "2026-09-28",
     "example": "Towa Tei — ZAMBIENT"
+  },
+  "Música Mexicana": {
+    "dropped": 6,
+    "today": 5,
+    "last_seen": "2026-10-02",
+    "example": "Joss Favela — Las Cosas No Salieron"
+  },
+  "Kayokyoku": {
+    "dropped": 5,
+    "today": 1,
+    "last_seen": "2026-10-02",
+    "example": "Sung Si Kyung — LOVE"
+  },
+  "Country": {
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-10-02",
+    "example": "Miranda Lambert — Crisco"
   },
   "Crossover Jazz": {
     "dropped": 4,
@@ -65,23 +89,11 @@
     "last_seen": "2026-09-28",
     "example": "JUNHEE — DEEP DIVE"
   },
-  "Indie Rock": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-10-01",
-    "example": "Mr. Sea Turtle — 假如春天來臨,"
-  },
-  "Kayokyoku": {
+  "Jazz": {
     "dropped": 4,
     "today": 2,
-    "last_seen": "2026-10-01",
-    "example": "Sung Si Kyung — LOVE"
-  },
-  "T-Pop": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-09-16",
-    "example": "LYKN — หน้าไหว้หลังหลอก (Oh My Gosh)"
+    "last_seen": "2026-10-02",
+    "example": "Chihiro Yamanaka — Happy-Go-Lucky"
   },
   "Ambient": {
     "dropped": 3,
@@ -95,11 +107,23 @@
     "last_seen": "2026-09-21",
     "example": "Darude — Sandstorm (Storm 25 Mix)"
   },
-  "Alternative": {
-    "dropped": 2,
+  "Hip-Hop": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-10-02",
+    "example": "XONARA — IMPERFECT"
+  },
+  "Reggae": {
+    "dropped": 3,
     "today": 2,
-    "last_seen": "2026-10-01",
-    "example": "REiNa — Revive in Color"
+    "last_seen": "2026-10-02",
+    "example": "EL NAOYA — Kanade"
+  },
+  "Metal": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-10-02",
+    "example": "Valley of the Sun — The Blacklight Sessions"
   },
   "House": {
     "dropped": 2,
@@ -143,29 +167,11 @@
     "last_seen": "2026-09-28",
     "example": "Dusty Rivers — Still Dancing"
   },
-  "Música tropical": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "Maeso — Tq a Mi Lado"
-  },
-  "Pop/Rock": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "The Calling — Before The World Turns To Dust"
-  },
   "Folk": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-09-28",
     "example": "Joy Oladokun — Hope Is A Heavy Thing"
-  },
-  "Modern Dancehall": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "Shenseea — Vulnerability"
   },
   "Christian": {
     "dropped": 2,
@@ -215,29 +221,41 @@
     "last_seen": "2026-10-01",
     "example": "BONSAI Techno — DEPTH"
   },
-  "Hip-Hop": {
+  "Classical Crossover": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-10-02",
+    "example": "Andrea Bocelli & Jennifer Hudson — One Right Here"
+  },
+  "Folk-Rock": {
     "dropped": 2,
     "today": 1,
-    "last_seen": "2026-10-01",
-    "example": "DJ OKAWARI — Fade"
+    "last_seen": "2026-10-02",
+    "example": "L.N Party — 以末日之心度寻常之日"
   },
-  "Jazz": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-10-01",
-    "example": "Masayoshi Takanaka — Rainbow Goblins Story Live at Budokan 1981〜Nijidennsetsu 〜 (Live)"
-  },
-  "Música Mexicana": {
+  "T-Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-01",
-    "example": "Alfredo Olivas — Esta Mi Pasión"
+    "last_seen": "2026-10-02",
+    "example": "Emi Thasorn & Bonnie Pattraphus — กุญแจพระจันทร์ (Moonkey)"
   },
-  "Reggae": {
+  "Música tropical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-01",
-    "example": "EL NAOYA — Kanade"
+    "last_seen": "2026-10-02",
+    "example": "Jonathan Moly — Sin Cura"
+  },
+  "Pop/Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-02",
+    "example": "The Paradox — Proceed With Caution"
+  },
+  "Modern Dancehall": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-02",
+    "example": "Sean Paul & Sommer Ray — DIP"
   },
   "Afro-Pop": {
     "dropped": 1,
@@ -251,12 +269,6 @@
     "last_seen": "2026-10-01",
     "example": "Wuthering Waves — Hsin's Wish(Original Game Soundtrack)"
   },
-  "Metal": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-27",
-    "example": "DragonForce — Hunger of the Beast"
-  },
   "Downtempo": {
     "dropped": 1,
     "today": 1,
@@ -266,20 +278,14 @@
   "Death Metal/Black Metal": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-27",
-    "example": "Crypta — A Portrait of Decay"
+    "last_seen": "2026-10-02",
+    "example": "Brymir — What We Leave Behind"
   },
   "Rock y Alternativo": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-26",
-    "example": "Disco Bahía — El Rey Del Glam"
-  },
-  "Classical Crossover": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-11",
-    "example": "Max Richter — Now We Can Sing"
+    "last_seen": "2026-10-02",
+    "example": "Milo j — La Jangada"
   },
   "Bluegrass": {
     "dropped": 1,
@@ -347,10 +353,22 @@
     "last_seen": "2026-09-30",
     "example": "Various Artists — Las Otras 20 y Más..."
   },
-  "Folk-Rock": {
+  "Adult Contemporary": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-01",
-    "example": "L.N Party — 以末日之心度寻常之日"
+    "last_seen": "2026-10-02",
+    "example": "Sydnie Christmas — The Artist"
+  },
+  "Jungle/Drum'n'bass": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-02",
+    "example": "Mason Deyneka — December Star"
+  },
+  "Alternative Folk": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-02",
+    "example": "Trixie Mattel — 'Till Death Do Us Part"
   }
 }
