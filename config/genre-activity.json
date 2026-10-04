@@ -5,17 +5,17 @@
     "last_seen": "2026-09-21",
     "example": "Baka Beyond — Sing the World Awake"
   },
-  "Rock": {
-    "dropped": 7,
-    "today": 7,
-    "last_seen": "2026-10-04",
-    "example": "The Beatles — Rubber Soul (Super Deluxe)"
-  },
   "Música Mexicana": {
     "dropped": 7,
     "today": 7,
     "last_seen": "2026-10-04",
-    "example": "Joss Favela — Las Cosas No Salieron"
+    "example": "Carín León — Live From Japan"
+  },
+  "Rock": {
+    "dropped": 6,
+    "today": 6,
+    "last_seen": "2026-10-04",
+    "example": "The Beatles — Rubber Soul (Super Deluxe)"
   },
   "Electronic": {
     "dropped": 6,
@@ -36,16 +36,10 @@
     "example": "Sung Si Kyung — LOVE"
   },
   "Anime": {
-    "dropped": 4,
-    "today": 4,
+    "dropped": 5,
+    "today": 5,
     "last_seen": "2026-10-04",
-    "example": "KURUMI FUKUGA(CV:AINA SUZUKI) — Opening Theme & Ending Theme (From Tv Series \"Fx Fighter Kurumi-Chan\")"
-  },
-  "Afro House": {
-    "dropped": 4,
-    "today": 4,
-    "last_seen": "2026-10-04",
-    "example": "Eliad Cohen & Meital De Razon — Would I Lie To You?"
+    "example": "watson — Irisu Syndrome! Original Soundtrack"
   },
   "Crossover Jazz": {
     "dropped": 4,
@@ -101,17 +95,17 @@
     "last_seen": "2026-10-04",
     "example": "Valley of the Sun — The Blacklight Sessions"
   },
-  "Pop/Rock": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-10-04",
-    "example": "Air Supply — A Matter of Time"
-  },
-  "Soundtrack": {
+  "Afro House": {
     "dropped": 2,
     "today": 2,
     "last_seen": "2026-10-04",
-    "example": "Cosmo Sheldrake — Digger (Original Motion Picture Soundtrack)"
+    "example": "Eliad Cohen & Meital De Razon — Would I Lie To You?"
+  },
+  "Pop/Rock": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-10-04",
+    "example": "준혁 — EMPTY"
   },
   "Indie Rock": {
     "dropped": 2,
@@ -151,9 +145,9 @@
   },
   "Afro-Beat": {
     "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "Dusty Rivers — Still Dancing"
+    "today": 2,
+    "last_seen": "2026-10-04",
+    "example": "DJ TOY SA — Touch Me Softly (Special Version)"
   },
   "Folk": {
     "dropped": 2,
@@ -215,6 +209,18 @@
     "last_seen": "2026-10-04",
     "example": "Luis Figueroa — Let You Down"
   },
+  "House": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-10-04",
+    "example": "Roland Leesker — What You Need"
+  },
+  "Soundtrack": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-04",
+    "example": "Cosmo Sheldrake — Digger (Original Motion Picture Soundtrack)"
+  },
   "Trance": {
     "dropped": 1,
     "today": 1,
@@ -226,12 +232,6 @@
     "today": 1,
     "last_seen": "2026-10-04",
     "example": "EL NAOYA — Kanade"
-  },
-  "House": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-04",
-    "example": "Danilo Gravina & Joey Seminara — Tu Soltanto Tu"
   },
   "Classical": {
     "dropped": 1,
@@ -266,8 +266,8 @@
   "Video Game": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-01",
-    "example": "Wuthering Waves — Hsin's Wish(Original Game Soundtrack)"
+    "last_seen": "2026-10-04",
+    "example": "Wuthering Waves — Songs for the Waking Moon(Original Game Soundtrack)"
   },
   "Downtempo": {
     "dropped": 1,
@@ -278,8 +278,8 @@
   "Death Metal/Black Metal": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-02",
-    "example": "Brymir — What We Leave Behind"
+    "last_seen": "2026-10-04",
+    "example": "TEMIC — Ceiba"
   },
   "Rock y Alternativo": {
     "dropped": 1,
