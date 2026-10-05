@@ -1,4 +1,10 @@
 {
+  "Rock": {
+    "dropped": 13,
+    "today": 7,
+    "last_seen": "2026-10-05",
+    "example": "Johnny Marr — The Age Of Everything"
+  },
   "African": {
     "dropped": 11,
     "today": 3,
@@ -6,16 +12,22 @@
     "example": "Baka Beyond — Sing the World Awake"
   },
   "Música Mexicana": {
-    "dropped": 7,
-    "today": 7,
-    "last_seen": "2026-10-04",
-    "example": "Carín León — Live From Japan"
+    "dropped": 10,
+    "today": 3,
+    "last_seen": "2026-10-05",
+    "example": "Camila Fernández — Serpiente De Cascabel"
   },
-  "Rock": {
-    "dropped": 6,
-    "today": 6,
-    "last_seen": "2026-10-04",
-    "example": "The Beatles — Rubber Soul (Super Deluxe)"
+  "Anime": {
+    "dropped": 10,
+    "today": 5,
+    "last_seen": "2026-10-05",
+    "example": "Hanatan, Annisphia(CV:Sayaka Senbongi) & Euphilia(CV:Manaka Iwami) — Insert Song from \"l the Magical Revolution of the Reincarnated Princess and the Genius Young Lady\""
+  },
+  "Alternative": {
+    "dropped": 9,
+    "today": 4,
+    "last_seen": "2026-10-05",
+    "example": "$wag Nightmare — Rainbow Paradise"
   },
   "Electronic": {
     "dropped": 6,
@@ -23,11 +35,11 @@
     "last_seen": "2026-09-28",
     "example": "Towa Tei — ZAMBIENT"
   },
-  "Alternative": {
-    "dropped": 5,
-    "today": 5,
-    "last_seen": "2026-10-04",
-    "example": "101A — Bone 'N' Ash"
+  "Country": {
+    "dropped": 6,
+    "today": 3,
+    "last_seen": "2026-10-05",
+    "example": "Miranda Lambert — Crisco"
   },
   "Kayokyoku": {
     "dropped": 5,
@@ -35,11 +47,11 @@
     "last_seen": "2026-10-02",
     "example": "Sung Si Kyung — LOVE"
   },
-  "Anime": {
+  "Metal": {
     "dropped": 5,
-    "today": 5,
-    "last_seen": "2026-10-04",
-    "example": "watson — Irisu Syndrome! Original Soundtrack"
+    "today": 2,
+    "last_seen": "2026-10-05",
+    "example": "Amon Amarth — The Allfather Awakens"
   },
   "Crossover Jazz": {
     "dropped": 4,
@@ -71,11 +83,29 @@
     "last_seen": "2026-10-02",
     "example": "Chihiro Yamanaka — Happy-Go-Lucky"
   },
-  "Country": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-10-04",
-    "example": "Miranda Lambert — Crisco"
+  "Afro House": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-10-05",
+    "example": "Jayzz — Tribal Journey (feat. SHALINI CHAUDHARY)"
+  },
+  "Pop/Rock": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-10-05",
+    "example": "준혁 — EMPTY"
+  },
+  "Indie Rock": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-10-05",
+    "example": "Orca — skin&skin"
+  },
+  "Classical Crossover": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-10-05",
+    "example": "Andrea Bocelli & Jennifer Hudson — One Right Here"
   },
   "Ambient": {
     "dropped": 3,
@@ -89,29 +119,17 @@
     "last_seen": "2026-10-02",
     "example": "XONARA — IMPERFECT"
   },
-  "Metal": {
+  "Afro-Beat": {
     "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-10-04",
-    "example": "Valley of the Sun — The Blacklight Sessions"
+    "today": 1,
+    "last_seen": "2026-10-05",
+    "example": "DJ TOY SA — Touch Me Softly (Special Version)"
   },
-  "Afro House": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-04",
-    "example": "Eliad Cohen & Meital De Razon — Would I Lie To You?"
-  },
-  "Pop/Rock": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-04",
-    "example": "준혁 — EMPTY"
-  },
-  "Indie Rock": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-04",
-    "example": "Orca — skin&skin"
+  "House": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-10-05",
+    "example": "Danilo Gravina & Joey Seminara — Tu Soltanto Tu"
   },
   "Praise & Worship": {
     "dropped": 2,
@@ -142,12 +160,6 @@
     "today": 1,
     "last_seen": "2026-09-28",
     "example": "Paige Su — The Best of the Worst of Times"
-  },
-  "Afro-Beat": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-04",
-    "example": "DJ TOY SA — Touch Me Softly (Special Version)"
   },
   "Folk": {
     "dropped": 2,
@@ -197,29 +209,41 @@
     "last_seen": "2026-10-01",
     "example": "BONSAI Techno — DEPTH"
   },
-  "Classical Crossover": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-04",
-    "example": "Andrea Bocelli & Jennifer Hudson — One Right Here"
-  },
   "Música tropical": {
     "dropped": 2,
     "today": 2,
     "last_seen": "2026-10-04",
     "example": "Luis Figueroa — Let You Down"
   },
-  "House": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-04",
-    "example": "Roland Leesker — What You Need"
-  },
   "Soundtrack": {
-    "dropped": 1,
+    "dropped": 2,
     "today": 1,
-    "last_seen": "2026-10-04",
+    "last_seen": "2026-10-05",
     "example": "Cosmo Sheldrake — Digger (Original Motion Picture Soundtrack)"
+  },
+  "Classical": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-05",
+    "example": "Minsoo Sohn — J. S. Bach: The Well-Tempered Clavier I"
+  },
+  "Afro-Pop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-05",
+    "example": "LABACK — Jerusalema"
+  },
+  "Adult Contemporary": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-05",
+    "example": "Sydnie Christmas — The Artist"
+  },
+  "Alternative Folk": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-05",
+    "example": "Trixie Mattel — 'Till Death Do Us Part"
   },
   "Trance": {
     "dropped": 1,
@@ -232,12 +256,6 @@
     "today": 1,
     "last_seen": "2026-10-04",
     "example": "EL NAOYA — Kanade"
-  },
-  "Classical": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-04",
-    "example": "Daniil Trifonov — Mi Historia Americana: Sur"
   },
   "Folk-Rock": {
     "dropped": 1,
@@ -256,12 +274,6 @@
     "today": 1,
     "last_seen": "2026-10-02",
     "example": "Sean Paul & Sommer Ray — DIP"
-  },
-  "Afro-Pop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-04",
-    "example": "LABACK — Jerusalema"
   },
   "Video Game": {
     "dropped": 1,
@@ -296,20 +308,8 @@
   "Funk": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-09-09",
-    "example": "Lp Opie — Funk from Above"
-  },
-  "Shows": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-05",
-    "example": "Various Artists — 天赐的声音第七季 第12期 (Live)"
-  },
-  "Big Band": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-05",
-    "example": "DOOMFLOW23 — Amor a Distancia"
+    "last_seen": "2026-10-05",
+    "example": "Pleasurewood — Electric Telepathy"
   },
   "New Age": {
     "dropped": 1,
@@ -353,23 +353,11 @@
     "last_seen": "2026-09-30",
     "example": "Various Artists — Las Otras 20 y Más..."
   },
-  "Adult Contemporary": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-04",
-    "example": "Sydnie Christmas — The Artist"
-  },
   "Jungle/Drum'n'bass": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-02",
-    "example": "Mason Deyneka — December Star"
-  },
-  "Alternative Folk": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-04",
-    "example": "Trixie Mattel — 'Till Death Do Us Part"
+    "last_seen": "2026-10-05",
+    "example": "Max Cooper — fabric presents Max Cooper"
   },
   "Blues": {
     "dropped": 1,
