@@ -1,9 +1,21 @@
 {
   "Rock": {
-    "dropped": 13,
-    "today": 7,
-    "last_seen": "2026-10-05",
-    "example": "Johnny Marr — The Age Of Everything"
+    "dropped": 17,
+    "today": 4,
+    "last_seen": "2026-10-06",
+    "example": "10-FEET — Fortress Defense"
+  },
+  "Anime": {
+    "dropped": 14,
+    "today": 4,
+    "last_seen": "2026-10-06",
+    "example": "Hanatan, Annisphia(CV:Sayaka Senbongi) & Euphilia(CV:Manaka Iwami) — Insert Song from \"l the Magical Revolution of the Reincarnated Princess and the Genius Young Lady\""
+  },
+  "Música Mexicana": {
+    "dropped": 12,
+    "today": 2,
+    "last_seen": "2026-10-06",
+    "example": "Carín León — Live From Japan"
   },
   "African": {
     "dropped": 11,
@@ -11,23 +23,11 @@
     "last_seen": "2026-09-21",
     "example": "Baka Beyond — Sing the World Awake"
   },
-  "Música Mexicana": {
-    "dropped": 10,
-    "today": 3,
-    "last_seen": "2026-10-05",
-    "example": "Camila Fernández — Serpiente De Cascabel"
-  },
-  "Anime": {
-    "dropped": 10,
-    "today": 5,
-    "last_seen": "2026-10-05",
-    "example": "Hanatan, Annisphia(CV:Sayaka Senbongi) & Euphilia(CV:Manaka Iwami) — Insert Song from \"l the Magical Revolution of the Reincarnated Princess and the Genius Young Lady\""
-  },
   "Alternative": {
-    "dropped": 9,
-    "today": 4,
-    "last_seen": "2026-10-05",
-    "example": "$wag Nightmare — Rainbow Paradise"
+    "dropped": 10,
+    "today": 1,
+    "last_seen": "2026-10-06",
+    "example": "Zsela — Kinda Guy"
   },
   "Electronic": {
     "dropped": 6,
@@ -52,6 +52,18 @@
     "today": 2,
     "last_seen": "2026-10-05",
     "example": "Amon Amarth — The Allfather Awakens"
+  },
+  "Afro House": {
+    "dropped": 5,
+    "today": 1,
+    "last_seen": "2026-10-06",
+    "example": "Jayzz — Tribal Journey (feat. SHALINI CHAUDHARY)"
+  },
+  "Pop/Rock": {
+    "dropped": 5,
+    "today": 1,
+    "last_seen": "2026-10-06",
+    "example": "준혁 — EMPTY"
   },
   "Crossover Jazz": {
     "dropped": 4,
@@ -83,18 +95,6 @@
     "last_seen": "2026-10-02",
     "example": "Chihiro Yamanaka — Happy-Go-Lucky"
   },
-  "Afro House": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-10-05",
-    "example": "Jayzz — Tribal Journey (feat. SHALINI CHAUDHARY)"
-  },
-  "Pop/Rock": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-10-05",
-    "example": "준혁 — EMPTY"
-  },
   "Indie Rock": {
     "dropped": 4,
     "today": 2,
@@ -106,6 +106,12 @@
     "today": 2,
     "last_seen": "2026-10-05",
     "example": "Andrea Bocelli & Jennifer Hudson — One Right Here"
+  },
+  "Soundtrack": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-10-06",
+    "example": "AITONIA — The King Is Mine"
   },
   "Ambient": {
     "dropped": 3,
@@ -214,12 +220,6 @@
     "today": 2,
     "last_seen": "2026-10-04",
     "example": "Luis Figueroa — Let You Down"
-  },
-  "Soundtrack": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-10-05",
-    "example": "Cosmo Sheldrake — Digger (Original Motion Picture Soundtrack)"
   },
   "Classical": {
     "dropped": 2,
