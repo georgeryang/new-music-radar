@@ -1,15 +1,15 @@
 {
   "Rock": {
-    "dropped": 17,
-    "today": 4,
-    "last_seen": "2026-10-06",
-    "example": "10-FEET — Fortress Defense"
+    "dropped": 22,
+    "today": 5,
+    "last_seen": "2026-10-07",
+    "example": "kein — Iustitia sine misericordia"
   },
   "Anime": {
-    "dropped": 14,
-    "today": 4,
-    "last_seen": "2026-10-06",
-    "example": "Hanatan, Annisphia(CV:Sayaka Senbongi) & Euphilia(CV:Manaka Iwami) — Insert Song from \"l the Magical Revolution of the Reincarnated Princess and the Genius Young Lady\""
+    "dropped": 17,
+    "today": 3,
+    "last_seen": "2026-10-07",
+    "example": "Mili — Rendezvous"
   },
   "Música Mexicana": {
     "dropped": 12,
@@ -17,17 +17,23 @@
     "last_seen": "2026-10-06",
     "example": "Carín León — Live From Japan"
   },
+  "Alternative": {
+    "dropped": 12,
+    "today": 2,
+    "last_seen": "2026-10-07",
+    "example": "Zsela — Kinda Guy"
+  },
   "African": {
     "dropped": 11,
     "today": 3,
     "last_seen": "2026-09-21",
     "example": "Baka Beyond — Sing the World Awake"
   },
-  "Alternative": {
-    "dropped": 10,
-    "today": 1,
-    "last_seen": "2026-10-06",
-    "example": "Zsela — Kinda Guy"
+  "Soundtrack": {
+    "dropped": 8,
+    "today": 4,
+    "last_seen": "2026-10-07",
+    "example": "fox capture plan — ドラマ『カラちゃんとシトーさんと、』オリジナル・サウンドトラック"
   },
   "Electronic": {
     "dropped": 6,
@@ -46,12 +52,6 @@
     "today": 1,
     "last_seen": "2026-10-02",
     "example": "Sung Si Kyung — LOVE"
-  },
-  "Metal": {
-    "dropped": 5,
-    "today": 2,
-    "last_seen": "2026-10-05",
-    "example": "Amon Amarth — The Allfather Awakens"
   },
   "Afro House": {
     "dropped": 5,
@@ -106,12 +106,6 @@
     "today": 2,
     "last_seen": "2026-10-05",
     "example": "Andrea Bocelli & Jennifer Hudson — One Right Here"
-  },
-  "Soundtrack": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-10-06",
-    "example": "AITONIA — The King Is Mine"
   },
   "Ambient": {
     "dropped": 3,
@@ -245,6 +239,12 @@
     "last_seen": "2026-10-05",
     "example": "Trixie Mattel — 'Till Death Do Us Part"
   },
+  "Metal": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-07",
+    "example": "Zilqy — Birth Of Riot"
+  },
   "Trance": {
     "dropped": 1,
     "today": 1,
@@ -278,8 +278,8 @@
   "Video Game": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-04",
-    "example": "Wuthering Waves — Songs for the Waking Moon(Original Game Soundtrack)"
+    "last_seen": "2026-10-07",
+    "example": "Adam Lastiwka — Gears of War: E-Day (Original Soundtrack)"
   },
   "Downtempo": {
     "dropped": 1,
