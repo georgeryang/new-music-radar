@@ -1,27 +1,27 @@
 {
   "Rock": {
-    "dropped": 22,
-    "today": 5,
-    "last_seen": "2026-10-07",
+    "dropped": 29,
+    "today": 7,
+    "last_seen": "2026-10-08",
     "example": "kein — Iustitia sine misericordia"
   },
   "Anime": {
+    "dropped": 23,
+    "today": 6,
+    "last_seen": "2026-10-08",
+    "example": "MARUMOCHI from HoneyWorks — 影響力∞アイドル (feat. ハコニワリリィ)"
+  },
+  "Alternative": {
     "dropped": 17,
-    "today": 3,
-    "last_seen": "2026-10-07",
-    "example": "Mili — Rendezvous"
+    "today": 5,
+    "last_seen": "2026-10-08",
+    "example": "Zsela — Kinda Guy"
   },
   "Música Mexicana": {
     "dropped": 12,
     "today": 2,
     "last_seen": "2026-10-06",
     "example": "Carín León — Live From Japan"
-  },
-  "Alternative": {
-    "dropped": 12,
-    "today": 2,
-    "last_seen": "2026-10-07",
-    "example": "Zsela — Kinda Guy"
   },
   "African": {
     "dropped": 11,
@@ -30,9 +30,9 @@
     "example": "Baka Beyond — Sing the World Awake"
   },
   "Soundtrack": {
-    "dropped": 8,
-    "today": 4,
-    "last_seen": "2026-10-07",
+    "dropped": 10,
+    "today": 2,
+    "last_seen": "2026-10-08",
     "example": "fox capture plan — ドラマ『カラちゃんとシトーさんと、』オリジナル・サウンドトラック"
   },
   "Electronic": {
@@ -40,12 +40,6 @@
     "today": 2,
     "last_seen": "2026-09-28",
     "example": "Towa Tei — ZAMBIENT"
-  },
-  "Country": {
-    "dropped": 6,
-    "today": 3,
-    "last_seen": "2026-10-05",
-    "example": "Miranda Lambert — Crisco"
   },
   "Kayokyoku": {
     "dropped": 5,
@@ -70,12 +64,6 @@
     "today": 1,
     "last_seen": "2026-09-21",
     "example": "PYRAMID — PYRAMID 6"
-  },
-  "Soul": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-09-21",
-    "example": "Thee Sinseers & Joey Quiñones — Love Stories"
   },
   "Chinese Hip-Hop": {
     "dropped": 4,
@@ -113,23 +101,11 @@
     "last_seen": "2026-09-20",
     "example": "Alva Noto & Ryuichi Sakamoto — 12 Conversations"
   },
-  "Hip-Hop": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-10-02",
-    "example": "XONARA — IMPERFECT"
-  },
   "Afro-Beat": {
     "dropped": 3,
     "today": 1,
     "last_seen": "2026-10-05",
     "example": "DJ TOY SA — Touch Me Softly (Special Version)"
-  },
-  "House": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-10-05",
-    "example": "Danilo Gravina & Joey Seminara — Tu Soltanto Tu"
   },
   "Praise & Worship": {
     "dropped": 2,
@@ -160,12 +136,6 @@
     "today": 1,
     "last_seen": "2026-09-28",
     "example": "Paige Su — The Best of the Worst of Times"
-  },
-  "Folk": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "Joy Oladokun — Hope Is A Heavy Thing"
   },
   "Christian": {
     "dropped": 2,
@@ -240,10 +210,46 @@
     "example": "Trixie Mattel — 'Till Death Do Us Part"
   },
   "Metal": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-08",
+    "example": "Zilqy — Birth of Riot"
+  },
+  "Video Game": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-08",
+    "example": "Adam Lastiwka — Gears of War: E-Day (Original Soundtrack)"
+  },
+  "Country": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-07",
-    "example": "Zilqy — Birth Of Riot"
+    "last_seen": "2026-10-08",
+    "example": "Kacey Musgraves & Intocable — Uncertain, TX (Spanish Version)"
+  },
+  "Soul": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-08",
+    "example": "Olympia Vitalis & Common Saints — December Sunshine"
+  },
+  "Hip-Hop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-08",
+    "example": "Sk8star — Peter Pusher"
+  },
+  "House": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-08",
+    "example": "Cloonee — Are You Still You?"
+  },
+  "Folk": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-08",
+    "example": "Josiah and the Bonnevilles — Apple Music Nashville Sessions"
   },
   "Trance": {
     "dropped": 1,
@@ -274,12 +280,6 @@
     "today": 1,
     "last_seen": "2026-10-02",
     "example": "Sean Paul & Sommer Ray — DIP"
-  },
-  "Video Game": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-07",
-    "example": "Adam Lastiwka — Gears of War: E-Day (Original Soundtrack)"
   },
   "Downtempo": {
     "dropped": 1,
@@ -376,5 +376,11 @@
     "today": 1,
     "last_seen": "2026-10-04",
     "example": "Sipprell — Message to the Sky"
+  },
+  "Tai-Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-08",
+    "example": "Gigi Wu — BE WiTH YOU"
   }
 }
