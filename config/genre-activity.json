@@ -1,45 +1,39 @@
 {
   "Rock": {
-    "dropped": 29,
-    "today": 7,
-    "last_seen": "2026-10-08",
-    "example": "kein — Iustitia sine misericordia"
-  },
-  "Anime": {
-    "dropped": 23,
-    "today": 6,
-    "last_seen": "2026-10-08",
-    "example": "MARUMOCHI from HoneyWorks — 影響力∞アイドル (feat. ハコニワリリィ)"
+    "dropped": 37,
+    "today": 8,
+    "last_seen": "2026-10-09",
+    "example": "ZUTOMAYO — akanesasu"
   },
   "Alternative": {
-    "dropped": 17,
-    "today": 5,
-    "last_seen": "2026-10-08",
-    "example": "Zsela — Kinda Guy"
+    "dropped": 32,
+    "today": 15,
+    "last_seen": "2026-10-09",
+    "example": "Pet Shop Boys — A man from the future"
   },
-  "Música Mexicana": {
-    "dropped": 12,
+  "Anime": {
+    "dropped": 25,
     "today": 2,
-    "last_seen": "2026-10-06",
-    "example": "Carín León — Live From Japan"
-  },
-  "African": {
-    "dropped": 11,
-    "today": 3,
-    "last_seen": "2026-09-21",
-    "example": "Baka Beyond — Sing the World Awake"
+    "last_seen": "2026-10-09",
+    "example": "Tsunomaki Watame — RESPAWN!!"
   },
   "Soundtrack": {
-    "dropped": 10,
+    "dropped": 12,
     "today": 2,
-    "last_seen": "2026-10-08",
-    "example": "fox capture plan — ドラマ『カラちゃんとシトーさんと、』オリジナル・サウンドトラック"
+    "last_seen": "2026-10-09",
+    "example": "Andrew Lloyd Webber & The Phantom of the Opera (Original London Cast) — The Phantom of the Opera (The Andrew Lloyd Webber 2026 Mix)"
   },
-  "Electronic": {
-    "dropped": 6,
-    "today": 2,
-    "last_seen": "2026-09-28",
-    "example": "Towa Tei — ZAMBIENT"
+  "Country": {
+    "dropped": 8,
+    "today": 7,
+    "last_seen": "2026-10-09",
+    "example": "Lainey Wilson — Kinda Love It"
+  },
+  "Metal": {
+    "dropped": 7,
+    "today": 5,
+    "last_seen": "2026-10-09",
+    "example": "Zilqy — Birth of Riot"
   },
   "Kayokyoku": {
     "dropped": 5,
@@ -71,29 +65,17 @@
     "last_seen": "2026-09-26",
     "example": "FRαNKIE & SAVAGE.M — 直南"
   },
-  "Electronica": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-09-28",
-    "example": "JUNHEE — DEEP DIVE"
-  },
   "Jazz": {
     "dropped": 4,
     "today": 2,
     "last_seen": "2026-10-02",
     "example": "Chihiro Yamanaka — Happy-Go-Lucky"
   },
-  "Indie Rock": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-10-05",
-    "example": "Orca — skin&skin"
-  },
-  "Classical Crossover": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-10-05",
-    "example": "Andrea Bocelli & Jennifer Hudson — One Right Here"
+  "Música Mexicana": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-10-09",
+    "example": "Yuridia — Bajón Emocional"
   },
   "Ambient": {
     "dropped": 3,
@@ -101,11 +83,41 @@
     "last_seen": "2026-09-20",
     "example": "Alva Noto & Ryuichi Sakamoto — 12 Conversations"
   },
-  "Afro-Beat": {
+  "Hip-Hop": {
     "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-10-05",
-    "example": "DJ TOY SA — Touch Me Softly (Special Version)"
+    "today": 2,
+    "last_seen": "2026-10-09",
+    "example": "Trap Dickey — Highway"
+  },
+  "House": {
+    "dropped": 3,
+    "today": 2,
+    "last_seen": "2026-10-09",
+    "example": "Roman Flügel & Zillas on Acid — Conga Dream"
+  },
+  "Folk": {
+    "dropped": 3,
+    "today": 2,
+    "last_seen": "2026-10-09",
+    "example": "Josiah and the Bonnevilles — Apple Music Nashville Sessions"
+  },
+  "Electronic": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-10-09",
+    "example": "Chase & Status — Generic Everything"
+  },
+  "Indie Rock": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-10-09",
+    "example": "Tanzana — Etched In"
+  },
+  "Afro-Beat": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-10-09",
+    "example": "DJ Nate Gemini — T.G.E Deluxe"
   },
   "Praise & Worship": {
     "dropped": 2,
@@ -137,12 +149,6 @@
     "last_seen": "2026-09-28",
     "example": "Paige Su — The Best of the Worst of Times"
   },
-  "Christian": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "gio. & Dell Mac — PROMISE LAND"
-  },
   "Hard Rock": {
     "dropped": 2,
     "today": 1,
@@ -154,12 +160,6 @@
     "today": 1,
     "last_seen": "2026-09-28",
     "example": "Ms. Rachel — I'm So Happy"
-  },
-  "Worldwide": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "Hermanos Gutiérrez — Los Ojos Del Cóndor"
   },
   "Christian Pop": {
     "dropped": 2,
@@ -178,12 +178,6 @@
     "today": 2,
     "last_seen": "2026-10-01",
     "example": "BONSAI Techno — DEPTH"
-  },
-  "Música tropical": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-04",
-    "example": "Luis Figueroa — Let You Down"
   },
   "Classical": {
     "dropped": 2,
@@ -209,47 +203,59 @@
     "last_seen": "2026-10-05",
     "example": "Trixie Mattel — 'Till Death Do Us Part"
   },
-  "Metal": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-10-08",
-    "example": "Zilqy — Birth of Riot"
-  },
   "Video Game": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-10-08",
     "example": "Adam Lastiwka — Gears of War: E-Day (Original Soundtrack)"
   },
-  "Country": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-08",
-    "example": "Kacey Musgraves & Intocable — Uncertain, TX (Spanish Version)"
-  },
   "Soul": {
-    "dropped": 1,
+    "dropped": 2,
     "today": 1,
-    "last_seen": "2026-10-08",
+    "last_seen": "2026-10-09",
     "example": "Olympia Vitalis & Common Saints — December Sunshine"
   },
-  "Hip-Hop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-08",
-    "example": "Sk8star — Peter Pusher"
+  "Holiday": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-10-09",
+    "example": "Alanis Morissette — Good Weather For Immaculate Conception"
   },
-  "House": {
+  "African": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-08",
-    "example": "Cloonee — Are You Still You?"
+    "last_seen": "2026-10-09",
+    "example": "Bien — I'll Be Okay"
   },
-  "Folk": {
+  "Electronica": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-08",
-    "example": "Josiah and the Bonnevilles — Apple Music Nashville Sessions"
+    "last_seen": "2026-10-09",
+    "example": "Grimes & VADAKIN — ACCELERANDO"
+  },
+  "Classical Crossover": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-09",
+    "example": "Alexis Ffrench — 24"
+  },
+  "Christian": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-09",
+    "example": "Colton Dixon — Bones"
+  },
+  "Worldwide": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-09",
+    "example": "穆静 — 西非秘语"
+  },
+  "Música tropical": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-09",
+    "example": "Oscar Gamarra — El Gamarrazo"
   },
   "Trance": {
     "dropped": 1,
@@ -382,5 +388,17 @@
     "today": 1,
     "last_seen": "2026-10-08",
     "example": "Gigi Wu — BE WiTH YOU"
+  },
+  "Baladas y Boleros": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-09",
+    "example": "Andy Montañez — Boleros Que Cantó El Sonero Mayor"
+  },
+  "Americana": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-09",
+    "example": "Sheryl Crow — Pick You Up"
   }
 }
