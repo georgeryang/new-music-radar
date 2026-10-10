@@ -1,39 +1,27 @@
 {
-  "Rock": {
-    "dropped": 37,
-    "today": 8,
-    "last_seen": "2026-10-09",
-    "example": "ZUTOMAYO — akanesasu"
-  },
   "Alternative": {
-    "dropped": 32,
-    "today": 15,
-    "last_seen": "2026-10-09",
+    "dropped": 17,
+    "today": 17,
+    "last_seen": "2026-10-10",
     "example": "Pet Shop Boys — A man from the future"
   },
-  "Anime": {
-    "dropped": 25,
-    "today": 2,
-    "last_seen": "2026-10-09",
-    "example": "Tsunomaki Watame — RESPAWN!!"
-  },
-  "Soundtrack": {
-    "dropped": 12,
-    "today": 2,
-    "last_seen": "2026-10-09",
-    "example": "Andrew Lloyd Webber & The Phantom of the Opera (Original London Cast) — The Phantom of the Opera (The Andrew Lloyd Webber 2026 Mix)"
+  "Rock": {
+    "dropped": 10,
+    "today": 10,
+    "last_seen": "2026-10-10",
+    "example": "Shortparis — Илиада"
   },
   "Country": {
-    "dropped": 8,
+    "dropped": 7,
     "today": 7,
-    "last_seen": "2026-10-09",
+    "last_seen": "2026-10-10",
     "example": "Lainey Wilson — Kinda Love It"
   },
-  "Metal": {
+  "Música Mexicana": {
     "dropped": 7,
-    "today": 5,
-    "last_seen": "2026-10-09",
-    "example": "Zilqy — Birth of Riot"
+    "today": 7,
+    "last_seen": "2026-10-10",
+    "example": "LOS DOS DE TAMAULIPAS — No Fue Suerte"
   },
   "Kayokyoku": {
     "dropped": 5,
@@ -53,6 +41,12 @@
     "last_seen": "2026-10-06",
     "example": "준혁 — EMPTY"
   },
+  "Metal": {
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-10-10",
+    "example": "Zilqy — Birth of Riot"
+  },
   "Crossover Jazz": {
     "dropped": 4,
     "today": 1,
@@ -71,11 +65,11 @@
     "last_seen": "2026-10-02",
     "example": "Chihiro Yamanaka — Happy-Go-Lucky"
   },
-  "Música Mexicana": {
+  "Soundtrack": {
     "dropped": 3,
     "today": 3,
-    "last_seen": "2026-10-09",
-    "example": "Yuridia — Bajón Emocional"
+    "last_seen": "2026-10-10",
+    "example": "TLE MATIMUN — เพลงจูบ (Safe Zone) [From \"รักสุดใจนายแฟนบอย Mr. Fanboy Series\"]"
   },
   "Ambient": {
     "dropped": 3,
@@ -83,40 +77,34 @@
     "last_seen": "2026-09-20",
     "example": "Alva Noto & Ryuichi Sakamoto — 12 Conversations"
   },
-  "Hip-Hop": {
-    "dropped": 3,
-    "today": 2,
-    "last_seen": "2026-10-09",
-    "example": "Trap Dickey — Highway"
-  },
   "House": {
     "dropped": 3,
     "today": 2,
     "last_seen": "2026-10-09",
     "example": "Roman Flügel & Zillas on Acid — Conga Dream"
   },
-  "Folk": {
-    "dropped": 3,
+  "Anime": {
+    "dropped": 2,
     "today": 2,
-    "last_seen": "2026-10-09",
-    "example": "Josiah and the Bonnevilles — Apple Music Nashville Sessions"
+    "last_seen": "2026-10-10",
+    "example": "Tsunomaki Watame — RESPAWN!!"
+  },
+  "Hip-Hop": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-10-10",
+    "example": "Trap Dickey — Highway"
   },
   "Electronic": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-10-09",
+    "last_seen": "2026-10-10",
     "example": "Chase & Status — Generic Everything"
-  },
-  "Indie Rock": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-09",
-    "example": "Tanzana — Etched In"
   },
   "Afro-Beat": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-10-09",
+    "last_seen": "2026-10-10",
     "example": "DJ Nate Gemini — T.G.E Deluxe"
   },
   "Praise & Worship": {
@@ -209,52 +197,64 @@
     "last_seen": "2026-10-08",
     "example": "Adam Lastiwka — Gears of War: E-Day (Original Soundtrack)"
   },
-  "Soul": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-10-09",
-    "example": "Olympia Vitalis & Common Saints — December Sunshine"
-  },
   "Holiday": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-10-09",
+    "last_seen": "2026-10-10",
     "example": "Alanis Morissette — Good Weather For Immaculate Conception"
+  },
+  "Worldwide": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-10-10",
+    "example": "Putumayo — ¡Cumbia, Salsa, Son! by Putumayo"
+  },
+  "Folk": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-10",
+    "example": "Bebe Stockwell — Nothing Good is Easy"
+  },
+  "Indie Rock": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-10",
+    "example": "郭亭序nonope — 關於愛 Mist"
+  },
+  "Soul": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-10",
+    "example": "Olympia Vitalis & Common Saints — December Sunshine"
   },
   "African": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-09",
+    "last_seen": "2026-10-10",
     "example": "Bien — I'll Be Okay"
   },
   "Electronica": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-09",
+    "last_seen": "2026-10-10",
     "example": "Grimes & VADAKIN — ACCELERANDO"
   },
   "Classical Crossover": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-09",
+    "last_seen": "2026-10-10",
     "example": "Alexis Ffrench — 24"
   },
   "Christian": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-09",
+    "last_seen": "2026-10-10",
     "example": "Colton Dixon — Bones"
-  },
-  "Worldwide": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-09",
-    "example": "穆静 — 西非秘语"
   },
   "Música tropical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-09",
+    "last_seen": "2026-10-10",
     "example": "Oscar Gamarra — El Gamarrazo"
   },
   "Trance": {
@@ -278,8 +278,8 @@
   "T-Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-04",
-    "example": "Emi Thasorn & Bonnie Pattraphus — กุญแจพระจันทร์ (Moonkey)"
+    "last_seen": "2026-10-10",
+    "example": "Emi Thasorn & Bonnie Pattraphus — ชั่วคราวหรือค้างคืนตลอดไป"
   },
   "Modern Dancehall": {
     "dropped": 1,
@@ -398,7 +398,7 @@
   "Americana": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-09",
+    "last_seen": "2026-10-10",
     "example": "Sheryl Crow — Pick You Up"
   }
 }
