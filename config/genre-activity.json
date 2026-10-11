@@ -1,26 +1,26 @@
 {
   "Alternative": {
-    "dropped": 17,
-    "today": 17,
-    "last_seen": "2026-10-10",
+    "dropped": 13,
+    "today": 13,
+    "last_seen": "2026-10-11",
     "example": "Pet Shop Boys — A man from the future"
-  },
-  "Rock": {
-    "dropped": 10,
-    "today": 10,
-    "last_seen": "2026-10-10",
-    "example": "Shortparis — Илиада"
   },
   "Country": {
     "dropped": 7,
     "today": 7,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "Lainey Wilson — Kinda Love It"
   },
+  "Rock": {
+    "dropped": 6,
+    "today": 6,
+    "last_seen": "2026-10-11",
+    "example": "Greta Van Fleet — Palace for the People"
+  },
   "Música Mexicana": {
-    "dropped": 7,
-    "today": 7,
-    "last_seen": "2026-10-10",
+    "dropped": 6,
+    "today": 6,
+    "last_seen": "2026-10-11",
     "example": "LOS DOS DE TAMAULIPAS — No Fue Suerte"
   },
   "Kayokyoku": {
@@ -29,23 +29,11 @@
     "last_seen": "2026-10-02",
     "example": "Sung Si Kyung — LOVE"
   },
-  "Afro House": {
-    "dropped": 5,
-    "today": 1,
-    "last_seen": "2026-10-06",
-    "example": "Jayzz — Tribal Journey (feat. SHALINI CHAUDHARY)"
-  },
   "Pop/Rock": {
     "dropped": 5,
     "today": 1,
     "last_seen": "2026-10-06",
     "example": "준혁 — EMPTY"
-  },
-  "Metal": {
-    "dropped": 4,
-    "today": 4,
-    "last_seen": "2026-10-10",
-    "example": "Zilqy — Birth of Riot"
   },
   "Crossover Jazz": {
     "dropped": 4,
@@ -66,9 +54,9 @@
     "example": "Chihiro Yamanaka — Happy-Go-Lucky"
   },
   "Soundtrack": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-10-10",
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-10-11",
     "example": "TLE MATIMUN — เพลงจูบ (Safe Zone) [From \"รักสุดใจนายแฟนบอย Mr. Fanboy Series\"]"
   },
   "Ambient": {
@@ -77,34 +65,28 @@
     "last_seen": "2026-09-20",
     "example": "Alva Noto & Ryuichi Sakamoto — 12 Conversations"
   },
-  "House": {
-    "dropped": 3,
+  "Metal": {
+    "dropped": 2,
     "today": 2,
-    "last_seen": "2026-10-09",
-    "example": "Roman Flügel & Zillas on Acid — Conga Dream"
+    "last_seen": "2026-10-11",
+    "example": "Zeal & Ardor & Carpenter Brut — Devil Is Fine X Carpenter Brut"
   },
   "Anime": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-10-10",
-    "example": "Tsunomaki Watame — RESPAWN!!"
-  },
-  "Hip-Hop": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-10",
-    "example": "Trap Dickey — Highway"
+    "last_seen": "2026-10-11",
+    "example": "Sizuk — Diamond Dust (feat. AYAME)"
   },
   "Electronic": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "Chase & Status — Generic Everything"
   },
   "Afro-Beat": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "DJ Nate Gemini — T.G.E Deluxe"
   },
   "Praise & Worship": {
@@ -200,61 +182,79 @@
   "Holiday": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "Alanis Morissette — Good Weather For Immaculate Conception"
   },
+  "Afro House": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-11",
+    "example": "Mike Flexx — Ha Ya"
+  },
+  "House": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-11",
+    "example": "Bassotronics — Fear This, Vol. 2"
+  },
+  "Hip-Hop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-11",
+    "example": "Trap Dickey — Highway"
+  },
   "Worldwide": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-10",
-    "example": "Putumayo — ¡Cumbia, Salsa, Son! by Putumayo"
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-11",
+    "example": "穆静 — 西非秘语"
   },
   "Folk": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "Bebe Stockwell — Nothing Good is Easy"
   },
   "Indie Rock": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "郭亭序nonope — 關於愛 Mist"
   },
   "Soul": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "Olympia Vitalis & Common Saints — December Sunshine"
   },
   "African": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "Bien — I'll Be Okay"
   },
   "Electronica": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "Grimes & VADAKIN — ACCELERANDO"
   },
   "Classical Crossover": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "Alexis Ffrench — 24"
   },
   "Christian": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "Colton Dixon — Bones"
   },
   "Música tropical": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "Oscar Gamarra — El Gamarrazo"
   },
   "Trance": {
@@ -278,7 +278,7 @@
   "T-Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "Emi Thasorn & Bonnie Pattraphus — ชั่วคราวหรือค้างคืนตลอดไป"
   },
   "Modern Dancehall": {
@@ -304,12 +304,6 @@
     "today": 1,
     "last_seen": "2026-10-04",
     "example": "Arde Bogotá — Manufacturas del Club de la Gente Sola (MCGS)"
-  },
-  "Bluegrass": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-11",
-    "example": "Dolly Parton & The First Ladies of Bluegrass — Bound to Ride"
   },
   "Funk": {
     "dropped": 1,
@@ -392,13 +386,19 @@
   "Baladas y Boleros": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-09",
+    "last_seen": "2026-10-11",
     "example": "Andy Montañez — Boleros Que Cantó El Sonero Mayor"
   },
   "Americana": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-10",
+    "last_seen": "2026-10-11",
     "example": "Sheryl Crow — Pick You Up"
+  },
+  "Hardcore": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-11",
+    "example": "Isla Lennox — One Of Us"
   }
 }
