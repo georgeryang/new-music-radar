@@ -1,26 +1,26 @@
 {
   "Alternative": {
-    "dropped": 13,
-    "today": 13,
-    "last_seen": "2026-10-11",
+    "dropped": 25,
+    "today": 12,
+    "last_seen": "2026-10-12",
     "example": "Pet Shop Boys — A man from the future"
   },
   "Country": {
-    "dropped": 7,
+    "dropped": 14,
     "today": 7,
-    "last_seen": "2026-10-11",
-    "example": "Lainey Wilson — Kinda Love It"
+    "last_seen": "2026-10-12",
+    "example": "Shania Twain — Little Miss Twain - The Places I'll Go"
   },
   "Rock": {
-    "dropped": 6,
-    "today": 6,
-    "last_seen": "2026-10-11",
+    "dropped": 14,
+    "today": 8,
+    "last_seen": "2026-10-12",
     "example": "Greta Van Fleet — Palace for the People"
   },
   "Música Mexicana": {
-    "dropped": 6,
-    "today": 6,
-    "last_seen": "2026-10-11",
+    "dropped": 11,
+    "today": 5,
+    "last_seen": "2026-10-12",
     "example": "LOS DOS DE TAMAULIPAS — No Fue Suerte"
   },
   "Kayokyoku": {
@@ -34,6 +34,12 @@
     "today": 1,
     "last_seen": "2026-10-06",
     "example": "준혁 — EMPTY"
+  },
+  "Soundtrack": {
+    "dropped": 5,
+    "today": 1,
+    "last_seen": "2026-10-12",
+    "example": "Andrew Lloyd Webber & The Phantom of the Opera (Original London Cast) — The Phantom of the Opera (The Andrew Lloyd Webber 2026 Mix)"
   },
   "Crossover Jazz": {
     "dropped": 4,
@@ -53,11 +59,29 @@
     "last_seen": "2026-10-02",
     "example": "Chihiro Yamanaka — Happy-Go-Lucky"
   },
-  "Soundtrack": {
+  "Metal": {
     "dropped": 4,
-    "today": 4,
-    "last_seen": "2026-10-11",
-    "example": "TLE MATIMUN — เพลงจูบ (Safe Zone) [From \"รักสุดใจนายแฟนบอย Mr. Fanboy Series\"]"
+    "today": 2,
+    "last_seen": "2026-10-12",
+    "example": "Zeal & Ardor & Carpenter Brut — Devil Is Fine X Carpenter Brut"
+  },
+  "Electronic": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-10-12",
+    "example": "Chase & Status — Generic Everything"
+  },
+  "Afro-Beat": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-10-12",
+    "example": "Hazel Sterling — Viking Queen"
+  },
+  "Holiday": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-10-12",
+    "example": "Alanis Morissette — Good Weather For Immaculate Conception"
   },
   "Ambient": {
     "dropped": 3,
@@ -65,29 +89,11 @@
     "last_seen": "2026-09-20",
     "example": "Alva Noto & Ryuichi Sakamoto — 12 Conversations"
   },
-  "Metal": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-11",
-    "example": "Zeal & Ardor & Carpenter Brut — Devil Is Fine X Carpenter Brut"
-  },
   "Anime": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-11",
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-10-12",
     "example": "Sizuk — Diamond Dust (feat. AYAME)"
-  },
-  "Electronic": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-11",
-    "example": "Chase & Status — Generic Everything"
-  },
-  "Afro-Beat": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-11",
-    "example": "DJ Nate Gemini — T.G.E Deluxe"
   },
   "Praise & Worship": {
     "dropped": 2,
@@ -155,12 +161,6 @@
     "last_seen": "2026-10-05",
     "example": "Minsoo Sohn — J. S. Bach: The Well-Tempered Clavier I"
   },
-  "Afro-Pop": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-10-05",
-    "example": "LABACK — Jerusalema"
-  },
   "Adult Contemporary": {
     "dropped": 2,
     "today": 1,
@@ -179,11 +179,59 @@
     "last_seen": "2026-10-08",
     "example": "Adam Lastiwka — Gears of War: E-Day (Original Soundtrack)"
   },
-  "Holiday": {
+  "Hip-Hop": {
     "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-11",
-    "example": "Alanis Morissette — Good Weather For Immaculate Conception"
+    "today": 1,
+    "last_seen": "2026-10-12",
+    "example": "Trap Dickey — Highway"
+  },
+  "Folk": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-12",
+    "example": "Bebe Stockwell — Nothing Good is Easy"
+  },
+  "African": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-12",
+    "example": "Bien — I'll Be Okay"
+  },
+  "Electronica": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-12",
+    "example": "Grimes & VADAKIN — ACCELERANDO"
+  },
+  "Classical Crossover": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-12",
+    "example": "Alexis Ffrench — 24"
+  },
+  "Christian": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-12",
+    "example": "Colton Dixon — Bones"
+  },
+  "Americana": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-12",
+    "example": "Sheryl Crow — Pick You Up"
+  },
+  "Hardcore": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-12",
+    "example": "Isla Lennox — One Of Us"
+  },
+  "Afro-Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-12",
+    "example": "Anqet — Desses"
   },
   "Afro House": {
     "dropped": 1,
@@ -197,23 +245,11 @@
     "last_seen": "2026-10-11",
     "example": "Bassotronics — Fear This, Vol. 2"
   },
-  "Hip-Hop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-11",
-    "example": "Trap Dickey — Highway"
-  },
   "Worldwide": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-10-11",
     "example": "穆静 — 西非秘语"
-  },
-  "Folk": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-11",
-    "example": "Bebe Stockwell — Nothing Good is Easy"
   },
   "Indie Rock": {
     "dropped": 1,
@@ -226,30 +262,6 @@
     "today": 1,
     "last_seen": "2026-10-11",
     "example": "Olympia Vitalis & Common Saints — December Sunshine"
-  },
-  "African": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-11",
-    "example": "Bien — I'll Be Okay"
-  },
-  "Electronica": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-11",
-    "example": "Grimes & VADAKIN — ACCELERANDO"
-  },
-  "Classical Crossover": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-11",
-    "example": "Alexis Ffrench — 24"
-  },
-  "Christian": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-11",
-    "example": "Colton Dixon — Bones"
   },
   "Música tropical": {
     "dropped": 1,
@@ -388,17 +400,5 @@
     "today": 1,
     "last_seen": "2026-10-11",
     "example": "Andy Montañez — Boleros Que Cantó El Sonero Mayor"
-  },
-  "Americana": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-11",
-    "example": "Sheryl Crow — Pick You Up"
-  },
-  "Hardcore": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-11",
-    "example": "Isla Lennox — One Of Us"
   }
 }
