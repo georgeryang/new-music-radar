@@ -1,9 +1,15 @@
 {
   "Alternative": {
-    "dropped": 25,
-    "today": 12,
-    "last_seen": "2026-10-12",
-    "example": "Pet Shop Boys — A man from the future"
+    "dropped": 26,
+    "today": 1,
+    "last_seen": "2026-10-13",
+    "example": "Toshiyuki Terui — Garden"
+  },
+  "Rock": {
+    "dropped": 17,
+    "today": 3,
+    "last_seen": "2026-10-13",
+    "example": "MAN WITH A MISSION — Firestarter"
   },
   "Country": {
     "dropped": 14,
@@ -11,17 +17,11 @@
     "last_seen": "2026-10-12",
     "example": "Shania Twain — Little Miss Twain - The Places I'll Go"
   },
-  "Rock": {
-    "dropped": 14,
-    "today": 8,
-    "last_seen": "2026-10-12",
-    "example": "Greta Van Fleet — Palace for the People"
-  },
   "Música Mexicana": {
-    "dropped": 11,
-    "today": 5,
-    "last_seen": "2026-10-12",
-    "example": "LOS DOS DE TAMAULIPAS — No Fue Suerte"
+    "dropped": 13,
+    "today": 2,
+    "last_seen": "2026-10-13",
+    "example": "Gabito Ballesteros & Tombochio — Melancolía"
   },
   "Kayokyoku": {
     "dropped": 5,
@@ -40,6 +40,12 @@
     "today": 1,
     "last_seen": "2026-10-12",
     "example": "Andrew Lloyd Webber & The Phantom of the Opera (Original London Cast) — The Phantom of the Opera (The Andrew Lloyd Webber 2026 Mix)"
+  },
+  "Electronic": {
+    "dropped": 5,
+    "today": 1,
+    "last_seen": "2026-10-13",
+    "example": "Pancho Bartolo — La Etapa del No Espera"
   },
   "Crossover Jazz": {
     "dropped": 4,
@@ -64,12 +70,6 @@
     "today": 2,
     "last_seen": "2026-10-12",
     "example": "Zeal & Ardor & Carpenter Brut — Devil Is Fine X Carpenter Brut"
-  },
-  "Electronic": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-10-12",
-    "example": "Chase & Status — Generic Everything"
   },
   "Afro-Beat": {
     "dropped": 4,
@@ -228,9 +228,9 @@
     "example": "Isla Lennox — One Of Us"
   },
   "Afro-Pop": {
-    "dropped": 1,
+    "dropped": 2,
     "today": 1,
-    "last_seen": "2026-10-12",
+    "last_seen": "2026-10-13",
     "example": "Anqet — Desses"
   },
   "Afro House": {
@@ -290,8 +290,8 @@
   "T-Pop": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-11",
-    "example": "Emi Thasorn & Bonnie Pattraphus — ชั่วคราวหรือค้างคืนตลอดไป"
+    "last_seen": "2026-10-13",
+    "example": "FOURTH — ไม่ไหวแล้ว (Officially) [feat. JAOKHUN]"
   },
   "Modern Dancehall": {
     "dropped": 1,
@@ -400,5 +400,11 @@
     "today": 1,
     "last_seen": "2026-10-11",
     "example": "Andy Montañez — Boleros Que Cantó El Sonero Mayor"
+  },
+  "C-Pop": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-13",
+    "example": "Janees Wong Lok Yin — Black Velvet Tide (台慶劇《璀璨之城》片尾曲)"
   }
 }
