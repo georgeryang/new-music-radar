@@ -7,7 +7,7 @@
   <!-- caffeinate holds a sleep assertion only while update.sh runs: ~1s on
        fresh ticks, 5-20 min on the one daily fetch. -s prevents system sleep
        but is AC-only; -i prevents idle sleep; -m covers disk. On battery none
-       of these hold a lid-closed Mac: the 05:30 wake is a dark wake with a
+       of these hold a lid-closed Mac: the scheduled wake is a dark wake with a
        30-45s budget that ends in 'Maintenance Sleep', which -i does not gate,
        so the run finishes in fragments across later wakes. The absolute paths
        below are for this machine only; README's install command rewrites them
@@ -28,17 +28,14 @@
        which drifts against KST with DST and travel. -->
   <key>StartInterval</key>
   <integer>600</integer>
-  <!-- Not the staleness anchor, only a wake-catch trigger. 05:25 is strictly
-       before the 05:30 pmset wake, so the fire is already missed and launchd
-       runs it the moment the Mac wakes. It exists because the coalesced
-       StartInterval tick was instead deferred past the short wake. -->
+  <!-- Not the staleness anchor, only a wake-catch trigger. An hourly :25 fire
+       is always missed while asleep, so launchd runs it the moment the 18:30 KST
+       wake arrives. The coalesced StartInterval tick gets deferred past that
+       short wake. -->
   <key>StartCalendarInterval</key>
-  <array>
-    <dict>
-      <key>Hour</key><integer>5</integer>
-      <key>Minute</key><integer>25</integer>
-    </dict>
-  </array>
+  <dict>
+    <key>Minute</key><integer>25</integer>
+  </dict>
   <key>StandardOutPath</key>
   <string>/Users/georgeyang/Library/Logs/new-music-radar.log</string>
   <key>StandardErrorPath</key>

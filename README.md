@@ -62,29 +62,41 @@ works from any device.
 4. Test once from the repo root: `bash scripts/update.sh` (about two minutes,
    ends with "Published", or "No changes" if the cloned data is already
    current).
-5. Schedule it, pasting all four lines together from the repo root (two of
-   them record the folder they run from; the last asks for your password):
+5. Schedule it, pasting all six lines together from the repo root (two of
+   them record the folder they run from; the last three need your password):
 
 ```
 sed -e "s|/Users/georgeyang/dev/gry/new-music-radar|$PWD|g" -e "s|/Users/georgeyang|$HOME|g" launchd/com.georgeryang.new-music-radar.plist > ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist
 launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist
 ( crontab -l 2>/dev/null | grep -v 'new-music-radar/.*watchdog.sh'; echo "*/5 * * * * $PWD/launchd/watchdog.sh" ) | crontab -
-sudo pmset repeat wakeorpoweron MTWRFSU 05:30:00
+sudo install -d -o root -g wheel "/Library/Application Support/new-music-radar"
+sudo install -o root -g wheel -m 755 launchd/schedule-wake.sh "/Library/Application Support/new-music-radar/"
+sudo install -o root -g wheel -m 644 launchd/com.georgeryang.new-music-radar.wake.plist /Library/LaunchDaemons/ && sudo launchctl bootstrap system /Library/LaunchDaemons/com.georgeryang.new-music-radar.wake.plist
 ```
 
 The first command fills in this computer's folder locations, since the
 scheduler needs full paths, not `~`. The Mac updates the site once a day
 around 6:15 PM Korea time, or at the next wake. The 5-minute check reloads
-the scheduler if a reboot drops it, but never fetches. The 5:30 wake runs
-the update before you're up when plugged in; on battery it waits for the
-next lid-open.
+the scheduler if a reboot drops it, but never fetches. The last three lines wake
+the Mac at 6:30 PM Korea time every day (5:30 AM US Eastern in summer, 4:30 AM
+in winter), so the update runs before you're up when plugged in; on battery
+it waits for the next lid-open. After editing `launchd/schedule-wake.sh`,
+rerun only the fifth line; the wake job picks up the new copy within the hour.
+After editing its plist, run
+`sudo launchctl bootout system/com.georgeryang.new-music-radar.wake` before
+rerunning the sixth line.
+If an older setup used `pmset repeat`, also run `sudo pmset repeat cancel`.
 
 To turn it off:
 ```
 launchctl bootout gui/$(id -u)/com.georgeryang.new-music-radar
 crontab -l 2>/dev/null | grep -v 'new-music-radar/.*watchdog.sh' | crontab -
-sudo pmset repeat cancel
+sudo launchctl bootout system/com.georgeryang.new-music-radar.wake
+sudo rm -rf /Library/LaunchDaemons/com.georgeryang.new-music-radar.wake.plist "/Library/Application Support/new-music-radar" /var/log/new-music-radar-wake.log
 ```
+
+Wakes already scheduled for the next few days still happen; `pmset -g sched`
+lists them.
 
 ## If Something Looks Wrong
 
@@ -122,9 +134,11 @@ other request to the editor is refused unless it comes from your machine.
 - **Scheduling:** launchd ticks every 10 min; `update.sh --if-stale` turns
   that into one fetch a day, anchored to 18:15 KST. `launchd/watchdog.sh`
   (cron, every 5 min) re-bootstraps the agent if macOS drops it after a
-  reboot. A `pmset` wake at 05:30 and a `StartCalendarInterval` at 05:25 just
-  trigger that run; they aren't the anchor. `caffeinate -sim` only holds the
-  Mac awake on AC power, so on battery the run finishes across later wakes.
+  reboot. A root LaunchDaemon schedules one-off `pmset` wakes at 18:30 KST
+  for the next few days. An hourly `StartCalendarInterval` at :25 is always
+  already missed when that wake comes, so it fires then. Both trigger the run
+  but aren't the anchor. `caffeinate -sim` only holds the Mac awake on AC
+  power, so on battery the run finishes across later wakes.
 - **Preferences Editor:** `scripts/prefs-server.mjs`, local-only on
   127.0.0.1:4747. Follow, block, and the star all key on Apple ID, never name.
   Also serves the built site at `/new-music-radar/`, for a refresh without a

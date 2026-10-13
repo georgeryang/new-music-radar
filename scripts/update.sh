@@ -43,8 +43,8 @@ if [ "${1:-}" = "--if-stale" ]; then
   if [ "$STALE" != "1" ]; then
     exit 0  # silent: ticks run every 10 min, logging each skip would flood the log
   fi
-  # No jitter here: a sleep only advances during wakes, and the lid-closed 05:30 dark
-  # wake has a 30-45s budget — a 414s jitter left the 05:30 fire waiting at 07:57.
+  # No jitter here: a sleep only advances during wakes, and the lid-closed scheduled
+  # dark wake has a 30-45s budget.
   log "Last fetch predates the 18:15 KST slot — refreshing"
 elif [ -n "${1:-}" ]; then
   # Every path below this point commits and pushes to the live site, so a typo
