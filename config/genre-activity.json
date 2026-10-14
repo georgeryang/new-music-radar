@@ -6,16 +6,10 @@
     "example": "Toshiyuki Terui — Garden"
   },
   "Rock": {
-    "dropped": 17,
-    "today": 3,
-    "last_seen": "2026-10-13",
-    "example": "MAN WITH A MISSION — Firestarter"
-  },
-  "Country": {
-    "dropped": 14,
-    "today": 7,
-    "last_seen": "2026-10-12",
-    "example": "Shania Twain — Little Miss Twain - The Places I'll Go"
+    "dropped": 21,
+    "today": 4,
+    "last_seen": "2026-10-14",
+    "example": "Asian Kung-Fu Generation — ファンクラブ (2026 Remaster)"
   },
   "Música Mexicana": {
     "dropped": 13,
@@ -23,23 +17,11 @@
     "last_seen": "2026-10-13",
     "example": "Gabito Ballesteros & Tombochio — Melancolía"
   },
-  "Kayokyoku": {
-    "dropped": 5,
-    "today": 1,
-    "last_seen": "2026-10-02",
-    "example": "Sung Si Kyung — LOVE"
-  },
   "Pop/Rock": {
     "dropped": 5,
     "today": 1,
     "last_seen": "2026-10-06",
     "example": "준혁 — EMPTY"
-  },
-  "Soundtrack": {
-    "dropped": 5,
-    "today": 1,
-    "last_seen": "2026-10-12",
-    "example": "Andrew Lloyd Webber & The Phantom of the Opera (Original London Cast) — The Phantom of the Opera (The Andrew Lloyd Webber 2026 Mix)"
   },
   "Electronic": {
     "dropped": 5,
@@ -89,11 +71,23 @@
     "last_seen": "2026-09-20",
     "example": "Alva Noto & Ryuichi Sakamoto — 12 Conversations"
   },
-  "Anime": {
+  "Afro-Pop": {
     "dropped": 3,
     "today": 1,
-    "last_seen": "2026-10-12",
-    "example": "Sizuk — Diamond Dust (feat. AYAME)"
+    "last_seen": "2026-10-14",
+    "example": "Anqet — Desses"
+  },
+  "Soundtrack": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-10-14",
+    "example": "Masayoshi Soken — Pulse: FINAL FANTASY XIV Remix Album Vol. 3"
+  },
+  "Anime": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-10-14",
+    "example": "TrySail — TrySail 10th Anniversary Live 2026 “Cheers!!!”"
   },
   "Praise & Worship": {
     "dropped": 2,
@@ -227,11 +221,29 @@
     "last_seen": "2026-10-12",
     "example": "Isla Lennox — One Of Us"
   },
-  "Afro-Pop": {
+  "T-Pop": {
     "dropped": 2,
     "today": 1,
-    "last_seen": "2026-10-13",
-    "example": "Anqet — Desses"
+    "last_seen": "2026-10-14",
+    "example": "FOURTH — ไม่ไหวแล้ว (Officially) [feat. JAOKHUN]"
+  },
+  "C-Pop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-14",
+    "example": "Janees Wong Lok Yin — Black Velvet Tide (台慶劇《璀璨之城》片尾曲)"
+  },
+  "Country": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-14",
+    "example": "RodeoWave Music — Texas Neon Rodeo"
+  },
+  "Kayokyoku": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-14",
+    "example": "MATSURI — 恋の中央線"
   },
   "Afro House": {
     "dropped": 1,
@@ -242,8 +254,8 @@
   "House": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-11",
-    "example": "Bassotronics — Fear This, Vol. 2"
+    "last_seen": "2026-10-14",
+    "example": "Almonarch — Luxor"
   },
   "Worldwide": {
     "dropped": 1,
@@ -278,20 +290,14 @@
   "Reggae": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-04",
-    "example": "EL NAOYA — Kanade"
+    "last_seen": "2026-10-14",
+    "example": "lecca — Lovers & Dreamers"
   },
   "Folk-Rock": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-10-04",
     "example": "L.N Party — 以末日之心度寻常之日"
-  },
-  "T-Pop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-13",
-    "example": "FOURTH — ไม่ไหวแล้ว (Officially) [feat. JAOKHUN]"
   },
   "Modern Dancehall": {
     "dropped": 1,
@@ -401,10 +407,10 @@
     "last_seen": "2026-10-11",
     "example": "Andy Montañez — Boleros Que Cantó El Sonero Mayor"
   },
-  "C-Pop": {
+  "Fusion": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-13",
-    "example": "Janees Wong Lok Yin — Black Velvet Tide (台慶劇《璀璨之城》片尾曲)"
+    "last_seen": "2026-10-14",
+    "example": "KATSUSHIKA TRIO — SO-DAYONE !"
   }
 }
