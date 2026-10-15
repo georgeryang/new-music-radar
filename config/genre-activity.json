@@ -1,21 +1,15 @@
 {
-  "Alternative": {
-    "dropped": 26,
-    "today": 1,
-    "last_seen": "2026-10-13",
-    "example": "Toshiyuki Terui — Garden"
-  },
   "Rock": {
-    "dropped": 21,
-    "today": 4,
-    "last_seen": "2026-10-14",
+    "dropped": 26,
+    "today": 5,
+    "last_seen": "2026-10-15",
     "example": "Asian Kung-Fu Generation — ファンクラブ (2026 Remaster)"
   },
-  "Música Mexicana": {
-    "dropped": 13,
-    "today": 2,
-    "last_seen": "2026-10-13",
-    "example": "Gabito Ballesteros & Tombochio — Melancolía"
+  "Soundtrack": {
+    "dropped": 6,
+    "today": 4,
+    "last_seen": "2026-10-15",
+    "example": "Masayoshi Soken — Pulse: FINAL FANTASY XIV Remix Album Vol. 3"
   },
   "Pop/Rock": {
     "dropped": 5,
@@ -28,6 +22,12 @@
     "today": 1,
     "last_seen": "2026-10-13",
     "example": "Pancho Bartolo — La Etapa del No Espera"
+  },
+  "Anime": {
+    "dropped": 5,
+    "today": 3,
+    "last_seen": "2026-10-15",
+    "example": "TrySail — TrySail 10th Anniversary Live 2026 “Cheers!!!”"
   },
   "Crossover Jazz": {
     "dropped": 4,
@@ -65,29 +65,29 @@
     "last_seen": "2026-10-12",
     "example": "Alanis Morissette — Good Weather For Immaculate Conception"
   },
+  "Afro-Pop": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-10-15",
+    "example": "Anqet — Desses"
+  },
+  "Reggae": {
+    "dropped": 4,
+    "today": 3,
+    "last_seen": "2026-10-15",
+    "example": "Paaaji — Hibi No Oto"
+  },
+  "Alternative": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-10-15",
+    "example": "Yorushika — Beyond the Clouds, Only Me Downwind"
+  },
   "Ambient": {
     "dropped": 3,
     "today": 1,
     "last_seen": "2026-09-20",
     "example": "Alva Noto & Ryuichi Sakamoto — 12 Conversations"
-  },
-  "Afro-Pop": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-10-14",
-    "example": "Anqet — Desses"
-  },
-  "Soundtrack": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-14",
-    "example": "Masayoshi Soken — Pulse: FINAL FANTASY XIV Remix Album Vol. 3"
-  },
-  "Anime": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-14",
-    "example": "TrySail — TrySail 10th Anniversary Live 2026 “Cheers!!!”"
   },
   "Praise & Worship": {
     "dropped": 2,
@@ -233,17 +233,29 @@
     "last_seen": "2026-10-14",
     "example": "Janees Wong Lok Yin — Black Velvet Tide (台慶劇《璀璨之城》片尾曲)"
   },
+  "Kayokyoku": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-15",
+    "example": "MATSURI — 恋の中央線"
+  },
+  "Fusion": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-15",
+    "example": "KATSUSHIKA TRIO — SO-DAYONE !"
+  },
+  "Música Mexicana": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-15",
+    "example": "Banda La Maravillosa — En Vivo Con Norteño"
+  },
   "Country": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-10-14",
     "example": "RodeoWave Music — Texas Neon Rodeo"
-  },
-  "Kayokyoku": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-14",
-    "example": "MATSURI — 恋の中央線"
   },
   "Afro House": {
     "dropped": 1,
@@ -286,12 +298,6 @@
     "today": 1,
     "last_seen": "2026-10-04",
     "example": "Justin Heaverin — Around the House"
-  },
-  "Reggae": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-14",
-    "example": "lecca — Lovers & Dreamers"
   },
   "Folk-Rock": {
     "dropped": 1,
@@ -407,10 +413,10 @@
     "last_seen": "2026-10-11",
     "example": "Andy Montañez — Boleros Que Cantó El Sonero Mayor"
   },
-  "Fusion": {
+  "Afro Soul": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-14",
-    "example": "KATSUSHIKA TRIO — SO-DAYONE !"
+    "last_seen": "2026-10-15",
+    "example": "Nia Lamour — Kuishi Kwa Imani"
   }
 }
