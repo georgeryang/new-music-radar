@@ -10,6 +10,7 @@
     "fetch": "node scripts/fetch-releases.mjs",
     "check-genres": "node scripts/check-genre-coverage.mjs",
     "audit-sources": "node scripts/audit-sources.mjs",
+    "artists": "node scripts/artists.mjs",
     "update": "bash scripts/update.sh",
     "setup-skills": "bash scripts/setup-skills.sh",
     "check-editor": "node scripts/check-editor.mjs",

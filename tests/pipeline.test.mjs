@@ -469,3 +469,143 @@ test('fixture children ignore ambient Git redirection and external XDG configura
   const explicit = run(root, '/usr/bin/git', ['rev-parse', '--show-toplevel'], { GIT_DIR: join(external, '.git'), GIT_WORK_TREE: external })
   assert.equal(explicit.stdout.trim(), realpathSync(external))
 })
+
+const HOLD_REFRESH = "import {holdRunLock} from './scripts/run-lock.mjs'; holdRunLock('refresh'); console.log('ready'); setInterval(()=>{},1000)"
+
+function artistsFixture(t, { blocked = [{ name: 'Blocked One', id: 40 }, { name: 'Blocked Two', id: 41 }] } = {}) {
+  const root = fixture(t)
+  const prefs = { artists: { followed: [{ name: 'Fan Fave', id: 50 }], blocked }, genres: { followed: [] }, discovery: { countries: [], playlists: [] } }
+  writeFileSync(join(root, 'config/preferences.json'), JSON.stringify(prefs, null, 2) + '\n')
+  const card = (artist_id, artist, followed = false) => ({ title: 'T', artist, artist_id, followed })
+  writeFileSync(join(root, 'docs/data/releases.json'), JSON.stringify({
+    releases: [card(20, 'Newcomer'), card(30, 'Singer'), card(40, 'Blocked One'), card(50, 'Fan Fave', true), card(20, 'Newcomer')],
+    upcoming: [card(31, 'Upcoming Act')],
+  }))
+  writeFileSync(join(root, 'offline.mjs'), `import {writeFileSync} from 'node:fs';
+const timer=globalThis.setTimeout;globalThis.setTimeout=(fn,ms,...args)=>timer(fn,Math.min(ms,1),...args);
+const requests=[];process.on('exit',()=>writeFileSync('requests.json',JSON.stringify(requests)));
+const col=(artistId,collectionName,releaseDate,collectionId)=>({wrapperType:'collection',artistId,collectionName,releaseDate,collectionId});
+const joint=col(777,'Singer & Blocked Two','2025-03-01T00:00:00Z',700);
+const duet=col(41,'Duet (feat. Singer) - Single','2024-05-01T00:00:00Z',701);
+const names={20:'Newcomer',30:'Singer',40:'Blocked One',41:'Blocked Two',50:'Fan Fave'};
+const albums={
+  30:[col(30,'Solo','2020-01-01T00:00:00Z'),duet,joint,col(41,'Own Only Feature - Single','2024-09-01T00:00:00Z',702),...Array.from({length:Number(process.env.BIG_OWN??0)},(_,i)=>col(30,'Own Filler '+i,'2010-01-01T00:00:00Z'))],
+  20:[col(41,'Undated Feature - Single',undefined)],
+  40:[col(30,'K-POP - Single','2023-07-21T00:00:00Z'),col(30,'K-POP (Sped Up) - Single','2023-08-01T00:00:00Z'),col(30,'K-POP (Instrumental) - Single','2023-08-01T00:00:00Z'),
+      col(40,'Own Record','2019-01-01T00:00:00Z'),col(20,'Newcomer Feature - Single','2025-01-01T00:00:00Z')],
+  41:[joint,duet,...Array.from({length:Number(process.env.BIG??0)},(_,i)=>col(41,'Filler '+i,'2010-01-01T00:00:00Z'))],
+};
+globalThis.fetch=async(url)=>{
+  requests.push(url);
+  const ids=(new URL(url).searchParams.get('id')??'').split(',').filter(Boolean).map(Number);
+  let results=[];
+  if(url.includes('entity=album')){
+    if(process.env.ORPHAN) results.push(col(30,'Orphan','2024-01-01T00:00:00Z'));
+    for(const id of ids) if(names[id]) results.push({wrapperType:'artist',artistId:id,artistName:names[id]},...(albums[id]??[]));
+  } else results=ids.map(id=>names[id]?{wrapperType:'artist',artistId:id,artistName:names[id]}:id===555?{wrapperType:'collection',collectionId:555,artistId:40}:null).filter(Boolean);
+  return new Response(JSON.stringify({results}));
+};`)
+  return {
+    root,
+    prefs: () => readFileSync(join(root, 'config/preferences.json'), 'utf8'),
+    artists: (args, env) => run(root, process.execPath, ['--import', './offline.mjs', 'scripts/artists.mjs', ...args], env),
+    requests: () => (existsSync(join(root, 'requests.json')) ? JSON.parse(readFileSync(join(root, 'requests.json'))) : []),
+  }
+}
+
+test('artists list returns each mode in file order, slices, and never writes preferences', (t) => {
+  const { artists, prefs, requests } = artistsFixture(t)
+  const before = prefs()
+  const list = (...flags) => {
+    const r = artists(['list', ...flags, '--json'])
+    assert.equal(r.status, 0, r.stderr)
+    return JSON.parse(r.stdout).map((a) => a.id)
+  }
+  assert.deepEqual(list('--feed'), [20, 30, 31])
+  assert.deepEqual(list('--followed'), [50])
+  assert.deepEqual(list('--blocked'), [40, 41])
+  assert.deepEqual(list('--feed', '--offset', '1', '--limit', '1'), [30])
+  for (const args of [[], ['list'], ['list', '--feed', '--blocked'], ['list', '--feed', '--offset', 'x'], ['list', '--feed', '--limit', ''], ['associations', '--id', '1e3'], ['nope'], ['associations'], ['block'], ['block', '99999999999999999999']]) {
+    const r = artists(args)
+    assert.equal(r.status, 1, args.join(' '))
+    assert.match(r.stderr, /usage:/)
+    assert.equal(r.stdout, '')
+  }
+  assert.deepEqual(requests(), [])
+  assert.equal(prefs(), before)
+})
+
+test('artists help prints the contract line even while another operation holds the lock', async (t) => {
+  const { root, artists } = artistsFixture(t)
+  const child = await background(t, root, HOLD_REFRESH)
+  const help = artists(['--help'])
+  assert.equal(help.status, 0, help.stderr)
+  assert.equal(help.stdout.split('\n')[0], 'artists: list | associations | block | follow')
+  assert.match(artists(['list', '--feed']).stderr, /BUSY:/)
+  child.kill('SIGKILL'); await once(child, 'exit')
+})
+
+test('artists associations reports raw shared titles by ID without a verdict', (t) => {
+  const { artists } = artistsFixture(t)
+  const r = artists(['associations', '--id', '30', '--id', '40', '--id', '20', '--json'])
+  assert.equal(r.status, 0, r.stderr)
+  const [singer, blockedOne, newcomer] = JSON.parse(r.stdout)
+  assert.equal('pattern' in singer, false)
+  assert.deepEqual(singer.partners.map((p) => [p.id, p.shared]), [
+    [40, [{ title: 'K-POP - Single', date: '2023-07-21' }]],
+    [41, [{ title: 'Duet (feat. Singer) - Single', date: '2024-05-01' }, { title: 'Own Only Feature - Single', date: '2024-09-01' }, { title: 'Singer & Blocked Two', date: '2025-03-01' }]],
+  ])
+  assert.deepEqual(blockedOne.partners, [])
+  assert.deepEqual(newcomer.partners.map((p) => p.id), [40])
+  assert.deepEqual(singer.truncated, [])
+  const big = JSON.parse(artists(['associations', '--id', '30', '--json'], { BIG: '198' }).stdout)
+  assert.deepEqual(big[0].truncated, [41])
+  const ownBig = JSON.parse(artists(['associations', '--id', '30', '--json'], { BIG_OWN: '196' }).stdout)
+  assert.deepEqual(ownBig[0].truncated, [30])
+  const quiet = JSON.parse(artists(['associations', '--id', '50', '--json'], { BIG: '198' }).stdout)
+  assert.deepEqual(quiet[0].truncated, [41])
+  const album = artists(['associations', '--id', '555', '--json'])
+  assert.equal(album.status, 1)
+  assert.match(album.stderr, /no Apple artist for ID 555/)
+  const orphan = artists(['associations', '--id', '30', '--json'], { ORPHAN: '1' })
+  assert.equal(orphan.status, 1)
+  assert.match(orphan.stderr, /grouping changed/)
+})
+
+test('artists block writes sorted ID entries and refuses unknown IDs before a busy lock', async (t) => {
+  const { root, artists, prefs } = artistsFixture(t, { blocked: [{ name: 'Blocked One', id: 40 }] })
+  const before = prefs()
+  const child = await background(t, root, HOLD_REFRESH)
+  const unknown = artists(['block', '777'])
+  assert.equal(unknown.status, 1)
+  assert.match(unknown.stderr, /no Apple artist for ID 777/)
+  const busy = artists(['block', '30'])
+  assert.equal(busy.status, 1)
+  assert.match(busy.stderr, /BUSY:/)
+  assert.equal(prefs(), before)
+  child.kill('SIGKILL'); await once(child, 'exit')
+
+  const result = artists(['block', '30', '40', '20'])
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Already blocked: Blocked One \(40\)/)
+  const expected = JSON.parse(before)
+  expected.artists.blocked = [{ name: 'Blocked One', id: 40 }, { name: 'Newcomer', id: 20 }, { name: 'Singer', id: 30 }]
+  assert.equal(prefs(), JSON.stringify(expected, null, 2) + '\n')
+})
+
+test('artists follow adds clean artists in order and refuses blocked IDs', (t) => {
+  const { artists, prefs } = artistsFixture(t, { blocked: [{ name: 'Blocked One', id: 40 }] })
+  const before = prefs()
+  const refused = artists(['follow', '30', '40'])
+  assert.equal(refused.status, 1)
+  assert.match(refused.stderr, /ID 40 is blocked/)
+  assert.equal(prefs(), before)
+  const result = artists(['follow', '30', '50'])
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Followed: Singer \(30\)/)
+  assert.match(result.stdout, /Already followed: Fan Fave \(50\)/)
+  const expected = JSON.parse(before)
+  expected.artists.followed = [{ name: 'Fan Fave', id: 50 }, { name: 'Singer', id: 30 }]
+  assert.equal(prefs(), JSON.stringify(expected, null, 2) + '\n')
+  assert.deepEqual(JSON.parse(artists(['list', '--feed', '--json']).stdout).map((r) => r.id), [20, 31])
+})

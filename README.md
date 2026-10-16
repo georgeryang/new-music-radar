@@ -165,6 +165,10 @@ other request to the editor is refused unless it comes from your machine.
   Add `-- --discover` to find additions or replacements. Discovery includes
   purchase and streaming charts; removal advice preserves retained coverage.
   Audits refuse to run while a refresh, fetch, build, or audit is active.
+- **Artist Tooling:** `npm run artists` lists, cross-references, follows,
+  and blocks artists by Apple ID for external tooling. Run it with `--help`
+  for its commands. Reload any open preferences editor after it changes the
+  lists, because an editor save replaces both lists with what the tab loaded.
 - **Reliability:** any source failing exits non-zero but still publishes
   partial results; an empty result never overwrites good data. The nightly
   push also verifies its Pages deploy and retries once if it flaked.
