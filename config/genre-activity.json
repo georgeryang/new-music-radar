@@ -1,27 +1,45 @@
 {
   "Alternative": {
-    "dropped": 14,
-    "today": 14,
-    "last_seen": "2026-10-17",
-    "example": "Justice, Tame Impala, SZA & King Gizzard & The Lizard Wizard — Flower In A Hurricane [from GTAVI]"
+    "dropped": 25,
+    "today": 11,
+    "last_seen": "2026-10-18",
+    "example": "Nsqk & Eslabon Armado — Mil Problemas"
   },
   "Música Mexicana": {
-    "dropped": 7,
+    "dropped": 14,
     "today": 7,
-    "last_seen": "2026-10-17",
+    "last_seen": "2026-10-18",
     "example": "Tombochio — STAR (Deluxe Version)"
   },
   "Rock": {
-    "dropped": 6,
-    "today": 6,
-    "last_seen": "2026-10-17",
-    "example": "Asian Kung-Fu Generation — ファンクラブ (2026 Remaster)"
+    "dropped": 14,
+    "today": 8,
+    "last_seen": "2026-10-18",
+    "example": "SHINKIRO&Co. — Hello World"
   },
   "House": {
-    "dropped": 6,
-    "today": 6,
-    "last_seen": "2026-10-17",
+    "dropped": 9,
+    "today": 3,
+    "last_seen": "2026-10-18",
     "example": "DJ Scratch — The Pivot"
+  },
+  "Metal": {
+    "dropped": 6,
+    "today": 3,
+    "last_seen": "2026-10-18",
+    "example": "Firebreather — Blood That I Spill Turns To Fire"
+  },
+  "Country": {
+    "dropped": 6,
+    "today": 3,
+    "last_seen": "2026-10-18",
+    "example": "Zach Bryan — Young Manhood and Other Donatable Organs"
+  },
+  "Amapiano": {
+    "dropped": 6,
+    "today": 3,
+    "last_seen": "2026-10-18",
+    "example": "King Wazza — House of Elements"
   },
   "Soundtrack": {
     "dropped": 5,
@@ -30,10 +48,16 @@
     "example": "Masayoshi Soken — Pulse: FINAL FANTASY XIV Remix Album Vol. 3"
   },
   "Anime": {
-    "dropped": 4,
-    "today": 4,
-    "last_seen": "2026-10-17",
+    "dropped": 5,
+    "today": 1,
+    "last_seen": "2026-10-18",
     "example": "fox capture plan — 青春ブタ野郎はディアフレンドの夢を見ない Original Soundtrack"
+  },
+  "Música tropical": {
+    "dropped": 5,
+    "today": 2,
+    "last_seen": "2026-10-18",
+    "example": "Daniela Spalla & Los Ángeles Azules — Lejos de la Ciudad"
   },
   "Crossover Jazz": {
     "dropped": 4,
@@ -47,29 +71,29 @@
     "last_seen": "2026-10-02",
     "example": "Chihiro Yamanaka — Happy-Go-Lucky"
   },
-  "Afro-Beat": {
+  "Reggae": {
     "dropped": 4,
     "today": 2,
-    "last_seen": "2026-10-12",
-    "example": "Hazel Sterling — Viking Queen"
+    "last_seen": "2026-10-18",
+    "example": "WiLLaX — GIANT KLLING"
   },
-  "Metal": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-10-17",
-    "example": "Firebreather — Blood That I Spill Turns To Fire"
+  "Electronic": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-10-18",
+    "example": "TOMORA, AURORA & Tom Rowlands — CELEBRATION"
   },
-  "Country": {
-    "dropped": 3,
+  "Afro-Pop": {
+    "dropped": 4,
     "today": 3,
-    "last_seen": "2026-10-17",
-    "example": "Zach Bryan — Young Manhood and Other Donatable Organs"
+    "last_seen": "2026-10-18",
+    "example": "Noxavibe — UNFILTERED"
   },
-  "Amapiano": {
-    "dropped": 3,
+  "Afro House": {
+    "dropped": 4,
     "today": 3,
-    "last_seen": "2026-10-17",
-    "example": "King Wazza — House of Elements"
+    "last_seen": "2026-10-18",
+    "example": "Drop - G & Binnay — Turn Me On (Drop G x Binnay Version)"
   },
   "Kayokyoku": {
     "dropped": 3,
@@ -77,29 +101,17 @@
     "last_seen": "2026-10-16",
     "example": "MATSURI — 恋の中央線"
   },
-  "Música tropical": {
-    "dropped": 3,
-    "today": 3,
-    "last_seen": "2026-10-17",
-    "example": "Gian Marco — Bajo la Manga"
-  },
-  "Reggae": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-17",
-    "example": "WiLLaX — GIANT KLLING"
-  },
-  "Electronic": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-17",
-    "example": "TOMORA, AURORA & Tom Rowlands — CELEBRATION"
-  },
   "Chinese Hip-Hop": {
-    "dropped": 2,
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-10-18",
+    "example": "D.Dizzy紀博茂 — Why you so tripping?"
+  },
+  "Hardcore": {
+    "dropped": 3,
     "today": 2,
-    "last_seen": "2026-10-17",
-    "example": "Pearl Fang — KARMA"
+    "last_seen": "2026-10-18",
+    "example": "Unexist, Art of Fighters, Catscan & Starving Insect — Thunderdome 2026: Order vs. Chaos (Extended Mix)"
   },
   "Instrumental": {
     "dropped": 2,
@@ -191,17 +203,65 @@
     "last_seen": "2026-10-14",
     "example": "Janees Wong Lok Yin — Black Velvet Tide (台慶劇《璀璨之城》片尾曲)"
   },
+  "Holiday": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-18",
+    "example": "Cynthia Erivo — Christmas With Cynthia Erivo"
+  },
+  "Ambient": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-18",
+    "example": "Tokill — 洞府漫遊"
+  },
+  "Christian Pop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-18",
+    "example": "Grace Runkle — somethin' only God knows"
+  },
+  "Hip-Hop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-18",
+    "example": "Tierra Whack — WHACK'S MUSEUM (DELUXE)"
+  },
+  "Classical Crossover": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-18",
+    "example": "Max Richter — While The Flood Rages"
+  },
+  "Death Metal/Black Metal": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-18",
+    "example": "Stoned Jesus — Songs to Moon"
+  },
+  "Contemporary Latin": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-18",
+    "example": "Silvana Estrada — Vendrán Suaves Lluvias (y el tiempo prudente)"
+  },
+  "Tai-Pop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-18",
+    "example": "Xiao Bing Chih — 我愛你一句話 (feat. 洋蔥)"
+  },
+  "Afro-Beat": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-18",
+    "example": "King Dr. Saheed Osupa — Lyrical Wizard"
+  },
   "Pop/Rock": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-10-17",
     "example": "Raynes — Radio Remind Me"
-  },
-  "Afro-Pop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-17",
-    "example": "saucibossy — Melodies In Color"
   },
   "Fusion": {
     "dropped": 1,
@@ -221,59 +281,17 @@
     "last_seen": "2026-10-17",
     "example": "Nia Lamour — Kuishi Kwa Imani"
   },
-  "Holiday": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-17",
-    "example": "Cynthia Erivo — Christmas With Cynthia Erivo"
-  },
-  "Ambient": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-17",
-    "example": "Tokill — 洞府漫遊"
-  },
   "Rap": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-10-16",
     "example": "TopOppGen — another life"
   },
-  "Christian Pop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-17",
-    "example": "Grace Runkle — somethin' only God knows"
-  },
   "Techno": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-10-17",
     "example": "Andrew Lloyd Webber — The Phantom of the Opera (Techno Mix)"
-  },
-  "Hip-Hop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-17",
-    "example": "Tierra Whack — WHACK'S MUSEUM (DELUXE)"
-  },
-  "Classical Crossover": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-17",
-    "example": "Max Richter — While The Flood Rages"
-  },
-  "Hardcore": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-17",
-    "example": "Sara Landry — Divine Intervention"
-  },
-  "Afro House": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-17",
-    "example": "Drop - G & Binnay — Turn Me On (Drop G x Binnay Version)"
   },
   "Worldwide": {
     "dropped": 1,
@@ -317,17 +335,11 @@
     "last_seen": "2026-09-27",
     "example": "Enli — Angel Eyes"
   },
-  "Death Metal/Black Metal": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-17",
-    "example": "Stoned Jesus — Songs to Moon"
-  },
   "Rock y Alternativo": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-04",
-    "example": "Arde Bogotá — Manufacturas del Club de la Gente Sola (MCGS)"
+    "last_seen": "2026-10-18",
+    "example": "Rubytates — Sistemas"
   },
   "Funk": {
     "dropped": 1,
@@ -383,23 +395,11 @@
     "last_seen": "2026-10-04",
     "example": "Velvet Voice Blues — Velvet Blues Stories"
   },
-  "Contemporary Latin": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-17",
-    "example": "Silvana Estrada — Vendrán Suaves Lluvias (y el tiempo prudente)"
-  },
   "Neo-Soul": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-10-04",
     "example": "Sipprell — Message to the Sky"
-  },
-  "Tai-Pop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-17",
-    "example": "Xiao Bing Chih — 我愛你一句話 (feat. 洋蔥)"
   },
   "Baladas y Boleros": {
     "dropped": 1,
@@ -410,7 +410,7 @@
   "Breakbeat": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-16",
-    "example": "POSSIBLE JUMPER — 1994"
+    "last_seen": "2026-10-18",
+    "example": "Fist Meets Glass — EP VOL I"
   }
 }
