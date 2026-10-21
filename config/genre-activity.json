@@ -1,39 +1,39 @@
 {
   "Alternative": {
-    "dropped": 34,
-    "today": 1,
-    "last_seen": "2026-10-20",
-    "example": "Fann — Dear Friend"
+    "dropped": 39,
+    "today": 5,
+    "last_seen": "2026-10-21",
+    "example": "syrup16g — Canon Feel"
   },
   "Rock": {
-    "dropped": 24,
-    "today": 4,
-    "last_seen": "2026-10-20",
-    "example": "SHINKIRO&Co. — Hello World"
+    "dropped": 31,
+    "today": 7,
+    "last_seen": "2026-10-21",
+    "example": "GLAY — 旅する理由を待ちながら"
   },
   "Música Mexicana": {
-    "dropped": 20,
+    "dropped": 21,
     "today": 1,
-    "last_seen": "2026-10-20",
-    "example": "El Padrinito Toys & Tyan G — KAMIKAZE"
+    "last_seen": "2026-10-21",
+    "example": "El Repario — Las Que Me Gufy"
+  },
+  "Anime": {
+    "dropped": 17,
+    "today": 6,
+    "last_seen": "2026-10-21",
+    "example": "Ave Mujica — 神の名を"
+  },
+  "Afro-Pop": {
+    "dropped": 12,
+    "today": 1,
+    "last_seen": "2026-10-21",
+    "example": "Evelyndidit — Let Them Talk"
   },
   "House": {
     "dropped": 11,
     "today": 2,
     "last_seen": "2026-10-19",
     "example": "KETTAMA & Prospa — Think of You"
-  },
-  "Anime": {
-    "dropped": 11,
-    "today": 2,
-    "last_seen": "2026-10-20",
-    "example": "Devil:Hikaru Iida, Seina:Riona Imaizumi, Kohaku:Yuuki Takada & Ayame:Yuko Natsuyoshi — Tomo Ni Iku Zo!"
-  },
-  "Afro-Pop": {
-    "dropped": 11,
-    "today": 3,
-    "last_seen": "2026-10-20",
-    "example": "Noxavibe — UNFILTERED"
   },
   "Metal": {
     "dropped": 9,
@@ -70,12 +70,6 @@
     "today": 1,
     "last_seen": "2026-10-19",
     "example": "Drop - G & Binnay — Turn Me On (Drop G x Binnay Version)"
-  },
-  "Crossover Jazz": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-09-21",
-    "example": "PYRAMID — PYRAMID 6"
   },
   "Jazz": {
     "dropped": 4,
@@ -155,6 +149,12 @@
     "last_seen": "2026-10-20",
     "example": "DeepBlend — Un anno d’amore"
   },
+  "Soundtrack": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-10-21",
+    "example": "Various Artists — Cyberpunk: Edgerunners 2 (Original Series Soundtrack)"
+  },
   "Instrumental": {
     "dropped": 2,
     "today": 1,
@@ -221,12 +221,6 @@
     "last_seen": "2026-10-12",
     "example": "Grimes & VADAKIN — ACCELERANDO"
   },
-  "Christian": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-10-12",
-    "example": "Colton Dixon — Bones"
-  },
   "Americana": {
     "dropped": 2,
     "today": 1,
@@ -251,11 +245,11 @@
     "last_seen": "2026-10-18",
     "example": "Xiao Bing Chih — 我愛你一句話 (feat. 洋蔥)"
   },
-  "Soundtrack": {
-    "dropped": 2,
+  "Christian": {
+    "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-20",
-    "example": "ZHANG HAO — 同往 (《嫁金钗》电视剧陆濯·情深曲)"
+    "last_seen": "2026-10-21",
+    "example": "Saúl Pina — Gracias Por Un Día Más"
   },
   "Pop/Rock": {
     "dropped": 1,
@@ -284,8 +278,8 @@
   "Rap": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-16",
-    "example": "TopOppGen — another life"
+    "last_seen": "2026-10-21",
+    "example": "Bally Baby — The Last Sipper"
   },
   "Techno": {
     "dropped": 1,
@@ -386,8 +380,8 @@
   "Jungle/Drum'n'bass": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-05",
-    "example": "Max Cooper — fabric presents Max Cooper"
+    "last_seen": "2026-10-21",
+    "example": "Outlaw Siren — Brass, Velvet & Copper"
   },
   "Blues": {
     "dropped": 1,
