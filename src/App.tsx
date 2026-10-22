@@ -81,7 +81,6 @@ export default function App() {
     })
       .then((r) => {
         if (!r.ok) throw new Error()
-        // sw.js marks a feed it served from its cache instead of the network
         const fallback = r.headers.get('X-Radar-Cached')
         setCached(fallback === 'offline' || fallback === 'error' ? fallback : null)
         return r.json()
@@ -222,10 +221,9 @@ export default function App() {
 
   return (
     <div className="nav-side:flex nav-side:items-start">
-      <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 top-0 z-10 h-[max(1.5rem,env(safe-area-inset-top))] bg-gradient-to-b from-background to-transparent" />
       {(pull > 0 || refreshing) && (
         <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 top-[calc(env(safe-area-inset-top)+0.5rem)] z-30 flex justify-center" style={{ transform: `translateY(${refreshing ? 24 : pull / 2}px)` }}>
-          <span className="glass flex size-10 items-center justify-center rounded-full text-primary">
+          <span className="floating flex size-10 items-center justify-center rounded-full text-primary">
             <RadarIcon className={`size-5 ${refreshing ? 'motion-safe:animate-[radar-spin_0.9s_linear_infinite]' : ''}`} />
           </span>
         </div>
@@ -233,7 +231,7 @@ export default function App() {
 
       <nav
         data-minimized={minimized ? 'true' : undefined}
-        className={`group/nav glass z-20
+        className={`group/nav floating z-20
           nav-bar:fixed nav-bar:bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] nav-bar:left-1/2 nav-bar:-translate-x-1/2 nav-bar:rounded-full nav-bar:p-1
           nav-side:sticky nav-side:top-[max(0.75rem,env(safe-area-inset-top))] nav-side:mt-[max(0.75rem,env(safe-area-inset-top))] nav-side:mb-[max(0.75rem,env(safe-area-inset-bottom))] nav-side:ml-[max(0.75rem,calc(env(safe-area-inset-left)+0.5rem))]
           nav-side:flex nav-side:h-[calc(100dvh-max(0.75rem,env(safe-area-inset-top))-max(0.75rem,env(safe-area-inset-bottom)))] nav-side:w-56 nav-side:shrink-0 nav-side:flex-col nav-side:rounded-3xl nav-side:px-2 nav-side:pt-5 nav-side:pb-4
@@ -307,19 +305,18 @@ export default function App() {
         {/* header outside main: banner landmark only while not inside it */}
         <main className="@container">
           {cached === 'offline' && data && <Notice icon="offline">You’re offline. Showing the last saved update.</Notice>}
-          {cached === 'error' && data && <Notice icon="offline">Couldn’t refresh. Showing the last saved update.</Notice>}
-          {refreshNotice && data && <Notice icon="offline">Couldn’t refresh. Showing the last saved update.</Notice>}
+          {(cached === 'error' || refreshNotice) && data && <Notice icon="offline">Couldn’t refresh. Showing the last saved update.</Notice>}
           {rejected > 0 && data && (
             <Notice icon="warning" tone="warning">
               Some releases could not be displayed because their data is incomplete. Try reloading after the next update.
             </Notice>
           )}
-          {!data && !failure && <RadarState mode="scan" title="Scanning for new releases" body="Loading the latest update." live />}
+          {!data && !failure && <RadarState mode="scan" title="Scanning for New Releases" body="Loading the latest update." live />}
           {!data && failure === 'offline' && (
-            <RadarState mode="offline" title="You’re offline" body="Connect once to load releases. After that, the latest update stays on this device." onRetry={() => { setFailure(null); load(false) }} live />
+            <RadarState mode="offline" title="You’re Offline" body="Connect once to load releases. After that, the latest update stays on this device." onRetry={() => { setFailure(null); load(false) }} live />
           )}
           {!data && failure === 'error' && (
-            <RadarState title="Couldn’t load releases" body="The nightly update may still be running. Try again in a few minutes." onRetry={() => { setFailure(null); load(false) }} live />
+            <RadarState title="Couldn’t Load Releases" body="The nightly update may still be running. Try again in a few minutes." onRetry={() => { setFailure(null); load(false) }} live />
           )}
           {data && showFilter && (
             <div role="group" aria-label="Show" className="mb-4 flex flex-wrap gap-1.5">
@@ -341,8 +338,8 @@ export default function App() {
             (visible.length ? (
               <div
                 id="release-panel"
-                role={showBar ? 'tabpanel' : undefined}
-                aria-labelledby={showBar ? `tab-${activeKey}` : undefined}
+                role={showBar || !navIsBar ? 'tabpanel' : undefined}
+                aria-labelledby={showBar || !navIsBar ? `tab-${activeKey}` : undefined}
                 className={GRID}
               >
                 {visible.map((r, i) => (
@@ -359,14 +356,14 @@ export default function App() {
                 ))}
               </div>
             ) : rejected > 0 ? (
-              <RadarState title="Nothing to show yet" body="No releases can be displayed from this update. Try reloading after the next update." live />
+              <RadarState title="Nothing to Show Yet" body="No releases can be displayed from this update. Try reloading after the next update." live />
             ) : (
-              <RadarState title="No new releases right now" body="Updates every evening." live />
+              <RadarState title="No New Releases Right Now" body="Updates every evening." live />
             ))}
         </main>
       </div>
 
-      <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 bottom-0 z-10 hidden h-28 bg-gradient-to-t from-background/90 to-transparent nav-bar:block" />
+      {showBar && <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 bottom-0 z-10 hidden h-28 bg-gradient-to-t from-background/90 to-transparent nav-bar:block" />}
     </div>
   )
 }

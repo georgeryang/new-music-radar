@@ -310,7 +310,7 @@ test('built site keeps valid cards, warns on malformed entries, and supports tab
   feed.upcoming = []
   await page.reload()
   await page.getByText('No releases can be displayed from this update.', { exact: false }).waitFor()
-  assert.equal(await page.getByText('No new releases right now', { exact: true }).count(), 0)
+  assert.equal(await page.getByText('No New Releases Right Now', { exact: true }).count(), 0)
   assert.deepEqual(errors, [])
 })
 
@@ -404,7 +404,7 @@ test('built site explains an empty update', async (t) => {
   const feed = { fetched_at: Date.UTC(2026, 8, 29, 12), releases: [], upcoming: [] }
   const page = await sitePage(t, (route) => json(route, feed))
   await page.goto('http://127.0.0.1:4747/new-music-radar/')
-  await page.getByText('No new releases right now', { exact: true }).waitFor()
+  await page.getByText('No New Releases Right Now', { exact: true }).waitFor()
   await page.getByText('Updates every evening.', { exact: true }).waitFor()
 })
 
@@ -413,7 +413,7 @@ test('built site offers Try again when the feed fails to load', async (t) => {
   const feed = { fetched_at: Date.UTC(2026, 8, 29, 12), releases: [fixtureCard(1)], upcoming: [] }
   const page = await sitePage(t, (route) => fail ? route.fulfill({ status: 500, body: 'error' }) : json(route, feed))
   await page.goto('http://127.0.0.1:4747/new-music-radar/')
-  await page.getByText('Couldn’t load releases', { exact: true }).waitFor()
+  await page.getByText('Couldn’t Load Releases', { exact: true }).waitFor()
   fail = false
   await page.getByRole('button', { name: 'Try again' }).click()
   await page.locator('#release-panel a').first().waitFor()

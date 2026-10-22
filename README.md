@@ -13,10 +13,11 @@ Home Screen to open it full screen as **Radar**.
 Open the site and browse the grid. Switch between **New** and **Upcoming**
 with the menu: a floating bar at the bottom on narrow screens (phones held
 upright, including the iPhone Duo's outer display), and a sidebar on wider
-screens. The menu appears when something is upcoming. When New mixes
-followed and discovered releases, **Following** and **Discovered** narrow the
-grid. After one visit the site opens offline with the last saved update. As a
-Home Screen app, pull down to refresh. What the icons mean:
+screens. On narrow screens the bar appears only when something is upcoming.
+When New mixes followed and discovered releases, **Following** and
+**Discovered** narrow the grid. After one visit the site opens offline with
+the last saved update. As a Home Screen app, pull down to refresh. What the
+icons mean:
 
 - **♪** = song (single), disc icon = album or EP.
 - **★** means the release came from an artist you follow, collabs included, so

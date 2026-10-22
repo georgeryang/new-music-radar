@@ -18,12 +18,12 @@ README and UI copy use plain US English, without em dashes or buzzwords. Titles,
 - Never add CSP meta to source `index.html`: it breaks Vite's inline Fast Refresh. CSP must be build-only (`transformIndexHtml`, `apply: 'build'`).
 - Project-site Pages cannot control origin-root files or response headers. Use meta robots; `frame-ancestors` cannot work in meta. Unknown paths return real 404s.
 - Automatic publication inspects every unpushed commit, not just the endpoint diff. Unrelated history or inspection failure stops publication. Stage build replacements before replacing the index or pruning files; preserve `docs/data`.
-- `public/sw.js` installs from the stage root before the index. Pages and `data/releases.json` are network-first; on failure the worker serves the cached copy marked `X-Radar-Cached: offline` (no response or timeout) or `error` (error status). Artwork is capped at 200 cache entries. Browser tests block service workers except the offline test.
+- `public/sw.js` installs from the stage root before the index. The index page and `data/releases.json` are network-first, and only install stores the index, after its assets; on failure the worker serves the cached copy marked `X-Radar-Cached: offline` (no response or timeout) or `error` (error status). Artwork is capped at 200 cache entries. Browser tests block service workers except the offline test.
 
 ## Layout
 
 - One `<nav>` switches layouts by CSS alone at one width-only breakpoint: `nav-bar` (floating bottom bar) under 40rem and `nav-side` (sidebar) at 40rem and up, custom variants in `src/index.css` mirrored by `src/lib/nav.ts` for `aria-orientation` and by the card image `sizes`. Grid columns follow container queries, not the viewport. `tests/editor.spec.mjs` checks each layout and the boundary.
-- `glass` is an `@utility`, never an unlayered rule, so `bg-*` utilities on the same element still win.
+- `floating` is an `@utility`, never an unlayered rule, so `bg-*` utilities on the same element still win.
 - Tab switches use `startViewTransition` with `flushSync`. Name only small elements (`nav-pill`); a named full-width layer paints over the fixed nav during the transition.
 - `src/assets` icons and the editor's inline favicon come from one drawing; change them together.
 

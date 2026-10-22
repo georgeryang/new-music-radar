@@ -2,7 +2,7 @@ const VERSION = new URL(location.href).searchParams.get('v') ?? 'dev'
 const SHELL = `radar-shell-${VERSION}`
 const LIVE = 'radar-live'
 const ART = 'radar-art'
-// A card caches a 60px preview and one srcset size, so about 100 cards.
+// One srcset size per card, so about 200 cards.
 const ART_LIMIT = 200
 // Plane and captive Wi-Fi often hang instead of failing.
 const NETWORK_TIMEOUT = 3500
@@ -66,19 +66,20 @@ async function networkFirst(event, key) {
     network.catch(() => null),
     new Promise((resolve) => setTimeout(resolve, NETWORK_TIMEOUT, null)),
   ])
+  // Only precache stores the index, after its assets; an index stored here could name assets no cache holds.
+  const store = key === DATA
   if (first?.ok) {
-    await cache.put(key, first.clone())
+    if (store) await cache.put(key, first.clone())
     return first
   }
   const cached = await cache.match(key, { ignoreSearch: true, ignoreVary: true })
   if (cached) {
-    // A slow network may still answer after the timeout; keep that copy for next time.
-    if (!first) event.waitUntil(network.then((late) => late.ok && cache.put(key, late.clone())).catch(() => {}))
+    if (!first && store) event.waitUntil(network.then((late) => late.ok && cache.put(key, late.clone())).catch(() => {}))
     return markCached(cached, first ? 'error' : 'offline')
   }
   try {
     const late = await network
-    if (late.ok) await cache.put(key, late.clone())
+    if (late.ok && store) await cache.put(key, late.clone())
     return late
   } catch {
     return Response.error()

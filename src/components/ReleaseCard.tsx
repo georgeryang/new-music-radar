@@ -21,12 +21,9 @@ function TypeIcon({ type }: { type: Release['type'] }) {
 
 // Apple's artwork URLs end in "{size}x{size}bb.{ext}"; any square size is served.
 const ARTWORK_SIZE = /\d+x\d+bb(\.\w+)$/
-function artworkAt(url: string, n: number): string | undefined {
-  return ARTWORK_SIZE.test(url) ? url.replace(ARTWORK_SIZE, `${n}x${n}bb$1`) : undefined
-}
 function artworkSrcSet(url: string): string | undefined {
   if (!ARTWORK_SIZE.test(url)) return undefined
-  return [300, 400, 600].map((n) => `${artworkAt(url, n)} ${n}w`).join(', ')
+  return [300, 400, 600].map((n) => `${url.replace(ARTWORK_SIZE, `${n}x${n}bb$1`)} ${n}w`).join(', ')
 }
 
 export function ReleaseCard({
@@ -43,9 +40,7 @@ export function ReleaseCard({
   enterIndex?: number
 }) {
   const [imgFailed, setImgFailed] = useState(false)
-  const [loaded, setLoaded] = useState(false)
   const showImg = release.artwork.startsWith('http') && !imgFailed
-  const preview = showImg ? artworkAt(release.artwork, 60) : undefined
 
   const card = (
     <div
@@ -53,9 +48,6 @@ export function ReleaseCard({
       style={enterIndex === undefined ? undefined : { animationDelay: `${enterIndex * 20}ms` }}
     >
       <div className="relative mb-2 aspect-square overflow-hidden rounded-lg bg-muted">
-        {preview && !loaded && (
-          <img src={preview} crossOrigin="anonymous" alt="" aria-hidden="true" loading={eager ? 'eager' : 'lazy'} decoding="async" className="absolute inset-0 size-full scale-110 object-cover blur-md" />
-        )}
         {showImg ? (
           <img
             src={release.artwork}
@@ -68,9 +60,8 @@ export function ReleaseCard({
             loading={eager ? 'eager' : 'lazy'}
             fetchPriority={eager ? 'high' : undefined}
             decoding="async"
-            onLoad={() => setLoaded(true)}
             onError={() => setImgFailed(true)}
-            className={`relative size-full object-cover transition-opacity duration-300 motion-safe:transition-[opacity,transform] motion-safe:group-hover:scale-[1.03] ${loaded || !preview ? 'opacity-100' : 'opacity-0'}`}
+            className="size-full object-cover motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-[1.03]"
           />
         ) : (
           <div aria-hidden="true" className="flex size-full items-center justify-center text-3xl">

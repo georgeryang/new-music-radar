@@ -342,7 +342,7 @@ export const PAGE = /* html */ `<!doctype html>
 <!-- header outside main: it is a banner landmark only while it is not a
      descendant of main -->
 <main>
-<nav id="section-index" aria-label="Sections" class="glass sticky top-3 z-20 mx-auto mb-4 flex w-fit max-w-full gap-0.5 overflow-x-auto rounded-full p-1">
+<nav id="section-index" aria-label="Sections" class="floating sticky top-3 z-20 mx-auto mb-4 flex w-fit max-w-full gap-0.5 overflow-x-auto rounded-full p-1">
   <a href="#section-artists-followed" class="${SECTION_LINK}">Artists</a>
   <a href="#section-artists-blocked" class="${SECTION_LINK}">Blocked</a>
   <a href="#section-genres-followed" class="${SECTION_LINK}">Genres</a>
@@ -776,7 +776,7 @@ function makeAdder(s) {
   const picker = PICKERS[s.kind]
   input.placeholder = picker.placeholder
   const results = document.createElement('div')
-  results.className = 'border bg-surface-raised shadow-lg absolute inset-x-0 top-full z-10 mt-1 max-h-60 overflow-x-hidden overflow-y-auto rounded-2xl p-1.5'
+  results.className = 'absolute inset-x-0 top-full z-10 mt-1 max-h-60 overflow-x-hidden overflow-y-auto rounded-2xl border bg-surface-raised p-1.5 shadow-lg'
   results.hidden = true
   const err = document.createElement('p')
   err.id = 'err-' + s.key

@@ -18,25 +18,14 @@
   --ease-spring: linear(0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017 19.4%, 1.067, 1.077 24.1%, 1.07 26.3%, 1.03 31.9%, 1.005 37.1%, 0.996 43.4%, 1);
 }
 
-/* A layered utility: an unlayered rule would beat every bg-* utility on the
-   same element (the editor banner's state colors). */
-@utility glass {
-  background-color: color-mix(in oklab, var(--color-surface-raised) 58%, transparent);
-  -webkit-backdrop-filter: blur(14px) saturate(200%);
-  backdrop-filter: blur(14px) saturate(200%);
+/* A layered utility: an unlayered rule would beat bg-* utilities on the same element. */
+@utility floating {
+  background-color: var(--color-surface-raised);
   border: 1px solid rgb(255 255 255 / 0.7);
   box-shadow: 0 10px 30px rgb(21 17 17 / 0.12), inset 0 1px 1px rgb(255 255 255 / 0.8);
   @media (prefers-color-scheme: dark) {
     border-color: rgb(255 255 255 / 0.12);
     box-shadow: 0 10px 30px rgb(0 0 0 / 0.4), inset 0 1px 0 rgb(255 255 255 / 0.08);
-  }
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    background-color: var(--color-surface-raised);
-  }
-  @media (prefers-reduced-transparency: reduce) {
-    background-color: var(--color-surface-raised);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
   }
 }
 
