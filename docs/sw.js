@@ -28,7 +28,7 @@ async function precache() {
   const index = await fetch(INDEX, { cache: 'no-cache' })
   if (!index.ok) throw new Error('index unavailable')
   const html = await index.clone().text()
-  const assets = [...new Set(html.match(/(?<=["'])\/[^"'\s]*\/assets\/[^"'\s]+/g) ?? [])].map((u) => new URL(u, scope).href)
+  const assets = [...new Set(html.match(/(?<=["'])\/(?:[^"'\s]*\/)?assets\/[^"'\s]+/g) ?? [])].map((u) => new URL(u, scope).href)
   const fonts = []
   for (const css of assets.filter((u) => u.endsWith('.css'))) {
     const text = await (await fetch(css)).text()

@@ -133,7 +133,7 @@ function UpcomingBadge({ date, fetchedAt }: { date: string; fetchedAt: number })
       }`}
     >
       {soon && (
-        <span aria-hidden="true" className="absolute inset-0 -translate-x-[150%] [--glint:rgb(255_255_255/0.55)] dark:[--glint:rgb(255_255_255/0.85)] bg-[linear-gradient(105deg,transparent_42%,var(--glint)_50%,transparent_58%)] motion-safe:animate-[glint_7s_cubic-bezier(0.4,0,0.2,1)_infinite]" />
+        <span aria-hidden="true" className="absolute inset-0 -translate-x-[150%] [--glint:rgb(255_255_255/0.35)] dark:[--glint:rgb(255_255_255/0.85)] bg-[linear-gradient(105deg,transparent_42%,var(--glint)_50%,transparent_58%)] motion-safe:animate-[glint_7s_cubic-bezier(0.4,0,0.2,1)_infinite]" />
       )}
       <span className="relative">{label}</span>
       {/* aria-label on a generic span is unreliably exposed, title is mouse-only */}

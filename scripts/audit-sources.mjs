@@ -580,6 +580,6 @@ say(
   '\n  redundant. A quiet source is not a dead one. Anything marked [thin evidence]' +
   '\n  needs more history or a re-probe before you act on it.'
 )
-if (THIN) say(`\n  Only ${historyDays} day(s) of history so far. The 7d/30d columns will mean much\n  more after a couple of weeks of nightly runs.`)
+if (THIN) say(`\n  Only ${historyDays} day(s) of history so far. The 7d/30d columns will mean much\n  more after a couple of weeks of daily runs.`)
 
 if (AS_JSON) console.log(JSON.stringify({ ...out, warnings }, null, 2))
