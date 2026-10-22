@@ -5,11 +5,18 @@ countries you care about (K-Pop, Latin, Thailand's Top 100, and more),
 updated every evening. Tap anything to open it in Apple Music.
 
 **The Site:** https://georgeryang.github.io/new-music-radar/
-(works on any phone, tablet, or computer, so bookmark it)
+(works on any phone, tablet, or computer). On an iPhone, use Share › Add to
+Home Screen to open it full screen as **Radar**.
 
 ## Everyday Use
 
-Open the site and browse the grid. What the icons mean:
+Open the site and browse the grid. Switch between **New** and **Upcoming**
+with the menu: a floating bar at the bottom on narrow screens (phones held
+upright, including the iPhone Duo's outer display), and a sidebar on wider
+screens. The menu appears when something is upcoming. When New mixes
+followed and discovered releases, **Following** and **Discovered** narrow the
+grid. After one visit the site opens offline with the last saved update. As a
+Home Screen app, pull down to refresh. What the icons mean:
 
 - **♪** = song (single), disc icon = album or EP.
 - **★** means the release came from an artist you follow, collabs included, so
@@ -41,6 +48,8 @@ Double-click `prefs.command` to open the editor in your browser.
   cleanly, new releases or not; amber means it finished with something to
   look at (a source failed, the deploy did not confirm, or held-back local
   commits stopped the publish); red means nothing published.
+
+Removing a chip offers **Undo** for a few seconds, and Cmd+S (Ctrl+S) saves.
 
 Age tags flag followed artists with no recent releases (amber past 18
 months, red past 3 years). Nothing is removed automatically.
@@ -113,7 +122,8 @@ lists them.
 
 ## Privacy
 
-The site sets no cookies, runs no analytics, and stores nothing in your browser.
+The site sets no cookies and runs no analytics. For offline use it keeps the
+last update, the site files, and recent cover art in your browser's cache.
 It is static files, so the only logs are the ones any host keeps: GitHub Pages
 sees the IP address of whoever opens the page, and Apple's CDN sees it too
 because the cover art loads from there. The page also pings `127.0.0.1:4747` on

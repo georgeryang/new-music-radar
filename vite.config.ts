@@ -28,6 +28,7 @@ function serveDataInDev(): Plugin {
 export default defineConfig({
   base: '/new-music-radar/',
   plugins: [react(), tailwindcss(), serveDataInDev()],
+  define: { __BUILD_ID__: JSON.stringify(Date.now().toString(36)) },
   resolve: {
     alias: { '@': path.resolve(import.meta.dirname, 'src') },
   },

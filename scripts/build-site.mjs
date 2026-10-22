@@ -7,6 +7,7 @@ import { writeFileAtomic } from './shared.mjs'
 
 export function installBuild(stage, destination) {
   const index = readFileSync(join(stage, 'index.html'))
+  const worker = readFileSync(join(stage, 'sw.js'))
   for (const directory of ['assets', 'fonts']) {
     mkdirSync(join(destination, directory), { recursive: true })
     for (const entry of readdirSync(join(stage, directory), { withFileTypes: true })) {
@@ -14,6 +15,7 @@ export function installBuild(stage, destination) {
       writeFileAtomic(join(destination, directory, entry.name), readFileSync(join(stage, directory, entry.name)))
     }
   }
+  writeFileAtomic(join(destination, 'sw.js'), worker)
   // Old HTML must remain usable until all its replacements are available.
   writeFileAtomic(join(destination, 'index.html'), index)
   for (const directory of ['assets', 'fonts']) {

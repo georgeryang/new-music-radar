@@ -14,8 +14,9 @@ Run the checks for the change once after final edits. Combine matching rows; a f
 | Pipeline or shared scripts | `npm test` |
 | Editor (`prefs-server.mjs`, including Tailwind classes) | `node --test tests/prefs-server.test.mjs`, `npm run check-editor`, `npm run test:browser` |
 | Frontend (`src/`) | `node --test tests/feed-data.test.ts`, `npm run check-types`, `npm run test:browser` |
+| Service worker or build install (`public/sw.js`, `scripts/build-site.mjs`) | `node --test tests/build-site.test.mjs`, `npm run test:browser` |
 
-`check-editor` parses the server and actual inline client script; Vite only scans the server as Tailwind text. The browser suite builds fresh assets into a temporary directory, intercepts requests, and checks races, keyboard controls, responsive layout, and card links. No production build is needed. `npm run build` installs output into tracked `docs/`; use it when updating the built site is part of the task.
+`check-editor` parses the server and actual inline client script; Vite only scans the server as Tailwind text. The browser suite builds fresh assets into a temporary directory, intercepts requests with service workers blocked (the offline test alone serves the build from a local server with its worker active), and checks races, keyboard controls, responsive layout, and card links. No production build is needed. `npm run build` installs output into tracked `docs/`; use it when updating the built site is part of the task.
 
 Run `npm ci` only when required dependencies are missing or the lockfile changed. Run `npm run test:browser:install` if Chromium is missing. Missing tools are failures, not passing checks. Docs and skill checks need neither installation.
 

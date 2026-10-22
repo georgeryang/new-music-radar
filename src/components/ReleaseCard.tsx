@@ -19,40 +19,65 @@ function TypeIcon({ type }: { type: Release['type'] }) {
   )
 }
 
+// Apple's artwork URLs end in "{size}x{size}bb.{ext}"; any square size is served.
+const ARTWORK_SIZE = /\d+x\d+bb(\.\w+)$/
+function artworkAt(url: string, n: number): string | undefined {
+  return ARTWORK_SIZE.test(url) ? url.replace(ARTWORK_SIZE, `${n}x${n}bb$1`) : undefined
+}
+function artworkSrcSet(url: string): string | undefined {
+  if (!ARTWORK_SIZE.test(url)) return undefined
+  return [300, 400, 600].map((n) => `${artworkAt(url, n)} ${n}w`).join(', ')
+}
+
 export function ReleaseCard({
   release,
   upcoming = false,
   fetchedAt,
   eager = false,
+  enterIndex,
 }: {
   release: Release
   upcoming?: boolean
   fetchedAt: number
   eager?: boolean
+  enterIndex?: number
 }) {
   const [imgFailed, setImgFailed] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   const showImg = release.artwork.startsWith('http') && !imgFailed
+  const preview = showImg ? artworkAt(release.artwork, 60) : undefined
 
   const card = (
-    <div className="group">
-      <div className="mb-1.5 aspect-square overflow-hidden rounded-lg bg-muted">
+    <div
+      className={`group ${enterIndex === undefined ? '' : 'motion-safe:animate-[card-in_500ms_var(--ease-spring)_both]'}`}
+      style={enterIndex === undefined ? undefined : { animationDelay: `${enterIndex * 20}ms` }}
+    >
+      <div className="relative mb-2 aspect-square overflow-hidden rounded-lg bg-muted">
+        {preview && !loaded && (
+          <img src={preview} crossOrigin="anonymous" alt="" aria-hidden="true" loading={eager ? 'eager' : 'lazy'} decoding="async" className="absolute inset-0 size-full scale-110 object-cover blur-md" />
+        )}
         {showImg ? (
           <img
             src={release.artwork}
+            crossOrigin="anonymous"
+            srcSet={artworkSrcSet(release.artwork)}
+            sizes="(width < 40rem) 46vw, 200px"
             alt=""
             width={400}
             height={400}
             loading={eager ? 'eager' : 'lazy'}
             fetchPriority={eager ? 'high' : undefined}
             decoding="async"
+            onLoad={() => setLoaded(true)}
             onError={() => setImgFailed(true)}
-            className="size-full object-cover motion-safe:transition-transform motion-safe:group-hover:scale-[1.03]"
+            className={`relative size-full object-cover transition-opacity duration-300 motion-safe:transition-[opacity,transform] motion-safe:group-hover:scale-[1.03] ${loaded || !preview ? 'opacity-100' : 'opacity-0'}`}
           />
         ) : (
           <div aria-hidden="true" className="flex size-full items-center justify-center text-3xl">
             🎵
           </div>
         )}
+        <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-lg ring-1 ring-foreground/8 ring-inset" />
       </div>
       <p className="line-clamp-2 text-xs leading-snug font-semibold">{release.title}</p>
       <p className="truncate text-xs text-muted-foreground">
@@ -96,7 +121,7 @@ export function ReleaseCard({
   }
 
   return (
-    <a href={href} onClick={openInMusic} className="block rounded-lg">
+    <a href={href} onClick={openInMusic} className="block rounded-lg motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-spring motion-safe:active:scale-[0.97]">
       {card}
     </a>
   )
@@ -113,10 +138,13 @@ function UpcomingBadge({ date, fetchedAt }: { date: string; fetchedAt: number })
     <span
       title={`Pre-order, releases ${full}`}
       className={`rounded-full px-1.5 py-px text-[11px] ${
-        soon ? 'bg-primary text-primary-foreground' : 'border border-border'
+        soon ? 'relative overflow-hidden bg-primary text-primary-foreground' : 'border border-border'
       }`}
     >
-      {label}
+      {soon && (
+        <span aria-hidden="true" className="absolute inset-0 -translate-x-[120%] bg-[linear-gradient(100deg,transparent_30%,rgb(255_255_255/0.4)_50%,transparent_70%)] motion-safe:animate-[sheen_4s_ease-in-out_infinite]" />
+      )}
+      <span className="relative">{label}</span>
       {/* aria-label on a generic span is unreliably exposed, title is mouse-only */}
       <span className="sr-only"> (pre-order, releases {full})</span>
     </span>

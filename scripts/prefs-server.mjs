@@ -15,6 +15,8 @@ import { itunesJSON } from './apple-api.mjs'
 const PORT = 4747
 const REPO_DIR = fileURLToPath(new URL('..', import.meta.url))
 const DOCS_DIR = fileURLToPath(new URL('../docs/', import.meta.url))
+// Same drawing as src/assets/favicon.svg.
+const FAVICON = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6C172C"/><stop offset="1" stop-color="#B3264A"/></linearGradient></defs><rect width="30" height="30" rx="6.5" fill="url(#g)"/><g transform="translate(3 3)" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round"><path d="M8.46 8.46a5 5 0 0 0 0 7.07M15.54 8.46a5 5 0 0 1 0 7.07M5.64 5.64a9 9 0 0 0 0 12.73M18.36 5.64a9 9 0 0 1 0 12.73"/><circle cx="12" cy="12" r="2" fill="#FFF" stroke="none"/></g></svg>')
 // Symlink-resolved prefix (trailing / so a sibling like docs-evil/ can't pass
 // a startsWith check); the static handler re-checks realpaths against this.
 const DOCS_REAL = realpathSync(DOCS_DIR) + '/'
@@ -145,6 +147,8 @@ const TYPES = {
   css: 'text/css',
   json: 'application/json',
   woff2: 'font/woff2',
+  svg: 'image/svg+xml',
+  png: 'image/png',
 }
 
 // hasOwn, not a bare lookup: a file named "x.constructor" would otherwise
@@ -322,33 +326,43 @@ export const server = http.createServer(async (req, res) => {
   }
 })
 
+const SECTION_LINK = 'inline-flex min-h-9 shrink-0 items-center rounded-full px-2 text-sm font-medium min-[420px]:px-3.5 aria-[current=true]:bg-foreground/8 aria-[current=true]:text-accent-foreground'
+
 export const PAGE = /* html */ `<!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-pt-20">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>New Music Radar Preferences</title>
+<link rel="icon" type="image/svg+xml" href="${FAVICON}">
 <!--CSS-->
 </head>
-<body class="mx-auto max-w-[680px] break-words px-4 pt-6 pb-24">
-<header class="mb-1 flex flex-wrap items-baseline justify-between gap-2"><h1 class="text-lg font-bold tracking-tight">Preferences</h1><a href="${SITE_URL}" id="site-link" target="_blank" rel="noopener noreferrer" class="text-sm text-muted-foreground hover:text-foreground">Open radar →</a></header>
+<body class="mx-auto max-w-[680px] break-words px-4 pt-10 pb-10">
+<header class="mb-2 flex flex-wrap items-baseline justify-between gap-2"><h1 class="min-w-0 text-[2rem] leading-tight font-bold tracking-tight [overflow-wrap:anywhere]">Preferences</h1><a href="${SITE_URL}" id="site-link" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-accent-foreground hover:underline">Open radar →</a></header>
 <!-- header outside main: it is a banner landmark only while it is not a
      descendant of main -->
 <main>
-<p class="mb-[18px] text-sm text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; refresh applies them right away and publishes to the public site (about two minutes). Genre chips count the last ${WINDOW_DAYS} days, so they run higher than New, which shows 24 hours. Country, playlist and feed chips count ${SOURCE_CHIP_DAYS} measured days, as only-here/shared/total.</p>
+<nav id="section-index" aria-label="Sections" class="glass sticky top-3 z-20 mx-auto mb-4 flex w-fit max-w-full gap-0.5 overflow-x-auto rounded-full p-1">
+  <a href="#section-artists-followed" class="${SECTION_LINK}">Artists</a>
+  <a href="#section-artists-blocked" class="${SECTION_LINK}">Blocked</a>
+  <a href="#section-genres-followed" class="${SECTION_LINK}">Genres</a>
+  <a href="#section-discovery-countries" class="${SECTION_LINK}">Countries</a>
+  <a href="#section-discovery-playlists" class="${SECTION_LINK}">Playlists</a>
+</nav>
+<p class="mb-2 text-sm leading-relaxed text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; refresh applies them right away and publishes to the public site (about two minutes). Genre chips count the last ${WINDOW_DAYS} days, so they run higher than New, which shows 24 hours. Country, playlist and feed chips count ${SOURCE_CHIP_DAYS} measured days, as only-here/shared/total.</p>
 <div id="sections"></div>
 </main>
-<div id="editor-dock" class="fixed inset-x-0 bottom-0 z-10">
-<div id="log-wrap" hidden class="relative mx-auto w-[min(640px,calc(100%-32px))]">
+<div id="editor-dock" class="mt-4 rounded-2xl border border-border bg-surface-raised p-3">
+<div id="log-wrap" hidden class="relative mb-3">
   <button id="log-hide" class="absolute top-0.5 right-1 inline-flex size-6 cursor-pointer items-center justify-center text-base leading-none text-muted-foreground hover:text-foreground" title="Hide the progress log (the refresh keeps running)" aria-label="Hide progress log">×</button>
-  <pre id="log" class="max-h-[180px] overflow-y-auto rounded-lg border border-border bg-muted px-3 py-2.5 pr-8 font-mono text-xs leading-[1.5] whitespace-pre-wrap wrap-break-word"></pre>
+  <pre id="log" class="max-h-[180px] overflow-y-auto rounded-xl bg-muted px-3 py-2.5 pr-8 font-mono text-xs leading-[1.5] whitespace-pre-wrap wrap-break-word"></pre>
 </div>
 <div id="banner" hidden role="status"></div>
-<footer class="flex flex-wrap items-center justify-center gap-2 border-t border-border bg-surface-raised px-4 py-2.5">
-  <span id="status" role="status" class="mr-auto max-w-[50%] text-xs leading-snug text-muted-foreground"></span>
-  <button id="quit" class="cursor-pointer rounded-md border border-border-strong bg-transparent px-4 py-[7px] text-sm">Quit</button>
-  <button id="refresh" class="max-w-full cursor-pointer rounded-md border border-action-secondary-border bg-transparent px-4 py-[7px] text-sm text-action-secondary-fg disabled:cursor-default disabled:opacity-45">Save &amp; refresh</button>
-  <button id="save" disabled class="cursor-pointer rounded-md border border-primary bg-primary px-4 py-[7px] text-sm text-primary-foreground disabled:cursor-default disabled:opacity-45">Save</button>
+<footer class="flex flex-wrap items-center gap-2">
+  <span id="status" role="status" class="min-w-0 grow basis-48 break-words text-sm leading-snug tabular-nums text-muted-foreground empty:hidden"></span>
+  <button id="quit" class="min-h-10 cursor-pointer rounded-full border border-border-strong bg-transparent px-4 text-sm font-medium">Quit</button>
+  <button id="refresh" class="min-h-10 max-w-full cursor-pointer rounded-full border border-action-secondary-border bg-transparent px-4 text-sm font-medium text-action-secondary-fg disabled:cursor-default disabled:opacity-45">Save &amp; refresh</button>
+  <button id="save" disabled class="min-h-10 cursor-pointer rounded-full border border-primary bg-primary px-5 text-sm font-medium text-primary-foreground disabled:cursor-default disabled:opacity-45">Save</button>
 </footer>
 </div>
 <script>
@@ -369,7 +383,7 @@ const STALE = 'text-xs tabular-nums text-accent-foreground'
 // average month
 const MONTH_MS = 2629746000
 let statusHeld = false
-const STATUS_BASE = 'w-full min-w-0 break-words text-xs leading-snug tabular-nums'
+const STATUS_BASE = 'min-w-0 grow basis-48 break-words text-sm leading-snug tabular-nums empty:hidden'
 function setStatus(text, isError, hold) {
   statusHeld = !!hold
   const el = $('status')
@@ -389,10 +403,10 @@ function setFieldError(key, text) {
 }
 const clearFieldError = (key) => setFieldError(key, '')
 const SECTIONS = [
-  { key: 'artists.followed', label: 'Followed Artists', sub: 'pinned first ★, fetched by Apple ID, bypass filters', kind: 'artist' },
-  { key: 'artists.blocked', label: 'Blocked Artists', sub: 'never shown (matched by Apple ID)', kind: 'artist' },
-  { key: 'genres.followed', label: 'Followed Genres', sub: 'discovery only surfaces these (followed artists always show)', kind: 'genre' },
-  { key: 'discovery.countries', label: 'Additional Countries', sub: 'each country\\'s Top 100, plus its purchase charts where Apple runs a store', kind: 'country' },
+  { key: 'artists.followed', label: 'Followed Artists', sub: 'Pinned first ★, fetched by Apple ID, bypass filters', kind: 'artist' },
+  { key: 'artists.blocked', label: 'Blocked Artists', sub: 'Never shown (matched by Apple ID)', kind: 'artist' },
+  { key: 'genres.followed', label: 'Followed Genres', sub: 'Discovery only surfaces these (followed artists always show)', kind: 'genre' },
+  { key: 'discovery.countries', label: 'Additional Countries', sub: 'Each country\\'s Top 100, plus its purchase charts where Apple runs a store', kind: 'country' },
   { key: 'discovery.playlists', label: 'Discovery Playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', kind: 'playlist' },
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
@@ -420,7 +434,7 @@ function resultRow(results, label, note, onPick, extra) {
   const nm = document.createElement('span')
   nm.textContent = label
   b.appendChild(nm)
-  b.className = 'flex min-w-0 flex-1 cursor-pointer items-center gap-2.5 px-2.5 py-[7px] text-left text-sm hover:bg-muted focus-visible:bg-muted'
+  b.className = 'flex min-h-11 min-w-0 flex-1 cursor-pointer items-center gap-2.5 rounded-xl px-3 text-left text-sm hover:bg-foreground/8 focus-visible:bg-foreground/8'
   if (note) {
     const n = document.createElement('span')
     n.className = 'ml-auto whitespace-nowrap text-xs text-muted-foreground'
@@ -443,7 +457,7 @@ function noteRow(results, text) {
   results.hidden = false
 }
 
-function markDirty() { editRevision++; dirty = true; $('save').disabled = false; statusHeld = false }
+function markDirty() { editRevision++; dirty = true; $('save').disabled = false; setStatus('Unsaved changes', false, true) }
 
 function genreCount(name) {
   if (!countsAvailable) return null
@@ -482,7 +496,7 @@ function sourceCount(tag) {
 let fixedOpen = false
 function renderFixed() {
   const d = document.createElement('details')
-  d.className = 'mt-[18px]'
+  d.className = 'mt-4 rounded-2xl border border-border bg-surface-raised px-4 py-3'
   d.open = fixedOpen
   d.ontoggle = () => { fixedOpen = d.open }
   const sum = document.createElement('summary')
@@ -500,6 +514,44 @@ function renderFixed() {
   return d
 }
 
+// Names exist only on the edited section's chips: every named element is
+// snapshotted. Keys are Apple IDs, or the name or url where there is no ID;
+// never indices, because lists re-sort.
+let transitionKey = null
+let currentTransition = null
+function chipTransitionName(s, entry) {
+  const id = typeof entry === 'string'
+    ? entry.toLowerCase()
+    : entry.id != null ? String(entry.id) : (entry.url ?? entry.name)
+  return CSS.escape('chip-' + s.key.replace('.', '-') + '-' + id)
+}
+function nameChip(chip) {
+  chip.style.viewTransitionName = chip.dataset.vt
+  chip.style.viewTransitionClass = 'chip'
+}
+async function withChipTransition(key, update) {
+  if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) { update(); return }
+  for (const chip of document.querySelectorAll('[data-vt]')) {
+    chip.style.viewTransitionName = ''
+    chip.style.viewTransitionClass = ''
+  }
+  for (const chip of document.querySelectorAll('[data-section="' + key + '"] [data-vt]')) nameChip(chip)
+  transitionKey = key
+  const token = {}
+  currentTransition = token
+  const transition = document.startViewTransition(update)
+  transition.finished.finally(() => {
+    // A newer transition may have renamed these chips; leave them to it.
+    if (currentTransition !== token) return
+    transitionKey = null
+    for (const chip of document.querySelectorAll('[data-section="' + key + '"] [data-vt]')) {
+      chip.style.viewTransitionName = ''
+      chip.style.viewTransitionClass = ''
+    }
+  })
+  await transition.updateCallbackDone
+}
+
 function renderAll() {
   const root = $('sections')
   root.replaceChildren()
@@ -513,13 +565,20 @@ function renderAll() {
     getList(s.key).sort((a, b) =>
       displayOf(s, a).toLowerCase().localeCompare(displayOf(s, b).toLowerCase())
     )
+    const card = document.createElement('section')
+    card.className = 'mt-4 rounded-2xl border border-border bg-surface-raised p-4'
+    card.dataset.section = s.key
+    card.id = 'section-' + s.key.replace('.', '-')
     const h = document.createElement('h2')
-    h.className = 'mt-[18px] mb-2 text-sm font-bold'
+    h.className = 'text-base font-semibold'
     h.textContent = s.label + ' '
     const small = document.createElement('small')
-    small.className = 'text-xs font-normal text-muted-foreground tabular-nums'
-    small.textContent = '· ' + getList(s.key).length + ' · ' + s.sub
+    small.className = 'text-sm font-normal text-muted-foreground tabular-nums'
+    small.textContent = getList(s.key).length
     h.appendChild(small)
+    const sub = document.createElement('p')
+    sub.className = 'mt-0.5 mb-3 text-sm text-muted-foreground'
+    sub.textContent = s.sub
     if (s.key === 'artists.followed') {
       const sort = document.createElement('button')
       sort.className = 'ml-2 min-h-6 cursor-pointer p-0 text-xs text-muted-foreground underline hover:text-foreground'
@@ -543,10 +602,12 @@ function renderAll() {
       })
     }
     const chips = document.createElement('div')
-    chips.className = 'mb-2 flex flex-wrap gap-1.5'
+    chips.className = 'mb-3 flex flex-wrap gap-1.5'
     for (const entry of entries) {
       const chip = document.createElement('span')
-      chip.className = 'inline-flex max-w-full flex-wrap items-center gap-1.5 rounded-full border border-border bg-muted px-2.5 py-[3px] text-sm'
+      chip.className = 'inline-flex max-w-full flex-wrap items-center gap-1.5 rounded-full bg-muted py-1 pr-1 pl-3 text-sm'
+      chip.dataset.vt = chipTransitionName(s, entry)
+      if (s.key === transitionKey) nameChip(chip)
       const label = document.createElement('span')
       label.className = 'min-w-0 [overflow-wrap:anywhere]'
       label.textContent = displayOf(s, entry)
@@ -576,20 +637,80 @@ function renderAll() {
       }
       const x = document.createElement('button')
       // size-6 provides a 24x24 target for the destructive control.
-      x.className = 'inline-flex size-6 shrink-0 cursor-pointer items-center justify-center -my-1 -mr-1.5 text-sm leading-none text-muted-foreground hover:text-destructive'
+      x.className = 'inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-full text-sm leading-none text-muted-foreground hover:bg-foreground/10 hover:text-destructive'
       x.textContent = '×'
       x.title = 'Remove'
       x.setAttribute('aria-label', 'Remove ' + displayOf(s, entry))
       x.onclick = () => {
-        const l = getList(s.key); l.splice(l.indexOf(entry), 1); markDirty(); renderAll()
-        $('add-' + s.key)?.focus()
+        const l = getList(s.key)
+        const i = l.indexOf(entry)
+        if (i < 0) return
+        l.splice(i, 1); markDirty()
+        withChipTransition(s.key, () => { renderAll(); $('add-' + s.key)?.focus() })
+        showUndo(s, entry)
       }
       chip.appendChild(x)
       chips.appendChild(chip)
     }
-    root.append(h, chips, makeAdder(s))
+    card.append(h, sub, chips, makeAdder(s))
+    root.append(card)
   }
   root.append(renderFixed())
+  observeSections()
+}
+
+let sectionObserver = null
+const inBand = new Set()
+let bandSection = ''
+function markSection() {
+  const sections = [...document.querySelectorAll('#sections section[id]')]
+  bandSection = sections.find((s) => inBand.has(s.id))?.id ?? bandSection
+  // The last section is too short to reach the observer band.
+  const atBottom = scrollY > 0 && innerHeight + scrollY >= document.documentElement.scrollHeight - 2
+  const id = atBottom ? sections.at(-1)?.id : bandSection
+  for (const a of document.querySelectorAll('#section-index a')) a.setAttribute('aria-current', String(a.getAttribute('href') === '#' + id))
+}
+function observeSections() {
+  sectionObserver?.disconnect()
+  inBand.clear()
+  sectionObserver = new IntersectionObserver((entries) => {
+    for (const e of entries) e.isIntersecting ? inBand.add(e.target.id) : inBand.delete(e.target.id)
+    markSection()
+  }, { rootMargin: '-80px 0px -60% 0px' })
+  for (const card of document.querySelectorAll('#sections section[id]')) sectionObserver.observe(card)
+}
+addEventListener('scroll', markSection, { passive: true })
+
+let undoTimer = 0
+function showUndo(s, entry) {
+  clearTimeout(undoTimer)
+  $('undo-toast')?.remove()
+  const toast = document.createElement('div')
+  toast.id = 'undo-toast'
+  toast.setAttribute('role', 'status')
+  toast.className = 'fixed bottom-6 left-1/2 z-30 flex w-max max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-3 rounded-full bg-foreground py-1.5 pr-1.5 pl-5 text-sm text-background shadow-md motion-safe:animate-[fade-in_200ms_ease-out]'
+  const text = document.createElement('span')
+  text.textContent = 'Removed ' + displayOf(s, entry)
+  const undo = document.createElement('button')
+  undo.className = 'min-h-9 cursor-pointer rounded-full bg-background/15 px-4 font-semibold text-background'
+  undo.textContent = 'Undo'
+  undo.onclick = () => {
+    clearTimeout(undoTimer)
+    toast.remove()
+    addTo(s.key, entry)
+    if (!document.activeElement || document.activeElement === document.body) $('add-' + s.key)?.focus()
+  }
+  const close = () => {
+    const hadFocus = toast.contains(document.activeElement)
+    toast.remove()
+    if (hadFocus) $('add-' + s.key)?.focus()
+  }
+  const wait = () => { clearTimeout(undoTimer); undoTimer = setTimeout(close, 8000) }
+  for (const type of ['pointerenter', 'focusin']) toast.addEventListener(type, () => clearTimeout(undoTimer))
+  for (const type of ['pointerleave', 'focusout']) toast.addEventListener(type, () => { if (!toast.matches(':hover, :focus-within')) wait() })
+  toast.append(text, undo)
+  document.body.appendChild(toast)
+  wait()
 }
 
 function addTo(key, item) {
@@ -606,8 +727,8 @@ function addTo(key, item) {
     return
   }
   list.push(typeof item === 'string' ? name : { ...item, name })
-  markDirty(); renderAll()
-  $('add-' + key)?.focus()
+  markDirty()
+  return withChipTransition(key, () => { renderAll(); $('add-' + key)?.focus() })
 }
 
 // Hide on focus leaving the wrapper: input blur fires before focus reaches a row.
@@ -647,7 +768,7 @@ function makeAdder(s) {
   wrap.className = 'relative flex gap-1.5'
   const input = document.createElement('input')
   input.id = 'add-' + s.key
-  input.className = 'min-w-0 flex-1 rounded-md border border-border-strong bg-transparent px-2.5 py-1.5 text-sm'
+  input.className = 'min-h-11 min-w-0 flex-1 rounded-xl border border-border-strong bg-transparent px-3 text-sm'
   input.setAttribute('aria-label', 'Add to ' + s.label)
   // Left set permanently: a description pointing at a hidden element is out of
   // the accessibility tree, so it needs no toggling alongside err.hidden.
@@ -655,7 +776,7 @@ function makeAdder(s) {
   const picker = PICKERS[s.kind]
   input.placeholder = picker.placeholder
   const results = document.createElement('div')
-  results.className = 'absolute inset-x-0 top-[34px] z-10 max-h-60 overflow-x-hidden overflow-y-auto rounded-lg border border-border bg-background shadow-md'
+  results.className = 'border bg-surface-raised shadow-lg absolute inset-x-0 top-full z-10 mt-1 max-h-60 overflow-x-hidden overflow-y-auto rounded-2xl p-1.5'
   results.hidden = true
   const err = document.createElement('p')
   err.id = 'err-' + s.key
@@ -814,12 +935,12 @@ $('log-hide').onclick = () => {
   logDismissed = true
   $('log-wrap').hidden = true
 }
-const BANNER_BASE = 'px-4 py-[9px] text-center text-sm'
+const BANNER_BASE = 'mb-3 rounded-xl px-4 py-2.5 text-sm'
 const BANNER = {
   running: 'bg-foreground text-background',
   ok: 'bg-success-surface text-success-text',
   warn: 'bg-warning-surface text-warning-text',
-  bad: 'border-y border-accent-foreground bg-accent text-accent-foreground',
+  bad: 'border border-accent-foreground bg-accent text-accent-foreground',
 }
 function setBanner(cls, text) {
   const b = $('banner')
@@ -838,6 +959,7 @@ function setBanner(cls, text) {
     b.appendChild(dot)
   }
   b.appendChild(document.createTextNode(text ?? ''))
+  if (cls === 'bad' || cls === 'warn') $('editor-dock').scrollIntoView({ block: 'nearest' })
 }
 
 async function poll() {
@@ -922,6 +1044,9 @@ function save() {
       $('save').disabled = true
       setBanner(null)
       setStatus('Saved.', false, true)
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        $('status').animate([{ opacity: 0, transform: 'scale(0.96)' }, { opacity: 1, transform: 'none' }], { duration: 350, easing: 'cubic-bezier(0.2, 0.9, 0.3, 1.25)' })
+      }
       return true
     } catch (e) {
       if (stopped) return false
@@ -1004,12 +1129,12 @@ function reloadPrefs() {
     .catch(() => {})
 }
 
-new ResizeObserver(() => {
-  if (stopped) return
-  const clearance = $('editor-dock').getBoundingClientRect().height + 24
-  document.body.style.paddingBottom = clearance + 'px'
-  document.documentElement.style.scrollPaddingBottom = clearance + 'px'
-}).observe($('editor-dock'))
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 's' || !(e.metaKey || e.ctrlKey) || e.altKey || e.shiftKey) return
+  e.preventDefault()
+  if (stopped || $('save').disabled) return
+  save().then((ok) => { if (!ok) $('editor-dock').scrollIntoView({ block: 'nearest' }) })
+})
 
 fetch('/api/prefs', { signal: AbortSignal.timeout(15_000) }).then(async (r) => {
   if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || 'HTTP ' + r.status)
