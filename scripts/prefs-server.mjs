@@ -407,7 +407,7 @@ const SECTIONS = [
   { key: 'artists.blocked', label: 'Blocked Artists', sub: 'Never shown (matched by Apple ID)', kind: 'artist' },
   { key: 'genres.followed', label: 'Followed Genres', sub: 'Discovery only surfaces these (followed artists always show)', kind: 'genre' },
   { key: 'discovery.countries', label: 'Additional Countries', sub: 'Each country\\'s Top 100, plus its purchase charts where Apple runs a store', kind: 'country' },
-  { key: 'discovery.playlists', label: 'Discovery Playlists', sub: 'Apple Music playlists scanned nightly for day-of releases', kind: 'playlist' },
+  { key: 'discovery.playlists', label: 'Discovery Playlists', sub: 'Apple Music playlists scanned daily for day-of releases', kind: 'playlist' },
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
 const displayOf = (s, e) =>
@@ -479,8 +479,8 @@ function sourceCount(tag) {
     span.textContent = '· collecting'
     const n = c?.measured ?? 0
     span.title = historyDays < THIN_DAYS
-      ? 'Needs about a week of nightly updates before this figure means anything (' + historyDays + ' nights so far)'
-      : 'Only ' + n + ' measured ' + (n === 1 ? 'night' : 'nights') + ' for this source so far'
+      ? 'Needs about a week of daily updates before this figure means anything (' + historyDays + ' days so far)'
+      : 'Only ' + n + ' measured ' + (n === 1 ? 'day' : 'days') + ' for this source so far'
     return span
   }
   const shared = c.surfaced - c.unique

@@ -26,3 +26,17 @@ test('incomplete staging retains old HTML/assets; successful replacement preserv
   assert.equal(existsSync(join(dest, 'assets/old.js')), false)
   assert.equal(readFileSync(join(dest, 'data/releases.json'), 'utf8'), 'keep data')
 })
+
+test('link preview meta points at an absolute, published image of the declared size', () => {
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8')
+  const meta = (key) => html.match(new RegExp(`<meta (?:property|name)="${key}" content="([^"]*)"`))?.[1]
+  const site = 'https://georgeryang.github.io/new-music-radar/'
+  assert.equal(meta('og:url'), site)
+  const image = meta('og:image')
+  assert.ok(image?.startsWith(site + 'assets/'), image)
+  const png = readFileSync(new URL('../public/' + image.slice(site.length), import.meta.url))
+  assert.equal(png.readUInt32BE(16), Number(meta('og:image:width')))
+  assert.equal(png.readUInt32BE(20), Number(meta('og:image:height')))
+  assert.equal(meta('og:description'), meta('description'))
+  assert.ok(meta('description').length <= 80, meta('description'))
+})

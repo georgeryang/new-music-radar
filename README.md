@@ -2,7 +2,7 @@
 
 A personal website that shows new songs and albums from artists, genres, and
 countries you care about (K-Pop, Latin, Thailand's Top 100, and more),
-updated every evening. Tap anything to open it in Apple Music.
+updated daily. Tap anything to open it in Apple Music.
 
 **The Site:** https://georgeryang.github.io/new-music-radar/
 (works on any phone, tablet, or computer). On an iPhone, use Share › Add to
@@ -24,7 +24,7 @@ icons mean:
   the credited name can be one you never added.
 - The genre tag is Apple's verbatim genre name for the release.
 - **Upcoming** holds followed pre-orders, moving to the grid on release
-  evening.
+  day.
 
 Followed artists show first, then everyone else alphabetically. Followed
 releases stay for a few days; chart and playlist finds keep 1. Cards come
@@ -57,7 +57,7 @@ months, red past 3 years). Nothing is removed automatically.
 
 ## Setting Up on a New Computer
 
-This is only for the computer that runs the nightly update; the site itself
+This is only for the computer that runs the daily update; the site itself
 works from any device.
 
 1. Install `node`, `git`, and `gh`.
@@ -181,7 +181,7 @@ other request to the editor is refused unless it comes from your machine.
   for its commands. Reload any open preferences editor after it changes the
   lists, because an editor save replaces both lists with what the tab loaded.
 - **Reliability:** any source failing exits non-zero but still publishes
-  partial results; an empty result never overwrites good data. The nightly
+  partial results; an empty result never overwrites good data. The daily
   push also verifies its Pages deploy and retries once if it flaked.
 
 ## Checking Changes

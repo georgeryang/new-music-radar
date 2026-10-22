@@ -405,7 +405,7 @@ test('built site explains an empty update', async (t) => {
   const page = await sitePage(t, (route) => json(route, feed))
   await page.goto('http://127.0.0.1:4747/new-music-radar/')
   await page.getByText('No New Releases Right Now', { exact: true }).waitFor()
-  await page.getByText('Updates every evening.', { exact: true }).waitFor()
+  await page.getByText('Updates daily.', { exact: true }).waitFor()
 })
 
 test('built site offers Try again when the feed fails to load', async (t) => {

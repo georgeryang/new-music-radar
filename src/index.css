@@ -46,9 +46,9 @@
 @keyframes fade-in {
   from { opacity: 0; }
 }
-@keyframes sheen {
-  0% { transform: translateX(-120%); }
-  30%, 100% { transform: translateX(120%); }
+@keyframes glint {
+  0%, 70% { translate: -150%; }
+  85%, 100% { translate: 150%; }
 }
 @keyframes radar-spin {
   to { transform: rotate(1turn); }

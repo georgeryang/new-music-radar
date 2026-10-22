@@ -316,7 +316,7 @@ export default function App() {
             <RadarState mode="offline" title="You’re Offline" body="Connect once to load releases. After that, the latest update stays on this device." onRetry={() => { setFailure(null); load(false) }} live />
           )}
           {!data && failure === 'error' && (
-            <RadarState title="Couldn’t Load Releases" body="The nightly update may still be running. Try again in a few minutes." onRetry={() => { setFailure(null); load(false) }} live />
+            <RadarState title="Couldn’t Load Releases" body="The daily update may still be running. Try again in a few minutes." onRetry={() => { setFailure(null); load(false) }} live />
           )}
           {data && showFilter && (
             <div role="group" aria-label="Show" className="mb-4 flex flex-wrap gap-1.5">
@@ -358,7 +358,7 @@ export default function App() {
             ) : rejected > 0 ? (
               <RadarState title="Nothing to Show Yet" body="No releases can be displayed from this update. Try reloading after the next update." live />
             ) : (
-              <RadarState title="No New Releases Right Now" body="Updates every evening." live />
+              <RadarState title="No New Releases Right Now" body="Updates daily." live />
             ))}
         </main>
       </div>

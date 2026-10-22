@@ -25,7 +25,7 @@ README and UI copy use plain US English, without em dashes or buzzwords. Titles,
 - One `<nav>` switches layouts by CSS alone at one width-only breakpoint: `nav-bar` (floating bottom bar) under 40rem and `nav-side` (sidebar) at 40rem and up, custom variants in `src/index.css` mirrored by `src/lib/nav.ts` for `aria-orientation` and by the card image `sizes`. Grid columns follow container queries, not the viewport. `tests/editor.spec.mjs` checks each layout and the boundary.
 - `floating` is an `@utility`, never an unlayered rule, so `bg-*` utilities on the same element still win.
 - Tab switches use `startViewTransition` with `flushSync`. Name only small elements (`nav-pill`); a named full-width layer paints over the fixed nav during the transition.
-- `src/assets` icons and the editor's inline favicon come from one drawing; change them together.
+- `src/assets` icons, the editor's inline favicon, and `public/assets/og-image.png` (`npm run og-image`) come from one drawing; change them together.
 
 ## Preferences Editor
 
