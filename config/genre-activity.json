@@ -1,26 +1,26 @@
 {
   "Alternative": {
-    "dropped": 45,
-    "today": 6,
-    "last_seen": "2026-10-22",
+    "dropped": 55,
+    "today": 10,
+    "last_seen": "2026-10-23",
     "example": "syrup16g — Canon Feel"
   },
   "Rock": {
-    "dropped": 38,
-    "today": 7,
-    "last_seen": "2026-10-22",
-    "example": "GLAY — 旅する理由を待ちながら"
+    "dropped": 44,
+    "today": 6,
+    "last_seen": "2026-10-23",
+    "example": "Beto Cuevas — ¡Respira!"
   },
   "Anime": {
-    "dropped": 24,
-    "today": 7,
-    "last_seen": "2026-10-22",
+    "dropped": 30,
+    "today": 6,
+    "last_seen": "2026-10-23",
     "example": "Ave Mujica — 神の名を"
   },
   "Música Mexicana": {
-    "dropped": 22,
-    "today": 1,
-    "last_seen": "2026-10-22",
+    "dropped": 29,
+    "today": 7,
+    "last_seen": "2026-10-23",
     "example": "Jessi Uribe & Franko — Aquellos Clásicos"
   },
   "Afro-Pop": {
@@ -29,17 +29,11 @@
     "last_seen": "2026-10-21",
     "example": "Evelyndidit — Let Them Talk"
   },
-  "House": {
+  "Soundtrack": {
     "dropped": 11,
-    "today": 2,
-    "last_seen": "2026-10-19",
-    "example": "KETTAMA & Prospa — Think of You"
-  },
-  "Country": {
-    "dropped": 9,
-    "today": 3,
-    "last_seen": "2026-10-19",
-    "example": "Zach Bryan — Young Manhood and Other Donatable Organs"
+    "today": 7,
+    "last_seen": "2026-10-23",
+    "example": "Various Artists — Cyberpunk: Edgerunners 2 (Original Series Soundtrack)"
   },
   "Amapiano": {
     "dropped": 7,
@@ -53,6 +47,12 @@
     "last_seen": "2026-10-19",
     "example": "Daniela Spalla & Los Ángeles Azules — Lejos de la Ciudad"
   },
+  "Christian": {
+    "dropped": 7,
+    "today": 5,
+    "last_seen": "2026-10-23",
+    "example": "Saúl Pina — Corazón Como El Tuyo"
+  },
   "Electronic": {
     "dropped": 6,
     "today": 2,
@@ -65,23 +65,23 @@
     "last_seen": "2026-10-19",
     "example": "Drop - G & Binnay — Turn Me On (Drop G x Binnay Version)"
   },
+  "Holiday": {
+    "dropped": 5,
+    "today": 5,
+    "last_seen": "2026-10-23",
+    "example": "Victor Manuelle & Elvis Crespo — La Gozadera en Navidad"
+  },
+  "Country": {
+    "dropped": 4,
+    "today": 4,
+    "last_seen": "2026-10-23",
+    "example": "Dylan Gossett — Apple Music Sessions"
+  },
   "Jazz": {
     "dropped": 4,
     "today": 2,
     "last_seen": "2026-10-02",
     "example": "Chihiro Yamanaka — Happy-Go-Lucky"
-  },
-  "Reggae": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-10-18",
-    "example": "WiLLaX — GIANT KLLING"
-  },
-  "Soundtrack": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-10-22",
-    "example": "Various Artists — Cyberpunk: Edgerunners 2 (Original Series Soundtrack)"
   },
   "Kayokyoku": {
     "dropped": 3,
@@ -101,12 +101,6 @@
     "last_seen": "2026-10-18",
     "example": "Unexist, Art of Fighters, Catscan & Starving Insect — Thunderdome 2026: Order vs. Chaos (Extended Mix)"
   },
-  "Holiday": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-10-19",
-    "example": "Cynthia Erivo — Christmas With Cynthia Erivo"
-  },
   "Ambient": {
     "dropped": 3,
     "today": 1,
@@ -121,9 +115,9 @@
   },
   "Hip-Hop": {
     "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-10-19",
-    "example": "Tierra Whack — WHACK'S MUSEUM (DELUXE)"
+    "today": 3,
+    "last_seen": "2026-10-23",
+    "example": "Yung Miami — Watch Dis!"
   },
   "Classical Crossover": {
     "dropped": 3,
@@ -143,35 +137,29 @@
     "last_seen": "2026-10-19",
     "example": "Silvana Estrada — Vendrán Suaves Lluvias (y el tiempo prudente)"
   },
-  "Afro-Beat": {
+  "Metal": {
     "dropped": 3,
     "today": 1,
-    "last_seen": "2026-10-20",
-    "example": "DeepBlend — Un anno d’amore"
+    "last_seen": "2026-10-23",
+    "example": "Tony Iommi & Jorn — From the Dark"
   },
-  "Metal": {
+  "Indie Pop": {
+    "dropped": 3,
+    "today": 3,
+    "last_seen": "2026-10-23",
+    "example": "Sān-Z & HOYO-MiX — 1% Battery Girl"
+  },
+  "House": {
     "dropped": 2,
     "today": 2,
-    "last_seen": "2026-10-22",
-    "example": "Metalera Dolls — Stuck in the sky tonight"
-  },
-  "Instrumental": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-23",
-    "example": "Healing music Recommended healing BGM — Melodies That Relieve Fatigue Even With Short Sleep; Soothe Your Tired Brain and Body; Stress Relief With Deep Sleep Background Music."
+    "last_seen": "2026-10-23",
+    "example": "Various Artists — Funky House Motion 2026"
   },
   "Vocal Pop": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-09-26",
     "example": "曲俐颖 — I Have A Friend"
-  },
-  "Indie Pop": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "Paige Su — The Best of the Worst of Times"
   },
   "Hard Rock": {
     "dropped": 2,
@@ -196,12 +184,6 @@
     "today": 1,
     "last_seen": "2026-10-05",
     "example": "Sydnie Christmas — The Artist"
-  },
-  "Alternative Folk": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-10-05",
-    "example": "Trixie Mattel — 'Till Death Do Us Part"
   },
   "Video Game": {
     "dropped": 2,
@@ -241,15 +223,33 @@
   },
   "Tai-Pop": {
     "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-10-18",
-    "example": "Xiao Bing Chih — 我愛你一句話 (feat. 洋蔥)"
+    "today": 2,
+    "last_seen": "2026-10-23",
+    "example": "Ting Pei-Chun — 彩色人生"
   },
-  "Christian": {
-    "dropped": 2,
+  "Reggae": {
+    "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-22",
-    "example": "Saúl Pina — Gracias Por Un Día Más"
+    "last_seen": "2026-10-23",
+    "example": "R. City & Ayra Starr — Pray"
+  },
+  "Afro-Beat": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-23",
+    "example": "Vensur — Nou la (1804)"
+  },
+  "Instrumental": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-23",
+    "example": "Toro y Moi — Proof"
+  },
+  "Alternative Folk": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-23",
+    "example": "Helena Deland — Tip of My Tongue"
   },
   "Pop/Rock": {
     "dropped": 1,
@@ -266,8 +266,8 @@
   "Folk": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-17",
-    "example": "MORGXN & The Fisk Jubilee Singers — MIRACLE"
+    "last_seen": "2026-10-23",
+    "example": "Bebe Stockwell — Bad at Goodbyes"
   },
   "Afro Soul": {
     "dropped": 1,
@@ -278,7 +278,7 @@
   "Rap": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-21",
+    "last_seen": "2026-10-23",
     "example": "Bally Baby — The Last Sipper"
   },
   "Techno": {
@@ -296,8 +296,8 @@
   "Indie Rock": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-17",
-    "example": "OHAN — 日出代表我的心"
+    "last_seen": "2026-10-23",
+    "example": "CURBZ — Zhuggah"
   },
   "Soul": {
     "dropped": 1,
@@ -412,5 +412,29 @@
     "today": 1,
     "last_seen": "2026-10-19",
     "example": "Matt Carmichael — Held in the Dark (feat. Fergus McCreadie, Ali Watson & Chris Amer)"
+  },
+  "Bossa Nova": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-23",
+    "example": "Micro — Bossa Do Sol"
+  },
+  "Garage": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-23",
+    "example": "Allen — 幻影协议"
+  },
+  "Alternative Rap": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-23",
+    "example": "Deki Alem — Pretty Toes"
+  },
+  "Punk": {
+    "dropped": 1,
+    "today": 1,
+    "last_seen": "2026-10-23",
+    "example": "Circle Jerks — Revenge"
   }
 }
