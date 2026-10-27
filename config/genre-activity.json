@@ -1,15 +1,15 @@
 {
+  "Música Mexicana": {
+    "dropped": 10,
+    "today": 2,
+    "last_seen": "2026-10-27",
+    "example": "Xavi — Nadie Te Extraña"
+  },
   "Alternative": {
     "dropped": 9,
     "today": 9,
     "last_seen": "2026-10-26",
     "example": "Michael Kiwanuka — FUDGE"
-  },
-  "Música Mexicana": {
-    "dropped": 8,
-    "today": 8,
-    "last_seen": "2026-10-26",
-    "example": "La Alianza Norteña — dos, tres"
   },
   "Música tropical": {
     "dropped": 7,
@@ -17,29 +17,23 @@
     "last_seen": "2026-10-19",
     "example": "Daniela Spalla & Los Ángeles Azules — Lejos de la Ciudad"
   },
+  "Anime": {
+    "dropped": 6,
+    "today": 2,
+    "last_seen": "2026-10-27",
+    "example": "Ghostella — Firstella"
+  },
   "Afro House": {
     "dropped": 5,
     "today": 1,
     "last_seen": "2026-10-19",
     "example": "Drop - G & Binnay — Turn Me On (Drop G x Binnay Version)"
   },
-  "Anime": {
-    "dropped": 4,
-    "today": 4,
-    "last_seen": "2026-10-26",
-    "example": "Ghostella — Firstella"
-  },
   "Holiday": {
     "dropped": 4,
     "today": 4,
     "last_seen": "2026-10-26",
     "example": "Victor Manuelle — La Parranda Es Nuestra"
-  },
-  "Jazz": {
-    "dropped": 4,
-    "today": 2,
-    "last_seen": "2026-10-02",
-    "example": "Chihiro Yamanaka — Happy-Go-Lucky"
   },
   "Hip-Hop": {
     "dropped": 4,
@@ -107,17 +101,17 @@
     "last_seen": "2026-10-19",
     "example": "Silvana Estrada — Vendrán Suaves Lluvias (y el tiempo prudente)"
   },
+  "House": {
+    "dropped": 3,
+    "today": 1,
+    "last_seen": "2026-10-27",
+    "example": "Dj Faculty Lounge — This Is Love"
+  },
   "Soundtrack": {
     "dropped": 2,
     "today": 2,
     "last_seen": "2026-10-26",
     "example": "Various Artists — Nobody Wants This: Season 3 (Soundtrack from the Netflix Series)"
-  },
-  "House": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-26",
-    "example": "Two Soul Fusion & Ascension — Shout! (Two Soul Fusion Presents) [feat. Dames Brown & Dawn Tallman]"
   },
   "Hard Rock": {
     "dropped": 2,
@@ -180,16 +174,40 @@
     "example": "Janees Wong Lok Yin — Black Velvet Tide (台慶劇《璀璨之城》片尾曲)"
   },
   "Rock": {
-    "dropped": 1,
+    "dropped": 2,
     "today": 1,
-    "last_seen": "2026-10-26",
-    "example": "DØKAYUGI — Aki No DØKAYUGI"
+    "last_seen": "2026-10-27",
+    "example": "Rockon Social Club — Furyou (Cover)"
   },
   "Afro-Pop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-27",
+    "example": "DJ Goja, Jason Derulo, Melody & Josh Fawaz — Mi Chico (Josh Fawaz Remix)"
+  },
+  "Electronic": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-27",
+    "example": "Cindy — Trick or treat"
+  },
+  "Indie Pop": {
+    "dropped": 2,
+    "today": 1,
+    "last_seen": "2026-10-27",
+    "example": "Anni Hung — 蘋果"
+  },
+  "Afro-Beat": {
+    "dropped": 2,
+    "today": 2,
+    "last_seen": "2026-10-27",
+    "example": "Elvia Recordings — Ritmos de Abundancia, Vol. 1"
+  },
+  "Jazz": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-26",
-    "example": "DJ Goja, Jason Derulo, Melody & Josh Fawaz — Mi Chico (Josh Fawaz Remix)"
+    "last_seen": "2026-10-27",
+    "example": "Junichi Kanemaru — CORNERSTONE～Ruby Jubilee Edition～"
   },
   "Amapiano": {
     "dropped": 1,
@@ -197,23 +215,11 @@
     "last_seen": "2026-10-26",
     "example": "Levandal — Bare Ke Levandal"
   },
-  "Electronic": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-26",
-    "example": "Cindy — Trick or treat"
-  },
   "Metal": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-10-26",
     "example": "Tony Iommi & Jorn — From the Dark"
-  },
-  "Indie Pop": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-26",
-    "example": "Anni Hung — 蘋果"
   },
   "Tai-Pop": {
     "dropped": 1,
@@ -226,12 +232,6 @@
     "today": 1,
     "last_seen": "2026-10-26",
     "example": "R. City & Ayra Starr — Pray"
-  },
-  "Afro-Beat": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-23",
-    "example": "Vensur — Nou la (1804)"
   },
   "Instrumental": {
     "dropped": 1,
@@ -316,12 +316,6 @@
     "today": 1,
     "last_seen": "2026-10-02",
     "example": "Sean Paul & Sommer Ray — DIP"
-  },
-  "Downtempo": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-27",
-    "example": "Enli — Angel Eyes"
   },
   "Rock y Alternativo": {
     "dropped": 1,
