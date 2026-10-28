@@ -5,11 +5,11 @@
     "last_seen": "2026-10-27",
     "example": "Xavi — Nadie Te Extraña"
   },
-  "Alternative": {
+  "Anime": {
     "dropped": 9,
-    "today": 9,
-    "last_seen": "2026-10-26",
-    "example": "Michael Kiwanuka — FUDGE"
+    "today": 3,
+    "last_seen": "2026-10-28",
+    "example": "Ghostella — Firstella"
   },
   "Música tropical": {
     "dropped": 7,
@@ -17,11 +17,11 @@
     "last_seen": "2026-10-19",
     "example": "Daniela Spalla & Los Ángeles Azules — Lejos de la Ciudad"
   },
-  "Anime": {
+  "Rock": {
     "dropped": 6,
-    "today": 2,
-    "last_seen": "2026-10-27",
-    "example": "Ghostella — Firstella"
+    "today": 4,
+    "last_seen": "2026-10-28",
+    "example": "Passcode — RE:CODE"
   },
   "Afro House": {
     "dropped": 5,
@@ -40,6 +40,18 @@
     "today": 4,
     "last_seen": "2026-10-26",
     "example": "Yeat & Lyfestyle Corporation — Luh Leakyz Vol. 1"
+  },
+  "House": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-10-28",
+    "example": "Dj Faculty Lounge — This Is Love"
+  },
+  "Afro-Beat": {
+    "dropped": 4,
+    "today": 2,
+    "last_seen": "2026-10-28",
+    "example": "Elvia Recordings — Ritmos de Abundancia, Vol. 1"
   },
   "Christian": {
     "dropped": 3,
@@ -101,29 +113,17 @@
     "last_seen": "2026-10-19",
     "example": "Silvana Estrada — Vendrán Suaves Lluvias (y el tiempo prudente)"
   },
-  "House": {
+  "Electronic": {
     "dropped": 3,
     "today": 1,
-    "last_seen": "2026-10-27",
-    "example": "Dj Faculty Lounge — This Is Love"
+    "last_seen": "2026-10-28",
+    "example": "Cindy — Trick or treat"
   },
-  "Soundtrack": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-26",
-    "example": "Various Artists — Nobody Wants This: Season 3 (Soundtrack from the Netflix Series)"
-  },
-  "Hard Rock": {
-    "dropped": 2,
+  "Indie Pop": {
+    "dropped": 3,
     "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "Europe — Come This Madness"
-  },
-  "Children's Music": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "Ms. Rachel — I'm So Happy"
+    "last_seen": "2026-10-28",
+    "example": "Anni Hung — 蘋果"
   },
   "Classical": {
     "dropped": 2,
@@ -173,35 +173,23 @@
     "last_seen": "2026-10-14",
     "example": "Janees Wong Lok Yin — Black Velvet Tide (台慶劇《璀璨之城》片尾曲)"
   },
-  "Rock": {
-    "dropped": 2,
-    "today": 1,
-    "last_seen": "2026-10-27",
-    "example": "Rockon Social Club — Furyou (Cover)"
-  },
   "Afro-Pop": {
     "dropped": 2,
     "today": 1,
     "last_seen": "2026-10-27",
     "example": "DJ Goja, Jason Derulo, Melody & Josh Fawaz — Mi Chico (Josh Fawaz Remix)"
   },
-  "Electronic": {
-    "dropped": 2,
+  "Alternative": {
+    "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-27",
-    "example": "Cindy — Trick or treat"
+    "last_seen": "2026-10-28",
+    "example": "Galileo Galilei — Rise of The Man"
   },
-  "Indie Pop": {
-    "dropped": 2,
+  "Soundtrack": {
+    "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-27",
-    "example": "Anni Hung — 蘋果"
-  },
-  "Afro-Beat": {
-    "dropped": 2,
-    "today": 2,
-    "last_seen": "2026-10-27",
-    "example": "Elvia Recordings — Ritmos de Abundancia, Vol. 1"
+    "last_seen": "2026-10-28",
+    "example": "Square Enix Music — FINAL FANTASY RESONANCE Original Soundtrack"
   },
   "Jazz": {
     "dropped": 1,
@@ -236,8 +224,8 @@
   "Instrumental": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-23",
-    "example": "Toro y Moi — Proof"
+    "last_seen": "2026-10-28",
+    "example": "Smooth Jazz Table Mug — Smooth Jazz Lounge Piano - Music for Work, Study & Relax"
   },
   "Alternative Folk": {
     "dropped": 1,
@@ -329,23 +317,11 @@
     "last_seen": "2026-10-17",
     "example": "Ella Thompson — Triumph & Sadness"
   },
-  "Original Score": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "Jared Michael Fry — Heart Of The Beast (Music From The Motion Picture)"
-  },
   "Raíces": {
     "dropped": 1,
     "today": 1,
     "last_seen": "2026-10-17",
     "example": "Soledad — Vale la pena"
-  },
-  "Christian Metal": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-09-28",
-    "example": "Stryper — Throne Of Thorns"
   },
   "Worldbeat": {
     "dropped": 1,
@@ -410,8 +386,8 @@
   "Punk": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-26",
-    "example": "Spike and the Gimme Gimmes & Me First and The Gimme Gimmes — Shit the Bed"
+    "last_seen": "2026-10-28",
+    "example": "Boobie Trap — Everlasting Promise"
   },
   "TV Soundtrack": {
     "dropped": 1,
