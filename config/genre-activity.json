@@ -1,15 +1,21 @@
 {
+  "Anime": {
+    "dropped": 12,
+    "today": 3,
+    "last_seen": "2026-10-29",
+    "example": "Umamusume: Pretty Derby — 繚乱縁舞"
+  },
   "Música Mexicana": {
     "dropped": 10,
     "today": 2,
     "last_seen": "2026-10-27",
     "example": "Xavi — Nadie Te Extraña"
   },
-  "Anime": {
-    "dropped": 9,
-    "today": 3,
-    "last_seen": "2026-10-28",
-    "example": "Ghostella — Firstella"
+  "Rock": {
+    "dropped": 10,
+    "today": 4,
+    "last_seen": "2026-10-29",
+    "example": "Band Maid — SPIN"
   },
   "Música tropical": {
     "dropped": 7,
@@ -17,17 +23,17 @@
     "last_seen": "2026-10-19",
     "example": "Daniela Spalla & Los Ángeles Azules — Lejos de la Ciudad"
   },
-  "Rock": {
-    "dropped": 6,
-    "today": 4,
-    "last_seen": "2026-10-28",
-    "example": "Passcode — RE:CODE"
-  },
   "Afro House": {
     "dropped": 5,
     "today": 1,
     "last_seen": "2026-10-19",
     "example": "Drop - G & Binnay — Turn Me On (Drop G x Binnay Version)"
+  },
+  "House": {
+    "dropped": 5,
+    "today": 1,
+    "last_seen": "2026-10-29",
+    "example": "Shingo Nakamura — Ohanami I (Mixed) [DJ Mix]"
   },
   "Holiday": {
     "dropped": 4,
@@ -41,23 +47,29 @@
     "last_seen": "2026-10-26",
     "example": "Yeat & Lyfestyle Corporation — Luh Leakyz Vol. 1"
   },
-  "House": {
-    "dropped": 4,
-    "today": 1,
-    "last_seen": "2026-10-28",
-    "example": "Dj Faculty Lounge — This Is Love"
-  },
   "Afro-Beat": {
     "dropped": 4,
     "today": 2,
     "last_seen": "2026-10-28",
     "example": "Elvia Recordings — Ritmos de Abundancia, Vol. 1"
   },
-  "Christian": {
-    "dropped": 3,
+  "Indie Pop": {
+    "dropped": 4,
+    "today": 1,
+    "last_seen": "2026-10-29",
+    "example": "Anni Hung — 蘋果"
+  },
+  "Alternative": {
+    "dropped": 4,
     "today": 3,
-    "last_seen": "2026-10-26",
-    "example": "Josiah Queen — Damascus Road"
+    "last_seen": "2026-10-29",
+    "example": "Galileo Galilei — Rise of The Man"
+  },
+  "Soundtrack": {
+    "dropped": 4,
+    "today": 3,
+    "last_seen": "2026-10-29",
+    "example": "Square Enix Music — FINAL FANTASY RESONANCE Original Soundtrack"
   },
   "Country": {
     "dropped": 3,
@@ -119,12 +131,6 @@
     "last_seen": "2026-10-28",
     "example": "Cindy — Trick or treat"
   },
-  "Indie Pop": {
-    "dropped": 3,
-    "today": 1,
-    "last_seen": "2026-10-28",
-    "example": "Anni Hung — 蘋果"
-  },
   "Classical": {
     "dropped": 2,
     "today": 1,
@@ -179,17 +185,17 @@
     "last_seen": "2026-10-27",
     "example": "DJ Goja, Jason Derulo, Melody & Josh Fawaz — Mi Chico (Josh Fawaz Remix)"
   },
-  "Alternative": {
-    "dropped": 1,
+  "Punk": {
+    "dropped": 2,
     "today": 1,
-    "last_seen": "2026-10-28",
-    "example": "Galileo Galilei — Rise of The Man"
+    "last_seen": "2026-10-29",
+    "example": "Boobie Trap — Everlasting Promise"
   },
-  "Soundtrack": {
+  "Christian": {
     "dropped": 1,
     "today": 1,
-    "last_seen": "2026-10-28",
-    "example": "Square Enix Music — FINAL FANTASY RESONANCE Original Soundtrack"
+    "last_seen": "2026-10-29",
+    "example": "Su Presencia — ASOMBROSO"
   },
   "Jazz": {
     "dropped": 1,
@@ -382,12 +388,6 @@
     "today": 1,
     "last_seen": "2026-10-26",
     "example": "Deki Alem — Pretty Toes"
-  },
-  "Punk": {
-    "dropped": 1,
-    "today": 1,
-    "last_seen": "2026-10-28",
-    "example": "Boobie Trap — Everlasting Promise"
   },
   "TV Soundtrack": {
     "dropped": 1,
