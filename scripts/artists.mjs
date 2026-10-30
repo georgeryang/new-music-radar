@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { BusyError, acquireRunLock, holdRunLock } from './run-lock.mjs'
 import { artistAlbumsUrl, errDetail, groupArtistLookup, itunesJSON, lookupUrl } from './apple-api.mjs'
 import { BATCH_SIZE, DATA_PATH, PREFS_PATH, writeFileAtomic } from './shared.mjs'
+import { publishPrefs, syncLocal } from './publish-prefs.mjs'
 
 const CONTRACT = 'artists: list | associations | block | follow'
 const USAGE = `${CONTRACT}
@@ -107,6 +108,7 @@ async function addTo(listKey, ids, asJSON) {
     die(`${e instanceof BusyError ? 'BUSY' : 'ERROR'}: ${e.message}`)
   }
   const added = [], skipped = []
+  let published = null
   try {
     const p = JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
     const list = p.artists[listKey]
@@ -121,8 +123,13 @@ async function addTo(listKey, ids, asJSON) {
       added.push(entry)
     }
     list.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-    if (added.length) writeFileAtomic(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
+    if (added.length) {
+      writeFileAtomic(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
+      published = await publishPrefs()
+    }
   } finally { lock.release() }
+  // stderr, so --json output stays parseable
+  if (published) console.error(published.pushed ? 'Pushed to GitHub.' : `WARNING: saved here, but not pushed: ${published.reason}`)
   const verb = listKey === 'blocked' ? 'Blocked' : 'Followed'
   if (asJSON) return console.log(JSON.stringify({ [listKey]: added, skipped }, null, 2))
   for (const e of added) console.log(`${verb}: ${e.name} (${e.id})`)
@@ -162,6 +169,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     if (opts.command === 'block' || opts.command === 'follow') await addTo(opts.command === 'block' ? 'blocked' : 'followed', opts.ids, opts.json)
     else {
       holdRunLock('audit')
+      if (opts.command === 'list' && opts.modes[0] === 'feed') {
+        const synced = await syncLocal()
+        if (!synced.synced) console.error(`NOTE: local data not refreshed (${synced.reason}); the feed may be out of date`)
+      }
       if (opts.command === 'list') {
         const rows = listArtists(opts.modes[0]).slice(opts.offset, opts.offset + opts.limit)
         if (opts.json) console.log(JSON.stringify(rows, null, 2))

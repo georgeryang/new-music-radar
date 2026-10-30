@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync, realpathSync } from 'node:fs'
 import { join } from 'node:path'
 import { once } from 'node:events'
-import { fixture, run, background } from './helpers.mjs'
+import { fixture, gitRemote, run, background } from './helpers.mjs'
 
 function git(root, ...args) {
   const r = run(root, '/usr/bin/git', args)
@@ -596,6 +596,20 @@ globalThis.fetch=async(url)=>{
     requests: () => (existsSync(join(root, 'requests.json')) ? JSON.parse(readFileSync(join(root, 'requests.json'))) : []),
   }
 }
+
+test('artists block pushes preferences with JSON intact, and list --feed reads the latest published data', (t) => {
+  const { root, artists } = artistsFixture(t)
+  const { remoteLog, other } = gitRemote(t, root)
+  const blocked = artists(['block', '30', '--json'])
+  assert.equal(blocked.status, 0, blocked.stderr)
+  assert.deepEqual(JSON.parse(blocked.stdout).blocked, [{ name: 'Singer', id: 30 }])
+  assert.match(blocked.stderr, /Pushed to GitHub/)
+  assert.equal(remoteLog().split('\n')[0], 'Update preferences')
+  other('Update data', 'docs/data/releases.json', JSON.stringify({ releases: [{ title: 'T', artist: 'Fresh Face', artist_id: 90, followed: false }] }))
+  const feed = artists(['list', '--feed', '--json'])
+  assert.equal(feed.status, 0, feed.stderr)
+  assert.deepEqual(JSON.parse(feed.stdout), [{ id: 90, name: 'Fresh Face' }])
+})
 
 test('artists list returns each mode in file order, slices, and never writes preferences', (t) => {
   const { artists, prefs, requests } = artistsFixture(t)

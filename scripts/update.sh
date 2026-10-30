@@ -16,23 +16,15 @@ if ! "$NODE" scripts/run-lock.mjs --owns-refresh; then
   exec "$NODE" scripts/run-lock.mjs refresh bash "$0" "$@"
 fi
 
-# --if-stale (from launchd): one fetch per day, anchored to 18:15 KST (Korean
-# evening release time). Stale = last fetch predates the most recent 18:15 KST.
-# KST is UTC+9 no-DST, so this is pure UTC arithmetic, timezone-independent.
-# launchd ticks every 10 min while awake, so the fetch lands in the 18:15–18:30
+# --if-stale (from launchd): one fetch per day, anchored to 18:15 KST (see
+# is-stale.mjs). launchd ticks every 10 min while awake, so the fetch lands in the 18:15–18:30
 # window (or at first wake after).
 if [ "${1:-}" = "--if-stale" ]; then
-  STALE="$("$NODE" --input-type=module -e '
-    import { readFileSync } from "node:fs";
-    import { DATA_PATH } from "./scripts/shared.mjs";
-    const KST = 9 * 3600e3, DAY = 86400e3, SLOT = (18 * 60 + 15) * 60e3;
-    const kstNow = Date.now() + KST;
-    let slot = Math.floor(kstNow / DAY) * DAY + SLOT;
-    if (slot > kstNow) slot -= DAY;
-    let fetchedAt = 0;
-    try { fetchedAt = JSON.parse(readFileSync(DATA_PATH, "utf8")).fetched_at } catch {}
-    process.stdout.write(!Number.isFinite(fetchedAt) || fetchedAt <= 0 || fetchedAt > Date.now() || fetchedAt < slot - KST ? "1" : "0");
-  ' 2>&1)"
+  # One writer: the scheduled path stands down once Cloud Refresh owns the job.
+  if "$NODE" --input-type=module -e 'const m = await import("./scripts/cloud-config.mjs"); process.exit(m.CLOUD_REFRESH ? 0 : 1)' 2>/dev/null; then
+    exit 0
+  fi
+  STALE="$("$NODE" scripts/is-stale.mjs 2>&1)"
   if [ "$STALE" != "0" ] && [ "$STALE" != "1" ]; then
     # Fail open (a missed night costs more than an extra fetch), but name the real
     # cause: the "predates the slot" line below would otherwise repeat every tick
@@ -62,50 +54,7 @@ if [ -f "$LOG_FILE" ] && [ "$(stat -f %z "$LOG_FILE" 2>/dev/null || echo 0)" -gt
   log "log capped to last 256KB"
 fi
 
-# GitHub's Pages deploy flakes transiently. The nightly push is the only one
-# of the day, so a single flake leaves the site stale for 24h — verify this
-# commit's deploy and rebuild it once if it failed.
-verify_deploy() {
-  command -v gh >/dev/null 2>&1 || { log "gh not found — skipping deploy check"; return 0; }
-  SHA="$(git rev-parse HEAD)"
-  RUN_ID=""
-  for _ in $(seq 1 20); do  # up to 5 min for the run to appear and finish
-    RUN_ID="$(gh run list --workflow pages-build-deployment --commit "$SHA" \
-      --json databaseId,status --jq '.[0] | select(.status == "completed") | .databaseId' 2>/dev/null)"
-    [ -n "$RUN_ID" ] && break
-    sleep 15
-  done
-  if [ -z "$RUN_ID" ]; then
-    log "WARNING: Pages deploy not finished after 5 min — leaving it alone"
-    return 0
-  fi
-  CONCLUSION="$(gh run view "$RUN_ID" --json conclusion --jq .conclusion 2>/dev/null)"
-  case "$CONCLUSION" in
-    success)   log "Pages deploy verified"; return 0 ;;
-    cancelled) log "Pages deploy cancelled (superseded by a newer push) — skipping retry"; return 0 ;;
-  esac
-  # Not `gh run rerun --failed`: rerunning the managed Pages workflow wedges
-  # (sits "queued" forever while reporting completed, observed 2026-07-04). The
-  # Pages build API is the supported retrigger, as a follow-up push uses.
-  # builds/latest can still be the OLD failed build right after the POST, so
-  # remember its url (the per-build handle; no id field) and skip polls that
-  # return it, or the first poll reads the stale "errored" and gives up early.
-  PREV_BUILD="$(gh api 'repos/{owner}/{repo}/pages/builds/latest' --jq .url 2>/dev/null)"
-  log "Pages deploy $CONCLUSION — requesting a fresh build (run $RUN_ID)"
-  gh api -X POST 'repos/{owner}/{repo}/pages/builds' >/dev/null 2>&1 \
-    || { log "WARNING: could not request a rebuild"; return 0; }
-  STATUS=""
-  for _ in $(seq 1 20); do
-    sleep 15
-    read -r STATUS BUILD_URL <<<"$(gh api 'repos/{owner}/{repo}/pages/builds/latest' --jq '[.status,.url] | @tsv' 2>/dev/null)"
-    if [ -z "$BUILD_URL" ] || [ "$BUILD_URL" = "$PREV_BUILD" ]; then continue; fi
-    case "$STATUS" in
-      built) log "Pages deploy verified after rebuild"; return 0 ;;
-      errored) break ;;
-    esac
-  done
-  log "WARNING: Pages rebuild ended '$STATUS' — site stays stale until tomorrow's run"
-}
+. "$REPO_DIR/scripts/verify-deploy.sh"
 
 "$NODE" scripts/run-lock.mjs --reset-log-start || { log "ERROR: refresh ownership lost"; exit 1; }
 log "Fetching new releases..."

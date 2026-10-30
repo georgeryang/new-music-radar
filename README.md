@@ -47,8 +47,11 @@ Double-click `prefs.command` to open the editor in your browser.
 - **Discovery Playlists:** paste a music.apple.com playlist address to scan it.
 - **Filters:** hide instrumental, sped-up and slowed versions, including from
   followed artists. On by default.
-- **Save** applies at tonight's update; **Save & refresh** runs now and
-  publishes to the public site (about two minutes). Green means it finished
+- **Save** pushes your changes to GitHub, and they apply at the next update;
+  if it can't push (for example, unpushed code commits are waiting), it says
+  "Saved here, but not pushed" and why. **Save & refresh** also runs the update
+  now and publishes to the public site (about two minutes on the Mac, five with
+  Cloud Refresh). Green means it finished
   cleanly, new releases or not; amber means it finished with something to
   look at (a source failed, the deploy did not confirm, or held-back local
   commits stopped the publish); red means nothing published.
@@ -111,6 +114,39 @@ sudo rm -rf /Library/LaunchDaemons/com.georgeryang.new-music-radar.wake.plist "/
 Wakes already scheduled for the next few days still happen; `pmset -g sched`
 lists them.
 
+## Cloud Refresh
+
+A Google Cloud Run job can run the daily update instead of the Mac, so the
+site refreshes even when the Mac is asleep or off. It runs the same fetch from
+a fresh clone of `main`, pushes the same "Update data" commit, and checks the
+Pages deploy. Cloud Scheduler starts it at 6:20 PM Korea time, with a backup
+run two hours later that does nothing if the first one published. It fits in
+Google Cloud's free tier; a $1 budget alert guards against surprises.
+
+The job lives in `cloud/` (`Dockerfile`, `entry.sh`) and runs
+`scripts/cloud-refresh.sh`. `scripts/cloud-config.mjs` names the project and
+holds `CLOUD_REFRESH`: while it is `false`, the Mac stays the writer and the
+editor's **Save & refresh** runs `update.sh` here. Only one of them may write.
+
+- **Run It Now:** `gcloud run jobs execute radar-refresh --region us-central1 --args=--force`
+  (or **Save & refresh** in the editor once `CLOUD_REFRESH` is `true`).
+- **Logs:** the Cloud Run console, under the job's executions, or
+  `gcloud logging read 'resource.type="cloud_run_job"' --limit 50`.
+- **Editor on a Mac:** run `gh auth login` (Save pushes preferences) and
+  `gcloud auth login` (Save & refresh starts the job).
+
+**Switching to the cloud:** comment out the watchdog's crontab line, run
+`launchctl bootout gui/$(id -u)/com.georgeryang.new-music-radar`, push a
+commit that sets `CLOUD_REFRESH = true`, then resume the Scheduler jobs. Leave
+the wake LaunchDaemon installed: the worklog relies on its daily wake.
+
+**Switching back to the Mac:** pause both Scheduler jobs, revert the
+`CLOUD_REFRESH` commit, run
+`launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist`,
+and uncomment the watchdog line. If the agent plist or `launchd/watchdog.sh`
+were deleted, restore them from git history first. `gcloud projects delete`
+removes everything billable; revoke the job's GitHub token in GitHub settings.
+
 ## If Something Looks Wrong
 
 - **Site Looks Out of Date?** The updating Mac was probably asleep or offline;
@@ -138,7 +174,8 @@ other request to the editor is refused unless it comes from your machine.
 ## For Developers
 
 - **Data Flow:** `config/preferences.json` -> `scripts/fetch-releases.mjs` ->
-  `docs/data/releases.json` -> pushed by `scripts/update.sh` -> GitHub Pages
+  `docs/data/releases.json` -> pushed by `scripts/update.sh` on the Mac, or
+  `scripts/cloud-refresh.sh` in Cloud Run -> GitHub Pages
   serves `docs/`. Every discovery card records which source
   found it, and the editor lists all the sources, the fixed ones included, with
   what each has returned over 30 days.

@@ -6,4 +6,5 @@ node_modules
 *.tmp
 
 .radar-run.lock*
+.radar-cloud-run.json
 .radar-build-*
