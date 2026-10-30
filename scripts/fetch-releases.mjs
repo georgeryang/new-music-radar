@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
 import { mkdirSync, readFileSync } from 'node:fs'
-import { STOREFRONTS, US_STOREFRONT, purchaseFeedsOf } from './storefronts.mjs'
+import { STOREFRONTS, purchaseFeedsOf } from './storefronts.mjs'
 import { cardKeyOf, keyOf, releaseOrder, upcomingOrder } from './card-key.mjs'
 import {
   US_CHART_URL, albumIdFromTrackUrl, artistAlbumsUrl, asList, countryMostPlayedUrl,
   countryPurchaseUrl, errDetail, genreFeedUrl, getJSON, groupArtistLookup, itunesJSON,
   lookupUrl, marketingToolsJSON, normId, rssAlbumId, scrapePlaylistAlbumIds, sleep, throttleCount, usLink,
 } from './apple-api.mjs'
-import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, daysSince, feedTypesOf, genreChartsOf, hideNoiseOf, notOlderThan, sourceTag, withinDays, writeFileAtomic, serializeFeed } from './shared.mjs'
+import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, countriesOf, daysSince, feedTypesOf, genreChartsOf, hideNoiseOf, notOlderThan, sourceTag, withinDays, writeFileAtomic, serializeFeed } from './shared.mjs'
 
 import { holdRunLock } from './run-lock.mjs'
 
@@ -199,10 +199,8 @@ const albumEntryToRelease = (e, tag) => ({
   link: appleLink(e.id?.label),
 })
 
-const COUNTRY_SET = new Set((PREFS.discovery?.countries ?? []).map((c) => String(c).toLowerCase()))
-const SCAN_US = COUNTRY_SET.has(US_STOREFRONT)
-const COUNTRY_CODES = [...COUNTRY_SET].filter((c) => {
-  if (c === US_STOREFRONT) return false
+const { scanUs: SCAN_US, countries: SELECTED_COUNTRIES } = countriesOf(PREFS)
+const COUNTRY_CODES = SELECTED_COUNTRIES.filter((c) => {
   // hasOwn, not truthiness: an inherited key ("constructor") is unknown too
   if (Object.hasOwn(STOREFRONTS, c)) return true
   log(`unknown storefront code "${c}" in discovery.countries — skipped`)

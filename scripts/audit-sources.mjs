@@ -2,7 +2,7 @@
 
 import { holdRunLock } from './run-lock.mjs'
 import { readFileSync } from 'node:fs'
-import { STOREFRONTS, STREAMING_ONLY, US_STOREFRONT, purchaseFeedsOf } from './storefronts.mjs'
+import { STOREFRONTS, STREAMING_ONLY, purchaseFeedsOf } from './storefronts.mjs'
 import { GENRE_OPTIONS } from './genre-options.mjs'
 import { fetchGenreTree, genreNamesById, underFollowed } from './genre-tree.mjs'
 import {
@@ -15,7 +15,7 @@ import {
   BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, LOOKUP_CHUNK, PACED_CALL_S,
   WINDOW_DAYS,
   PREFS_PATH, REFRESH_LOG, SOURCE_ACTIVITY_PATH, SOURCE_CHIP_DAYS,
-  SOURCE_THIN_DAYS, daysSince, feedTypesOf, genreChartsOf, sourceTag, sourceWindow, windowIndices,
+  SOURCE_THIN_DAYS, countriesOf, daysSince, feedTypesOf, genreChartsOf, sourceTag, sourceWindow, windowIndices,
   withinDays,
 } from './shared.mjs'
 
@@ -53,9 +53,7 @@ const RSS_GAP_MS = 150
 
 const followedGenres = PREFS.genres?.followed ?? []
 const followedSet = new Set(followedGenres.map((g) => g.toLowerCase()))
-const countrySet = new Set((PREFS.discovery?.countries ?? []).map((c) => String(c).toLowerCase()))
-const scanUs = countrySet.has(US_STOREFRONT)
-const countries = [...countrySet].filter((c) => c !== US_STOREFRONT)
+const { scanUs, countries } = countriesOf(PREFS)
 const genreCharts = genreChartsOf(PREFS)
 const playlists = PREFS.discovery?.playlists ?? []
 
@@ -283,7 +281,7 @@ if (scanUs) {
   const { results, ...live } = l
   rows.push({ kind: 'chart', tag: sourceTag('chart', 'us'), label: 'US most-played chart', live, idSet, cost: costS(fresh) })
 } else {
-  rec('ADD', 'country "us"', 'the US most-played chart is not scanned; add United States in Countries to scan it again', 'tentative')
+  say('  US most-played chart not scanned: United States is not in Countries')
 }
 for (const f of genreCharts) {
   progress(`genre feed ${f.tag}`)

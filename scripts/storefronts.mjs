@@ -1,7 +1,7 @@
 // cn, uy and mo are deliberately absent: the first two have no purchase store and
 // almost nothing recent, and mo's recent releases are all carried by hk.
 
-import { PURCHASE_FEED_TYPES } from './shared.mjs'
+import { PURCHASE_FEED_TYPES, US_STOREFRONT } from './shared.mjs'
 
 export const STOREFRONTS = {
   ar: 'Argentina',
@@ -39,7 +39,7 @@ export const STOREFRONTS = {
 
 // US scans the most-played albums chart instead of the country feeds, so it
 // stays out of STOREFRONTS, which drives those feeds and the audit's candidates.
-export const US_STOREFRONT = 'us'
+export { US_STOREFRONT }
 export const COUNTRY_NAMES = { [US_STOREFRONT]: 'United States', ...STOREFRONTS }
 
 // Apple runs no iTunes purchase store here, so topalbums/topsongs are permanently

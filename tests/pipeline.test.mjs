@@ -226,6 +226,46 @@ globalThis.fetch=async(url)=>{requests.push(url);return new Response(JSON.string
   assert.deepEqual(feed.releases.map((r) => r.title), hide === 'absent' ? [] : ['Song (Instrumental)'])
 })
 
+test('uppercase US scans the chart; removing it records null, not zero', (t) => {
+  const root = fixture(t)
+  const yesterday = new Date(Date.now() - 86400e3).toISOString().slice(0, 10)
+  const prefs = (countries) => JSON.stringify({ artists: { followed: [], blocked: [] }, genres: { followed: [] }, discovery: { countries, playlists: [] } })
+  writeFileSync(join(root, 'config/source-activity.json'), JSON.stringify({ days: [yesterday], sources: { 'chart:us': [[2, 1]] } }))
+  writeFileSync(join(root, 'docs/data/releases.json'), '{"releases":[]}')
+  writeFileSync(join(root, 'offline.mjs'), `import {appendFileSync} from 'node:fs';
+const timer=globalThis.setTimeout;globalThis.setTimeout=(fn,ms,...args)=>timer(fn,Math.min(ms,1),...args);
+globalThis.fetch=async(url)=>{appendFileSync('requests.txt',url+'\\n');return new Response(JSON.stringify({feed:{entry:[],results:[]},results:[]}))};`)
+  writeFileSync(join(root, 'config/preferences.json'), prefs(['US', 'jp']))
+  const first = run(root, process.execPath, ['--import', './offline.mjs', 'scripts/fetch-releases.mjs'])
+  assert.equal(first.status, 0, first.stdout + first.stderr)
+  assert.doesNotMatch(first.stdout, /unknown storefront/)
+  assert.match(readFileSync(join(root, 'requests.txt'), 'utf8'), /most-played\/50\/albums/)
+  writeFileSync(join(root, 'config/preferences.json'), prefs(['jp']))
+  const second = run(root, process.execPath, ['--import', './offline.mjs', 'scripts/fetch-releases.mjs'])
+  assert.equal(second.status, 0, second.stdout + second.stderr)
+  const history = JSON.parse(readFileSync(join(root, 'config/source-activity.json')))
+  assert.equal(history.sources['chart:us'].at(-1), null)
+})
+
+for (const hide of ['absent', false]) test('carryover and upcoming alternate versions with the filter ' + hide, (t) => {
+  const root = fixture(t)
+  const date = new Date().toISOString().slice(0, 10)
+  const future = new Date(Date.now() + 86400e3 * 3).toISOString().slice(0, 10)
+  const card = (title, extra = {}) => ({ title, artist: title, type: 'album', release_date: date, artwork: '', genre: 'Pop', ...extra })
+  const prefs = { artists: { followed: [{ name: 'One', id: 1 }], blocked: [] }, genres: { followed: ['Pop'] }, discovery: { countries: [], playlists: [] } }
+  if (hide !== 'absent') prefs.filters = { hide_alternate_versions: hide }
+  writeFileSync(join(root, 'config/preferences.json'), JSON.stringify(prefs))
+  writeFileSync(join(root, 'docs/data/releases.json'), JSON.stringify({ fetched_at: Date.now(), releases: [card('Song (Instrumental)', { artist_id: 2 })],
+    upcoming: [card('Later (Sped Up)', { release_date: future, via_artist_id: 1, artist_id: 1, followed: true })] }))
+  writeFileSync(join(root, 'offline.mjs'), `const timer=globalThis.setTimeout;globalThis.setTimeout=(fn,ms,...args)=>timer(fn,Math.min(ms,1),...args);
+globalThis.fetch=async()=>{throw new Error('fixture outage')};`)
+  const result = run(root, process.execPath, ['--import', './offline.mjs', 'scripts/fetch-releases.mjs'])
+  assert.equal(result.status, 2, result.stdout + result.stderr)
+  const feed = JSON.parse(readFileSync(join(root, 'docs/data/releases.json')))
+  assert.deepEqual(feed.releases.map((r) => r.title), hide === 'absent' ? [] : ['Song (Instrumental)'])
+  assert.deepEqual(feed.upcoming.map((r) => r.title), hide === 'absent' ? [] : ['Later (Sped Up)'])
+})
+
 for (const lookup of ['failed', 'recovered', 'late recovery', 'replacement', 'success']) test('audit keeps incomplete evidence and combined removal advice safe: ' + lookup, (t) => {
   const root = fixture(t)
   const playlists = ['First', 'Second'].map((name) => ({ name, url: 'https://music.apple.com/us/playlist/' + name.toLowerCase() + '/pl.fixture' }))
@@ -396,13 +436,21 @@ test('audit reports unmeasured windows separately from measured zero and exclude
   assert.equal(json.stdout.includes('privatePayload'), false)
 })
 
-test('audit without us skips the US chart and suggests adding it back', (t) => {
+test('audit without us skips the US chart without recommending it', (t) => {
   const { audit, requests } = auditFixture(t, { countries: [] })
   const result = audit('--json')
   assert.equal(result.status, 0, result.stdout + result.stderr)
   assert.equal(requests().some((url) => url.includes('/us/music/most-played/') || url.includes('/us/rss/top')), false)
   const report = JSON.parse(result.stdout)
-  assert.ok(report.recommend.some((r) => r.action === 'ADD' && r.target === 'country "us"'))
+  assert.equal(report.recommend.some((r) => r.target === 'country "us"'), false)
+})
+
+test('audit probes only genre charts for followed genres', (t) => {
+  const { audit, requests } = auditFixture(t, { followed: ['Pop'] })
+  const result = audit('--json')
+  assert.equal(result.status, 0, result.stdout + result.stderr)
+  const genre = requests().filter((url) => url.includes('/genre='))
+  assert.ok(genre.length > 0 && genre.every((url) => url.includes('/genre=14/')), genre.join('\n'))
 })
 
 test('candidate country probes include streaming-only Top 100 contributions', (t) => {

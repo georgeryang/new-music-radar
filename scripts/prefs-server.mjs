@@ -336,7 +336,7 @@ export const PAGE = /* html */ `<!doctype html>
 <!--CSS-->
 </head>
 <body class="mx-auto max-w-[680px] break-words px-4 pt-10 pb-10">
-<header class="mb-2 flex flex-wrap items-baseline justify-between gap-2"><h1 class="min-w-0 text-[2rem] leading-tight font-bold tracking-tight [overflow-wrap:anywhere]">Preferences</h1><div class="flex items-baseline gap-4"><button id="quit" class="cursor-pointer text-sm font-medium text-muted-foreground hover:text-foreground">Quit editor</button><a href="${SITE_URL}" id="site-link" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-accent-foreground hover:underline">Open radar →</a></div></header>
+<header class="mb-2 flex flex-wrap items-baseline justify-between gap-2"><h1 class="min-w-0 text-[2rem] leading-tight font-bold tracking-tight [overflow-wrap:anywhere]">Preferences</h1><div class="flex items-baseline gap-4"><button id="quit" class="min-h-6 cursor-pointer text-sm font-medium text-muted-foreground hover:text-foreground">Quit editor</button><a href="${SITE_URL}" id="site-link" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-accent-foreground hover:underline">Open radar →</a></div></header>
 <!-- header outside main: it is a banner landmark only while it is not a
      descendant of main -->
 <main>
@@ -461,8 +461,7 @@ function chartNote(tag) {
   span.className = MUTED
   span.textContent = '· US chart'
   const c = sourceCounts[tag]
-  span.title = 'Also scans Apple\\'s US chart for this genre' +
-    (c && c.measured >= THIN_DAYS ? '. Last ' + CHIP_DAYS + ' days: ' + c.unique + ' only here, ' + c.surfaced + ' total' : '')
+  span.title = 'Also scans Apple\\'s US chart for this genre' + (c && c.measured >= THIN_DAYS ? '. ' + countDetail(c) : '')
   return span
 }
 
@@ -478,6 +477,10 @@ function genreCount(name) {
 
 const THIN_DAYS = ${SOURCE_THIN_DAYS}
 const CHIP_DAYS = ${SOURCE_CHIP_DAYS}
+function countDetail(c) {
+  return 'Last ' + CHIP_DAYS + ' days: ' + c.unique + ' only here, ' + (c.surfaced - c.unique) + ' shared, ' + c.surfaced +
+    ' total, over ' + c.measured + ' measured days' + (c.last ? '; last found something on ' + c.last : '')
+}
 function sourceCount(tag) {
   const c = sourceCounts[tag]
   const span = document.createElement('span')
@@ -490,13 +493,11 @@ function sourceCount(tag) {
       : 'Only ' + n + ' measured ' + (n === 1 ? 'day' : 'days') + ' for this source so far'
     return span
   }
-  const shared = c.surfaced - c.unique
   span.className = c.surfaced === 0 ? AMBER : MUTED
-  span.textContent = '· ' + (c.surfaced === 0 ? '0' : c.unique + ' only here')
+  span.textContent = '· ' + (c.surfaced === 0 ? '0 found' : c.unique + ' only here')
   span.title = c.surfaced === 0
     ? 'Nothing across ' + c.measured + ' measured days in the last ' + CHIP_DAYS + ', worth a look'
-    : 'Last ' + CHIP_DAYS + ' days: ' + c.unique + ' only here, ' + shared + ' shared, ' + c.surfaced + ' total, over ' +
-      c.measured + ' measured days' + (c.last ? '; last found something on ' + c.last : '')
+    : countDetail(c)
   return span
 }
 
@@ -630,7 +631,14 @@ function renderAll() {
       label.textContent = displayOf(s, entry)
       chip.appendChild(label)
       if (s.kind === 'country') {
-        chip.title = countryNote(entry)
+        const note = countryNote(entry)
+        chip.title = note
+        if (note) {
+          const hidden = document.createElement('span')
+          hidden.className = 'sr-only'
+          hidden.textContent = note
+          chip.appendChild(hidden)
+        }
         chip.appendChild(sourceCount(entry === '${US_STOREFRONT}' ? TAG_CHART_US : TAG_COUNTRY + entry))
       }
       if (s.kind === 'playlist') chip.appendChild(sourceCount(TAG_PLAYLIST + nameOf(entry)))
@@ -689,8 +697,6 @@ function markSection() {
     a.setAttribute('aria-current', String(current))
   }
 }
-// A short last section scrolls the page to the bottom, where markSection would
-// otherwise mark the last section instead of the clicked one.
 // scrollIntoView would also scroll the page and unstick the nav.
 function revealInNav(a) {
   const nav = $('section-index')
@@ -698,15 +704,17 @@ function revealInNav(a) {
   if (left < nav.scrollLeft) nav.scrollLeft = left
   else if (right > nav.scrollLeft + nav.clientWidth) nav.scrollLeft = right - nav.clientWidth
 }
-// Released by any scroll that leaves where the jump lands, so the jump's own
-// scroll events keep it.
+// A short last section scrolls the page to the bottom, where markSection would
+// otherwise mark the last section instead of the clicked one. Released by any
+// scroll that leaves where the jump lands, so the jump's own scroll events keep it.
 let navHold = null, navLanding = 0
 $('section-index').addEventListener('click', (e) => {
   const a = e.target.closest('a')
   const target = a && document.getElementById(a.getAttribute('href').slice(1))
   if (!target) return
   const maxY = document.documentElement.scrollHeight - innerHeight
-  navLanding = Math.max(0, Math.min(maxY, scrollY + target.getBoundingClientRect().top))
+  const pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0
+  navLanding = Math.max(0, Math.min(maxY, scrollY + target.getBoundingClientRect().top - pad))
   navHold = target.id
   markSection()
 })
@@ -1133,7 +1141,7 @@ $('refresh').onclick = async () => {
 $('quit').onclick = async () => {
   // onbeforeunload can't guard this: quitting is a fetch plus an innerHTML
   // swap, not a navigation, so that handler never fires here.
-  if (dirty && !confirm('You have unsaved changes. Quit without saving them?')) return
+  if (!confirm(dirty ? 'You have unsaved changes. Quit without saving them?' : 'Stop the editor? Reopen it with prefs.command.')) return
   dirty = false
   stopped = true
   pollController?.abort()

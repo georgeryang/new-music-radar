@@ -107,6 +107,11 @@ export function genreChartsOf(prefs) {
   return GENRE_FEEDS.filter((f) => followed.has(f.tag.toLowerCase()))
 }
 export const hideNoiseOf = (prefs) => prefs?.filters?.hide_alternate_versions !== false
+export const US_STOREFRONT = 'us'
+export function countriesOf(prefs) {
+  const set = new Set((prefs?.discovery?.countries ?? []).map((c) => String(c).toLowerCase()))
+  return { scanUs: set.has(US_STOREFRONT), countries: [...set].filter((c) => c !== US_STOREFRONT) }
+}
 
 export function serializeFeed(data) {
   const records = (rows) => rows.map((row) => JSON.stringify(row)).join(',\n')

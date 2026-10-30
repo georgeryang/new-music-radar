@@ -99,4 +99,6 @@ test('editor defaults the noise filter on, marks chart genres, and validates fil
   assert.deepEqual(saved.discovery.countries, ['jp', 'us'])
   assert.deepEqual(saved.filters, { hide_alternate_versions: false })
   assert.deepEqual((await (await request('/api/prefs')).json()).filters, { hide_alternate_versions: false })
+  assert.equal((await request('/api/prefs', { method: 'POST', body: body(undefined) })).status, 200)
+  assert.deepEqual(JSON.parse(readFileSync(path, 'utf8')).filters, { hide_alternate_versions: false })
 })

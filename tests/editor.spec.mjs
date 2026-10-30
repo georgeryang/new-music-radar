@@ -206,6 +206,7 @@ test('visibility changes do not overlap status requests; quit stops polling', as
   await page.evaluate(() => { for (let i = 0; i < 5; i++) document.dispatchEvent(new Event('visibilitychange')) })
   assert.equal(max, 1)
   release.resolve()
+  page.once('dialog', (dialog) => dialog.accept())
   await page.getByRole('button', { name: 'Quit editor', exact: true }).click()
   await page.getByText('Server stopped. You can close this tab.').waitFor()
   await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')))
@@ -219,6 +220,7 @@ for (const failure of [false, true]) test('quit ignores a late initial preferenc
     return json(route, prefs())
   } }, false)
   await entered.promise
+  page.once('dialog', (dialog) => dialog.accept())
   await page.getByRole('button', { name: 'Quit editor', exact: true }).click()
   await page.getByText('Server stopped. You can close this tab.').waitFor()
   const response = page.waitForResponse((r) => r.url().endsWith('/api/prefs'))
@@ -491,6 +493,15 @@ test('section index follows the scroll position, including the last section', as
   assert.ok(visible)
 })
 
+test('quit asks before stopping a clean editor and stays up when declined', async (t) => {
+  const page = await editor(t)
+  let message = ''
+  page.once('dialog', (dialog) => { message = dialog.message(); dialog.dismiss() })
+  await page.getByRole('button', { name: 'Quit editor', exact: true }).click()
+  assert.match(message, /Stop the editor/)
+  assert.equal(await page.getByText('Server stopped. You can close this tab.').count(), 0)
+})
+
 test('US, chart genres, source counts and the filter toggle', async (t) => {
   const page = await editor(t, { prefs: (route) => json(route, {
     ...prefs(), genres: { followed: ['Pop', 'Afrobeats'] }, countries: ['us', 'kr'],
@@ -503,6 +514,7 @@ test('US, chart genres, source counts and the filter toggle', async (t) => {
   const us = page.locator('[data-section="discovery.countries"] span', { hasText: 'United States' }).first()
   assert.match(await us.innerText(), /5 only here/)
   assert.equal(await us.getAttribute('title'), 'Most-played albums, top 50')
+  assert.equal(await us.locator('.sr-only').innerText(), 'Most-played albums, top 50')
   const genres = page.locator('[data-section="genres.followed"]')
   assert.equal(await genres.getByText('· US chart').count(), 1)
   await page.getByRole('button', { name: 'Remove United States', exact: true }).click()
