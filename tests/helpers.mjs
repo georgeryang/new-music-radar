@@ -1,4 +1,4 @@
-import { mkdtempSync, cpSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -9,6 +9,9 @@ export const repo = fileURLToPath(new URL('../', import.meta.url))
 export function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'radar-test-'))
   for (const dir of ['scripts', 'config', 'docs']) cpSync(join(repo, dir), join(root, dir), { recursive: true })
+  // Fixtures exercise the Mac path unless a test writes its own cloud config.
+  const cloudConfig = join(root, 'scripts/cloud-config.mjs')
+  writeFileSync(cloudConfig, readFileSync(cloudConfig, 'utf8').replace('CLOUD_REFRESH = true', 'CLOUD_REFRESH = false'))
   writeFileSync(join(root, 'package.json'), '{"type":"module"}')
   writeFileSync(join(root, '.gitignore'), '.radar-run.lock*\n*.tmp\nhome/\nbin/\n')
   mkdirSync(join(root, 'home/Library/Logs'), { recursive: true })

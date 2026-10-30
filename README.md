@@ -63,7 +63,8 @@ months, red past 3 years). Nothing is removed automatically.
 
 ## Setting Up on a New Computer
 
-This is only for the computer that runs the daily update; the site itself
+Cloud Refresh (below) runs the daily update now; these steps set up a Mac as
+the fallback updater, used only after switching back. The site itself
 works from any device.
 
 1. Install `node`, `git`, and `gh`.
@@ -149,13 +150,12 @@ removes everything billable; revoke the job's GitHub token in GitHub settings.
 
 ## If Something Looks Wrong
 
-- **Site Looks Out of Date?** The updating Mac was probably asleep or offline;
-  it catches up when it wakes. To force it now, open `prefs.command` and press
-  **Save & refresh**.
-- **Want to See What Happened?** The log at `~/Library/Logs/new-music-radar.log`
-  says what was fetched or failed, in plain words. If it has no recent entries,
-  the scheduler itself never ran: check
-  `~/Library/Logs/new-music-radar-watchdog.log`.
+- **Site Looks Out of Date?** Cloud Refresh runs at 6:20 PM Korea time, with
+  a backup two hours later; a failed run emails an alert. To force it now, open
+  `prefs.command` and press **Save & refresh**.
+- **Want to See What Happened?** The job's logs in the Cloud Run console (or
+  `gcloud logging read 'resource.type="cloud_run_job"' --limit 50`) say what
+  was fetched or failed, in plain words.
 - **An Artist's Releases Look Wrong?** You may have picked a same-named artist.
   Remove and re-add them via the search list (the **↗** link shows whose page
   you're pinning).
