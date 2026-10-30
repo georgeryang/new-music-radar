@@ -400,7 +400,7 @@ for (const r of rows) {
   }
   const firing = fired === null
     ? `log unavailable (${logErr}), so none counted`
-    : `${fired} seen firing in the retained log`
+    : `${fired} seen firing in this Mac's retained log (local runs only)`
   say(`\n=== BLOCKED ARTISTS ===\n  ${blocked.length} blocked, ${firing}. Blocks are a pure filter and cost no fetch time, so a quiet one is not waste.`)
   out.sections.blocked = { count: blocked.length, fired }
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import http from 'node:http'
-import { closeSync, fstatSync, openSync, readFileSync, readSync, readdirSync, realpathSync } from 'node:fs'
+import { closeSync, fstatSync, openSync, readFileSync, readSync, readdirSync, realpathSync, rmSync } from 'node:fs'
 import { fork } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { join, normalize } from 'node:path'
@@ -11,6 +11,9 @@ import { ACTIVITY_PATH, DATA_PATH, GENRE_FEEDS, PREFS_PATH, REFRESH_LOG, SOURCE_
 
 import { acquireRunLock, BusyError, runOwner } from './run-lock.mjs'
 import { itunesJSON } from './apple-api.mjs'
+import { CLOUD_REFRESH, LOGS_URL } from './cloud-config.mjs'
+import { executionLog, executionState, runningExecution, startExecution } from './cloud-run.mjs'
+import { prefsPublished, publishPrefs, syncLocal } from './publish-prefs.mjs'
 
 const PORT = 4747
 const REPO_DIR = fileURLToPath(new URL('..', import.meta.url))
@@ -85,6 +88,63 @@ async function startRefresh() {
       })
     })
   } finally { closeSync(fd) }
+}
+
+// The cloud job's progress, refreshed in the background so /api/status never
+// waits on gcloud. The tracked execution survives editor restarts.
+const CLOUD_STATE = fileURLToPath(new URL('../.radar-cloud-run.json', import.meta.url))
+const OUTCOME = /Published|No changes|HELD:|UNPUBLISHED:|ERROR:/
+const DEPLOY_VERDICT = /Pages deploy|WARNING:|gh not found/
+const cloud = { name: null, running: false, busy: false, log: [], doneAt: 0, idleCheckedAt: 0 }
+
+function readCloudState() {
+  try { return JSON.parse(readFileSync(CLOUD_STATE, 'utf8')).name ?? null } catch { return null }
+}
+
+// Cloud Logging lags the execution, so a finished run is held as running until
+// its outcome (and, after a publish, the deploy verdict) has arrived, up to 90s.
+const settled = (log) => log.some((l) => OUTCOME.test(l)) && (!log.some((l) => /Published/.test(l)) || log.some((l) => DEPLOY_VERDICT.test(l)))
+
+function syncUnderLock() {
+  let lock
+  try { lock = acquireRunLock('preferences') } catch { return Promise.resolve() }
+  return syncLocal()
+    .then((r) => { if (!r.synced) console.log(`Local data not refreshed: ${r.reason}`) })
+    .finally(() => lock.release())
+}
+
+async function pollCloud() {
+  try {
+    cloud.name ??= readCloudState()
+    if (cloud.name) {
+      const state = await executionState(cloud.name)
+      cloud.log = (await executionLog(cloud.name)).slice(-10)
+      if (state.done) cloud.doneAt ||= Date.now()
+      if (state.done && (settled(cloud.log) || Date.now() - cloud.doneAt > 90_000)) {
+        Object.assign(cloud, { name: null, running: false, busy: false, doneAt: 0 })
+        rmSync(CLOUD_STATE, { force: true })
+        await syncUnderLock()
+      } else {
+        cloud.running = cloud.busy = true
+      }
+    } else if (Date.now() - cloud.idleCheckedAt > 60_000) {
+      cloud.idleCheckedAt = Date.now()
+      cloud.busy = !!(await runningExecution())
+    }
+  } catch (e) {
+    console.error(`Cloud status unavailable: ${e.message}`)
+  }
+  setTimeout(pollCloud, cloud.name ? 3000 : 10_000).unref()
+}
+
+async function startCloudRefresh() {
+  const published = await prefsPublished()
+  if (!published.ok) return { code: 400, body: { error: published.reason } }
+  if (cloud.name || await runningExecution()) return { code: 409, body: { running: true } }
+  const name = await startExecution()
+  writeFileAtomic(CLOUD_STATE, JSON.stringify({ name, startedAt: Date.now() }))
+  Object.assign(cloud, { name, running: true, busy: true, log: [], doneAt: 0 })
+  return { code: 200, body: { running: true } }
 }
 
 const searchCache = new Map()
@@ -254,6 +314,7 @@ export const server = http.createServer(async (req, res) => {
         !isFilters(incoming?.filters)
       ) return json(res, 400, { error: 'invalid list shape' })
       const lock = acquireRunLock('preferences')
+      let published
       try {
         const p = readPrefs()
         p.artists = { ...p.artists, followed: incoming.artists.followed, blocked: incoming.artists.blocked }
@@ -261,8 +322,9 @@ export const server = http.createServer(async (req, res) => {
         p.discovery = { ...p.discovery, countries: incoming.discovery.countries, playlists: incoming.discovery.playlists }
         if (incoming.filters) p.filters = { ...p.filters, hide_alternate_versions: incoming.filters.hide_alternate_versions }
         writeFileAtomic(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
+        published = await publishPrefs()
       } finally { lock.release() }
-      json(res, 200, { ok: true })
+      json(res, 200, { ok: true, ...published })
     } else if (req.method === 'GET' && url.pathname === '/api/artist-search') {
       const q = (url.searchParams.get('q') ?? '').slice(0, 100).trim()
       if (q.length < 2) return json(res, 200, { results: [] })
@@ -280,8 +342,13 @@ export const server = http.createServer(async (req, res) => {
         })),
       })
     } else if (req.method === 'POST' && url.pathname === '/api/refresh') {
+      if (CLOUD_REFRESH) {
+        const r = await startCloudRefresh()
+        return json(res, r.code, r.body)
+      }
       json(res, await startRefresh() ? 200 : 409, { running: true })
     } else if (req.method === 'GET' && url.pathname === '/api/status') {
+      if (CLOUD_REFRESH) return json(res, 200, { running: cloud.running, busy: cloud.busy || !!runOwner(), log: cloud.log })
       const owner = runOwner()
       const running = owner?.kind === 'refresh'
       if (running) refreshLogStart = owner.logStart
@@ -348,7 +415,7 @@ export const PAGE = /* html */ `<!doctype html>
   <a href="#section-discovery-playlists" class="${SECTION_LINK}">Playlists</a>
   <a href="#section-filters" class="${SECTION_LINK}">Filters</a>
 </nav>
-<p class="mb-2 text-sm leading-relaxed text-muted-foreground">Save applies changes at tonight's update. Save &amp; refresh applies them now and publishes in about two minutes.</p>
+<p class="mb-2 text-sm leading-relaxed text-muted-foreground">Save applies changes at tonight's update. Save &amp; refresh applies them now and publishes in about ${CLOUD_REFRESH ? 'five' : 'two'} minutes.</p>
 <div id="sections"></div>
 </main>
 <div id="editor-dock" class="mt-4 rounded-2xl border border-border bg-surface-raised p-3">
@@ -375,6 +442,7 @@ const TAG_PLAYLIST = '${sourceTag('playlist', '')}'
 const TAG_CHART_US = '${sourceTag('chart', 'us')}'
 const nameOf = (e) => (typeof e === 'string' ? e : e.name)
 const OFFLINE = 'Editor not responding. Reopen prefs.command.'
+const LOG_HINT = ${CLOUD_REFRESH ? JSON.stringify('the job logs at ' + LOGS_URL) : JSON.stringify('~/Library/Logs/new-music-radar.log')}
 // Full literals, not composed strings — Tailwind scans this file as text.
 const AMBER = 'text-xs tabular-nums text-warning-text'
 const MUTED = 'text-xs tabular-nums text-muted-foreground'
@@ -1031,7 +1099,7 @@ async function poll() {
     if (st.running) {
       $('log').textContent = st.log.join('\\n')
       $('log').scrollTop = $('log').scrollHeight
-      setBanner('running', 'Refreshing. Usually about two minutes, longer if the site deploy needs a retry. Live progress above; safe to close this page, the refresh continues in the background.')
+      setBanner('running', 'Refreshing. Usually about ${CLOUD_REFRESH ? 'five' : 'two'} minutes, longer if the site deploy needs a retry. Live progress above; safe to close this page, the refresh continues in the background.')
     } else if (wasRunning) {
       const publishedNew = st.log.some((l) => /Published/.test(l))
       const noChanges = st.log.some((l) => /No changes/.test(l))
@@ -1042,17 +1110,17 @@ async function poll() {
       const unpublished = st.log.some((l) => /UNPUBLISHED:/.test(l))
       const finished = publishedNew || noChanges || held || unpublished
       if (neverRan) {
-        setBanner('bad', 'The update could not run, so nothing was published. Check config/preferences.json, then ~/Library/Logs/new-music-radar.log.')
+        setBanner('bad', 'The update could not run, so nothing was published. Check config/preferences.json, then ' + LOG_HINT + '.')
       } else if (!finished) {
-        setBanner('bad', 'The refresh stopped before it finished, so nothing was published. See ~/Library/Logs/new-music-radar.log for what stopped it.')
+        setBanner('bad', 'The refresh stopped before it finished, so nothing was published. See ' + LOG_HINT + ' for what stopped it.')
       } else if (unpublished) {
         setBanner('warn', 'The results were kept locally. Publishing stopped because local commits or upstream history need attention.')
       } else if (held) {
         setBanner('warn', 'Nothing was published: there was no new data, and local commits touching other files are held back. Push them yourself if they are meant to go live.')
       } else if (failed) {
-        setBanner('warn', 'Refresh finished, but a source failed. ' + (publishedNew ? 'Available results were published.' : 'Nothing new was published.') + (warned ? ' The site deploy did not confirm, so the page may still show old data.' : '') + ' Check ~/Library/Logs/new-music-radar.log.')
+        setBanner('warn', 'Refresh finished, but a source failed. ' + (publishedNew ? 'Available results were published.' : 'Nothing new was published.') + (warned ? ' The site deploy did not confirm, so the page may still show old data.' : '') + ' Check ' + LOG_HINT + '.')
       } else if (warned) {
-        setBanner('warn', 'New data was published, but the site deploy did not confirm. The page may show old data until the next update. See ~/Library/Logs/new-music-radar.log.')
+        setBanner('warn', 'New data was published, but the site deploy did not confirm. The page may show old data until the next update. See ' + LOG_HINT + '.')
       } else if (noChanges) {
         setBanner('ok', 'Refresh complete. Nothing new was found, so the site is unchanged.')
       } else {
@@ -1080,11 +1148,9 @@ function save() {
   const snapshot = JSON.stringify(prefs)
   saving = (async () => {
     try {
-      const r = await fetch('/api/prefs', { method: 'POST', body: snapshot, signal: AbortSignal.timeout(15_000) })
-      if (!r.ok) {
-        const body = await r.json().catch(() => ({}))
-        throw new Error(body.error ?? 'HTTP ' + r.status)
-      }
+      const r = await fetch('/api/prefs', { method: 'POST', body: snapshot, signal: AbortSignal.timeout(60_000) })
+      const body = await r.json().catch(() => ({}))
+      if (!r.ok) throw new Error(body.error ?? 'HTTP ' + r.status)
       if (stopped) return false
       if (revision !== editRevision) {
         setStatus('Newer changes are still unsaved. Save again before refreshing.', true, true)
@@ -1093,6 +1159,10 @@ function save() {
       dirty = false
       $('save').disabled = true
       setBanner(null)
+      if (body.pushed === false) {
+        setStatus('Saved here, but not pushed: ' + body.reason, true, true)
+        return true
+      }
       setStatus('Saved.', false, true)
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
         $('status').animate([{ opacity: 0, transform: 'scale(0.96)' }, { opacity: 1, transform: 'none' }], { duration: 350, easing: 'cubic-bezier(0.2, 0.9, 0.3, 1.25)' })
@@ -1118,7 +1188,7 @@ $('refresh').onclick = async () => {
     if (dirty && !(await save())) return
     if (stopped) return
     setBanner('running', 'Starting refresh')
-    const r = await fetch('/api/refresh', { method: 'POST', signal: AbortSignal.timeout(15_000) })
+    const r = await fetch('/api/refresh', { method: 'POST', signal: AbortSignal.timeout(60_000) })
     if (stopped) return
     if (r.status === 409) {
       setBanner('warn', 'Another operation is running. Wait for it to finish, then try again.')
@@ -1225,6 +1295,12 @@ server.on('error', (e) => {
   process.exit(1)
 })
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) server.listen(PORT, '127.0.0.1', () => {
-  console.log(`Preferences editor: http://127.0.0.1:${PORT}`)
-})
+export function start(port = PORT) {
+  server.listen(port, '127.0.0.1', () => {
+    console.log(`Preferences editor: http://127.0.0.1:${server.address().port}`)
+    syncUnderLock()
+    if (CLOUD_REFRESH) pollCloud()
+  })
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) start()

@@ -25,6 +25,10 @@ export function runOwner() {
   return owner
 }
 
+// Both report a held lock as exit 75, which acquireRunLock maps to BusyError.
+export const lockCommand = (platform = process.platform) =>
+  platform === 'darwin' ? ['/usr/bin/lockf', ['-s', '-t', '0', '3']] : ['flock', ['-n', '-E', '75', '3']]
+
 export function acquireRunLock(kind, { inherited = false } = {}) {
   const owner = runOwner()
   if (inherited && owner?.kind === 'refresh' && owner.token && owner.token === process.env.RADAR_RUN_TOKEN) {
@@ -33,7 +37,8 @@ export function acquireRunLock(kind, { inherited = false } = {}) {
   // lockf's descriptor mode locks the shared open-file description. Keep this
   // inode: unlinking it would let another process lock a different file.
   const fd = openSync(lockPath, 'a+', 0o600)
-  const result = spawnSync('/usr/bin/lockf', ['-s', '-t', '0', '3'], { stdio: ['ignore', 'pipe', 'pipe', fd] })
+  const [command, args] = lockCommand()
+  const result = spawnSync(command, args, { stdio: ['ignore', 'pipe', 'pipe', fd] })
   if (result.error || result.status !== 0) {
     closeSync(fd)
     if (result.error) throw result.error

@@ -16,6 +16,34 @@ export function fixture(t) {
   t.after(() => rmSync(root, { recursive: true, force: true }))
   return root
 }
+// Makes a fixture a git repo on main whose origin is a local bare repository.
+export function gitRemote(t, root) {
+  const remote = root + '-remote.git'
+  t.after(() => rmSync(remote, { recursive: true, force: true }))
+  const git = (cwd, ...args) => {
+    const r = spawnSync('/usr/bin/git', args, { cwd, env: childEnv(root), encoding: 'utf8' })
+    if (r.status !== 0) throw new Error(`git ${args.join(' ')}: ${r.stderr}`)
+    return r.stdout.trim()
+  }
+  git(root, 'init', '-q', '-b', 'main')
+  git(root, 'config', 'user.name', 'Test'); git(root, 'config', 'user.email', 'test@example.com')
+  git(root, 'add', '.'); git(root, 'commit', '-q', '-m', 'baseline')
+  git(root, 'init', '-q', '--bare', '-b', 'main', remote)
+  git(root, 'remote', 'add', 'origin', remote)
+  git(root, 'push', '-q', '-u', 'origin', 'main')
+  // A second clone stands in for another writer (the cloud job or another Mac).
+  const other = (message, file, content) => {
+    const dir = root + '-other'
+    rmSync(dir, { recursive: true, force: true })
+    git(root, 'clone', '-q', remote, dir)
+    git(dir, 'config', 'user.name', 'Other'); git(dir, 'config', 'user.email', 'other@example.com')
+    writeFileSync(join(dir, file), content)
+    git(dir, 'add', file); git(dir, 'commit', '-q', '-m', message); git(dir, 'push', '-q', 'origin', 'main')
+    rmSync(dir, { recursive: true, force: true })
+  }
+  return { remote, git: (...args) => git(root, ...args), remoteLog: () => git(remote, 'log', '--format=%s', 'main'), other }
+}
+
 export function childEnv(root, overrides = {}) {
   return {
     ...Object.fromEntries(Object.entries(process.env).filter(([name]) => !name.startsWith('GIT_'))),

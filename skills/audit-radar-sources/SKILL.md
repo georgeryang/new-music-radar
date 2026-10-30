@@ -24,6 +24,6 @@ Discovery samples at most 12 playlists round-robin across followed genres; repor
 
 ## Apply Authorized Changes
 
-Preferences live in `config/preferences.json`; prefer the editor for ID validation. Genre charts use `GENRE_FEEDS` in `scripts/shared.mjs`, scanned only while their exact name is followed, with Apple's exact names and `feeds: ['topsongs']` when only that feed works. Storefront definitions live in `scripts/storefronts.mjs`.
+Preferences live in `config/preferences.json`; prefer the editor for ID validation. A hand edit reaches the cloud job only after a Save or a push. Genre charts use `GENRE_FEEDS` in `scripts/shared.mjs`, scanned only while their exact name is followed, with Apple's exact names and `feeds: ['topsongs']` when only that feed works. Storefront definitions live in `scripts/storefronts.mjs`.
 
 After genre changes run `npm run check-genres`. Verify feed/storefront changes with [verify-radar](../verify-radar/SKILL.md). Never use the live updater as a test.

@@ -8,7 +8,8 @@ README and UI copy use plain US English, without em dashes or buzzwords. Titles,
 
 ## Pipeline Invariants
 
-- One writer: `fetch-releases.mjs` → `docs/` → Pages, scheduled by launchd through `update.sh --if-stale`. No server-side build. `run-lock.mjs` shares macOS `lockf` across refreshes, fetches, audits, builds, and saves. Keep the lock inode; remove only owner metadata. Nested fetches require the refresh owner's token.
+- One writer: `fetch-releases.mjs` → `docs/` → Pages, scheduled either by launchd through `update.sh --if-stale` or by Cloud Scheduler through the Cloud Run job (`cloud/entry.sh` → `cloud-refresh.sh`). `CLOUD_REFRESH` in `scripts/cloud-config.mjs` names the writer; never run both. No server-side build. `run-lock.mjs` shares a lock (`lockf` on macOS, `flock` on Linux) across refreshes, fetches, audits, builds, and saves.
+- The cloud job reads preferences from GitHub. Local preferences writers (the editor's Save, `artists.mjs`) commit and push through `publishPrefs()` in `scripts/publish-prefs.mjs` while holding the lock; a hand edit needs a Save or a push. Keep the lock inode; remove only owner metadata. Nested fetches require the refresh owner's token.
 - Foreign feeds contribute catalog IDs only; cards use US lookups. Never substitute foreign catalog metadata.
 - No genre mapping or parent/child matching. Display Apple's verbatim `primaryGenreName`; follow exact case-insensitive names. The picker uses `scripts/genre-options.mjs`; `npm run check-genres` finds missed names to follow explicitly. A `GENRE_FEEDS` US chart runs only while its exact name is followed.
 - Precedence: block > follow > genre > drop. Follow/block require Apple IDs, never names. Follow matches `via_artist_id`, including collaborations; block matches credited `artist_id`. Blocking a member does not block a different joint-credit ID. Reapply eligibility to carryover.
@@ -31,7 +32,7 @@ README and UI copy use plain US English, without em dashes or buzzwords. Titles,
 
 - `config/preferences.json` controls artists, exact genres, storefronts, and playlists. The editor binds `127.0.0.1:4747`. Busy saves return 409 and preserve unsaved edits.
 - Vite scans `prefs-server.mjs` as Tailwind text; `npm run check-editor` parses server and inline client syntax. Embedded backticks terminate the `PAGE` template literal. Restart after edits: `PAGE` is built at import.
-- Preserve outcome strings: `Published`, `No changes`, `HELD:`, `UNPUBLISHED:`, `ERROR: fetch did not run`, `ERROR:`, and `WARNING:`. `HELD:` means no new data with unrelated unpushed commits; `UNPUBLISHED:` means data held locally or unavailable upstream history; `WARNING:` means deploy verification failed. New outcomes need a prefix and client classification.
+- Preserve outcome strings: `Published`, `No changes`, `HELD:`, `UNPUBLISHED:`, `ERROR: fetch did not run`, `ERROR:`, and `WARNING:`. `cloud-refresh.sh` uses the same prefixes. Save reports `Saved here, but not pushed:` with the reason. `HELD:` means no new data with unrelated unpushed commits; `UNPUBLISHED:` means data held locally or unavailable upstream history; `WARNING:` means deploy verification failed. New outcomes need a prefix and client classification.
 
 ## Verification
 
