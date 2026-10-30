@@ -6,7 +6,7 @@ const PREFS_FILE = 'config/preferences.json'
 // Paths a nightly data commit touches; update.sh publishes these unasked too.
 const DATA_PATHS = ['docs/data', 'config']
 
-function git(args, timeout = 60_000) {
+function git(args, timeout = 20_000) {
   return new Promise((resolve) => {
     const child = spawn('git', args, { cwd: REPO, timeout, env: { ...process.env, GIT_TERMINAL_PROMPT: '0' } })
     let stdout = '', stderr = ''
@@ -17,6 +17,9 @@ function git(args, timeout = 60_000) {
   })
 }
 const firstLine = (r) => (r.stderr || r.stdout).split('\n')[0]
+const pushError = (r) => (r.stderr || r.stdout).split('\n').find((l) => /rejected|error|fatal|timed out/.test(l)) ?? firstLine(r)
+// The cloud job clones main, so preferences only count once they are on origin/main.
+const PUBLISHED_BRANCH = 'main'
 
 // Fetches the upstream and checks that local history may be published here:
 // unpushed commits must stay inside docs/data and config, and the data paths
@@ -26,6 +29,7 @@ async function upstream() {
   if (up.code) return { reason: 'this branch has no upstream to push to' }
   const [remote, ...rest] = up.stdout.split('/')
   const branch = rest.join('/')
+  if (branch !== PUBLISHED_BRANCH) return { reason: `this checkout tracks ${up.stdout}, not ${remote}/${PUBLISHED_BRANCH}, which the cloud job reads` }
   const fetched = await git(['fetch', '--quiet', remote, branch])
   if (fetched.code) return { reason: 'could not reach GitHub (' + firstLine(fetched) + ')' }
   const outside = await git(['log', '--format=', '--name-only', '--diff-merges=separate', '@{u}..HEAD', '--', '.', ...DATA_PATHS.map((p) => ':!' + p)])
@@ -45,6 +49,7 @@ async function catchUp(state) {
     return r.code ? 'could not fast-forward (' + firstLine(r) + ')' : null
   }
   const r = await git(['rebase', '--autostash', '--quiet', '@{u}'])
+  if (!r.code && /autostash resulted in conflicts/i.test(r.stderr + r.stdout)) return 'your uncommitted edits conflicted and were moved to git stash; run git stash pop'
   if (!r.code) return null
   await git(['rebase', '--abort'])
   return 'local and GitHub history both changed and could not be combined (' + firstLine(r) + ')'
@@ -61,13 +66,16 @@ export async function publishPrefs(message = 'Update preferences') {
     if (c.code) return { pushed: false, reason: 'could not commit preferences (' + firstLine(c) + ')' }
     state = { ...state, ahead: state.ahead + 1 }
   }
-  const stuck = await catchUp(state)
-  if (stuck) return { pushed: false, reason: stuck }
-  if (!state.ahead) return { pushed: true }
-  for (let attempt = 0; attempt < 2; attempt++) {
+  for (let attempt = 0; ; attempt++) {
+    const stuck = await catchUp(state)
+    if (stuck) return { pushed: false, reason: stuck }
+    if (!state.ahead) return { pushed: true }
     const p = await git(['push', '--quiet', state.remote, 'HEAD:refs/heads/' + state.branch])
     if (!p.code) return { pushed: true }
-    if (attempt) return { pushed: false, reason: 'push failed (' + firstLine(p) + ')' }
+    if (attempt) return { pushed: false, reason: 'push failed (' + pushError(p) + ')' }
+    // Most often the cloud job pushed in between: fetch and catch up once more.
+    state = await upstream()
+    if (state.reason) return { pushed: false, reason: state.reason }
   }
 }
 

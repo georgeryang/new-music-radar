@@ -20,6 +20,10 @@ fi
 # is-stale.mjs). launchd ticks every 10 min while awake, so the fetch lands in the 18:15–18:30
 # window (or at first wake after).
 if [ "${1:-}" = "--if-stale" ]; then
+  # One writer: the scheduled path stands down once Cloud Refresh owns the job.
+  if "$NODE" --input-type=module -e 'const m = await import("./scripts/cloud-config.mjs"); process.exit(m.CLOUD_REFRESH ? 0 : 1)' 2>/dev/null; then
+    exit 0
+  fi
   STALE="$("$NODE" scripts/is-stale.mjs 2>&1)"
   if [ "$STALE" != "0" ] && [ "$STALE" != "1" ]; then
     # Fail open (a missed night costs more than an extra fetch), but name the real

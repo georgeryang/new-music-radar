@@ -84,6 +84,23 @@ test('cloud refresh stands down when a concurrent run already published', (t) =>
   assert.equal(remoteLog().split('\n')[0], 'Update data from another run')
 })
 
+test('cloud refresh stops when the remote changed the data and cannot be rebased onto', (t) => {
+  const { remoteLog, refresh, other } = cloudFixture(t)
+  other('Hand edit of data', 'docs/data/releases.json', '{"hand":true}\n')
+  const r = refresh()
+  assert.equal(r.status, 1, r.stdout + r.stderr)
+  assert.match(r.stdout, /ERROR: push failed — the remote changed/)
+  assert.equal(remoteLog().split('\n')[0], 'Hand edit of data')
+})
+
+test('cloud refresh notes preferences that changed during the run', (t) => {
+  const { refresh, other } = cloudFixture(t)
+  other('Update preferences', 'config/preferences.json', '{"changed":true}\n')
+  const r = refresh()
+  assert.equal(r.status, 0, r.stdout + r.stderr)
+  assert.match(r.stdout, /NOTE: preferences changed during this run/)
+})
+
 test('cloud refresh treats a push that errored but landed as published', (t) => {
   const { remoteLog, refresh } = cloudFixture(t)
   const r = refresh([], { PUSH_THEN_FAIL: '1' })
@@ -142,6 +159,49 @@ test('publishPrefs rebases a stranded preferences commit around an unrelated dir
   assert.deepEqual(call('publishPrefs'), { pushed: true })
   assert.deepEqual(remoteLog().split('\n'), ['Update preferences', 'Update preferences', 'Update data', 'baseline'])
   assert.equal(git('status', '--porcelain'), 'M scripts/shared.mjs')
+})
+
+test('publishPrefs refuses a checkout that does not track main', (t) => {
+  const { git, remoteLog, call, editPrefs } = prefsFixture(t)
+  git('switch', '-q', '-c', 'feature'); git('push', '-q', '-u', 'origin', 'feature')
+  editPrefs(1)
+  const r = call('publishPrefs')
+  assert.equal(r.pushed, false)
+  assert.match(r.reason, /not origin\/main/)
+  assert.equal(remoteLog(), 'baseline')
+})
+
+test('publishPrefs catches up and retries after losing a push race', (t) => {
+  const { root, remote, remoteLog, editPrefs } = prefsFixture(t)
+  mkdirSync(join(root, 'bin'))
+  writeFileSync(join(root, 'bin/git'), `#!/bin/bash
+if [ "$1" = push ] && [ ! -f race-lost ]; then
+  touch race-lost
+  d="$(mktemp -d)"
+  ( /usr/bin/git clone -q "${remote}" "$d/c" && cd "$d/c" && echo '{"race":1}' > docs/data/releases.json \
+    && /usr/bin/git -c user.name=Other -c user.email=o@example.com commit -qam "Update data" && /usr/bin/git push -q origin main )
+  rm -rf "$d"
+  echo ' ! [rejected]        HEAD -> main (fetch first)' >&2
+  exit 1
+fi
+exec /usr/bin/git "$@"
+`, { mode: 0o755 })
+  writeFileSync(join(root, '.gitignore'), '.radar-run.lock*\n*.tmp\nhome/\nbin/\nrace-lost\n')
+  editPrefs(1)
+  const r = run(root, process.execPath, publishScript('publishPrefs'), { PATH: join(root, 'bin') + ':' + process.env.PATH })
+  assert.equal(r.status, 0, r.stderr)
+  assert.deepEqual(JSON.parse(r.stdout), { pushed: true })
+  assert.deepEqual(remoteLog().split('\n'), ['Update preferences', 'Update data', 'baseline'])
+})
+
+test('update.sh --if-stale stands down when Cloud Refresh is the writer', (t) => {
+  const root = fixture(t)
+  writeFileSync(join(root, 'scripts/cloud-config.mjs'), 'export const CLOUD_REFRESH = true\n')
+  writeFileSync(join(root, 'scripts/fetch-releases.mjs'), "import {writeFileSync} from 'node:fs'; writeFileSync('fetch-ran', '1')")
+  writeFileSync(join(root, 'docs/data/releases.json'), JSON.stringify({ fetched_at: 1, releases: [] }))
+  const r = run(root, 'bash', ['scripts/update.sh', '--if-stale'])
+  assert.equal(r.status, 0, r.stdout + r.stderr)
+  assert.equal(existsSync(join(root, 'fetch-ran')), false)
 })
 
 test('syncLocal fast-forwards published data and prefsPublished tracks pushes', (t) => {
@@ -232,7 +292,7 @@ test('cloud Save & refresh refuses unpushed preferences and a running job, then 
   await until(async () => (await request('/api/status')).body.running)
 
   file('gcloud-describe.json', '{"status":{"completionTime":"2026-10-30T10:00:00Z","succeededCount":1}}')
-  file('gcloud-log.txt', 'Fetching new releases...\n')
+  file('gcloud-log.txt', 'Fetching new releases...\nERROR: fetch failed for at least one source (publishing partial data)\n')
   await new Promise((r) => setTimeout(r, 4000))
   assert.equal((await request('/api/status')).body.running, true)
 
@@ -242,6 +302,18 @@ test('cloud Save & refresh refuses unpushed preferences and a running job, then 
     return !st.running && st
   })
   assert.ok(done.log.includes('Published'))
+  assert.equal(existsSync(join(root, '.radar-cloud-run.json')), false)
+})
+
+test('the editor drops a tracked cloud run that Google no longer knows', async (t) => {
+  const { root, request, until, file } = await cloudEditor(t)
+  file('gcloud-list.json', '[]')
+  file('gcloud-describe.json', '{"status":{}}')
+  assert.equal((await request('/api/refresh', 'POST')).status, 200)
+  await until(async () => (await request('/api/status')).body.running)
+  writeFileSync(join(root, 'bin/gcloud'), readFileSync(join(root, 'bin/gcloud'), 'utf8').replace('cat gcloud-describe.json', 'echo "ERROR: (gcloud) NOT_FOUND: execution radar-refresh-x1" >&2; exit 1'))
+  const st = await until(async () => { const b = (await request('/api/status')).body; return !b.running && b })
+  assert.match(st.log.at(-1), /ERROR: lost track of the cloud run/)
   assert.equal(existsSync(join(root, '.radar-cloud-run.json')), false)
 })
 

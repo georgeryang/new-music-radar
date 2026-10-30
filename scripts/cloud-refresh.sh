@@ -63,13 +63,15 @@ if ! push; then
   elif [ -n "$(git log --format=%h --grep '^Update data' HEAD..FETCH_HEAD)" ]; then
     log "No changes: a newer run already published"
     exit 0
-  elif ! git rebase -q FETCH_HEAD; then
-    git rebase --abort
-    log "ERROR: push failed — the remote changed and could not be rebased onto"
-    exit 1
-  elif ! push; then
-    log "ERROR: push failed"
-    exit 1
+  else
+    git diff --quiet HEAD...FETCH_HEAD -- config/preferences.json \
+      || log "NOTE: preferences changed during this run; they apply at the next refresh"
+    if ! git rebase -q FETCH_HEAD; then
+      git rebase --abort
+      log "ERROR: push failed — the remote changed and could not be rebased onto"
+      exit 1
+    fi
+    push || { log "ERROR: push failed"; exit 1; }
   fi
 fi
 log "Published"

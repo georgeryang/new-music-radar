@@ -93,12 +93,26 @@ async function startRefresh() {
 // The cloud job's progress, refreshed in the background so /api/status never
 // waits on gcloud. The tracked execution survives editor restarts.
 const CLOUD_STATE = fileURLToPath(new URL('../.radar-cloud-run.json', import.meta.url))
-const OUTCOME = /Published|No changes|HELD:|UNPUBLISHED:|ERROR:/
+// The partial-fetch ERROR line precedes Published, so it is not an outcome.
+const OUTCOME = /Published|No changes|HELD:|UNPUBLISHED:|ERROR: (fetch did not run|push failed|commit failed)/
+// The job's task timeout (45m) plus margin: a tracked run older than this is abandoned.
+const CLOUD_RUN_LIMIT_MS = 50 * 60_000
 const DEPLOY_VERDICT = /Pages deploy|WARNING:|gh not found/
-const cloud = { name: null, running: false, busy: false, log: [], doneAt: 0, idleCheckedAt: 0 }
+const cloud = { name: null, startedAt: 0, running: false, busy: false, log: [], doneAt: 0, idleCheckedAt: 0 }
 
 function readCloudState() {
-  try { return JSON.parse(readFileSync(CLOUD_STATE, 'utf8')).name ?? null } catch { return null }
+  try {
+    const { name, startedAt } = JSON.parse(readFileSync(CLOUD_STATE, 'utf8'))
+    if (typeof name === 'string' && /^[a-z0-9-]+$/.test(name)) return { name, startedAt: Number(startedAt) || Date.now() }
+  } catch {}
+  rmSync(CLOUD_STATE, { force: true })
+  return null
+}
+
+async function finishCloudRun(log) {
+  rmSync(CLOUD_STATE, { force: true })
+  await syncUnderLock()
+  Object.assign(cloud, { name: null, startedAt: 0, running: false, busy: false, doneAt: 0, log })
 }
 
 // Cloud Logging lags the execution, so a finished run is held as running until
@@ -115,15 +129,20 @@ function syncUnderLock() {
 
 async function pollCloud() {
   try {
-    cloud.name ??= readCloudState()
+    if (!cloud.name) Object.assign(cloud, readCloudState() ?? {})
     if (cloud.name) {
-      const state = await executionState(cloud.name)
-      cloud.log = (await executionLog(cloud.name)).slice(-10)
+      let state
+      try {
+        state = await executionState(cloud.name)
+        cloud.log = (await executionLog(cloud.name)).slice(-10)
+      } catch (e) {
+        if (!/NOT_FOUND|not found/i.test(e.message) && Date.now() - cloud.startedAt < CLOUD_RUN_LIMIT_MS) throw e
+        await finishCloudRun([...cloud.log, `ERROR: lost track of the cloud run (${e.message})`])
+        return
+      }
       if (state.done) cloud.doneAt ||= Date.now()
       if (state.done && (settled(cloud.log) || Date.now() - cloud.doneAt > 90_000)) {
-        Object.assign(cloud, { name: null, running: false, busy: false, doneAt: 0 })
-        rmSync(CLOUD_STATE, { force: true })
-        await syncUnderLock()
+        await finishCloudRun(cloud.log)
       } else {
         cloud.running = cloud.busy = true
       }
@@ -133,8 +152,9 @@ async function pollCloud() {
     }
   } catch (e) {
     console.error(`Cloud status unavailable: ${e.message}`)
+  } finally {
+    setTimeout(pollCloud, cloud.name ? 3000 : 10_000).unref()
   }
-  setTimeout(pollCloud, cloud.name ? 3000 : 10_000).unref()
 }
 
 async function startCloudRefresh() {
@@ -142,8 +162,9 @@ async function startCloudRefresh() {
   if (!published.ok) return { code: 400, body: { error: published.reason } }
   if (cloud.name || await runningExecution()) return { code: 409, body: { running: true } }
   const name = await startExecution()
-  writeFileAtomic(CLOUD_STATE, JSON.stringify({ name, startedAt: Date.now() }))
-  Object.assign(cloud, { name, running: true, busy: true, log: [], doneAt: 0 })
+  const startedAt = Date.now()
+  writeFileAtomic(CLOUD_STATE, JSON.stringify({ name, startedAt }))
+  Object.assign(cloud, { name, startedAt, running: true, busy: true, log: [], doneAt: 0 })
   return { code: 200, body: { running: true } }
 }
 
@@ -1148,7 +1169,7 @@ function save() {
   const snapshot = JSON.stringify(prefs)
   saving = (async () => {
     try {
-      const r = await fetch('/api/prefs', { method: 'POST', body: snapshot, signal: AbortSignal.timeout(60_000) })
+      const r = await fetch('/api/prefs', { method: 'POST', body: snapshot, signal: AbortSignal.timeout(120_000) })
       const body = await r.json().catch(() => ({}))
       if (!r.ok) throw new Error(body.error ?? 'HTTP ' + r.status)
       if (stopped) return false
