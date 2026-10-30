@@ -6,8 +6,8 @@ import { fork } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { join, normalize } from 'node:path'
 import { GENRE_OPTIONS } from './genre-options.mjs'
-import { STOREFRONTS, STREAMING_ONLY } from './storefronts.mjs'
-import { ACTIVITY_PATH, DATA_PATH, GENRE_FEEDS, PREFS_PATH, REFRESH_LOG, SOURCE_ACTIVITY_PATH, SOURCE_CHIP_DAYS, SOURCE_THIN_DAYS, WINDOW_DAYS, feedTypesOf, sourceTag, sourceWindow, windowIndices, writeFileAtomic } from './shared.mjs'
+import { COUNTRY_NAMES, STREAMING_ONLY, US_STOREFRONT } from './storefronts.mjs'
+import { ACTIVITY_PATH, DATA_PATH, GENRE_FEEDS, PREFS_PATH, REFRESH_LOG, SOURCE_ACTIVITY_PATH, SOURCE_CHIP_DAYS, SOURCE_THIN_DAYS, WINDOW_DAYS, hideNoiseOf, sourceTag, sourceWindow, windowIndices, writeFileAtomic } from './shared.mjs'
 
 import { acquireRunLock, BusyError, runOwner } from './run-lock.mjs'
 import { itunesJSON } from './apple-api.mjs'
@@ -58,7 +58,9 @@ const isPlaylistList = (v) =>
     (e) => e && isName(e.name) && typeof e.url === 'string' && PLAYLIST_URL_RE.test(e.url)
   )
 const isCountryList = (v) =>
-  Array.isArray(v) && v.every((c) => typeof c === 'string' && Object.hasOwn(STOREFRONTS, c))
+  Array.isArray(v) && v.every((c) => typeof c === 'string' && Object.hasOwn(COUNTRY_NAMES, c))
+const isFilters = (v) =>
+  v === undefined || (!!v && typeof v === 'object' && !Array.isArray(v) && typeof v.hide_alternate_versions === 'boolean')
 
 let refreshLogStart = null
 
@@ -223,16 +225,10 @@ export const server = http.createServer(async (req, res) => {
         sourceCounts,
         countsAvailable,
         historyDays,
-        countryNames: STOREFRONTS,
+        countryNames: COUNTRY_NAMES,
         streamingOnly: [...STREAMING_ONLY],
-        alwaysScanned: [
-          { label: 'US most-played chart', tag: sourceTag('chart', 'us'), sub: 'albums' },
-          ...GENRE_FEEDS.map((f) => ({
-            label: f.tag,
-            tag: sourceTag('genre', f.tag),
-            sub: feedTypesOf(f).join(' + '),
-          })),
-        ],
+        chartGenres: Object.fromEntries(GENRE_FEEDS.map((f) => [f.tag.toLowerCase(), sourceTag('genre', f.tag)])),
+        filters: { hide_alternate_versions: hideNoiseOf(p) },
       })
     } else if (req.method === 'POST' && url.pathname === '/api/prefs') {
       // Decode after joining buffers: a UTF-8 character can straddle request chunks.
@@ -254,7 +250,8 @@ export const server = http.createServer(async (req, res) => {
         !isPinnedArtistList(incoming?.artists?.followed) || !isPinnedArtistList(incoming?.artists?.blocked) ||
         !isStringList(incoming?.genres?.followed) ||
         !isPlaylistList(incoming?.discovery?.playlists) ||
-        !isCountryList(incoming?.discovery?.countries)
+        !isCountryList(incoming?.discovery?.countries) ||
+        !isFilters(incoming?.filters)
       ) return json(res, 400, { error: 'invalid list shape' })
       const lock = acquireRunLock('preferences')
       try {
@@ -262,6 +259,7 @@ export const server = http.createServer(async (req, res) => {
         p.artists = { ...p.artists, followed: incoming.artists.followed, blocked: incoming.artists.blocked }
         p.genres = { ...p.genres, followed: incoming.genres.followed }
         p.discovery = { ...p.discovery, countries: incoming.discovery.countries, playlists: incoming.discovery.playlists }
+        if (incoming.filters) p.filters = { ...p.filters, hide_alternate_versions: incoming.filters.hide_alternate_versions }
         writeFileAtomic(PREFS_PATH, JSON.stringify(p, null, 2) + '\n')
       } finally { lock.release() }
       json(res, 200, { ok: true })
@@ -338,7 +336,7 @@ export const PAGE = /* html */ `<!doctype html>
 <!--CSS-->
 </head>
 <body class="mx-auto max-w-[680px] break-words px-4 pt-10 pb-10">
-<header class="mb-2 flex flex-wrap items-baseline justify-between gap-2"><h1 class="min-w-0 text-[2rem] leading-tight font-bold tracking-tight [overflow-wrap:anywhere]">Preferences</h1><a href="${SITE_URL}" id="site-link" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-accent-foreground hover:underline">Open radar →</a></header>
+<header class="mb-2 flex flex-wrap items-baseline justify-between gap-2"><h1 class="min-w-0 text-[2rem] leading-tight font-bold tracking-tight [overflow-wrap:anywhere]">Preferences</h1><div class="flex items-baseline gap-4"><button id="quit" class="cursor-pointer text-sm font-medium text-muted-foreground hover:text-foreground">Quit editor</button><a href="${SITE_URL}" id="site-link" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-accent-foreground hover:underline">Open radar →</a></div></header>
 <!-- header outside main: it is a banner landmark only while it is not a
      descendant of main -->
 <main>
@@ -348,8 +346,9 @@ export const PAGE = /* html */ `<!doctype html>
   <a href="#section-genres-followed" class="${SECTION_LINK}">Genres</a>
   <a href="#section-discovery-countries" class="${SECTION_LINK}">Countries</a>
   <a href="#section-discovery-playlists" class="${SECTION_LINK}">Playlists</a>
+  <a href="#section-filters" class="${SECTION_LINK}">Filters</a>
 </nav>
-<p class="mb-2 text-sm leading-relaxed text-muted-foreground">Edits config/preferences.json. Save keeps changes for tonight's automatic update; Save &amp; refresh applies them right away and publishes to the public site (about two minutes). Genre chips count the last ${WINDOW_DAYS} days, so they run higher than New, which shows 24 hours. Country, playlist and feed chips count ${SOURCE_CHIP_DAYS} measured days, as only-here/shared/total.</p>
+<p class="mb-2 text-sm leading-relaxed text-muted-foreground">Save applies changes at tonight's update. Save &amp; refresh applies them now and publishes in about two minutes.</p>
 <div id="sections"></div>
 </main>
 <div id="editor-dock" class="mt-4 rounded-2xl border border-border bg-surface-raised p-3">
@@ -360,7 +359,6 @@ export const PAGE = /* html */ `<!doctype html>
 <div id="banner" hidden role="status"></div>
 <footer class="flex flex-wrap items-center gap-2">
   <span id="status" role="status" class="min-w-0 grow basis-48 break-words text-sm leading-snug tabular-nums text-muted-foreground empty:hidden"></span>
-  <button id="quit" class="min-h-10 cursor-pointer rounded-full border border-border-strong bg-transparent px-4 text-sm font-medium">Quit</button>
   <button id="refresh" class="min-h-10 max-w-full cursor-pointer rounded-full border border-action-secondary-border bg-transparent px-4 text-sm font-medium text-action-secondary-fg disabled:cursor-default disabled:opacity-45">Save &amp; refresh</button>
   <button id="save" disabled class="min-h-10 cursor-pointer rounded-full border border-primary bg-primary px-5 text-sm font-medium text-primary-foreground disabled:cursor-default disabled:opacity-45">Save</button>
 </footer>
@@ -369,11 +367,12 @@ export const PAGE = /* html */ `<!doctype html>
 let editRevision = 0, saving = null, refreshStarting = false, stopped = false
 let prefs, activity = {}, genreOptions = [], genreCounts = {}, sourceCounts = {}, countryNames = {}, dirty = false
 let countsAvailable = true
-let streamingOnly = new Set(), alwaysScanned = [], historyDays = 0
+let streamingOnly = new Set(), chartGenres = {}, historyDays = 0
 let dormancySort = false
 const $ = (id) => document.getElementById(id)
 const TAG_COUNTRY = '${sourceTag('country', '')}'
 const TAG_PLAYLIST = '${sourceTag('playlist', '')}'
+const TAG_CHART_US = '${sourceTag('chart', 'us')}'
 const nameOf = (e) => (typeof e === 'string' ? e : e.name)
 const OFFLINE = 'Editor not responding. Reopen prefs.command.'
 // Full literals, not composed strings — Tailwind scans this file as text.
@@ -403,22 +402,20 @@ function setFieldError(key, text) {
 }
 const clearFieldError = (key) => setFieldError(key, '')
 const SECTIONS = [
-  { key: 'artists.followed', label: 'Followed Artists', sub: 'Pinned first ★, fetched by Apple ID, bypass filters', kind: 'artist' },
-  { key: 'artists.blocked', label: 'Blocked Artists', sub: 'Never shown (matched by Apple ID)', kind: 'artist' },
-  { key: 'genres.followed', label: 'Followed Genres', sub: 'Discovery only surfaces these (followed artists always show)', kind: 'genre' },
-  { key: 'discovery.countries', label: 'Additional Countries', sub: 'Each country\\'s Top 100, plus its purchase charts where Apple runs a store', kind: 'country' },
-  { key: 'discovery.playlists', label: 'Discovery Playlists', sub: 'Apple Music playlists scanned daily for day-of releases', kind: 'playlist' },
+  { key: 'artists.followed', label: 'Followed Artists', sub: 'Every release shows, pinned first ★', kind: 'artist' },
+  { key: 'artists.blocked', label: 'Blocked Artists', sub: 'Never shown', kind: 'artist' },
+  { key: 'genres.followed', label: 'Followed Genres', sub: 'Releases from artists you don\\'t follow show only in these genres. Genres marked US chart also scan Apple\\'s US chart for that genre.', kind: 'genre' },
+  { key: 'discovery.countries', label: 'Countries', sub: 'Apple Music charts scanned for new releases', kind: 'country' },
+  { key: 'discovery.playlists', label: 'Discovery Playlists', sub: 'Apple Music playlists scanned for new releases', kind: 'playlist' },
 ]
 const getList = (key) => key.split('.').reduce((o, k) => o[k], prefs)
 const displayOf = (s, e) =>
   s.kind === 'country' && Object.hasOwn(countryNames, e) ? countryNames[e] : nameOf(e)
 
-function streamingOnlyNote() {
-  const span = document.createElement('span')
-  span.className = MUTED
-  span.textContent = '· streaming only'
-  span.title = 'Apple runs no purchase store here, so only the most-played chart is scanned'
-  return span
+function countryNote(code) {
+  if (code === '${US_STOREFRONT}') return 'Most-played albums, top 50'
+  if (streamingOnly.has(code)) return 'Streaming chart only: Apple runs no purchase store here'
+  return ''
 }
 
 const PLAYLIST_RE = /${PLAYLIST_URL_RE.source}/
@@ -459,13 +456,23 @@ function noteRow(results, text) {
 
 function markDirty() { editRevision++; dirty = true; $('save').disabled = false; setStatus('Unsaved changes', false, true) }
 
+function chartNote(tag) {
+  const span = document.createElement('span')
+  span.className = MUTED
+  span.textContent = '· US chart'
+  const c = sourceCounts[tag]
+  span.title = 'Also scans Apple\\'s US chart for this genre' +
+    (c && c.measured >= THIN_DAYS ? '. Last ' + CHIP_DAYS + ' days: ' + c.unique + ' only here, ' + c.surfaced + ' total' : '')
+  return span
+}
+
 function genreCount(name) {
   if (!countsAvailable) return null
   const n = genreCounts[name.toLowerCase()] ?? 0
   const span = document.createElement('span')
   span.className = n === 0 ? AMBER : MUTED
   span.textContent = '· ' + n
-  span.title = 'found by the latest update via this genre'
+  span.title = 'Releases from artists you don\\'t follow in this genre, last ${WINDOW_DAYS} days'
   return span
 }
 
@@ -485,33 +492,43 @@ function sourceCount(tag) {
   }
   const shared = c.surfaced - c.unique
   span.className = c.surfaced === 0 ? AMBER : MUTED
-  span.textContent = '· ' + (c.surfaced === 0 ? '0' : c.unique + '/' + shared + '/' + c.surfaced)
+  span.textContent = '· ' + (c.surfaced === 0 ? '0' : c.unique + ' only here')
   span.title = c.surfaced === 0
-    ? 'nothing across ' + c.measured + ' measured days in the last ' + CHIP_DAYS + ', worth a look'
-    : c.unique + ' only here / ' + shared + ' shared / ' + c.surfaced + ' total, over ' +
+    ? 'Nothing across ' + c.measured + ' measured days in the last ' + CHIP_DAYS + ', worth a look'
+    : 'Last ' + CHIP_DAYS + ' days: ' + c.unique + ' only here, ' + shared + ' shared, ' + c.surfaced + ' total, over ' +
       c.measured + ' measured days' + (c.last ? '; last found something on ' + c.last : '')
   return span
 }
 
-let fixedOpen = false
-function renderFixed() {
-  const d = document.createElement('details')
-  d.className = 'mt-4 rounded-2xl border border-border bg-surface-raised px-4 py-3'
-  d.open = fixedOpen
-  d.ontoggle = () => { fixedOpen = d.open }
-  const sum = document.createElement('summary')
-  sum.className = 'cursor-pointer text-sm text-muted-foreground hover:text-foreground'
-  sum.textContent = 'Always scanned · ' + alwaysScanned.length + ' · US charts and genre feeds, fixed in code'
-  const list = document.createElement('ul')
-  list.className = 'mt-2 ml-4 text-sm leading-[1.5] text-muted-foreground'
-  for (const e of alwaysScanned) {
-    const li = document.createElement('li')
-    li.appendChild(document.createTextNode(e.label + ' (' + e.sub + ') '))
-    li.appendChild(sourceCount(e.tag))
-    list.appendChild(li)
-  }
-  d.append(sum, list)
-  return d
+function renderFilters() {
+  const card = document.createElement('section')
+  card.className = 'mt-4 rounded-2xl border border-border bg-surface-raised p-4'
+  card.id = 'section-filters'
+  const h = document.createElement('h2')
+  h.className = 'mb-3 text-base font-semibold'
+  h.textContent = 'Filters'
+  const row = document.createElement('div')
+  row.className = 'flex items-start gap-2.5'
+  const box = document.createElement('input')
+  box.type = 'checkbox'
+  box.id = 'hide-alternate-versions'
+  box.className = 'mt-0.5 size-4.5 shrink-0 cursor-pointer accent-primary'
+  box.checked = prefs.filters.hide_alternate_versions
+  box.setAttribute('aria-describedby', 'hide-alternate-versions-sub')
+  box.onchange = () => { prefs.filters.hide_alternate_versions = box.checked; markDirty() }
+  const text = document.createElement('div')
+  const label = document.createElement('label')
+  label.htmlFor = box.id
+  label.className = 'cursor-pointer text-sm font-medium'
+  label.textContent = 'Hide instrumental, sped-up and slowed versions'
+  const sub = document.createElement('p')
+  sub.id = 'hide-alternate-versions-sub'
+  sub.className = 'text-sm text-muted-foreground'
+  sub.textContent = 'Applies to every release, including followed artists'
+  text.append(label, sub)
+  row.append(box, text)
+  card.append(h, row)
+  return card
 }
 
 // Names exist only on the edited section's chips: every named element is
@@ -613,17 +630,15 @@ function renderAll() {
       label.textContent = displayOf(s, entry)
       chip.appendChild(label)
       if (s.kind === 'country') {
-        const code = document.createElement('span')
-        code.className = 'text-xs text-muted-foreground'
-        code.textContent = '· ' + entry
-        chip.appendChild(code)
-        if (streamingOnly.has(entry)) chip.appendChild(streamingOnlyNote())
-        chip.appendChild(sourceCount(TAG_COUNTRY + entry))
+        chip.title = countryNote(entry)
+        chip.appendChild(sourceCount(entry === '${US_STOREFRONT}' ? TAG_CHART_US : TAG_COUNTRY + entry))
       }
       if (s.kind === 'playlist') chip.appendChild(sourceCount(TAG_PLAYLIST + nameOf(entry)))
       if (s.key === 'genres.followed') {
         const c = genreCount(nameOf(entry))
         if (c) chip.appendChild(c)
+        const chartTag = chartGenres[nameOf(entry).toLowerCase()]
+        if (chartTag) chip.appendChild(chartNote(chartTag))
       }
       if (typeof entry !== 'string') chip.title = entry.url ?? 'Apple Music artist #' + entry.id
       const last = s.key === 'artists.followed' && entry.id ? activity[entry.id] : null
@@ -655,7 +670,7 @@ function renderAll() {
     card.append(h, sub, chips, makeAdder(s))
     root.append(card)
   }
-  root.append(renderFixed())
+  root.append(renderFilters())
   observeSections()
 }
 
@@ -667,9 +682,35 @@ function markSection() {
   bandSection = sections.find((s) => inBand.has(s.id))?.id ?? bandSection
   // The last section is too short to reach the observer band.
   const atBottom = scrollY > 0 && innerHeight + scrollY >= document.documentElement.scrollHeight - 2
-  const id = atBottom ? sections.at(-1)?.id : bandSection
-  for (const a of document.querySelectorAll('#section-index a')) a.setAttribute('aria-current', String(a.getAttribute('href') === '#' + id))
+  const id = navHold ?? (atBottom ? sections.at(-1)?.id : bandSection)
+  for (const a of document.querySelectorAll('#section-index a')) {
+    const current = a.getAttribute('href') === '#' + id
+    if (current && a.getAttribute('aria-current') !== 'true') revealInNav(a)
+    a.setAttribute('aria-current', String(current))
+  }
 }
+// A short last section scrolls the page to the bottom, where markSection would
+// otherwise mark the last section instead of the clicked one.
+// scrollIntoView would also scroll the page and unstick the nav.
+function revealInNav(a) {
+  const nav = $('section-index')
+  const left = a.offsetLeft, right = left + a.offsetWidth
+  if (left < nav.scrollLeft) nav.scrollLeft = left
+  else if (right > nav.scrollLeft + nav.clientWidth) nav.scrollLeft = right - nav.clientWidth
+}
+// Released by any scroll that leaves where the jump lands, so the jump's own
+// scroll events keep it.
+let navHold = null, navLanding = 0
+$('section-index').addEventListener('click', (e) => {
+  const a = e.target.closest('a')
+  const target = a && document.getElementById(a.getAttribute('href').slice(1))
+  if (!target) return
+  const maxY = document.documentElement.scrollHeight - innerHeight
+  navLanding = Math.max(0, Math.min(maxY, scrollY + target.getBoundingClientRect().top))
+  navHold = target.id
+  markSection()
+})
+addEventListener('scroll', () => { if (navHold && Math.abs(scrollY - navLanding) > 2) navHold = null }, { passive: true })
 function observeSections() {
   sectionObserver?.disconnect()
   inBand.clear()
@@ -757,10 +798,10 @@ function wireDropdown(wrap, input, results, onDismiss) {
 }
 
 const PICKERS = {
-  artist: { placeholder: 'Add artist (name, Apple ID, or artist page URL, then pick from the list)…', wire: wireArtist },
-  playlist: { placeholder: 'Add playlist (paste an Apple Music playlist URL, then pick from the list)…', wire: wirePlaylist },
-  country: { placeholder: 'Add country (pick from the list)…', wire: wireCountry },
-  genre: { placeholder: 'Add genre (pick from the list, or press Enter for exact text)…', wire: wireGenre },
+  artist: { placeholder: 'Add artist: name, Apple ID or link', hint: 'Type a name, Apple ID or artist page URL, then pick from the list', wire: wireArtist },
+  playlist: { placeholder: 'Add playlist: paste a link', hint: 'Paste an Apple Music playlist URL, then pick from the list', wire: wirePlaylist },
+  country: { placeholder: 'Add country', hint: 'Pick a country from the list', wire: wireCountry },
+  genre: { placeholder: 'Add genre', hint: 'Pick from the list, or press Enter to follow the exact text', wire: wireGenre },
 }
 
 function makeAdder(s) {
@@ -775,6 +816,7 @@ function makeAdder(s) {
   input.setAttribute('aria-describedby', 'err-' + s.key)
   const picker = PICKERS[s.kind]
   input.placeholder = picker.placeholder
+  input.title = picker.hint
   const results = document.createElement('div')
   results.className = 'absolute inset-x-0 top-full z-10 mt-1 max-h-60 overflow-x-hidden overflow-y-auto rounded-2xl border bg-surface-raised p-1.5 shadow-lg'
   results.hidden = true
@@ -896,7 +938,7 @@ function wireCountry(s, input, results, pick) {
       .filter(([code, name]) => !have.has(code) && (name.toLowerCase().includes(typed) || code.includes(typed)))
       .sort((a, b) => a[1].localeCompare(b[1]))
     for (const [code, name] of opts)
-      resultRow(results, name, streamingOnly.has(code) ? code + ' · streaming only' : code, () => pick(code))
+      resultRow(results, name, code + (code === '${US_STOREFRONT}' ? ' · albums top 50' : streamingOnly.has(code) ? ' · streaming only' : ''), () => pick(code))
     results.hidden = opts.length === 0
   }
   input.oninput = show
@@ -914,7 +956,7 @@ function wireGenre(s, input, results, pick) {
     const typed = input.value.trim().toLowerCase()
     const have = new Set(getList(s.key).map((g) => nameOf(g).toLowerCase()))
     const opts = genreOptions.filter((g) => !have.has(g.toLowerCase()) && g.toLowerCase().includes(typed))
-    for (const g of opts) resultRow(results, g, '', () => pick(g))
+    for (const g of opts) resultRow(results, g, chartGenres[g.toLowerCase()] ? 'US chart' : '', () => pick(g))
     if (!opts.length && typed && !have.has(typed)) {
       resultRow(results, 'Follow exact text "' + input.value.trim() + '"', 'exact Apple genre match', () => pick(input.value))
       results.hidden = false
@@ -1106,7 +1148,10 @@ $('quit').onclick = async () => {
 window.onbeforeunload = () => (dirty ? true : undefined)
 
 function applyPrefs(p) {
-  prefs = { artists: p.artists, genres: p.genres, discovery: { countries: p.countries ?? [], playlists: p.playlists ?? [] } }
+  prefs = {
+    artists: p.artists, genres: p.genres, discovery: { countries: p.countries ?? [], playlists: p.playlists ?? [] },
+    filters: { hide_alternate_versions: p.filters?.hide_alternate_versions !== false },
+  }
   activity = p.activity ?? {}
   genreOptions = p.genreOptions ?? []
   genreCounts = p.genreCounts ?? {}
@@ -1115,7 +1160,7 @@ function applyPrefs(p) {
   countryNames = p.countryNames ?? {}
   historyDays = p.historyDays ?? 0
   streamingOnly = new Set(p.streamingOnly ?? [])
-  alwaysScanned = p.alwaysScanned ?? []
+  chartGenres = p.chartGenres ?? {}
   renderAll()
 }
 

@@ -2,7 +2,7 @@
 
 import { holdRunLock } from './run-lock.mjs'
 import { readFileSync } from 'node:fs'
-import { STOREFRONTS, STREAMING_ONLY, purchaseFeedsOf } from './storefronts.mjs'
+import { STOREFRONTS, STREAMING_ONLY, US_STOREFRONT, purchaseFeedsOf } from './storefronts.mjs'
 import { GENRE_OPTIONS } from './genre-options.mjs'
 import { fetchGenreTree, genreNamesById, underFollowed } from './genre-tree.mjs'
 import {
@@ -15,7 +15,7 @@ import {
   BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, LOOKUP_CHUNK, PACED_CALL_S,
   WINDOW_DAYS,
   PREFS_PATH, REFRESH_LOG, SOURCE_ACTIVITY_PATH, SOURCE_CHIP_DAYS,
-  SOURCE_THIN_DAYS, daysSince, feedTypesOf, sourceTag, sourceWindow, windowIndices,
+  SOURCE_THIN_DAYS, daysSince, feedTypesOf, genreChartsOf, sourceTag, sourceWindow, windowIndices,
   withinDays,
 } from './shared.mjs'
 
@@ -53,7 +53,10 @@ const RSS_GAP_MS = 150
 
 const followedGenres = PREFS.genres?.followed ?? []
 const followedSet = new Set(followedGenres.map((g) => g.toLowerCase()))
-const countries = PREFS.discovery?.countries ?? []
+const countrySet = new Set((PREFS.discovery?.countries ?? []).map((c) => String(c).toLowerCase()))
+const scanUs = countrySet.has(US_STOREFRONT)
+const countries = [...countrySet].filter((c) => c !== US_STOREFRONT)
+const genreCharts = genreChartsOf(PREFS)
 const playlists = PREFS.discovery?.playlists ?? []
 
 const admitted = {}
@@ -270,17 +273,19 @@ say(
   `${pad('days7/30', 10)}${pad('liveness', 32)}cost`
 )
 
-// always-scanned: US chart + genre feeds. most-played/albums serialises the
-// collection id directly; the songs feeds only expose it inside the track URL.
-{
+// most-played/albums serialises the collection id directly; the songs feeds
+// only expose it inside the track URL.
+if (scanUs) {
   progress('US most-played chart')
   const l = await mtLiveness(US_CHART_URL)
   const idSet = new Set((l.results ?? []).filter((e) => withinDays(e.releaseDate, OVERLAP_DAYS)).map((e) => normId(e.id)).filter(Boolean))
   const fresh = (l.results ?? []).filter((e) => withinDays(e.releaseDate, WINDOW_DAYS)).length
   const { results, ...live } = l
   rows.push({ kind: 'chart', tag: sourceTag('chart', 'us'), label: 'US most-played chart', live, idSet, cost: costS(fresh) })
+} else {
+  rec('ADD', 'country "us"', 'the US most-played chart is not scanned; add United States in Countries to scan it again', 'tentative')
 }
-for (const f of GENRE_FEEDS) {
+for (const f of genreCharts) {
   progress(`genre feed ${f.tag}`)
   const fts = feedTypesOf(f)
   const p = await probeRss(fts.map((ft) => ({ url: genreFeedUrl(ft, f.genreId), ft })))
@@ -551,7 +556,7 @@ if (DISCOVER) {
   out.sections.candidatePlaylists = plScores
 
   if (byId && ancestors) {
-    const scanned = new Map(GENRE_FEEDS.map((f) => [f.tag.toLowerCase(), f.genreId]))
+    const scanned = new Map(genreCharts.map((f) => [f.tag.toLowerCase(), f.genreId]))
     const missing = followedGenres.filter((g) => !scanned.has(g.toLowerCase()))
     const idFor = new Map([...byId.entries()].map(([id, n]) => [n.toLowerCase(), id]))
     say('\n  followed genres with no dedicated US feed:')

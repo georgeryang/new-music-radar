@@ -37,6 +37,11 @@ export const STOREFRONTS = {
   za: 'South Africa',
 }
 
+// US scans the most-played albums chart instead of the country feeds, so it
+// stays out of STOREFRONTS, which drives those feeds and the audit's candidates.
+export const US_STOREFRONT = 'us'
+export const COUNTRY_NAMES = { [US_STOREFRONT]: 'United States', ...STOREFRONTS }
+
 // Apple runs no iTunes purchase store here, so topalbums/topsongs are permanently
 // empty — kr returns 0 and 4 entries, the newest released 2008-10-21.
 export const STREAMING_ONLY = new Set(['kr'])

@@ -81,3 +81,22 @@ test('direct fetch blocks writes without claiming a publishing refresh', async (
   assert.equal(finished.running, false)
   assert.equal(finished.busy, false)
 })
+
+test('editor defaults the noise filter on, marks chart genres, and validates filters', async (t) => {
+  const { root, request } = await editor(t)
+  const path = join(root, 'config/preferences.json')
+  const file = { _comment: 'kept', artists: { followed: [], blocked: [] }, genres: { followed: ['Pop'] }, discovery: { countries: ['jp'], playlists: [] } }
+  writeFileSync(path, JSON.stringify(file))
+  const got = await (await request('/api/prefs')).json()
+  assert.deepEqual(got.filters, { hide_alternate_versions: true })
+  assert.equal(got.chartGenres.pop, 'genre:Pop')
+  assert.equal(got.countryNames.us, 'United States')
+  const body = (filters) => JSON.stringify({ ...file, discovery: { countries: ['jp', 'us'], playlists: [] }, filters })
+  assert.equal((await request('/api/prefs', { method: 'POST', body: body({ hide_alternate_versions: 'no' }) })).status, 400)
+  assert.equal((await request('/api/prefs', { method: 'POST', body: body({ hide_alternate_versions: false }) })).status, 200)
+  const saved = JSON.parse(readFileSync(path, 'utf8'))
+  assert.equal(saved._comment, 'kept')
+  assert.deepEqual(saved.discovery.countries, ['jp', 'us'])
+  assert.deepEqual(saved.filters, { hide_alternate_versions: false })
+  assert.deepEqual((await (await request('/api/prefs')).json()).filters, { hide_alternate_versions: false })
+})

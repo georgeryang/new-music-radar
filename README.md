@@ -39,11 +39,14 @@ Double-click `prefs.command` to open the editor in your browser.
   list Apple returns; that pins the pick by Apple ID, for follows and blocks
   alike, so a typed name alone won't match.
 - **Genres:** pick from the curated list, or type any exact Apple genre name.
-- **Additional Countries:** extra storefronts scanned on top of the US ones.
-  Each adds that country's Top 100 and, where Apple runs a purchase store,
-  its purchase charts too. A few storefronts have no purchase store, and
-  their chips say "streaming only".
+  A followed genre that has a US genre chart also scans that chart, and its
+  chip says "US chart".
+- **Countries:** storefronts whose charts are scanned. United States scans
+  the US most-played albums chart. Each other country adds its Top 100 and,
+  where Apple runs a purchase store, its purchase charts too.
 - **Discovery Playlists:** paste a music.apple.com playlist address to scan it.
+- **Filters:** hide instrumental, sped-up and slowed versions, including from
+  followed artists. On by default.
 - **Save** applies at tonight's update; **Save & refresh** runs now and
   publishes to the public site (about two minutes). Green means it finished
   cleanly, new releases or not; amber means it finished with something to

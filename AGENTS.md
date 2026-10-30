@@ -10,7 +10,7 @@ README and UI copy use plain US English, without em dashes or buzzwords. Titles,
 
 - One writer: `fetch-releases.mjs` → `docs/` → Pages, scheduled by launchd through `update.sh --if-stale`. No server-side build. `run-lock.mjs` shares macOS `lockf` across refreshes, fetches, audits, builds, and saves. Keep the lock inode; remove only owner metadata. Nested fetches require the refresh owner's token.
 - Foreign feeds contribute catalog IDs only; cards use US lookups. Never substitute foreign catalog metadata.
-- No genre mapping or parent/child matching. Display Apple's verbatim `primaryGenreName`; follow exact case-insensitive names. The picker uses `scripts/genre-options.mjs`; `npm run check-genres` finds missed names to follow explicitly.
+- No genre mapping or parent/child matching. Display Apple's verbatim `primaryGenreName`; follow exact case-insensitive names. The picker uses `scripts/genre-options.mjs`; `npm run check-genres` finds missed names to follow explicitly. A `GENRE_FEEDS` US chart runs only while its exact name is followed.
 - Precedence: block > follow > genre > drop. Follow/block require Apple IDs, never names. Follow matches `via_artist_id`, including collaborations; block matches credited `artist_id`. Blocking a member does not block a different joint-credit ID. Reapply eligibility to carryover.
 - Source errors exit 2 with partial publish. Failed days are `null`, never zero; all count windows skip them through `sourceWindow` in `scripts/shared.mjs`.
 - Card hrefs use `appleMusicAppLink` in `src/lib/utils.ts`: `music://`, without a web fallback. Apple's web handoff offers iTunes installation on iPadOS. No installed app means a nonworking link; unmatched URLs render unlinked.

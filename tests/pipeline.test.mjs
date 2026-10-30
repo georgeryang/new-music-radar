@@ -112,7 +112,7 @@ for (const fresh of [false, true]) test('carryover eligibility with fresh result
   const date = new Date().toISOString().slice(0, 10)
   const future = new Date(Date.now() + 86400e3 * 3).toISOString().slice(0, 10)
   const card = (title, extra = {}) => ({ title, artist: title, type: 'album', release_date: date, artwork: '', genre: 'Other', ...extra })
-  const prefs = { artists: { followed: [{ name: 'One', id: 1 }], blocked: [{ name: 'Blocked', id: 3 }] }, genres: { followed: ['Pop'] }, discovery: { countries: [], playlists: [] } }
+  const prefs = { artists: { followed: [{ name: 'One', id: 1 }], blocked: [{ name: 'Blocked', id: 3 }] }, genres: { followed: ['Pop'] }, discovery: { countries: ['us'], playlists: [] } }
   writeFileSync(join(root, 'config/preferences.json'), JSON.stringify(prefs))
   writeFileSync(join(root, 'docs/data/releases.json'), JSON.stringify({ fetched_at: Date.now(), releases: [
     card('collab', { via_artist_id: 1, artist_id: 9, followed: true }),
@@ -184,7 +184,7 @@ test('scheduled refresh repairs invalid timestamps and skips a fresh valid feed'
 for (const source of ['genre singleton', 'chart duplicate']) test('discovery preserves valid genres from ' + source, (t) => {
   const root = fixture(t)
   const date = new Date().toISOString().slice(0, 10)
-  writeFileSync(join(root, 'config/preferences.json'), JSON.stringify({ artists: { followed: [], blocked: [] }, genres: { followed: ['Pop'] }, discovery: { countries: [], playlists: [] } }))
+  writeFileSync(join(root, 'config/preferences.json'), JSON.stringify({ artists: { followed: [], blocked: [] }, genres: { followed: ['Pop'] }, discovery: { countries: ['us'], playlists: [] } }))
   writeFileSync(join(root, 'offline.mjs'), `const timer=globalThis.setTimeout;globalThis.setTimeout=(fn,ms,...args)=>timer(fn,Math.min(ms,1),...args);
 const collection={wrapperType:'collection',collectionId:101,collectionName:'Fixture',artistName:'Artist',artistId:10,releaseDate:'${date}',primaryGenreName:'Pop',trackCount:2};
 globalThis.fetch=async(url)=>new Response(JSON.stringify(url.includes('/lookup?')
@@ -199,10 +199,37 @@ globalThis.fetch=async(url)=>new Response(JSON.stringify(url.includes('/lookup?'
   assert.equal(history.sources[source === 'genre singleton' ? 'genre:Pop' : 'chart:us'].at(-1)[0], 1)
 })
 
+for (const hide of ['absent', false]) test('fetch scans only selected sources; alternate versions with the filter ' + hide, (t) => {
+  const root = fixture(t)
+  const date = new Date().toISOString().slice(0, 10)
+  const prefs = { artists: { followed: [], blocked: [] }, genres: { followed: ['pOp'] }, discovery: { countries: [], playlists: [] } }
+  if (hide !== 'absent') prefs.filters = { hide_alternate_versions: hide }
+  writeFileSync(join(root, 'config/preferences.json'), JSON.stringify(prefs))
+  writeFileSync(join(root, 'config/source-activity.json'), '{"days":[],"sources":{}}')
+  writeFileSync(join(root, 'docs/data/releases.json'), '{"releases":[]}')
+  writeFileSync(join(root, 'offline.mjs'), `import {writeFileSync} from 'node:fs';
+const timer=globalThis.setTimeout;globalThis.setTimeout=(fn,ms,...args)=>timer(fn,Math.min(ms,1),...args);
+const requests=[];process.on('exit',()=>writeFileSync('requests.json',JSON.stringify(requests)));
+const collection={wrapperType:'collection',collectionId:101,collectionName:'Song (Instrumental)',artistName:'Artist',artistId:10,releaseDate:'${date}',primaryGenreName:'Pop',trackCount:2};
+globalThis.fetch=async(url)=>{requests.push(url);return new Response(JSON.stringify(url.includes('/lookup?')
+  ? {results:[collection]}
+  : {feed:url.includes('/topalbums/genre=14/') ? {entry:{id:{attributes:{'im:id':'101'}},'im:releaseDate':{label:'${date}'}}} : {entry:[],results:[]}}))};`)
+  const result = run(root, process.execPath, ['--import', './offline.mjs', 'scripts/fetch-releases.mjs'])
+  assert.equal(result.status, 0, result.stdout + result.stderr)
+  const requests = JSON.parse(readFileSync(join(root, 'requests.json')))
+  assert.equal(requests.some((url) => url.includes('/most-played/')), false)
+  const genreFeeds = requests.filter((url) => url.includes('/genre='))
+  assert.ok(genreFeeds.length > 0 && genreFeeds.every((url) => url.includes('/genre=14/')), genreFeeds.join('\n'))
+  const history = JSON.parse(readFileSync(join(root, 'config/source-activity.json')))
+  assert.deepEqual(Object.keys(history.sources), ['genre:Pop'])
+  const feed = JSON.parse(readFileSync(join(root, 'docs/data/releases.json')))
+  assert.deepEqual(feed.releases.map((r) => r.title), hide === 'absent' ? [] : ['Song (Instrumental)'])
+})
+
 for (const lookup of ['failed', 'recovered', 'late recovery', 'replacement', 'success']) test('audit keeps incomplete evidence and combined removal advice safe: ' + lookup, (t) => {
   const root = fixture(t)
   const playlists = ['First', 'Second'].map((name) => ({ name, url: 'https://music.apple.com/us/playlist/' + name.toLowerCase() + '/pl.fixture' }))
-  writeFileSync(join(root, 'config/preferences.json'), JSON.stringify({ artists: { followed: [{ id: 7, name: 'Unrated' }], blocked: [] }, genres: { followed: ['pOp'] }, discovery: { countries: [], playlists } }))
+  writeFileSync(join(root, 'config/preferences.json'), JSON.stringify({ artists: { followed: [{ id: 7, name: 'Unrated' }], blocked: [] }, genres: { followed: ['pOp'] }, discovery: { countries: ['us'], playlists } }))
   writeFileSync(join(root, 'docs/data/releases.json'), JSON.stringify({ releases: [] }))
   const days = Array.from({ length: 14 }, (_, i) => new Date(Date.now() - (13 - i) * 86400e3).toISOString().slice(0, 10))
   writeFileSync(join(root, 'config/source-activity.json'), JSON.stringify({ days, sources: Object.fromEntries(playlists.map((p) => ['playlist:' + p.name, days.map(() => [0, 0])])) }))
@@ -259,7 +286,7 @@ globalThis.fetch=async(url)=>{
   }
 })
 
-function auditFixture(t, { countries = [], playlists = [], followed = [], setup = '' } = {}) {
+function auditFixture(t, { countries = ['us'], playlists = [], followed = [], setup = '' } = {}) {
   const root = fixture(t)
   writeFileSync(join(root, 'config/preferences.json'), JSON.stringify({ artists: { followed: [], blocked: [] }, genres: { followed }, discovery: { countries, playlists } }))
   writeFileSync(join(root, 'config/source-activity.json'), '{"days":[],"sources":{}}')
@@ -348,7 +375,7 @@ test('audit retries only failed lookup chunks and scores recovered cache entries
 })
 
 test('audit reports unmeasured windows separately from measured zero and excludes raw payloads', (t) => {
-  const { root, audit } = auditFixture(t, { setup: `function respond(url){if(url.includes('/most-played/50/albums'))return {feed:{results:[{id:'99',releaseDate:date,privatePayload:'omit'}]}};}` })
+  const { root, audit } = auditFixture(t, { followed: ['Pop'], setup: `function respond(url){if(url.includes('/most-played/50/albums'))return {feed:{results:[{id:'99',releaseDate:date,privatePayload:'omit'}]}};}` })
   const result = audit()
   assert.equal(result.status, 0, result.stdout + result.stderr)
   assert.match(result.stdout, /days7\/30/)
@@ -367,6 +394,15 @@ test('audit reports unmeasured windows separately from measured zero and exclude
   assert.equal(report.sections.sources[1].w30.measured, 0)
   assert.equal('results' in report.sections.sources[0].live, false)
   assert.equal(json.stdout.includes('privatePayload'), false)
+})
+
+test('audit without us skips the US chart and suggests adding it back', (t) => {
+  const { audit, requests } = auditFixture(t, { countries: [] })
+  const result = audit('--json')
+  assert.equal(result.status, 0, result.stdout + result.stderr)
+  assert.equal(requests().some((url) => url.includes('/us/music/most-played/') || url.includes('/us/rss/top')), false)
+  const report = JSON.parse(result.stdout)
+  assert.ok(report.recommend.some((r) => r.action === 'ADD' && r.target === 'country "us"'))
 })
 
 test('candidate country probes include streaming-only Top 100 contributions', (t) => {

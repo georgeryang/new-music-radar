@@ -1,5 +1,5 @@
 {
-  "_comment": "genres.followed holds exact Apple genre names, matched case-insensitively against each release's genre - discovery only surfaces these genres (followed artists always show regardless). The prefs.command editor offers a curated list; any other Apple genre name can be followed by typing it exactly. artists.* entries (both lists) must be {name, id} objects where id is an APPLE MUSIC artist id, added via the prefs.command picker - followed artists are fetched by id, blocked artists are dropped by id. discovery.countries are Apple storefront codes from scripts/storefronts.mjs - each adds that country's Top 100 and, where Apple runs a purchase store, its purchase charts too (US charts are always scanned). discovery.playlists are Apple Music playlist pages scraped nightly for day-of releases - paste any playlist URL from music.apple.com (also editable in prefs.command).",
+  "_comment": "genres.followed holds exact Apple genre names, matched case-insensitively against each release's genre - discovery only surfaces these genres (followed artists always show), and a followed genre that has a US genre chart in GENRE_FEEDS (scripts/shared.mjs) also scans that chart. The prefs.command editor offers a curated list; any other Apple genre name can be followed by typing it exactly. artists.* entries (both lists) must be {name, id} objects where id is an APPLE MUSIC artist id, added via the prefs.command picker - followed artists are fetched by id, blocked artists are dropped by id. discovery.countries are Apple storefront codes: \"us\" scans the US most-played albums chart, and each code from scripts/storefronts.mjs adds that country's Top 100 and, where Apple runs a purchase store, its purchase charts too. discovery.playlists are Apple Music playlist pages scraped nightly for day-of releases - paste any playlist URL from music.apple.com (also editable in prefs.command). filters.hide_alternate_versions (default true) drops instrumental, sped-up and slowed versions, including from followed artists.",
   "artists": {
     "followed": [
       {
@@ -903,7 +903,8 @@
       "jp",
       "kr",
       "mx",
-      "tw"
+      "tw",
+      "us"
     ],
     "playlists": [
       {
@@ -923,5 +924,8 @@
         "url": "https://music.apple.com/us/playlist/the-a-list-cantopop/pl.31991c6bcf0447ac9f16c07678a5a0a0"
       }
     ]
+  },
+  "filters": {
+    "hide_alternate_versions": true
   }
 }

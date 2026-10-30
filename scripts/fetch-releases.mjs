@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
 import { mkdirSync, readFileSync } from 'node:fs'
-import { STOREFRONTS, purchaseFeedsOf } from './storefronts.mjs'
+import { STOREFRONTS, US_STOREFRONT, purchaseFeedsOf } from './storefronts.mjs'
 import { cardKeyOf, keyOf, releaseOrder, upcomingOrder } from './card-key.mjs'
 import {
   US_CHART_URL, albumIdFromTrackUrl, artistAlbumsUrl, asList, countryMostPlayedUrl,
   countryPurchaseUrl, errDetail, genreFeedUrl, getJSON, groupArtistLookup, itunesJSON,
   lookupUrl, marketingToolsJSON, normId, rssAlbumId, scrapePlaylistAlbumIds, sleep, throttleCount, usLink,
 } from './apple-api.mjs'
-import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_FEEDS, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, daysSince, feedTypesOf, notOlderThan, sourceTag, withinDays, writeFileAtomic, serializeFeed } from './shared.mjs'
+import { ACTIVITY_PATH, BATCH_SIZE, DATA_PATH, GENRE_ACTIVITY_PATH, GENRE_MEMORY_DAYS, LOOKUP_CHUNK, PREFS_PATH, SOURCE_ACTIVITY_PATH, SOURCE_MEMORY_DAYS, WINDOW_DAYS, daysSince, feedTypesOf, genreChartsOf, hideNoiseOf, notOlderThan, sourceTag, withinDays, writeFileAtomic, serializeFeed } from './shared.mjs'
 
 import { holdRunLock } from './run-lock.mjs'
 
@@ -20,6 +20,7 @@ const PREFS = JSON.parse(readFileSync(PREFS_PATH, 'utf8'))
 const log = (...a) => console.log(`[${new Date().toLocaleString('sv-SE')}]`, ...a)
 
 const NOISE_RE = /\b(instrumental|sped[ -]?up|slowed( \+ reverb)?|inst\.)\b/i
+const isNoise = (title) => HIDE_NOISE && NOISE_RE.test(title)
 
 // UTC, matching the dates Apple serializes; the app formats in local time.
 const TODAY = new Date().toISOString().slice(0, 10)
@@ -73,6 +74,8 @@ const fromCollection = (a) => ({
   link: appleLink(a.collectionViewUrl),
 })
 
+const HIDE_NOISE = hideNoiseOf(PREFS)
+const GENRE_CHARTS = genreChartsOf(PREFS)
 const GENRES_FOLLOWED = (PREFS.genres?.followed ?? []).map((s) => s.toLowerCase())
 
 const FOLLOWED_ENTRIES = PREFS.artists?.followed ?? []
@@ -196,7 +199,10 @@ const albumEntryToRelease = (e, tag) => ({
   link: appleLink(e.id?.label),
 })
 
-const COUNTRY_CODES = [...new Set((PREFS.discovery?.countries ?? []).map((c) => String(c).toLowerCase()))].filter((c) => {
+const COUNTRY_SET = new Set((PREFS.discovery?.countries ?? []).map((c) => String(c).toLowerCase()))
+const SCAN_US = COUNTRY_SET.has(US_STOREFRONT)
+const COUNTRY_CODES = [...COUNTRY_SET].filter((c) => {
+  if (c === US_STOREFRONT) return false
   // hasOwn, not truthiness: an inherited key ("constructor") is unknown too
   if (Object.hasOwn(STOREFRONTS, c)) return true
   log(`unknown storefront code "${c}" in discovery.countries — skipped`)
@@ -235,7 +241,7 @@ const releases = []
 // Discovery fetches start now and resolve behind the paced artist sweep, so
 // their wall time disappears. Genre feeds and playlist pages are unpaced;
 // the US chart takes the marketingtools lane's first slot.
-const chartP = fetchChart()
+const chartP = SCAN_US ? fetchChart() : Promise.resolve([])
 // chartP is consumed after the sweep — without this handler, a chart failure
 // mid-sweep is an unhandled rejection that kills the run before anything is
 // written. (The other starters are allSettled and can't reject.)
@@ -246,7 +252,7 @@ let itunesSlot = 0
 const nextStagger = () => itunesSlot++ * 250
 
 const genreFeedsP = Promise.allSettled(
-  GENRE_FEEDS.flatMap((f) =>
+  GENRE_CHARTS.flatMap((f) =>
     feedTypesOf(f).map((feedType) =>
       sleep(nextStagger())
         .then(() => genreFeed(feedType, f.genreId))
@@ -443,7 +449,7 @@ if (genreFeedIds.size) {
     releases.push(...fresh)
   } catch (e) {
     anyFailed = true
-    for (const f of GENRE_FEEDS) failedSources.add(sourceTag('genre', f.tag))
+    for (const f of GENRE_CHARTS) failedSources.add(sourceTag('genre', f.tag))
     log(`genre chart lookup failed — album entries fall back to feed data: ${errDetail(e)}`)
     releases.push(
       ...[...feedAlbumFallback.entries()].map(([id, e]) => ({
@@ -591,7 +597,7 @@ function mergeInto(prev, r) {
 
 const byKey = new Map()
 for (const r of releases) {
-  if (NOISE_RE.test(r.title)) {
+  if (isNoise(r.title)) {
     log(`dropped noise "${r.artist} — ${r.title}"`)
     continue
   }
@@ -638,7 +644,7 @@ try {
 }
 
 const eligibleCarryover = (r) => {
-  if (NOISE_RE.test(r.title) || isArtistBlocked(r)) return false
+  if (isNoise(r.title) || isArtistBlocked(r)) return false
   r.followed = sweepIds.has(r.via_artist_id ?? r.artist_id)
   return r.followed || isGenreFollowed(r.genre)
 }
@@ -664,7 +670,7 @@ if (out.length === 0) {
 
 const upcomingByKey = new Map()
 for (const r of upcomingRaw) {
-  if (NOISE_RE.test(r.title) || isArtistBlocked(r)) continue
+  if (isNoise(r.title) || isArtistBlocked(r)) continue
   if (!sweepIds.has(r.via_artist_id)) continue
   const k = keyOf(r)
   const prev = upcomingByKey.get(k)
@@ -774,8 +780,8 @@ try {
   }
 
   const configured = new Set([
-    CHART_SOURCE,
-    ...GENRE_FEEDS.map((f) => sourceTag('genre', f.tag)),
+    ...(SCAN_US ? [CHART_SOURCE] : []),
+    ...GENRE_CHARTS.map((f) => sourceTag('genre', f.tag)),
     ...COUNTRY_CODES.map((sf) => sourceTag('country', sf)),
     ...(PREFS.discovery?.playlists ?? []).map((pl) => sourceTag('playlist', pl.name)),
   ])

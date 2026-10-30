@@ -102,6 +102,12 @@ export const GENRE_FEEDS = [
 export const PURCHASE_FEED_TYPES = ['topalbums', 'topsongs']
 export const feedTypesOf = (f) => f.feeds ?? PURCHASE_FEED_TYPES
 
+export function genreChartsOf(prefs) {
+  const followed = new Set((prefs?.genres?.followed ?? []).map((g) => String(g).toLowerCase()))
+  return GENRE_FEEDS.filter((f) => followed.has(f.tag.toLowerCase()))
+}
+export const hideNoiseOf = (prefs) => prefs?.filters?.hide_alternate_versions !== false
+
 export function serializeFeed(data) {
   const records = (rows) => rows.map((row) => JSON.stringify(row)).join(',\n')
   return `{\n"fetched_at":${data.fetched_at},\n"releases":[\n${records(data.releases)}\n],\n"upcoming":[\n${records(data.upcoming ?? [])}\n]\n}\n`

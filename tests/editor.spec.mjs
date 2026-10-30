@@ -206,7 +206,7 @@ test('visibility changes do not overlap status requests; quit stops polling', as
   await page.evaluate(() => { for (let i = 0; i < 5; i++) document.dispatchEvent(new Event('visibilitychange')) })
   assert.equal(max, 1)
   release.resolve()
-  await page.getByRole('button', { name: 'Quit', exact: true }).click()
+  await page.getByRole('button', { name: 'Quit editor', exact: true }).click()
   await page.getByText('Server stopped. You can close this tab.').waitFor()
   await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')))
 })
@@ -219,7 +219,7 @@ for (const failure of [false, true]) test('quit ignores a late initial preferenc
     return json(route, prefs())
   } }, false)
   await entered.promise
-  await page.getByRole('button', { name: 'Quit', exact: true }).click()
+  await page.getByRole('button', { name: 'Quit editor', exact: true }).click()
   await page.getByText('Server stopped. You can close this tab.').waitFor()
   const response = page.waitForResponse((r) => r.url().endsWith('/api/prefs'))
   release.resolve()
@@ -247,7 +247,7 @@ test('actions card and error text fit narrow layouts after the last section', as
         afterMain: dock.previousElementSibling?.tagName === 'MAIN',
         inFlow: getComputedStyle(dock).position === 'static',
         status: { left: status.left, right: status.right, height: status.height },
-        buttons: ['quit', 'refresh', 'save'].map((id) => { const b = document.getElementById(id).getBoundingClientRect(); return { left: b.left, right: b.right, height: b.height } }),
+        buttons: ['refresh', 'save', 'quit'].map((id) => { const b = document.getElementById(id).getBoundingClientRect(); return { left: b.left, right: b.right, height: b.height } }),
       }
     })
     assert.ok(layout.width <= layout.viewport, JSON.stringify(layout))
@@ -273,7 +273,7 @@ test('actions card and error text fit narrow layouts after the last section', as
   }
   await page.setViewportSize({ width: 1280, height: 800 })
   await page.evaluate(() => { document.documentElement.style.fontSize = ''; setStatus('Unsaved changes', false, true) })
-  const tops = await page.evaluate(() => ['status', 'quit', 'refresh', 'save'].map((id) => Math.round(document.getElementById(id).getBoundingClientRect().top + document.getElementById(id).getBoundingClientRect().height / 2)))
+  const tops = await page.evaluate(() => ['status', 'refresh', 'save'].map((id) => Math.round(document.getElementById(id).getBoundingClientRect().top + document.getElementById(id).getBoundingClientRect().height / 2)))
   assert.ok(Math.max(...tops) - Math.min(...tops) <= 2, JSON.stringify(tops))
   await page.screenshot({ path: '/private/tmp/radar-editor-dark.png', fullPage: true })
 })
@@ -481,4 +481,48 @@ test('section index follows the scroll position, including the last section', as
   await page.evaluate(() => scrollTo(0, 0))
   await page.waitForFunction(() => document.querySelector('#section-index a[aria-current="true"]')?.textContent === 'Artists')
   assert.equal(await current(), 'Artists')
+  await page.locator('#section-index a', { hasText: 'Filters' }).click()
+  await page.waitForFunction(() => document.querySelector('#section-index a[aria-current="true"]')?.textContent === 'Filters')
+  const visible = await page.evaluate(() => {
+    const nav = document.getElementById('section-index').getBoundingClientRect()
+    const link = document.querySelector('#section-index a[aria-current="true"]').getBoundingClientRect()
+    return link.left >= nav.left - 1 && link.right <= nav.right + 1
+  })
+  assert.ok(visible)
+})
+
+test('US, chart genres, source counts and the filter toggle', async (t) => {
+  const page = await editor(t, { prefs: (route) => json(route, {
+    ...prefs(), genres: { followed: ['Pop', 'Afrobeats'] }, countries: ['us', 'kr'],
+    countryNames: { us: 'United States', kr: 'Korea' }, streamingOnly: ['kr'],
+    chartGenres: { pop: 'genre:Pop' },
+    sourceCounts: { 'chart:us': { surfaced: 21, unique: 5, measured: 18, failed: 0, last: null } },
+    filters: { hide_alternate_versions: true },
+  }) })
+  assert.equal(await page.getByText('Always scanned').count(), 0)
+  const us = page.locator('[data-section="discovery.countries"] span', { hasText: 'United States' }).first()
+  assert.match(await us.innerText(), /5 only here/)
+  assert.equal(await us.getAttribute('title'), 'Most-played albums, top 50')
+  const genres = page.locator('[data-section="genres.followed"]')
+  assert.equal(await genres.getByText('· US chart').count(), 1)
+  await page.getByRole('button', { name: 'Remove United States', exact: true }).click()
+  await page.getByRole('button', { name: 'Remove United States', exact: true }).waitFor({ state: 'detached' })
+  await page.getByRole('textbox', { name: 'Add to Countries' }).fill('United States')
+  await page.getByRole('textbox', { name: 'Add to Countries' }).press('Enter')
+  await page.getByRole('button', { name: 'Remove United States', exact: true }).waitFor()
+  await page.getByRole('button', { name: 'Save', exact: true }).click()
+  await page.waitForFunction(() => document.getElementById('save').disabled)
+  const box = page.getByRole('checkbox', { name: 'Hide instrumental, sped-up and slowed versions' })
+  assert.equal(await box.isChecked(), true)
+  let posted
+  await page.route('**/api/prefs', async (route) => {
+    if (route.request().method() === 'POST') { posted = JSON.parse(route.request().postData()); return json(route, { ok: true }) }
+    return route.fallback()
+  })
+  await box.uncheck()
+  assert.equal(await page.getByRole('button', { name: 'Save', exact: true }).isDisabled(), false)
+  await page.getByRole('button', { name: 'Save', exact: true }).click()
+  await page.waitForFunction(() => document.getElementById('save').disabled)
+  assert.deepEqual(posted.filters, { hide_alternate_versions: false })
+  assert.ok(posted.discovery.countries.includes('us'))
 })
