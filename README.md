@@ -63,57 +63,24 @@ months, red past 3 years). Nothing is removed automatically.
 
 ## Setting Up on a New Computer
 
-Cloud Refresh (below) runs the daily update now; these steps set up a Mac as
-the fallback updater, used only after switching back. The site itself
-works from any device.
+Cloud Refresh (below) runs the daily update, so a new computer only needs the
+preferences editor. The site itself works from any device.
 
 1. Install `node`, `git`, and `gh`.
 2. Clone the repo anywhere, to a path without spaces or special characters:
    `git clone git@github.com:georgeryang/new-music-radar.git`, then
    `npm install`. If you edit the project with Codex or Claude Code, also run
    `npm run setup-skills` (see below).
-3. Run `gh auth login`, which lets the update verify its Pages deploy (skip
-   `gh` and it skips that check, so a deploy flake goes unnoticed). Then make
-   sure `git push` works (SSH key for the SSH URL; `gh auth setup-git` if you
-   cloned over HTTPS).
-4. After switching back (see Cloud Refresh), test once from the repo root:
-   `bash scripts/update.sh` (about two minutes, ends with "Published", or "No
-   changes" if the cloned data is already current).
-5. Schedule it, pasting all six lines together from the repo root (two of
-   them record the folder they run from; the last three need your password):
+3. Make sure `git push` works (SSH key for the SSH URL; `gh auth setup-git` if
+   you cloned over HTTPS), since Save pushes preferences. Run
+   `gcloud auth login` so **Save & refresh** can start the cloud job.
 
-```
-sed -e "s|/Users/georgeyang/dev/gry/new-music-radar|$PWD|g" -e "s|/Users/georgeyang|$HOME|g" launchd/com.georgeryang.new-music-radar.plist > ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist
-launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist
-( crontab -l 2>/dev/null | grep -v 'new-music-radar/.*watchdog.sh'; echo "*/5 * * * * $PWD/launchd/watchdog.sh" ) | crontab -
-sudo install -d -o root -g wheel "/Library/Application Support/new-music-radar"
-sudo install -o root -g wheel -m 755 launchd/schedule-wake.sh "/Library/Application Support/new-music-radar/"
-sudo install -o root -g wheel -m 644 launchd/com.georgeryang.new-music-radar.wake.plist /Library/LaunchDaemons/ && sudo launchctl bootstrap system /Library/LaunchDaemons/com.georgeryang.new-music-radar.wake.plist
-```
-
-The first command fills in this computer's folder locations, since the
-scheduler needs full paths, not `~`. The Mac updates the site once a day
-around 6:15 PM Korea time, or at the next wake. The 5-minute check reloads
-the scheduler if a reboot drops it, but never fetches. The last three lines wake
-the Mac at 6:30 PM Korea time every day (5:30 AM US Eastern in summer, 4:30 AM
-in winter), so the update runs before you're up when plugged in; on battery
-it waits for the next lid-open. After editing `launchd/schedule-wake.sh`,
-rerun only the fifth line; the wake job picks up the new copy within the hour.
-After editing its plist, run
-`sudo launchctl bootout system/com.georgeryang.new-music-radar.wake` before
-rerunning the sixth line.
-If an older setup used `pmset repeat`, also run `sudo pmset repeat cancel`.
-
-To turn it off:
-```
-launchctl bootout gui/$(id -u)/com.georgeryang.new-music-radar
-crontab -l 2>/dev/null | grep -v 'new-music-radar/.*watchdog.sh' | crontab -
-sudo launchctl bootout system/com.georgeryang.new-music-radar.wake
-sudo rm -rf /Library/LaunchDaemons/com.georgeryang.new-music-radar.wake.plist "/Library/Application Support/new-music-radar" /var/log/new-music-radar-wake.log
-```
-
-Wakes already scheduled for the next few days still happen; `pmset -g sched`
-lists them.
+The Mac scheduler files (`launchd/`) were removed after the switch to Cloud
+Refresh. To run the update on a Mac again, restore them with
+`git restore --source=bee201a -- launchd` and follow this section of the
+README at that commit (`git show bee201a:README.md`). The daily 6:30 PM Korea
+time wake LaunchDaemon stays installed: a separate project relies on it and
+now keeps its sources.
 
 ## Cloud Refresh
 
@@ -143,11 +110,10 @@ commit that sets `CLOUD_REFRESH = true`, then resume the Scheduler jobs. Leave
 the wake LaunchDaemon installed: the worklog relies on its daily wake.
 
 **Switching Back to the Mac:** pause both Scheduler jobs, revert the
-`CLOUD_REFRESH` commit, run
-`launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist`,
-and uncomment the watchdog line. If the agent plist or `launchd/watchdog.sh`
-were deleted, restore them from git history first. `gcloud projects delete`
-removes everything billable; revoke the job's GitHub token in GitHub settings.
+`CLOUD_REFRESH` commit, restore `launchd/` from git history and install its
+agent and watchdog (see Setting Up on a New Computer). `gcloud projects
+delete new-music-radar-gry` removes everything billable; revoke the job's
+GitHub token in GitHub settings.
 
 ## If Something Looks Wrong
 
@@ -186,14 +152,8 @@ other request to the editor is refused unless it comes from your machine.
   `public/fonts/` on every build.
 - **Scheduling:** Cloud Scheduler starts the Cloud Run job at 09:20 and 11:20
   UTC with `--if-stale`, so the second run only acts if the first did not
-  publish. On the Mac fallback, launchd ticks every 10 min; `update.sh
-  --if-stale` turns that into one fetch a day, anchored to 18:15 KST. `launchd/watchdog.sh`
-  (cron, every 5 min) re-bootstraps the agent if macOS drops it after a
-  reboot. A root LaunchDaemon schedules one-off `pmset` wakes at 18:30 KST
-  for the next few days. An hourly `StartCalendarInterval` at :25 is always
-  already missed when that wake comes, so it fires then. Both trigger the run
-  but aren't the anchor. `caffeinate -sim` only holds the Mac awake on AC
-  power, so on battery the run finishes across later wakes.
+  publish. `update.sh --if-stale` anchors the same 18:15 KST slot for the Mac
+  fallback, whose launchd files live in git history.
 - **Preferences Editor:** `scripts/prefs-server.mjs`, local-only on
   127.0.0.1:4747. Follow, block, and the star all key on Apple ID, never name.
   Also serves the built site at `/new-music-radar/`, for a refresh without a
