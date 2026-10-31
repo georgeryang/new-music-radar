@@ -11,7 +11,9 @@ export function fixture(t) {
   for (const dir of ['scripts', 'config', 'docs']) cpSync(join(repo, dir), join(root, dir), { recursive: true })
   // Fixtures exercise the Mac path unless a test writes its own cloud config.
   const cloudConfig = join(root, 'scripts/cloud-config.mjs')
-  writeFileSync(cloudConfig, readFileSync(cloudConfig, 'utf8').replace('CLOUD_REFRESH = true', 'CLOUD_REFRESH = false'))
+  const config = readFileSync(cloudConfig, 'utf8')
+  if (!/^export const CLOUD_REFRESH = (true|false)$/m.test(config)) throw new Error('cloud-config.mjs no longer declares CLOUD_REFRESH as expected')
+  writeFileSync(cloudConfig, config.replace('CLOUD_REFRESH = true', 'CLOUD_REFRESH = false'))
   writeFileSync(join(root, 'package.json'), '{"type":"module"}')
   writeFileSync(join(root, '.gitignore'), '.radar-run.lock*\n*.tmp\nhome/\nbin/\n')
   mkdirSync(join(root, 'home/Library/Logs'), { recursive: true })
@@ -19,7 +21,6 @@ export function fixture(t) {
   t.after(() => rmSync(root, { recursive: true, force: true }))
   return root
 }
-// Makes a fixture a git repo on main whose origin is a local bare repository.
 export function gitRemote(t, root) {
   const remote = root + '-remote.git'
   t.after(() => rmSync(remote, { recursive: true, force: true }))

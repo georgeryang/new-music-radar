@@ -17,11 +17,13 @@ if ! "$NODE" scripts/run-lock.mjs --owns-refresh; then
 fi
 
 # --if-stale (from launchd): one fetch per day, anchored to 18:15 KST (see
-# is-stale.mjs). launchd ticks every 10 min while awake, so the fetch lands in the 18:15–18:30
-# window (or at first wake after).
+# is-stale.mjs). launchd ticks every 10 min while awake, so the fetch lands in
+# the 18:15–18:30 window (or at first wake after).
 if [ "${1:-}" = "--if-stale" ]; then
   # One writer: the scheduled path stands down once Cloud Refresh owns the job.
-  if "$NODE" --input-type=module -e 'const m = await import("./scripts/cloud-config.mjs"); process.exit(m.CLOUD_REFRESH ? 0 : 1)' 2>/dev/null; then
+  CLOUD="$("$NODE" --input-type=module -e 'const m = await import("./scripts/cloud-config.mjs"); process.stdout.write(String(m.CLOUD_REFRESH))' 2>&1)"
+  if [ "$CLOUD" != "false" ]; then
+    [ "$CLOUD" = "true" ] || log "NOTE: could not read CLOUD_REFRESH, standing down ($(printf '%s' "$CLOUD" | head -1))"
     exit 0
   fi
   STALE="$("$NODE" scripts/is-stale.mjs 2>&1)"

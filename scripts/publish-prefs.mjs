@@ -3,8 +3,9 @@ import { fileURLToPath } from 'node:url'
 
 const REPO = fileURLToPath(new URL('..', import.meta.url))
 const PREFS_FILE = 'config/preferences.json'
-// Paths a nightly data commit touches; update.sh publishes these unasked too.
 const DATA_PATHS = ['docs/data', 'config']
+// The cloud job clones main, so preferences only count once they are on origin/main.
+const PUBLISHED_BRANCH = 'main'
 
 function git(args, timeout = 20_000) {
   return new Promise((resolve) => {
@@ -18,12 +19,7 @@ function git(args, timeout = 20_000) {
 }
 const firstLine = (r) => (r.stderr || r.stdout).split('\n')[0]
 const pushError = (r) => (r.stderr || r.stdout).split('\n').find((l) => /rejected|error|fatal|timed out/.test(l)) ?? firstLine(r)
-// The cloud job clones main, so preferences only count once they are on origin/main.
-const PUBLISHED_BRANCH = 'main'
 
-// Fetches the upstream and checks that local history may be published here:
-// unpushed commits must stay inside docs/data and config, and the data paths
-// must have no uncommitted edits besides preferences.json.
 async function upstream() {
   const up = await git(['rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}'])
   if (up.code) return { reason: 'this branch has no upstream to push to' }
@@ -32,7 +28,7 @@ async function upstream() {
   if (branch !== PUBLISHED_BRANCH) return { reason: `this checkout tracks ${up.stdout}, not ${remote}/${PUBLISHED_BRANCH}, which the cloud job reads` }
   const fetched = await git(['fetch', '--quiet', remote, branch])
   if (fetched.code) return { reason: 'could not reach GitHub (' + firstLine(fetched) + ')' }
-  const outside = await git(['log', '--format=', '--name-only', '--diff-merges=separate', '@{u}..HEAD', '--', '.', ...DATA_PATHS.map((p) => ':!' + p)])
+  const outside = await git(['log', '--format=', '--name-only', '--full-history', '--diff-merges=separate', '@{u}..HEAD', '--', '.', ...DATA_PATHS.map((p) => ':!' + p)])
   if (outside.code) return { reason: 'could not inspect unpushed commits' }
   if (outside.stdout) return { reason: 'unpushed commits touch files outside docs/data and config; push them yourself first' }
   const dirty = await git(['status', '--porcelain', '--untracked-files=no', '--', ...DATA_PATHS, ':!' + PREFS_FILE])
@@ -57,12 +53,12 @@ async function catchUp(state) {
 
 // Callers hold the preferences run lock, so a fetch cannot be writing the data
 // paths these git operations read and move.
-export async function publishPrefs(message = 'Update preferences') {
+export async function publishPrefs() {
   let state = await upstream()
   if (state.reason) return { pushed: false, reason: state.reason }
   const changed = await git(['status', '--porcelain', '--', PREFS_FILE])
   if (changed.stdout) {
-    const c = await git(['commit', '--quiet', '-m', message, '--', PREFS_FILE])
+    const c = await git(['commit', '--quiet', '-m', 'Update preferences', '--', PREFS_FILE])
     if (c.code) return { pushed: false, reason: 'could not commit preferences (' + firstLine(c) + ')' }
     state = { ...state, ahead: state.ahead + 1 }
   }
@@ -79,7 +75,6 @@ export async function publishPrefs(message = 'Update preferences') {
   }
 }
 
-// Brings the Mac's copies of the published data up to date without committing.
 export async function syncLocal() {
   const state = await upstream()
   if (state.reason) return { synced: false, reason: state.reason }
@@ -87,14 +82,4 @@ export async function syncLocal() {
   if (state.ahead) return { synced: false, reason: 'local commits are not pushed yet' }
   const r = await git(['merge', '--ff-only', '--quiet', '@{u}'])
   return r.code ? { synced: false, reason: 'could not fast-forward (' + firstLine(r) + ')' } : { synced: true }
-}
-
-// The cloud job reads preferences from GitHub, so a refresh needs them pushed.
-export async function prefsPublished() {
-  const state = await upstream()
-  if (state.reason) return { ok: false, reason: state.reason }
-  const local = await git(['status', '--porcelain', '--', PREFS_FILE])
-  if (local.stdout) return { ok: false, reason: 'preferences have unsaved or uncommitted changes' }
-  const diff = await git(['diff', '--quiet', '@{u}', 'HEAD', '--', PREFS_FILE])
-  return diff.code ? { ok: false, reason: 'saved preferences are not on GitHub yet; press Save to push them' } : { ok: true }
 }

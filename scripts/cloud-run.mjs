@@ -20,12 +20,15 @@ function gcloud(args, timeout = 30_000) {
   if (!bin) return Promise.reject(new Error('gcloud is not installed (brew install --cask google-cloud-sdk)'))
   return new Promise((resolve, reject) => {
     execFile(bin, [...args, '--project', PROJECT, '--quiet'], { timeout, maxBuffer: 4 << 20 }, (err, stdout, stderr) => {
-      if (err) reject(new Error((stderr || err.message).trim().split('\n').at(-1)))
+      // gcloud can print an update notice after the error, so pick the ERROR line.
+      const lines = (stderr || err?.message || '').trim().split('\n')
+      if (err) reject(new Error(lines.find((l) => /ERROR/.test(l)) ?? lines.at(-1)))
       else resolve(stdout)
     })
   })
 }
 const done = (e) => !!e?.status?.completionTime
+export const isExecutionName = (name) => typeof name === 'string' && /^[a-z0-9-]+$/.test(name)
 
 export async function runningExecution() {
   const list = JSON.parse(await gcloud(['run', 'jobs', 'executions', 'list', '--job', JOB, '--region', REGION, '--limit', '5', '--format', 'json']))
@@ -45,8 +48,8 @@ export async function executionState(name) {
 }
 
 export async function executionLog(name) {
-  if (!/^[a-z0-9-]+$/.test(name)) throw new Error('invalid execution name')
+  if (!isExecutionName(name)) throw new Error('invalid execution name')
   const filter = `resource.type="cloud_run_job" AND labels."run.googleapis.com/execution_name"="${name}"`
-  const out = await gcloud(['logging', 'read', filter, '--order', 'asc', '--limit', '500', '--format', 'value(textPayload)'])
-  return out.split('\n').filter(Boolean)
+  const out = await gcloud(['logging', 'read', filter, '--order', 'desc', '--limit', '300', '--format', 'value(textPayload)'])
+  return out.split('\n').filter(Boolean).reverse()
 }

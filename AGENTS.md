@@ -13,7 +13,7 @@ README and UI copy use plain US English, without em dashes or buzzwords. Titles,
 - Foreign feeds contribute catalog IDs only; cards use US lookups. Never substitute foreign catalog metadata.
 - No genre mapping or parent/child matching. Display Apple's verbatim `primaryGenreName`; follow exact case-insensitive names. The picker uses `scripts/genre-options.mjs`; `npm run check-genres` finds missed names to follow explicitly. A `GENRE_FEEDS` US chart runs only while its exact name is followed.
 - Precedence: block > follow > genre > drop. Follow/block require Apple IDs, never names. Follow matches `via_artist_id`, including collaborations; block matches credited `artist_id`. Blocking a member does not block a different joint-credit ID. Reapply eligibility to carryover.
-- Source errors exit 2 with partial publish. Failed days are `null`, never zero; all count windows skip them through `sourceWindow` in `scripts/shared.mjs`.
+- Source errors publish partial data: `update.sh` exits 2, while `cloud-refresh.sh` exits 0 so its failure alert stays for hard failures (a partial run shows only in the job log and editor banner). Failed days are `null`, never zero; all count windows skip them through `sourceWindow` in `scripts/shared.mjs`.
 - Card hrefs use `appleMusicAppLink` in `src/lib/utils.ts`: `music://`, without a web fallback. Apple's web handoff offers iTunes installation on iPadOS. No installed app means a nonworking link; unmatched URLs render unlinked.
 - Filtering, labels, and New/Upcoming anchor to `fetched_at`; viewer time only controls "Updated Xh ago". Genre chips count `WINDOW_DAYS`; source chips count `SOURCE_CHIP_DAYS` measured days; New trims discovery to 24h. Larger chip totals are intentional.
 - Never add CSP meta to source `index.html`: it breaks Vite's inline Fast Refresh. CSP must be build-only (`transformIndexHtml`, `apply: 'build'`).
@@ -32,7 +32,7 @@ README and UI copy use plain US English, without em dashes or buzzwords. Titles,
 
 - `config/preferences.json` controls artists, exact genres, storefronts, and playlists. The editor binds `127.0.0.1:4747`. Busy saves return 409 and preserve unsaved edits.
 - Vite scans `prefs-server.mjs` as Tailwind text; `npm run check-editor` parses server and inline client syntax. Embedded backticks terminate the `PAGE` template literal. Restart after edits: `PAGE` is built at import.
-- Preserve outcome strings: `Published`, `No changes`, `HELD:`, `UNPUBLISHED:`, `ERROR: fetch did not run`, `ERROR:`, and `WARNING:`. `cloud-refresh.sh` uses the same prefixes. Save reports `Saved here, but not pushed:` with the reason. `HELD:` means no new data with unrelated unpushed commits; `UNPUBLISHED:` means data held locally or unavailable upstream history; `WARNING:` means deploy verification failed. New outcomes need a prefix and client classification.
+- Preserve outcome strings: `Published`, `No changes`, `HELD:`, `UNPUBLISHED:`, `ERROR: fetch did not run`, `ERROR:`, and `WARNING:`. `cloud-refresh.sh` uses a subset (never `HELD:` or `UNPUBLISHED:`). Save reports `Saved here, but not pushed:` with the reason. `HELD:` means no new data with unrelated unpushed commits; `UNPUBLISHED:` means data held locally or unavailable upstream history; `WARNING:` means deploy verification failed. New outcomes need a prefix and client classification.
 
 ## Verification
 

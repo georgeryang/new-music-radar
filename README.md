@@ -76,9 +76,9 @@ works from any device.
    `gh` and it skips that check, so a deploy flake goes unnoticed). Then make
    sure `git push` works (SSH key for the SSH URL; `gh auth setup-git` if you
    cloned over HTTPS).
-4. Test once from the repo root: `bash scripts/update.sh` (about two minutes,
-   ends with "Published", or "No changes" if the cloned data is already
-   current).
+4. After switching back (see Cloud Refresh), test once from the repo root:
+   `bash scripts/update.sh` (about two minutes, ends with "Published", or "No
+   changes" if the cloned data is already current).
 5. Schedule it, pasting all six lines together from the repo root (two of
    them record the folder they run from; the last three need your password):
 
@@ -117,7 +117,7 @@ lists them.
 
 ## Cloud Refresh
 
-A Google Cloud Run job can run the daily update instead of the Mac, so the
+A Google Cloud Run job runs the daily update instead of the Mac, so the
 site refreshes even when the Mac is asleep or off. It runs the same fetch from
 a fresh clone of `main`, pushes the same "Update data" commit, and checks the
 Pages deploy. Cloud Scheduler starts it at 6:20 PM Korea time, with a backup
@@ -126,22 +126,23 @@ Google Cloud's free tier; a $1 budget alert guards against surprises.
 
 The job lives in `cloud/` (`Dockerfile`, `entry.sh`) and runs
 `scripts/cloud-refresh.sh`. `scripts/cloud-config.mjs` names the project and
-holds `CLOUD_REFRESH`: while it is `false`, the Mac stays the writer and the
-editor's **Save & refresh** runs `update.sh` here. Only one of them may write.
+holds `CLOUD_REFRESH`, now `true`: the cloud job is the writer and the editor's
+**Save & refresh** starts it. Set back to `false`, the Mac writes and **Save &
+refresh** runs `update.sh` there. Only one of them may write.
 
-- **Run It Now:** `gcloud run jobs execute radar-refresh --region us-central1 --args=--force`
-  (or **Save & refresh** in the editor once `CLOUD_REFRESH` is `true`).
+- **Run It Now:** **Save & refresh** in the editor, or
+  `gcloud run jobs execute radar-refresh --project new-music-radar-gry --region us-central1 --args=--force`.
 - **Logs:** the Cloud Run console, under the job's executions, or
-  `gcloud logging read 'resource.type="cloud_run_job"' --limit 50`.
-- **Editor on a Mac:** run `gh auth login` (Save pushes preferences) and
-  `gcloud auth login` (Save & refresh starts the job).
+  `gcloud logging read 'resource.type="cloud_run_job"' --project new-music-radar-gry --limit 50`.
+- **Editor on a Mac:** make sure `git push` works (Save pushes preferences)
+  and run `gcloud auth login` (Save & refresh starts the job).
 
-**Switching to the cloud:** comment out the watchdog's crontab line, run
+**Switching to the Cloud:** comment out the watchdog's crontab line, run
 `launchctl bootout gui/$(id -u)/com.georgeryang.new-music-radar`, push a
 commit that sets `CLOUD_REFRESH = true`, then resume the Scheduler jobs. Leave
 the wake LaunchDaemon installed: the worklog relies on its daily wake.
 
-**Switching back to the Mac:** pause both Scheduler jobs, revert the
+**Switching Back to the Mac:** pause both Scheduler jobs, revert the
 `CLOUD_REFRESH` commit, run
 `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.georgeryang.new-music-radar.plist`,
 and uncomment the watchdog line. If the agent plist or `launchd/watchdog.sh`
@@ -151,10 +152,11 @@ removes everything billable; revoke the job's GitHub token in GitHub settings.
 ## If Something Looks Wrong
 
 - **Site Looks Out of Date?** Cloud Refresh runs at 6:20 PM Korea time, with
-  a backup two hours later; a failed run emails an alert. To force it now, open
+  a backup two hours later; a run that fails outright emails an alert (a source
+  failing only shows in the logs). To force it now, open
   `prefs.command` and press **Save & refresh**.
 - **Want to See What Happened?** The job's logs in the Cloud Run console (or
-  `gcloud logging read 'resource.type="cloud_run_job"' --limit 50`) say what
+  `gcloud logging read 'resource.type="cloud_run_job"' --project new-music-radar-gry --limit 50`) say what
   was fetched or failed, in plain words.
 - **An Artist's Releases Look Wrong?** You may have picked a same-named artist.
   Remove and re-add them via the search list (the **↗** link shows whose page
@@ -182,8 +184,10 @@ other request to the editor is refused unless it comes from your machine.
 - **Frontend:** Vite + React + TS + Tailwind in `src/`, built into `docs/`
   (never wiped). Self-hosted Plus Jakarta Sans is recopied from
   `public/fonts/` on every build.
-- **Scheduling:** launchd ticks every 10 min; `update.sh --if-stale` turns
-  that into one fetch a day, anchored to 18:15 KST. `launchd/watchdog.sh`
+- **Scheduling:** Cloud Scheduler starts the Cloud Run job at 09:20 and 11:20
+  UTC with `--if-stale`, so the second run only acts if the first did not
+  publish. On the Mac fallback, launchd ticks every 10 min; `update.sh
+  --if-stale` turns that into one fetch a day, anchored to 18:15 KST. `launchd/watchdog.sh`
   (cron, every 5 min) re-bootstraps the agent if macOS drops it after a
   reboot. A root LaunchDaemon schedules one-off `pmset` wakes at 18:30 KST
   for the next few days. An hourly `StartCalendarInterval` at :25 is always
@@ -220,8 +224,8 @@ other request to the editor is refused unless it comes from your machine.
   and blocks artists by Apple ID for external tooling. Run it with `--help`
   for its commands. Reload any open preferences editor after it changes the
   lists, because an editor save replaces both lists with what the tab loaded.
-- **Reliability:** any source failing exits non-zero but still publishes
-  partial results; an empty result never overwrites good data. The daily
+- **Reliability:** any source failing still publishes partial results (the
+  Mac's `update.sh` exits non-zero; the cloud job exits 0 and logs the error); an empty result never overwrites good data. The daily
   push also verifies its Pages deploy and retries once if it flaked.
 
 ## Checking Changes
@@ -236,6 +240,8 @@ installation steps only when tools are missing.
 `npm run build` updates the production site in `docs/`, preparing replacements
 before removing old assets and preserving release data.
 
-Automatic updates keep results locally if unrelated commits are waiting to be
-pushed or upstream history cannot be checked. The editor explains when publishing
-stops. Resolve the local Git state before trying another update.
+On the Mac fallback, automatic updates keep results locally if unrelated
+commits are waiting to be pushed or upstream history cannot be checked. Save
+likewise reports "Saved here, but not pushed" when local commits block it.
+The editor explains when publishing stops. Resolve the local Git state before
+trying another update.

@@ -12,8 +12,8 @@ import { ACTIVITY_PATH, DATA_PATH, GENRE_FEEDS, PREFS_PATH, REFRESH_LOG, SOURCE_
 import { acquireRunLock, BusyError, runOwner } from './run-lock.mjs'
 import { itunesJSON } from './apple-api.mjs'
 import { CLOUD_REFRESH, LOGS_URL } from './cloud-config.mjs'
-import { executionLog, executionState, runningExecution, startExecution } from './cloud-run.mjs'
-import { prefsPublished, publishPrefs, syncLocal } from './publish-prefs.mjs'
+import { executionLog, executionState, isExecutionName, runningExecution, startExecution } from './cloud-run.mjs'
+import { publishPrefs, syncLocal } from './publish-prefs.mjs'
 
 const PORT = 4747
 const REPO_DIR = fileURLToPath(new URL('..', import.meta.url))
@@ -91,19 +91,22 @@ async function startRefresh() {
 }
 
 // The cloud job's progress, refreshed in the background so /api/status never
-// waits on gcloud. The tracked execution survives editor restarts.
+// waits on gcloud.
 const CLOUD_STATE = fileURLToPath(new URL('../.radar-cloud-run.json', import.meta.url))
 // The partial-fetch ERROR line precedes Published, so it is not an outcome.
-const OUTCOME = /Published|No changes|HELD:|UNPUBLISHED:|ERROR: (fetch did not run|push failed|commit failed)/
+const OUTCOME = /Published|No changes|ERROR: (fetch did not run|push failed|commit failed)/
 // The job's task timeout (45m) plus margin: a tracked run older than this is abandoned.
-const CLOUD_RUN_LIMIT_MS = 50 * 60_000
-const DEPLOY_VERDICT = /Pages deploy|WARNING:|gh not found/
-const cloud = { name: null, startedAt: 0, running: false, busy: false, log: [], doneAt: 0, idleCheckedAt: 0 }
+// Both limits take an override only so tests need not wait them out.
+const CLOUD_RUN_LIMIT_MS = Number(process.env.RADAR_CLOUD_LIMIT_MS) || 50 * 60_000
+const SETTLE_MS = Number(process.env.RADAR_CLOUD_SETTLE_MS) || 90_000
+// "Pages deploy failure; requesting a fresh build" is not a verdict; its rebuild result is.
+const DEPLOY_VERDICT = /Pages deploy (verified|cancelled)|WARNING:|gh not found/
+const cloud = { name: null, startedAt: 0, running: false, busy: false, log: [], doneAt: 0, idleCheckedAt: 0, failures: 0 }
 
 function readCloudState() {
   try {
     const { name, startedAt } = JSON.parse(readFileSync(CLOUD_STATE, 'utf8'))
-    if (typeof name === 'string' && /^[a-z0-9-]+$/.test(name)) return { name, startedAt: Number(startedAt) || Date.now() }
+    if (isExecutionName(name)) return { name, startedAt: Number(startedAt) || Date.now() }
   } catch {}
   rmSync(CLOUD_STATE, { force: true })
   return null
@@ -112,7 +115,7 @@ function readCloudState() {
 async function finishCloudRun(log) {
   rmSync(CLOUD_STATE, { force: true })
   await syncUnderLock()
-  Object.assign(cloud, { name: null, startedAt: 0, running: false, busy: false, doneAt: 0, log })
+  Object.assign(cloud, { name: null, startedAt: 0, running: false, busy: false, doneAt: 0, failures: 0, log })
 }
 
 // Cloud Logging lags the execution, so a finished run is held as running until
@@ -131,18 +134,30 @@ async function pollCloud() {
   try {
     if (!cloud.name) Object.assign(cloud, readCloudState() ?? {})
     if (cloud.name) {
+      const lost = (e) => finishCloudRun([...cloud.log, `ERROR: lost track of the cloud run (${e.message})`])
+      const expired = () => Date.now() - cloud.startedAt > CLOUD_RUN_LIMIT_MS
       let state
       try {
         state = await executionState(cloud.name)
-        cloud.log = (await executionLog(cloud.name)).slice(-10)
       } catch (e) {
-        if (!/NOT_FOUND|not found/i.test(e.message) && Date.now() - cloud.startedAt < CLOUD_RUN_LIMIT_MS) throw e
-        await finishCloudRun([...cloud.log, `ERROR: lost track of the cloud run (${e.message})`])
-        return
+        if (/NOT_FOUND|not found|cannot find/i.test(e.message) || expired()) return await lost(e)
+        throw e
       }
+      if (!state.done && expired()) return await lost(new Error('no result after the task time limit'))
       if (state.done) cloud.doneAt ||= Date.now()
-      if (state.done && (settled(cloud.log) || Date.now() - cloud.doneAt > 90_000)) {
+      try {
+        cloud.log = await executionLog(cloud.name)
+        cloud.failures = 0
+      } catch (e) {
+        // A finished run still settles through the cap below on its last log.
+        if (!state.done) throw e
+      }
+      if (state.done && settled(cloud.log)) {
         await finishCloudRun(cloud.log)
+      } else if (state.done && Date.now() - cloud.doneAt > SETTLE_MS) {
+        // An incomplete log must not read as "nothing was published" when the run did publish.
+        const unknown = state.succeeded || cloud.log.some((l) => /Published/.test(l))
+        await finishCloudRun(unknown ? [...cloud.log, `ERROR: lost track of the cloud run (log incomplete; the run ${state.succeeded ? 'succeeded' : 'failed'})`] : cloud.log)
       } else {
         cloud.running = cloud.busy = true
       }
@@ -152,19 +167,33 @@ async function pollCloud() {
     }
   } catch (e) {
     console.error(`Cloud status unavailable: ${e.message}`)
+    // Expired gcloud credentials would otherwise leave "Refreshing" with no reason shown.
+    if (cloud.name && ++cloud.failures === 3) cloud.log = [...cloud.log, `Cloud status unavailable: ${e.message}`]
+    if (!cloud.name) cloud.busy = false
   } finally {
     setTimeout(pollCloud, cloud.name ? 3000 : 10_000).unref()
   }
 }
 
-async function startCloudRefresh() {
-  const published = await prefsPublished()
-  if (!published.ok) return { code: 400, body: { error: published.reason } }
+// The page shows the last 10 lines, but classifies the outcome from all of them.
+const statusLog = (log) => [...log.slice(0, -10).filter((l) => /ERROR:|WARNING:/.test(l)), ...log.slice(-10)]
+
+let cloudStarting = null
+function startCloudRefresh() {
+  cloudStarting ??= startCloudRefreshOnce().finally(() => { cloudStarting = null })
+  return cloudStarting
+}
+
+async function startCloudRefreshOnce() {
+  const lock = acquireRunLock('preferences')
+  let pushed
+  try { pushed = await publishPrefs() } finally { lock.release() }
+  if (!pushed.pushed) return { code: 400, body: { error: 'preferences are not on GitHub yet: ' + pushed.reason } }
   if (cloud.name || await runningExecution()) return { code: 409, body: { running: true } }
   const name = await startExecution()
   const startedAt = Date.now()
   writeFileAtomic(CLOUD_STATE, JSON.stringify({ name, startedAt }))
-  Object.assign(cloud, { name, startedAt, running: true, busy: true, log: [], doneAt: 0 })
+  Object.assign(cloud, { name, startedAt, running: true, busy: true, log: [], doneAt: 0, failures: 0 })
   return { code: 200, body: { running: true } }
 }
 
@@ -369,7 +398,7 @@ export const server = http.createServer(async (req, res) => {
       }
       json(res, await startRefresh() ? 200 : 409, { running: true })
     } else if (req.method === 'GET' && url.pathname === '/api/status') {
-      if (CLOUD_REFRESH) return json(res, 200, { running: cloud.running, busy: cloud.busy || !!runOwner(), log: cloud.log })
+      if (CLOUD_REFRESH) return json(res, 200, { running: cloud.running, busy: cloud.busy || !!runOwner(), log: statusLog(cloud.log) })
       const owner = runOwner()
       const running = owner?.kind === 'refresh'
       if (running) refreshLogStart = owner.logStart
@@ -1125,12 +1154,15 @@ async function poll() {
       const publishedNew = st.log.some((l) => /Published/.test(l))
       const noChanges = st.log.some((l) => /No changes/.test(l))
       const held = st.log.some((l) => /HELD:/.test(l))
+      const lostTrack = st.log.some((l) => /ERROR: lost track of the cloud run/.test(l))
       const neverRan = st.log.some((l) => /ERROR: fetch did not run/.test(l))
       const failed = st.log.some((l) => /ERROR:/.test(l))
       const warned = st.log.some((l) => /WARNING:/.test(l))
       const unpublished = st.log.some((l) => /UNPUBLISHED:/.test(l))
       const finished = publishedNew || noChanges || held || unpublished
-      if (neverRan) {
+      if (lostTrack) {
+        setBanner('warn', 'The editor lost track of the cloud run, so its outcome is unknown. Check ' + LOG_HINT + '.')
+      } else if (neverRan) {
         setBanner('bad', 'The update could not run, so nothing was published. Check config/preferences.json, then ' + LOG_HINT + '.')
       } else if (!finished) {
         setBanner('bad', 'The refresh stopped before it finished, so nothing was published. See ' + LOG_HINT + ' for what stopped it.')
@@ -1209,7 +1241,7 @@ $('refresh').onclick = async () => {
     if (dirty && !(await save())) return
     if (stopped) return
     setBanner('running', 'Starting refresh')
-    const r = await fetch('/api/refresh', { method: 'POST', signal: AbortSignal.timeout(60_000) })
+    const r = await fetch('/api/refresh', { method: 'POST', signal: AbortSignal.timeout(300_000) })
     if (stopped) return
     if (r.status === 409) {
       setBanner('warn', 'Another operation is running. Wait for it to finish, then try again.')

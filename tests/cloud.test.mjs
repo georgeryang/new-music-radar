@@ -89,7 +89,7 @@ test('cloud refresh stops when the remote changed the data and cannot be rebased
   other('Hand edit of data', 'docs/data/releases.json', '{"hand":true}\n')
   const r = refresh()
   assert.equal(r.status, 1, r.stdout + r.stderr)
-  assert.match(r.stdout, /ERROR: push failed — the remote changed/)
+  assert.match(r.stdout, /ERROR: push failed: the remote changed/)
   assert.equal(remoteLog().split('\n')[0], 'Hand edit of data')
 })
 
@@ -142,6 +142,19 @@ test('publishPrefs refuses unrelated unpushed commits', (t) => {
   const { root, git, remoteLog, call, editPrefs } = prefsFixture(t)
   writeFileSync(join(root, 'scripts/unrelated.mjs'), '// code')
   git('add', 'scripts/unrelated.mjs'); git('commit', '-q', '-m', 'local code')
+  editPrefs(1)
+  const r = call('publishPrefs')
+  assert.equal(r.pushed, false)
+  assert.match(r.reason, /outside docs\/data and config/)
+  assert.equal(remoteLog(), 'baseline')
+})
+
+test('publishPrefs refuses merged code history even when it nets to no change', (t) => {
+  const { root, git, remoteLog, call, editPrefs } = prefsFixture(t)
+  git('switch', '-q', '-c', 'side')
+  writeFileSync(join(root, 'scripts/shared.mjs'), readFileSync(join(root, 'scripts/shared.mjs'), 'utf8') + '// try\n')
+  git('commit', '-qam', 'try'); git('revert', '--no-edit', 'HEAD')
+  git('switch', '-q', 'main'); git('merge', '-q', '--no-ff', '-m', 'merge side', 'side')
   editPrefs(1)
   const r = call('publishPrefs')
   assert.equal(r.pushed, false)
@@ -204,14 +217,11 @@ test('update.sh --if-stale stands down when Cloud Refresh is the writer', (t) =>
   assert.equal(existsSync(join(root, 'fetch-ran')), false)
 })
 
-test('syncLocal fast-forwards published data and prefsPublished tracks pushes', (t) => {
-  const { root, call, editPrefs, other } = prefsFixture(t)
+test('syncLocal fast-forwards published data', (t) => {
+  const { root, call, other } = prefsFixture(t)
   other('Update data', 'docs/data/releases.json', '{"fetched_at":4}\n')
   assert.deepEqual(call('syncLocal'), { synced: true })
   assert.equal(readFileSync(join(root, 'docs/data/releases.json'), 'utf8'), '{"fetched_at":4}\n')
-  assert.deepEqual(call('prefsPublished'), { ok: true })
-  editPrefs(1)
-  assert.equal(call('prefsPublished').ok, false)
 })
 
 test('lock command uses lockf on macOS and flock elsewhere, both busy on 75', async () => {
@@ -230,7 +240,7 @@ test('findGcloud prefers PATH and reports a missing install', async (t) => {
 })
 
 // The editor in cloud mode, against a gcloud stub that reads its answers from files.
-async function cloudEditor(t) {
+async function cloudEditor(t, env = {}) {
   const root = fixture(t)
   writeFileSync(join(root, 'scripts/cloud-config.mjs'), `export const CLOUD_REFRESH = true
 export const PROJECT = 'test-project'
@@ -247,11 +257,11 @@ case "$*" in
   "run jobs executions list"*) cat gcloud-list.json 2>/dev/null || echo '[]' ;;
   "run jobs execute"*) echo '{"metadata":{"name":"radar-refresh-x1"}}' ;;
   "run jobs executions describe"*) cat gcloud-describe.json ;;
-  "logging read"*) cat gcloud-log.txt 2>/dev/null ;;
+  "logging read"*) tail -r gcloud-log.txt 2>/dev/null ;;
 esac
 `, { mode: 0o755 })
   writeFileSync(join(root, 'serve.mjs'), `const { start } = await import('./scripts/prefs-server.mjs'); start(0)`)
-  const child = await background(t, root, "await import('./serve.mjs')", { PATH: join(root, 'bin') + ':' + process.env.PATH })
+  const child = await background(t, root, "await import('./serve.mjs')", { PATH: join(root, 'bin') + ':' + process.env.PATH, ...env })
   const port = Number(child.ready.match(/:(\d+)/)[1])
   const request = (path, method = 'GET', payload) => new Promise((resolve, reject) => {
     const req = http.request({ hostname: '127.0.0.1', port, path, method, agent: false, headers: { host: '127.0.0.1:4747' } }, (res) => {
@@ -273,17 +283,13 @@ esac
   return { root, ...repo, request, until, file: (name, content) => writeFileSync(join(root, name), content) }
 }
 
-test('cloud Save & refresh refuses unpushed preferences and a running job, then tracks one to its outcome', async (t) => {
-  const { root, request, until, file } = await cloudEditor(t)
+test('cloud Save & refresh pushes pending preferences, refuses a running job, then tracks one to its outcome', async (t) => {
+  const { root, request, until, file, remoteLog, git } = await cloudEditor(t)
   const prefsPath = join(root, 'config/preferences.json')
   writeFileSync(prefsPath, readFileSync(prefsPath, 'utf8').replace(/\n$/, ' \n'))
-  const unpushed = await request('/api/refresh', 'POST')
-  assert.equal(unpushed.status, 400)
-  assert.match(unpushed.body.error, /preferences/)
-  writeFileSync(prefsPath, readFileSync(prefsPath, 'utf8').replace(/ \n$/, '\n'))
-
   file('gcloud-list.json', '[{"metadata":{"name":"radar-refresh-old"},"status":{}}]')
-  assert.equal((await request('/api/refresh', 'POST')).status, 409)
+  // The startup sync can also answer 409 while it holds the lock, so wait for the push.
+  await until(async () => (await request('/api/refresh', 'POST')).status === 409 && remoteLog().startsWith('Update preferences'))
 
   file('gcloud-list.json', '[]')
   file('gcloud-describe.json', '{"status":{}}')
@@ -296,25 +302,61 @@ test('cloud Save & refresh refuses unpushed preferences and a running job, then 
   await new Promise((r) => setTimeout(r, 4000))
   assert.equal((await request('/api/status')).body.running, true)
 
-  file('gcloud-log.txt', 'Fetching new releases...\nPublished\nPages deploy verified\n')
+  const filler = Array.from({ length: 12 }, (_, i) => `push detail ${i}`).join('\n')
+  file('gcloud-log.txt', `Fetching new releases...\nERROR: fetch failed for at least one source (publishing partial data)\n${filler}\nPublished\nPages deploy verified\n`)
   const done = await until(async () => {
     const st = (await request('/api/status')).body
     return !st.running && st
   })
   assert.ok(done.log.includes('Published'))
+  assert.ok(done.log.some((l) => l.startsWith('ERROR: fetch failed')), 'an early partial-fetch line still reaches the banner')
   assert.equal(existsSync(join(root, '.radar-cloud-run.json')), false)
+
+  writeFileSync(join(root, 'scripts/unrelated.mjs'), '// code')
+  git('add', 'scripts/unrelated.mjs'); git('commit', '-q', '-m', 'local code')
+  writeFileSync(prefsPath, readFileSync(prefsPath, 'utf8').replace(/\n$/, ' \n'))
+  const blocked = await request('/api/refresh', 'POST')
+  assert.equal(blocked.status, 400)
+  assert.match(blocked.body.error, /preferences are not on GitHub yet: unpushed commits touch files outside/)
 })
 
 test('the editor drops a tracked cloud run that Google no longer knows', async (t) => {
   const { root, request, until, file } = await cloudEditor(t)
   file('gcloud-list.json', '[]')
   file('gcloud-describe.json', '{"status":{}}')
-  assert.equal((await request('/api/refresh', 'POST')).status, 200)
+  await until(async () => (await request('/api/refresh', 'POST')).status === 200)
   await until(async () => (await request('/api/status')).body.running)
-  writeFileSync(join(root, 'bin/gcloud'), readFileSync(join(root, 'bin/gcloud'), 'utf8').replace('cat gcloud-describe.json', 'echo "ERROR: (gcloud) NOT_FOUND: execution radar-refresh-x1" >&2; exit 1'))
+  writeFileSync(join(root, 'bin/gcloud'), readFileSync(join(root, 'bin/gcloud'), 'utf8').replace('cat gcloud-describe.json', 'echo "ERROR: (gcloud.run.jobs.executions.describe) Cannot find execution [radar-refresh-x1]." >&2; exit 1'))
   const st = await until(async () => { const b = (await request('/api/status')).body; return !b.running && b })
   assert.match(st.log.at(-1), /ERROR: lost track of the cloud run/)
   assert.equal(existsSync(join(root, '.radar-cloud-run.json')), false)
+})
+
+const failOn = (root, call, message) => writeFileSync(join(root, 'bin/gcloud'),
+  readFileSync(join(root, 'bin/gcloud'), 'utf8').replace(call, `echo "ERROR: (gcloud) ${message}" >&2; echo "Updates are available for some Google Cloud CLI components." >&2; exit 1`))
+
+test('a finished run whose log never arrives closes as outcome unknown, not as unpublished', async (t) => {
+  const { root, request, until, file } = await cloudEditor(t, { RADAR_CLOUD_SETTLE_MS: '1500' })
+  file('gcloud-list.json', '[]')
+  file('gcloud-describe.json', '{"status":{"completionTime":"2026-10-31T09:30:00Z","succeededCount":1}}')
+  failOn(root, 'cat gcloud-log.txt 2>/dev/null', 'PERMISSION_DENIED: logging')
+  await until(async () => (await request('/api/refresh', 'POST')).status === 200)
+  const st = await until(async () => { const b = (await request('/api/status')).body; return !b.running && b })
+  assert.match(st.log.at(-1), /lost track of the cloud run \(log incomplete; the run succeeded\)/)
+})
+
+test('an unfinished run that keeps failing is dropped at the limit, after one visible status line', async (t) => {
+  const { root, request, until, file } = await cloudEditor(t, { RADAR_CLOUD_LIMIT_MS: '30000' })
+  file('gcloud-list.json', '[]')
+  file('gcloud-describe.json', '{"status":{}}')
+  await until(async () => (await request('/api/refresh', 'POST')).status === 200)
+  failOn(root, 'cat gcloud-describe.json', 'UNAVAILABLE: try again')
+  const flaky = await until(async () => { const b = (await request('/api/status')).body; return b.log.some((l) => l.startsWith('Cloud status unavailable')) && b })
+  assert.equal(flaky.running, true)
+  assert.equal(flaky.log.filter((l) => l.startsWith('Cloud status unavailable')).length, 1)
+  assert.match(flaky.log.at(-1), /UNAVAILABLE: try again/)
+  const dropped = await until(async () => { const b = (await request('/api/status')).body; return !b.running && b }, 40_000)
+  assert.match(dropped.log.at(-1), /ERROR: lost track of the cloud run/)
 })
 
 test('Save pushes preferences and reports when it cannot', async (t) => {

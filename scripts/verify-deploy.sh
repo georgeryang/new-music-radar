@@ -4,7 +4,7 @@
 # of the day, so a single flake leaves the site stale for 24h — verify this
 # commit's deploy and rebuild it once if it failed.
 verify_deploy() {
-  command -v gh >/dev/null 2>&1 || { log "gh not found — skipping deploy check"; return 0; }
+  command -v gh >/dev/null 2>&1 || { log "gh not found; skipping deploy check"; return 0; }
   SHA="$(git rev-parse HEAD)"
   RUN_ID=""
   for _ in $(seq 1 20); do  # up to 5 min for the run to appear and finish
@@ -14,13 +14,13 @@ verify_deploy() {
     sleep 15
   done
   if [ -z "$RUN_ID" ]; then
-    log "WARNING: Pages deploy not finished after 5 min — leaving it alone"
+    log "WARNING: Pages deploy not finished after 5 min; leaving it alone"
     return 0
   fi
   CONCLUSION="$(gh run view "$RUN_ID" --json conclusion --jq .conclusion 2>/dev/null)"
   case "$CONCLUSION" in
     success)   log "Pages deploy verified"; return 0 ;;
-    cancelled) log "Pages deploy cancelled (superseded by a newer push) — skipping retry"; return 0 ;;
+    cancelled) log "Pages deploy cancelled (superseded by a newer push); skipping retry"; return 0 ;;
   esac
   # Not `gh run rerun --failed`: rerunning the managed Pages workflow wedges
   # (sits "queued" forever while reporting completed, observed 2026-07-04). The
@@ -29,7 +29,7 @@ verify_deploy() {
   # remember its url (the per-build handle; no id field) and skip polls that
   # return it, or the first poll reads the stale "errored" and gives up early.
   PREV_BUILD="$(gh api 'repos/{owner}/{repo}/pages/builds/latest' --jq .url 2>/dev/null)"
-  log "Pages deploy $CONCLUSION — requesting a fresh build (run $RUN_ID)"
+  log "Pages deploy $CONCLUSION; requesting a fresh build (run $RUN_ID)"
   gh api -X POST 'repos/{owner}/{repo}/pages/builds' >/dev/null 2>&1 \
     || { log "WARNING: could not request a rebuild"; return 0; }
   STATUS=""
@@ -42,5 +42,5 @@ verify_deploy() {
       errored) break ;;
     esac
   done
-  log "WARNING: Pages rebuild ended '$STATUS' — site stays stale until tomorrow's run"
+  log "WARNING: Pages rebuild ended '$STATUS'; the site stays stale until tomorrow's run"
 }

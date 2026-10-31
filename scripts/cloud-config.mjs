@@ -1,5 +1,5 @@
-// False until the Cloud Run job becomes the only writer (README, Cloud Refresh).
-// While false, Save & refresh runs update.sh on this Mac.
+// True only while the Cloud Run job is the sole writer; false hands it back to
+// the Mac's update.sh (README, Cloud Refresh).
 export const CLOUD_REFRESH = true
 export const PROJECT = 'new-music-radar-gry'
 export const REGION = 'us-central1'
